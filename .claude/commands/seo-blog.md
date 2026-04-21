@@ -6,13 +6,33 @@ Follow every phase in order. Do not skip phases or combine steps.
 
 ---
 
+## Run Modes
+
+### Interactive (manual `/seo-blog` invocation)
+- Ask about cost inclusion (Phase 1, step 0)
+- Present topic list and wait for user selection
+- Show screenshot and wait for user approval before creating PR
+- Run review → merge after user approves
+
+### Scheduled (automated 6 AM Pacific daily run)
+- Skip cost question — default is **keep out** (no dollar amounts)
+- Skip topic selection — default is **topics 1, 2, 3**
+- Show screenshot inline in output, then proceed directly to PR (no approval gate)
+- Run `/review`, fix any FAILs
+- **Stop after PRs are ready** — report PR URLs in summary. Do not merge.
+- Log the run in `CONTENT_LOG.md` after all PRs are created
+
+Detect scheduled mode when the prompt contains `[SCHEDULED]`.
+
+---
+
 ## Phase 1 — PROPOSE
 
 **Goal:** Generate targeted blog ideas and let the user pick.
 
 ### Steps
 
-0. **Ask about costs first** — before anything else, ask: _"Should articles include cost/pricing information (repair price ranges, dollar amounts), or keep it out?"_ Wait for the answer and apply it to all articles in this run.
+0. **Ask about costs** — In **interactive mode**: ask _"Should articles include cost/pricing information (repair price ranges, dollar amounts), or keep it out?"_ and wait for the answer. In **scheduled mode**: skip the question, default is keep out.
 
 1. Read all existing `article-*.html` filenames in the project root to map what's already covered.
 2. Read `rules/seo-content.md` to load the city list, appliance list, and article types.
@@ -29,9 +49,8 @@ Follow every phase in order. Do not skip phases or combine steps.
    - **Type** — which article type from the rules (local service, cost guide, etc.)
    - **Why it'll rank** — 1 sentence on the SEO rationale
 
-5. Ask: _"Which topic(s) do you want to create? Enter numbers (e.g., 1 or 1,3,5). Or type 'all'."_
-
-6. Wait for the user's selection before proceeding.
+5. **Interactive mode**: Ask _"Which topic(s) do you want to create? Enter numbers (e.g., 1 or 1,3,5). Or type 'all'."_ and wait for the user's selection.  
+   **Scheduled mode**: Auto-select topics 1, 2, 3. Log the selection in output.
 
 ---
 
@@ -63,7 +82,7 @@ Use `article-fridge-maintenance.html` as the structural template. Keep the same:
 Write real, helpful content — not placeholder text. Include:
 - **Intro** (2–3 sentences, primary keyword in first sentence)
 - **3–6 body sections** with H2 subheadings (each targets a secondary keyword)
-- **Practical details**: typical cost ranges ($X–$Y), common part names, when to DIY vs call a pro
+- **Practical details**: common part names, typical repair timelines, when to DIY vs call a pro
 - **FAQ section** (3–5 Q&As drawn from "people also ask" patterns for the keyword)
 - **CTA box**: "Serving [City] and all of Orange County — call or book online"
 
@@ -73,6 +92,11 @@ Write real, helpful content — not placeholder text. Include:
 - All three schema blocks: Article, LocalBusiness, FAQPage
 - Primary keyword in H1, first paragraph, one H2, and meta description
 - City name used 3–5 times naturally in body text
+
+### Mobile layout (required — see `rules/seo-content.md`)
+- All layouts must be responsive at 375px width
+- Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or CSS media queries in the embedded `<style>` tag
+- Test mentally: hero text readable, cards stack vertically, nav collapses, CTA box full-width on mobile
 
 ### Images
 - Use `https://images.unsplash.com/photo-[id]?w=1200&q=80` for hero images
@@ -96,12 +120,12 @@ Append a new card in the blog grid `.blog-grid` section:
 </div>
 ```
 
-### Update `test/screenshot.js`
-Add the new slug to the `pages` array in `test/screenshot.js`.
+### Note on `test/screenshot.js`
+No update needed — screenshot.js auto-discovers all `article-*.html` files in the project root.
 
 ### Commit
 ```
-git add [slug].html blog.html test/screenshot.js
+git add [slug].html blog.html
 git commit -m "content([slug]): add [short description of topic]"
 ```
 
@@ -127,11 +151,12 @@ Apply the Bug Fix Workflow from `rules/git-workflow.md`:
 ## Phase 5 — DEMO
 
 1. Read the screenshot file at `test/screenshots/[slug].png` and display it to the user using the Read tool (it will render inline).
-2. Ask: _"Here's how the article looks. Approve to move to PR, or describe any changes you'd like."_
+2. **Interactive mode**: Ask _"Here's how the article looks. Approve to move to PR, or describe any changes you'd like."_ Wait for response.  
+   **Scheduled mode**: Log the screenshot in output and proceed directly to Phase 7.
 
 ---
 
-## Phase 6 — ITERATE (if changes requested)
+## Phase 6 — ITERATE (interactive mode only)
 
 1. Make the requested changes to `[slug].html` (and `blog.html` if needed).
 2. Commit: `fix([slug]): [short description of change]`
@@ -142,7 +167,7 @@ Apply the Bug Fix Workflow from `rules/git-workflow.md`:
 
 ## Phase 7 — PR
 
-Once the user approves, invoke `/pr` to create the pull request.
+Invoke `/pr` to create the pull request.
 
 The PR title must follow: `content([slug]): add [topic description]`
 
@@ -161,7 +186,7 @@ Invoke `/review` to check the branch against `main`.
 
 ## Phase 9 — MERGE
 
-Merge via squash using the GitHub CLI:
+**Interactive mode only.** Merge via squash using the GitHub CLI:
 
 ```bash
 gh pr merge --squash --auto
@@ -174,15 +199,18 @@ git checkout master && git pull origin master
 git log --oneline -3
 ```
 
-Report the merged commit hash and PR URL to the user.
+Report the merged commit hash and PR URL to the user. Then proceed to Phase 10.
 
----
+**Scheduled mode**: Skip this phase. Proceed to Phase 10.
 
 ---
 
 ## Phase 10 — LOG
 
-After every merge (or after all selected articles are merged if multiple), append an entry to `.claude/CONTENT_LOG.md`.
+Append an entry to `.claude/CONTENT_LOG.md`.
+
+**Interactive mode**: Log after merge completes.  
+**Scheduled mode**: Log after all PRs pass review (even though merge hasn't happened yet). Note in the log that merge is pending user review.
 
 ### Entry format
 
@@ -191,6 +219,7 @@ After every merge (or after all selected articles are merged if multiple), appen
 
 **Articles created:** [N]
 **Cost content:** [Yes / No]
+**Mode:** [Interactive / Scheduled]
 
 | Title | Slug | Primary Keyword | Type | PR | Commit |
 |---|---|---|---|---|---|
@@ -207,6 +236,25 @@ After every merge (or after all selected articles are merged if multiple), appen
 
 ---
 
+## Phase 11 — SCHEDULED SUMMARY
+
+**Scheduled mode only.** After Phase 10, output a final summary:
+
+```
+=== Daily SEO Run Complete — [Date] ===
+
+Articles created: [N]
+PRs ready for your review:
+  - [Article title] → [PR URL]
+  - [Article title] → [PR URL]
+  - [Article title] → [PR URL]
+
+Screenshots captured in test/screenshots/.
+Merge when ready — no action needed from you until you review the PRs.
+```
+
+---
+
 ## Rules
 
 - Never skip a phase — each gate exists for a reason
@@ -214,3 +262,4 @@ After every merge (or after all selected articles are merged if multiple), appen
 - Never merge a PR with open FAIL items from `/review`
 - Always show the screenshot before asking for approval — never ask "does it look good?" without showing it
 - If creating multiple articles (user selected more than one topic): complete all phases for article #1 before starting article #2
+- Scheduled mode never merges — stop at PRs ready
