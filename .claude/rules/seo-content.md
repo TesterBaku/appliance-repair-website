@@ -149,12 +149,21 @@ Every article must include all three schemas:
 6. **CTA box** — "Need help in [City]? Call us or book online"
 7. **Related articles** — 3 links to other blog posts
 
+### Mobile layout (required)
+- Every article must be fully responsive at 375px width
+- Hero text must be readable without horizontal scrolling
+- Cards and grid sections must stack vertically on mobile
+- Nav must collapse on mobile (hamburger or hidden links)
+- CTA box must be full-width on mobile
+- Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or `@media` queries in the embedded `<style>` tag
+
 ### Writing rules
 - Lead with the reader's problem, not company info
 - Include the target city naturally 3–5 times (not forced)
-- Use real, specific details (typical cost ranges, repair times, part names)
+- Use real, specific details (repair timelines, part names, symptoms)
 - Every section should answer a question the reader has
 - No filler phrases ("In conclusion", "It goes without saying")
+- No dollar amounts or price ranges (unless cost content is explicitly approved for the run)
 
 ---
 
