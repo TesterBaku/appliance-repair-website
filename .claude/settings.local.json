@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x c:/Rufat_docs/appliance-repair-website/.husky/pre-push)",
+      "Bash(git checkout *)",
+      "Bash(git pull *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(npm test *)",
+      "Bash(npm run *)",
+      "Bash(git push *)",
+      "Bash(gh pr create --title 'content\\(blog\\): add washer repair Irvine SEO article' --body ' *)",
+      "Bash(where gh *)",
+      "Bash(winget list *)",
+      "PowerShell($ghPath = Get-ChildItem \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\",\"$env:LOCALAPPDATA\\\\Programs\\\\GitHub CLI\\\\gh.exe\" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName; $ghPath)",
+      "Bash(git stash *)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Rufat's\\.claude\\projects\\c--Rufat-docs-appliance-repair-website\\memory"
+    ]
+  }
+}

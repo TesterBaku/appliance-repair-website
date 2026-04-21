@@ -2,12 +2,12 @@ const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
 
-const pages = [
-  'index', 'about', 'services', 'contact', 'faq',
-  'testimonials', 'blog',
-  'article-dorm-appliances', 'article-fridge-maintenance',
-  'article-mini-fridge', 'article-repair-replace'
-];
+const root = path.resolve(__dirname, '..');
+const staticPages = ['index', 'about', 'services', 'contact', 'faq', 'testimonials', 'blog'];
+const articlePages = fs.readdirSync(root)
+  .filter(f => f.startsWith('article-') && f.endsWith('.html'))
+  .map(f => f.replace('.html', ''));
+const pages = [...staticPages, ...articlePages];
 
 const outDir = path.join(__dirname, 'screenshots');
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
