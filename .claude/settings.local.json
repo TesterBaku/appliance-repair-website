@@ -9,10 +9,6 @@
       "Bash(npm test *)",
       "Bash(npm run *)",
       "Bash(git push *)",
-      "Bash(gh pr create --title 'content\\(blog\\): add washer repair Irvine SEO article' --body ' *)",
-      "Bash(where gh *)",
-      "Bash(winget list *)",
-      "PowerShell($ghPath = Get-ChildItem \"C:\\\\Program Files\\\\GitHub CLI\\\\gh.exe\",\"$env:LOCALAPPDATA\\\\Programs\\\\GitHub CLI\\\\gh.exe\" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName; $ghPath)",
       "Bash(git stash *)"
     ],
     "additionalDirectories": [

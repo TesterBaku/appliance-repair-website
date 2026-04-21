@@ -2,7 +2,7 @@
 
 ---
 
-## Run — April 21, 2025
+## Run — April 21, 2026
 
 **Articles created:** 3
 **Cost content:** No (removed mid-run; no-cost is now the default — agent asks at start of every run)
