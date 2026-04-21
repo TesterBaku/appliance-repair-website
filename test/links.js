@@ -10,6 +10,7 @@ for (const file of htmlFiles) {
   const hrefMatches = [...content.matchAll(/href="([^"#][^"]*\.html[^"]*)"/g)];
 
   for (const [, href] of hrefMatches) {
+    if (href.startsWith('http://') || href.startsWith('https://')) continue;
     const target = path.resolve(root, href);
     if (!fs.existsSync(target)) {
       issues.push(`${file} → broken link: ${href}`);
