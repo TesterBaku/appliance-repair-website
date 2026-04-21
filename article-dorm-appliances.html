@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5 Must-Have Appliances for Dorm Life – Universal Appliances Repair</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f7fafc; color: #000000e6; font-family: 'Inter', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #eee; }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; color: #111; text-decoration: none; }
+    .logo-icon { width: 28px; height: 28px; background: #e84c1e; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .nav-links { display: flex; gap: 22px; }
+    .nav-links a { font-size: 12px; color: #666; text-decoration: none; }
+    .nav-links a:hover { color: #111; font-weight: 600; }
+    .nav-cta { background: #e84c1e; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; }
+
+    /* ARTICLE HERO */
+    .article-hero { padding-top: 52px; position: relative; overflow: hidden; }
+    .article-hero-img { width: 100%; height: 480px; object-fit: cover; display: block; }
+    .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%); }
+    .article-hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 48px; max-width: 860px; margin: 0 auto; }
+    .article-hero-content-inner { max-width: 760px; }
+
+    /* ARTICLE BODY */
+    .article-wrap { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
+    .article-intro { font-size: 17px; color: #555; line-height: 1.85; margin-bottom: 40px; border-left: 3px solid #e84c1e; padding-left: 20px; }
+    .article-body h2 { font-size: 22px; font-weight: 700; color: #111; letter-spacing: -0.3px; margin: 44px 0 14px; }
+    .article-body h3 { font-size: 16px; font-weight: 700; color: #111; margin: 28px 0 10px; }
+    .article-body p { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 18px; }
+    .article-body ul, .article-body ol { margin: 14px 0 22px 20px; }
+    .article-body li { font-size: 15px; color: #444; line-height: 1.8; margin-bottom: 8px; }
+    .article-body strong { color: #111; font-weight: 600; }
+
+    /* PRODUCT CARD */
+    .product-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 20px rgba(0,0,0,0.08); padding: 28px 32px; margin: 28px 0; display: flex; gap: 24px; align-items: flex-start; }
+    .product-num { width: 40px; height: 40px; background: #e84c1e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .product-body { flex: 1; }
+    .product-name { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 6px; }
+    .product-rec { font-size: 11px; color: #e84c1e; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+    .product-desc { font-size: 13.5px; color: #666; line-height: 1.75; margin-bottom: 14px; }
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+    .pros, .cons { background: #f8f9fa; border-radius: 10px; padding: 14px 16px; }
+    .pros-label { font-size: 10px; font-weight: 700; color: #22c55e; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .cons-label { font-size: 10px; font-weight: 700; color: #ef4444; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .pros li, .cons li { font-size: 12px; color: #555; line-height: 1.65; margin-bottom: 5px; margin-left: 14px; }
+
+    /* CALLOUT */
+    .callout { background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #9a3412; line-height: 1.75; }
+    .callout strong { color: #7c2d12; }
+
+    /* SIDEBAR / CTA */
+    .inline-cta { background: linear-gradient(135deg, #e84c1e, #c2410c); border-radius: 16px; padding: 32px; margin: 40px 0; color: #fff; text-align: center; }
+    .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .inline-cta p { font-size: 13px; opacity: 0.88; margin-bottom: 20px; line-height: 1.6; }
+    .inline-cta a { display: inline-block; background: #fff; color: #e84c1e; font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 8px; text-decoration: none; }
+
+    /* BREADCRUMB */
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #aaa; margin-bottom: 28px; flex-wrap: wrap; }
+    .breadcrumb a { color: #aaa; text-decoration: none; }
+    .breadcrumb a:hover { color: #e84c1e; }
+
+    /* ARTICLE META */
+    .article-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .meta-tag { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; }
+    .meta-date { font-size: 12px; color: rgba(255,255,255,0.75); }
+    .meta-author { font-size: 12px; color: rgba(255,255,255,0.75); }
+
+    /* RELATED POSTS */
+    .related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 32px; }
+    .related-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); text-decoration: none; }
+    .related-card img { width: 100%; height: 140px; object-fit: cover; display: block; }
+    .related-card-body { padding: 16px 18px 20px; }
+    .related-card-cat { font-size: 10px; color: #e84c1e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .related-card-title { font-size: 13px; font-weight: 700; color: #111; line-height: 1.35; }
+
+    /* FOOTER */
+    .footer { background: #090909; padding: 56px 24px 36px; }
+    .footer-grid { max-width: 1000px; margin: 0 auto; display: flex; gap: 48px; flex-wrap: wrap; }
+    .footer-brand { flex: 1; min-width: 200px; }
+    .footer-col-label { font-size: 10px; color: #555; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { font-size: 12px; color: #555; text-decoration: none; }
+    .footer-links a:hover { color: #bbb; }
+    .footer-contact-line { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #555; margin-bottom: 10px; }
+    .footer-bottom { max-width: 1000px; margin: 32px auto 0; padding-top: 20px; border-top: 1px solid #1a1a1a; font-size: 11px; color: #444; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:32px;">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">🔧</div>
+          <span>Universal Appliances Repair</span>
+        </a>
+        <div class="nav-links">
+          <a href="about.html">About</a>
+          <a href="services.html">Services</a>
+          <a href="faq.html">FAQ</a>
+          <a href="testimonials.html">Testimonials</a>
+          <a href="contact.html">Contact</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a href="tel:+19496295365" style="font-size:13px;font-weight:600;color:#111;text-decoration:none;">(949) 629-5365</a>
+        <a href="contact.html" class="nav-cta">Book a Repair</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ARTICLE HERO -->
+  <div class="article-hero">
+    <img class="article-hero-img" src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?fit=crop&crop=entropy,faces&auto=format,compress&w=1600" alt="Students in dorm room with appliances" />
+    <div class="article-hero-overlay"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 24px 48px;">
+      <div style="max-width:760px;margin:0 auto;">
+        <div class="article-meta" style="margin-bottom:16px;">
+          <span class="meta-tag">Tips &amp; Guides</span>
+          <span class="meta-date">April 2, 2025</span>
+          <span class="meta-author">by RM · Universal Appliances Repair</span>
+        </div>
+        <h1 style="font-size:38px;font-weight:800;letter-spacing:-1px;color:#fff;line-height:1.15;">5 Must-Have Appliances for Dorm Life<br/>(That Actually Fit in a Tiny Room)</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> <span>›</span>
+      <a href="blog.html">Blog</a> <span>›</span>
+      <span style="color:#111;">5 Must-Have Appliances for Dorm Life</span>
+    </div>
+
+    <p class="article-intro">
+      College dorm life can be exciting — but let's face it, it's tight on space. When you're limited to a small room and even smaller outlets, every appliance has to pull its weight. So, what are the must-have appliances for dorm life? Here are 5 compact, student-friendly gadgets that are functional, space-saving, and worth every penny.
+    </p>
+
+    <div class="article-body">
+
+      <p>Moving into a dorm means making smart decisions about what you bring — and what you leave behind. The right small appliances can make your room more comfortable, save you money on food, and help you stay productive during late-night study sessions. Here's our curated list of the five essential appliances every college student should consider.</p>
+
+      <!-- Product 1 -->
+      <div class="product-card">
+        <div class="product-num">1</div>
+        <div class="product-body">
+          <div class="product-rec">Recommended: BLACK+DECKER BCRK25V</div>
+          <div class="product-name">Mini Fridge</div>
+          <div class="product-desc">A compact refrigerator is arguably the most important appliance for dorm life. It lets you store snacks, beverages, and leftovers without frequent trips to the communal kitchen — saving you time and money.</div>
+          <div class="pros-cons">
+            <div class="pros">
+              <div class="pros-label">✓ Pros</div>
+              <ul>
+                <li>Operates very quietly</li>
+                <li>Takes up minimal floor space</li>
+                <li>Reversible door for flexible placement</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <div class="cons-label">✗ Cons</div>
+              <ul>
+                <li>No separate freezer compartment</li>
+                <li>Limited capacity for large bottles</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card">
+        <div class="product-num">2</div>
+        <div class="product-body">
+          <div class="product-rec">Recommended: COSORI Speed-Boil Electric Kettle</div>
+          <div class="product-name">Electric Kettle</div>
+          <div class="product-desc">An electric kettle is a dorm staple. It heats water rapidly for instant ramen, tea, oatmeal, hot chocolate, and coffee — all without leaving your room. It's one of the most versatile small appliances you can own.</div>
+          <div class="pros-cons">
+            <div class="pros">
+              <div class="pros-label">✓ Pros</div>
+              <ul>
+                <li>Auto shut-off for safety</li>
+                <li>Boils water in under 3 minutes</li>
+                <li>Stainless steel interior</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <div class="cons-label">✗ Cons</div>
+              <ul>
+                <li>Cannot cook solid foods</li>
+                <li>Single-function use</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <div class="product-num">3</div>
+        <div class="product-body">
+          <div class="product-rec">Recommended: BLACK+DECKER 4-Slice Toaster Oven</div>
+          <div class="product-name">Compact Toaster Oven</div>
+          <div class="product-desc">A toaster oven is a powerful microwave alternative that can reheat pizza, toast bagels, bake cookies, and prepare simple meals — all in a compact footprint. It's a game-changer for students who want more than just reheated food.</div>
+          <div class="pros-cons">
+            <div class="pros">
+              <div class="pros-label">✓ Pros</div>
+              <ul>
+                <li>Toasts, bakes, and broils</li>
+                <li>Compact and lightweight</li>
+                <li>More versatile than a microwave</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <div class="cons-label">✗ Cons</div>
+              <ul>
+                <li>Some dorms prohibit them</li>
+                <li>Gets hot during use</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>⚠️ Important:</strong> Before bringing a toaster oven to campus, verify your dormitory's appliance policy. Some institutions prohibit heating appliances with exposed elements due to fire safety regulations.
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card">
+        <div class="product-num">4</div>
+        <div class="product-body">
+          <div class="product-rec">Recommended: LEVOIT Core Mini Air Purifier</div>
+          <div class="product-name">Small Air Purifier</div>
+          <div class="product-desc">Shared living spaces can get stuffy fast — especially in a small dorm room with a roommate. A compact air purifier helps maintain fresh air quality, reduces odors from food and gym gear, and can even improve your sleep quality.</div>
+          <div class="pros-cons">
+            <div class="pros">
+              <div class="pros-label">✓ Pros</div>
+              <ul>
+                <li>Very quiet operation</li>
+                <li>Sleek, modern design</li>
+                <li>Affordable price point</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <div class="cons-label">✗ Cons</div>
+              <ul>
+                <li>Effective only in small spaces</li>
+                <li>Replacement filters add cost</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card">
+        <div class="product-num">5</div>
+        <div class="product-body">
+          <div class="product-rec">Recommended: BISSELL AeroSlim Cordless Handheld Vacuum</div>
+          <div class="product-name">Mini Vacuum</div>
+          <div class="product-desc">Crumbs happen — especially when you're snacking over your desk at midnight. A compact handheld vacuum makes quick cleanups effortless without having to drag out a full-size vacuum or bother your roommate.</div>
+          <div class="pros-cons">
+            <div class="pros">
+              <div class="pros-label">✓ Pros</div>
+              <ul>
+                <li>Cordless and rechargeable</li>
+                <li>Space-saving design</li>
+                <li>Great for quick touch-ups</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <div class="cons-label">✗ Cons</div>
+              <ul>
+                <li>Small collection container</li>
+                <li>Not for large cleaning jobs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Final Thoughts</h2>
+      <p>These five appliances collectively cover your most important dorm life needs — from keeping food fresh and making quick meals, to breathing clean air and keeping your space tidy. The key is choosing compact, efficient models that respect your limited space and electrical capacity.</p>
+
+      <p>When it comes to appliances, a little investment upfront pays off across your entire college career. Choose wisely, and your dorm room can feel a lot more like home.</p>
+
+      <div class="callout">
+        <strong>💡 Tip:</strong> Always check your dorm's electrical capacity before bringing multiple appliances. Running too many devices on the same circuit can trip breakers — or worse, cause electrical damage.
+      </div>
+
+    </div>
+
+    <!-- INLINE CTA -->
+    <div class="inline-cta">
+      <h3>Appliance acting up at home?</h3>
+      <p>We repair refrigerators, stoves, washers, dryers, and more across Orange County. Same-day service available.</p>
+      <a href="contact.html">Book a Repair</a>
+    </div>
+
+    <!-- RELATED POSTS -->
+    <div style="margin-top:60px;">
+      <div style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;">Related Articles</div>
+      <div class="related-grid">
+        <a href="article-mini-fridge.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?fit=crop&w=500&auto=format" alt="Mini Fridges" />
+          <div class="related-card-body">
+            <div class="related-card-cat">Buying Guide</div>
+            <div class="related-card-title">Best Mini Fridges for Students</div>
+          </div>
+        </a>
+        <a href="article-fridge-maintenance.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?fit=crop&w=500&auto=format" alt="Fridge Maintenance" />
+          <div class="related-card-body">
+            <div class="related-card-cat">Maintenance</div>
+            <div class="related-card-title">7 Refrigerator Maintenance Tips</div>
+          </div>
+        </a>
+        <a href="article-repair-replace.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1581092160607-ee22731c9c9d?fit=crop&w=500&auto=format" alt="Repair or Replace" />
+          <div class="related-card-body">
+            <div class="related-card-cat">Advice</div>
+            <div class="related-card-title">Repair or Replace? How to Decide</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div class="logo-icon">🔧</div>
+          <span style="color:#fff;font-weight:700;font-size:13px;">Universal Appliances Repair</span>
+        </div>
+        <p style="font-size:12px;color:#555;line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Services</div>
+        <ul class="footer-links">
+          <li><a href="services.html">Refrigerator Repair</a></li>
+          <li><a href="services.html">Stove Repair</a></li>
+          <li><a href="services.html">Washer Repair</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Company</div>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Book a Repair</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Contact</div>
+        <div class="footer-contact-line">📞 <a href="tel:+19496295365" style="color:#555;text-decoration:none;">(949) 629-5365</a></div>
+        <div class="footer-contact-line">✉️ <a href="mailto:info@fixappliancesfast.com" style="color:#555;text-decoration:none;">info@fixappliancesfast.com</a></div>
+        <div class="footer-contact-line">📍 10832 Asbury Ave, Stanton, CA 90680</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Universal Appliances Repair. All rights reserved.</span>
+    </div>
+  </footer>
+
+</body>
+</html>

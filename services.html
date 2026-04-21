@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services – Universal Appliances Repair</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .value-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+    .value-item { background: #fff; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 28px 24px; text-align: center; }
+    .value-item-icon { font-size: 28px; margin-bottom: 12px; }
+    .value-item-title { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 8px; }
+    .value-item-desc { font-size: 12.5px; color: #888; line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:32px;">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">🔧</div>
+          <span>Universal Appliances Repair</span>
+        </a>
+        <div class="nav-links">
+          <a href="about.html">About</a>
+          <a href="services.html" class="active">Services</a>
+          <a href="faq.html">FAQ</a>
+          <a href="testimonials.html">Testimonials</a>
+          <a href="contact.html">Contact</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a href="tel:+19496295365" class="nav-phone">(949) 629-5365</a>
+        <a href="contact.html" class="nav-cta">Book a Repair</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <h1>Affordable Appliance<br/>Repair Services</h1>
+    <p>Choose Universal Appliances Repair for all your appliance repair needs. Our trained technicians offer a wide range of services across Orange County.</p>
+  </div>
+
+  <!-- SERVICES GRID -->
+  <section class="section section-gray">
+    <div class="container-lg">
+      <div class="services-grid">
+
+        <!-- Fridge -->
+        <div class="service-card">
+          <img class="service-img" src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?fit=crop&crop=entropy,faces&auto=format,compress&w=800" alt="Refrigerator Repair" loading="lazy" />
+          <div class="service-body">
+            <div class="service-name">Refrigerator Repair</div>
+            <div class="service-desc">Our experts fix refrigerator issues quickly, keeping your fridge running smoothly and your food safe. We service all major brands and models.</div>
+            <div style="margin-top:16px;"><a href="contact.html" class="btn-primary" style="font-size:12px;padding:9px 18px;">Book Now</a></div>
+          </div>
+        </div>
+
+        <!-- Stove -->
+        <div class="service-card">
+          <img class="service-img" src="https://images.unsplash.com/photo-1620051787208-a45bc64e32ff?fit=crop&crop=entropy,faces&auto=format,compress&w=800" alt="Oven & Stove Repair" loading="lazy" />
+          <div class="service-body">
+            <div class="service-name">Oven / Stove Repair</div>
+            <div class="service-desc">Trust Universal Appliances Repair for stove and oven repair. We use high-quality parts and advanced diagnostics to restore your appliance.</div>
+            <div style="margin-top:16px;"><a href="contact.html" class="btn-primary" style="font-size:12px;padding:9px 18px;">Book Now</a></div>
+          </div>
+        </div>
+
+        <!-- Washer -->
+        <div class="service-card">
+          <img class="service-img" src="https://images.unsplash.com/photo-1597418048367-7dd01e4404ee?fit=crop&crop=entropy,faces&auto=format,compress&w=800" alt="Washing Machine Repair" loading="lazy" />
+          <div class="service-body">
+            <div class="service-name">Washing Machine Repair</div>
+            <div class="service-desc">Leave your washer troubles to us. Fast, reliable repairs for all makes, models, and issues — from leaks to spin cycle problems.</div>
+            <div style="margin-top:16px;"><a href="contact.html" class="btn-primary" style="font-size:12px;padding:9px 18px;">Book Now</a></div>
+          </div>
+        </div>
+
+        <!-- Dryer -->
+        <div class="service-card">
+          <img class="service-img" src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?fit=crop&crop=entropy,faces&auto=format,compress&w=800" alt="Dryer Repair" loading="lazy" />
+          <div class="service-body">
+            <div class="service-name">Dryer Repair</div>
+            <div class="service-desc">Is your dryer not heating, taking too long, or making unusual noises? Our technicians will diagnose and fix it quickly.</div>
+            <div style="margin-top:16px;"><a href="contact.html" class="btn-primary" style="font-size:12px;padding:9px 18px;">Book Now</a></div>
+          </div>
+        </div>
+
+        <!-- Dishwasher -->
+        <div class="service-card">
+          <img class="service-img" src="https://images.unsplash.com/photo-1585515320310-259814833e62?fit=crop&crop=entropy,faces&auto=format,compress&w=800" alt="Dishwasher Repair" loading="lazy" />
+          <div class="service-body">
+            <div class="service-name">Dishwasher Repair</div>
+            <div class="service-desc">From not draining to poor cleaning performance, we repair all dishwasher issues so you can get back to a clean kitchen fast.</div>
+            <div style="margin-top:16px;"><a href="contact.html" class="btn-primary" style="font-size:12px;padding:9px 18px;">Book Now</a></div>
+          </div>
+        </div>
+
+        <!-- All Appliances -->
+        <div class="service-card" style="display:flex;flex-direction:column;">
+          <div style="flex:1;background:linear-gradient(135deg,#fff7ed,#ffedd5);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;">
+            <div style="font-size:40px;margin-bottom:14px;">🔧</div>
+            <div style="font-size:16px;font-weight:700;color:#111;margin-bottom:8px;">All Major Appliances</div>
+            <div style="font-size:12.5px;color:#888;line-height:1.7;">Don't see your appliance listed? We repair all major home appliances. Give us a call and we'll help.</div>
+          </div>
+          <div class="service-body" style="padding-top:16px;">
+            <a href="contact.html" class="btn-primary" style="display:block;text-align:center;font-size:12px;padding:9px 18px;">Contact Us</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE PROPS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container-lg">
+      <h2 style="font-size:30px;font-weight:700;letter-spacing:-0.4px;color:#111;">Why Choose Us?</h2>
+      <div class="value-row">
+        <div class="value-item">
+          <div class="value-item-icon">⚡</div>
+          <div class="value-item-title">Prompt Service</div>
+          <div class="value-item-desc">At Universal Appliances Repair, we offer prompt, reliable appliance repairs by trained technicians. Same-day when available.</div>
+        </div>
+        <div class="value-item">
+          <div class="value-item-icon">🎓</div>
+          <div class="value-item-title">Expert Technicians</div>
+          <div class="value-item-desc">Our technicians have the know-how to repair a wide range of home appliances across all major brands and models.</div>
+        </div>
+        <div class="value-item">
+          <div class="value-item-icon">✅</div>
+          <div class="value-item-title">Quality Assured</div>
+          <div class="value-item-desc">We ensure customer satisfaction by delivering top-notch professional repair services backed by a warranty on parts and labor.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 style="font-size:28px;font-weight:700;color:#111;">Get your appliances fixed today</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:12px;line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto;">Affordable rates, same-day service, and trained technicians ready to help throughout Orange County.</p>
+      <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="contact.html" class="btn-primary">Book a Repair</a>
+        <a href="about.html" class="btn-outline">Discover More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div class="logo-icon">🔧</div>
+          <span style="color:#fff;font-weight:700;font-size:13px;">Universal Appliances Repair</span>
+        </div>
+        <p style="font-size:12px;color:#555;line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Services</div>
+        <ul class="footer-links">
+          <li><a href="services.html">Refrigerator Repair</a></li>
+          <li><a href="services.html">Stove Repair</a></li>
+          <li><a href="services.html">Washer Repair</a></li>
+          <li><a href="services.html">All Services</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Company</div>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Book a Repair</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Contact</div>
+        <div class="footer-contact-line">📞 <a href="tel:+19496295365" style="color:#555;text-decoration:none;">(949) 629-5365</a></div>
+        <div class="footer-contact-line">✉️ <a href="mailto:info@fixappliancesfast.com" style="color:#555;text-decoration:none;">info@fixappliancesfast.com</a></div>
+        <div class="footer-contact-line">📍 10832 Asbury Ave, Stanton, CA 90680</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Universal Appliances Repair. All rights reserved.</span>
+    </div>
+  </footer>
+
+</body>
+</html>

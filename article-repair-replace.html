@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repair or Replace? – Universal Appliances Repair</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f7fafc; color: #000000e6; font-family: 'Inter', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #eee; }
+    .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; color: #111; text-decoration: none; }
+    .logo-icon { width: 28px; height: 28px; background: #e84c1e; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .nav-links { display: flex; gap: 22px; }
+    .nav-links a { font-size: 12px; color: #666; text-decoration: none; }
+    .nav-links a:hover { color: #111; font-weight: 600; }
+    .nav-cta { background: #e84c1e; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; }
+    .article-hero { padding-top: 52px; position: relative; overflow: hidden; }
+    .article-hero-img { width: 100%; height: 460px; object-fit: cover; display: block; }
+    .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.75) 100%); }
+    .article-wrap { max-width: 760px; margin: 0 auto; padding: 56px 24px 80px; }
+    .article-intro { font-size: 17px; color: #555; line-height: 1.85; margin-bottom: 40px; border-left: 3px solid #e84c1e; padding-left: 20px; }
+    .article-body h2 { font-size: 22px; font-weight: 700; color: #111; letter-spacing: -0.3px; margin: 44px 0 14px; }
+    .article-body h3 { font-size: 16px; font-weight: 700; color: #111; margin: 28px 0 10px; }
+    .article-body p { font-size: 15px; color: #444; line-height: 1.85; margin-bottom: 18px; }
+    .article-body ul { margin: 14px 0 22px 20px; }
+    .article-body li { font-size: 15px; color: #444; line-height: 1.8; margin-bottom: 8px; }
+    .article-body strong { color: #111; font-weight: 600; }
+    .decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+    .decision-repair { background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 24px; }
+    .decision-replace { background: #fff7ed; border: 1.5px solid #fdba74; border-radius: 14px; padding: 24px; }
+    .decision-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px; }
+    .decision-repair .decision-label { color: #16a34a; }
+    .decision-replace .decision-label { color: #ea580c; }
+    .decision-repair li, .decision-replace li { font-size: 13px; line-height: 1.7; margin-bottom: 7px; margin-left: 16px; color: #444; }
+    .appliance-row { background: #fff; border-radius: 12px; box-shadow: 0 1px 12px rgba(0,0,0,0.06); padding: 18px 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; }
+    .appliance-icon { font-size: 24px; flex-shrink: 0; }
+    .appliance-name { font-size: 14px; font-weight: 700; color: #111; }
+    .appliance-life { font-size: 12px; color: #888; margin-top: 2px; }
+    .rule-badge { margin-left: auto; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; flex-shrink: 0; }
+    .rule-50 { background: #fff7ed; color: #ea580c; }
+    .callout { background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #9a3412; line-height: 1.75; }
+    .callout-green { background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #166534; line-height: 1.75; }
+    .inline-cta { background: linear-gradient(135deg, #e84c1e, #c2410c); border-radius: 16px; padding: 32px; margin: 40px 0; color: #fff; text-align: center; }
+    .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .inline-cta p { font-size: 13px; opacity: 0.88; margin-bottom: 20px; line-height: 1.6; }
+    .inline-cta a { display: inline-block; background: #fff; color: #e84c1e; font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 8px; text-decoration: none; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #aaa; margin-bottom: 28px; flex-wrap: wrap; }
+    .breadcrumb a { color: #aaa; text-decoration: none; }
+    .breadcrumb a:hover { color: #e84c1e; }
+    .article-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .meta-tag { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; }
+    .related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 32px; }
+    .related-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); text-decoration: none; }
+    .related-card img { width: 100%; height: 140px; object-fit: cover; display: block; }
+    .related-card-body { padding: 16px 18px 20px; }
+    .related-card-cat { font-size: 10px; color: #e84c1e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .related-card-title { font-size: 13px; font-weight: 700; color: #111; line-height: 1.35; }
+    .footer { background: #090909; padding: 56px 24px 36px; }
+    .footer-grid { max-width: 1000px; margin: 0 auto; display: flex; gap: 48px; flex-wrap: wrap; }
+    .footer-brand { flex: 1; min-width: 200px; }
+    .footer-col-label { font-size: 10px; color: #555; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 8px; }
+    .footer-links a { font-size: 12px; color: #555; text-decoration: none; }
+    .footer-links a:hover { color: #bbb; }
+    .footer-contact-line { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #555; margin-bottom: 10px; }
+    .footer-bottom { max-width: 1000px; margin: 32px auto 0; padding-top: 20px; border-top: 1px solid #1a1a1a; font-size: 11px; color: #444; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:32px;">
+        <a href="index.html" class="logo"><div class="logo-icon">🔧</div><span>Universal Appliances Repair</span></a>
+        <div class="nav-links">
+          <a href="about.html">About</a><a href="services.html">Services</a><a href="faq.html">FAQ</a>
+          <a href="testimonials.html">Testimonials</a><a href="contact.html">Contact</a><a href="blog.html">Blog</a>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <a href="tel:+19496295365" style="font-size:13px;font-weight:600;color:#111;text-decoration:none;">(949) 629-5365</a>
+        <a href="contact.html" class="nav-cta">Book a Repair</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="article-hero">
+    <img class="article-hero-img" src="https://images.unsplash.com/photo-1581092160607-ee22731c9c9d?fit=crop&crop=entropy,faces&auto=format,compress&w=1600" alt="Appliance technician repairing a washer" />
+    <div class="article-hero-overlay"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 24px 48px;">
+      <div style="max-width:760px;margin:0 auto;">
+        <div class="article-meta" style="margin-bottom:16px;">
+          <span class="meta-tag">Advice</span>
+          <span style="font-size:12px;color:rgba(255,255,255,0.75);">March 5, 2025</span>
+          <span style="font-size:12px;color:rgba(255,255,255,0.75);">by Universal Appliances Repair Team</span>
+        </div>
+        <h1 style="font-size:38px;font-weight:800;letter-spacing:-1px;color:#fff;line-height:1.15;">Repair or Replace? How to Decide What to Do With a Broken Appliance</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-wrap">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> <span>›</span>
+      <a href="blog.html">Blog</a> <span>›</span>
+      <span style="color:#111;">Repair or Replace?</span>
+    </div>
+
+    <p class="article-intro">When your stove stops working or your washer starts leaking, you're hit with the same stressful question: repair it or replace it? The wrong call can cost you hundreds — or thousands — of dollars. Here's how to decide the smart way.</p>
+
+    <div class="article-body">
+
+      <p>As technicians who've repaired thousands of appliances across Orange County, we get this question constantly. The honest answer is: it depends. But there are clear guidelines that make the decision much easier — and we're sharing them all here.</p>
+
+      <h2>The 50% Rule</h2>
+      <p>The most widely used industry guideline is called the <strong>50% Rule</strong>:</p>
+      <div class="callout">
+        <strong>If the repair cost is more than 50% of the price of a new appliance, replace it.</strong> If it's less than 50%, repair is almost always the better financial choice.
+      </div>
+
+      <p>For example: if a new washing machine costs $800 and the repair is $280, repair wins easily. But if the repair quote is $500, you're better off putting that money toward a new unit.</p>
+
+      <h2>Appliance Age Matters More Than You Think</h2>
+      <p>Every appliance has an average lifespan. If your appliance is near the end of that range, even a "cheap" repair may be a waste of money — you'll likely face another breakdown soon after.</p>
+
+      <div style="margin: 28px 0;">
+        <div class="appliance-row">
+          <span class="appliance-icon">❄️</span>
+          <div><div class="appliance-name">Refrigerator</div><div class="appliance-life">Average lifespan: 13–17 years</div></div>
+          <span class="rule-badge rule-50">50% Rule applies</span>
+        </div>
+        <div class="appliance-row">
+          <span class="appliance-icon">🍳</span>
+          <div><div class="appliance-name">Stove / Oven</div><div class="appliance-life">Average lifespan: 13–15 years</div></div>
+          <span class="rule-badge rule-50">50% Rule applies</span>
+        </div>
+        <div class="appliance-row">
+          <span class="appliance-icon">🧺</span>
+          <div><div class="appliance-name">Washing Machine</div><div class="appliance-life">Average lifespan: 10–14 years</div></div>
+          <span class="rule-badge rule-50">50% Rule applies</span>
+        </div>
+        <div class="appliance-row">
+          <span class="appliance-icon">♨️</span>
+          <div><div class="appliance-name">Dryer</div><div class="appliance-life">Average lifespan: 10–13 years</div></div>
+          <span class="rule-badge rule-50">50% Rule applies</span>
+        </div>
+        <div class="appliance-row">
+          <span class="appliance-icon">🍽️</span>
+          <div><div class="appliance-name">Dishwasher</div><div class="appliance-life">Average lifespan: 9–12 years</div></div>
+          <span class="rule-badge rule-50">50% Rule applies</span>
+        </div>
+      </div>
+
+      <h2>Repair: When It's the Right Call</h2>
+      <div class="decision-grid">
+        <div class="decision-repair">
+          <div class="decision-label">✓ Choose Repair When...</div>
+          <ul>
+            <li>The appliance is less than halfway through its lifespan</li>
+            <li>Repair cost is under 50% of replacement cost</li>
+            <li>The appliance is a high-end or hard-to-match model</li>
+            <li>The issue is a single, isolated component</li>
+            <li>You don't have budget for a replacement right now</li>
+          </ul>
+        </div>
+        <div class="decision-replace">
+          <div class="decision-label">⚠ Choose Replace When...</div>
+          <ul>
+            <li>The appliance is past its expected lifespan</li>
+            <li>Repair cost exceeds 50% of new appliance price</li>
+            <li>You've had repeated repairs in the last 2 years</li>
+            <li>Energy bills have noticeably increased</li>
+            <li>Parts are hard to source or discontinued</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>Don't Forget Energy Efficiency</h2>
+      <p>An older appliance that's running (but inefficiently) can cost you significantly more per year in electricity than a modern Energy Star unit. Factor in annual running costs when doing the math. A fridge from 2005 might use 2–3x the electricity of a current model.</p>
+
+      <div class="callout-green">
+        <strong>✓ Our recommendation:</strong> Before deciding, always get a professional diagnosis. Many appliances that seem "dead" have a single failed component that costs $80–$150 to repair. Don't replace an appliance without knowing the actual repair cost first.
+      </div>
+
+      <h2>Get a Free Diagnosis First</h2>
+      <p>The biggest mistake homeowners make is replacing an appliance before getting a repair quote. We've seen countless cases where a washing machine "stopped working" due to a clogged pump filter — a 20-minute fix that costs far less than a new machine.</p>
+      <p>Before you shop for a replacement, call a certified technician. A proper diagnosis will give you the information you need to make a smart financial decision — not an emotional one.</p>
+
+    </div>
+
+    <div class="inline-cta">
+      <h3>Not sure if your appliance is worth fixing?</h3>
+      <p>Our technicians will diagnose the problem and give you an honest repair estimate with no obligation. Serving all of Orange County.</p>
+      <a href="contact.html">Get a Free Estimate</a>
+    </div>
+
+    <div style="margin-top:60px;">
+      <div style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;">Related Articles</div>
+      <div class="related-grid">
+        <a href="article-fridge-maintenance.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?fit=crop&w=500&auto=format" alt="Fridge Maintenance" />
+          <div class="related-card-body"><div class="related-card-cat">Maintenance</div><div class="related-card-title">7 Refrigerator Maintenance Tips</div></div>
+        </a>
+        <a href="article-dorm-appliances.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?fit=crop&w=500&auto=format" alt="Dorm Appliances" />
+          <div class="related-card-body"><div class="related-card-cat">Tips &amp; Guides</div><div class="related-card-title">5 Must-Have Appliances for Dorm Life</div></div>
+        </a>
+        <a href="article-mini-fridge.html" class="related-card">
+          <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?fit=crop&w=500&auto=format" alt="Mini Fridge" />
+          <div class="related-card-body"><div class="related-card-cat">Buying Guide</div><div class="related-card-title">Best Mini Fridges for Students</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;"><div class="logo-icon">🔧</div><span style="color:#fff;font-weight:700;font-size:13px;">Universal Appliances Repair</span></div>
+        <p style="font-size:12px;color:#555;line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
+      </div>
+      <div><div class="footer-col-label">Services</div><ul class="footer-links"><li><a href="services.html">Refrigerator Repair</a></li><li><a href="services.html">Stove Repair</a></li><li><a href="services.html">Washer Repair</a></li></ul></div>
+      <div><div class="footer-col-label">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Book a Repair</a></li></ul></div>
+      <div>
+        <div class="footer-col-label">Contact</div>
+        <div class="footer-contact-line">📞 <a href="tel:+19496295365" style="color:#555;text-decoration:none;">(949) 629-5365</a></div>
+        <div class="footer-contact-line">✉️ <a href="mailto:info@fixappliancesfast.com" style="color:#555;text-decoration:none;">info@fixappliancesfast.com</a></div>
+        <div class="footer-contact-line">📍 10832 Asbury Ave, Stanton, CA 90680</div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Universal Appliances Repair. All rights reserved.</span></div>
+  </footer>
+
+</body>
+</html>

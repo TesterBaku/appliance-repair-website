@@ -1,0 +1,14 @@
+{
+  "name": "appliance-repair-website",
+  "version": "1.0.0",
+  "description": "Appliance repair service static website",
+  "scripts": {
+    "test": "node test/links.js",
+    "screenshot": "node test/screenshot.js"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "puppeteer": "^24.40.0"
+  }
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ – Universal Appliances Repair</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:32px;">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">🔧</div>
+          <span>Universal Appliances Repair</span>
+        </a>
+        <div class="nav-links">
+          <a href="about.html">About</a>
+          <a href="services.html">Services</a>
+          <a href="faq.html" class="active">FAQ</a>
+          <a href="testimonials.html">Testimonials</a>
+          <a href="contact.html">Contact</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a href="tel:+19496295365" class="nav-phone">(949) 629-5365</a>
+        <a href="contact.html" class="nav-cta">Book a Repair</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <h1>Common Queries Answered</h1>
+    <p>Got a question? We're here to assist. Find answers to the most frequently asked questions about our appliance repair services.</p>
+  </div>
+
+  <!-- FAQ LIST -->
+  <section class="section section-gray">
+    <div class="container" style="max-width:720px;">
+
+      <div class="faq-item open">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Which appliances do you service?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Universal Appliances Repair handles multiple household appliances. Our team addresses issues with refrigerators, ovens, washers, dryers, dishwashers, and additional units. Technicians possess the capability to diagnose and fix problems across all these categories. If you're unsure whether we service your appliance, give us a call at (949) 629-5365.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How long does a standard repair take?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Repair duration depends on the problem's complexity and the availability of parts. Our technicians strive to complete repairs efficiently without compromising quality. While some repairs may only take a few hours, others may need more time for a thorough and long-lasting fix. We'll give you a realistic time estimate before we begin.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do you provide a warranty on repairs?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes, we offer a warranty on our repairs. We stand behind the quality of our work and want our customers to have peace of mind. Our warranty covers both parts and labor for a specified period. If complications emerge post-repair, we handle corrections at no supplementary expense to you.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How can I book a repair service?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">You can schedule an appointment through telephone or our website contact form. Simply call us at (949) 629-5365 or fill out the form on our <a href="contact.html" style="color:#e84c1e;font-weight:600;">Contact page</a>. Our responsive team will assist you in arranging a convenient appointment time.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do you offer same-day service?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes! We offer same-day service when a technician is available in your area. For the fastest response, we recommend calling us directly at (949) 629-5365. We serve Orange County and surrounding areas and will do our best to get to you quickly.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Are you licensed, bonded, and insured?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Absolutely. Universal Appliances Repair is a fully licensed, bonded, and insured repair service. As a family-owned and operated business, we take pride in being a trusted and professional service provider in the Orange County community.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What areas do you serve?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">We primarily serve Orange County, California, including cities like Stanton, Irvine, Anaheim, Santa Ana, Garden Grove, Huntington Beach, and surrounding areas. Not sure if we cover your location? Give us a call and we'll let you know.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STILL HAVE QUESTIONS CTA -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <div class="card" style="padding:48px 40px;">
+        <div style="font-size:36px;margin-bottom:14px;">💬</div>
+        <h2 style="font-size:26px;font-weight:700;color:#111;margin-bottom:10px;">Still have a question?</h2>
+        <p style="font-size:13.5px;color:#888;line-height:1.7;max-width:420px;margin:0 auto 24px;">Our team is happy to help. Reach out by phone or send us a message and we'll get back to you quickly.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
+          <a href="contact.html" class="btn-outline">Send a Message</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div class="logo-icon">🔧</div>
+          <span style="color:#fff;font-weight:700;font-size:13px;">Universal Appliances Repair</span>
+        </div>
+        <p style="font-size:12px;color:#555;line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Services</div>
+        <ul class="footer-links">
+          <li><a href="services.html">Refrigerator Repair</a></li>
+          <li><a href="services.html">Stove Repair</a></li>
+          <li><a href="services.html">Washer Repair</a></li>
+          <li><a href="services.html">All Services</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Company</div>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Book a Repair</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Contact</div>
+        <div class="footer-contact-line">📞 <a href="tel:+19496295365" style="color:#555;text-decoration:none;">(949) 629-5365</a></div>
+        <div class="footer-contact-line">✉️ <a href="mailto:info@fixappliancesfast.com" style="color:#555;text-decoration:none;">info@fixappliancesfast.com</a></div>
+        <div class="footer-contact-line">📍 10832 Asbury Ave, Stanton, CA 90680</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Universal Appliances Repair. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>
