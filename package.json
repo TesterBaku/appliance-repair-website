@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Appliance repair service static website",
   "scripts": {
+    "start": "npx serve .",
     "test": "node test/links.js",
     "screenshot": "node test/screenshot.js",
     "prepare": "husky"
