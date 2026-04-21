@@ -4,8 +4,17 @@ Static HTML website for an appliance repair service. Built with Tailwind CSS via
 
 ## Rules
 - `rules/git-workflow.md` — branch naming, commits, PRs, code review
+- `rules/seo-content.md` — SEO guidelines, Orange County city targeting, keyword strategy, required schema markup
+
+## Content Log
+- `CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
+
+## Standing Rule — PR on Every Change
+Any request that results in a code or file change must go through the full workflow:
+branch → commit → test → PR → review → merge. No exceptions, even for small edits.
 
 ## Skills (slash commands)
+- `/seo-blog` — full SEO blog workflow: propose ideas → create article → test → demo → iterate → PR → review → merge
 - `/pr` — generate and create a pull request for the current branch
 - `/review` — review changed files before merging
 - `/test` — run screenshot and link checks across all pages

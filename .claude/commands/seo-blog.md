@@ -178,6 +178,35 @@ Report the merged commit hash and PR URL to the user.
 
 ---
 
+---
+
+## Phase 10 — LOG
+
+After every merge (or after all selected articles are merged if multiple), append an entry to `.claude/CONTENT_LOG.md`.
+
+### Entry format
+
+```markdown
+## Run — [Month DD, YYYY]
+
+**Articles created:** [N]
+**Cost content:** [Yes / No]
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| [Title] | `[slug].html` | [keyword] | [type] | [#N](url) | `[hash]` |
+
+**Workflow changes:** [brief note, or "None"]
+```
+
+### Rules
+- Always append — never overwrite existing entries
+- If the file doesn't exist yet, create it with a `# SEO Blog Content Log` heading first
+- One entry per run, even if multiple articles were created in that run
+- Keep the "Workflow changes" line to one sentence; use "None" if nothing changed
+
+---
+
 ## Rules
 
 - Never skip a phase — each gate exists for a reason

@@ -114,3 +114,26 @@ npm run screenshot  # puppeteer — loads each page and captures a screenshot
 - Author should not merge their own PR without review
 - Resolve all comments before merging
 - Squash merge into `main`
+
+## PR on Every Change
+
+Every request that results in any code or file change — however small — must follow the full workflow:
+
+1. Create a branch off `master`
+2. Make the change and commit it
+3. Run `npm test` and `npm run screenshot`
+4. Create a PR
+5. Run `/review`
+6. Merge if review passes
+
+No direct commits to `master`. No skipping steps for "small" changes.
+
+---
+
+## Protected Branches
+
+**Never push directly to `master` or `main`.** All changes must go through a pull request.
+
+- The `pre-push` git hook enforces this automatically — a direct push will be rejected
+- Always branch off `main`, make your changes, then open a PR
+- Force-pushing to `main` is also prohibited
