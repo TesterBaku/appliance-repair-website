@@ -64,6 +64,41 @@ feat(about): add team section with cards
 - [ ] Matches reference design
 ```
 
+## Bug Fix Workflow
+
+When a test (`npm test` or `npm run screenshot`) reports a failure, follow this loop until all tests pass:
+
+### Fix Loop
+1. **Run tests** — identify failing test(s) and capture the exact error output
+2. **Diagnose** — locate the root cause in the relevant HTML, CSS, or test script
+3. **Fix** — make the minimal change needed to address the root cause
+4. **Validate** — re-run the same test immediately after the fix
+   - If it passes → mark fixed, move to next failure
+   - If it still fails → do NOT re-run the same fix; change approach and repeat from step 2
+5. **Repeat** until `npm test` and `npm run screenshot` both exit with code 0
+
+### Rules
+- Never skip validation after a fix — always re-run the test before moving on
+- Never apply the same fix twice; a repeated failure means a different root cause
+- Fix one issue at a time; do not batch unrelated fixes in a single commit
+- Commit each fix separately using `fix(<scope>): <description>` format
+
+### Test Commands
+```
+npm test            # link checker — checks all internal .html hrefs
+npm run screenshot  # puppeteer — loads each page and captures a screenshot
+```
+
+### Common Failure Patterns
+| Test | Symptom | Likely Cause |
+|------|---------|--------------|
+| `npm test` | `broken link: <file>.html` | Linked file was renamed or deleted |
+| `npm test` | `broken link: <path>` | Wrong relative path in `href` |
+| `npm run screenshot` | `MISSING: <page>.html` | Page listed in `screenshot.js` but file not created |
+| `npm run screenshot` | `FAIL: <page>.html — ...` | Puppeteer navigation error or page crash |
+
+---
+
 ## Code Review
 
 ### What to check
