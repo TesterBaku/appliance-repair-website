@@ -12,6 +12,9 @@ test/screenshots/
 Thumbs.db
 *.local
 
+# Claude Code local settings — machine-specific, never commit
+.claude/settings.local.json
+
 # Credentials and keys
 *.pem
 *.key
