@@ -1,6 +1,8 @@
 node_modules/
 test/screenshots/
 *.png
+!logo.png
+IMG-20240825-WA0017.jpg
 
 # Environment and secrets — never commit these
 .env
