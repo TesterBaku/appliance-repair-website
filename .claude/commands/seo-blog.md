@@ -24,6 +24,9 @@ Follow every phase in order. Do not skip phases or combine steps.
 
 Detect scheduled mode when the prompt contains `[SCHEDULED]`.
 
+**Active routine:** `trig_01ApQaWZG9LhY6jsp8tbxn8D` — runs daily at 13:00 UTC (6 AM PDT)
+Manage at: https://claude.ai/code/routines/trig_01ApQaWZG9LhY6jsp8tbxn8D
+
 ---
 
 ## Phase 1 — PROPOSE
