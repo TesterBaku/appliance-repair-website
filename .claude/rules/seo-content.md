@@ -165,6 +165,15 @@ Every article must include all three schemas:
 - No filler phrases ("In conclusion", "It goes without saying")
 - No dollar amounts or price ranges (unless cost content is explicitly approved for the run)
 
+### Human-like writing rules (required)
+- **Never open with a keyword phrase as the subject.** Sentences like "A washing machine not spinning in Huntington Beach is..." or "Refrigerator repair in Santa Ana, CA is..." are unnatural and robotic. Start with the reader's experience instead: "You open the lid and the clothes are still soaking wet." or "Your oven stopped heating right before dinner."
+- **Write like you're talking to a neighbor, not optimizing a page.** Use contractions (don't, you'll, it's) where they'd sound natural in speech.
+- **Mix sentence lengths.** Short punchy sentences after longer ones create rhythm. Three long sentences in a row reads like a legal document.
+- **Be specific, not vague.** "The igniter weakens and can't open the gas valve" is better than "there may be issues with certain components."
+- **Don't announce what you're about to do.** Never write "In this article, we will explore..." — just start explaining.
+- **Avoid passive voice stacking.** "The belt can be replaced by a technician" → "A technician replaces the belt."
+- **City names belong in context, not at the top of every sentence.** "Huntington Beach homeowners" once is fine; using the city in every paragraph signals keyword stuffing to both readers and Google.
+
 ---
 
 ## Avoiding Duplicate Coverage
