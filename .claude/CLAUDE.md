@@ -10,12 +10,12 @@ Static HTML website for an appliance repair service. Built with Tailwind CSS via
 - `CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
 
 ## Scheduled Automation
-A remote Claude Code agent runs `/seo-blog` daily at **6 AM Pacific (13:00 UTC)** in scheduled mode.
+A remote Claude Code agent runs `/seo-blog` **Mon/Wed/Fri at 6 AM Pacific (13:00 UTC)** in scheduled mode.
 
 - **Routine ID:** `trig_01ApQaWZG9LhY6jsp8tbxn8D`
 - **Manage / disable:** https://claude.ai/code/routines/trig_01ApQaWZG9LhY6jsp8tbxn8D
-- **What it does:** auto-selects topics 1–3, creates 3 articles, runs tests, opens PRs, logs in `CONTENT_LOG.md` — does not merge
-- **DST note:** cron is fixed at 13:00 UTC; update to `0 14 * * *` in November when clocks fall back to PST
+- **What it does:** auto-selects topics 1–3, creates 3 articles, runs tests, opens PRs, reviews, **merges automatically**, logs in `CONTENT_LOG.md` — fully autonomous, no human required
+- **DST note:** cron is fixed at 13:00 UTC; update to `0 14 * * 1,3,5` in November when clocks fall back to PST
 
 ## Standing Rule — PR on Every Change
 Any request that results in a code or file change must go through the full workflow:
