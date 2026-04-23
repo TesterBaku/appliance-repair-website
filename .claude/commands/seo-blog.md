@@ -14,17 +14,17 @@ Follow every phase in order. Do not skip phases or combine steps.
 - Show screenshot and wait for user approval before creating PR
 - Run review → merge after user approves
 
-### Scheduled (automated 6 AM Pacific daily run)
+### Scheduled (automated Mon/Wed/Fri run)
 - Skip cost question — default is **keep out** (no dollar amounts)
 - Skip topic selection — default is **topics 1, 2, 3**
 - Show screenshot inline in output, then proceed directly to PR (no approval gate)
 - Run `/review`, fix any FAILs
-- **Stop after PRs are ready** — report PR URLs in summary. Do not merge.
-- Log the run in `CONTENT_LOG.md` after all PRs are created
+- **Merge each PR automatically** after review passes — no human gate
+- Log the run in `CONTENT_LOG.md` after all articles are merged
 
 Detect scheduled mode when the prompt contains `[SCHEDULED]`.
 
-**Active routine:** `trig_01ApQaWZG9LhY6jsp8tbxn8D` — runs daily at 13:00 UTC (6 AM PDT)
+**Active routine:** `trig_01ApQaWZG9LhY6jsp8tbxn8D` — runs Mon/Wed/Fri at 13:00 UTC (6 AM PDT)
 Manage at: https://claude.ai/code/routines/trig_01ApQaWZG9LhY6jsp8tbxn8D
 
 ---
@@ -189,10 +189,10 @@ Invoke `/review` to check the branch against `main`.
 
 ## Phase 9 — MERGE
 
-**Interactive mode only.** Merge via squash using the GitHub CLI:
+Merge via squash using the GitHub CLI:
 
 ```bash
-gh pr merge --squash --auto
+gh pr merge --squash
 ```
 
 Confirm the merge succeeded:
@@ -202,9 +202,8 @@ git checkout master && git pull origin master
 git log --oneline -3
 ```
 
-Report the merged commit hash and PR URL to the user. Then proceed to Phase 10.
-
-**Scheduled mode**: Skip this phase. Proceed to Phase 10.
+**Interactive mode**: Report the merged commit hash and PR URL to the user. Then proceed to Phase 10.  
+**Scheduled mode**: Log the merged commit hash internally and proceed to Phase 10. No user report needed.
 
 ---
 
@@ -212,8 +211,7 @@ Report the merged commit hash and PR URL to the user. Then proceed to Phase 10.
 
 Append an entry to `.claude/CONTENT_LOG.md`.
 
-**Interactive mode**: Log after merge completes.  
-**Scheduled mode**: Log after all PRs pass review (even though merge hasn't happened yet). Note in the log that merge is pending user review.
+**Both modes**: Log after all merges complete.
 
 ### Entry format
 
@@ -244,16 +242,15 @@ Append an entry to `.claude/CONTENT_LOG.md`.
 **Scheduled mode only.** After Phase 10, output a final summary:
 
 ```
-=== Daily SEO Run Complete — [Date] ===
+=== SEO Run Complete — [Date] ===
 
-Articles created: [N]
-PRs ready for your review:
-  - [Article title] → [PR URL]
-  - [Article title] → [PR URL]
-  - [Article title] → [PR URL]
+Articles created and merged: [N]
+  - [Article title] → merged at [commit hash]
+  - [Article title] → merged at [commit hash]
+  - [Article title] → merged at [commit hash]
 
 Screenshots captured in test/screenshots/.
-Merge when ready — no action needed from you until you review the PRs.
+No action needed — all articles are live on master.
 ```
 
 ---
