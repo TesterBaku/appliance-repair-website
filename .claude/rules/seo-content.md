@@ -16,6 +16,12 @@ Always include at least one of these cities in every SEO article. Rotate across 
 
 ---
 
+## Out-of-Scope Topics
+
+**Never create articles about AC / HVAC / air conditioning.** This includes window units, central air, heat pumps, and any cooling/heating system. AC repair is outside the business scope.
+
+---
+
 ## Target Appliances
 
 Cover these appliance types across articles:
