@@ -117,6 +117,37 @@ Rules:
 
 ---
 
+## Phase 5 — EMAIL NOTIFICATION
+
+After the PR is open, create a Gmail draft summarising the audit.
+
+Use `mcp__claude_ai_Gmail__create_draft` with:
+- **To:** `agatime78@gmail.com`
+- **Subject:** `SEO Audit Q[N] [YYYY] — [N] items need your review`  
+  (If zero items need review: `SEO Audit Q[N] [YYYY] — all clear ✓`)
+- **Body** (plain text):
+
+```
+SEO Audit — Q[N] [YYYY] | [Month DD, YYYY]
+
+Auto-fixed: [N] issues
+  [bullet list of what was fixed]
+
+Needs your review: [N] items
+  [bullet list of flagged issues with specific recommendations]
+  → Full report and PR: [PR URL]
+
+Articles audited: [N]
+Overall health: [one sentence assessment]
+
+---
+Universal Appliances Repair — automated SEO audit agent
+```
+
+If `mcp__claude_ai_Gmail__create_draft` is unavailable or returns an error, skip silently — do not let a draft failure affect the audit PR.
+
+---
+
 ## Rules
 
 - Never delete content from articles — only add or update metadata elements
