@@ -37,7 +37,6 @@ Cover these appliance types across articles:
 | Garbage Disposal | disposal not working, garbage disposal repair, disposal humming |
 | Freezer | freezer not freezing, freezer repair |
 | Wine Cooler | wine cooler repair, wine fridge not cooling |
-| HVAC / AC | AC repair Orange County, air conditioner not cooling |
 
 ---
 
@@ -45,7 +44,7 @@ Cover these appliance types across articles:
 
 | Type | Title Pattern | Intent |
 |---|---|---|
-| Local service | "[Appliance] Repair in [City], CA — What to Expect & Cost" | Transactional |
+| Local service | "[Appliance] Repair in [City], CA — What to Expect" | Transactional |
 | How-to / DIY | "How to Fix [Problem] on Your [Appliance]" | Informational |
 | Cost guide | "[Appliance] Repair Cost in Orange County (2025 Guide)" | Commercial |
 | Symptom guide | "Why Is My [Appliance] [Symptom]? [N] Common Causes" | Informational |
@@ -81,10 +80,13 @@ Include at least 2 question-format phrases that map to FAQ schema sections.
 <meta property="og:title" content="[Same as <title>]" />
 <meta property="og:description" content="[Same as meta description]" />
 <meta property="og:type" content="article" />
+<meta property="og:url" content="https://universalappliancesrepair.com/[slug].html" />
+<meta property="article:published_time" content="[ISO date]" />
+<meta property="article:modified_time" content="[ISO date]" />
 ```
 
 ### Schema markup (required — inline `<script type="application/ld+json">`)
-Every article must include all three schemas:
+Every article must include all four schemas:
 
 **1. Article schema**
 ```json
@@ -116,13 +118,28 @@ Every article must include all three schemas:
     "addressRegion": "CA",
     "addressCountry": "US"
   },
-  "telephone": "+1-949-555-0100",
+  "telephone": "+1-949-629-5365",
   "areaServed": "Orange County, CA",
   "url": "https://universalappliancesrepair.com"
 }
 ```
 
-**3. FAQPage schema** (only when article has FAQ section)
+**3. FAQPage schema** (required — every article must have a FAQ section)
+
+**4. BreadcrumbList schema** (required)
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://universalappliancesrepair.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://universalappliancesrepair.com/blog.html" },
+    { "@type": "ListItem", "position": 3, "name": "[Article title]", "item": "https://universalappliancesrepair.com/[slug].html" }
+  ]
+}
+```
+
+**3. FAQPage schema** (required)
 ```json
 {
   "@context": "https://schema.org",
