@@ -1,6 +1,6 @@
 # SEO Blog Agent
 
-Full-cycle agent: propose → create → test → demo → iterate → PR → review → merge.
+Full-cycle agent: research → propose → create → test → demo → iterate → PR → review → merge.
 
 Follow every phase in order. Do not skip phases or combine steps.
 
@@ -29,30 +29,58 @@ Manage at: https://claude.ai/code/routines/trig_01ApQaWZG9LhY6jsp8tbxn8D
 
 ---
 
+## Phase 0 — RESEARCH
+
+**Goal:** Use live web search to find ranking gaps and real user questions before proposing ideas. This makes proposals data-driven rather than rotational.
+
+### Steps
+
+1. Read all existing `article-*.html` filenames and `rules/seo-content.md` to identify the top 5 uncovered city × appliance combinations that look most promising.
+
+2. For each of 3 candidate keyword combinations, run a `WebSearch` to assess the competitive landscape:
+   - Search query: `"[appliance] repair [city] CA"`
+   - Note: what article types are in the top results? Are they thin (no FAQ, no schema, short word count)? Local directories vs. actual repair businesses?
+   - A keyword where the top results are weak (low-quality pages, Yelp/Angi dominating, no how-to content) is a high-opportunity target.
+
+3. For each of the same 3 combinations, search for "people also ask" style questions:
+   - Search query: `"[appliance] repair [city] site:reddit.com OR people also ask [appliance] [symptom]"`
+   - Extract 2–3 real questions that people actually ask — these go directly into the FAQ section of the article, making it eligible for FAQ rich results.
+
+4. Check for seasonal relevance:
+   - If the current month is May–September: prioritize cooling-related appliances (fridge, freezer)
+   - If October–March: prioritize heating-related (oven, dryer, range)
+   - This angles articles toward what's actively being searched right now
+
+5. Summarize findings in 3–5 bullet points before moving to PROPOSE. For each candidate keyword note:
+   - Competition level: **Low** / **Medium** / **High**
+   - Top result types: (e.g., "Yelp + one thin blog post")
+   - 2 real FAQ questions found
+
+---
+
 ## Phase 1 — PROPOSE
 
-**Goal:** Generate targeted blog ideas and let the user pick.
+**Goal:** Generate targeted, research-backed blog ideas.
 
 ### Steps
 
 0. **Ask about costs** — In **interactive mode**: ask _"Should articles include cost/pricing information (repair price ranges, dollar amounts), or keep it out?"_ and wait for the answer. In **scheduled mode**: skip the question, default is keep out.
 
-1. Read all existing `article-*.html` filenames in the project root to map what's already covered.
-2. Read `rules/seo-content.md` to load the city list, appliance list, and article types.
-3. Generate **8–10 article ideas** that:
+1. Using findings from Phase 0 and the coverage map from `article-*.html` files, generate **8–10 article ideas** that:
    - Cover a city + appliance + article-type combination not yet published
+   - Prioritize keywords where Phase 0 found weak competition or strong question volume
    - Mix article types (at least 3 types represented)
-   - Prioritize high-search-volume cities first (Anaheim, Irvine, Santa Ana, Huntington Beach)
    - Are realistic for a local appliance repair business to rank for
 
-4. Present ideas as a numbered list. For each idea include:
+2. Present ideas as a numbered list. For each idea include:
    - **Title** — final H1 / `<title>` text
    - **Slug** — filename without `.html` (e.g., `article-washer-repair-irvine`)
    - **Primary keyword** — the exact phrase to optimize for
    - **Type** — which article type from the rules (local service, cost guide, etc.)
-   - **Why it'll rank** — 1 sentence on the SEO rationale
+   - **Why it'll rank** — 1 sentence grounded in Phase 0 findings (competition level, gap found, question volume)
+   - **FAQ seeds** — 2 real questions from Phase 0 research to include in the article's FAQ section
 
-5. **Interactive mode**: Ask _"Which topic(s) do you want to create? Enter numbers (e.g., 1 or 1,3,5). Or type 'all'."_ and wait for the user's selection.  
+3. **Interactive mode**: Ask _"Which topic(s) do you want to create? Enter numbers (e.g., 1 or 1,3,5). Or type 'all'."_ and wait for the user's selection.  
    **Scheduled mode**: Auto-select topics 1, 2, 3. Log the selection in output.
 
 ---
@@ -91,10 +119,11 @@ Write real, helpful content — not placeholder text. Include:
 
 ### SEO elements (required — see `rules/seo-content.md`)
 - `<title>`, `<meta name="description">`, `<meta name="keywords">`, `<link rel="canonical">`
-- Open Graph tags
-- All three schema blocks: Article, LocalBusiness, FAQPage
+- Open Graph tags including `og:url`, `article:published_time`, `article:modified_time`
+- All four schema blocks: Article, LocalBusiness, FAQPage, BreadcrumbList
 - Primary keyword in H1, first paragraph, one H2, and meta description
 - City name used 3–5 times naturally in body text
+- **Use the FAQ seeds from Phase 0 research** as the basis for the FAQ section — these are real questions people search, which maximises FAQPage rich result eligibility
 
 ### Mobile layout (required — see `rules/seo-content.md`)
 - All layouts must be responsive at 375px width
@@ -102,9 +131,10 @@ Write real, helpful content — not placeholder text. Include:
 - Test mentally: hero text readable, cards stack vertically, nav collapses, CTA box full-width on mobile
 
 ### Images
-- Use `https://images.unsplash.com/photo-[id]?w=1200&q=80` for hero images
-- Use `https://placehold.co/800x500?text=[text]` for in-body images
+- Use `https://images.unsplash.com/photo-[id]?w=1200&q=80` for hero images — only use Unsplash photo IDs you are confident are topically correct
+- Do **not** include in-body images unless you are certain of the photo ID and its relevance — a missing image is better than a wrong one
 - All images must have descriptive `alt` attributes including the primary keyword
+- Add `width="1600"` and the correct `height` (matching the CSS `.article-hero-img` height) to the hero `<img>` tag
 
 ### Update `blog.html`
 Append a new card in the blog grid `.blog-grid` section:
