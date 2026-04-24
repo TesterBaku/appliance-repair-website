@@ -285,6 +285,35 @@ No action needed — all articles are live on master.
 
 ---
 
+## Phase 12 — EMAIL NOTIFICATION
+
+**Scheduled mode only.** After Phase 11, create a Gmail draft summarising the run.
+
+Use `mcp__claude_ai_Gmail__create_draft` with:
+- **To:** `agatime78@gmail.com`
+- **Subject:** `SEO Run Complete — [Month DD, YYYY] ([N] articles merged)`
+- **Body** (plain text):
+
+```
+SEO Blog Run — [Month DD, YYYY]
+
+Articles merged to master today:
+[For each article:]
+  • [Article title]
+    Slug: [slug].html
+    Keyword: [primary keyword]
+    Commit: [hash]
+
+All tests passed. No action needed.
+
+---
+Universal Appliances Repair — automated SEO agent
+```
+
+If `mcp__claude_ai_Gmail__create_draft` is unavailable or returns an error, skip silently — do not let a draft failure block or retry any earlier phase.
+
+---
+
 ## Rules
 
 - Never skip a phase — each gate exists for a reason
