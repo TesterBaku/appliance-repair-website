@@ -239,7 +239,7 @@ git log --oneline -3
 
 ## Phase 10 — LOG
 
-Append an entry to `.claude/CONTENT_LOG.md`.
+Append an entry to `.claude/logs/CONTENT_LOG.md`.
 
 **Both modes**: Log after all merges complete.
 
@@ -261,7 +261,7 @@ Append an entry to `.claude/CONTENT_LOG.md`.
 
 ### Rules
 - Always append — never overwrite existing entries
-- If the file doesn't exist yet, create it with a `# SEO Blog Content Log` heading first
+- File lives at `.claude/logs/CONTENT_LOG.md`
 - One entry per run, even if multiple articles were created in that run
 - Keep the "Workflow changes" line to one sentence; use "None" if nothing changed
 

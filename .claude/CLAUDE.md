@@ -6,8 +6,9 @@ Static HTML website for an appliance repair service. Built with Tailwind CSS via
 - `rules/git-workflow.md` — branch naming, commits, PRs, code review
 - `rules/seo-content.md` — SEO guidelines, Orange County city targeting, keyword strategy, required schema markup
 
-## Content Log
-- `CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
+## Logs
+- `logs/CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
+- `logs/AUDIT_LOG.md` — quarterly SEO audit results: auto-fixes applied, items needing human review
 
 ## Scheduled Automation
 
@@ -25,7 +26,7 @@ Runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Audits all artic
 - **Routine ID:** `trig_01Sh3FPw2RJwrnSPXG3KjnrD`
 - **Manage / disable:** https://claude.ai/code/routines/trig_01Sh3FPw2RJwrnSPXG3KjnrD
 - **What it does:** scans all `article-*.html` for schema, OG tags, image dimensions, content quality; auto-fixes with `scripts/add-seo-improvements.js`; opens a PR with audit report — **does not merge** (needs owner review of flagged items)
-- **Audit log:** `.claude/AUDIT_LOG.md`
+- **Audit log:** `.claude/logs/AUDIT_LOG.md`
 
 ## Standing Rule — PR on Every Change
 Any request that results in a code or file change must go through the full workflow:

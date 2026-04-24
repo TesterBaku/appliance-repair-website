@@ -11,7 +11,7 @@ Run with `[AUDIT]` in the prompt (scheduled) or invoke manually as `/seo-audit`.
 The audit runs in two passes:
 
 1. **Auto-fix pass** — runs `scripts/add-seo-improvements.js` to ensure all schema, OG tags, and image dimensions are current, then checks for any new issues the script doesn't cover
-2. **Report pass** — for issues that need human attention, produces a written audit report committed to `.claude/AUDIT_LOG.md`
+2. **Report pass** — for issues that need human attention, produces a written audit report committed to `.claude/logs/AUDIT_LOG.md`
 
 ---
 
@@ -63,7 +63,7 @@ If tests fail after auto-fix: revert the script's changes with `git checkout -- 
 
 ## Phase 3 — REPORT
 
-Append an entry to `.claude/AUDIT_LOG.md`:
+Append an entry to `.claude/logs/AUDIT_LOG.md`:
 
 ```markdown
 ## Audit — [Month DD, YYYY]
