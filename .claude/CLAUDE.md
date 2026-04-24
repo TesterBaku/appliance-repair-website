@@ -22,8 +22,8 @@ Runs **Mon/Wed/Fri at 6 AM Pacific (13:00 UTC)**. Fully autonomous: research →
 ### Quarterly SEO audit — `/seo-audit`
 Runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Audits all articles, auto-fixes schema/meta gaps, opens a PR with a report of flagged items.
 
-- **Routine ID:** see AUDIT_LOG.md after first run
-- **Manage / disable:** https://claude.ai/code/routines
+- **Routine ID:** `trig_01Sh3FPw2RJwrnSPXG3KjnrD`
+- **Manage / disable:** https://claude.ai/code/routines/trig_01Sh3FPw2RJwrnSPXG3KjnrD
 - **What it does:** scans all `article-*.html` for schema, OG tags, image dimensions, content quality; auto-fixes with `scripts/add-seo-improvements.js`; opens a PR with audit report — **does not merge** (needs owner review of flagged items)
 - **Audit log:** `.claude/AUDIT_LOG.md`
 
