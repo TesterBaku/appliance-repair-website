@@ -3,10 +3,21 @@ const path = require('path');
 const fs = require('fs');
 
 const root = path.resolve(__dirname, '..');
-const staticPages = ['index', 'about', 'services', 'contact', 'faq', 'testimonials', 'blog'];
-const articlePages = fs.readdirSync(root)
-  .filter(f => f.startsWith('article-') && f.endsWith('.html'))
-  .map(f => f.replace('.html', ''));
+const staticPages = [
+  'index.html',
+  'pages/about.html',
+  'pages/services.html',
+  'pages/contact.html',
+  'pages/faq.html',
+  'pages/testimonials.html',
+  'pages/blog.html'
+];
+const articleDir = path.join(root, 'articles');
+const articlePages = fs.existsSync(articleDir)
+  ? fs.readdirSync(articleDir)
+      .filter(f => f.startsWith('article-') && f.endsWith('.html'))
+      .map(f => path.join('articles', f))
+  : [];
 const pages = [...staticPages, ...articlePages];
 
 const outDir = path.join(__dirname, 'screenshots');
@@ -17,9 +28,9 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
   const failures = [];
 
   for (const page of pages) {
-    const filePath = path.resolve(__dirname, '..', `${page}.html`);
+    const filePath = path.resolve(root, page);
     if (!fs.existsSync(filePath)) {
-      console.error(`MISSING: ${page}.html`);
+      console.error(`MISSING: ${page}`);
       failures.push(page);
       continue;
     }
@@ -27,11 +38,12 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
       const p = await browser.newPage();
       await p.setViewport({ width: 1280, height: 800 });
       await p.goto(`file://${filePath}`);
-      await p.screenshot({ path: path.join(outDir, `${page}.png`), fullPage: true });
-      console.log(`OK: ${page}.html`);
+      const shotName = page.replace(/[\\/]/g, '__');
+      await p.screenshot({ path: path.join(outDir, `${shotName}.png`), fullPage: true });
+      console.log(`OK: ${page}`);
       await p.close();
     } catch (err) {
-      console.error(`FAIL: ${page}.html — ${err.message}`);
+      console.error(`FAIL: ${page} - ${err.message}`);
       failures.push(page);
     }
   }
