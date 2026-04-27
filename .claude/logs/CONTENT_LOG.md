@@ -36,3 +36,19 @@
 | Washer Repair in Garden Grove, CA — Signs You Need a Pro | `article-washer-repair-garden-grove.html` | washer repair Garden Grove CA | Local service | [#19](https://github.com/TesterBaku/appliance-repair-website/pull/19) | `01fba35` |
 
 **Workflow changes:** Added human-like writing rules to seo-content.md; added no-AC/HVAC rule to seo-content.md; PR body now written to temp file to avoid command-length errors; AC repair article proposed and scrapped at user request.
+
+---
+
+## Run — April 27, 2026
+
+**Articles created:** 3
+**Cost content:** No
+**Mode:** Interactive (user approved Article 1, then authorized autonomous completion of Articles 2 & 3)
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| Freezer Not Freezing in Anaheim? 5 Common Causes & Fixes | `article-freezer-not-freezing-anaheim.html` | freezer not freezing Anaheim CA | Symptom guide | [#31](https://github.com/TesterBaku/appliance-repair-website/pull/31) | `25406ff` |
+| Dishwasher Repair in Orange, CA — What to Expect | `article-dishwasher-repair-orange.html` | dishwasher repair Orange CA | Local service | [#32](https://github.com/TesterBaku/appliance-repair-website/pull/32) | `0bff6fb` |
+| Washing Machine Leaking in Buena Park? Here's Why | `article-washer-leaking-buena-park.html` | washing machine leaking Buena Park CA | Symptom guide | [#33](https://github.com/TesterBaku/appliance-repair-website/pull/33) | `d5b93a8` |
+
+**Workflow changes:** None — this run also recovered from a scheduled pipeline that timed out mid-execution (Phase 3 API stream timeout); user manually re-triggered via interactive /seo-blog.
