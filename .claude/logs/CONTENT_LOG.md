@@ -52,3 +52,19 @@
 | Washing Machine Leaking in Buena Park? Here's Why | `article-washer-leaking-buena-park.html` | washing machine leaking Buena Park CA | Symptom guide | [#33](https://github.com/TesterBaku/appliance-repair-website/pull/33) | `d5b93a8` |
 
 **Workflow changes:** None — this run also recovered from a scheduled pipeline that timed out mid-execution (Phase 3 API stream timeout); user manually re-triggered via interactive /seo-blog.
+
+---
+
+## Run — April 28, 2026
+
+**Articles created:** 3
+**Cost content:** No
+**Mode:** Interactive (user approved Article 1 screenshot, then authorized autonomous completion of Articles 2 & 3)
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| Wine Cooler Repair in Newport Beach, CA — What to Expect | `article-wine-cooler-repair-newport-beach.html` | wine cooler repair Newport Beach CA | Local service | [#36](https://github.com/TesterBaku/appliance-repair-website/pull/36) | `3bd4c4b` |
+| Oven Repair in Laguna Niguel, CA — What to Expect | `article-oven-repair-laguna-niguel.html` | oven repair Laguna Niguel CA | Local service | [#37](https://github.com/TesterBaku/appliance-repair-website/pull/37) | `2b38e0a` |
+| Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda | `article-dryer-takes-too-long-yorba-linda.html` | dryer takes too long Yorba Linda CA | Symptom guide | [#38](https://github.com/TesterBaku/appliance-repair-website/pull/38) | `3d2e350` |
+
+**Workflow changes:** None — first batch targeting secondary OC cities; all primary cities now fully covered.
