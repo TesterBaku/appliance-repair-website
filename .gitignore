@@ -13,6 +13,7 @@ IMG-20240825-WA0017.jpg
 .DS_Store
 Thumbs.db
 *.local
+.vscode/
 
 # Claude Code local settings — machine-specific, never commit
 .claude/settings.local.json

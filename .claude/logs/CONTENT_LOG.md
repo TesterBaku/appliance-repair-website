@@ -68,3 +68,19 @@
 | Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda | `article-dryer-takes-too-long-yorba-linda.html` | dryer takes too long Yorba Linda CA | Symptom guide | [#38](https://github.com/TesterBaku/appliance-repair-website/pull/38) | `3d2e350` |
 
 **Workflow changes:** None — first batch targeting secondary OC cities; all primary cities now fully covered.
+
+---
+
+## Run — April 29, 2026
+
+**Articles created:** 3
+**Cost content:** Yes
+**Mode:** Interactive (topics approved by user, autonomous completion authorized)
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| LG Refrigerator Repair in Laguna Beach, CA — Common Issues & What to Expect | `article-lg-fridge-repair-laguna-beach.html` | LG refrigerator repair Laguna Beach CA | Brand-specific | [#41](https://github.com/TesterBaku/appliance-repair-website/pull/41) | `ae5c97c` |
+| How Much Does Dishwasher Repair Cost in Orange County? (2025 Pricing Guide) | `article-dishwasher-cost-orange-county.html` | dishwasher repair cost Orange County | Cost guide | [#41](https://github.com/TesterBaku/appliance-repair-website/pull/41) | `ae5c97c` |
+| Microwave Not Heating in Mission Viejo? 5 Common Causes & How to Fix It | `article-microwave-not-heating-mission-viejo.html` | microwave not heating Mission Viejo CA | Symptom guide | [#41](https://github.com/TesterBaku/appliance-repair-website/pull/41) | `ae5c97c` |
+
+**Workflow changes:** Added `.vscode/` to `.gitignore` to avoid committing local editor settings.
