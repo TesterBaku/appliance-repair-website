@@ -243,6 +243,21 @@ Append an entry to `.claude/logs/CONTENT_LOG.md`.
 
 **Both modes**: Log after all merges complete.
 
+### Git workflow for the log commit
+
+**Always branch before committing the log** — never commit directly to master, even for a log-only change. The pre-push hook blocks direct pushes to master, and committing on master before branching creates orphaned local commits that desync from the squash-merged remote.
+
+```bash
+git checkout -b chore/content-log-[YYYY-MM-DD]
+# edit .claude/logs/CONTENT_LOG.md
+git add .claude/logs/CONTENT_LOG.md
+git commit -m "chore(logs): add [Month DD] seo-blog run to CONTENT_LOG"
+git push -u origin chore/content-log-[YYYY-MM-DD]
+gh pr create --title "chore(logs): add [Month DD] seo-blog run to CONTENT_LOG" --body "Logs the [Month DD, YYYY] seo-blog run: [N] articles merged (PRs #X–#Y)."
+gh pr merge [N] --squash
+git checkout master && git pull origin master
+```
+
 ### Entry format
 
 ```markdown
@@ -260,6 +275,7 @@ Append an entry to `.claude/logs/CONTENT_LOG.md`.
 ```
 
 ### Rules
+- Always branch before committing — never commit the log directly on master
 - Always append — never overwrite existing entries
 - File lives at `.claude/logs/CONTENT_LOG.md`
 - One entry per run, even if multiple articles were created in that run
