@@ -84,3 +84,20 @@
 | Microwave Not Heating in Mission Viejo? 5 Common Causes & How to Fix It | `article-microwave-not-heating-mission-viejo.html` | microwave not heating Mission Viejo CA | Symptom guide | [#41](https://github.com/TesterBaku/appliance-repair-website/pull/41) | `ae5c97c` |
 
 **Workflow changes:** Added `.vscode/` to `.gitignore` to avoid committing local editor settings.
+
+---
+
+## Run — May 1, 2026
+
+**Articles created:** 4
+**Cost content:** Yes
+**Mode:** Interactive (user approved Article 1 screenshot, then granted blanket approval for Articles 2–4)
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| Refrigerator Not Cooling in Fountain Valley? 6 Common Causes & Fixes | `article-fridge-not-cooling-fountain-valley.html` | refrigerator not cooling Fountain Valley CA | Symptom guide | [#42](https://github.com/TesterBaku/appliance-repair-website/pull/42) | `110b8cd` |
+| Oven Not Heating in Tustin? What to Check Before Calling a Pro | `article-oven-not-heating-tustin.html` | oven not heating Tustin CA | Symptom guide | [#43](https://github.com/TesterBaku/appliance-repair-website/pull/43) | `a8b9f1b` |
+| Dishwasher Leaking in Dana Point? Common Causes & What It Costs to Fix | `article-dishwasher-leaking-dana-point.html` | dishwasher leaking Dana Point CA | Symptom guide | [#44](https://github.com/TesterBaku/appliance-repair-website/pull/44) | `14bc6ec` |
+| Freezer Not Freezing in Westminster? 5 Common Causes & Fix Costs | `article-freezer-not-freezing-westminster.html` | freezer not freezing Westminster CA | Symptom guide | [#45](https://github.com/TesterBaku/appliance-repair-website/pull/45) | `8dd66e1` |
+
+**Workflow changes:** None — first run with 4 articles; user-selected topics 1, 2, 4, 9 from a 10-item proposal list.
