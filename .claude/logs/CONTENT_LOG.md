@@ -101,3 +101,17 @@
 | Freezer Not Freezing in Westminster? 5 Common Causes & Fix Costs | `article-freezer-not-freezing-westminster.html` | freezer not freezing Westminster CA | Symptom guide | [#45](https://github.com/TesterBaku/appliance-repair-website/pull/45) | `8dd66e1` |
 
 **Workflow changes:** None — first run with 4 articles; user-selected topics 1, 2, 4, 9 from a 10-item proposal list.
+
+---
+
+## Run — May 3, 2026
+
+**Articles created:** 2
+**Cost content:** Yes
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| Whirlpool Dryer Repair in Los Alamitos, CA — Common Problems, Costs & What to Expect | `article-whirlpool-dryer-repair-los-alamitos.html` | Whirlpool dryer repair Los Alamitos CA | Brand-specific | [#49](https://github.com/TesterBaku/appliance-repair-website/pull/49) | `c506cd1` |
+| Freezer Repair Cost in Rancho Santa Margarita, CA — What Homeowners Usually Pay | `article-freezer-cost-rancho-santa-margarita.html` | freezer repair cost Rancho Santa Margarita CA | Cost guide | [#49](https://github.com/TesterBaku/appliance-repair-website/pull/49) | `c506cd1` |
+
+**Workflow changes:** None
