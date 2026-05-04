@@ -1,0 +1,223 @@
+- generic [ref=e4]:
+  - navigation [ref=e5]:
+    - link "Unsplash Home" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - img "Unsplash Home" [ref=e9]
+    - generic [ref=e11]:
+      - link "Log in / Sign up" [ref=e12] [cursor=pointer]:
+        - /url: /login?referrer=%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree
+        - img [ref=e13]
+      - button "Language" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+      - button "Menu" [ref=e18] [cursor=pointer]:
+        - img [ref=e19]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - navigation [ref=e23]:
+        - search "Find visuals sitewide" [ref=e25]:
+          - button "Search Unsplash" [ref=e26] [cursor=pointer]:
+            - img [ref=e27]
+          - combobox [ref=e29]:
+            - searchbox "Search Unsplash" [ref=e30]: microwave kitchen counter
+            - listbox
+          - button "Clear" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+          - button "Visual search" [ref=e36] [cursor=pointer]:
+            - img [ref=e37]
+      - generic [ref=e39]:
+        - generic [ref=e45]:
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "Photos 109":
+                - /url: /s/photos/microwave-kitchen-counter?license=free
+                - img
+                - text: Photos
+                - generic: "109"
+            - listitem [ref=e48]:
+              - link "Illustrations 1" [ref=e49] [cursor=pointer]:
+                - /url: /s/illustrations/microwave-kitchen-counter?license=free
+                - img [ref=e50]
+                - text: Illustrations
+                - generic [ref=e52]: "1"
+            - listitem [ref=e53]:
+              - button "More" [ref=e54] [cursor=pointer]
+          - button "Filters" [ref=e56] [cursor=pointer]:
+            - img [ref=e58]
+            - text: Filters
+        - generic [ref=e60]:
+          - heading "Microwave kitchen counter" [level=1] [ref=e62]
+          - generic [ref=e64]:
+            - button "scroll list to the right" [ref=e66] [cursor=pointer]:
+              - img [ref=e67]
+            - generic [ref=e70]:
+              - link "kitchen counter" [ref=e72] [cursor=pointer]:
+                - /url: /s/photos/kitchen-counter?license=free
+              - link "modern kitchen" [ref=e74] [cursor=pointer]:
+                - /url: /s/photos/modern-kitchen?license=free
+              - link "interior design" [ref=e76] [cursor=pointer]:
+                - /url: /s/photos/interior-design?license=free
+              - link "kitchen" [ref=e78] [cursor=pointer]:
+                - /url: /s/photos/kitchen?license=free
+              - link "kitchen cabinet" [ref=e80] [cursor=pointer]:
+                - /url: /s/photos/kitchen-cabinet?license=free
+              - link "kitchen appliance" [ref=e82] [cursor=pointer]:
+                - /url: /s/photos/kitchen-appliance?license=free
+              - link "kitchen design" [ref=e84] [cursor=pointer]:
+                - /url: /s/photos/kitchen-design?license=free
+              - link "microwave oven" [ref=e86] [cursor=pointer]:
+                - /url: /s/photos/microwave-oven?license=free
+              - link "kitchen island" [ref=e88] [cursor=pointer]:
+                - /url: /s/photos/kitchen-island?license=free
+              - link "kitchen remodel" [ref=e90] [cursor=pointer]:
+                - /url: /s/photos/kitchen-remodel?license=free
+              - link "interior" [ref=e92] [cursor=pointer]:
+                - /url: /s/photos/interior?license=free
+              - link "microwave" [ref=e94] [cursor=pointer]:
+                - /url: /s/photos/microwave?license=free
+        - generic [ref=e96]:
+          - generic [ref=e100]:
+            - generic [ref=e101]:
+              - figure [ref=e102]:
+                - link "white microwave oven on white wooden kitchen cabinet" [ref=e105]:
+                  - /url: /photos/white-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk
+                  - img "white microwave oven on white wooden kitchen cabinet" [ref=e106]
+              - figure [ref=e107]:
+                - link "a kitchen with white cabinets" [ref=e110]:
+                  - /url: /photos/a-kitchen-with-white-cabinets-t_lgczbHikA
+                  - img "a kitchen with white cabinets" [ref=e111]
+              - generic [ref=e112]:
+                - heading "Sponsored images" [level=4] [ref=e113]:
+                  - generic [ref=e114]: Sponsored images
+                  - link [ref=e115] [cursor=pointer]:
+                    - /url: https://www.istockphoto.com/search/2/image?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3A75a46104-8f2f-4269-9128-fed666908f48&phrase=microwave+kitchen+counter&alloweduse=availableforalluses&excludenudity=true&sort=best&mediatype=photography
+                    - img [ref=e116]
+                - generic [ref=e118]:
+                  - link "Orange Juice and Toast" [ref=e119] [cursor=pointer]:
+                    - /url: https://www.istockphoto.com/photo/orange-juice-and-toast-gm157675224-14775943?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3A10219884-f2b2-4149-8d48-de8988565c8f
+                    - img "Orange Juice and Toast" [ref=e120]
+                  - link "Wooden table in front of defocused modern kitchen counter top" [ref=e121] [cursor=pointer]:
+                    - /url: https://www.istockphoto.com/photo/wooden-table-in-front-of-defocused-modern-kitchen-counter-top-gm1077538268-288638828?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3A2e354892-3a4c-4f95-a7cc-e8b19409f86b
+                    - img "Wooden table in front of defocused modern kitchen counter top" [ref=e122]
+                  - link "Empty kitchen in an office building" [ref=e123] [cursor=pointer]:
+                    - /url: https://www.istockphoto.com/photo/empty-kitchen-in-an-office-building-gm1436090145-477223695?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3A88206dab-491a-43d5-be49-0caa9f727816
+                    - img "Empty kitchen in an office building" [ref=e124]
+                  - link "Microwave Oven with Coffee" [ref=e125] [cursor=pointer]:
+                    - /url: https://www.istockphoto.com/photo/microwave-oven-with-coffee-gm517802497-49436146?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3Acd72b8d2-6219-4992-9206-5edbe9671979
+                    - img "Microwave Oven with Coffee" [ref=e126]
+                - link "Get 20% off with code UNSPLASH20" [ref=e127] [cursor=pointer]:
+                  - /url: https://www.istockphoto.com/search/2/image?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_top&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3A75a46104-8f2f-4269-9128-fed666908f48&phrase=microwave+kitchen+counter&alloweduse=availableforalluses&excludenudity=true&sort=best&mediatype=photography
+              - figure [ref=e128]:
+                - link "A modern kitchen with white cabinets and stainless steel appliances." [ref=e131]:
+                  - /url: /photos/a-modern-kitchen-with-white-cabinets-and-stainless-steel-appliances-HDhMDEo9mps
+                  - img "A modern kitchen with white cabinets and stainless steel appliances." [ref=e132]
+              - figure [ref=e133]:
+                - link "Microwave oven stacked on top of a washing machine." [ref=e136]:
+                  - /url: /photos/microwave-oven-stacked-on-top-of-a-washing-machine-p9RU1DWwasQ
+                  - img "Microwave oven stacked on top of a washing machine." [ref=e137]
+              - figure [ref=e138]:
+                - link "Kitchen illuminated by warm sunset light." [ref=e141]:
+                  - /url: /photos/kitchen-illuminated-by-warm-sunset-light-JnmdqIT96wU
+                  - img "Kitchen illuminated by warm sunset light." [ref=e142]
+              - figure [ref=e143]:
+                - link "Modern kitchen with light green cabinets and stainless steel appliances." [ref=e146]:
+                  - /url: /photos/modern-kitchen-with-light-green-cabinets-and-stainless-steel-appliances-NKiniPG44Z4
+                  - img "Modern kitchen with light green cabinets and stainless steel appliances." [ref=e147]
+              - figure [ref=e148]:
+                - link "Modern kitchen with island and bar stools." [ref=e151]:
+                  - /url: /photos/modern-kitchen-with-island-and-bar-stools-kAa2xEs_jZo
+                  - img "Modern kitchen with island and bar stools." [ref=e152]
+              - figure [ref=e153]:
+                - link "Modern kitchen with white cabinets and orange shelves." [ref=e156]:
+                  - /url: /photos/modern-kitchen-with-white-cabinets-and-orange-shelves-D0KPi1lGv1U
+                  - img "Modern kitchen with white cabinets and orange shelves." [ref=e157]
+              - figure [ref=e158]:
+                - link "Modern kitchen with dark cabinets and large glass doors." [ref=e161]:
+                  - /url: /photos/modern-kitchen-with-dark-cabinets-and-large-glass-doors-Ufl9eXzRc8U
+                  - img "Modern kitchen with dark cabinets and large glass doors." [ref=e162]
+              - figure [ref=e163]:
+                - link "Modern kitchen with wooden accents and stainless steel appliances." [ref=e166]:
+                  - /url: /photos/modern-kitchen-with-wooden-accents-and-stainless-steel-appliances-L06sfkcn1Ic
+                  - img "Modern kitchen with wooden accents and stainless steel appliances." [ref=e167]
+            - generic [ref=e168]:
+              - contentinfo [ref=e173]:
+                - generic [ref=e179]: –– ––– ––– –– ––– – ––– ––– –––– – – –– ––– – – ––– –– –– –––– ––
+              - figure [ref=e181]:
+                - link "a kitchen with white cabinets" [ref=e184]:
+                  - /url: /photos/a-kitchen-with-white-cabinets-A2Uhz3eST5A
+                  - img "a kitchen with white cabinets" [ref=e185]
+              - figure [ref=e186]:
+                - link "Modern kitchen with built-in oven and microwave." [ref=e189]:
+                  - /url: /photos/modern-kitchen-with-built-in-oven-and-microwave-_zoKw1ew0wY
+                  - img "Modern kitchen with built-in oven and microwave." [ref=e190]
+              - figure [ref=e191]:
+                - link "Modern kitchen with built-in oven and microwave" [ref=e194]:
+                  - /url: /photos/modern-kitchen-with-built-in-oven-and-microwave-DzTnCH27iAA
+                  - img "Modern kitchen with built-in oven and microwave" [ref=e195]
+              - figure [ref=e196]:
+                - link "Modern kitchen with stainless steel appliances and island." [ref=e199]:
+                  - /url: /photos/modern-kitchen-with-stainless-steel-appliances-and-island-Q4sZJNMKDuw
+                  - img "Modern kitchen with stainless steel appliances and island." [ref=e200]
+              - figure [ref=e201]:
+                - link "Kitchen counter with tomatoes, eggs, and utensils." [ref=e204]:
+                  - /url: /photos/kitchen-counter-with-tomatoes-eggs-and-utensils-635ZeE2-LWE
+                  - img "Kitchen counter with tomatoes, eggs, and utensils." [ref=e205]
+              - figure [ref=e206]:
+                - link "A cozy kitchen with stainless steel appliances and wooden accents." [ref=e209]:
+                  - /url: /photos/a-cozy-kitchen-with-stainless-steel-appliances-and-wooden-accents-hP1i6Hlarfo
+                  - img "A cozy kitchen with stainless steel appliances and wooden accents." [ref=e210]
+              - figure [ref=e211]:
+                - link "A woman dances in a bright, modern kitchen." [ref=e214]:
+                  - /url: /photos/a-woman-dances-in-a-bright-modern-kitchen-KAA1Z2BYQEU
+                  - img "A woman dances in a bright, modern kitchen." [ref=e215]
+              - figure [ref=e216]:
+                - link "Modern kitchen with a view of a forest" [ref=e219]:
+                  - /url: /photos/modern-kitchen-with-a-view-of-a-forest-C86plNQ9wLk
+                  - img "Modern kitchen with a view of a forest" [ref=e220]
+              - figure [ref=e221]:
+                - link "Modern kitchen with island and dining area" [ref=e224]:
+                  - /url: /photos/modern-kitchen-with-island-and-dining-area-k19WYFOJ33o
+                  - img "Modern kitchen with island and dining area" [ref=e225]
+              - figure [ref=e226]:
+                - link "Modern living room with dark kitchen and marble floor" [ref=e229]:
+                  - /url: /photos/modern-living-room-with-dark-kitchen-and-marble-floor-dWH92v9E6j4
+                  - img "Modern living room with dark kitchen and marble floor" [ref=e230]
+          - generic [ref=e233]:
+            - heading "Browse premium images on iStock | Claim your discount now" [level=2] [ref=e234]:
+              - text: Browse premium images on iStock
+              - generic [ref=e235]: "| Claim your discount now"
+            - generic [ref=e237]:
+              - link "Empty wood table top and modern blurred kitchen window background" [ref=e238] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/empty-wood-table-top-and-modern-blurred-kitchen-window-background-gm1270241339-373256847?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3Ad38b6653-5646-4d6c-a267-ff66ca1251e0
+                - img "Empty wood table top and modern blurred kitchen window background" [ref=e239]
+              - link "Wood table top on blur kitchen equipment and sink background" [ref=e240] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/wood-table-top-on-blur-kitchen-equipment-and-sink-background-gm1308291927-398315135?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3Aa3a3ebce-fbe2-4a42-8df3-7a902144d885
+                - img "Wood table top on blur kitchen equipment and sink background" [ref=e241]
+              - link "an asian chinese female putting cakes on a plate to microwave to heat up wearing kitchen glove" [ref=e242] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/an-asian-chinese-female-putting-cakes-on-a-plate-to-microwave-to-heat-up-wearing-gm1211304273-351225501?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3Ac2871829-9859-4267-8f7a-8c9a9b3b7592
+                - img "an asian chinese female putting cakes on a plate to microwave to heat up wearing kitchen glove" [ref=e243]
+              - link "Cozy Kitchen Island Counter in small apartment" [ref=e244] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/cozy-kitchen-island-counter-in-small-apartment-gm1496059452-518849069?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3A079d5e74-2355-4a5e-9624-768b71831af2
+                - img "Cozy Kitchen Island Counter in small apartment" [ref=e245]
+              - link "Kitchen counter closeup microwave oven cooking machine" [ref=e246] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/kitchen-counter-closeup-microwave-oven-cooking-machine-gm1292990916-387592373?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3A5e682c3b-f358-4b23-b33a-4ecec9f2c07b
+                - img "Kitchen counter closeup microwave oven cooking machine" [ref=e247]
+              - link "Microwave oven on kitchen worktop" [ref=e248] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/microwave-oven-on-kitchen-worktop-gm89225774-7053273?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3Af669a9cd-9b0f-42d5-9896-acfa08a2f8b6
+                - img "Microwave oven on kitchen worktop" [ref=e249]
+              - link "Contemporary Kitchen Interior" [ref=e250] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/contemporary-kitchen-interior-gm1220430765-357362407?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3Ab58ff3d8-d430-4c09-b876-500d156cf3e9
+                - img "Contemporary Kitchen Interior" [ref=e251]
+              - generic [ref=e252]:
+                - link "Modern Beige Kitchen Interior" [ref=e253] [cursor=pointer]:
+                  - /url: https://www.istockphoto.com/photo/modern-beige-kitchen-interior-gm154030192-17797056?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3Ae2d82f77-b3fb-4d1f-9fc4-c3f1e3cc2035
+                  - img "Modern Beige Kitchen Interior" [ref=e254]
+                - link "View more on iStock ↗" [ref=e255] [cursor=pointer]:
+                  - /url: https://www.istockphoto.com/search/2/image?utm_source=unsplash&utm_medium=affiliate&utm_campaign=srp_photos_bottom&utm_content=https%3A%2F%2Funsplash.com%2Fs%2Fphotos%2Fmicrowave-kitchen-counter%3Flicense%3Dfree&utm_term=microwave+kitchen+counter%3A%3A%3A%3Aa5a3f760-5ccf-4da8-a2c5-cb5061bce1d4&phrase=microwave+kitchen+counter&alloweduse=availableforalluses&excludenudity=true&sort=best&mediatype=photography
+          - button "Load more" [ref=e259] [cursor=pointer]
+          - generic [ref=e260]:
+            - link [ref=e261] [cursor=pointer]:
+              - /url: /
+              - img [ref=e262]
+            - paragraph [ref=e264]: Make something awesome
+    - generic:
+      - region "Notifications"

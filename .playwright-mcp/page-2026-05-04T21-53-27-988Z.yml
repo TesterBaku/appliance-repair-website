@@ -1,0 +1,152 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Universal Appliances Repair logo Universal Appliances Repair" [ref=e5] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Universal Appliances Repair logo" [ref=e6]
+          - generic [ref=e7]: Universal Appliances Repair
+        - generic [ref=e8]:
+          - link "About" [ref=e9] [cursor=pointer]:
+            - /url: about.html
+          - link "Services" [ref=e10] [cursor=pointer]:
+            - /url: services.html
+          - link "FAQ" [ref=e11] [cursor=pointer]:
+            - /url: faq.html
+          - link "Testimonials" [ref=e12] [cursor=pointer]:
+            - /url: testimonials.html
+          - link "Contact" [ref=e13] [cursor=pointer]:
+            - /url: contact.html
+          - link "Blog" [ref=e14] [cursor=pointer]:
+            - /url: blog.html
+      - generic [ref=e15]:
+        - link "(949) 629-5365" [ref=e16] [cursor=pointer]:
+          - /url: tel:+19496295365
+        - link "Book a Repair" [ref=e17] [cursor=pointer]:
+          - /url: contact.html
+  - generic [ref=e18]:
+    - heading "Affordable Appliance Repair Services" [level=1] [ref=e19]:
+      - text: Affordable Appliance
+      - text: Repair Services
+    - paragraph [ref=e20]: Choose Universal Appliances Repair for all your appliance repair needs. Our trained technicians offer a wide range of services across Orange County.
+  - generic [ref=e23]:
+    - generic [ref=e24]:
+      - img "Refrigerator Repair" [ref=e25]
+      - generic [ref=e26]:
+        - generic [ref=e27]: Refrigerator Repair
+        - generic [ref=e28]: Our experts fix refrigerator issues quickly, keeping your fridge running smoothly and your food safe. We service all major brands and models.
+        - generic [ref=e29]:
+          - link "Book Now" [ref=e30] [cursor=pointer]:
+            - /url: contact.html
+          - link "Learn More" [ref=e31] [cursor=pointer]:
+            - /url: refrigerator-repair-orange-county.html
+    - generic [ref=e32]:
+      - img "Oven & Stove Repair" [ref=e33]
+      - generic [ref=e34]:
+        - generic [ref=e35]: Oven / Stove Repair
+        - generic [ref=e36]: Trust Universal Appliances Repair for stove and oven repair. We use high-quality parts and advanced diagnostics to restore your appliance.
+        - link "Book Now" [ref=e38] [cursor=pointer]:
+          - /url: contact.html
+    - generic [ref=e39]:
+      - img "Washing Machine Repair" [ref=e40]
+      - generic [ref=e41]:
+        - generic [ref=e42]: Washing Machine Repair
+        - generic [ref=e43]: Leave your washer troubles to us. Fast, reliable repairs for all makes, models, and issues — from leaks to spin cycle problems.
+        - link "Book Now" [ref=e45] [cursor=pointer]:
+          - /url: contact.html
+    - generic [ref=e46]:
+      - img "Dryer Repair" [ref=e47]
+      - generic [ref=e48]:
+        - generic [ref=e49]: Dryer Repair
+        - generic [ref=e50]: Is your dryer not heating, taking too long, or making unusual noises? Our technicians will diagnose and fix it quickly.
+        - link "Book Now" [ref=e52] [cursor=pointer]:
+          - /url: contact.html
+    - generic [ref=e53]:
+      - img "Dishwasher Repair" [ref=e54]
+      - generic [ref=e55]:
+        - generic [ref=e56]: Dishwasher Repair
+        - generic [ref=e57]: From not draining to poor cleaning performance, we repair all dishwasher issues so you can get back to a clean kitchen fast.
+        - link "Book Now" [ref=e59] [cursor=pointer]:
+          - /url: contact.html
+    - generic [ref=e60]:
+      - generic [ref=e61]:
+        - generic [ref=e62]: 🔧
+        - generic [ref=e63]: All Major Appliances
+        - generic [ref=e64]: Don't see your appliance listed? We repair all major home appliances. Give us a call and we'll help.
+      - link "Contact Us" [ref=e66] [cursor=pointer]:
+        - /url: contact.html
+  - generic [ref=e68]:
+    - heading "Why Choose Us?" [level=2] [ref=e69]
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]: ⚡
+        - generic [ref=e73]: Prompt Service
+        - generic [ref=e74]: At Universal Appliances Repair, we offer prompt, reliable appliance repairs by trained technicians. Same-day when available.
+      - generic [ref=e75]:
+        - generic [ref=e76]: 🎓
+        - generic [ref=e77]: Expert Technicians
+        - generic [ref=e78]: Our technicians have the know-how to repair a wide range of home appliances across all major brands and models.
+      - generic [ref=e79]:
+        - generic [ref=e80]: ✅
+        - generic [ref=e81]: Quality Assured
+        - generic [ref=e82]: We ensure customer satisfaction by delivering top-notch professional repair services backed by a warranty on parts and labor.
+  - generic [ref=e84]:
+    - heading "Get your appliances fixed today" [level=2] [ref=e85]
+    - paragraph [ref=e86]: Affordable rates, same-day service, and trained technicians ready to help throughout Orange County.
+    - generic [ref=e87]:
+      - link "Book a Repair" [ref=e88] [cursor=pointer]:
+        - /url: contact.html
+      - link "Discover More" [ref=e89] [cursor=pointer]:
+        - /url: about.html
+  - contentinfo [ref=e90]:
+    - generic [ref=e91]:
+      - generic [ref=e92]:
+        - generic [ref=e93]:
+          - img "Universal Appliances Repair logo" [ref=e94]
+          - generic [ref=e95]: Universal Appliances Repair
+        - paragraph [ref=e96]: Family-owned appliance repair serving Orange County, CA.
+      - generic [ref=e97]:
+        - generic [ref=e98]: Services
+        - list [ref=e99]:
+          - listitem [ref=e100]:
+            - link "Refrigerator Repair" [ref=e101] [cursor=pointer]:
+              - /url: refrigerator-repair-orange-county.html
+          - listitem [ref=e102]:
+            - link "Stove Repair" [ref=e103] [cursor=pointer]:
+              - /url: services.html
+          - listitem [ref=e104]:
+            - link "Washer Repair" [ref=e105] [cursor=pointer]:
+              - /url: services.html
+          - listitem [ref=e106]:
+            - link "All Services" [ref=e107] [cursor=pointer]:
+              - /url: services.html
+      - generic [ref=e108]:
+        - generic [ref=e109]: Company
+        - list [ref=e110]:
+          - listitem [ref=e111]:
+            - link "About" [ref=e112] [cursor=pointer]:
+              - /url: about.html
+          - listitem [ref=e113]:
+            - link "Blog" [ref=e114] [cursor=pointer]:
+              - /url: blog.html
+          - listitem [ref=e115]:
+            - link "Testimonials" [ref=e116] [cursor=pointer]:
+              - /url: testimonials.html
+          - listitem [ref=e117]:
+            - link "FAQ" [ref=e118] [cursor=pointer]:
+              - /url: faq.html
+          - listitem [ref=e119]:
+            - link "Book a Repair" [ref=e120] [cursor=pointer]:
+              - /url: contact.html
+      - generic [ref=e121]:
+        - generic [ref=e122]: Contact
+        - generic [ref=e123]:
+          - text: 📞
+          - link "(949) 629-5365" [ref=e124] [cursor=pointer]:
+            - /url: tel:+19496295365
+        - generic [ref=e125]:
+          - text: ✉️
+          - link "info@fixappliancesfast.com" [ref=e126] [cursor=pointer]:
+            - /url: mailto:info@fixappliancesfast.com
+        - generic [ref=e127]: 📍 10832 Asbury Ave, Stanton, CA 90680
+    - generic [ref=e129]: © 2026 Universal Appliances Repair. All rights reserved.

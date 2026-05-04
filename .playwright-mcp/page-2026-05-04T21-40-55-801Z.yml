@@ -1,0 +1,75 @@
+- generic [ref=e4]:
+  - navigation [ref=e5]:
+    - link "Unsplash Home" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - img "Unsplash Home" [ref=e9]
+    - generic [ref=e11]:
+      - link "Log in / Sign up" [ref=e12] [cursor=pointer]:
+        - /url: /login?referrer=%2Fs%2Fphotos%2Frefrigerator%3Flicense%3Dfree
+        - img [ref=e13]
+      - button "Language" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+      - button "Menu" [ref=e18] [cursor=pointer]:
+        - img [ref=e19]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - navigation [ref=e23]:
+        - search "Find visuals sitewide" [ref=e25]:
+          - button "Search Unsplash" [ref=e26] [cursor=pointer]:
+            - img [ref=e27]
+          - combobox [ref=e29]:
+            - searchbox "Search Unsplash" [ref=e30]: refrigerator
+            - listbox
+          - button "Clear" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+          - button "Visual search" [ref=e36] [cursor=pointer]:
+            - img [ref=e37]
+      - generic [ref=e39]:
+        - generic [ref=e45]:
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "Photos 1.2k":
+                - /url: /s/photos/refrigerator?license=free
+                - img
+                - text: Photos
+                - generic: 1.2k
+            - listitem [ref=e48]:
+              - link "Illustrations 20" [ref=e49] [cursor=pointer]:
+                - /url: /s/illustrations/refrigerator?license=free
+                - img [ref=e50]
+                - text: Illustrations
+                - generic [ref=e52]: "20"
+            - listitem [ref=e53]:
+              - button "More" [ref=e54] [cursor=pointer]
+          - button "Filters" [ref=e56] [cursor=pointer]:
+            - img [ref=e58]
+            - text: Filters
+        - generic [ref=e60]:
+          - heading "Refrigerator" [level=1] [ref=e62]
+          - generic [ref=e66]:
+            - link "fridge" [ref=e68] [cursor=pointer]:
+              - /url: /s/photos/fridge?license=free
+            - link "washing machine" [ref=e70] [cursor=pointer]:
+              - /url: /s/photos/washing-machine?license=free
+            - link "freezer" [ref=e72] [cursor=pointer]:
+              - /url: /s/photos/freezer?license=free
+            - link "refrigerator door" [ref=e74] [cursor=pointer]:
+              - /url: /s/photos/refrigerator-door?license=free
+            - link "kitchen" [ref=e76] [cursor=pointer]:
+              - /url: /s/photos/kitchen?license=free
+            - link "refrigerator repair" [ref=e78] [cursor=pointer]:
+              - /url: /s/photos/refrigerator-repair?license=free
+            - link "air conditioner" [ref=e80] [cursor=pointer]:
+              - /url: /s/photos/air-conditioner?license=free
+            - link "microwave" [ref=e82] [cursor=pointer]:
+              - /url: /s/photos/microwave?license=free
+            - link "oven" [ref=e84] [cursor=pointer]:
+              - /url: /s/photos/oven?license=free
+            - link "appliance" [ref=e86] [cursor=pointer]:
+              - /url: /s/photos/appliance?license=free
+            - link "refrigerator magnet" [ref=e88] [cursor=pointer]:
+              - /url: /s/photos/refrigerator-magnet?license=free
+            - link "refrigeration" [ref=e90] [cursor=pointer]:
+              - /url: /s/photos/refrigeration?license=free
+    - generic:
+      - region "Notifications"

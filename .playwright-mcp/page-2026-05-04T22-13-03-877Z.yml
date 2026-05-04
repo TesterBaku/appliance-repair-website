@@ -1,0 +1,107 @@
+- generic [ref=e4]:
+  - navigation [ref=e5]:
+    - link "Unsplash Home" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - img "Unsplash Home" [ref=e9]
+    - generic [ref=e11]:
+      - link "Log in / Sign up" [ref=e12] [cursor=pointer]:
+        - /url: /login?referrer=%2Fphotos%2Fempty-chair-oKHHspCSWHQ
+        - img [ref=e13]
+      - button "Language" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+      - button "Menu" [ref=e18] [cursor=pointer]:
+        - img [ref=e19]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - navigation [ref=e23]:
+        - search "Find visuals sitewide" [ref=e25]:
+          - button "Search Unsplash" [ref=e26] [cursor=pointer]:
+            - img [ref=e27]
+          - combobox [ref=e29]:
+            - searchbox "Search Unsplash" [ref=e30]
+            - listbox
+          - button "Visual search" [ref=e32] [cursor=pointer]:
+            - img [ref=e33]
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - banner [ref=e38]:
+            - generic [ref=e40]:
+              - link [ref=e41] [cursor=pointer]:
+                - /url: /@sakana98
+              - generic [ref=e44]:
+                - link "sakana" [ref=e45] [cursor=pointer]:
+                  - /url: /@sakana98
+                - link "sakana98" [ref=e47] [cursor=pointer]:
+                  - /url: /@sakana98
+            - generic [ref=e48]:
+              - button "Bookmark" [ref=e49] [cursor=pointer]:
+                - img [ref=e50]
+              - button "Add to Collection" [ref=e52] [cursor=pointer]:
+                - img [ref=e53]
+              - link "Edit image" [ref=e55] [cursor=pointer]:
+                - /url: /plus?referrer=%2Fphotos%2Fempty-chair-oKHHspCSWHQ
+                - text: Edit image
+                - img [ref=e56]
+              - generic [ref=e59]:
+                - link "Download free" [ref=e60] [cursor=pointer]:
+                  - /url: https://unsplash.com/photos/oKHHspCSWHQ/download?force=true
+                - button "Choose download size" [ref=e62] [cursor=pointer]:
+                  - img [ref=e63]
+          - button "Zoom in on this image" [disabled] [ref=e68]:
+            - img "empty chair" [ref=e69]
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - generic [ref=e72]:
+                - generic [ref=e73]:
+                  - generic [ref=e74]: ––– –– ––
+                  - text: ––– –––– ––––
+                - generic [ref=e75]:
+                  - generic [ref=e76]: ––– –– ––
+                  - text: ––– –––– ––––
+              - generic [ref=e78]:
+                - heading "Featured in" [level=3] [ref=e79]
+                - link "Back To School" [ref=e81] [cursor=pointer]:
+                  - /url: /t/back-to-school
+              - generic [ref=e82]:
+                - button "Share this image" [ref=e83] [cursor=pointer]:
+                  - img [ref=e84]
+                  - generic [ref=e86]: Share
+                - button "Stats about this image" [ref=e87] [cursor=pointer]:
+                  - img [ref=e88]
+                  - generic [ref=e90]: Info
+                - button "More Actions" [ref=e91] [cursor=pointer]:
+                  - img [ref=e92]
+            - generic [ref=e95]:
+              - heading "empty chair" [level=1] [ref=e97]
+              - paragraph [ref=e101]: Download this free HD photo of brown, dorm room, dorm, and dormitory by sakana (@sakana98)
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - img [ref=e105]
+                  - generic [ref=e108]:
+                    - text: Published on
+                    - time [ref=e109]: October 19, 2019 (UTC)
+                - generic [ref=e110]:
+                  - img [ref=e111]
+                  - button "Apple, iPhone XR" [ref=e114] [cursor=pointer]
+                - generic [ref=e115]:
+                  - img [ref=e116]
+                  - generic [ref=e118]:
+                    - text: Free to use under the
+                    - link "Unsplash License" [ref=e119] [cursor=pointer]:
+                      - /url: /license
+            - generic [ref=e121]:
+              - link "brown" [ref=e122] [cursor=pointer]:
+                - /url: /s/photos/brown
+              - link "dorm room" [ref=e123] [cursor=pointer]:
+                - /url: /s/photos/dorm-room
+              - link "dorm" [ref=e124] [cursor=pointer]:
+                - /url: /s/photos/dorm
+              - link "dormitory" [ref=e125] [cursor=pointer]:
+                - /url: /s/photos/dormitory
+              - link "student room" [ref=e126] [cursor=pointer]:
+                - /url: /s/photos/student-room
+              - link "boarding school" [ref=e127] [cursor=pointer]:
+                - /url: /s/photos/boarding-school
+        - paragraph [ref=e133]: Browse premium related images on iStock | Save 20% with code UNSPLASH20
+    - generic:
+      - region "Notifications"

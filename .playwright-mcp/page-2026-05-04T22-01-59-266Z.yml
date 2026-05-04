@@ -1,0 +1,417 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Universal Appliances Repair logo Universal Appliances Repair" [ref=e5] [cursor=pointer]:
+          - /url: ../index.html
+          - img "Universal Appliances Repair logo" [ref=e6]
+          - generic [ref=e7]: Universal Appliances Repair
+        - generic [ref=e8]:
+          - link "About" [ref=e9] [cursor=pointer]:
+            - /url: about.html
+          - link "Services" [ref=e10] [cursor=pointer]:
+            - /url: services.html
+          - link "FAQ" [ref=e11] [cursor=pointer]:
+            - /url: faq.html
+          - link "Testimonials" [ref=e12] [cursor=pointer]:
+            - /url: testimonials.html
+          - link "Contact" [ref=e13] [cursor=pointer]:
+            - /url: contact.html
+          - link "Blog" [ref=e14] [cursor=pointer]:
+            - /url: blog.html
+      - generic [ref=e15]:
+        - link "(949) 629-5365" [ref=e16] [cursor=pointer]:
+          - /url: tel:+19496295365
+        - link "Book a Repair" [ref=e17] [cursor=pointer]:
+          - /url: contact.html
+  - generic [ref=e18]:
+    - generic [ref=e20]: 📰
+    - generic [ref=e24]: ✍️
+    - generic [ref=e27]:
+      - generic [ref=e28]: Appliance Tips & Guides
+      - heading "Learn. Fix. Save." [level=1] [ref=e29]
+      - paragraph [ref=e30]: Practical advice, buying guides, and maintenance tips from the Universal Appliances Repair team in Orange County.
+      - generic [ref=e31]:
+        - link "All Posts" [ref=e32] [cursor=pointer]:
+          - /url: "#"
+        - link "Tips & Guides" [ref=e33] [cursor=pointer]:
+          - /url: "#"
+        - link "Buying Guides" [ref=e34] [cursor=pointer]:
+          - /url: "#"
+        - link "Maintenance" [ref=e35] [cursor=pointer]:
+          - /url: "#"
+        - link "Advice" [ref=e36] [cursor=pointer]:
+          - /url: "#"
+  - generic [ref=e37]:
+    - generic [ref=e38]: Featured Post
+    - generic [ref=e39]:
+      - img "5 Must-Have Appliances for Dorm Life" [ref=e40]
+      - generic [ref=e41]:
+        - generic [ref=e42]: Tips & Guides
+        - generic [ref=e43]: 5 Must-Have Appliances for Dorm Life (That Actually Fit in a Tiny Room)
+        - generic [ref=e44]: College dorm life can be exciting — but let's face it, it's tight on space. When you're limited to a small room and even smaller outlets, every appliance has to pull its weight. Here are 5 compact, student-friendly gadgets that are functional, space-saving, and worth every penny.
+        - generic [ref=e46]: April 2, 2025 · by RM
+        - link "Read Article →" [ref=e47] [cursor=pointer]:
+          - /url: ../articles/article-dorm-appliances.html
+  - generic [ref=e48]:
+    - generic [ref=e49]: All Articles
+    - generic [ref=e50]:
+      - generic [ref=e51]:
+        - generic [ref=e52]:
+          - img "Whirlpool dryer repair in Los Alamitos CA" [ref=e53]
+          - generic [ref=e54]: Brand-Specific
+        - generic [ref=e55]:
+          - generic [ref=e56]: May 3, 2026
+          - generic [ref=e57]: Whirlpool Dryer Repair in Los Alamitos, CA — Common Problems, Costs & What to Expect
+          - generic [ref=e58]: If your Whirlpool dryer runs but stays cold, thumps, or takes all afternoon to finish one load, this guide breaks down the likely failure, the usual repair cost, and when fixing it still makes sense.
+          - link "Read more →" [ref=e59] [cursor=pointer]:
+            - /url: ../articles/article-whirlpool-dryer-repair-los-alamitos.html
+      - generic [ref=e60]:
+        - generic [ref=e61]:
+          - img "Freezer repair cost in Rancho Santa Margarita CA" [ref=e62]
+          - generic [ref=e63]: Cost Guide
+        - generic [ref=e64]:
+          - generic [ref=e65]: May 3, 2026
+          - generic [ref=e66]: Freezer Repair Cost in Rancho Santa Margarita, CA — What Homeowners Usually Pay
+          - generic [ref=e67]: Retail pages do not help when your freezer is softening food. This local cost guide covers the common repair ranges in Rancho Santa Margarita and when replacement becomes the smarter call.
+          - link "Read more →" [ref=e68] [cursor=pointer]:
+            - /url: ../articles/article-freezer-cost-rancho-santa-margarita.html
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - img "Freezer repair in Brea CA" [ref=e71]
+          - generic [ref=e72]: Freezer Repair
+        - generic [ref=e73]:
+          - generic [ref=e74]: May 2, 2026
+          - generic [ref=e75]: Freezer Repair in Brea, CA — What to Check Before Food Thaws
+          - generic [ref=e76]: Soft ice cream and warming meat usually point to a short list of failures. Learn what to check first, what common freezer repairs cost, and when it is time to call a technician in Brea.
+          - link "Read more →" [ref=e77] [cursor=pointer]:
+            - /url: ../articles/article-freezer-repair-brea.html
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - img "Wine cooler not cooling in Seal Beach CA" [ref=e80]
+          - generic [ref=e81]: Wine Cooler Repair
+        - generic [ref=e82]:
+          - generic [ref=e83]: May 2, 2026
+          - generic [ref=e84]: Wine Cooler Not Cooling in Seal Beach? 6 Common Causes
+          - generic [ref=e85]: If your wine fridge runs all day but the bottles still feel warm, the issue is usually airflow, controls, or a small failed component. Here are the six most common reasons Seal Beach units lose cooling.
+          - link "Read more →" [ref=e86] [cursor=pointer]:
+            - /url: ../articles/article-wine-cooler-not-cooling-seal-beach.html
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - img "Best Mini Fridges for Students" [ref=e89]
+          - generic [ref=e90]: Buying Guide
+        - generic [ref=e91]:
+          - generic [ref=e92]: March 30, 2025
+          - generic [ref=e93]: "Best Mini Fridges for Students: How to Choose the Right Refrigerator for College Life"
+          - generic [ref=e94]: Heading to college? One of the must-have dorm essentials is a compact refrigerator. With so many options out there, here's how to pick the right one for your needs and budget.
+          - link "Read Article →" [ref=e95] [cursor=pointer]:
+            - /url: ../articles/article-mini-fridge.html
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - img "Refrigerator Maintenance Tips" [ref=e98]
+          - generic [ref=e99]: Maintenance
+        - generic [ref=e100]:
+          - generic [ref=e101]: March 15, 2025
+          - generic [ref=e102]: 7 Refrigerator Maintenance Tips to Keep Your Fridge Running Longer
+          - generic [ref=e103]: Your refrigerator works 24/7. With a little regular maintenance you can add years to its lifespan and avoid expensive repair calls. Here are seven tips every homeowner should know.
+          - link "Read Article →" [ref=e104] [cursor=pointer]:
+            - /url: ../articles/article-fridge-maintenance.html
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - img "Repair or Replace Your Appliance" [ref=e107]
+          - generic [ref=e108]: Advice
+        - generic [ref=e109]:
+          - generic [ref=e110]: March 5, 2025
+          - generic [ref=e111]: Repair or Replace? How to Decide What to Do With a Broken Appliance
+          - generic [ref=e112]: When your stove stops working or your washer leaks, should you repair it or buy new? The answer depends on age, repair cost, and efficiency. Here's a simple guide to make the right call.
+          - link "Read Article →" [ref=e113] [cursor=pointer]:
+            - /url: ../articles/article-repair-replace.html
+      - generic [ref=e114]:
+        - generic [ref=e115]:
+          - img "Dryer repair cost Orange County CA" [ref=e116]
+          - generic [ref=e117]: Dryer Repair
+        - generic [ref=e118]:
+          - generic [ref=e119]: April 21, 2025
+          - generic [ref=e120]: Dryer Repair in Orange County, CA — Common Problems & When to Call a Pro
+          - generic [ref=e121]: Dryer not heating, won't start, or making strange noises? Learn what's behind the most common dryer failures in Orange County and whether repair or replacement makes more sense.
+          - link "Read Article →" [ref=e122] [cursor=pointer]:
+            - /url: ../articles/article-dryer-repair-cost-orange-county.html
+      - generic [ref=e123]:
+        - generic [ref=e124]:
+          - img "Dishwasher not draining standing water Anaheim" [ref=e125]
+          - generic [ref=e126]: Dishwasher Repair
+        - generic [ref=e127]:
+          - generic [ref=e128]: April 21, 2025
+          - generic [ref=e129]: Dishwasher Not Draining? 6 Common Causes & Fixes (Anaheim Homeowner's Guide)
+          - generic [ref=e130]: Standing water in your dishwasher after a cycle is almost always caused by one of six fixable issues. Learn which ones you can handle yourself and when to call a technician in Anaheim.
+          - link "Read Article →" [ref=e131] [cursor=pointer]:
+            - /url: ../articles/article-dishwasher-not-draining-anaheim.html
+      - generic [ref=e132]:
+        - generic [ref=e133]:
+          - img "Washer repair in Garden Grove CA" [ref=e134]
+          - generic [ref=e135]: Washer Repair
+        - generic [ref=e136]:
+          - generic [ref=e137]: April 23, 2026
+          - generic [ref=e138]: Washer Repair in Garden Grove, CA — Signs You Need a Pro
+          - generic [ref=e139]: Leaking, not draining, banging through spin, or just dead? Learn what each washing machine symptom usually means and when it's time to call a technician in Garden Grove.
+          - link "Read Article →" [ref=e140] [cursor=pointer]:
+            - /url: ../articles/article-washer-repair-garden-grove.html
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - img "Microwave not heating repair Costa Mesa CA" [ref=e143]
+          - generic [ref=e144]: Microwave Repair
+        - generic [ref=e145]:
+          - generic [ref=e146]: April 23, 2026
+          - generic [ref=e147]: Microwave Not Heating in Costa Mesa? Here's Why
+          - generic [ref=e148]: Turntable spins but food stays cold? Learn the most common causes of a microwave that runs without heating, what's safe to check yourself, and when to call a pro.
+          - link "Read Article →" [ref=e149] [cursor=pointer]:
+            - /url: ../articles/article-microwave-not-heating-costa-mesa.html
+      - generic [ref=e150]:
+        - generic [ref=e151]:
+          - img "Dishwasher maintenance tips Fullerton CA" [ref=e152]
+          - generic [ref=e153]: Maintenance
+        - generic [ref=e154]:
+          - generic [ref=e155]: April 23, 2026
+          - generic [ref=e156]: 5 Dishwasher Maintenance Tips to Avoid Breakdowns in Fullerton
+          - generic [ref=e157]: Most dishwasher problems are preventable. These five habits from our Fullerton technicians will keep your dishwasher cleaning well and running longer — starting with one that takes 3 minutes a month.
+          - link "Read Article →" [ref=e158] [cursor=pointer]:
+            - /url: ../articles/article-dishwasher-maintenance-fullerton.html
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - img "Dryer not heating repair in Santa Ana CA" [ref=e161]
+          - generic [ref=e162]: Dryer Repair
+        - generic [ref=e163]:
+          - generic [ref=e164]: April 23, 2026
+          - generic [ref=e165]: Dryer Not Heating in Santa Ana? Here's Why and What to Do
+          - generic [ref=e166]: Drum spins but clothes come out cold? Learn the most common causes of a dryer not heating — for both gas and electric models — and what you can check before calling a tech.
+          - link "Read Article →" [ref=e167] [cursor=pointer]:
+            - /url: ../articles/article-dryer-not-heating-santa-ana.html
+      - generic [ref=e168]:
+        - generic [ref=e169]:
+          - img "Refrigerator not cooling in Huntington Beach CA" [ref=e170]
+          - generic [ref=e171]: Refrigerator Repair
+        - generic [ref=e172]:
+          - generic [ref=e173]: April 23, 2026
+          - generic [ref=e174]: Refrigerator Not Cooling in Huntington Beach? 6 Common Causes
+          - generic [ref=e175]: Motor's running but nothing inside is cold? Learn the 6 most common reasons a fridge stops cooling, which ones you can check yourself, and when same-day repair is the right call.
+          - link "Read Article →" [ref=e176] [cursor=pointer]:
+            - /url: ../articles/article-fridge-not-cooling-huntington-beach.html
+      - generic [ref=e177]:
+        - generic [ref=e178]:
+          - img "Garbage disposal repair in Costa Mesa CA" [ref=e179]
+          - generic [ref=e180]: Garbage Disposal
+        - generic [ref=e181]:
+          - generic [ref=e182]: April 23, 2026
+          - generic [ref=e183]: Garbage Disposal Repair in Costa Mesa, CA
+          - generic [ref=e184]: Disposal humming, not turning on, or leaking? Most garbage disposal problems have a simple fix — learn which ones you can handle yourself and when to call a pro in Costa Mesa.
+          - link "Read Article →" [ref=e185] [cursor=pointer]:
+            - /url: ../articles/article-garbage-disposal-repair-costa-mesa.html
+      - generic [ref=e186]:
+        - generic [ref=e187]:
+          - img "Refrigerator repair in Garden Grove CA" [ref=e188]
+          - generic [ref=e189]: Refrigerator Repair
+        - generic [ref=e190]:
+          - generic [ref=e191]: April 23, 2026
+          - generic [ref=e192]: Refrigerator Repair in Garden Grove, CA — What to Expect
+          - generic [ref=e193]: Fridge stopped cooling and food is at risk? Learn the most common refrigerator problems, what you can check yourself, and what a same-day repair visit looks like in Garden Grove.
+          - link "Read Article →" [ref=e194] [cursor=pointer]:
+            - /url: ../articles/article-fridge-repair-garden-grove.html
+      - generic [ref=e195]:
+        - generic [ref=e196]:
+          - img "Washing machine not spinning — Huntington Beach CA" [ref=e197]
+          - generic [ref=e198]: Washer Repair
+        - generic [ref=e199]:
+          - generic [ref=e200]: April 23, 2026
+          - generic [ref=e201]: Washing Machine Not Spinning in Huntington Beach? 5 Common Causes
+          - generic [ref=e202]: Pull out soaking wet laundry after every cycle? Learn the five most common reasons a washer won't spin and which ones you can fix yourself without calling a technician.
+          - link "Read Article →" [ref=e203] [cursor=pointer]:
+            - /url: ../articles/article-washer-not-spinning-huntington-beach.html
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - img "Oven repair in Santa Ana CA" [ref=e206]
+          - generic [ref=e207]: Oven Repair
+        - generic [ref=e208]:
+          - generic [ref=e209]: April 23, 2026
+          - generic [ref=e210]: Oven Repair in Santa Ana, CA — What to Expect
+          - generic [ref=e211]: Oven not heating, burner won't ignite, or temperature running off? Learn the most common oven problems Santa Ana homeowners face and what a professional repair visit looks like.
+          - link "Read Article →" [ref=e212] [cursor=pointer]:
+            - /url: ../articles/article-oven-repair-santa-ana.html
+      - generic [ref=e213]:
+        - generic [ref=e214]:
+          - img "Washing machine leaking repair in Buena Park CA" [ref=e215]
+          - generic [ref=e216]: Washer Repair
+        - generic [ref=e217]:
+          - generic [ref=e218]: April 27, 2026
+          - generic [ref=e219]: Washing Machine Leaking in Buena Park? Here's Why
+          - generic [ref=e220]: Water on the laundry room floor? Learn the most common causes of a washing machine leak — door seals, drain pumps, inlet hoses, and more — and which ones you can rule out yourself.
+          - link "Read more →" [ref=e221] [cursor=pointer]:
+            - /url: ../articles/article-washer-leaking-buena-park.html
+      - generic [ref=e222]:
+        - generic [ref=e223]:
+          - img "Dishwasher repair in Orange CA" [ref=e224]
+          - generic [ref=e225]: Dishwasher Repair
+        - generic [ref=e226]:
+          - generic [ref=e227]: April 27, 2026
+          - generic [ref=e228]: Dishwasher Repair in Orange, CA — What to Expect
+          - generic [ref=e229]: Not draining, leaking from the door, or leaving dishes dirty? Learn the most common dishwasher problems Orange homeowners face and what a same-day repair visit looks like.
+          - link "Read more →" [ref=e230] [cursor=pointer]:
+            - /url: ../articles/article-dishwasher-repair-orange.html
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - img "Freezer not freezing repair in Anaheim CA" [ref=e233]
+          - generic [ref=e234]: Freezer Repair
+        - generic [ref=e235]:
+          - generic [ref=e236]: April 27, 2026
+          - generic [ref=e237]: Freezer Not Freezing in Anaheim? 5 Common Causes & Fixes
+          - generic [ref=e238]: Freezer humming but nothing inside is frozen? Learn the five most common causes — from dirty coils to a failing start relay — and which ones you can check yourself before calling a tech.
+          - link "Read more →" [ref=e239] [cursor=pointer]:
+            - /url: ../articles/article-freezer-not-freezing-anaheim.html
+      - generic [ref=e240]:
+        - generic [ref=e241]:
+          - img "Dryer taking too long in Yorba Linda CA" [ref=e242]
+          - generic [ref=e243]: Dryer Repair
+        - generic [ref=e244]:
+          - generic [ref=e245]: April 28, 2026
+          - generic [ref=e246]: Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda
+          - generic [ref=e247]: Running two cycles to finish one load? Learn the most common causes of a slow dryer — clogged vents, failing heating elements, and overloading — and when to call a tech.
+          - link "Read more →" [ref=e248] [cursor=pointer]:
+            - /url: ../articles/article-dryer-takes-too-long-yorba-linda.html
+      - generic [ref=e249]:
+        - generic [ref=e250]:
+          - img "Oven repair in Laguna Niguel CA" [ref=e251]
+          - generic [ref=e252]: Oven Repair
+        - generic [ref=e253]:
+          - generic [ref=e254]: April 28, 2026
+          - generic [ref=e255]: Oven Repair in Laguna Niguel, CA — What to Expect
+          - generic [ref=e256]: Oven not heating or running way off temperature? Learn the most common causes for gas and electric ovens, what to check yourself, and what a repair visit looks like.
+          - link "Read more →" [ref=e257] [cursor=pointer]:
+            - /url: ../articles/article-oven-repair-laguna-niguel.html
+      - generic [ref=e258]:
+        - generic [ref=e259]:
+          - img "Wine cooler repair in Newport Beach CA" [ref=e260]
+          - generic [ref=e261]: Wine Cooler
+        - generic [ref=e262]:
+          - generic [ref=e263]: April 28, 2026
+          - generic [ref=e264]: Wine Cooler Repair in Newport Beach, CA — What to Expect
+          - generic [ref=e265]: Wine fridge not maintaining temperature? Learn the most common causes — from dirty coils to a failing thermostat — what to check yourself, and when to call a technician.
+          - link "Read more →" [ref=e266] [cursor=pointer]:
+            - /url: ../articles/article-wine-cooler-repair-newport-beach.html
+      - generic [ref=e267]:
+        - generic [ref=e268]:
+          - img "Washer repair in Irvine CA" [ref=e269]
+          - generic [ref=e270]: Washer Repair
+        - generic [ref=e271]:
+          - generic [ref=e272]: April 21, 2025
+          - generic [ref=e273]: Washer Repair in Irvine, CA — Costs, Timeline & What to Expect
+          - generic [ref=e274]: Washing machine not spinning or leaking? Learn what common washer problems cost to fix in Irvine, how long repairs take, and when a replacement makes more sense than a repair.
+          - link "Read Article →" [ref=e275] [cursor=pointer]:
+            - /url: ../articles/article-washer-repair-irvine.html
+      - generic [ref=e276]:
+        - generic [ref=e277]:
+          - img "Freezer not freezing in Westminster CA" [ref=e278]
+          - generic [ref=e279]: Freezer Repair
+        - generic [ref=e280]:
+          - generic [ref=e281]: May 1, 2026
+          - generic [ref=e282]: Freezer Not Freezing in Westminster? 5 Common Causes & Fix Costs
+          - generic [ref=e283]: Ice cream soft and meat thawing? Learn the 5 most common reasons a freezer stops freezing, what each repair costs in Orange County, and when to call a technician.
+          - link "Read Article →" [ref=e284] [cursor=pointer]:
+            - /url: ../articles/article-freezer-not-freezing-westminster.html
+      - generic [ref=e285]:
+        - generic [ref=e286]:
+          - img "Dishwasher leaking in Dana Point CA" [ref=e287]
+          - generic [ref=e288]: Dishwasher Repair
+        - generic [ref=e289]:
+          - generic [ref=e290]: May 1, 2026
+          - generic [ref=e291]: Dishwasher Leaking in Dana Point? Common Causes & What It Costs to Fix
+          - generic [ref=e292]: Water on the kitchen floor after a cycle? Learn the most common dishwasher leak causes — door gasket, pump, inlet valve — and what each repair costs in Orange County.
+          - link "Read Article →" [ref=e293] [cursor=pointer]:
+            - /url: ../articles/article-dishwasher-leaking-dana-point.html
+      - generic [ref=e294]:
+        - generic [ref=e295]:
+          - img "Oven not heating in Tustin CA" [ref=e296]
+          - generic [ref=e297]: Oven Repair
+        - generic [ref=e298]:
+          - generic [ref=e299]: May 1, 2026
+          - generic [ref=e300]: Oven Not Heating in Tustin? What to Check Before Calling a Pro
+          - generic [ref=e301]: Oven cold before dinner? Learn what's most likely wrong — bake element, igniter, or thermostat — what each repair costs, and what you can check yourself first.
+          - link "Read Article →" [ref=e302] [cursor=pointer]:
+            - /url: ../articles/article-oven-not-heating-tustin.html
+      - generic [ref=e303]:
+        - generic [ref=e304]:
+          - img "Refrigerator not cooling in Fountain Valley CA" [ref=e305]
+          - generic [ref=e306]: Refrigerator Repair
+        - generic [ref=e307]:
+          - generic [ref=e308]: April 30, 2026
+          - generic [ref=e309]: Refrigerator Not Cooling in Fountain Valley? 6 Common Causes & Fixes
+          - generic [ref=e310]: Fridge running warm? Learn the 6 most common reasons a refrigerator stops cooling, what each repair costs in Orange County, and when to call a technician.
+          - link "Read Article →" [ref=e311] [cursor=pointer]:
+            - /url: ../articles/article-fridge-not-cooling-fountain-valley.html
+  - generic [ref=e313]:
+    - generic [ref=e314]:
+      - generic [ref=e315]: From the team at Universal Appliances Repair 🔧
+      - paragraph [ref=e316]: Got a broken appliance at home? Our team of trained technicians is ready to help you today. We offer same-day service across Orange County at rates that are fair and transparent.
+      - paragraph [ref=e317]: Reading our blog is great — but sometimes you just need an expert on-site. Give us a call.
+      - generic [ref=e318]:
+        - link "Call (949) 629-5365" [ref=e319] [cursor=pointer]:
+          - /url: tel:+19496295365
+        - link "or send a message →" [ref=e320] [cursor=pointer]:
+          - /url: contact.html
+      - generic [ref=e322]:
+        - generic [ref=e323]: Same day
+        - generic [ref=e324]: service
+        - generic [ref=e325]: available!
+    - generic [ref=e326]:
+      - text: When your appliances work,
+      - text: your home works.
+  - contentinfo [ref=e327]:
+    - generic [ref=e328]:
+      - generic [ref=e329]:
+        - generic [ref=e330]:
+          - img "Universal Appliances Repair logo" [ref=e331]
+          - generic [ref=e332]: Universal Appliances Repair
+        - paragraph [ref=e333]: Family-owned appliance repair serving Orange County, CA.
+      - generic [ref=e334]:
+        - generic [ref=e335]: Services
+        - list [ref=e336]:
+          - listitem [ref=e337]:
+            - link "Refrigerator Repair" [ref=e338] [cursor=pointer]:
+              - /url: services.html
+          - listitem [ref=e339]:
+            - link "Stove Repair" [ref=e340] [cursor=pointer]:
+              - /url: services.html
+          - listitem [ref=e341]:
+            - link "Washer Repair" [ref=e342] [cursor=pointer]:
+              - /url: services.html
+          - listitem [ref=e343]:
+            - link "All Services" [ref=e344] [cursor=pointer]:
+              - /url: services.html
+      - generic [ref=e345]:
+        - generic [ref=e346]: Company
+        - list [ref=e347]:
+          - listitem [ref=e348]:
+            - link "About" [ref=e349] [cursor=pointer]:
+              - /url: about.html
+          - listitem [ref=e350]:
+            - link "Blog" [ref=e351] [cursor=pointer]:
+              - /url: blog.html
+          - listitem [ref=e352]:
+            - link "Testimonials" [ref=e353] [cursor=pointer]:
+              - /url: testimonials.html
+          - listitem [ref=e354]:
+            - link "FAQ" [ref=e355] [cursor=pointer]:
+              - /url: faq.html
+          - listitem [ref=e356]:
+            - link "Book a Repair" [ref=e357] [cursor=pointer]:
+              - /url: contact.html
+      - generic [ref=e358]:
+        - generic [ref=e359]: Contact
+        - generic [ref=e360]:
+          - text: 📞
+          - link "(949) 629-5365" [ref=e361] [cursor=pointer]:
+            - /url: tel:+19496295365
+        - generic [ref=e362]:
+          - text: ✉️
+          - link "info@fixappliancesfast.com" [ref=e363] [cursor=pointer]:
+            - /url: mailto:info@fixappliancesfast.com
+        - generic [ref=e364]: 📍 10832 Asbury Ave, Stanton, CA 90680
+    - generic [ref=e366]: © 2026 Universal Appliances Repair. All rights reserved.

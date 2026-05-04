@@ -1,0 +1,780 @@
+- generic [active] [ref=e1]:
+  - link [ref=e840] [cursor=pointer]: Skip to main content
+  - link [ref=e841] [cursor=pointer]:
+    - /url: https://support.google.com/websearch/answer/181196?hl=en
+    - text: Accessibility help
+  - link [ref=e842] [cursor=pointer]: Accessibility feedback
+  - generic [ref=e9]:
+    - search [ref=e10]:
+      - generic [ref=e13]:
+        - link [ref=e843] [cursor=pointer]:
+          - /url: https://www.google.com/webhp?hl=en&ictx=0&sa=X&ved=0ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQpYkNCAs
+          - img [ref=e844]
+        - generic [ref=e20]:
+          - combobox [ref=e845]: Universal Appliances Repair Group INC Reviews Universal Appliances Repair Group INC Reviews
+          - generic [ref=e24]:
+            - button [ref=e846] [cursor=pointer]:
+              - img [ref=e28]
+            - generic [ref=e31]:
+              - button [ref=e847] [cursor=pointer]:
+                - img [ref=e33]
+              - button [ref=e848] [cursor=pointer]:
+                - img [ref=e36]
+        - button [ref=e849] [cursor=pointer]:
+          - img [ref=e41]
+    - generic [ref=e43]:
+      - button [ref=e850] [cursor=pointer]:
+        - img [ref=e48]
+      - generic [ref=e51]:
+        - button [ref=e851] [cursor=pointer]:
+          - img [ref=e54]
+        - link [ref=e852] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?hl=en&passive=true&continue=https://www.google.com/search%3Fq%3DUniversal%2BAppliances%2BRepair%2BGroup%2BINC%2BReviews%26hl%3Den-US%26sei%3Dfg35aabACcjNkPIPvpyE2AM&ec=futura_srp_og_si_72236_p
+          - text: Sign in
+  - generic [ref=e60]:
+    - navigation [ref=e66]:
+      - generic [ref=e72]:
+        - list [ref=e73]:
+          - listitem [ref=e74]:
+            - link [ref=e853] [cursor=pointer]:
+              - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&udm=50&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpV6Bbbmx4QVaoKkiRQ2jlwspSJmW4ELJ_q6C3Z7ydZ0y3jjIoADcVCd3_b6KWB9NESQ6Tc6FtMzaJxqw_zklM6HICIj5fzukIy0f6d9GoFvnfII7-3dZ22XYoASeUvkiRw9pEGSIWgdbQ3soo1zwaybWrARp5LkxOk_9TQ36xMRi3-blNXKU05_c2vLSzMYsmNqH-lw&aep=1&ntc=1&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ2J8OegQIBxAD&cshid=1777929635342502
+              - generic [ref=e80]: AI Mode
+          - listitem [ref=e81]:
+            - link [disabled] [ref=e854]:
+              - generic [ref=e84]: All
+          - listitem [ref=e85]:
+            - link [ref=e855] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&udm=39&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpV6Bbbmx4QVaoKkiRQ2jlwspSJmW4ELJ_q6C3Z7ydZ0y3jjIoADcVCd3_b6KWB9NESQ6Tc6FtMzaJxqw_zklM6HICIj5fzukIy0f6d9GoFvnfII7-3dZ22XYoASeUvkiRw9pEGSIWgdbQ3soo1zwaybWrARp5LkxOk_9TQ36xMRi3-blNXKU05_c2vLSzMYsmNqH-lw&q=Universal+Appliances+Repair+Group+INC+Reviews&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQs6gLegQIEBAB&cshid=1777929635342502
+              - generic [ref=e88]: Short videos
+          - listitem [ref=e89]:
+            - link [ref=e856] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&udm=18&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpV6Bbbmx4QVaoKkiRQ2jlwspSJmW4ELJ_q6C3Z7ydZ0y3jjIoADcVCd3_b6KWB9NESQ6Tc6FtMzaJxqw_zklM6HICIj5fzukIy0f6d9GoFvnfII7-3dZ22XYoASeUvkiRw9pEGSIWgdbQ3soo1zwaybWrARp5LkxOk_9TQ36xMRi3-blNXKU05_c2vLSzMYsmNqH-lw&q=Universal+Appliances+Repair+Group+INC+Reviews&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQs6gLegQIDxAB&cshid=1777929635342502
+              - generic [ref=e92]: Forums
+          - listitem [ref=e93]:
+            - link [ref=e857] [cursor=pointer]:
+              - /url: https://maps.google.com/maps?sca_esv=1ecf6fb006d189a6&hl=en-US&output=search&q=Universal+Appliances+Repair+Group+INC+Reviews&source=lnms&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpV6Bbbmx4QVaoKkiRQ2jlwspSJmW4ELJ_q6C3Z7ydZ0y3jjIoADcVCd3_b6KWB9NESQ6Tc6FtMzaJxqw_zklM6HICIj5fzukIy0f6d9GoFvnfII7-3dZ22XYoASeUvkiRw9pEGSIWgdbQ3soo1zwaybWrARp5LkxOk_9TQ36xMRi3-blNXKU05_c2vLSzMYsmNqH-lw&entry=mc&ved=1t:200715&ictx=111
+              - generic [ref=e96]: Maps
+          - listitem [ref=e97]:
+            - link [ref=e858] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&udm=2&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpV6Bbbmx4QVaoKkiRQ2jlwspSJmW4ELJ_q6C3Z7ydZ0y3jjIoADcVCd3_b6KWB9NESQ6Tc6FtMzaJxqw_zklM6HICIj5fzukIy0f6d9GoFvnfII7-3dZ22XYoASeUvkiRw9pEGSIWgdbQ3soo1zwaybWrARp5LkxOk_9TQ36xMRi3-blNXKU05_c2vLSzMYsmNqH-lw&q=Universal+Appliances+Repair+Group+INC+Reviews&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQtKgLegQIDRAB&cshid=1777929635342502
+              - generic [ref=e100]: Images
+          - listitem [ref=e101]:
+            - link [ref=e859] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&udm=28&fbs=ADc_l-aN0CWEZBOHjofHoaMMDiKpV6Bbbmx4QVaoKkiRQ2jlwspSJmW4ELJ_q6C3Z7ydZ0y3jjIoADcVCd3_b6KWB9NESQ6Tc6FtMzaJxqw_zklM6HICIj5fzukIy0f6d9GoFvnfII7-3dZ22XYoASeUvkiRw9pEGSIWgdbQ3soo1zwaybWrARp5LkxOk_9TQ36xMRi3-blNXKU05_c2vLSzMYsmNqH-lw&q=Universal+Appliances+Repair+Group+INC+Reviews&ved=1t:220175&ictx=111&cshid=1777929635342502
+              - generic [ref=e104]: Shopping
+          - listitem [ref=e105]:
+            - button [ref=e860] [cursor=pointer]:
+              - generic [ref=e108]:
+                - generic [ref=e109]: More
+                - img [ref=e111]
+        - button [ref=e862] [cursor=pointer]:
+          - generic [ref=e116]:
+            - generic [ref=e117]: Tools
+            - img [ref=e119]
+    - heading [level=1] [ref=e863]: Search Results
+    - main [ref=e127]:
+      - generic [ref=e133]:
+        - heading [level=2] [ref=e864]:
+          - img [ref=e137]:
+            - img [ref=e138]
+          - generic [ref=e141]: Tustin, CA 92780
+        - generic [ref=e143]:
+          - text: ∙
+          - button [ref=e865] [cursor=pointer]: Choose area
+        - button [ref=e866] [cursor=pointer]:
+          - img [ref=e149]
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - generic [ref=e158]:
+            - generic [ref=e162]:
+              - generic [ref=e170]:
+                - button [ref=e867] [cursor=pointer]:
+                  - generic [ref=e177]: See photos
+                - generic [ref=e179]:
+                  - link [ref=e868] [cursor=pointer]:
+                    - /url: /maps/place/Universal+Appliances+Repair+Group+INC/data=!4m2!3m1!1s0x0:0x553def80f47c770e?sa=X&ved=1t:2428&hl=en-US&ictx=111&cshid=1777929635342502
+                    - img [ref=e869]
+                  - link [ref=e870] [cursor=pointer]:
+                    - /url: /maps/place/Universal+Appliances+Repair+Group+INC/data=!4m2!3m1!1s0x0:0x553def80f47c770e?sa=X&ved=1t:2428&hl=en-US&ictx=111&cshid=1777929635342502
+                    - img [ref=e871]
+              - generic [ref=e191]:
+                - heading [level=2] [ref=e872]: Universal Appliances Repair Group INC
+                - generic [ref=e197]:
+                  - text: "5.0"
+                  - img [ref=e873]
+                  - button [ref=e874] [cursor=pointer]: 76 Google reviews
+                  - text: Appliance repair service
+              - generic [ref=e210]:
+                - generic [ref=e222]:
+                  - link [ref=e875] [cursor=pointer]:
+                    - /url: https://www.appliancesrepairriverside.com/
+                    - generic [ref=e225]:
+                      - img [ref=e227]
+                      - generic [ref=e229]: Website
+                  - link [ref=e876] [cursor=pointer]:
+                    - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOamcdDmN6w0zk1aMKldES834LUh1-vouCvAGfram-YTuv2yYffMxnobN8p9UfwRxE7-81IiM6VCcIxhVdLiEvWbYU4x8--A83ATpFQffGckKgaL00Ik7JsPvj1W-3xQG0VZEGX0%3D&q=Universal+Appliances+Repair+Group+INC+Reviews&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ0bkNegQIPxAF&cshid=1777929635342502
+                    - generic [ref=e232]:
+                      - img [ref=e234]
+                      - generic [ref=e236]: Reviews
+                  - button [ref=e877] [cursor=pointer]:
+                    - img [ref=e242]
+                    - generic [ref=e244]: Save
+                  - button [ref=e878] [cursor=pointer]:
+                    - generic [ref=e248]:
+                      - img [ref=e250]
+                      - generic [ref=e252]: Share
+                  - button [ref=e879] [cursor=pointer]:
+                    - generic [ref=e255]:
+                      - img [ref=e257]
+                      - generic [ref=e259]: Call
+                - generic [ref=e264]:
+                  - generic [ref=e267]:
+                    - generic [ref=e268]:
+                      - link [ref=e880] [cursor=pointer]:
+                        - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&q=appliancesrepairriverside.com+phone&ludocid=6142328803939874574&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ6BN6BAg9EAI&cshid=1777929635342502
+                        - text: Phone
+                      - text: ":"
+                    - link [ref=e881] [cursor=pointer]:
+                      - /url: "#"
+                      - text: (949) 629-5365
+                  - generic [ref=e273]:
+                    - generic [ref=e274]:
+                      - link [ref=e882] [cursor=pointer]:
+                        - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&q=appliancesrepairriverside.com+hours&ludocid=6142328803939874574&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ6BN6BAg7EAI&cshid=1777929635342502
+                        - text: Hours
+                      - text: ":"
+                    - button [ref=e883]:
+                      - generic [ref=e283]: Open · Closes 7 PM
+                  - button [ref=e884] [cursor=pointer]: Suggest an edit
+                  - generic [ref=e295]:
+                    - text: "Areas served:"
+                    - button [ref=e885] [cursor=pointer]: Tustin and nearby areas
+                - generic [ref=e304]:
+                  - generic [ref=e305]:
+                    - heading [level=3] [ref=e886]: Reviews
+                    - button [ref=e887] [cursor=pointer]:
+                      - img [ref=e312]
+                    - generic [ref=e314]:
+                      - button [ref=e889] [cursor=pointer]:
+                        - generic [ref=e319]: Write a review
+                      - link [ref=e890] [cursor=pointer]:
+                        - /url: "#"
+                        - text: Add photos
+                  - generic [ref=e322]:
+                    - text: "5.0"
+                    - img [ref=e891]
+                    - button [ref=e892] [cursor=pointer]: 76 Google reviews
+                - generic [ref=e336]:
+                  - generic [ref=e337]:
+                    - heading [level=3] [ref=e893]: From Universal Appliances Repair Group INC
+                    - button [ref=e894]:
+                      - img [ref=e341]
+                  - generic [ref=e343]: "\"Universal Appliances Repair Group Inc more than 7 years on market.We do all kind home appliances repair. We come to your address and carry out diagnostics. We provide a guarante repair and parts\""
+            - link [ref=e895] [cursor=pointer]:
+              - /url: https://support.google.com/local-listings?p=how_google_sources
+              - text: About this data
+          - generic [ref=e347]:
+            - heading [level=2] [ref=e896]: Web results
+            - generic [ref=e349]:
+              - generic [ref=e352]:
+                - link [ref=e897] [cursor=pointer]:
+                  - /url: https://www.yelp.com/biz/universal-appliances-repair-tustin
+                  - heading [level=3] [ref=e898]: UNIVERSAL APPLIANCES REPAIR - Updated May 2026
+                  - generic [ref=e360]:
+                    - generic [ref=e362]: Yelp
+                    - generic [ref=e364]: https://www.yelp.com › ... › Appliances & Repair
+                - button [ref=e899] [cursor=pointer]:
+                  - img [ref=e368]
+              - generic [ref=e371]:
+                - generic [ref=e372]:
+                  - emphasis [ref=e373]: AG was thorough and professional
+                  - text: and best of all he quickly fixed my dishwasher. I will definitely use him again.
+                - link [ref=e900] [cursor=pointer]:
+                  - /url: https://www.yelp.com/biz/universal-appliances-repair-tustin#:~:text=AG%20was%20thorough%20and%20professional,will%20definitely%20use%20him%20again.
+                  - text: Read more
+              - img [ref=e901]:
+                - text: "4.0"
+                - img [ref=e380]
+                - text: (4)
+        - generic [ref=e386]:
+          - generic [ref=e389]:
+            - link [ref=e902] [cursor=pointer]:
+              - /url: https://www.thumbtack.com/ca/corona/appliance-repair/universal-appliances-repair-group-inc/service/506240508107513868
+              - heading [level=3] [ref=e903]: Universal Appliances Repair Group Inc | Corona, CA
+              - generic [ref=e397]:
+                - generic [ref=e399]: Thumbtack
+                - generic [ref=e401]: https://www.thumbtack.com › appliance-repair › service
+            - button [ref=e904] [cursor=pointer]:
+              - img [ref=e405]
+          - generic [ref=e408]:
+            - generic [ref=e409]:
+              - text: Customers rated this pro highly for professionalism, responsiveness, and work quality. 5.0. 1
+              - emphasis [ref=e410]: review
+              - text: .
+            - link [ref=e905] [cursor=pointer]:
+              - /url: https://www.thumbtack.com/ca/corona/appliance-repair/universal-appliances-repair-group-inc/service/506240508107513868#:~:text=Customers%20rated%20this%20pro%20highly,1%20review
+              - text: Read more
+          - img [ref=e906]:
+            - text: "5.0"
+            - img [ref=e417]
+            - text: (1)
+        - generic [ref=e423]:
+          - generic [ref=e426]:
+            - link [ref=e907] [cursor=pointer]:
+              - /url: https://www.angi.com/companylist/us/ca/aliso-viejo/universal-appliance-company-reviews-187271.htm
+              - heading [level=3] [ref=e908]: universal appliance company - Aliso Viejo
+              - generic [ref=e434]:
+                - generic [ref=e436]: Angie's List
+                - generic [ref=e438]: https://www.angi.com › CA › Aliso Viejo
+            - button [ref=e909] [cursor=pointer]:
+              - img [ref=e442]
+          - generic [ref=e445]:
+            - generic [ref=e446]:
+              - text: THIS IS THE SECOND TIME THEY HAVE REPAIRED APPLIANCES IN OUR HOME.
+              - emphasis [ref=e447]: THEY ARE ALWAYS TIMELY, COURTEOUS AND DO QUALITY WORK AT A VERY FAIR PRICE
+              - text: . I WILL ALWAYS ...
+            - link [ref=e910] [cursor=pointer]:
+              - /url: https://www.angi.com/companylist/us/ca/aliso-viejo/universal-appliance-company-reviews-187271.htm#:~:text=THIS%20IS%20THE%20SECOND%20TIME,CALL%20THEM%20FOR%20OUR%20REPAIRS.
+              - text: Read more
+          - img [ref=e911]:
+            - text: "4.4"
+            - img [ref=e454]
+            - text: (15)
+          - generic [ref=e458]:
+            - text: "Missing: Group ‎| Show results with:"
+            - link [ref=e912] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&q=Universal+Appliances+Repair+%22Group%22+INC+Reviews&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ5t4CegQIJxAB&cshid=1777929635342502
+              - text: Group
+        - generic [ref=e463]:
+          - generic [ref=e466]:
+            - link [ref=e913] [cursor=pointer]:
+              - /url: https://www.yelp.com/biz/universal-appliance-and-kitchen-center-costa-mesa
+              - heading [level=3] [ref=e914]: UNIVERSAL APPLIANCE AND KITCHEN CENTER
+              - generic [ref=e474]:
+                - generic [ref=e476]: Yelp
+                - generic [ref=e478]: https://www.yelp.com › ... › Kitchen & Bath
+            - button [ref=e915] [cursor=pointer]:
+              - img [ref=e482]
+          - generic [ref=e485]:
+            - generic [ref=e486]:
+              - text: We bought a fridge and dryer from this place last year.
+              - emphasis [ref=e487]: George was very attentive, knowledgeable and honest
+              - text: and we are very happy with the purchase that we ...
+            - link [ref=e916] [cursor=pointer]:
+              - /url: https://www.yelp.com/biz/universal-appliance-and-kitchen-center-costa-mesa#:~:text=We%20bought%20a%20fridge%20and,with%20the%20purchase%20that%20we
+              - text: Read more
+          - img [ref=e917]:
+            - text: "4.0"
+            - img [ref=e494]
+            - text: (60)
+          - generic [ref=e498]:
+            - text: "Missing: INC ‎| Show results with:"
+            - link [ref=e918] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&q=Universal+Appliances+Repair+Group+%22INC%22+Reviews&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ5t4CegQIJBAB&cshid=1777929635342502
+              - text: INC
+        - generic [ref=e504]:
+          - heading [level=2] [ref=e919]: People also ask
+          - generic [ref=e507]:
+            - button [ref=e920] [cursor=pointer]:
+              - generic [ref=e515]: What refrigerator brand to stay away from?
+              - img [ref=e518]
+            - button [ref=e921] [cursor=pointer]:
+              - generic [ref=e529]: What is the 50 50 rule for appliances?
+              - img [ref=e532]
+            - button [ref=e922] [cursor=pointer]:
+              - generic [ref=e543]: How much does an appliance repairman cost per hour?
+              - img [ref=e546]
+            - button [ref=e923] [cursor=pointer]:
+              - generic [ref=e557]: Is Whirlpool a low-end brand?
+              - img [ref=e560]
+        - generic [ref=e565]:
+          - heading [level=2] [ref=e924]: Web results
+          - generic [ref=e567]:
+            - generic [ref=e570]:
+              - link [ref=e925] [cursor=pointer]:
+                - /url: https://www.mapquest.com/us/california/universal-appliances-repair-519883485
+                - heading [level=3] [ref=e926]: Universal Appliances Repair, Tustin, CA 92780, US
+                - generic [ref=e578]:
+                  - generic [ref=e580]: MapQuest
+                  - generic [ref=e582]: https://www.mapquest.com › ... › California › Tustin
+              - button [ref=e927] [cursor=pointer]:
+                - img [ref=e586]
+            - generic [ref=e589]:
+              - generic [ref=e590]:
+                - emphasis [ref=e591]: AG was thorough and professional
+                - text: and best of all he quickly fixed my dishwasher. I will definitely use him again.
+              - link [ref=e928] [cursor=pointer]:
+                - /url: https://www.mapquest.com/us/california/universal-appliances-repair-519883485#:~:text=AG%20was%20thorough%20and%20professional,will%20definitely%20use%20him%20again.
+                - text: Read more
+        - generic [ref=e596]:
+          - generic [ref=e599]:
+            - link [ref=e929] [cursor=pointer]:
+              - /url: https://uakc.com/reviews/
+              - heading [level=3] [ref=e930]: Reviews
+              - generic [ref=e607]:
+                - generic [ref=e609]: Universal Appliance and Kitchen Center
+                - generic [ref=e611]: https://uakc.com › reviews
+            - button [ref=e931] [cursor=pointer]:
+              - img [ref=e615]
+          - generic [ref=e618]:
+            - generic [ref=e619]:
+              - text: Shawnie went above and beyond to provide
+              - emphasis [ref=e620]: excellent customer service
+              - text: . If you're in need of new appliances, I highly recommend Universal.
+            - link [ref=e932] [cursor=pointer]:
+              - /url: https://uakc.com/reviews/#:~:text=Shawnie%20went%20above%20and%20beyond,appliances%2C%20I%20highly%20recommend%20Universal.
+              - text: Read more
+          - generic [ref=e623]: "Missing: Repair ‎Group ‎INC"
+        - generic [ref=e627]:
+          - generic [ref=e630]:
+            - link [ref=e933] [cursor=pointer]:
+              - /url: https://www.bbb.org/us/oh/lewis-center/profile/major-appliance-services/universal-appliance-repairs-llp-0302-70094495/customer-reviews
+              - heading [level=3] [ref=e934]: Universal Appliance Repairs, LLP | BBB Reviews
+              - generic [ref=e638]:
+                - generic [ref=e640]: Better Business Bureau
+                - generic [ref=e642]: https://www.bbb.org › ... › Major Appliance Services
+            - button [ref=e935] [cursor=pointer]:
+              - img [ref=e646]
+          - generic [ref=e649]:
+            - generic [ref=e650]:
+              - emphasis [ref=e651]: Great repair service
+              - text: . REMOVEDwas efficient and dependable and was quick to diagnose the problem. Had to order a part and in a few days came right back and got ...
+            - link [ref=e936] [cursor=pointer]:
+              - /url: https://www.bbb.org/us/oh/lewis-center/profile/major-appliance-services/universal-appliance-repairs-llp-0302-70094495/customer-reviews#:~:text=Great%20repair%20service.%20REMOVEDwas%20efficient,and%20got%20us%20going%20again.
+              - text: Read more
+          - generic [ref=e654]:
+            - text: "Missing: Group ‎| Show results with:"
+            - link [ref=e937] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&q=Universal+Appliances+Repair+%22Group%22+INC+Reviews&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ5t4CegQIeBAB&cshid=1777929635342502
+              - text: Group
+        - generic [ref=e659]:
+          - generic [ref=e662]:
+            - link [ref=e938] [cursor=pointer]:
+              - /url: https://universalappliancerepair.com/about-us/testimonials/
+              - heading [level=3] [ref=e939]: Testimonials
+              - generic [ref=e670]:
+                - generic [ref=e672]: Universal Appliance Repair
+                - generic [ref=e674]: https://universalappliancerepair.com › ... › Testimonials
+            - button [ref=e940] [cursor=pointer]:
+              - img [ref=e678]
+          - generic [ref=e681]:
+            - generic [ref=e682]:
+              - text: I was pleased with the service provided
+              - emphasis [ref=e683]: by Universal Appliance Repair
+              - text: . The serviceman was fantastic. He went beyond explaining what I needed.
+            - link [ref=e941] [cursor=pointer]:
+              - /url: https://universalappliancerepair.com/about-us/testimonials/#:~:text=I%20was%20pleased%20with%20the,beyond%20explaining%20what%20I%20needed.
+              - text: Read more
+        - generic [ref=e688]:
+          - generic [ref=e691]:
+            - link [ref=e942] [cursor=pointer]:
+              - /url: https://www.applianceemergencyrepair.com/reviews
+              - heading [level=3] [ref=e943]: Reviews | Universal Repair LLC
+              - generic [ref=e699]:
+                - generic [ref=e701]: applianceemergencyrepair.com
+                - generic [ref=e703]: https://www.applianceemergencyrepair.com › reviews
+            - button [ref=e944] [cursor=pointer]:
+              - img [ref=e707]
+          - generic [ref=e710]:
+            - generic [ref=e711]:
+              - emphasis [ref=e712]: Thanks to their fast service and expertise in appliance repair
+              - text: ", everything works perfectly now. Highly recommend their services!"
+            - link [ref=e945] [cursor=pointer]:
+              - /url: https://www.applianceemergencyrepair.com/reviews#:~:text=Thanks%20to%20their%20fast%20service,now.%20Highly%20recommend%20their%20services!
+              - text: Read more
+          - generic [ref=e715]: "Missing: Group ‎INC"
+        - generic [ref=e719]:
+          - generic [ref=e722]:
+            - link [ref=e946] [cursor=pointer]:
+              - /url: https://uakc.net/appliance-repair/testimonials
+              - heading [level=3] [ref=e947]: Appliance Repair Service Testimonials
+              - generic [ref=e730]:
+                - generic [ref=e732]: uakc.net
+                - generic [ref=e734]: https://uakc.net › appliance-repair › testimonials
+            - button [ref=e948] [cursor=pointer]:
+              - img [ref=e738]
+          - generic [ref=e741]:
+            - generic [ref=e742]:
+              - text: This was the first time I used
+              - emphasis [ref=e743]: Universal Appliance Repair
+              - text: and I am glad I did. My dryer was not drying for weeks and when my washer finally broke, I decide to ...
+            - link [ref=e949] [cursor=pointer]:
+              - /url: https://uakc.net/appliance-repair/testimonials#:~:text=This%20was%20the%20first%20time,finally%20broke%2C%20I%20decide%20to
+              - text: Read more
+      - generic [ref=e746]:
+        - generic [ref=e751]:
+          - heading [level=2] [ref=e950]: People also search for
+          - generic [ref=e755]:
+            - link [ref=e951] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&q=Universal+appliances+repair+group+inc+reviews+yelp&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ1QJ6BAhjEAE&cshid=1777929635342502
+              - generic [ref=e761]:
+                - generic [ref=e766]: Universal appliances repair group inc reviews yelp
+                - img [ref=e770]
+            - link [ref=e952] [cursor=pointer]:
+              - /url: /search?sca_esv=1ecf6fb006d189a6&hl=en-US&q=Universal+appliances+repair+group+inc+reviews+near+me&sa=X&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ1QJ6BAhkEAE&cshid=1777929635342502
+              - generic [ref=e777]:
+                - generic [ref=e782]: Universal appliances repair group inc reviews near me
+                - img [ref=e786]
+        - navigation [ref=e788]:
+          - heading [level=1] [ref=e953]: Page Navigation
+          - text: "1"
+          - link [ref=e954] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=10&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAE&cshid=1777929635342502
+            - text: "2"
+          - link [ref=e955] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=20&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAG&cshid=1777929635342502
+            - text: "3"
+          - link [ref=e956] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=30&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAI&cshid=1777929635342502
+            - text: "4"
+          - link [ref=e957] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=40&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAK&cshid=1777929635342502
+            - text: "5"
+          - link [ref=e958] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=50&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAM&cshid=1777929635342502
+            - text: "6"
+          - link [ref=e959] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=60&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAO&cshid=1777929635342502
+            - text: "7"
+          - link [ref=e960] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=70&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAQ&cshid=1777929635342502
+            - text: "8"
+          - link [ref=e961] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=80&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAS&cshid=1777929635342502
+            - text: "9"
+          - link [ref=e962] [cursor=pointer]:
+            - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=90&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8tMDegQIYRAU&cshid=1777929635342502
+            - text: "10"
+          - heading [level=2] [ref=e963]:
+            - link [ref=e964] [cursor=pointer]:
+              - /url: /search?q=Universal+Appliances+Repair+Group+INC+Reviews&sca_esv=1ecf6fb006d189a6&hl=en-US&ei=fg35adCoFPqgkPIPsJPNgAc&start=10&sa=N&sstk=Af77f_cvEKfdZsrDN1Vkz-qV1Ol1w2BBwFTufR3ZEg5gUJLMfxhXWvBerv7_c7PZn-BUlwbhHiRpykTe2wPW98v9-sE1P-ocDOrOhA&ved=2ahUKEwjQ35Pxx6CUAxV6EEQIHbBJE3AQ8NMDegQIYRAW&cshid=1777929635342502
+              - generic [ref=e813]: Next
+    - contentinfo [ref=e815]:
+      - heading [level=1] [ref=e965]: Footer Links
+      - generic [ref=e820]:
+        - generic [ref=e824]:
+          - button [ref=e966] [cursor=pointer]:
+            - generic [ref=e827]: 92780, Tustin, CA
+            - generic [ref=e829]:
+              - text: "-"
+              - generic [ref=e830]: From your IP address
+          - text: "-"
+          - button [ref=e967] [cursor=pointer]: Update location
+        - generic [ref=e835]:
+          - link [ref=e968] [cursor=pointer]:
+            - /url: https://support.google.com/websearch/?p=ws_results_help&hl=en&fg=1
+            - text: Help
+          - link [ref=e969] [cursor=pointer]:
+            - /url: "#"
+            - text: Send feedback
+          - link [ref=e970] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en&fg=1
+            - text: Privacy
+          - link [ref=e971] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en&fg=1
+            - text: Terms
+  - dialog [ref=e973]:
+    - generic [ref=e976]:
+      - generic [ref=e977]:
+        - generic [ref=e979]: Universal Appliances Repair Group INC
+        - button "Write a review" [ref=e982]:
+          - generic [ref=e985]: Write a review
+      - generic [ref=e986]:
+        - text: "5.0"
+        - img "Rated 5.0 out of 5," [ref=e988]
+        - generic [ref=e990]: 76 reviews
+        - button "More info" [ref=e994] [cursor=pointer]:
+          - img [ref=e996]
+      - generic [ref=e999]:
+        - radiogroup "Filter reviews" [ref=e1001]:
+          - radio "All" [checked] [ref=e1002] [cursor=pointer]:
+            - generic [ref=e1004]: All
+          - generic [ref=e1005]:
+            - radio "cooktop repair 2 reviews" [ref=e1006] [cursor=pointer]:
+              - generic "cooktop repair 2 reviews" [ref=e1009]: cooktop repair2
+            - radio "dishwasher repair 9 reviews" [ref=e1010] [cursor=pointer]:
+              - generic "dishwasher repair 9 reviews" [ref=e1013]: dishwasher repair9
+            - radio "polite technician 2 reviews" [ref=e1014] [cursor=pointer]:
+              - generic "polite technician 2 reviews" [ref=e1017]: polite technician2
+            - radio "dryer repair 6 reviews" [ref=e1018] [cursor=pointer]:
+              - generic "dryer repair 6 reviews" [ref=e1021]: dryer repair6
+            - button "+6" [ref=e1022] [cursor=pointer]:
+              - generic [ref=e1024]: "+6"
+        - generic [ref=e1026]: Sort by
+        - radiogroup "Sort reviews" [ref=e1031]:
+          - radio "Most relevant" [checked] [ref=e1032] [cursor=pointer]:
+            - generic [ref=e1034]: Most relevant
+          - radio "Newest" [ref=e1035] [cursor=pointer]:
+            - generic [ref=e1037]: Newest
+          - radio "Highest rating" [ref=e1038] [cursor=pointer]:
+            - generic [ref=e1040]: Highest rating
+          - radio "Lowest rating" [ref=e1041] [cursor=pointer]:
+            - generic [ref=e1043]: Lowest rating
+        - generic [ref=e1046]:
+          - generic [ref=e1047]:
+            - generic [ref=e1048]:
+              - link "Jovita Osorio Jovita Osorio 3 reviews" [ref=e1049] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/116482073731923748421/reviews?hl=en-US
+                - img "Jovita Osorio" [ref=e1050]
+                - generic [ref=e1052]:
+                  - generic [ref=e1053]: Jovita Osorio
+                  - generic [ref=e1054]: 3 reviews
+              - button "Review options for review by Jovita Osorio" [ref=e1060] [cursor=pointer]:
+                - img [ref=e1061]
+            - generic [ref=e1063]:
+              - img "Rated 5.0 out of 5" [ref=e1064]:
+                - img [ref=e1065]
+                - img [ref=e1067]
+                - img [ref=e1069]
+                - img [ref=e1071]
+                - img [ref=e1073]
+              - generic [ref=e1075]: a month ago
+            - generic [ref=e1077]: AG was awesome! Fast and reliable! He explained everything to me and my machine is working excellent now. Thanks
+            - generic [ref=e1078]:
+              - button "React" [ref=e1082] [cursor=pointer]:
+                - img [ref=e1085]
+                - generic [ref=e1087]: Hover to react
+              - button "Share" [ref=e1090]:
+                - img [ref=e1091]
+          - generic [ref=e1095]:
+            - generic [ref=e1096]:
+              - link "Noelle B Noelle B 3 reviews3 photos" [ref=e1097] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/102342502817525028858/reviews?hl=en-US
+                - img "Noelle B" [ref=e1098]
+                - generic [ref=e1100]:
+                  - generic [ref=e1101]: Noelle B
+                  - generic [ref=e1102]: 3 reviews·3 photos
+              - button "Review options for review by Noelle B" [ref=e1108] [cursor=pointer]:
+                - img [ref=e1109]
+            - generic [ref=e1111]:
+              - img "Rated 5.0 out of 5" [ref=e1112]:
+                - img [ref=e1113]
+                - img [ref=e1115]
+                - img [ref=e1117]
+                - img [ref=e1119]
+                - img [ref=e1121]
+              - generic [ref=e1123]: 2 months ago
+            - generic [ref=e1125]:
+              - text: AG of Universal Appliance Repair Group has
+              - text: helped our family with both our Thermador dishwasher and stove top both times he did an excellent and professional job. …
+              - button "Read more of Noelle B's review" [ref=e1126] [cursor=pointer]: More
+            - generic [ref=e1127]:
+              - button "React" [ref=e1131] [cursor=pointer]:
+                - img [ref=e1134]
+                - generic [ref=e1136]: Hover to react
+              - button "Share" [ref=e1139]:
+                - img [ref=e1140]
+          - generic [ref=e1144]:
+            - generic [ref=e1145]:
+              - link "Jennifer Trette Jennifer Trette 1 review" [ref=e1146] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/113636442423583298722/reviews?hl=en-US
+                - img "Jennifer Trette" [ref=e1147]
+                - generic [ref=e1149]:
+                  - generic [ref=e1150]: Jennifer Trette
+                  - generic [ref=e1151]: 1 review
+              - button "Review options for review by Jennifer Trette" [ref=e1157] [cursor=pointer]:
+                - img [ref=e1158]
+            - generic [ref=e1160]:
+              - img "Rated 5.0 out of 5" [ref=e1161]:
+                - img [ref=e1162]
+                - img [ref=e1164]
+                - img [ref=e1166]
+                - img [ref=e1168]
+                - img [ref=e1170]
+              - generic [ref=e1172]: 3 months ago
+            - generic [ref=e1174]: The dryer repairman was quick, efficient, and very knowledgeable. He clearly explained the issue and the fix, kept me informed throughout the process, and was friendly and professional the entire time. Great service from start to finish!
+            - generic [ref=e1175]:
+              - button "React" [ref=e1179] [cursor=pointer]:
+                - img [ref=e1182]
+                - generic [ref=e1184]: Hover to react
+              - button "Share" [ref=e1187]:
+                - img [ref=e1188]
+          - generic [ref=e1192]:
+            - generic [ref=e1193]:
+              - link "Lale Lale 1 review1 photo" [ref=e1194] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/112581156365998359646/reviews?hl=en-US
+                - img "Lale" [ref=e1195]
+                - generic [ref=e1197]:
+                  - generic [ref=e1198]: Lale
+                  - generic [ref=e1199]: 1 review·1 photo
+              - button "Review options for review by Lale" [ref=e1205] [cursor=pointer]:
+                - img [ref=e1206]
+            - generic [ref=e1208]:
+              - img "Rated 5.0 out of 5" [ref=e1209]:
+                - img [ref=e1210]
+                - img [ref=e1212]
+                - img [ref=e1214]
+                - img [ref=e1216]
+                - img [ref=e1218]
+              - generic [ref=e1220]: 2 months ago
+            - generic [ref=e1221]:
+              - generic [ref=e1222]: AG fixed my old GE Monogam refrigerator. Very friendly, fast and good service. Recommend
+              - list [ref=e1227]:
+                - listitem [ref=e1228]:
+                  - button "Photo 1 in review by Lale" [ref=e1229] [cursor=pointer]
+            - generic [ref=e1230]:
+              - button "React" [ref=e1234] [cursor=pointer]:
+                - img [ref=e1237]
+                - generic [ref=e1239]: Hover to react
+              - button "Share" [ref=e1242]:
+                - img [ref=e1243]
+          - generic [ref=e1247]:
+            - generic [ref=e1248]:
+              - link "Marcy Kucik Marcy Kucik 5 reviews" [ref=e1249] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/101103091554364272441/reviews?hl=en-US
+                - img "Marcy Kucik" [ref=e1250]
+                - generic [ref=e1252]:
+                  - generic [ref=e1253]: Marcy Kucik
+                  - generic [ref=e1254]: 5 reviews
+              - button "Review options for review by Marcy Kucik" [ref=e1260] [cursor=pointer]:
+                - img [ref=e1261]
+            - generic [ref=e1263]:
+              - img "Rated 5.0 out of 5" [ref=e1264]:
+                - img [ref=e1265]
+                - img [ref=e1267]
+                - img [ref=e1269]
+                - img [ref=e1271]
+                - img [ref=e1273]
+              - generic [ref=e1275]: 3 months ago
+            - generic [ref=e1277]: Absolutely excellent! AG fixed my refrigerator in a timely and professional manner with great customer service. He is now my go to for appliance repair. I highly recommend AG as your tech.
+            - generic [ref=e1278]:
+              - button "React" [ref=e1282] [cursor=pointer]:
+                - img [ref=e1285]
+                - generic [ref=e1287]: Hover to react
+              - button "Share" [ref=e1290]:
+                - img [ref=e1291]
+          - generic [ref=e1295]:
+            - generic [ref=e1296]:
+              - link "Cindy Montefu Cindy Montefu 5 reviews3 photos" [ref=e1297] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/110166171927354786393/reviews?hl=en-US
+                - img "Cindy Montefu" [ref=e1298]
+                - generic [ref=e1300]:
+                  - generic [ref=e1301]: Cindy Montefu
+                  - generic [ref=e1302]: 5 reviews·3 photos
+              - button "Review options for review by Cindy Montefu" [ref=e1308] [cursor=pointer]:
+                - img [ref=e1309]
+            - generic [ref=e1311]:
+              - img "Rated 5.0 out of 5" [ref=e1312]:
+                - img [ref=e1313]
+                - img [ref=e1315]
+                - img [ref=e1317]
+                - img [ref=e1319]
+                - img [ref=e1321]
+              - generic [ref=e1323]: 4 months ago
+            - generic [ref=e1325]: AG has been fantastic while fixing our dryer!! His work is thorough & his customer service is A+++!! He will definitely be my 1st call when we need another repair!! Thanks again AG!!
+            - generic [ref=e1326]:
+              - button "React" [ref=e1330] [cursor=pointer]:
+                - img [ref=e1333]
+                - generic [ref=e1335]: Hover to react
+              - button "Share" [ref=e1338]:
+                - img [ref=e1339]
+          - generic [ref=e1343]:
+            - generic [ref=e1344]:
+              - link "Robert Clemmons Robert Clemmons 2 reviews1 photo" [ref=e1345] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/105906589755899934928/reviews?hl=en-US
+                - img "Robert Clemmons" [ref=e1346]
+                - generic [ref=e1348]:
+                  - generic [ref=e1349]: Robert Clemmons
+                  - generic [ref=e1350]: 2 reviews·1 photo
+              - button "Review options for review by Robert Clemmons" [ref=e1356] [cursor=pointer]:
+                - img [ref=e1357]
+            - generic [ref=e1359]:
+              - img "Rated 4.0 out of 5" [ref=e1360]:
+                - img [ref=e1361]
+                - img [ref=e1363]
+                - img [ref=e1365]
+                - img [ref=e1367]
+                - img [ref=e1369]
+              - generic [ref=e1371]: 4 months ago
+            - generic [ref=e1372]:
+              - generic [ref=e1373]: They saved Christmas entertaining by coming before Christmas (though it took a couple trips)! Thank you for a job well done!
+              - list [ref=e1378]:
+                - listitem [ref=e1379]:
+                  - button "Photo 1 in review by Robert Clemmons" [ref=e1380] [cursor=pointer]
+            - generic [ref=e1381]:
+              - button "React" [ref=e1385] [cursor=pointer]:
+                - img [ref=e1388]
+                - generic [ref=e1390]: Hover to react
+              - button "Share" [ref=e1393]:
+                - img [ref=e1394]
+          - generic [ref=e1398]:
+            - generic [ref=e1399]:
+              - link "Wendy Henderson Wendy Henderson 2 reviews" [ref=e1400] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/115851681343644340542/reviews?hl=en-US
+                - img "Wendy Henderson" [ref=e1401]
+                - generic [ref=e1403]:
+                  - generic [ref=e1404]: Wendy Henderson
+                  - generic [ref=e1405]: 2 reviews
+              - button "Review options for review by Wendy Henderson" [ref=e1411] [cursor=pointer]:
+                - img [ref=e1412]
+            - generic [ref=e1414]:
+              - img "Rated 5.0 out of 5" [ref=e1415]:
+                - img [ref=e1416]
+                - img [ref=e1418]
+                - img [ref=e1420]
+                - img [ref=e1422]
+                - img [ref=e1424]
+              - generic [ref=e1426]: 3 months ago
+            - generic [ref=e1428]: Technician was on time and polite. Could have charged me a bunch of money for unnecessary repairs but he was honest and didn’t do that. I will definitely call again when another appliance needs attention.
+            - generic [ref=e1429]:
+              - button "React" [ref=e1433] [cursor=pointer]:
+                - img [ref=e1436]
+                - generic [ref=e1438]: Hover to react
+              - button "Share" [ref=e1441]:
+                - img [ref=e1442]
+          - generic [ref=e1446]:
+            - generic [ref=e1447]:
+              - link "Danette Vanover Danette Vanover Local Guide12 reviews" [ref=e1448] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/101356289780419393390/reviews?hl=en-US
+                - img "Danette Vanover" [ref=e1449]
+                - generic [ref=e1451]:
+                  - generic [ref=e1452]: Danette Vanover
+                  - generic [ref=e1453]: Local Guide·12 reviews
+              - button "Review options for review by Danette Vanover" [ref=e1459] [cursor=pointer]:
+                - img [ref=e1460]
+            - generic [ref=e1462]:
+              - img "Rated 5.0 out of 5" [ref=e1463]:
+                - img [ref=e1464]
+                - img [ref=e1466]
+                - img [ref=e1468]
+                - img [ref=e1470]
+                - img [ref=e1472]
+              - generic [ref=e1474]: 4 months ago
+            - generic [ref=e1476]:
+              - text: Have used Appliance Repair on the past. AG is a 5 star technician. On time, polite. Offered a detailed description of the problem. For a 12 year old washer the repair cost would far exceed in comparison to today's market value of a new …
+              - button "Read more of Danette Vanover's review" [ref=e1477] [cursor=pointer]: More
+            - generic [ref=e1478]:
+              - button "React" [ref=e1482] [cursor=pointer]:
+                - img [ref=e1485]
+                - generic [ref=e1487]: Hover to react
+              - button "Share" [ref=e1490]:
+                - img [ref=e1491]
+          - generic [ref=e1495]:
+            - generic [ref=e1496]:
+              - link "Russell Kadota Russell Kadota 3 reviews1 photo" [ref=e1497] [cursor=pointer]:
+                - /url: https://www.google.com/maps/contrib/114242806773257414226/reviews?hl=en-US
+                - img "Russell Kadota" [ref=e1498]
+                - generic [ref=e1500]:
+                  - generic [ref=e1501]: Russell Kadota
+                  - generic [ref=e1502]: 3 reviews·1 photo
+              - button "Review options for review by Russell Kadota" [ref=e1508] [cursor=pointer]:
+                - img [ref=e1509]
+            - generic [ref=e1511]:
+              - img "Rated 5.0 out of 5" [ref=e1512]:
+                - img [ref=e1513]
+                - img [ref=e1515]
+                - img [ref=e1517]
+                - img [ref=e1519]
+                - img [ref=e1521]
+              - generic [ref=e1523]: 4 months ago
+            - generic [ref=e1524]:
+              - generic [ref=e1525]: A.G. arrived with the part my washing machine needed and replaced it very quickly. He was very courteous and professional.
+              - list [ref=e1530]:
+                - listitem [ref=e1531]:
+                  - button "Photo 1 in review by Russell Kadota" [ref=e1532] [cursor=pointer]
+            - generic [ref=e1533]:
+              - button "React" [ref=e1537] [cursor=pointer]:
+                - img [ref=e1540]
+                - generic [ref=e1542]: Hover to react
+              - button "Share" [ref=e1545]:
+                - img [ref=e1546]

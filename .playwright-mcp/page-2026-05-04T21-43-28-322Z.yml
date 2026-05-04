@@ -1,0 +1,27 @@
+- generic [ref=e4]:
+  - navigation [ref=e5]:
+    - link "Unsplash Home" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - img "Unsplash Home" [ref=e9]
+    - generic [ref=e11]:
+      - link "Log in / Sign up" [ref=e12] [cursor=pointer]:
+        - /url: /login?referrer=%2Fs%2Fphotos%2Fdishwasher%3Flicense%3Dfree
+        - img [ref=e13]
+      - button "Language" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+      - button "Menu" [ref=e18] [cursor=pointer]:
+        - img [ref=e19]
+  - generic [ref=e21]:
+    - navigation [ref=e23]:
+      - search "Find visuals sitewide" [ref=e25]:
+        - button "Search Unsplash" [ref=e26] [cursor=pointer]:
+          - img [ref=e27]
+        - combobox [ref=e29]:
+          - searchbox "Search Unsplash" [ref=e30]: dishwasher
+          - listbox
+        - button "Clear" [ref=e31] [cursor=pointer]:
+          - img [ref=e32]
+        - button "Visual search" [ref=e36] [cursor=pointer]:
+          - img [ref=e37]
+    - generic:
+      - region "Notifications"

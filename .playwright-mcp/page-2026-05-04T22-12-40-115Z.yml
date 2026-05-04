@@ -1,0 +1,250 @@
+- generic [ref=e4]:
+  - navigation [ref=e5]:
+    - link "Unsplash Home" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - img "Unsplash Home" [ref=e9]
+    - generic [ref=e11]:
+      - link "Log in / Sign up" [ref=e12] [cursor=pointer]:
+        - /url: /login?referrer=%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk
+        - img [ref=e13]
+      - button "Language" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+      - button "Menu" [ref=e18] [cursor=pointer]:
+        - img [ref=e19]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - navigation [ref=e23]:
+        - search "Find visuals sitewide" [ref=e25]:
+          - button "Search Unsplash" [ref=e26] [cursor=pointer]:
+            - img [ref=e27]
+          - combobox [ref=e29]:
+            - searchbox "Search Unsplash" [ref=e30]
+            - listbox
+          - button "Visual search" [ref=e32] [cursor=pointer]:
+            - img [ref=e33]
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - banner [ref=e38]:
+            - generic [ref=e40]:
+              - link [ref=e41] [cursor=pointer]:
+                - /url: /@3dottawa
+              - generic [ref=e44]:
+                - link "Point3D Commercial Imaging Ltd." [ref=e45] [cursor=pointer]:
+                  - /url: /@3dottawa
+                - link "Available for hire" [ref=e47] [cursor=pointer]:
+                  - /url: /@3dottawa
+                  - text: Available for hire
+                  - img [ref=e48]
+            - generic [ref=e50]:
+              - button "Bookmark" [ref=e51] [cursor=pointer]:
+                - img [ref=e52]
+              - button "Add to Collection" [ref=e54] [cursor=pointer]:
+                - img [ref=e55]
+              - button "Edit image" [ref=e57] [cursor=pointer]:
+                - text: Edit image
+                - img [ref=e58]
+              - generic [ref=e61]:
+                - link "Download free" [ref=e62] [cursor=pointer]:
+                  - /url: https://unsplash.com/photos/kuwuxrCupzk/download?force=true
+                - button "Choose download size" [ref=e64] [cursor=pointer]:
+                  - img [ref=e65]
+          - button "Zoom in on this image" [ref=e70]:
+            - img "white microwave oven on white wooden kitchen cabinet" [ref=e71]
+            - generic:
+              - generic:
+                - img
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - generic [ref=e74]:
+                - generic [ref=e75]:
+                  - heading "Views" [level=3] [ref=e76]
+                  - text: 393,071
+                - generic [ref=e77]:
+                  - heading "Downloads" [level=3] [ref=e78]
+                  - text: 2,968
+              - generic [ref=e79]:
+                - button "Share this image" [ref=e80] [cursor=pointer]:
+                  - img [ref=e81]
+                  - generic [ref=e83]: Share
+                - button "Stats about this image" [ref=e84] [cursor=pointer]:
+                  - img [ref=e85]
+                  - generic [ref=e87]: Info
+                - button "More Actions" [ref=e88] [cursor=pointer]:
+                  - img [ref=e89]
+            - generic [ref=e92]:
+              - heading "white microwave oven on white wooden kitchen cabinet" [level=1] [ref=e94]
+              - paragraph [ref=e98]: Download this free HD photo of kitchen, grey, kitchen counter, and interior design by Point3D Commercial Imaging Ltd. (@3dottawa)
+              - generic [ref=e100]:
+                - generic [ref=e101]:
+                  - img [ref=e102]
+                  - generic [ref=e105]:
+                    - text: Published on
+                    - time [ref=e106]: September 3, 2021
+                - generic [ref=e107]:
+                  - img [ref=e108]
+                  - button "Canon, EOS R" [ref=e111] [cursor=pointer]
+                - generic [ref=e112]:
+                  - img [ref=e113]
+                  - generic [ref=e115]:
+                    - text: Free to use under the
+                    - link "Unsplash License" [ref=e116] [cursor=pointer]:
+                      - /url: /license
+            - generic [ref=e118]:
+              - link "kitchen" [ref=e119] [cursor=pointer]:
+                - /url: /s/photos/kitchen
+              - link "grey" [ref=e120] [cursor=pointer]:
+                - /url: /s/photos/grey
+              - link "kitchen counter" [ref=e121] [cursor=pointer]:
+                - /url: /s/photos/kitchen-counter
+              - link "interior design" [ref=e122] [cursor=pointer]:
+                - /url: /s/photos/interior-design
+              - link "room" [ref=e123] [cursor=pointer]:
+                - /url: /s/photos/room
+              - link "oven" [ref=e124] [cursor=pointer]:
+                - /url: /s/photos/oven
+              - link "microwave" [ref=e125] [cursor=pointer]:
+                - /url: /s/photos/microwave
+              - link "appliance" [ref=e126] [cursor=pointer]:
+                - /url: /s/photos/appliance
+              - link "indoors" [ref=e127] [cursor=pointer]:
+                - /url: /s/photos/indoors
+              - link "sink faucet" [ref=e128] [cursor=pointer]:
+                - /url: /s/photos/sink-faucet
+        - generic [ref=e131]:
+          - generic [ref=e132]:
+            - paragraph [ref=e134]: Browse premium related images on iStock | Save 20% with code UNSPLASH20
+            - generic [ref=e136]:
+              - link "A kitchen detail with white cabinets and marble subway tile backsplash." [ref=e137] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/a-kitchen-detail-with-white-cabinets-and-marble-subway-tile-backsplash-gm2166592035-586688684?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3A765a62a8-d70e-4462-a14f-8f461a013c44
+                - img "A kitchen detail with white cabinets and marble subway tile backsplash." [ref=e138]
+              - link "Corner Kitchen Setup With Grey Cabinets And Stainless Steel Fridge." [ref=e139] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/corner-kitchen-setup-with-grey-cabinets-and-stainless-steel-fridge-gm2165305651-585512284?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3A32c0ffdd-f959-4f90-a934-220796d7d17b
+                - img "Corner Kitchen Setup With Grey Cabinets And Stainless Steel Fridge." [ref=e140]
+              - link "Panorama Cooking range and wall mounted microwave inside a modern kitchen" [ref=e141] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/panorama-cooking-range-and-wall-mounted-microwave-inside-a-modern-kitchen-gm1154666419-314077643?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3Ad1e89302-6a4f-4998-b4c8-800edfd488ab
+                - img "Panorama Cooking range and wall mounted microwave inside a modern kitchen" [ref=e142]
+              - link "Adding new appliances and kitchen cabinets to a new home" [ref=e143] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/adding-new-appliances-and-kitchen-cabinets-to-a-new-home-gm1422908093-468058547?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3Adeef02fc-e57e-4293-b0e8-0aef01b1fb79
+                - img "Adding new appliances and kitchen cabinets to a new home" [ref=e144]
+              - link "New kitchen appliances and kitchen cabinets are being installed in a newly constructed house" [ref=e145] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/new-kitchen-appliances-and-kitchen-cabinets-are-being-installed-in-a-newly-gm1422908094-468058548?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3A23e15e28-02d9-48ff-a6b3-16233aad4967
+                - img "New kitchen appliances and kitchen cabinets are being installed in a newly constructed house" [ref=e146]
+              - link "Range with cooktop and oven inside the modern kitchen of a new house" [ref=e147] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/range-with-cooktop-and-oven-inside-the-modern-kitchen-of-a-new-house-gm1153587334-313356650?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3Af044fab6-d049-4f84-8785-0ec1ea6d1a9a
+                - img "Range with cooktop and oven inside the modern kitchen of a new house" [ref=e148]
+              - link "Modern White Kitchen in Small Apartment" [ref=e149] [cursor=pointer]:
+                - /url: https://www.istockphoto.com/photo/modern-white-kitchen-in-small-apartment-gm1366314389-436880742?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3A14911df9-78a6-4f33-aef2-ed71d84a29e3
+                - img "Modern White Kitchen in Small Apartment" [ref=e150]
+              - generic [ref=e151]:
+                - link "Installing kitchen appliances in a new home as well kitchen cabinets in a new home" [ref=e152] [cursor=pointer]:
+                  - /url: https://www.istockphoto.com/photo/installing-kitchen-appliances-in-a-new-home-as-well-kitchen-cabinets-in-a-new-home-gm1432952643-475029622?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3Afa5a4ca1-71ec-431d-a8ac-9e0d3d402095
+                  - img "Installing kitchen appliances in a new home as well kitchen cabinets in a new home" [ref=e153]
+                - link "View more on iStock ↗" [ref=e154] [cursor=pointer]:
+                  - /url: https://www.istockphoto.com/search/search-by-image?utm_source=unsplash&utm_medium=affiliate&utm_campaign=adp_photos_sponsored&utm_content=https%3A%2F%2Funsplash.com%2Fphotos%2Fwhite-microwave-oven-on-white-wooden-kitchen-cabinet-kuwuxrCupzk&utm_term=kitchen%3A%3A%3A%3A4ab90bbb-43de-45af-a7d7-27aac093ccd2&mediatype=photography&imageurl=aHR0cHM6Ly9zMy51cy13ZXN0LTIuYW1hem9uYXdzLmNvbS9pbWFnZXMudW5zcGxhc2guY29tL3NtYWxsL3Bob3RvLTE2MzA2OTkxNDQzMTAtOTgwYzhlZDMxMGUz&assettype=image
+          - generic [ref=e155]:
+            - heading "Related images" [level=4] [ref=e157]
+            - generic [ref=e161]:
+              - generic [ref=e162]:
+                - figure [ref=e163]:
+                  - link "silver and black microwave oven" [ref=e166]:
+                    - /url: /photos/silver-and-black-microwave-oven-lP-XAPogY88
+                    - img "silver and black microwave oven" [ref=e167]
+                - figure [ref=e168]:
+                  - link "a kitchen with white cabinets and stainless steel appliances" [ref=e171]:
+                    - /url: /photos/a-kitchen-with-white-cabinets-and-stainless-steel-appliances-L_2bhi8Rb8M
+                    - img "a kitchen with white cabinets and stainless steel appliances" [ref=e172]
+                - figure [ref=e173]:
+                  - link "white and silver kitchen counter" [ref=e176]:
+                    - /url: /photos/white-and-silver-kitchen-counter-tskjZlV_Y08
+                    - img "white and silver kitchen counter" [ref=e177]
+                - figure [ref=e178]:
+                  - link "A kitchen with white cabinets and a silver stove top oven" [ref=e181]:
+                    - /url: /photos/a-kitchen-with-white-cabinets-and-a-silver-stove-top-oven-KZEg1jUcWXI
+                    - img "A kitchen with white cabinets and a silver stove top oven" [ref=e182]
+                - figure [ref=e183]:
+                  - link "a kitchen with white cabinets and stainless steel appliances" [ref=e186]:
+                    - /url: /photos/a-kitchen-with-white-cabinets-and-stainless-steel-appliances-0dj9V9s-R9c
+                    - img "a kitchen with white cabinets and stainless steel appliances" [ref=e187]
+                - figure [ref=e188]:
+                  - link "a kitchen with white cabinets and stainless steel appliances" [ref=e191]:
+                    - /url: /photos/a-kitchen-with-white-cabinets-and-stainless-steel-appliances-eq2v_CdFlSA
+                    - img "a kitchen with white cabinets and stainless steel appliances" [ref=e192]
+                - figure [ref=e193]:
+                  - link "silver and black microwave oven" [ref=e196]:
+                    - /url: /photos/silver-and-black-microwave-oven-VDII5VvlU3A
+                    - img "silver and black microwave oven" [ref=e197]
+                - figure [ref=e198]:
+                  - link "A kitchen with white cabinets and stainless steel appliances" [ref=e201]:
+                    - /url: /photos/a-kitchen-with-white-cabinets-and-stainless-steel-appliances-ThEHjSZ_xJw
+                    - img "A kitchen with white cabinets and stainless steel appliances" [ref=e202]
+                - figure [ref=e203]:
+                  - link "A kitchen with stainless steel appliances and white walls" [ref=e206]:
+                    - /url: /photos/a-kitchen-with-stainless-steel-appliances-and-white-walls-1jOqtRfxV-Q
+                    - img "A kitchen with stainless steel appliances and white walls" [ref=e207]
+                - figure [ref=e208]:
+                  - link "a kitchen with white cabinets and a stove top oven" [ref=e211]:
+                    - /url: /photos/a-kitchen-with-white-cabinets-and-a-stove-top-oven-Ar35mJcfb6A
+                    - img "a kitchen with white cabinets and a stove top oven" [ref=e212]
+              - generic [ref=e213]:
+                - figure [ref=e214]:
+                  - link "A modern kitchen with white cabinets and stainless steel appliances." [ref=e217]:
+                    - /url: /photos/a-modern-kitchen-with-white-cabinets-and-stainless-steel-appliances-HDhMDEo9mps
+                    - img "A modern kitchen with white cabinets and stainless steel appliances." [ref=e218]
+                - figure [ref=e219]:
+                  - generic [ref=e221]:
+                    - link "A medium-size kitchen in a detached house built in 1987 in Vancouver, Canada. Original old cabinets and floor tiles." [ref=e222]:
+                      - /url: /photos/a-medium-size-kitchen-in-a-detached-house-built-in-1987-in-vancouver-canada-original-old-cabinets-and-floor-tiles-Wd8NLhx9uwA
+                      - img "A medium-size kitchen in a detached house built in 1987 in Vancouver, Canada. Original old cabinets and floor tiles." [ref=e223]
+                    - link [ref=e224] [cursor=pointer]:
+                      - /url: /plus?referrer=%2Fphotos%2Fa-medium-size-kitchen-in-a-detached-house-built-in-1987-in-vancouver-canada-original-old-cabinets-and-floor-tiles-Wd8NLhx9uwA
+                      - img [ref=e225]
+                - figure [ref=e227]:
+                  - link "A kitchen with white cabinets and stainless steel appliances" [ref=e230]:
+                    - /url: /photos/a-kitchen-with-white-cabinets-and-stainless-steel-appliances-lXdn4VOaCSM
+                    - img "A kitchen with white cabinets and stainless steel appliances" [ref=e231]
+                - figure [ref=e232]:
+                  - generic [ref=e234]:
+                    - link "a kitchen with blue cabinets and a microwave" [ref=e235]:
+                      - /url: /photos/a-kitchen-with-blue-cabinets-and-a-microwave-tmSp_vO71QM
+                      - img "a kitchen with blue cabinets and a microwave" [ref=e236]
+                    - link [ref=e237] [cursor=pointer]:
+                      - /url: /plus?referrer=%2Fphotos%2Fa-kitchen-with-blue-cabinets-and-a-microwave-tmSp_vO71QM
+                      - img [ref=e238]
+                - figure [ref=e240]:
+                  - link "white microwave oven on white wooden cabinet" [ref=e243]:
+                    - /url: /photos/white-microwave-oven-on-white-wooden-cabinet-iIlFLPZyglU
+                    - img "white microwave oven on white wooden cabinet" [ref=e244]
+                - figure [ref=e245]:
+                  - generic [ref=e247]:
+                    - link "Stylish kitchen interior with modern cabinets and stainless steel appliances in new home. design in scandinavian style. cooking food. green plants decor, wooden worktop, sink and stove" [ref=e248]:
+                      - /url: /photos/stylish-kitchen-interior-with-modern-cabinets-and-stainless-steel-appliances-in-new-home-design-in-scandinavian-style-cooking-food-green-plants-decor-wooden-worktop-sink-and-stove-RCBkNKdCWiw
+                      - img "Stylish kitchen interior with modern cabinets and stainless steel appliances in new home. design in scandinavian style. cooking food. green plants decor, wooden worktop, sink and stove" [ref=e249]
+                    - link [ref=e250] [cursor=pointer]:
+                      - /url: /plus?referrer=%2Fphotos%2Fstylish-kitchen-interior-with-modern-cabinets-and-stainless-steel-appliances-in-new-home-design-in-scandinavian-style-cooking-food-green-plants-decor-wooden-worktop-sink-and-stove-RCBkNKdCWiw
+                      - img [ref=e251]
+                - figure [ref=e253]:
+                  - link "white wooden kitchen cabinet and white microwave oven" [ref=e256]:
+                    - /url: /photos/white-wooden-kitchen-cabinet-and-white-microwave-oven-Wj6oZNCAzs4
+                    - img "white wooden kitchen cabinet and white microwave oven" [ref=e257]
+                - figure [ref=e258]:
+                  - generic [ref=e260]:
+                    - link "A kitchen with a center island and a microwave" [ref=e261]:
+                      - /url: /photos/a-kitchen-with-a-center-island-and-a-microwave-EY9U7rmYLIo
+                      - img "A kitchen with a center island and a microwave" [ref=e262]
+                    - link [ref=e263] [cursor=pointer]:
+                      - /url: /plus?referrer=%2Fphotos%2Fa-kitchen-with-a-center-island-and-a-microwave-EY9U7rmYLIo
+                      - img [ref=e264]
+                - figure [ref=e266]:
+                  - link "white microwave oven on white wooden kitchen cabinet" [ref=e269]:
+                    - /url: /photos/white-microwave-oven-on-white-wooden-kitchen-cabinet-0t5erEPTFuk
+                    - img "white microwave oven on white wooden kitchen cabinet" [ref=e270]
+                - figure [ref=e271]:
+                  - generic [ref=e273]:
+                    - link "a kitchen with a sink, dishwasher and a window" [ref=e274]:
+                      - /url: /photos/a-kitchen-with-a-sink-dishwasher-and-a-window-TTNO8j9Zy5c
+                      - img "a kitchen with a sink, dishwasher and a window" [ref=e275]
+                    - link [ref=e276] [cursor=pointer]:
+                      - /url: /plus?referrer=%2Fphotos%2Fa-kitchen-with-a-sink-dishwasher-and-a-window-TTNO8j9Zy5c
+                      - img [ref=e277]
+    - generic:
+      - region "Notifications"

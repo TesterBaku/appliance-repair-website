@@ -1,0 +1,78 @@
+- generic [ref=e4]:
+  - navigation [ref=e5]:
+    - link "Unsplash Home" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - img "Unsplash Home" [ref=e9]
+    - generic [ref=e11]:
+      - link "Log in / Sign up" [ref=e12] [cursor=pointer]:
+        - /url: /login?referrer=%2Fs%2Fphotos%2Fmini-fridge-compact-refrigerator%3Flicense%3Dfree
+        - img [ref=e13]
+      - button "Language" [ref=e15] [cursor=pointer]:
+        - img [ref=e16]
+      - button "Menu" [ref=e18] [cursor=pointer]:
+        - img [ref=e19]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - navigation [ref=e23]:
+        - search "Find visuals sitewide" [ref=e25]:
+          - button "Search Unsplash" [ref=e26] [cursor=pointer]:
+            - img [ref=e27]
+          - combobox [ref=e29]:
+            - searchbox "Search Unsplash" [ref=e30]: mini fridge compact refrigerator
+            - listbox
+          - button "Clear" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+          - button "Visual search" [ref=e36] [cursor=pointer]:
+            - img [ref=e37]
+      - generic [ref=e39]:
+        - generic [ref=e45]:
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "Photos 5":
+                - /url: /s/photos/mini-fridge-compact-refrigerator?license=free
+                - img
+                - text: Photos
+                - generic: "5"
+            - listitem [ref=e48]:
+              - link "Illustrations 0" [ref=e49] [cursor=pointer]:
+                - /url: /s/illustrations/mini-fridge-compact-refrigerator?license=free
+                - img [ref=e50]
+                - text: Illustrations
+                - generic [ref=e52]: "0"
+            - listitem [ref=e53]:
+              - button "More" [ref=e54] [cursor=pointer]
+          - button "Filters" [ref=e56] [cursor=pointer]:
+            - img [ref=e58]
+            - text: Filters
+        - generic [ref=e60]:
+          - heading "Mini fridge compact refrigerator" [level=1] [ref=e62]
+          - generic [ref=e64]:
+            - button "scroll list to the right" [ref=e66] [cursor=pointer]:
+              - img [ref=e67]
+            - generic [ref=e70]:
+              - link "kitchenette" [ref=e72] [cursor=pointer]:
+                - /url: /s/photos/kitchenette?license=free
+              - link "refrigerator" [ref=e74] [cursor=pointer]:
+                - /url: /s/photos/refrigerator?license=free
+              - link "compact living" [ref=e76] [cursor=pointer]:
+                - /url: /s/photos/compact-living?license=free
+              - link "studio apartment" [ref=e78] [cursor=pointer]:
+                - /url: /s/photos/studio-apartment?license=free
+              - link "small space living" [ref=e80] [cursor=pointer]:
+                - /url: /s/photos/small-space-living?license=free
+              - link "small space" [ref=e82] [cursor=pointer]:
+                - /url: /s/photos/small-space?license=free
+              - link "one room living" [ref=e84] [cursor=pointer]:
+                - /url: /s/photos/one-room-living?license=free
+              - link "studio flat" [ref=e86] [cursor=pointer]:
+                - /url: /s/photos/studio-flat?license=free
+              - link "micro living" [ref=e88] [cursor=pointer]:
+                - /url: /s/photos/micro-living?license=free
+              - link "compact studio" [ref=e90] [cursor=pointer]:
+                - /url: /s/photos/compact-studio?license=free
+              - link "micro apartment" [ref=e92] [cursor=pointer]:
+                - /url: /s/photos/micro-apartment?license=free
+              - link "bedsit" [ref=e94] [cursor=pointer]:
+                - /url: /s/photos/bedsit?license=free
+    - generic:
+      - region "Notifications"
