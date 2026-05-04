@@ -29,7 +29,19 @@
       <div class="nav-actions">
         <a href="tel:+19496295365" class="nav-phone">(949) 629-5365</a>
         <a href="contact.html" class="nav-cta">Book a Repair</a>
+        <button class="nav-hamburger" aria-expanded="false" aria-label="Open navigation menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+    </div>
+    <div class="nav-drawer" role="navigation" aria-label="Mobile navigation">
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="faq.html">FAQ</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html" class="nav-drawer-cta">Book a Repair</a>
     </div>
   </nav>
 
@@ -191,6 +203,20 @@
       <span>© 2026 Universal Appliances Repair. All rights reserved.</span>
     </div>
   </footer>
+
+  <script>
+    (function() {
+      var btn = document.querySelector('.nav-hamburger');
+      var drawer = document.querySelector('.nav-drawer');
+      if (!btn || !drawer) return;
+      function openDrawer() { drawer.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
+      function closeDrawer() { drawer.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
+      btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
+      drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
+      document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
+    })();
+  </script>
 
 </body>
 </html>
