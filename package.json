@@ -6,6 +6,7 @@
     "start": "npx serve .",
     "test": "node test/links.js",
     "screenshot": "node test/screenshot.js",
+    "build:sitemap": "node scripts/build-sitemap.js",
     "prepare": "husky"
   },
   "license": "ISC",
