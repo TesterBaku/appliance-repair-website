@@ -155,33 +155,26 @@ This is the section that determines whether the site can rank for "appliance rep
 - **Acceptance:** Page lists ≥ 25 cities, each linking somewhere real (city page once it exists, or anchor to "we also serve" section if city page doesn't exist yet).
 
 ### P2-2 Build per-service hub pages
-- [ ] One PR per page — pace yourself. Order:
-  1. `pages/refrigerator-repair-orange-county.html`
-  2. `pages/washer-repair-orange-county.html`
-  3. `pages/dryer-repair-orange-county.html`
-  4. `pages/dishwasher-repair-orange-county.html`
-  5. `pages/oven-stove-repair-orange-county.html`
-- Each page: 1,000–1,500 words covering symptoms, common brands serviced, typical repair flow, FAQ, CTA.
-- Required schemas: `Service` + `LocalBusiness` + `BreadcrumbList` + `FAQPage`.
-- Link from homepage services grid and footer.
-- **Acceptance per page:** ≥ 1,000 words; all four schemas validate; appears in `sitemap.xml`; linked from homepage and `services.html`.
+- [ ] One PR per page. **Build with `/seo-hub --type=service --appliance=[name]`** — the command handles research, proposal, schemas, internal linking, and the test loop. It stops at "PR ready for owner review" (never auto-merges).
+- Order:
+  1. `pages/refrigerator-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=refrigerator`
+  2. `pages/washer-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=washer`
+  3. `pages/dryer-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dryer`
+  4. `pages/dishwasher-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dishwasher`
+  5. `pages/oven-stove-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=oven-stove`
+- Spec the command enforces: 1,000–1,500 words covering symptoms, brands, repair flow, 8+ FAQs, CTA; required schemas (`Service` + `LocalBusiness` + `BreadcrumbList` + `FAQPage`); links from homepage services grid, footer, `services.html`, and 3 most-relevant existing articles.
+- **Acceptance per page:** the `/seo-hub` Phase 5 demo summary shows ≥ 1,000 words, ≥ 8 FAQs, all four schemas validating, all internal links wired, and a green test pass; PR is open in GitHub for owner review.
 
 ### P2-3 Build city landing pages — start with the top 5
-- [ ] One PR per page. Order from PDF report:
-  1. `pages/appliance-repair-irvine-ca.html`
-  2. `pages/appliance-repair-anaheim-ca.html`
-  3. `pages/appliance-repair-santa-ana-ca.html`
-  4. `pages/appliance-repair-huntington-beach-ca.html`
-  5. `pages/appliance-repair-costa-mesa-ca.html`
-- Each page: 800–1,200 words. Required sections:
-  - Local hook (mention neighborhoods, ZIP codes, recognizable landmarks)
-  - Services available in that city
-  - Brands serviced
-  - Local testimonials (real, with first name + city)
-  - 5+ FAQs specific to the city ("how long does it take to get to [neighborhood]?")
-  - CTA
-- Required schemas: `LocalBusiness` (with that city as `addressLocality` in `areaServed`), `BreadcrumbList`, `FAQPage`.
-- **Acceptance per page:** all schema validates; page included in sitemap; linked from `/service-areas/`.
+- [ ] One PR per page. **Build with `/seo-hub --type=city --city=[slug]`** — same command as P2-2, different `--type`. The command pulls real neighborhoods/ZIPs in Phase 0 so each page has authentic local detail.
+- Order from PDF report:
+  1. `pages/appliance-repair-irvine-ca.html`  →  `/seo-hub --type=city --city=irvine`
+  2. `pages/appliance-repair-anaheim-ca.html`  →  `/seo-hub --type=city --city=anaheim`
+  3. `pages/appliance-repair-santa-ana-ca.html`  →  `/seo-hub --type=city --city=santa-ana`
+  4. `pages/appliance-repair-huntington-beach-ca.html`  →  `/seo-hub --type=city --city=huntington-beach`
+  5. `pages/appliance-repair-costa-mesa-ca.html`  →  `/seo-hub --type=city --city=costa-mesa`
+- Spec the command enforces: 800–1,200 words covering neighborhoods/ZIPs, services available locally, brands, 5+ city-specific FAQs, real local testimonials (or marked TODO placeholders); required schemas (`LocalBusiness` with city `addressLocality` + `BreadcrumbList` + `FAQPage`); links from `/service-areas/`, homepage, footer, and the 3 most-relevant articles tagged with that city.
+- **Acceptance per page:** Phase 5 demo summary shows ≥ 800 words, ≥ 5 city FAQs, all schemas validating, internal links wired, sitemap updated, tests green; PR is open in GitHub for owner review.
 
 ### P2-4 Add the "AI answer block" to homepage
 - [ ] PDF report's key GEO insight. New section near the top of `index.html` (after hero, before existing services grid). Plain prose, factual, no marketing fluff.

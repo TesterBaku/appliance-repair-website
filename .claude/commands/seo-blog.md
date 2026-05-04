@@ -125,10 +125,24 @@ Write real, helpful content — not placeholder text. Include:
 - City name used 3–5 times naturally in body text
 - **Use the FAQ seeds from Phase 0 research** as the basis for the FAQ section — these are real questions people search, which maximises FAQPage rich result eligibility
 
-### Mobile layout (required — see `rules/seo-content.md`)
+### Mobile layout (required — see `rules/mobile-design.md`)
 - All layouts must be responsive at 375px width
 - Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or CSS media queries in the embedded `<style>` tag
 - Test mentally: hero text readable, cards stack vertically, nav collapses, CTA box full-width on mobile
+
+### Hub-page interlinking (required when applicable)
+If the article targets an appliance × city combination that has a published hub page in `pages/`, the article body **must** include exactly one in-body internal link to the matching hub page(s). This is how article link equity flows into the conversion-focused hubs.
+
+Lookup logic before writing the article:
+- Check `pages/[appliance]-repair-orange-county.html` — if it exists, the article must link to it once
+- Check `pages/appliance-repair-[city-slug]-ca.html` — if it exists, the article must link to it once
+- If both exist, link to both (one anchor each, in different paragraphs)
+- If neither exists, no hub link is required — note this in the proposal so the user knows the article will be a "leaf" until the hub is built
+
+Anchor-text rules:
+- Use natural prose anchors like "our refrigerator repair service in Orange County" or "Irvine appliance repair page"
+- Never use raw URLs as anchor text
+- Place the link in a body paragraph, not in the hero or FAQ
 
 ### Images
 - Use `https://images.unsplash.com/photo-[id]?w=1200&q=80` for hero images — only use Unsplash photo IDs you are confident are topically correct
@@ -338,3 +352,5 @@ If `mcp__claude_ai_Gmail__create_draft` is unavailable or returns an error, skip
 - Always show the screenshot before asking for approval — never ask "does it look good?" without showing it
 - If creating multiple articles (user selected more than one topic): complete all phases for article #1 before starting article #2
 - Scheduled mode never merges — stop at PRs ready
+- If the article's appliance × city target has a hub page in `pages/`, the article body must internal-link to it once (see Phase 3, "Hub-page interlinking")
+- Building hub pages themselves is **not** this command — use `/seo-hub` instead. `/seo-hub` is interactive-only and never auto-merges.
