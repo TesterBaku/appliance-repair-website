@@ -3,23 +3,23 @@ const path = require('path');
 const fs = require('fs');
 
 const root = path.resolve(__dirname, '..');
-const staticPages = [
-  'index.html',
-  'pages/about.html',
-  'pages/services.html',
-  'pages/contact.html',
-  'pages/faq.html',
-  'pages/testimonials.html',
-  'pages/blog.html',
-  'pages/refrigerator-repair-orange-county.html'
-];
+
+// Auto-discover: root index + all pages/ + all articles/
+const pagesDir = path.join(root, 'pages');
 const articleDir = path.join(root, 'articles');
+
+const rootPages = ['index.html'];
+const staticPages = fs.existsSync(pagesDir)
+  ? fs.readdirSync(pagesDir)
+      .filter(f => f.endsWith('.html'))
+      .map(f => path.join('pages', f))
+  : [];
 const articlePages = fs.existsSync(articleDir)
   ? fs.readdirSync(articleDir)
       .filter(f => f.startsWith('article-') && f.endsWith('.html'))
       .map(f => path.join('articles', f))
   : [];
-const pages = [...staticPages, ...articlePages];
+const pages = [...rootPages, ...staticPages, ...articlePages];
 
 const outDir = path.join(__dirname, 'screenshots');
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
