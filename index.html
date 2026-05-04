@@ -175,7 +175,8 @@
     @media (max-width: 480px) {
       .hero h1 { font-size: 28px; }
       .value-h { font-size: 22px; }
-      .testimonial-card { padding: 24px 18px; }
+      .testimonial-card { padding: 24px 18px; max-width: none; margin: 0; }
+      #testimonials > .container > div[style] { grid-template-columns: 1fr; }
     }
   </style>
   <script type="application/ld+json">
@@ -529,14 +530,18 @@
   <!-- TESTIMONIAL -->
   <section class="section section-gray" id="testimonials" style="text-align:center;">
     <div class="container">
-      <h2 class="h2-standard">Universal Appliances Repair offers<br/>swift and affordable appliance repairs!</h2>
-
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-quote">"Absolutely fantastic service. They came out the same day I called, diagnosed the problem with my refrigerator quickly, and had it running like new within an hour. Very professional and reasonably priced. I'll definitely call them again for any future appliance issues!"</p>
-        <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?fit=crop&crop=entropy,faces&auto=format,compress&w=96&h=96" alt="David Miller" />
-        <div class="testimonial-name">David Miller</div>
-        <div class="testimonial-role">Customer — Orange County, CA</div>
+      <h2 class="h2-standard">What Our Customers Say</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px;">
+        <div class="testimonial-card" style="max-width:none;margin:0;">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"The dryer repairman was quick, efficient, and very knowledgeable. He clearly explained the issue and the fix, kept me informed throughout the process, and was friendly and professional the entire time. Great service from start to finish!"</p>
+          <div class="testimonial-name">Jennifer T. — Dryer repair, February 2026</div>
+        </div>
+        <div class="testimonial-card" style="max-width:none;margin:0;">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG of Universal Appliance Repair Group has helped our family with both our Thermador dishwasher and stove top — both times he did an excellent and professional job. He always took the time to explain thoroughly the issues at hand. I would highly recommend Universal Appliances."</p>
+          <div class="testimonial-name">Noelle B. — Thermador dishwasher &amp; stove repair, March 2026</div>
+        </div>
       </div>
     </div>
   </section>
