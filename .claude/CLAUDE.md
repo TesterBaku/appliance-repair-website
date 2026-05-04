@@ -59,9 +59,19 @@
 
 Static HTML website for an appliance repair service. Built with Tailwind CSS via CDN.
 
+**Production domain:** `https://fixappliancesfast.com/`
+**Public business name:** Universal Appliances Repair
+**Legal name:** Universal Appliances Repair Group Inc.
+
+> Brand canonicalization is enforced in `rules/seo-content.md`. Never write "Fix Appliances Fast" as a brand — it is only a URL.
+
 ## Rules
 - `rules/git-workflow.md` — branch naming, commits, PRs, code review
-- `rules/seo-content.md` — SEO guidelines, Orange County city targeting, keyword strategy, required schema markup
+- `rules/seo-content.md` — SEO guidelines, brand canonicalization, hub-page architecture, AI answer block, llms.txt requirement, schema templates
+- `rules/mobile-design.md` — required `@media` breakpoints, hamburger nav, sticky bottom Call/Book bar, tap-target sizes, form behavior on mobile
+
+## Active remediation plan
+- `tasks/action-plan-fixappliancesfast.md` — combined SEO/mobile/agent-readiness remediation plan from the May 2026 audit. Work is grouped P0 → P4. Treat each item as one PR.
 
 ## Logs
 - `logs/CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
@@ -89,6 +99,11 @@ Runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Audits all artic
 Any request that results in a code or file change must go through the full workflow:
 branch → commit → test → PR → review → merge. No exceptions, even for small edits.
 
+## Site-wide required files (must return 200)
+- `/robots.txt`
+- `/sitemap.xml`
+- `/llms.txt` — plain-text business summary for AI crawlers (template in `tasks/action-plan-fixappliancesfast.md`)
+
 ## Skills (slash commands)
 - `/seo-blog` — full SEO blog workflow: research → propose → create → test → demo → iterate → PR → review → merge
 - `/seo-audit` — quarterly SEO audit: scan all articles, auto-fix schema/meta gaps, open PR with report
@@ -99,13 +114,16 @@ branch → commit → test → PR → review → merge. No exceptions, even for 
 
 ## Project Structure
 - `index.html` — homepage
-- `about.html`, `services.html`, `contact.html`, `faq.html`, `testimonials.html` — main pages
-- `blog.html` — blog listing page
-- `article-*.html` — individual blog articles
+- `pages/about.html`, `pages/services.html`, `pages/contact.html`, `pages/faq.html`, `pages/testimonials.html`, `pages/blog.html` — main pages
+- `pages/[appliance]-repair-orange-county.html` — per-service hub pages (P2 of action plan)
+- `pages/appliance-repair-[city]-ca.html` — per-city landing pages (P2 of action plan)
+- `pages/service-areas.html` — service-areas hub (P2 of action plan)
+- `articles/article-*.html` — individual blog articles
 - `shared.css` — shared styles used across all pages
+- `scripts/` — node scripts: `add-seo-improvements.js`, future `build-sitemap.js`
 - `test/` — screenshot and link-check scripts
 
 ## Tech Stack
-- Tailwind CSS via CDN
+- Tailwind CSS via CDN (consider compiling to a static stylesheet — see action plan)
 - Vanilla HTML — no build step
 - Puppeteer for visual testing

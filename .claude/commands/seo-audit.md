@@ -17,20 +17,36 @@ The audit runs in two passes:
 
 ## Phase 1 — SCAN
 
-Read every `article-*.html` file in the project root and evaluate it against the checklist below. Record results in memory — don't write anything yet.
+Read every `article-*.html` file in the project (under `articles/` and the root) AND check the site-wide required files. Record results in memory — don't write anything yet.
+
+### Site-wide checks (run once per audit)
+
+**Required root files (must return 200):**
+- [ ] `/robots.txt` exists and points to `sitemap.xml`
+- [ ] `/sitemap.xml` exists and contains every published HTML file
+- [ ] `/llms.txt` exists with current business summary (template in `tasks/action-plan-fixappliancesfast.md`)
+
+**Brand canonicalization:**
+- [ ] No HTML or schema contains the string `Fix Appliances Fast` as a brand name (the domain is fine in URLs)
+- [ ] No HTML contains leftover template strings: `My Blog`, `Lorem`, `Sample`, `Placeholder`, `TODO`, `FIXME`
+- [ ] No schema or canonical link uses the placeholder domain `universalappliancesrepair.com` — must be `fixappliancesfast.com`
 
 ### Per-article checklist
 
 **Schema (auto-fixable via script):**
 - [ ] `Article` schema present
-- [ ] `LocalBusiness` schema present
+- [ ] `LocalBusiness` schema present (with production URL `fixappliancesfast.com`)
 - [ ] `FAQPage` schema present
 - [ ] `BreadcrumbList` schema present
 
 **Meta tags (auto-fixable via script):**
-- [ ] `og:url` present
+- [ ] `og:url` present and uses production domain
+- [ ] `og:image` present (1200×630)
+- [ ] `og:site_name` set to `Universal Appliances Repair`
+- [ ] `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image` present
 - [ ] `article:published_time` present
 - [ ] `article:modified_time` present
+- [ ] Canonical link uses `https://fixappliancesfast.com/...`
 
 **Images (auto-fixable via script):**
 - [ ] Hero `<img>` has `width` and `height` attributes
@@ -38,13 +54,19 @@ Read every `article-*.html` file in the project root and evaluate it against the
 
 **Content quality (report only — needs human review):**
 - [ ] Meta description is 140–165 characters
-- [ ] FAQ section contains at least 3 questions
+- [ ] FAQ section contains at least 3 questions (8+ for hub pages, 10+ for homepage)
 - [ ] Article body text is substantial (>4,000 characters of visible text — rough proxy for 800+ words)
 - [ ] No "placehold.co" images (flag for manual replacement)
+- [ ] At least one brand from the supported list mentioned (Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor)
+
+**Mobile checks (report only — needs human review):**
+- [ ] Page has `@media (max-width: 768px)` queries (in `<style>` or inherited from `shared.css`)
+- [ ] Page does not rely solely on Tailwind responsive prefixes (`md:`, `lg:`)
 
 **Links:**
-- [ ] Article is linked from `blog.html`
+- [ ] Article is linked from `pages/blog.html`
 - [ ] All `href` values in related-articles section point to files that exist
+- [ ] No internal `href="#"` placeholders
 
 ---
 
