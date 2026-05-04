@@ -111,7 +111,8 @@ branch → commit → test → PR → review → merge. No exceptions, even for 
 - `/seo-audit` — quarterly SEO audit: scan all articles, auto-fix schema/meta gaps, open PR with report
 - `/pr` — generate and create a pull request for the current branch
 - `/review` — review changed files before merging
-- `/test` — run screenshot and link checks across all pages
+- `/test` — run screenshot and link checks across all pages (fast smoke gate)
+- `/visual-review` — Playwright MCP-driven deep visual check at desktop + mobile viewports, scoped to touched pages by default. Use after `/test` for any visual/CSS work; auto-invoked by `/seo-hub` Phase 5.
 - `/new-content` — lightweight scaffolder for a single article, hub page, or static page (no research, no test loop — use when you just need a stub)
 
 ## Project Structure

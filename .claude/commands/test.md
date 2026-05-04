@@ -19,3 +19,17 @@ Run visual screenshots and link checks across all pages.
    - List any failures with file name and line number
    - If all pass: "All tests passed."
    - If failures: "X issues found — fix before merging."
+
+---
+
+## When to run /visual-review
+
+`/test` is the fast smoke gate (link checker + batch screenshot). It does not catch viewport-specific issues like hamburger nav working on mobile, sticky CTA bar visibility, hero text sizing, or tap-target dimensions.
+
+Run `/visual-review` after `/test` when:
+- Touching `shared.css` or any `<style>` block (visual change)
+- Working on action plan P1-* (mobile fixes)
+- Building a hub page via `/seo-hub` (already wired into Phase 5)
+- Before merging any PR that changed how the site looks
+
+`/visual-review` scopes to touched pages by default and uses Playwright MCP to drive a real browser at desktop (1440×900) and mobile (375×812) viewports.

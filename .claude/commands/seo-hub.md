@@ -250,8 +250,10 @@ Additional checks specific to hubs:
 
 ## Phase 5 — DEMO
 
-1. Read the screenshot at `test/screenshots/[slug].png` and display it inline.
-2. Show the user a one-page summary:
+1. **Run `/visual-review pages/[slug].html`** to drive Playwright MCP through the new page at desktop (1440×900) and mobile (375×812) viewports. The visual review returns inline screenshots plus a structured PASS/FAIL/WARN report covering layout integrity, hamburger behavior, sticky bar visibility, hero sizing, and tap-target compliance.
+2. **If `/visual-review` reports any FAIL items**, return to Phase 6 (iterate) — do not show the demo summary yet. Hub pages must pass all FAIL checks before owner review.
+3. **If only WARN items are present**, list them in the demo summary so the owner can decide whether to address them before merge.
+4. Show the user a one-page summary:
 
 ```
 === Hub Page Built — [slug] ===
@@ -269,7 +271,7 @@ Outstanding items for owner:
   - [any other known gaps]
 ```
 
-3. Ask: _"Approve to move to PR, or describe changes?"_
+5. Ask: _"Approve to move to PR, or describe changes?"_
 
 ---
 
@@ -378,3 +380,4 @@ git checkout master && git pull origin master
 - Always include the AI answer block — it's the highest-leverage section for AI-engine recommendations
 - One hub page per PR. If the user wants 5 hub pages, run the workflow 5 times sequentially
 - Always wire the internal links in Phase 3 — a hub page that nothing links to is useless
+- Always run `/visual-review` in Phase 5 — single screenshots miss mobile-specific issues (hamburger, sticky bar, tap targets) that hub pages rely on
