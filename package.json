@@ -7,6 +7,7 @@
     "test": "node test/links.js",
     "screenshot": "node test/screenshot.js",
     "build:sitemap": "node scripts/build-sitemap.js",
+    "clean:images": "node scripts/clean-images.js",
     "prepare": "husky"
   },
   "license": "ISC",

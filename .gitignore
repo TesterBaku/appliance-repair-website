@@ -4,6 +4,10 @@ test/screenshots/
 !logo.png
 .playwright-mcp/
 photo-*.jpeg
+
+# Temp images — download trial assets here during tasks; cleaned by `npm run clean:images`
+images/temp/*
+!images/temp/.gitkeep
 IMG-20240825-WA0017.jpg
 
 # Environment and secrets — never commit these
