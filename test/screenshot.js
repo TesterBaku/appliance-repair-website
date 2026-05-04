@@ -10,7 +10,8 @@ const staticPages = [
   'pages/contact.html',
   'pages/faq.html',
   'pages/testimonials.html',
-  'pages/blog.html'
+  'pages/blog.html',
+  'pages/refrigerator-repair-orange-county.html'
 ];
 const articleDir = path.join(root, 'articles');
 const articlePages = fs.existsSync(articleDir)
