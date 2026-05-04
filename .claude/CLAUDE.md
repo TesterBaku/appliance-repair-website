@@ -75,6 +75,7 @@ Static HTML website for an appliance repair service. Built with Tailwind CSS via
 
 ## Logs
 - `logs/CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
+- `logs/HUB_LOG.md` — running log of every `/seo-hub` run: hub pages created, PRs (open for owner review), outstanding placeholder items
 - `logs/AUDIT_LOG.md` — quarterly SEO audit results: auto-fixes applied, items needing human review
 
 ## Scheduled Automation
@@ -105,12 +106,13 @@ branch → commit → test → PR → review → merge. No exceptions, even for 
 - `/llms.txt` — plain-text business summary for AI crawlers (template in `tasks/action-plan-fixappliancesfast.md`)
 
 ## Skills (slash commands)
-- `/seo-blog` — full SEO blog workflow: research → propose → create → test → demo → iterate → PR → review → merge
+- `/seo-blog` — full SEO blog workflow for articles: research → propose → create → test → demo → iterate → PR → review → merge. Auto-merges in scheduled mode (Mon/Wed/Fri).
+- `/seo-hub` — full hub-page workflow for service and city landing pages. Same shape as `/seo-blog` but **interactive-only and never auto-merges** — hub pages always wait for owner review. Use this for P2-2 (per-service hubs) and P2-3 (per-city hubs) in the action plan.
 - `/seo-audit` — quarterly SEO audit: scan all articles, auto-fix schema/meta gaps, open PR with report
 - `/pr` — generate and create a pull request for the current branch
 - `/review` — review changed files before merging
 - `/test` — run screenshot and link checks across all pages
-- `/new-content` — scaffold a new article or page from a template
+- `/new-content` — lightweight scaffolder for a single article, hub page, or static page (no research, no test loop — use when you just need a stub)
 
 ## Project Structure
 - `index.html` — homepage
