@@ -18,7 +18,7 @@ Combined remediation plan from two independent reviews of `fixappliancesfast.com
 ## P0 — Critical fixes (do first, this week)
 
 ### P0-1 Add `robots.txt` and `sitemap.xml`
-- [ ] Both currently return 404.
+- [x] Both currently return 404.
 - Create `robots.txt` at repo root: `User-agent: *` / `Allow: /` / `Sitemap: https://fixappliancesfast.com/sitemap.xml`.
 - Generate `sitemap.xml` listing every `*.html` file, with `lastmod` from git.
 - Add a small node script (e.g., `scripts/build-sitemap.js`) that regenerates `sitemap.xml` from the file tree so future articles auto-include.
@@ -26,38 +26,38 @@ Combined remediation plan from two independent reviews of `fixappliancesfast.com
 - **Rule reference:** `rules/seo-content.md` → "Required SEO Elements".
 
 ### P0-2 Fix homepage `<title>` and add meta description
-- [ ] Current title: `Universal Appliances Repair – OC California` (weak, no primary keyword).
+- [x] Current title: `Universal Appliances Repair – OC California` (weak, no primary keyword).
 - New title: `Appliance Repair Orange County CA | Universal Appliances Repair`.
 - Add meta description (150–160 chars):
   > Universal Appliances Repair provides same-day appliance repair in Orange County, CA — refrigerators, washers, dryers, ovens, stoves, dishwashers. Call (949) 629-5365.
 - **Acceptance:** view source on `/` shows new title and description; Google Rich Results test passes.
 
 ### P0-3 Add LocalBusiness JSON-LD to homepage
-- [ ] Currently zero structured data on `index.html`.
+- [x] Currently zero structured data on `index.html`.
 - Inline `<script type="application/ld+json">` block including: `name`, `legalName`, `url`, `telephone`, `email`, `address` (PostalAddress), `geo`, `areaServed` (full city list), `serviceType`, `openingHoursSpecification`, `priceRange`, `image`, `logo`, `sameAs` (social links once they exist).
 - Add `BreadcrumbList` schema for homepage too.
 - **Acceptance:** Schema Markup Validator returns zero errors for `/`.
 - **Rule reference:** `rules/seo-content.md` → schema templates already exist for articles; add a homepage-specific block.
 
 ### P0-4 Add Open Graph + Twitter Card tags to homepage and pages
-- [ ] None present on `/`.
+- [x] None present on `/`.
 - Required tags: `og:title`, `og:description`, `og:type=website`, `og:url`, `og:image` (1200×630 PNG), `og:site_name`, plus `twitter:card=summary_large_image`, `twitter:title`, `twitter:description`, `twitter:image`.
 - **Acceptance:** Facebook Sharing Debugger and Twitter Card Validator both render a clean preview.
 
 ### P0-5 Fix footer: copyright year and dead `#` links
-- [ ] Footer says `© 2024` — looks abandoned. Make it auto-update or set to 2026.
-- [ ] All Services links in footer point to `#`. Wire each to its real page (`pages/services.html` for now; later to per-service pages from P2).
-- [ ] "Privacy Policy" and "Terms of Service" link to `#`. Either create stub pages or remove the links until written.
+- [x] Footer says `© 2024` — looks abandoned. Make it auto-update or set to 2026.
+- [x] All Services links in footer point to `#`. Wire each to its real page (`pages/services.html` for now; later to per-service pages from P2).
+- [x] "Privacy Policy" and "Terms of Service" link to `#`. Either create stub pages or remove the links until written.
 - **Acceptance:** `npm test` (link checker) reports zero broken hrefs.
 
 ### P0-6 Audit and fix broken nav: Blog and Contact
-- [ ] PDF report flagged `/blog/` and `/contact.html` returning 404 in some entry paths.
+- [x] PDF report flagged `/blog/` and `/contact.html` returning 404 in some entry paths.
 - Verify all internal nav links resolve (run `npm test`).
 - Add 301 redirects (or symlinks if hosted on GitHub Pages — use a small `_redirects` file or duplicate index entry) so `/contact`, `/contact.html`, and `pages/contact.html` all resolve.
 - **Acceptance:** `npm test` passes from every entry page; manual click-through of nav reaches every page.
 
 ### P0-7 Add `llms.txt` at root
-- [ ] Create `/llms.txt` describing the business so AI engines can ingest cleanly. Format from the PDF report:
+- [x] Create `/llms.txt` describing the business so AI engines can ingest cleanly. Format from the PDF report:
 
 ```
 # Universal Appliances Repair
@@ -91,7 +91,7 @@ https://fixappliancesfast.com/pages/contact.html
 - **Acceptance:** `https://fixappliancesfast.com/llms.txt` returns the file with `Content-Type: text/plain`.
 
 ### P0-8 Remove any leftover template / placeholder text
-- [ ] PDF flagged "My Blog" placeholder text on the live site.
+- [x] PDF flagged "My Blog" placeholder text on the live site.
 - Grep the repo for `My Blog`, `Lorem`, `placeholder`, `TODO`, `FIXME`. Replace with the real business name or delete.
 - **Acceptance:** `grep -ri "my blog\|lorem\|placeholder text" *.html pages/ articles/` returns nothing.
 
@@ -102,7 +102,7 @@ https://fixappliancesfast.com/pages/contact.html
 The current CSS has effectively zero `@media` queries. The whole site renders the same on a 1440px laptop and a 375px iPhone. Below are the specific fixes.
 
 ### P1-1 Add a real mobile breakpoint set to `shared.css` and inline styles in `index.html`
-- [ ] Add `@media (max-width: 768px)` and `@media (max-width: 480px)` blocks.
+- [x] Add `@media (max-width: 768px)` and `@media (max-width: 480px)` blocks.
 - Required overrides at `≤ 768px`:
   - `.nav-links { display: none; }` (replace with hamburger — see P1-2)
   - `.services-grid, .features-grid { grid-template-columns: 1fr; }`
@@ -114,13 +114,13 @@ The current CSS has effectively zero `@media` queries. The whole site renders th
 - **Acceptance:** Chrome DevTools at 375px shows no horizontal scroll, no overlapping elements, h1 fits within viewport.
 
 ### P1-2 Add a hamburger menu for mobile
-- [ ] Replace `.nav-links` with a toggleable drawer below 768px.
+- [x] Replace `.nav-links` with a toggleable drawer below 768px.
 - Vanilla JS, no framework. Hamburger button → `aria-expanded` toggle → drawer slides down.
 - Keep "Call" button visible at all sizes — it's the primary CTA.
 - **Acceptance:** Mobile nav opens/closes; keyboard accessible (`Esc` closes); `aria-expanded` toggles correctly.
 
 ### P1-3 Add a sticky bottom Call/Book bar on mobile
-- [ ] PDF report's strongest mobile recommendation. Below 768px, fixed-position bar at bottom of viewport with two buttons:
+- [x] PDF report's strongest mobile recommendation. Below 768px, fixed-position bar at bottom of viewport with two buttons:
   - **Call Now** (`tel:+19496295365`) — left half, accent color
   - **Book Repair** (`pages/contact.html`) — right half, dark
 - Hide the bar above 768px (desktop already has a header CTA).
@@ -155,13 +155,13 @@ This is the section that determines whether the site can rank for "appliance rep
 - **Acceptance:** Page lists ≥ 25 cities, each linking somewhere real (city page once it exists, or anchor to "we also serve" section if city page doesn't exist yet).
 
 ### P2-2 Build per-service hub pages
-- [ ] One PR per page. **Build with `/seo-hub --type=service --appliance=[name]`** — the command handles research, proposal, schemas, internal linking, and the test loop. It stops at "PR ready for owner review" (never auto-merges).
+- [x] One PR per page. **Build with `/seo-hub --type=service --appliance=[name]`** — the command handles research, proposal, schemas, internal linking, and the test loop. It stops at "PR ready for owner review" (never auto-merges).
 - Order:
-  1. `pages/refrigerator-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=refrigerator`
-  2. `pages/washer-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=washer`
-  3. `pages/dryer-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dryer`
-  4. `pages/dishwasher-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dishwasher`
-  5. `pages/oven-stove-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=oven-stove`
+  1. ✅ `pages/refrigerator-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=refrigerator`
+  2. [ ] `pages/washer-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=washer`
+  3. [ ] `pages/dryer-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dryer`
+  4. [ ] `pages/dishwasher-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dishwasher`
+  5. [ ] `pages/oven-stove-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=oven-stove`
 - Spec the command enforces: 1,000–1,500 words covering symptoms, brands, repair flow, 8+ FAQs, CTA; required schemas (`Service` + `LocalBusiness` + `BreadcrumbList` + `FAQPage`); links from homepage services grid, footer, `services.html`, and 3 most-relevant existing articles.
 - **Acceptance per page:** the `/seo-hub` Phase 5 demo summary shows ≥ 1,000 words, ≥ 8 FAQs, all four schemas validating, all internal links wired, and a green test pass; PR is open in GitHub for owner review.
 
@@ -177,14 +177,14 @@ This is the section that determines whether the site can rank for "appliance rep
 - **Acceptance per page:** Phase 5 demo summary shows ≥ 800 words, ≥ 5 city FAQs, all schemas validating, internal links wired, sitemap updated, tests green; PR is open in GitHub for owner review.
 
 ### P2-4 Add the "AI answer block" to homepage
-- [ ] PDF report's key GEO insight. New section near the top of `index.html` (after hero, before existing services grid). Plain prose, factual, no marketing fluff.
+- [x] PDF report's key GEO insight. New section near the top of `index.html` (after hero, before existing services grid). Plain prose, factual, no marketing fluff.
 - Suggested copy from PDF:
   > Universal Appliances Repair Group Inc. provides appliance repair services in Orange County, California, including refrigerator repair, washer repair, dryer repair, dishwasher repair, oven repair, stove repair, freezer repair, and garbage disposal repair. We serve Stanton, Irvine, Anaheim, Santa Ana, Huntington Beach, Costa Mesa, Fullerton, Garden Grove, Tustin, Lake Forest, Mission Viejo, and nearby Orange County cities. Call (949) 629-5365 or book online.
 - This is the chunk LLMs lift verbatim when answering "best appliance repair in Orange County." Keep it factual.
 - **Acceptance:** Section visible above the fold on desktop; included in homepage HTML so GPTBot/ClaudeBot/PerplexityBot can read it without JS.
 
 ### P2-5 Expand the homepage FAQ to 10–15 questions
-- [ ] Current homepage FAQ has 3. Each Q&A is a chunk an AI engine can quote.
+- [x] Current homepage FAQ has 3. Each Q&A is a chunk an AI engine can quote.
 - Required additions (from PDF report):
   - Do you offer same-day appliance repair in Orange County?
   - Do you repair Samsung refrigerators?
@@ -204,7 +204,7 @@ This is the section that determines whether the site can rank for "appliance rep
 ## P3 — Trust signals & content depth
 
 ### P3-1 Replace generic testimonials with verifiable ones
-- [ ] Current testimonial is a stock-photo "David Miller." This is a credibility liability.
+- [x] Current testimonial is a stock-photo "David Miller." This is a credibility liability.
 - Pull real Google / Yelp reviews. Each testimonial should include: customer first name, city, appliance type, repair context, approximate date.
 - Add `Review` and `AggregateRating` JSON-LD with star count + review count from GBP.
 - **Acceptance:** ≥ 6 real testimonials on homepage; `AggregateRating` schema present.
