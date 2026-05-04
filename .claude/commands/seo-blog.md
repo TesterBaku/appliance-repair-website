@@ -198,8 +198,9 @@ Apply the Bug Fix Workflow from `rules/git-workflow.md`:
 ## Phase 5 — DEMO
 
 1. Read the screenshot file at `test/screenshots/[slug].png` and display it to the user using the Read tool (it will render inline).
-2. **Interactive mode**: Ask _"Here's how the article looks. Approve to move to PR, or describe any changes you'd like."_ Wait for response.  
-   **Scheduled mode**: Log the screenshot in output and proceed directly to Phase 7.
+2. **Interactive mode (optional deeper check)**: if the article is long-form (>1,500 words) or contains significant inline styling, run `/visual-review articles/[slug].html` for a desktop+mobile inspection via Playwright MCP. Skip for typical articles to keep the workflow snappy.
+3. **Interactive mode**: Ask _"Here's how the article looks. Approve to move to PR, or describe any changes you'd like."_ Wait for response.  
+   **Scheduled mode**: Log the screenshot in output and proceed directly to Phase 7. Do **not** run `/visual-review` in scheduled mode — it would slow the autonomous run unnecessarily.
 
 ---
 
