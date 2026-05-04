@@ -20,6 +20,11 @@
     .contact-info-label { font-size: 11px; color: #aaa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
     .contact-info-value { font-size: 14px; font-weight: 600; color: #111; }
     .contact-info-sub { font-size: 12px; color: #888; margin-top: 2px; }
+    .name-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .name-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -77,7 +82,7 @@
           <p style="font-size:13px;color:#888;margin-bottom:28px;line-height:1.6;">Fill out the form below and one of our technicians will reach out to schedule your repair.</p>
 
           <form onsubmit="handleSubmit(event)">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div class="name-grid">
               <div class="form-group">
                 <label class="form-label">First Name</label>
                 <input type="text" class="form-input" placeholder="John" required />
