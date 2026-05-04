@@ -142,21 +142,27 @@ function rewriteHtml() {
   }
   collect(root);
 
+  const PROD = 'https://fixappliancesfast.com';
   let changed = 0;
   for (const filePath of htmlFiles) {
     const depth = path.relative(root, filePath).split(path.sep).length - 1;
-    const prefix = depth === 0 ? 'images/' : '../images/';
+    const relPrefix = depth === 0 ? 'images/' : '../images/';
+    const absPrefix = `${PROD}/images/`;
 
     let content = fs.readFileSync(filePath, 'utf8');
     const original = content;
 
     for (const [oldId, localFile] of idToFile) {
-      // Replace the full Unsplash CDN URL (any query string) with the local path
-      const regex = new RegExp(
-        `https://images\\.unsplash\\.com/${oldId.replace(/-/g, '\\-')}[^"')]*`,
-        'g'
+      const escapedId = oldId.replace(/-/g, '\\-');
+      const urlPattern = `https://images\\.unsplash\\.com/${escapedId}[^"')]*`;
+
+      // OG / Twitter meta content= → must be absolute URL for social crawlers
+      content = content.replace(
+        new RegExp(`(property="og:image"[^>]*content="|name="twitter:image"[^>]*content=")${urlPattern}`, 'g'),
+        (_, attr) => attr + absPrefix + localFile
       );
-      content = content.replace(regex, prefix + localFile);
+      // Everything else (src=, background-image url()) → relative path
+      content = content.replace(new RegExp(urlPattern, 'g'), relPrefix + localFile);
     }
 
     if (content !== original) {
