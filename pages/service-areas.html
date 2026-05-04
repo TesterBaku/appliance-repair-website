@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appliance Repair Service Areas — Orange County, CA | Universal Appliances Repair</title>
+  <meta name="description" content="Universal Appliances Repair serves 25+ Orange County cities including Irvine, Anaheim, Huntington Beach, Santa Ana, Costa Mesa, and more. Same-day service. Call (949) 629-5365." />
+  <meta name="keywords" content="appliance repair Orange County, service areas Orange County CA, appliance repair near me, same-day appliance repair OC" />
+  <link rel="canonical" href="https://fixappliancesfast.com/pages/service-areas.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Universal Appliances Repair" />
+  <meta property="og:title" content="Appliance Repair Service Areas — Orange County, CA | Universal Appliances Repair" />
+  <meta property="og:description" content="Same-day appliance repair across 25+ Orange County cities. Refrigerators, washers, dryers, dishwashers, ovens, stoves. Call (949) 629-5365." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fixappliancesfast.com/pages/service-areas.html" />
+  <meta property="og:image" content="https://fixappliancesfast.com/images/hero-homepage.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Appliance Repair Service Areas — Orange County, CA | Universal Appliances Repair" />
+  <meta name="twitter:description" content="Same-day appliance repair across 25+ Orange County cities. Call (949) 629-5365." />
+  <meta name="twitter:image" content="https://fixappliancesfast.com/images/hero-homepage.jpg" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../shared.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <style>
+    /* PAGE HERO */
+    .page-hero { background: linear-gradient(135deg, #0f141e 0%, #1a2336 100%); padding: 100px 24px 64px; text-align: center; }
+    .page-hero h1 { font-size: 42px; font-weight: 800; letter-spacing: -1px; line-height: 1.15; color: #fff; max-width: 720px; margin: 0 auto 18px; }
+    .page-hero p { color: rgba(255,255,255,0.75); font-size: 16px; line-height: 1.7; max-width: 520px; margin: 0 auto 32px; }
+    .hero-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); font-size: 12px; padding: 6px 14px; border-radius: 20px; }
+
+    /* AI ANSWER BLOCK */
+    .ai-block { background: #f0f4f8; border-top: 3px solid #e84c1e; padding: 28px 24px; }
+    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 860px; margin: 0 auto; }
+
+    /* MAP */
+    #service-map { height: 420px; border-radius: 14px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+    .map-section { background: #fff; }
+
+    /* REGION GRIDS */
+    .regions-section { background: #f7fafc; }
+    .region-block { margin-bottom: 48px; }
+    .region-block:last-child { margin-bottom: 0; }
+    .region-title { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #e84c1e; display: flex; align-items: center; gap: 10px; }
+    .cities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .city-card { background: #fff; border-radius: 10px; border: 1px solid #eee; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; transition: box-shadow 0.15s, border-color 0.15s; }
+    .city-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-color: #e84c1e; }
+    .city-name { font-size: 13.5px; font-weight: 600; color: #111; }
+    .city-tag { font-size: 10.5px; color: #888; margin-top: 3px; }
+    .city-arrow { color: #e84c1e; font-size: 14px; flex-shrink: 0; }
+    .city-card.primary-city .city-name { color: #e84c1e; }
+
+    /* FAQ */
+    .faq-item { border-bottom: 1px solid #eee; padding: 18px 0; }
+    .faq-q { font-size: 14px; font-weight: 600; color: #111; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; width: 100%; text-align: left; padding: 0; }
+    .faq-q .icon { color: #e84c1e; font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
+    .faq-a { font-size: 13px; color: #555; line-height: 1.75; margin-top: 10px; display: none; }
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .icon { transform: rotate(45deg); }
+
+    @media (max-width: 768px) {
+      .page-hero h1 { font-size: 28px; }
+      .page-hero p { font-size: 14px; }
+      .cities-grid { grid-template-columns: 1fr 1fr; }
+      #service-map { height: 280px; }
+    }
+    @media (max-width: 480px) {
+      .cities-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- Schemas -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Universal Appliances Repair",
+    "legalName": "Universal Appliances Repair Group Inc.",
+    "url": "https://fixappliancesfast.com/",
+    "telephone": "+1-949-629-5365",
+    "email": "info@fixappliancesfast.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "10832 Asbury Avenue",
+      "addressLocality": "Stanton",
+      "addressRegion": "CA",
+      "postalCode": "90680",
+      "addressCountry": "US"
+    },
+    "areaServed": [
+      "Anaheim CA","Santa Ana CA","Irvine CA","Huntington Beach CA","Garden Grove CA",
+      "Fullerton CA","Orange CA","Costa Mesa CA","Newport Beach CA","Laguna Beach CA",
+      "Mission Viejo CA","Lake Forest CA","Yorba Linda CA","Brea CA","Laguna Niguel CA",
+      "Tustin CA","Westminster CA","Fountain Valley CA","Buena Park CA","Cypress CA",
+      "Placentia CA","La Habra CA","Seal Beach CA","San Clemente CA","Dana Point CA",
+      "Aliso Viejo CA","Rancho Santa Margarita CA","Los Alamitos CA","Stanton CA"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fixappliancesfast.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Service Areas", "item": "https://fixappliancesfast.com/pages/service-areas.html" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What cities in Orange County does Universal Appliances Repair serve?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We serve 25+ Orange County cities including Anaheim, Santa Ana, Irvine, Huntington Beach, Garden Grove, Fullerton, Orange, Costa Mesa, Newport Beach, Laguna Beach, Mission Viejo, Lake Forest, Yorba Linda, Brea, Laguna Niguel, Tustin, Westminster, Fountain Valley, Buena Park, Cypress, Placentia, La Habra, Seal Beach, San Clemente, Dana Point, Aliso Viejo, Rancho Santa Margarita, and Los Alamitos." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer same-day appliance repair throughout Orange County?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. We offer same-day service across most of Orange County. Call (949) 629-5365 before noon and we can typically dispatch a technician the same day, subject to availability." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a travel fee for cities farther from Stanton?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We charge a flat diagnostic fee that covers the service call, regardless of your city within Orange County. There are no additional travel surcharges for any city we serve." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you service appliances in gated communities and HOA neighborhoods?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Our technicians are familiar with gated communities throughout Orange County, including Coto de Caza, Dove Canyon, and guard-gated neighborhoods in Newport Beach and Laguna Beach. Just let us know at booking and we will coordinate entry." }
+      },
+      {
+        "@type": "Question",
+        "name": "What appliances do you repair in Orange County?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We repair refrigerators, washers, dryers, dishwashers, ovens, stoves, ranges, microwaves, freezers, and garbage disposals. We service all major brands including Whirlpool, GE, Samsung, LG, Sub-Zero, Bosch, KitchenAid, Maytag, and more." }
+      },
+      {
+        "@type": "Question",
+        "name": "How quickly can you reach South Orange County cities like Mission Viejo or San Clemente?",
+        "acceptedAnswer": { "@type": "Answer", "text": "South OC cities are typically a 30–50 minute drive from our Stanton base. We route technicians to minimize travel time, so same-day appointments in Mission Viejo, Lake Forest, San Clemente, and Dana Point are available most weekdays." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:center;gap:32px;">
+        <a href="../index.html" class="logo">
+          <img src="../logo.png" alt="Universal Appliances Repair logo" style="height:52px;width:auto;">
+          <span>Universal Appliances Repair</span>
+        </a>
+        <div class="nav-links">
+          <a href="about.html">About</a>
+          <a href="services.html">Services</a>
+          <a href="service-areas.html" class="active">Service Areas</a>
+          <a href="faq.html">FAQ</a>
+          <a href="testimonials.html">Testimonials</a>
+          <a href="contact.html">Contact</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a href="tel:+19496295365" class="nav-phone">(949) 629-5365</a>
+        <a href="contact.html" class="nav-cta">Book a Repair</a>
+        <button class="nav-hamburger" aria-expanded="false" aria-label="Open navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-drawer" role="navigation" aria-label="Mobile navigation">
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="service-areas.html">Service Areas</a>
+      <a href="faq.html">FAQ</a>
+      <a href="testimonials.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html" class="nav-drawer-cta">Book a Repair</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <h1>Appliance Repair Service Areas<br/>in Orange County, CA</h1>
+    <p>From Anaheim to San Clemente, our licensed technicians cover 25+ cities across Orange County — same-day service, flat diagnostic fee, no hidden charges.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">25+ Cities Covered</span>
+      <span class="hero-badge">Same-Day Available</span>
+      <span class="hero-badge">Licensed &amp; Insured</span>
+      <span class="hero-badge">All Major Brands</span>
+    </div>
+  </div>
+
+  <!-- AI ANSWER BLOCK -->
+  <div class="ai-block">
+    <p>Universal Appliances Repair Group Inc. provides appliance repair services throughout Orange County, California, serving Anaheim, Santa Ana, Irvine, Huntington Beach, Garden Grove, Fullerton, Orange, Costa Mesa, Newport Beach, Laguna Beach, Mission Viejo, Lake Forest, Yorba Linda, Brea, Laguna Niguel, Tustin, Westminster, Fountain Valley, Buena Park, Cypress, Placentia, La Habra, Seal Beach, San Clemente, Dana Point, Aliso Viejo, Rancho Santa Margarita, Los Alamitos, and Stanton. We repair refrigerators, washers, dryers, dishwashers, ovens, stoves, microwaves, freezers, and garbage disposals. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
+  </div>
+
+  <!-- MAP -->
+  <section class="section map-section">
+    <div class="container-lg">
+      <h2 class="h2-page" style="text-align:center;margin-bottom:24px;">Our Coverage Area</h2>
+      <div id="service-map"></div>
+    </div>
+  </section>
+
+  <!-- CITIES BY REGION -->
+  <section class="section regions-section">
+    <div class="container-lg">
+      <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Cities We Serve</h2>
+      <p style="text-align:center;color:#888;font-size:13px;margin-bottom:48px;">Click any city to book a repair or get a free estimate.</p>
+
+      <!-- Coastal OC -->
+      <div class="region-block">
+        <div class="region-title">🌊 Coastal Orange County</div>
+        <div class="cities-grid">
+          <a href="contact.html" class="city-card primary-city">
+            <div><div class="city-name">Huntington Beach</div><div class="city-tag">Primary service area</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Newport Beach</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Laguna Beach</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Seal Beach</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Dana Point</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">San Clemente</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Central OC -->
+      <div class="region-block">
+        <div class="region-title">🏙️ Central Orange County</div>
+        <div class="cities-grid">
+          <a href="contact.html" class="city-card primary-city">
+            <div><div class="city-name">Anaheim</div><div class="city-tag">Primary service area</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card primary-city">
+            <div><div class="city-name">Santa Ana</div><div class="city-tag">Primary service area</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card primary-city">
+            <div><div class="city-name">Irvine</div><div class="city-tag">Primary service area</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card primary-city">
+            <div><div class="city-name">Garden Grove</div><div class="city-tag">Primary service area</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card primary-city">
+            <div><div class="city-name">Orange</div><div class="city-tag">Primary service area</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card primary-city">
+            <div><div class="city-name">Costa Mesa</div><div class="city-tag">Primary service area</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Tustin</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Westminster</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Fountain Valley</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- North OC -->
+      <div class="region-block">
+        <div class="region-title">🏔️ North Orange County</div>
+        <div class="cities-grid">
+          <a href="contact.html" class="city-card primary-city">
+            <div><div class="city-name">Fullerton</div><div class="city-tag">Primary service area</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Buena Park</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Yorba Linda</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Brea</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Placentia</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">La Habra</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Cypress</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Los Alamitos</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- South OC -->
+      <div class="region-block">
+        <div class="region-title">🌴 South Orange County</div>
+        <div class="cities-grid">
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Mission Viejo</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Lake Forest</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Laguna Niguel</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Aliso Viejo</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+          <a href="contact.html" class="city-card">
+            <div><div class="city-name">Rancho Santa Margarita</div><div class="city-tag">Appliance repair</div></div>
+            <span class="city-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-white">
+    <div class="container">
+      <h2 class="h2-standard" style="text-align:center;margin-bottom:32px;">Frequently Asked Questions</h2>
+      <div style="max-width:720px;margin:0 auto;">
+
+        <div class="faq-item">
+          <button class="faq-q">What cities in Orange County do you serve?<span class="icon">+</span></button>
+          <div class="faq-a">We serve 25+ Orange County cities including Anaheim, Santa Ana, Irvine, Huntington Beach, Garden Grove, Fullerton, Orange, Costa Mesa, Newport Beach, Laguna Beach, Mission Viejo, Lake Forest, Yorba Linda, Brea, Laguna Niguel, Tustin, Westminster, Fountain Valley, Buena Park, Cypress, Placentia, La Habra, Seal Beach, San Clemente, Dana Point, Aliso Viejo, Rancho Santa Margarita, and Los Alamitos.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">Do you offer same-day appliance repair throughout Orange County?<span class="icon">+</span></button>
+          <div class="faq-a">Yes. Same-day service is available across most of Orange County when you call before noon. We dispatch from Stanton and route technicians to reach you quickly, whether you're in Fullerton, Irvine, or San Clemente.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">Is there a travel fee for cities farther from Stanton?<span class="icon">+</span></button>
+          <div class="faq-a">No extra travel charges. We charge a flat diagnostic fee regardless of your city within Orange County. The fee is applied toward the repair if you choose to proceed.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">Do you service appliances in gated communities and HOA neighborhoods?<span class="icon">+</span></button>
+          <div class="faq-a">Yes. Our technicians regularly work in gated communities throughout Orange County — including Coto de Caza, Dove Canyon, and guard-gated areas in Newport Beach and Laguna Beach. Just mention it at booking and we'll coordinate entry.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">What appliances do you repair across Orange County?<span class="icon">+</span></button>
+          <div class="faq-a">We repair refrigerators, washers, dryers, dishwashers, ovens, stoves, ranges, microwaves, freezers, and garbage disposals. All major brands serviced: Whirlpool, GE, Samsung, LG, Sub-Zero, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, and Dacor.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">How quickly can you reach South Orange County cities like Mission Viejo or San Clemente?<span class="icon">+</span></button>
+          <div class="faq-a">South OC cities are typically a 30–50 minute drive from our Stanton base. Same-day appointments in Mission Viejo, Lake Forest, San Clemente, and Dana Point are available most weekdays. Call early for the best availability.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">Ready to schedule a repair?</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:12px;line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto;">Same-day service across Orange County. Licensed technicians, flat diagnostic fee, warranty on parts and labor.</p>
+      <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
+        <a href="contact.html" class="btn-outline">Book Online</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <img src="../logo.png" alt="Universal Appliances Repair logo" style="height:52px;width:auto;">
+          <span style="color:#fff;font-weight:700;font-size:13px;">Universal Appliances Repair</span>
+        </div>
+        <p style="font-size:12px;color:#555;line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Services</div>
+        <ul class="footer-links">
+          <li><a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a></li>
+          <li><a href="services.html">Stove Repair</a></li>
+          <li><a href="services.html">Washer Repair</a></li>
+          <li><a href="services.html">All Services</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Company</div>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Book a Repair</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-label">Contact</div>
+        <div class="footer-contact-line">📞 <a href="tel:+19496295365" style="color:#555;text-decoration:none;">(949) 629-5365</a></div>
+        <div class="footer-contact-line">✉️ <a href="mailto:info@fixappliancesfast.com" style="color:#555;text-decoration:none;">info@fixappliancesfast.com</a></div>
+        <div class="footer-contact-line">📍 10832 Asbury Ave, Stanton, CA 90680</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Universal Appliances Repair. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <!-- Leaflet map script -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLcE=" crossorigin=""></script>
+  <script>
+    var map = L.map('service-map').setView([33.72, -117.87], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 13
+    }).addTo(map);
+
+    var icon = L.divIcon({ className: '', html: '<div style="background:#e84c1e;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>', iconSize: [10,10], iconAnchor: [5,5] });
+
+    var cities = [
+      ["Anaheim", 33.8353, -117.9145], ["Santa Ana", 33.7455, -117.8677],
+      ["Irvine", 33.6846, -117.8265], ["Huntington Beach", 33.6595, -117.9988],
+      ["Garden Grove", 33.7741, -117.9400], ["Fullerton", 33.8704, -117.9245],
+      ["Orange", 33.7879, -117.8531], ["Costa Mesa", 33.6411, -117.9187],
+      ["Newport Beach", 33.6189, -117.9289], ["Laguna Beach", 33.5427, -117.7854],
+      ["Mission Viejo", 33.6000, -117.6719], ["Lake Forest", 33.6464, -117.6894],
+      ["Yorba Linda", 33.8886, -117.8131], ["Brea", 33.9167, -117.9000],
+      ["Laguna Niguel", 33.5222, -117.7075], ["Tustin", 33.7458, -117.8261],
+      ["Westminster", 33.7514, -117.9939], ["Fountain Valley", 33.7091, -117.9534],
+      ["Buena Park", 33.8675, -117.9981], ["Cypress", 33.8169, -118.0373],
+      ["Placentia", 33.8722, -117.8703], ["La Habra", 33.9319, -117.9462],
+      ["Seal Beach", 33.7414, -118.1047], ["San Clemente", 33.4270, -117.6120],
+      ["Dana Point", 33.4669, -117.6981], ["Aliso Viejo", 33.5769, -117.7256],
+      ["Rancho Santa Margarita", 33.6408, -117.6030], ["Los Alamitos", 33.8033, -118.0723],
+      ["Stanton", 33.8005, -117.9931]
+    ];
+
+    cities.forEach(function(c) {
+      L.marker([c[1], c[2]], { icon: icon })
+        .addTo(map)
+        .bindPopup('<strong>' + c[0] + '</strong><br><a href="contact.html" style="color:#e84c1e;font-size:12px;">Book a Repair →</a>');
+    });
+  </script>
+
+  <!-- Hamburger nav -->
+  <script>
+    (function() {
+      var btn = document.querySelector('.nav-hamburger');
+      var drawer = document.querySelector('.nav-drawer');
+      if (!btn || !drawer) return;
+      function openDrawer() { drawer.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
+      function closeDrawer() { drawer.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
+      btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
+      drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
+      document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
+    })();
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        this.closest('.faq-item').classList.toggle('open');
+      });
+    });
+  </script>
+
+</body>
+</html>
