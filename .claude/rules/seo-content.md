@@ -2,6 +2,22 @@
 # SEO Content Rules
 ---
 
+## Brand canonicalization (read first)
+
+The business has two names plus a domain. They must never be mixed up.
+
+- **Public business name (use everywhere user-facing):** `Universal Appliances Repair`
+- **Legal name (use only in schema `legalName` and the footer copyright line):** `Universal Appliances Repair Group Inc.`
+- **Production domain:** `https://fixappliancesfast.com/`
+
+Hard rules:
+- Every `<title>`, `og:site_name`, schema `name`, footer brand line, GBP listing, directory citation, llms.txt, and email signature must use **Universal Appliances Repair**.
+- Never write "Fix Appliances Fast" as a brand name in HTML or schema. It is only a URL.
+- All canonical URLs and schema URLs must use `https://fixappliancesfast.com/...`. The old placeholder domain `universalappliancesrepair.com` is **not** in production — do not emit it in schema, canonical, or OG tags.
+- No leftover template/placeholder strings anywhere in HTML: `My Blog`, `Lorem`, `Placeholder`, `Sample`, `TODO`, `FIXME`. CI greps for these.
+
+---
+
 ## Target Geography — Orange County Cities
 
 Always include at least one of these cities in every SEO article. Rotate across them to build broad local coverage:
@@ -40,6 +56,16 @@ Cover these appliance types across articles:
 
 ---
 
+## Brands Serviced (use in body copy and schema)
+
+List one or more of these brands by name on every service or city page. Plain text, not images — LLMs read text, not pixels.
+
+Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor.
+
+Rule: never claim "factory authorized" or "certified" for a brand without proof. If unverifiable, write "we service" not "we are authorized for".
+
+---
+
 ## SEO Article Types (use as angle for each piece)
 
 | Type | Title Pattern | Intent |
@@ -51,6 +77,53 @@ Cover these appliance types across articles:
 | Maintenance | "[N] [Appliance] Maintenance Tips to Avoid Costly Repairs" | Informational |
 | Repair vs Replace | "Repair or Replace Your [Appliance]? A Practical Guide" | Informational |
 | Brand-specific | "[Brand] [Appliance] Repair in [City] — Common Issues & Fixes" | Transactional |
+
+---
+
+## Site Architecture — Required Hub Pages
+
+Articles alone cannot rank for high-intent commercial searches. The site must also have **hub pages** at fixed URLs. These are not blog posts — they are evergreen landing pages.
+
+### Per-service hub pages (one per appliance)
+Pattern: `pages/[appliance]-repair-orange-county.html`
+- `pages/refrigerator-repair-orange-county.html`
+- `pages/washer-repair-orange-county.html`
+- `pages/dryer-repair-orange-county.html`
+- `pages/dishwasher-repair-orange-county.html`
+- `pages/oven-stove-repair-orange-county.html`
+
+Each: 1,000–1,500 words. Required sections: hero, AI answer block, common symptoms list, brands serviced, repair process, pricing range guidance, 8+ FAQs, real testimonials, CTA.
+
+### Per-city landing pages (one per Primary OC city)
+Pattern: `pages/appliance-repair-[city-slug]-ca.html`
+- `pages/appliance-repair-irvine-ca.html`
+- `pages/appliance-repair-anaheim-ca.html`
+- `pages/appliance-repair-santa-ana-ca.html`
+- `pages/appliance-repair-huntington-beach-ca.html`
+- `pages/appliance-repair-costa-mesa-ca.html`
+- (continue with remaining Primary cities, then Secondary)
+
+Each: 800–1,200 words. Must include: neighborhoods/ZIP codes, recognizable landmarks, services offered in that city, brands serviced, 5+ city-specific FAQs, real local testimonials, CTA.
+
+### Service Areas hub
+- `pages/service-areas.html` — links every city served, grouped (Coastal / Central / North OC / South OC). Required for AI engines that look for explicit service-area definitions.
+
+---
+
+## "AI Answer Block" — required on homepage and every hub page
+
+A concise, factual prose block near the top of the page that LLMs (ChatGPT, Claude, Perplexity, Gemini) can lift verbatim when answering "best appliance repair in Orange County."
+
+Rules:
+- Plain prose, no marketing fluff, no bullets
+- Names the legal entity, services, service area, phone, and booking URL
+- Visible HTML, not hidden in JS
+- 60–110 words
+
+Template (homepage):
+> Universal Appliances Repair Group Inc. provides appliance repair services in Orange County, California, including refrigerator repair, washer repair, dryer repair, dishwasher repair, oven repair, stove repair, freezer repair, and garbage disposal repair. We serve Stanton, Irvine, Anaheim, Santa Ana, Huntington Beach, Costa Mesa, Fullerton, Garden Grove, Tustin, Lake Forest, Mission Viejo, and nearby Orange County cities. Call (949) 629-5365 or book online.
+
+Adapt for service pages (lead with the appliance) and city pages (lead with the city + neighborhoods).
 
 ---
 
@@ -67,22 +140,35 @@ Use naturally in body text, subheadings, and alt text. Never stuff.
 ### Long-tail keywords
 Include at least 2 question-format phrases that map to FAQ schema sections.
 
+### Recommended SEO positioning phrase (use everywhere)
+> Same-day appliance repair in Orange County, CA — refrigerators, washers, dryers, dishwashers, ovens, and stoves.
+
 ---
 
 ## Required SEO Elements in Every Article
 
-### `<head>` tags (required)
+### `<head>` tags (required — production URLs only)
 ```html
 <title>[Primary Keyword] | Universal Appliances Repair</title>
 <meta name="description" content="[150–160 chars, includes primary keyword and city]" />
 <meta name="keywords" content="[5–8 comma-separated keywords]" />
-<link rel="canonical" href="https://universalappliancesrepair.com/[slug].html" />
+<link rel="canonical" href="https://fixappliancesfast.com/[path]" />
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Universal Appliances Repair" />
 <meta property="og:title" content="[Same as <title>]" />
 <meta property="og:description" content="[Same as meta description]" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://universalappliancesrepair.com/[slug].html" />
+<meta property="og:url" content="https://fixappliancesfast.com/[path]" />
+<meta property="og:image" content="https://fixappliancesfast.com/[1200x630 image]" />
 <meta property="article:published_time" content="[ISO date]" />
 <meta property="article:modified_time" content="[ISO date]" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="[Same as <title>]" />
+<meta name="twitter:description" content="[Same as meta description]" />
+<meta name="twitter:image" content="https://fixappliancesfast.com/[1200x630 image]" />
 ```
 
 ### Schema markup (required — inline `<script type="application/ld+json">`)
@@ -99,7 +185,7 @@ Every article must include all four schemas:
   "publisher": {
     "@type": "Organization",
     "name": "Universal Appliances Repair",
-    "logo": { "@type": "ImageObject", "url": "https://universalappliancesrepair.com/logo.png" }
+    "logo": { "@type": "ImageObject", "url": "https://fixappliancesfast.com/logo.png" }
   },
   "datePublished": "[ISO date]",
   "dateModified": "[ISO date]"
@@ -112,34 +198,27 @@ Every article must include all four schemas:
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "Universal Appliances Repair",
+  "legalName": "Universal Appliances Repair Group Inc.",
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "[Target city]",
+    "streetAddress": "10832 Asbury Avenue",
+    "addressLocality": "Stanton",
     "addressRegion": "CA",
+    "postalCode": "90680",
     "addressCountry": "US"
   },
   "telephone": "+1-949-629-5365",
-  "areaServed": "Orange County, CA",
-  "url": "https://universalappliancesrepair.com"
+  "email": "info@fixappliancesfast.com",
+  "areaServed": [
+    "Orange County CA", "Stanton CA", "Irvine CA", "Anaheim CA", "Santa Ana CA",
+    "Huntington Beach CA", "Costa Mesa CA", "Fullerton CA", "Garden Grove CA",
+    "Tustin CA", "Orange CA", "Lake Forest CA", "Mission Viejo CA", "Newport Beach CA"
+  ],
+  "url": "https://fixappliancesfast.com/"
 }
 ```
 
 **3. FAQPage schema** (required — every article must have a FAQ section)
-
-**4. BreadcrumbList schema** (required)
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://universalappliancesrepair.com/" },
-    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://universalappliancesrepair.com/blog.html" },
-    { "@type": "ListItem", "position": 3, "name": "[Article title]", "item": "https://universalappliancesrepair.com/[slug].html" }
-  ]
-}
-```
-
-**3. FAQPage schema** (required)
 ```json
 {
   "@context": "https://schema.org",
@@ -153,6 +232,31 @@ Every article must include all four schemas:
   ]
 }
 ```
+
+**4. BreadcrumbList schema** (required)
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fixappliancesfast.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fixappliancesfast.com/pages/blog.html" },
+    { "@type": "ListItem", "position": 3, "name": "[Article title]", "item": "https://fixappliancesfast.com/articles/[slug].html" }
+  ]
+}
+```
+
+Hub pages additionally include `Service` schema; pages with 6+ verifiable reviews also include `AggregateRating`.
+
+---
+
+## Site-wide required files (root)
+
+These three files must exist at the root and return 200:
+
+1. `/robots.txt` — allow crawling, point to sitemap
+2. `/sitemap.xml` — every published HTML file, with `lastmod`
+3. `/llms.txt` — plain-text business summary for AI crawlers (see template in `tasks/action-plan-fixappliancesfast.md`)
 
 ---
 
@@ -172,12 +276,19 @@ Every article must include all four schemas:
 6. **CTA box** — "Need help in [City]? Call us or book online"
 7. **Related articles** — 3 links to other blog posts
 
-### Mobile layout (required)
+### FAQ requirements by page type
+- **Articles:** 3–5 FAQs
+- **Per-service hub pages:** 8+ FAQs covering brands serviced, cost ranges, warranty, same-day availability, repair vs replace, common symptoms
+- **City landing pages:** 5+ FAQs specific to that city (response time, neighborhoods, ZIP codes covered)
+- **Homepage:** 10–15 FAQs covering same-day, brand-specific (Samsung/LG/Whirlpool), pricing, warranty, online booking, built-in vs freestanding
+
+### Mobile layout (required — see `rules/mobile-design.md`)
 - Every article must be fully responsive at 375px width
 - Hero text must be readable without horizontal scrolling
 - Cards and grid sections must stack vertically on mobile
 - Nav must collapse on mobile (hamburger or hidden links)
 - CTA box must be full-width on mobile
+- Sticky bottom Call/Book bar on mobile (homepage and hub pages — optional on articles)
 - Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or `@media` queries in the embedded `<style>` tag
 
 ### Writing rules
@@ -199,6 +310,16 @@ Every article must include all four schemas:
 
 ---
 
+## Trust signals (required on homepage and all hub pages)
+
+- **Real testimonials only.** Each testimonial must include first name, city, appliance type, and approximate date. No stock-photo "David Miller." Pull from Google or Yelp.
+- **Real photos.** Replace Unsplash hero/service images with photos of the actual technicians, vans, tools, or completed repairs as soon as available.
+- **Verifiable badges.** Display contractor license number, EPA Section 608 cert (for refrigerant work), BBB rating + URL, Google Guaranteed if eligible. Never display badges without proof.
+- **Aggregate rating in schema.** Once 6+ real reviews exist, add `AggregateRating` JSON-LD pulled from GBP.
+- **Author bios on articles.** Each article's schema `author` must reference a real person/page (`@id` or `sameAs`), not just the org.
+
+---
+
 ## Avoiding Duplicate Coverage
 
 Before proposing ideas, check existing articles for:
@@ -211,15 +332,21 @@ If a city or appliance has already been covered, use a different article type or
 
 ## Slug & File Naming
 
-Pattern: `article-[appliance]-[city]-[type].html`
+### Articles
+Pattern: `articles/article-[appliance]-[city]-[type].html`
 
 Examples:
-- `article-washer-repair-irvine.html`
-- `article-dishwasher-cost-orange-county.html`
-- `article-fridge-not-cooling-anaheim.html`
-- `article-dryer-repair-huntington-beach.html`
+- `articles/article-washer-repair-irvine.html`
+- `articles/article-dishwasher-cost-orange-county.html`
+- `articles/article-fridge-not-cooling-anaheim.html`
+- `articles/article-dryer-repair-huntington-beach.html`
+
+### Hub pages
+- Service hub: `pages/[appliance]-repair-orange-county.html`
+- City hub: `pages/appliance-repair-[city-slug]-ca.html`
+- Service Areas hub: `pages/service-areas.html`
 
 Rules:
 - All lowercase, hyphens only
 - City name: use the city slug (huntington-beach, santa-ana, garden-grove)
-- Keep under 60 characters total
+- Keep article slugs under 60 characters total; hub-page slugs may run slightly longer but should stay under 80
