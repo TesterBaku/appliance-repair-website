@@ -9,6 +9,7 @@
     "build:sitemap": "node scripts/build-sitemap.js",
     "clean:images": "node scripts/clean-images.js",
     "optimize:logo": "node scripts/optimize-logo.js",
+    "build:tailwind": "tailwindcss -i tailwind.input.css -o tailwind.css --minify",
     "prepare": "husky"
   },
   "license": "ISC",
@@ -20,6 +21,7 @@
     "@secretlint/secretlint-rule-preset-recommend": "^12.2.0",
     "husky": "^9.1.7",
     "secretlint": "^12.2.0",
-    "sharp": "^0.34.5"
+    "sharp": "^0.34.5",
+    "tailwindcss": "^3.4.19"
   }
 }
