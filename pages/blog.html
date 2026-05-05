@@ -105,6 +105,25 @@
     @media (max-width: 480px) {
       .page-hero h1 { font-size: 26px; }
     }
+  
+    /* NAV DROPDOWN */
+    .nav-dropdown { position: relative; display: inline-flex; align-items: center; }
+    .nav-dropdown-toggle { display: flex; align-items: center; gap: 3px; }
+    .nav-dropdown-arrow { font-size: 9px; opacity: 0.6; display: inline-block; transition: transform 0.18s; }
+    .nav-dropdown:hover .nav-dropdown-arrow { transform: rotate(180deg); }
+    .nav-dropdown-menu { display: none !important; position: absolute; top: calc(100% + 10px); left: -12px; background: #fff; border: 1px solid #eee; border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,0.1); padding: 6px 0; min-width: 190px; z-index: 300; }
+    .nav-dropdown:hover .nav-dropdown-menu { display: block !important; }
+    .nav-dropdown-menu a { display: block !important; padding: 9px 18px !important; font-size: 12.5px !important; color: #444 !important; text-decoration: none; white-space: nowrap; font-weight: 400 !important; }
+    .nav-dropdown-menu a:hover { background: #f7fafc !important; color: #111 !important; font-weight: 500 !important; }
+    .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: #e84c1e !important; font-weight: 600 !important; }
+    .nav-drawer details { border-bottom: 1px solid #f0f0f0; }
+    .nav-drawer details summary { font-size: 15px; color: #333; padding: 12px 0; font-weight: 500; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    .nav-drawer details summary::-webkit-details-marker { display: none; }
+    .nav-drawer details summary::after { content: "▾"; font-size: 11px; color: #aaa; transition: transform 0.2s; }
+    .nav-drawer details[open] summary::after { transform: rotate(180deg); }
+    .nav-drawer details a { display: block !important; font-size: 13.5px; color: #666; padding: 9px 0 9px 14px; border-bottom: 1px solid #f5f5f5; text-decoration: none; }
+    .nav-drawer details a:last-child { border-bottom: none; padding-bottom: 12px; }
+    .nav-drawer details .drawer-all { color: #e84c1e !important; font-weight: 600; }
   </style>
 </head>
 <body>
