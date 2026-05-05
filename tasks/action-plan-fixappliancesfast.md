@@ -147,7 +147,7 @@ The current CSS has effectively zero `@media` queries. The whole site renders th
 This is the section that determines whether the site can rank for "appliance repair Anaheim" or only for "Universal Appliances Repair." Each page below is a separate PR.
 
 ### P2-1 Build `/service-areas/` hub page
-- [ ] New file: `pages/service-areas.html`.
+- [x] New file: `pages/service-areas.html`.
 - Lists every Orange County city served, grouped (Coastal / Central / South OC / North OC).
 - Each city links to its dedicated landing page (built in P2-3).
 - Embed an interactive map (Leaflet + OpenStreetMap, no API key needed).
@@ -158,8 +158,8 @@ This is the section that determines whether the site can rank for "appliance rep
 - [x] One PR per page. **Build with `/seo-hub --type=service --appliance=[name]`** — the command handles research, proposal, schemas, internal linking, and the test loop. It stops at "PR ready for owner review" (never auto-merges).
 - Order:
   1. ✅ `pages/refrigerator-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=refrigerator`
-  2. [ ] `pages/washer-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=washer`
-  3. [ ] `pages/dryer-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dryer`
+  2. ✅ `pages/washer-repair-orange-county.html`  →  PR #75 open, awaiting owner review
+  3. ✅ `pages/dryer-repair-orange-county.html`  →  PR #78 open, awaiting owner review
   4. [ ] `pages/dishwasher-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dishwasher`
   5. [ ] `pages/oven-stove-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=oven-stove`
 - Spec the command enforces: 1,000–1,500 words covering symptoms, brands, repair flow, 8+ FAQs, CTA; required schemas (`Service` + `LocalBusiness` + `BreadcrumbList` + `FAQPage`); links from homepage services grid, footer, `services.html`, and 3 most-relevant existing articles.
