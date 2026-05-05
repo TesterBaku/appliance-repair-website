@@ -2,6 +2,27 @@
 
 ---
 
+## May 4, 2026 — city hub: appliance-repair-huntington-beach-ca
+
+**Type:** city
+**Target:** Huntington Beach, CA
+**PR:** [#92](https://github.com/TesterBaku/appliance-repair-website/pull/92) — merged
+**Word count:** 2,300
+**FAQ count:** 5 (HB-specific including coastal salt air FAQ)
+**Neighborhoods:** 6 with ZIP codes (Downtown/Pier, Seacliff, Central HB, Huntington Harbour, Bolsa Chica, Oak View/Midtown)
+**Internal links wired:** service-areas.html, Irvine/Anaheim/Santa Ana hub footers, article-fridge-not-cooling-huntington-beach, article-washer-not-spinning-huntington-beach, article-repair-replace, sitemap.xml
+**Schemas:** LocalBusiness (HB areaServed), BreadcrumbList, FAQPage
+
+**Outstanding for owner:**
+- None
+
+**Phase 0 highlights:**
+- Competition: High — D&V has 2,800-3,200 word page; Pacific Coast lists 90+ neighborhoods with no service content
+- Structural gaps exploited: no HB-specific FAQs anywhere; underdeveloped coastal angle (D&V names it but doesn't explain it); no AI answer block
+- Unique addition: coastal salt air callout section — explains how ocean humidity/corrosion affects appliances; uncontested on any competitor page
+
+---
+
 ## May 4, 2026 — city hub: appliance-repair-santa-ana-ca
 
 **Type:** city
