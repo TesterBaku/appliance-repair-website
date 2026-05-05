@@ -160,8 +160,8 @@ This is the section that determines whether the site can rank for "appliance rep
   1. ✅ `pages/refrigerator-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=refrigerator`
   2. ✅ `pages/washer-repair-orange-county.html`  →  PR #75 open, awaiting owner review
   3. ✅ `pages/dryer-repair-orange-county.html`  →  PR #78 open, awaiting owner review
-  4. [ ] `pages/dishwasher-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=dishwasher`
-  5. [ ] `pages/oven-stove-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=oven-stove`
+  4. ✅ `pages/dishwasher-repair-orange-county.html`  →  PR #81 merged
+  5. ✅ `pages/oven-stove-repair-orange-county.html`  →  PR #83 merged
 - Spec the command enforces: 1,000–1,500 words covering symptoms, brands, repair flow, 8+ FAQs, CTA; required schemas (`Service` + `LocalBusiness` + `BreadcrumbList` + `FAQPage`); links from homepage services grid, footer, `services.html`, and 3 most-relevant existing articles.
 - **Acceptance per page:** the `/seo-hub` Phase 5 demo summary shows ≥ 1,000 words, ≥ 8 FAQs, all four schemas validating, all internal links wired, and a green test pass; PR is open in GitHub for owner review.
 
