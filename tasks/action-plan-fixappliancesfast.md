@@ -165,16 +165,42 @@ This is the section that determines whether the site can rank for "appliance rep
 - Spec the command enforces: 1,000–1,500 words covering symptoms, brands, repair flow, 8+ FAQs, CTA; required schemas (`Service` + `LocalBusiness` + `BreadcrumbList` + `FAQPage`); links from homepage services grid, footer, `services.html`, and 3 most-relevant existing articles.
 - **Acceptance per page:** the `/seo-hub` Phase 5 demo summary shows ≥ 1,000 words, ≥ 8 FAQs, all four schemas validating, all internal links wired, and a green test pass; PR is open in GitHub for owner review.
 
-### P2-3 Build city landing pages — start with the top 5
+### P2-3 Build city landing pages
 - [x] One PR per page. **Build with `/seo-hub --type=city --city=[slug]`** — same command as P2-2, different `--type`. The command pulls real neighborhoods/ZIPs in Phase 0 so each page has authentic local detail.
-- Order from PDF report:
+- Spec the command enforces: 800–1,200 words covering neighborhoods/ZIPs, services available locally, brands, 5+ city-specific FAQs, real local testimonials (or marked TODO placeholders); required schemas (`LocalBusiness` with city `addressLocality` + `BreadcrumbList` + `FAQPage`); links from `service-areas.html`, the 4 nearest hub footers, and the 2 most-relevant articles tagged with that city.
+- **Acceptance per page:** Phase 5 demo summary shows ≥ 800 words, ≥ 5 city FAQs, all schemas validating, internal links wired, sitemap updated, tests green; PR is open in GitHub for owner review.
+
+#### Primary cities (highest population / search volume)
   1. ✅ `pages/appliance-repair-irvine-ca.html`  →  PR #86 merged
   2. ✅ `pages/appliance-repair-anaheim-ca.html`  →  PR #88 merged
   3. ✅ `pages/appliance-repair-santa-ana-ca.html`  →  PR #90 merged
   4. ✅ `pages/appliance-repair-huntington-beach-ca.html`  →  PR #92 merged
   5. ✅ `pages/appliance-repair-costa-mesa-ca.html`  →  PR #94 merged
-- Spec the command enforces: 800–1,200 words covering neighborhoods/ZIPs, services available locally, brands, 5+ city-specific FAQs, real local testimonials (or marked TODO placeholders); required schemas (`LocalBusiness` with city `addressLocality` + `BreadcrumbList` + `FAQPage`); links from `/service-areas/`, homepage, footer, and the 3 most-relevant articles tagged with that city.
-- **Acceptance per page:** Phase 5 demo summary shows ≥ 800 words, ≥ 5 city FAQs, all schemas validating, internal links wired, sitemap updated, tests green; PR is open in GitHub for owner review.
+  6. [ ] `pages/appliance-repair-garden-grove-ca.html`  →  `/seo-hub --type=city --city=garden-grove`
+  7. [ ] `pages/appliance-repair-fullerton-ca.html`  →  `/seo-hub --type=city --city=fullerton`
+  8. [ ] `pages/appliance-repair-orange-ca.html`  →  `/seo-hub --type=city --city=orange`
+
+#### Secondary cities
+  9.  [ ] `pages/appliance-repair-newport-beach-ca.html`  →  `/seo-hub --type=city --city=newport-beach`
+  10. [ ] `pages/appliance-repair-mission-viejo-ca.html`  →  `/seo-hub --type=city --city=mission-viejo`
+  11. [ ] `pages/appliance-repair-lake-forest-ca.html`  →  `/seo-hub --type=city --city=lake-forest`
+  12. [ ] `pages/appliance-repair-tustin-ca.html`  →  `/seo-hub --type=city --city=tustin`
+  13. [ ] `pages/appliance-repair-fountain-valley-ca.html`  →  `/seo-hub --type=city --city=fountain-valley`
+  14. [ ] `pages/appliance-repair-westminster-ca.html`  →  `/seo-hub --type=city --city=westminster`
+  15. [ ] `pages/appliance-repair-buena-park-ca.html`  →  `/seo-hub --type=city --city=buena-park`
+  16. [ ] `pages/appliance-repair-yorba-linda-ca.html`  →  `/seo-hub --type=city --city=yorba-linda`
+  17. [ ] `pages/appliance-repair-brea-ca.html`  →  `/seo-hub --type=city --city=brea`
+  18. [ ] `pages/appliance-repair-laguna-niguel-ca.html`  →  `/seo-hub --type=city --city=laguna-niguel`
+  19. [ ] `pages/appliance-repair-laguna-beach-ca.html`  →  `/seo-hub --type=city --city=laguna-beach`
+  20. [ ] `pages/appliance-repair-aliso-viejo-ca.html`  →  `/seo-hub --type=city --city=aliso-viejo`
+  21. [ ] `pages/appliance-repair-rancho-santa-margarita-ca.html`  →  `/seo-hub --type=city --city=rancho-santa-margarita`
+  22. [ ] `pages/appliance-repair-san-clemente-ca.html`  →  `/seo-hub --type=city --city=san-clemente`
+  23. [ ] `pages/appliance-repair-dana-point-ca.html`  →  `/seo-hub --type=city --city=dana-point`
+  24. [ ] `pages/appliance-repair-seal-beach-ca.html`  →  `/seo-hub --type=city --city=seal-beach`
+  25. [ ] `pages/appliance-repair-cypress-ca.html`  →  `/seo-hub --type=city --city=cypress`
+  26. [ ] `pages/appliance-repair-placentia-ca.html`  →  `/seo-hub --type=city --city=placentia`
+  27. [ ] `pages/appliance-repair-la-habra-ca.html`  →  `/seo-hub --type=city --city=la-habra`
+  28. [ ] `pages/appliance-repair-los-alamitos-ca.html`  →  `/seo-hub --type=city --city=los-alamitos`
 
 ### P2-4 Add the "AI answer block" to homepage
 - [x] PDF report's key GEO insight. New section near the top of `index.html` (after hero, before existing services grid). Plain prose, factual, no marketing fluff.
