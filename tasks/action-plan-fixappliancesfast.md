@@ -166,13 +166,13 @@ This is the section that determines whether the site can rank for "appliance rep
 - **Acceptance per page:** the `/seo-hub` Phase 5 demo summary shows ≥ 1,000 words, ≥ 8 FAQs, all four schemas validating, all internal links wired, and a green test pass; PR is open in GitHub for owner review.
 
 ### P2-3 Build city landing pages — start with the top 5
-- [ ] One PR per page. **Build with `/seo-hub --type=city --city=[slug]`** — same command as P2-2, different `--type`. The command pulls real neighborhoods/ZIPs in Phase 0 so each page has authentic local detail.
+- [x] One PR per page. **Build with `/seo-hub --type=city --city=[slug]`** — same command as P2-2, different `--type`. The command pulls real neighborhoods/ZIPs in Phase 0 so each page has authentic local detail.
 - Order from PDF report:
-  1. `pages/appliance-repair-irvine-ca.html`  →  `/seo-hub --type=city --city=irvine`
-  2. `pages/appliance-repair-anaheim-ca.html`  →  `/seo-hub --type=city --city=anaheim`
-  3. `pages/appliance-repair-santa-ana-ca.html`  →  `/seo-hub --type=city --city=santa-ana`
-  4. `pages/appliance-repair-huntington-beach-ca.html`  →  `/seo-hub --type=city --city=huntington-beach`
-  5. `pages/appliance-repair-costa-mesa-ca.html`  →  `/seo-hub --type=city --city=costa-mesa`
+  1. ✅ `pages/appliance-repair-irvine-ca.html`  →  PR #86 merged
+  2. ✅ `pages/appliance-repair-anaheim-ca.html`  →  PR #88 merged
+  3. ✅ `pages/appliance-repair-santa-ana-ca.html`  →  PR #90 merged
+  4. ✅ `pages/appliance-repair-huntington-beach-ca.html`  →  PR #92 merged
+  5. ✅ `pages/appliance-repair-costa-mesa-ca.html`  →  PR #94 merged
 - Spec the command enforces: 800–1,200 words covering neighborhoods/ZIPs, services available locally, brands, 5+ city-specific FAQs, real local testimonials (or marked TODO placeholders); required schemas (`LocalBusiness` with city `addressLocality` + `BreadcrumbList` + `FAQPage`); links from `/service-areas/`, homepage, footer, and the 3 most-relevant articles tagged with that city.
 - **Acceptance per page:** Phase 5 demo summary shows ≥ 800 words, ≥ 5 city FAQs, all schemas validating, internal links wired, sitemap updated, tests green; PR is open in GitHub for owner review.
 
