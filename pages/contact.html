@@ -131,24 +131,32 @@
           <h2 class="h2-xs" style="margin-bottom:6px;">Contact Universal Appliances Repair Experts</h2>
           <p style="font-size:13px;color:#888;margin-bottom:28px;line-height:1.6;">Fill out the form below and one of our technicians will reach out to schedule your repair.</p>
 
-          <form onsubmit="handleSubmit(event)">
+          <!--
+            FORMSPREE SETUP (one-time, 2 minutes):
+            1. Go to https://formspree.io and sign in with info@fixappliancesfast.com
+            2. Create a new form — set email to info@fixappliancesfast.com
+            3. Copy the form ID (looks like "xpwzgkrb") and replace YOUR_FORM_ID below
+          -->
+          <form id="contact-form" action="https://formspree.io/f/xqenbpka" method="POST" novalidate>
+            <input type="hidden" name="_subject" value="New repair request — Universal Appliances Repair" />
+
             <div class="name-grid">
               <div class="form-group">
-                <label class="form-label">First Name</label>
-                <input type="text" class="form-input" placeholder="John" required />
+                <label class="form-label" for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="John" required />
               </div>
               <div class="form-group">
-                <label class="form-label">Last Name</label>
-                <input type="text" class="form-input" placeholder="Smith" required />
+                <label class="form-label" for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Smith" required />
               </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Phone Number</label>
-              <input type="tel" class="form-input" placeholder="(949) 000-0000" required />
+              <label class="form-label" for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="form-input" placeholder="(949) 000-0000" required />
             </div>
             <div class="form-group">
-              <label class="form-label">City</label>
-              <select class="form-input">
+              <label class="form-label" for="city">City</label>
+              <select id="city" name="city" class="form-input" required>
                 <option value="">Select city...</option>
                 <option>Irvine</option>
                 <option>Anaheim</option>
@@ -167,8 +175,8 @@
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Appliance Type</label>
-              <select class="form-input">
+              <label class="form-label" for="appliance">Appliance Type</label>
+              <select id="appliance" name="appliance" class="form-input" required>
                 <option value="">Select appliance...</option>
                 <option>Refrigerator</option>
                 <option>Washer</option>
@@ -182,15 +190,27 @@
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Describe the Issue</label>
-              <textarea class="form-input" placeholder="Tell us what's wrong with your appliance..."></textarea>
+              <label class="form-label" for="message">Describe the Issue</label>
+              <textarea id="message" name="message" class="form-input" placeholder="Tell us what's wrong with your appliance..."></textarea>
             </div>
             <div class="form-group">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-input" placeholder="john@email.com" />
+              <label class="form-label" for="email">Email Address</label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="john@email.com" />
             </div>
-            <button type="submit" class="btn-primary form-submit" style="width:100%;text-align:center;cursor:pointer;border:none;font-family:'Inter',sans-serif;">Send Message</button>
+            <button type="submit" id="form-submit" class="btn-primary form-submit" style="width:100%;text-align:center;cursor:pointer;border:none;font-family:'Inter',sans-serif;">Send Message</button>
           </form>
+
+          <!-- Success state (hidden until submission) -->
+          <div id="form-success" style="display:none;text-align:center;padding:40px 20px;">
+            <div style="font-size:48px;margin-bottom:16px;">✅</div>
+            <h3 style="font-size:20px;font-weight:700;color:#111;margin-bottom:8px;">Message sent!</h3>
+            <p style="font-size:14px;color:#555;line-height:1.6;">We'll call you back shortly to schedule your repair. For same-day service, call <a href="tel:+19496295365" style="color:#e84c1e;font-weight:600;">(949) 629-5365</a>.</p>
+          </div>
+
+          <!-- Error state (hidden until failure) -->
+          <div id="form-error" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:14px 16px;margin-top:12px;font-size:13px;color:#b91c1c;">
+            Something went wrong. Please try again or call us at <a href="tel:+19496295365" style="color:#b91c1c;font-weight:600;">(949) 629-5365</a>.
+          </div>
         </div>
 
         <!-- CONTACT INFO -->
@@ -285,10 +305,45 @@
   </footer>
 
   <script>
-    function handleSubmit(e) {
-      e.preventDefault();
-      alert('Thank you! We\'ll be in touch shortly.');
-    }
+    (function() {
+      var form = document.getElementById('contact-form');
+      var submitBtn = document.getElementById('form-submit');
+      var successEl = document.getElementById('form-success');
+      var errorEl = document.getElementById('form-error');
+
+      if (!form) return;
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        errorEl.style.display = 'none';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(function(res) {
+          if (res.ok) {
+            form.style.display = 'none';
+            successEl.style.display = 'block';
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'form_submit', { event_category: 'contact', event_label: 'repair_request' });
+            }
+          } else {
+            return res.json().then(function(data) {
+              throw new Error(data.error || 'Submission failed');
+            });
+          }
+        })
+        .catch(function() {
+          errorEl.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+        });
+      });
+    })();
     (function() {
       var btn = document.querySelector('.nav-hamburger');
       var drawer = document.querySelector('.nav-drawer');
