@@ -32,6 +32,8 @@
     @media (max-width: 768px) {
       .contact-grid { grid-template-columns: 1fr; }
       .name-grid { grid-template-columns: 1fr; }
+      .form-input { font-size: 16px; }
+      .form-submit { min-height: 44px; width: 100%; font-size: 15px; }
     }
   </style>
 </head>
@@ -141,22 +143,41 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Email Address</label>
-              <input type="email" class="form-input" placeholder="john@email.com" required />
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-input" placeholder="(949) 000-0000" required />
             </div>
             <div class="form-group">
-              <label class="form-label">Phone Number</label>
-              <input type="tel" class="form-input" placeholder="(949) 000-0000" />
+              <label class="form-label">City</label>
+              <select class="form-input">
+                <option value="">Select city...</option>
+                <option>Irvine</option>
+                <option>Anaheim</option>
+                <option>Santa Ana</option>
+                <option>Huntington Beach</option>
+                <option>Costa Mesa</option>
+                <option>Garden Grove</option>
+                <option>Fullerton</option>
+                <option>Orange</option>
+                <option>Newport Beach</option>
+                <option>Tustin</option>
+                <option>Westminster</option>
+                <option>Fountain Valley</option>
+                <option>Buena Park</option>
+                <option>Other (Orange County)</option>
+              </select>
             </div>
             <div class="form-group">
               <label class="form-label">Appliance Type</label>
               <select class="form-input">
                 <option value="">Select appliance...</option>
                 <option>Refrigerator</option>
-                <option>Stove / Oven</option>
-                <option>Washing Machine</option>
+                <option>Washer</option>
                 <option>Dryer</option>
                 <option>Dishwasher</option>
+                <option>Oven / Stove</option>
+                <option>Freezer</option>
+                <option>Microwave</option>
+                <option>Garbage Disposal</option>
                 <option>Other</option>
               </select>
             </div>
@@ -164,7 +185,11 @@
               <label class="form-label">Describe the Issue</label>
               <textarea class="form-input" placeholder="Tell us what's wrong with your appliance..."></textarea>
             </div>
-            <button type="submit" class="btn-primary" style="width:100%;text-align:center;cursor:pointer;border:none;font-family:'Inter',sans-serif;font-size:13px;">Send Message</button>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" placeholder="john@email.com" />
+            </div>
+            <button type="submit" class="btn-primary form-submit" style="width:100%;text-align:center;cursor:pointer;border:none;font-family:'Inter',sans-serif;">Send Message</button>
           </form>
         </div>
 
@@ -210,7 +235,7 @@
             <div style="font-size:22px;margin-bottom:8px;">📞</div>
             <div style="font-size:18px;font-weight:700;margin-bottom:4px;">(949) 629-5365</div>
             <div style="font-size:12px;opacity:0.85;margin-bottom:16px;">Same-day service when available</div>
-            <a href="tel:+19496295365" style="display:inline-block;background:#fff;color:#e84c1e;font-size:13px;font-weight:700;padding:10px 24px;border-radius:8px;text-decoration:none;">Call Us Now</a>
+            <a href="tel:+19496295365" style="display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#e84c1e;font-size:13px;font-weight:700;min-height:44px;padding:0 24px;border-radius:8px;text-decoration:none;">Call Us Now</a>
           </div>
         </div>
 

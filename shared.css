@@ -158,6 +158,10 @@ body { background: #f7fafc; color: #000000e6; font-family: 'Inter', sans-serif; 
   .dark-section { padding: 56px 16px; }
   .footer-grid { gap: 28px; }
   .form-input { font-size: 16px; }
+  /* P1-4 — tap targets */
+  .btn-primary, .btn-dark, .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .footer-links a { display: block; padding: 8px 0; min-height: 44px; display: flex; align-items: center; }
+  .nav-drawer a { min-height: 44px; display: flex; align-items: center; }
 }
 
 /* ── MOBILE: 480px ─────────────────────────────────────── */
