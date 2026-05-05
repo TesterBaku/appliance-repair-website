@@ -127,13 +127,13 @@ The current CSS has effectively zero `@media` queries. The whole site renders th
 - Add `padding-bottom: 64px` to `body` on mobile so content isn't covered.
 - **Acceptance:** On mobile, bar is always visible; both buttons are 44×44px tap targets minimum.
 
-### P1-4 Fix tap target sizes throughout
-- [ ] Several inline-styled CTAs use `padding: 7px 16px` — under the 44px Apple HIG minimum for tap targets.
+### P1-4 Fix tap target sizes throughout ✅ PR #107
+- [x] Several inline-styled CTAs use `padding: 7px 16px` — under the 44px Apple HIG minimum for tap targets.
 - Audit every `<a>` and `<button>`. Anything below 44px height in mobile breakpoint gets bumped.
 - **Acceptance:** Lighthouse mobile audit shows zero "tap targets too small" warnings.
 
-### P1-5 Fix the contact/booking form for mobile
-- [ ] PDF report flagged: form may show duplicate "Please enable JavaScript" message and feels crowded.
+### P1-5 Fix the contact/booking form for mobile ✅ PR #107
+- [x] PDF report flagged: form may show duplicate "Please enable JavaScript" message and feels crowded.
 - Stack form fields vertically (no side-by-side on mobile).
 - Use proper `<select>` dropdowns for City and Appliance Type.
 - Fields above the fold on mobile: Name, Phone, City, Appliance, Message. Nothing else.
