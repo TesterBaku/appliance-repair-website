@@ -2,6 +2,27 @@
 
 ---
 
+## May 5, 2026 — city hub: appliance-repair-garden-grove-ca
+
+**Type:** city
+**Target:** Garden Grove, CA
+**PR:** [#103](https://github.com/TesterBaku/appliance-repair-website/pull/103) — open, awaiting owner review
+**Word count:** 2,179
+**FAQ count:** 5 (Garden Grove-specific)
+**Neighborhoods:** 6 with ZIP codes (Little Saigon, Downtown/Historic Main St, Koreatown, West Garden Grove, Resort/Anaheim Border, Central Garden Grove)
+**Internal links wired:** service-areas.html, all 5 existing hub footers, article-fridge-repair-garden-grove, article-washer-repair-garden-grove, article-repair-replace, sitemap.xml
+**Schemas:** LocalBusiness (Garden Grove areaServed), BreadcrumbList, FAQPage
+
+**Outstanding for owner:**
+- None
+
+**Phase 0 highlights:**
+- Competition: High — top competitor (Express) has 2,800 words; others 280–850 words
+- Structural gaps exploited: no competitor has FAQs; no one names Little Saigon or Koreatown; no AI answer block anywhere
+- Unique angle: Little Saigon (92844) and Koreatown (92843) called out explicitly — uncontested on all competitor pages
+
+---
+
 ## May 4, 2026 — city hub: appliance-repair-costa-mesa-ca
 
 **Type:** city
