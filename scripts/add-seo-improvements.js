@@ -11,7 +11,8 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const BASE_URL = 'https://universalappliancesrepair.com';
+const ARTICLES_DIR = path.join(ROOT, 'articles');
+const BASE_URL = 'https://fixappliancesfast.com';
 
 // Old articles that predate the SEO workflow — need full Article schema added
 const OLD_ARTICLE_DATES = {
@@ -80,8 +81,8 @@ function buildBreadcrumbSchema(slug, h1) {
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "${BASE_URL}/" },
-      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "${BASE_URL}/blog.html" },
-      { "@type": "ListItem", "position": 3, "name": "${h1.replace(/"/g, '\\"')}", "item": "${BASE_URL}/${slug}.html" }
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "${BASE_URL}/pages/blog.html" },
+      { "@type": "ListItem", "position": 3, "name": "${h1.replace(/"/g, '\\"')}", "item": "${BASE_URL}/articles/${slug}.html" }
     ]
   }
   </script>`;
@@ -153,6 +154,15 @@ function processFile(filePath) {
   if (!hasOGTag(html, 'og:url') && canonical) {
     missingTags.push(`  <meta property="og:url" content="${canonical}" />`);
   }
+  if (!hasOGTag(html, 'og:image')) {
+    // Use the article hero image src if present, else fall back to the brand hero
+    const heroSrcMatch = html.match(/class="article-hero-img"[^>]*src="([^"]+)"/);
+    const ogImage = heroSrcMatch
+      ? heroSrcMatch[1].replace(/^\.\.\//, `${BASE_URL}/`)
+      : `${BASE_URL}/images/hero-homepage.jpg`;
+    missingTags.push(`  <meta property="og:image" content="${ogImage}" />`);
+    missingTags.push(`  <meta name="twitter:image" content="${ogImage}" />`);
+  }
   if (!hasOGTag(html, 'article:published_time')) {
     missingTags.push(`  <meta property="article:published_time" content="${date}" />`);
   }
@@ -190,14 +200,14 @@ function processFile(filePath) {
   return false;
 }
 
-// Run on all article-*.html files
-const articles = fs.readdirSync(ROOT)
+// Run on all article-*.html files in the articles/ directory
+const articles = fs.readdirSync(ARTICLES_DIR)
   .filter(f => f.startsWith('article-') && f.endsWith('.html'))
   .sort();
 
 let totalChanged = 0;
 for (const filename of articles) {
-  const filePath = path.join(ROOT, filename);
+  const filePath = path.join(ARTICLES_DIR, filename);
   console.log(`\nProcessing: ${filename}`);
   const changed = processFile(filePath);
   if (changed) totalChanged++;
