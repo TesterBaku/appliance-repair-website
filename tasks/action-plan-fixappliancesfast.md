@@ -209,8 +209,8 @@ This is the section that determines whether the site can rank for "appliance rep
 - Add `Review` and `AggregateRating` JSON-LD with star count + review count from GBP.
 - **Acceptance:** ≥ 6 real testimonials on homepage; `AggregateRating` schema present.
 
-### P3-2 Publish a "Brands We Service" section
-- [ ] AI engines and customers both use brand names as filters. Currently no brands listed.
+### P3-2 Publish a "Brands We Service" section ✅ PR #97
+- [x] AI engines and customers both use brand names as filters. Currently no brands listed.
 - Add a brand grid with logos (or text if licensing is a concern): Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor.
 - Add to `services.html` and the per-service hub pages.
 - **Acceptance:** Brands section visible on homepage and all service pages; brand names appear as plain text in HTML (LLM-readable).
