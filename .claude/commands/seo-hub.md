@@ -304,7 +304,10 @@ PR body must include:
 
 ## Phase 8 — REVIEW
 
-Invoke `/review`. Fix every FAIL. Re-run `/review` until clean.
+Spawn `/review` as an **independent subagent** — a fresh Agent with no context from this implementation session. The reviewer acts as a senior engineer with 20 years of experience who was not involved in building the hub page.
+
+- If verdict is **`✅ APPROVED`**: proceed to Phase 9.
+- If verdict is **`🚫 CHANGES REQUIRED`**: fix every blocker, commit separately, re-spawn `/review` as a new independent subagent. Repeat until `✅ APPROVED`.
 
 ---
 
