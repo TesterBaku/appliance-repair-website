@@ -92,7 +92,13 @@ for (const city of cities) {
     `$1${city.desc}$2`
   );
 
-  // 3. Inject Service schema before </head> (skip if already present)
+  // 3. Replace twitter:description (same trimmed text)
+  html = html.replace(
+    /(<meta\s+name="twitter:description"\s+content=")[^"]*(")/,
+    `$1${city.desc}$2`
+  );
+
+  // 4. Inject Service schema before </head> (skip if already present)
   if (!html.includes('"@type": "Service"')) {
     html = html.replace('</head>', `${buildServiceSchema(city.name)}\n</head>`);
   }
