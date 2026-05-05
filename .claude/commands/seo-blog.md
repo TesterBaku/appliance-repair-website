@@ -225,10 +225,10 @@ Example: `content(blog): add washer repair Irvine article`
 
 ## Phase 8 — REVIEW
 
-Invoke `/review` to check the branch against `main`.
+Spawn `/review` as an **independent subagent** — a fresh Agent with no context from this implementation session. The reviewer acts as a senior engineer with 20 years of experience who was not involved in writing the article.
 
-- If review result is **"Ready to merge"**: proceed to Phase 9.
-- If review result is **"Needs changes"**: fix every FAIL item, commit each fix, re-run `/review`, repeat until clean.
+- If review verdict is **`✅ APPROVED`**: proceed to Phase 9.
+- If review verdict is **`🚫 CHANGES REQUIRED`**: fix every blocker item, commit each fix separately, re-run `/review` as a new independent subagent, repeat until `✅ APPROVED`.
 
 ---
 
