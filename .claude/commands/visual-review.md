@@ -79,7 +79,7 @@ For each page in scope, run **both** viewports. Use a fresh browser context per 
 1. **Resize** the browser to the viewport dimensions.
 2. **Navigate** to the page URL.
 3. **Wait** for `networkidle` or a 2-second settle, whichever comes first.
-4. **Screenshot** full-page. Save to `test/screenshots/visual-review/[viewport]/[slug].png`.
+4. **Screenshot** full-page. Save to `.audits/visual-review/[viewport]/[slug].png`.
 5. **Run JavaScript checks** — see check list below.
 6. **Read the console** for errors only (warnings are noise for this gate).
 7. **Compile findings** for the page+viewport combo.
@@ -177,7 +177,7 @@ Top blockers:
   2. Missing hamburger menu — affects [N] pages
   3. Missing sticky-mobile-bar on homepage and hub pages
 
-Screenshots saved to: test/screenshots/visual-review/
+Screenshots saved to: .audits/visual-review/
 ```
 
 ---
@@ -186,7 +186,7 @@ Screenshots saved to: test/screenshots/visual-review/
 
 1. Close the browser context.
 2. Kill the local server: `kill <pid>`.
-3. **Do not** stage or commit the screenshots — they're already gitignored under `test/screenshots/`.
+3. **Do not** stage or commit the screenshots — `.audits/` is gitignored. Never save screenshots to the repo root.
 
 ---
 

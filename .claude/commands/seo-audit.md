@@ -172,6 +172,7 @@ If `mcp__claude_ai_Gmail__create_draft` is unavailable or returns an error, skip
 
 ## Rules
 
+- Any screenshots taken during the audit must be saved to `.audits/` — never to the repo root. `.audits/` is gitignored.
 - Never delete content from articles — only add or update metadata elements
 - If the improvement script produces an error on a specific file, skip that file and flag it in the report
 - The PR is informational as much as functional — the flagged-items section is the owner's action list
