@@ -2,6 +2,27 @@
 
 ---
 
+## May 4, 2026 — city hub: appliance-repair-costa-mesa-ca
+
+**Type:** city
+**Target:** Costa Mesa, CA
+**PR:** [#94](https://github.com/TesterBaku/appliance-repair-website/pull/94) — merged
+**Word count:** 2,101
+**FAQ count:** 5 (Costa Mesa-specific)
+**Neighborhoods:** 6 with ZIP codes (Mesa Verde, Westside, Northside, SoCo/Segerstrom District, Downtown/Triangle Square, East Costa Mesa)
+**Internal links wired:** service-areas.html, all 4 existing hub footers (Irvine/Anaheim/Santa Ana/HB), article-garbage-disposal-repair-costa-mesa, article-microwave-not-heating-costa-mesa, article-repair-replace, sitemap.xml
+**Schemas:** LocalBusiness (Costa Mesa areaServed), BreadcrumbList, FAQPage
+
+**Outstanding for owner:**
+- None
+
+**Phase 0 highlights:**
+- Competition: Medium-High — My Appliance Crew and Caesar's each ~2,100-2,200 words; no competitor mentions specific neighborhoods
+- Structural gaps exploited: no neighborhood/ZIP breakdown; no AI answer block; arts identity angle (SoCo/Segerstrom) untouched by any competitor
+- P2-3 complete: all 5 top-priority city hubs built and merged
+
+---
+
 ## May 4, 2026 — city hub: appliance-repair-huntington-beach-ca
 
 **Type:** city
