@@ -176,7 +176,7 @@ This is the section that determines whether the site can rank for "appliance rep
   3. ✅ `pages/appliance-repair-santa-ana-ca.html`  →  PR #90 merged
   4. ✅ `pages/appliance-repair-huntington-beach-ca.html`  →  PR #92 merged
   5. ✅ `pages/appliance-repair-costa-mesa-ca.html`  →  PR #94 merged
-  6. [ ] `pages/appliance-repair-garden-grove-ca.html`  →  `/seo-hub --type=city --city=garden-grove`
+  6. ✅ `pages/appliance-repair-garden-grove-ca.html`  →  PR #103 merged
   7. [ ] `pages/appliance-repair-fullerton-ca.html`  →  `/seo-hub --type=city --city=fullerton`
   8. [ ] `pages/appliance-repair-orange-ca.html`  →  `/seo-hub --type=city --city=orange`
 
