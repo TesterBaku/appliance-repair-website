@@ -123,10 +123,11 @@ Every request that results in any code or file change — however small — must
 2. Make the change and commit it
 3. Run `npm test` and `npm run screenshot`
 4. Create a PR
-5. Run `/review`
-6. Merge if review passes
+5. **Run `/review` as an independent subagent** — spawn a fresh Agent with no context from the implementation conversation. The reviewer must not be the same agent that wrote the code.
+6. Fix any blockers the reviewer raises, then re-run `/review`
+7. Merge only after the reviewer outputs `✅ APPROVED`
 
-No direct commits to `master`. No skipping steps for "small" changes.
+No direct commits to `master`. No skipping steps for "small" changes. No self-merging without a reviewer verdict.
 
 ---
 
