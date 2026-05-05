@@ -105,6 +105,25 @@ branch → commit → test → PR → review → merge. No exceptions, even for 
 - `/sitemap.xml`
 - `/llms.txt` — plain-text business summary for AI crawlers (template in `tasks/action-plan-fixappliancesfast.md`)
 
+## Required on every new HTML page
+Every new `.html` file — article, hub page, or static page — must include the Google Analytics tag as the **first child of `<head>`**, before any other tags:
+
+```html
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSFHKJ6ZEK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TSFHKJ6ZEK');
+  </script>
+  <!-- rest of head -->
+```
+
+- Never add more than one Google tag per page.
+- The `/review` skill must flag any new page missing this tag as a **FAIL**.
+
 ## Skills (slash commands)
 - `/seo-blog` — full SEO blog workflow for articles: research → propose → create → test → demo → iterate → PR → review → merge. Auto-merges in scheduled mode (Mon/Wed/Fri).
 - `/seo-hub` — full hub-page workflow for service and city landing pages. Same shape as `/seo-blog` but **interactive-only and never auto-merges** — hub pages always wait for owner review. Use this for P2-2 (per-service hubs) and P2-3 (per-city hubs) in the action plan.
