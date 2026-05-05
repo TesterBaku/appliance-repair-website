@@ -148,6 +148,15 @@
       .related-grid { grid-template-columns: 1fr; }
       .inline-cta { padding: 24px 20px; }
     }
+  
+    /* NAV DROPDOWN */
+    .nav-dropdown { position: relative; display: inline-flex; align-items: center; }
+    .nav-dropdown-toggle { display: flex; align-items: center; gap: 3px; }
+    .nav-dropdown-arrow { font-size: 9px; opacity: 0.6; display: inline-block; transition: transform 0.18s; }
+    .nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 10px); left: -12px; background: #fff; border: 1px solid #eee; border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,0.1); padding: 6px 0; min-width: 190px; z-index: 300; }
+    .nav-dropdown-menu a { display: block !important; padding: 9px 18px !important; font-size: 12.5px !important; color: #444 !important; text-decoration: none; white-space: nowrap; font-weight: 400 !important; }
+    .nav-dropdown-menu a:hover { background: #f7fafc !important; color: #111 !important; font-weight: 500 !important; }
+    .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: #e84c1e !important; font-weight: 600 !important; }
   </style>
   <script type="application/ld+json">
   {
@@ -168,8 +177,34 @@
       <div style="display:flex;align-items:center;gap:32px;">
         <a href="../index.html" class="logo"><img src="../logo.png" alt="Universal Appliances Repair logo" style="height:52px;width:auto;"><span>Universal Appliances Repair</span></a>
         <div class="nav-links">
-          <a href="../pages/about.html">About</a><a href="../pages/services.html">Services</a><a href="../pages/service-areas.html">Service Areas</a><a href="../pages/faq.html">FAQ</a>
-          <a href="../pages/testimonials.html">Testimonials</a><a href="../pages/contact.html">Contact</a><a href="../pages/blog.html">Blog</a>
+          <a href="../pages/about.html">About</a>
+          <div class="nav-dropdown">
+            <a href="../pages/services.html" class="nav-dropdown-toggle">Services <span class="nav-dropdown-arrow">&#9660;</span></a>
+            <div class="nav-dropdown-menu">
+              <a href="../pages/refrigerator-repair-orange-county.html">Refrigerator Repair</a>
+              <a href="../pages/washer-repair-orange-county.html">Washer Repair</a>
+              <a href="../pages/dryer-repair-orange-county.html">Dryer Repair</a>
+              <a href="../pages/dishwasher-repair-orange-county.html">Dishwasher Repair</a>
+              <a href="../pages/oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+              <a href="../pages/services.html" class="dropdown-all">All Services &rarr;</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <a href="../pages/service-areas.html" class="nav-dropdown-toggle">Service Areas <span class="nav-dropdown-arrow">&#9660;</span></a>
+            <div class="nav-dropdown-menu">
+              <a href="../pages/appliance-repair-irvine-ca.html">Irvine</a>
+              <a href="../pages/appliance-repair-anaheim-ca.html">Anaheim</a>
+              <a href="../pages/appliance-repair-santa-ana-ca.html">Santa Ana</a>
+              <a href="../pages/appliance-repair-huntington-beach-ca.html">Huntington Beach</a>
+              <a href="../pages/appliance-repair-costa-mesa-ca.html">Costa Mesa</a>
+              <a href="../pages/appliance-repair-garden-grove-ca.html">Garden Grove</a>
+              <a href="../pages/service-areas.html" class="dropdown-all">All Cities &rarr;</a>
+            </div>
+          </div>
+          <a href="../pages/faq.html">FAQ</a>
+          <a href="../pages/testimonials.html">Testimonials</a>
+          <a href="../pages/contact.html">Contact</a>
+          <a href="../pages/blog.html">Blog</a>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:14px;">
@@ -306,5 +341,34 @@
     <div class="footer-bottom"><span>© 2024 Universal Appliances Repair. All rights reserved.</span></div>
   </footer>
 
+  <!-- DROPDOWN_JS_INJECTED -->
+  <script>
+    (function() {
+      var dropdowns = document.querySelectorAll('.nav-dropdown');
+      dropdowns.forEach(function(dd) {
+        var menu = dd.querySelector('.nav-dropdown-menu');
+        if (!menu) return;
+        var timer;
+        dd.addEventListener('mouseenter', function() {
+          clearTimeout(timer);
+          menu.style.display = 'block';
+          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
+        });
+        dd.addEventListener('mouseleave', function() {
+          timer = setTimeout(function() {
+            menu.style.display = '';
+            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
+          }, 120);
+        });
+        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
+        menu.addEventListener('mouseleave', function() {
+          timer = setTimeout(function() {
+            menu.style.display = '';
+            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
+          }, 120);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

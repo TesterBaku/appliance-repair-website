@@ -190,8 +190,29 @@
         </a>
         <div class="nav-links">
           <a href="about.html">About</a>
-          <a href="services.html">Services</a>
-          <a href="service-areas.html">Service Areas</a>
+          <div class="nav-dropdown">
+            <a href="services.html" class="nav-dropdown-toggle">Services <span class="nav-dropdown-arrow">&#9660;</span></a>
+            <div class="nav-dropdown-menu">
+              <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
+              <a href="washer-repair-orange-county.html">Washer Repair</a>
+              <a href="dryer-repair-orange-county.html">Dryer Repair</a>
+              <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
+              <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+              <a href="services.html" class="dropdown-all">All Services &rarr;</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <a href="service-areas.html" class="nav-dropdown-toggle">Service Areas <span class="nav-dropdown-arrow">&#9660;</span></a>
+            <div class="nav-dropdown-menu">
+              <a href="appliance-repair-irvine-ca.html">Irvine</a>
+              <a href="appliance-repair-anaheim-ca.html">Anaheim</a>
+              <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>
+              <a href="appliance-repair-huntington-beach-ca.html">Huntington Beach</a>
+              <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>
+              <a href="appliance-repair-garden-grove-ca.html">Garden Grove</a>
+              <a href="service-areas.html" class="dropdown-all">All Cities &rarr;</a>
+            </div>
+          </div>
           <a href="faq.html">FAQ</a>
           <a href="testimonials.html">Testimonials</a>
           <a href="contact.html">Contact</a>
@@ -208,8 +229,25 @@
     </div>
     <div class="nav-drawer" role="navigation" aria-label="Mobile navigation">
       <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="service-areas.html">Service Areas</a>
+      <details>
+        <summary>Services</summary>
+        <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
+        <a href="washer-repair-orange-county.html">Washer Repair</a>
+        <a href="dryer-repair-orange-county.html">Dryer Repair</a>
+        <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
+        <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+        <a href="services.html" class="drawer-all">All Services &rarr;</a>
+      </details>
+      <details>
+        <summary>Service Areas</summary>
+        <a href="appliance-repair-irvine-ca.html">Irvine</a>
+        <a href="appliance-repair-anaheim-ca.html">Anaheim</a>
+        <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>
+        <a href="appliance-repair-huntington-beach-ca.html">Huntington Beach</a>
+        <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>
+        <a href="appliance-repair-garden-grove-ca.html">Garden Grove</a>
+        <a href="service-areas.html" class="drawer-all">All Cities &rarr;</a>
+      </details>
       <a href="faq.html">FAQ</a>
       <a href="testimonials.html">Testimonials</a>
       <a href="contact.html">Contact</a>
@@ -518,5 +556,34 @@
     });
   </script>
 
+  <!-- DROPDOWN_JS_INJECTED -->
+  <script>
+    (function() {
+      var dropdowns = document.querySelectorAll('.nav-dropdown');
+      dropdowns.forEach(function(dd) {
+        var menu = dd.querySelector('.nav-dropdown-menu');
+        if (!menu) return;
+        var timer;
+        dd.addEventListener('mouseenter', function() {
+          clearTimeout(timer);
+          menu.style.display = 'block';
+          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
+        });
+        dd.addEventListener('mouseleave', function() {
+          timer = setTimeout(function() {
+            menu.style.display = '';
+            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
+          }, 120);
+        });
+        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
+        menu.addEventListener('mouseleave', function() {
+          timer = setTimeout(function() {
+            menu.style.display = '';
+            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
+          }, 120);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
