@@ -564,5 +564,34 @@
     });
   </script>
 
+  <!-- DROPDOWN_JS_INJECTED -->
+  <script>
+    (function() {
+      var dropdowns = document.querySelectorAll('.nav-dropdown');
+      dropdowns.forEach(function(dd) {
+        var menu = dd.querySelector('.nav-dropdown-menu');
+        if (!menu) return;
+        var timer;
+        dd.addEventListener('mouseenter', function() {
+          clearTimeout(timer);
+          menu.style.display = 'block';
+          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
+        });
+        dd.addEventListener('mouseleave', function() {
+          timer = setTimeout(function() {
+            menu.style.display = '';
+            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
+          }, 120);
+        });
+        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
+        menu.addEventListener('mouseleave', function() {
+          timer = setTimeout(function() {
+            menu.style.display = '';
+            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
+          }, 120);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -153,9 +153,7 @@
     .nav-dropdown { position: relative; display: inline-flex; align-items: center; }
     .nav-dropdown-toggle { display: flex; align-items: center; gap: 3px; }
     .nav-dropdown-arrow { font-size: 9px; opacity: 0.6; display: inline-block; transition: transform 0.18s; }
-    .nav-dropdown:hover .nav-dropdown-arrow { transform: rotate(180deg); }
     .nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 10px); left: -12px; background: #fff; border: 1px solid #eee; border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,0.1); padding: 6px 0; min-width: 190px; z-index: 300; }
-    .nav-dropdown:hover .nav-dropdown-menu { display: block; }
     .nav-dropdown-menu a { display: block !important; padding: 9px 18px !important; font-size: 12.5px !important; color: #444 !important; text-decoration: none; white-space: nowrap; font-weight: 400 !important; }
     .nav-dropdown-menu a:hover { background: #f7fafc !important; color: #111 !important; font-weight: 500 !important; }
     .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: #e84c1e !important; font-weight: 600 !important; }
@@ -343,5 +341,34 @@
     <div class="footer-bottom"><span>© 2024 Universal Appliances Repair. All rights reserved.</span></div>
   </footer>
 
+  <!-- DROPDOWN_JS_INJECTED -->
+  <script>
+    (function() {
+      var dropdowns = document.querySelectorAll('.nav-dropdown');
+      dropdowns.forEach(function(dd) {
+        var menu = dd.querySelector('.nav-dropdown-menu');
+        if (!menu) return;
+        var timer;
+        dd.addEventListener('mouseenter', function() {
+          clearTimeout(timer);
+          menu.style.display = 'block';
+          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
+        });
+        dd.addEventListener('mouseleave', function() {
+          timer = setTimeout(function() {
+            menu.style.display = '';
+            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
+          }, 120);
+        });
+        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
+        menu.addEventListener('mouseleave', function() {
+          timer = setTimeout(function() {
+            menu.style.display = '';
+            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
+          }, 120);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
