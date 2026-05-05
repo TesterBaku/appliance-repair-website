@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, '..');
 const pagesDir = path.join(root, 'pages');
 const articleDir = path.join(root, 'articles');
 
-const rootPages = ['index.html'];
+const rootPages = ['index.html', '404.html'];
 const staticPages = fs.existsSync(pagesDir)
   ? fs.readdirSync(pagesDir)
       .filter(f => f.endsWith('.html'))
