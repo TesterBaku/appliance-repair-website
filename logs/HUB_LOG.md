@@ -2,6 +2,27 @@
 
 ---
 
+## May 4, 2026 — city hub: appliance-repair-santa-ana-ca
+
+**Type:** city
+**Target:** Santa Ana, CA
+**PR:** [#90](https://github.com/TesterBaku/appliance-repair-website/pull/90) — merged
+**Word count:** 2,169
+**FAQ count:** 5 (Santa Ana-specific)
+**Neighborhoods:** 7 with ZIP codes (Downtown/4th St Arts District, Floral Park & Wilshire Square, South Coast Metro, Midtown/Washington Square, Cabrillo Park, East Santa Ana, North Santa Ana/Logan)
+**Internal links wired:** service-areas.html, Irvine hub footer, Anaheim hub footer, article-dryer-not-heating-santa-ana, article-oven-repair-santa-ana, article-repair-replace, sitemap.xml
+**Schemas:** LocalBusiness (Santa Ana areaServed), BreadcrumbList, FAQPage
+
+**Outstanding for owner:**
+- None
+
+**Phase 0 highlights:**
+- Competition: High — D&V has an unusually thorough 4,500-word page; most others 700–1,000 words
+- Structural gaps exploited: no FAQs on any competitor page; no AI answer block; no ZIP-level neighborhood breakdown
+- Cleanest build yet: 0 FAILs, 0 WARNs in review (CSS classes applied from the start)
+
+---
+
 ## May 4, 2026 — city hub: appliance-repair-anaheim-ca
 
 **Type:** city
