@@ -312,10 +312,14 @@ These three files must exist at the root and return 200:
 
 ## Trust signals (required on homepage and all hub pages)
 
-- **Real testimonials only.** Each testimonial must include first name, city, appliance type, and approximate date. No stock-photo "David Miller." Pull from Google or Yelp.
-- **Real photos.** Replace Unsplash hero/service images with photos of the actual technicians, vans, tools, or completed repairs as soon as available.
+- **Real testimonials only.** Each testimonial must include first name (with last initial as the reviewer displays it on Google — e.g., "Jennifer T." or full "Jennifer Trette" if that's how they appear), location, appliance type where mentioned, and approximate date. No invented names. Pull from Google or Yelp. The canonical pool lives at `data/testimonials.json` and is sourced from the Google Business Profile listing.
+- **Location label: "Orange County, CA" by default.** Google Business Profile reviews don't expose the reviewer's city. Use "Orange County, CA" as the location label on every testimonial unless the reviewer's profile or review text names a specific OC city — then use that city. Never invent a city for a reviewer.
+- **Testimonial reuse across pages.** Each hub page should display 4–6 testimonials drawn from `data/testimonials.json`. The same testimonial may appear on multiple hub pages (this is normal for a small business with a finite review pool), but no two hubs should share more than 2 testimonials with each other. Prefer testimonials that mention the hub's primary appliance type when available.
+- **Bodies verbatim — light editing allowed for clear typos.** Reviews flagged with `bodyHasTypos: true` in `data/testimonials.json` may receive light grammar/spelling correction for display. No paraphrasing or substantive rewording.
+- **Photo-only / no-body reviews are not testimonials.** Records with `bodyStatus: "photo-only"` or `"no-body"` in the pool may be used as image sources but never as quoted testimonials.
+- **Real photos.** Replace Unsplash hero/service images with photos of the actual technicians, vans, tools, or completed repairs as soon as available. Reviewer profile photos live at `images/real/reviewer-profiles/`. Review photos (appliances customers showed in their reviews) should be saved under `images/real/reviews/` when extracted from screenshots or downloaded from Google CDN URLs.
 - **Verifiable badges.** Display contractor license number, EPA Section 608 cert (for refrigerant work), BBB rating + URL, Google Guaranteed if eligible. Never display badges without proof.
-- **Aggregate rating in schema.** Once 6+ real reviews exist, add `AggregateRating` JSON-LD pulled from GBP.
+- **Aggregate rating in schema.** Once 6+ real reviews exist, add `AggregateRating` JSON-LD pulled from GBP. The pool currently has 76 verified 5-star reviews — `AggregateRating` is required on the homepage and every hub page.
 - **Author bios on articles.** Each article's schema `author` must reference a real person/page (`@id` or `sameAs`), not just the org.
 
 ---
