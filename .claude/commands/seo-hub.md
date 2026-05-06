@@ -96,7 +96,7 @@ Section outline:
   6. Brands serviced  (service hub only)
      OR Neighborhoods served  (city hub only)
   7. FAQ ([N] questions)
-  8. Real testimonials (placeholder for owner to swap in)
+  8. Testimonials (4–6 from `data/testimonials.json`, pool-filtered)
   9. CTA box
 
 Candidate FAQs ([N] proposed, will keep [target count]):
@@ -202,7 +202,15 @@ Use the schema templates in `rules/seo-content.md` as the source of truth — co
    - Service hub: **8+** FAQs
    - City hub: **5+** FAQs
    - Each Q&A becomes a `mainEntity` in FAQPage schema
-8. **Testimonials** — 2–3 real reviews. **If real reviews aren't available yet, use a clearly-marked placeholder block** with a TODO comment for the owner. **Never** fabricate testimonials.
+8. **Testimonials** — 4–6 real reviews pulled from `data/testimonials.json`. Follow the full selection algorithm in `rules/testimonial-selection.md`:
+   - Filter to `bodyStatus: "complete"` entries only
+   - Prefer reviews whose `appliance` field matches the hub type (service hub); any appliance is fine for city hubs
+   - Apply the ≤2-overlap rule against `tasks/testimonial-usage.md` before picking
+   - Prefer reviews that mention specific brands
+   - Render visible HTML cards + individual `Review` JSON-LD entries for each
+   - Add `AggregateRating` JSON-LD (`ratingValue: 5.0`, `reviewCount: 76`)
+   - After the hub ships, update `tasks/testimonial-usage.md` with the reviews used
+   - **Never** fabricate testimonials. If the pool can't supply 4 qualifying reviews, render fewer and note the shortfall in the PR description.
 9. **CTA box** — same pattern as articles: "Need [appliance] repair in [Orange County | city]? Call (949) 629-5365 or book online."
 
 ### Mobile compliance (required)
@@ -244,7 +252,7 @@ Apply the Bug Fix Workflow from `rules/git-workflow.md`. Do not proceed until bo
 Additional checks specific to hubs:
 - Run the new page through Google's [Rich Results Test](https://search.google.com/test/rich-results) (paste URL or HTML) — `Service`, `LocalBusiness`, `BreadcrumbList`, `FAQPage` should all be eligible.
 - Word count check: `lynx --dump pages/[slug].html | wc -w` (or equivalent) — confirm ≥ 1,000 for service hub, ≥ 800 for city hub.
-- Grep for placeholder strings: `grep -E "My Blog|Lorem|TODO|FIXME|placeholder text" pages/[slug].html` should return nothing **except** the deliberate testimonial-placeholder TODO comment if one was used.
+- Grep for placeholder strings: `grep -E "My Blog|Lorem|TODO|FIXME|placeholder text" pages/[slug].html` should return nothing.
 
 ---
 
@@ -267,8 +275,8 @@ Stats:
   Schemas:           Service, LocalBusiness, BreadcrumbList, FAQPage [+ AggregateRating if applicable]
 
 Outstanding items for owner:
-  - [list any TODO placeholders, e.g., "Replace 2 testimonial placeholders with real reviews from GBP"]
-  - [any other known gaps]
+  - [any known gaps — e.g., real photos needed, schema fields to verify]
+  - [if pool supplied fewer than 4 testimonials: note shortfall and which appliance types are thin in the pool]
 ```
 
 5. Ask: _"Approve to move to PR, or describe changes?"_
@@ -297,7 +305,7 @@ Examples:
 
 PR body must include:
 - The Phase 5 stats summary
-- The list of outstanding owner items (testimonial placeholders, etc.)
+- The list of outstanding owner items (photos needed, pool shortfall if any, etc.)
 - A note: **"Hub pages do not auto-merge — please review and approve before merging."**
 
 ---
@@ -364,7 +372,7 @@ git checkout master && git pull origin master
 **Schemas:** Service / LocalBusiness / BreadcrumbList / FAQPage [+ AggregateRating if applicable]
 
 **Outstanding for owner:**
-- [bulleted list of placeholders, e.g., real testimonials needed]
+- [bulleted list of any gaps — e.g., photos needed, pool shortfall]
 
 **Phase 0 highlights:**
 - Competition: [Low/Medium/High]
@@ -378,9 +386,10 @@ git checkout master && git pull origin master
 - Never skip a phase
 - Never push directly to `master` (pre-push hook will block it)
 - Never auto-merge a hub PR — always stop at Phase 9
-- Never fabricate testimonials, ratings, or licenses — use a TODO placeholder if real data isn't available
+- Never fabricate testimonials, ratings, or licenses — pull from `data/testimonials.json` (74 complete-body reviews available); if the pool has no suitable match, leave the section short and call it out in the PR description
 - Never write "Fix Appliances Fast" as a brand name (it's a URL only — see `rules/seo-content.md`)
 - Always include the AI answer block — it's the highest-leverage section for AI-engine recommendations
 - One hub page per PR. If the user wants 5 hub pages, run the workflow 5 times sequentially
 - Always wire the internal links in Phase 3 — a hub page that nothing links to is useless
 - Always run `/visual-review` in Phase 5 — single screenshots miss mobile-specific issues (hamburger, sticky bar, tap targets) that hub pages rely on
+- No path through this workflow may emit a placeholder testimonial — `data/testimonials.json` has 74 complete reviews; use them. Success criterion: grep for `TODO` in the output HTML returns zero matches.
