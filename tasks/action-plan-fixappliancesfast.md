@@ -41,33 +41,19 @@ That's basically all of P0, all of P1, and most of P6 from the previous v2 plan.
 
 ## P2 — Blog discoverability + scale infrastructure
 
-This phase has not been started. The filter pills on `pages/blog.html` are still placeholders — all five `<a class="cat-pill" href="#">`. No JS handler, no category pages, no search input.
+### ~~P2-1~~ ✅ Wire blog filter pills to appliance taxonomy — shipped PR #127 (2026-05-06)
+8 appliance-category pills with `data-filter`; all 33 cards have `data-category`; 4 missing article cards added. Refrigerator/Washer/Dryer/Oven pills now point to real category pages (P2-2); Dishwasher/Freezer/Other remain `#` pending their category pages.
 
-### P2-1 Wire blog filter pills to appliance taxonomy
-- Replace the 5 placeholder pills (`Tips & Guides / Buying Guides / Maintenance / Advice`) with appliance-axis taxonomy that matches what's actually on the cards: `All Posts (33)`, `Refrigerator (5)`, `Washer (5)`, `Dryer (4)`, `Oven (3)`, `Dishwasher (4)`, `Freezer (3)`, `Other (9)`.
-- Each pill ALSO points to a real category page (P2-2) instead of `#`, so click → navigation. JS in P2-3 handles in-page filtering.
-- Add `data-category` to each `.blog-card` so filtering can match.
-- **Acceptance:** counts match reality; clicking each pill loads the matching category page.
+### ~~P2-2~~ ✅ Build blog category-page template + ship all 7 category pages — shipped PR #128 + PR #129 (2026-05-06)
+- `pages/blog/refrigerator.html` — 6 articles, 800+ word intro
+- `pages/blog/washer.html` — 4 articles, 800+ word intro
+- `pages/blog/dryer.html` — 4 articles, 800+ word intro
+- `pages/blog/oven-stove.html` — 3 articles, 800+ word intro
+- `pages/blog/dishwasher.html` — 5 articles, 800+ word intro
+- `pages/blog/freezer.html` — 4 articles, 800+ word intro
+- `pages/blog/other.html` — 7 articles (microwave, wine cooler, disposal, buying guides), 800+ word intro
 
-### P2-2 Build blog category-page template + ship 4 priority pages
-Different intent from per-service hubs (which target commercial / "hire someone now"). Category pages target informational intent.
-
-Build first (highest article volume):
-- `pages/blog/refrigerator.html`
-- `pages/blog/washer.html`
-- `pages/blog/dryer.html`
-- `pages/blog/oven-stove.html`
-
-Each page:
-- 600–800 words; H1 + intro covering common problems in that appliance category
-- Lists every article in that category with thumbnail, excerpt, date
-- Cross-links to the matching service hub at the top ("Need help right now? See our [appliance] repair service in Orange County")
-- `CollectionPage` + `BreadcrumbList` schema; OG tags; GA tag
-- Linked from main nav, blog page filter pills, and footer
-
-Build the template first as a reusable scaffold so later categories drop in cleanly.
-
-- **Acceptance per page:** schema validates; clean OG card; appears in `sitemap.xml`; ranks for `[appliance] repair tips Orange County` after 30 days.
+All pages: `CollectionPage` + `BreadcrumbList` schema, full OG tags, GA tag, service hub cross-link callout, mobile responsive. All 8 blog filter pills now point to real pages (zero `href="#"` on category pills). Sitemap updated to 58 URLs.
 
 ### P2-3 Add client-side article search to `pages/blog.html`
 At 33 articles no library is needed.
