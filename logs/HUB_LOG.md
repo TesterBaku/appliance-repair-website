@@ -2,6 +2,27 @@
 
 ---
 
+## May 6, 2026 — city hub: appliance-repair-fullerton-ca
+
+**Type:** city
+**Target:** Fullerton, CA
+**PR:** [#132](https://github.com/TesterBaku/appliance-repair-website/pull/132) — open, awaiting owner review
+**Word count:** ~1,050
+**FAQ count:** 7 (Fullerton-specific)
+**Neighborhoods:** 6 cards — Sunny Hills (92835), Amerige Heights (92833), Downtown/SOCO (92832), Historic Fullerton (92832), CSUF area (92831), Northwest & South (92833/92832); all 8 ZIPs covered
+**Internal links wired:** service-areas.html (Fullerton card updated from contact.html), article-dishwasher-maintenance-fullerton (1 in-body link), sitemap.xml
+**Schemas:** LocalBusiness (Fullerton areaServed), BreadcrumbList, FAQPage, Service
+
+**Outstanding for owner:**
+- Replace 2 testimonial placeholder blocks with verified Fullerton customer reviews from Google or Yelp (first name, neighborhood, appliance type, approximate date)
+
+**Phase 0 highlights:**
+- Competition: Medium — top 2 competitors at 2,100–3,000 words; bottom 3 at 850–900 words
+- Structural gaps exploited: no competitor names actual Fullerton neighborhoods (Sunny Hills, Amerige Heights, CSUF area); 3 of 5 competitors have zero FAQs; no competitor explains repair process or repair-vs-replace guidance
+- Unique local details: Amerige Heights origin story (former Hughes Aircraft campus, 2001–2004 builds) and CSUF area callout — uncontested on all competitor pages
+
+---
+
 ## May 5, 2026 — city hub: appliance-repair-garden-grove-ca
 
 **Type:** city
