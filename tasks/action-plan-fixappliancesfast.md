@@ -1,305 +1,263 @@
-# Action Plan — fixappliancesfast.com
+# Action Plan — fixappliancesfast.com (v3)
 
-Combined remediation plan from two independent reviews of `fixappliancesfast.com` (the deployed static site for Universal Appliances Repair). Use this with Claude Code or Copilot. Each item is sized so a coding agent can pick it up and ship it as a single PR per the standing workflow rule (`branch → commit → test → PR → review → merge`).
+Consolidated remediation plan for **Universal Appliances Repair** (`fixappliancesfast.com`). Audit refreshed 2026-05-06 — every item marked `[x]` has been verified live or in current `main`; everything else is open work.
 
-**Site name canonicalization:** the public business name is **Universal Appliances Repair** (legal: *Universal Appliances Repair Group Inc.*). The domain `fixappliancesfast.com` is a marketing URL. Pick **one** brand name to use consistently in `<title>`, schema `name`, footer, GBP, and all directories. Recommendation: keep the domain, lead with "Universal Appliances Repair" everywhere, treat "Fix Appliances Fast" only as the URL.
+**Site name canonicalization:** public business name is **Universal Appliances Repair**; legal name is *Universal Appliances Repair Group Inc.*; `fixappliancesfast.com` is a marketing URL only. Never write "Fix Appliances Fast" as a brand.
 
 ---
 
 ## How to use this plan
 
-- Each task has an ID, owner-suggested-tool, acceptance criteria, and the rule it ties back to in `.claude/rules/`.
-- Phases are **sequential by priority**, not by team. P0 → P1 → P2 → P3 → P4.
-- Every task ships as its own branch + PR. No batching unrelated changes.
-- Mark items with `[x]` as PRs merge.
+- One PR per task per `.claude/rules/git-workflow.md`. No batching unrelated changes.
+- Phases sequential by priority: P0 → P1 → P2 → P3 → P4 → P5 → P6.
+- v3 captures the state on 2026-05-06: a lot landed since v2, plan compacted accordingly.
 
 ---
 
-## P0 — Critical fixes (do first, this week)
+## Snapshot of what's already shipped (verified live, 2026-05-06)
 
-### P0-1 Add `robots.txt` and `sitemap.xml`
-- [x] Both currently return 404.
-- Create `robots.txt` at repo root: `User-agent: *` / `Allow: /` / `Sitemap: https://fixappliancesfast.com/sitemap.xml`.
-- Generate `sitemap.xml` listing every `*.html` file, with `lastmod` from git.
-- Add a small node script (e.g., `scripts/build-sitemap.js`) that regenerates `sitemap.xml` from the file tree so future articles auto-include.
-- **Acceptance:** both files return 200 from production; sitemap lists every article and page.
-- **Rule reference:** `rules/seo-content.md` → "Required SEO Elements".
+The following items from earlier plans are **done** and removed from the active list. Confirming inline so future audits can spot-check:
 
-### P0-2 Fix homepage `<title>` and add meta description
-- [x] Current title: `Universal Appliances Repair – OC California` (weak, no primary keyword).
-- New title: `Appliance Repair Orange County CA | Universal Appliances Repair`.
-- Add meta description (150–160 chars):
-  > Universal Appliances Repair provides same-day appliance repair in Orange County, CA — refrigerators, washers, dryers, ovens, stoves, dishwashers. Call (949) 629-5365.
-- **Acceptance:** view source on `/` shows new title and description; Google Rich Results test passes.
+- Contact form is live and wired to Formspree (`https://formspree.io/f/xqenbpka`); 7 named fields + hidden `_subject`; method POST.
+- Repo root is clean — only `logo.png`, `robots.txt`, `sitemap.xml`, `llms.txt`, `404.html`, `CNAME`, plus repo plumbing. The original logo source is preserved at `images/source/logo-original.jpg`.
+- All 33 articles have `og:image` and `twitter:image` populated.
+- All 6 static pages (`services`, `blog`, `about`, `contact`, `faq`, `testimonials`) have JSON-LD schemas, OG tags, and proper titles leading with the primary keyword.
+- All 6 city hubs are over 2,200 words (well past the 800-word minimum).
+- Homepage `<h1>` now reads `Same-Day Appliance Repair in Orange County, CA` — leads with primary keyword as recommended.
+- Tailwind compiled to a static `tailwind.css` + `tailwind.input.css`; zero `cdn.tailwindcss.com` references remain in HTML.
+- Branded `404.html` ships at root — has GA tag, "Page Not Found" h1, 62 links to popular hubs/articles.
+- `images/hero-homepage.jpg` exists in production (verified — 200 OK, 317 KB JPEG).
+- Sitemap on disk and live both list 51 URLs and stay in sync.
+- 6 testimonials rendered on homepage (real names + cities + appliance types).
 
-### P0-3 Add LocalBusiness JSON-LD to homepage
-- [x] Currently zero structured data on `index.html`.
-- Inline `<script type="application/ld+json">` block including: `name`, `legalName`, `url`, `telephone`, `email`, `address` (PostalAddress), `geo`, `areaServed` (full city list), `serviceType`, `openingHoursSpecification`, `priceRange`, `image`, `logo`, `sameAs` (social links once they exist).
-- Add `BreadcrumbList` schema for homepage too.
-- **Acceptance:** Schema Markup Validator returns zero errors for `/`.
-- **Rule reference:** `rules/seo-content.md` → schema templates already exist for articles; add a homepage-specific block.
+That's basically all of P0, all of P1, and most of P6 from the previous v2 plan. What's below is what's still open.
 
-### P0-4 Add Open Graph + Twitter Card tags to homepage and pages
-- [x] None present on `/`.
-- Required tags: `og:title`, `og:description`, `og:type=website`, `og:url`, `og:image` (1200×630 PNG), `og:site_name`, plus `twitter:card=summary_large_image`, `twitter:title`, `twitter:description`, `twitter:image`.
-- **Acceptance:** Facebook Sharing Debugger and Twitter Card Validator both render a clean preview.
+---
 
-### P0-5 Fix footer: copyright year and dead `#` links
-- [x] Footer says `© 2024` — looks abandoned. Make it auto-update or set to 2026.
-- [x] All Services links in footer point to `#`. Wire each to its real page (`pages/services.html` for now; later to per-service pages from P2).
-- [x] "Privacy Policy" and "Terms of Service" link to `#`. Either create stub pages or remove the links until written.
-- **Acceptance:** `npm test` (link checker) reports zero broken hrefs.
+## P0 — Tiny but still open
 
-### P0-6 Audit and fix broken nav: Blog and Contact
-- [x] PDF report flagged `/blog/` and `/contact.html` returning 404 in some entry paths.
-- Verify all internal nav links resolve (run `npm test`).
-- Add 301 redirects (or symlinks if hosted on GitHub Pages — use a small `_redirects` file or duplicate index entry) so `/contact`, `/contact.html`, and `pages/contact.html` all resolve.
-- **Acceptance:** `npm test` passes from every entry page; manual click-through of nav reaches every page.
+### P0-1 Create the two missing log files
+- `logs/CONTENT_LOG.md` and `logs/AUDIT_LOG.md` are referenced by `CLAUDE.md` and used by the scheduled `/seo-blog` (Mon/Wed/Fri) and `/seo-audit` (quarterly) jobs.
+- Only `logs/HUB_LOG.md` exists today, so the next scheduled run can't append.
+- Touch each file with a header line.
+- **Acceptance:** both files exist; next scheduled `/seo-blog` run logs an entry.
 
-### P0-7 Add `llms.txt` at root
-- [x] Create `/llms.txt` describing the business so AI engines can ingest cleanly. Format from the PDF report:
+---
 
-```
-# Universal Appliances Repair
+## P1 — SEO polish on shipped pages
 
-Universal Appliances Repair Group Inc. provides appliance repair services in Orange County, California.
+### P1-1 Add `AggregateRating` to homepage `LocalBusiness` schema
+- Homepage has 6 real testimonials but no `aggregateRating` in JSON-LD — confirmed via live JS check.
+- Once GBP review count is at ≥ 6 (which it appears to be), embed:
 
-Website: https://fixappliancesfast.com/
-Phone: (949) 629-5365
-Email: info@fixappliancesfast.com
-Address: 10832 Asbury Avenue, Stanton, CA 90680
-
-Services:
-- Refrigerator repair
-- Washer repair
-- Dryer repair
-- Dishwasher repair
-- Oven repair
-- Stove repair
-- Freezer repair
-- Garbage disposal repair
-
-Service area:
-Orange County, CA, including Stanton, Irvine, Anaheim, Santa Ana, Huntington Beach,
-Costa Mesa, Fullerton, Garden Grove, Tustin, Orange, Lake Forest, Mission Viejo,
-Newport Beach, and nearby cities.
-
-Booking:
-https://fixappliancesfast.com/pages/contact.html
+```json
+"aggregateRating": {
+  "@type": "AggregateRating",
+  "ratingValue": "4.9",
+  "reviewCount": "<actual count from GBP>"
+}
 ```
 
-- **Acceptance:** `https://fixappliancesfast.com/llms.txt` returns the file with `Content-Type: text/plain`.
+- **Acceptance:** Google Rich Results Test shows star eligibility on `/`.
 
-### P0-8 Remove any leftover template / placeholder text
-- [x] PDF flagged "My Blog" placeholder text on the live site.
-- Grep the repo for `My Blog`, `Lorem`, `placeholder`, `TODO`, `FIXME`. Replace with the real business name or delete.
-- **Acceptance:** `grep -ri "my blog\|lorem\|placeholder text" *.html pages/ articles/` returns nothing.
+### P1-2 Tighten static-page schemas
+The six static pages have JSON-LD now, but most use only `LocalBusiness` + `BreadcrumbList`. They'd benefit from page-type-specific schemas Google rewards:
+- `pages/contact.html` — add `ContactPage`
+- `pages/about.html` — add `AboutPage` + `Organization` with `founder`
+- `pages/blog.html` — add `Blog`
+- `pages/faq.html` — already has `FAQPage` ✅
+- `pages/testimonials.html` — add `Review` array (one per testimonial) + `AggregateRating`
+- `pages/services.html` — add `OfferCatalog` listing each service hub
+- **Acceptance:** Schema Markup Validator returns zero errors on each page; new `@type` visible in source.
 
----
-
-## P1 — Mobile responsiveness (do this week or next)
-
-The current CSS has effectively zero `@media` queries. The whole site renders the same on a 1440px laptop and a 375px iPhone. Below are the specific fixes.
-
-### P1-1 Add a real mobile breakpoint set to `shared.css` and inline styles in `index.html`
-- [x] Add `@media (max-width: 768px)` and `@media (max-width: 480px)` blocks.
-- Required overrides at `≤ 768px`:
-  - `.nav-links { display: none; }` (replace with hamburger — see P1-2)
-  - `.services-grid, .features-grid { grid-template-columns: 1fr; }`
-  - `.hero h1 { font-size: 32px; line-height: 1.15; }`
-  - `.value-h { font-size: 26px; }`
-  - `.section { padding: 48px 16px; }`
-  - `.letter-card { padding: 28px 22px; }`
-  - Hide decorative emoji floats: `.float { display: none; }` (they overlap the heading on mobile)
-- **Acceptance:** Chrome DevTools at 375px shows no horizontal scroll, no overlapping elements, h1 fits within viewport.
-
-### P1-2 Add a hamburger menu for mobile
-- [x] Replace `.nav-links` with a toggleable drawer below 768px.
-- Vanilla JS, no framework. Hamburger button → `aria-expanded` toggle → drawer slides down.
-- Keep "Call" button visible at all sizes — it's the primary CTA.
-- **Acceptance:** Mobile nav opens/closes; keyboard accessible (`Esc` closes); `aria-expanded` toggles correctly.
-
-### P1-3 Add a sticky bottom Call/Book bar on mobile
-- [x] PDF report's strongest mobile recommendation. Below 768px, fixed-position bar at bottom of viewport with two buttons:
-  - **Call Now** (`tel:+19496295365`) — left half, accent color
-  - **Book Repair** (`pages/contact.html`) — right half, dark
-- Hide the bar above 768px (desktop already has a header CTA).
-- Add `padding-bottom: 64px` to `body` on mobile so content isn't covered.
-- **Acceptance:** On mobile, bar is always visible; both buttons are 44×44px tap targets minimum.
-
-### P1-4 Fix tap target sizes throughout ✅ PR #107
-- [x] Several inline-styled CTAs use `padding: 7px 16px` — under the 44px Apple HIG minimum for tap targets.
-- Audit every `<a>` and `<button>`. Anything below 44px height in mobile breakpoint gets bumped.
-- **Acceptance:** Lighthouse mobile audit shows zero "tap targets too small" warnings.
-
-### P1-5 Fix the contact/booking form for mobile ✅ PR #107
-- [x] PDF report flagged: form may show duplicate "Please enable JavaScript" message and feels crowded.
-- Stack form fields vertically (no side-by-side on mobile).
-- Use proper `<select>` dropdowns for City and Appliance Type.
-- Fields above the fold on mobile: Name, Phone, City, Appliance, Message. Nothing else.
-- Verify the duplicate JS-disabled fallback is removed.
-- **Acceptance:** Form fits on a single mobile screen above the keyboard; no duplicate fallback messages.
+### P1-3 City-page meta description length sweep
+Audit may have widened these alongside the word-count sweep, but worth confirming:
+- Spec is `≤ 160 chars`. Earlier review showed Irvine at 194.
+- One-line script: read each `pages/appliance-repair-*-ca.html`, parse the meta description, flag any over 160.
+- **Acceptance:** all 6 existing city pages have meta descriptions ≤ 160 chars.
 
 ---
 
-## P2 — Local SEO depth (the work that actually moves rankings)
+## P2 — Blog discoverability + scale infrastructure
 
-This is the section that determines whether the site can rank for "appliance repair Anaheim" or only for "Universal Appliances Repair." Each page below is a separate PR.
+This phase has not been started. The filter pills on `pages/blog.html` are still placeholders — all five `<a class="cat-pill" href="#">`. No JS handler, no category pages, no search input.
 
-### P2-1 Build `/service-areas/` hub page
-- [x] New file: `pages/service-areas.html`.
-- Lists every Orange County city served, grouped (Coastal / Central / South OC / North OC).
-- Each city links to its dedicated landing page (built in P2-3).
-- Embed an interactive map (Leaflet + OpenStreetMap, no API key needed).
-- Add to main nav.
-- **Acceptance:** Page lists ≥ 25 cities, each linking somewhere real (city page once it exists, or anchor to "we also serve" section if city page doesn't exist yet).
+### P2-1 Wire blog filter pills to appliance taxonomy
+- Replace the 5 placeholder pills (`Tips & Guides / Buying Guides / Maintenance / Advice`) with appliance-axis taxonomy that matches what's actually on the cards: `All Posts (33)`, `Refrigerator (5)`, `Washer (5)`, `Dryer (4)`, `Oven (3)`, `Dishwasher (4)`, `Freezer (3)`, `Other (9)`.
+- Each pill ALSO points to a real category page (P2-2) instead of `#`, so click → navigation. JS in P2-3 handles in-page filtering.
+- Add `data-category` to each `.blog-card` so filtering can match.
+- **Acceptance:** counts match reality; clicking each pill loads the matching category page.
 
-### P2-2 Build per-service hub pages
-- [x] One PR per page. **Build with `/seo-hub --type=service --appliance=[name]`** — the command handles research, proposal, schemas, internal linking, and the test loop. It stops at "PR ready for owner review" (never auto-merges).
-- Order:
-  1. ✅ `pages/refrigerator-repair-orange-county.html`  →  `/seo-hub --type=service --appliance=refrigerator`
-  2. ✅ `pages/washer-repair-orange-county.html`  →  PR #75 open, awaiting owner review
-  3. ✅ `pages/dryer-repair-orange-county.html`  →  PR #78 open, awaiting owner review
-  4. ✅ `pages/dishwasher-repair-orange-county.html`  →  PR #81 merged
-  5. ✅ `pages/oven-stove-repair-orange-county.html`  →  PR #83 merged
-- Spec the command enforces: 1,000–1,500 words covering symptoms, brands, repair flow, 8+ FAQs, CTA; required schemas (`Service` + `LocalBusiness` + `BreadcrumbList` + `FAQPage`); links from homepage services grid, footer, `services.html`, and 3 most-relevant existing articles.
-- **Acceptance per page:** the `/seo-hub` Phase 5 demo summary shows ≥ 1,000 words, ≥ 8 FAQs, all four schemas validating, all internal links wired, and a green test pass; PR is open in GitHub for owner review.
+### P2-2 Build blog category-page template + ship 4 priority pages
+Different intent from per-service hubs (which target commercial / "hire someone now"). Category pages target informational intent.
 
-### P2-3 Build city landing pages
-- [x] One PR per page. **Build with `/seo-hub --type=city --city=[slug]`** — same command as P2-2, different `--type`. The command pulls real neighborhoods/ZIPs in Phase 0 so each page has authentic local detail.
-- Spec the command enforces: 800–1,200 words covering neighborhoods/ZIPs, services available locally, brands, 5+ city-specific FAQs, real local testimonials (or marked TODO placeholders); required schemas (`LocalBusiness` with city `addressLocality` + `BreadcrumbList` + `FAQPage`); links from `service-areas.html`, the 4 nearest hub footers, and the 2 most-relevant articles tagged with that city.
-- **Acceptance per page:** Phase 5 demo summary shows ≥ 800 words, ≥ 5 city FAQs, all schemas validating, internal links wired, sitemap updated, tests green; PR is open in GitHub for owner review.
+Build first (highest article volume):
+- `pages/blog/refrigerator.html`
+- `pages/blog/washer.html`
+- `pages/blog/dryer.html`
+- `pages/blog/oven-stove.html`
 
-#### Primary cities (highest population / search volume)
-  1. ✅ `pages/appliance-repair-irvine-ca.html`  →  PR #86 merged
-  2. ✅ `pages/appliance-repair-anaheim-ca.html`  →  PR #88 merged
-  3. ✅ `pages/appliance-repair-santa-ana-ca.html`  →  PR #90 merged
-  4. ✅ `pages/appliance-repair-huntington-beach-ca.html`  →  PR #92 merged
-  5. ✅ `pages/appliance-repair-costa-mesa-ca.html`  →  PR #94 merged
-  6. ✅ `pages/appliance-repair-garden-grove-ca.html`  →  PR #103 merged
-  7. [ ] `pages/appliance-repair-fullerton-ca.html`  →  `/seo-hub --type=city --city=fullerton`
-  8. [ ] `pages/appliance-repair-orange-ca.html`  →  `/seo-hub --type=city --city=orange`
+Each page:
+- 600–800 words; H1 + intro covering common problems in that appliance category
+- Lists every article in that category with thumbnail, excerpt, date
+- Cross-links to the matching service hub at the top ("Need help right now? See our [appliance] repair service in Orange County")
+- `CollectionPage` + `BreadcrumbList` schema; OG tags; GA tag
+- Linked from main nav, blog page filter pills, and footer
 
-#### Secondary cities
-  9.  [ ] `pages/appliance-repair-newport-beach-ca.html`  →  `/seo-hub --type=city --city=newport-beach`
-  10. [ ] `pages/appliance-repair-mission-viejo-ca.html`  →  `/seo-hub --type=city --city=mission-viejo`
-  11. [ ] `pages/appliance-repair-lake-forest-ca.html`  →  `/seo-hub --type=city --city=lake-forest`
-  12. [ ] `pages/appliance-repair-tustin-ca.html`  →  `/seo-hub --type=city --city=tustin`
-  13. [ ] `pages/appliance-repair-fountain-valley-ca.html`  →  `/seo-hub --type=city --city=fountain-valley`
-  14. [ ] `pages/appliance-repair-westminster-ca.html`  →  `/seo-hub --type=city --city=westminster`
-  15. [ ] `pages/appliance-repair-buena-park-ca.html`  →  `/seo-hub --type=city --city=buena-park`
-  16. [ ] `pages/appliance-repair-yorba-linda-ca.html`  →  `/seo-hub --type=city --city=yorba-linda`
-  17. [ ] `pages/appliance-repair-brea-ca.html`  →  `/seo-hub --type=city --city=brea`
-  18. [ ] `pages/appliance-repair-laguna-niguel-ca.html`  →  `/seo-hub --type=city --city=laguna-niguel`
-  19. [ ] `pages/appliance-repair-laguna-beach-ca.html`  →  `/seo-hub --type=city --city=laguna-beach`
-  20. [ ] `pages/appliance-repair-aliso-viejo-ca.html`  →  `/seo-hub --type=city --city=aliso-viejo`
-  21. [ ] `pages/appliance-repair-rancho-santa-margarita-ca.html`  →  `/seo-hub --type=city --city=rancho-santa-margarita`
-  22. [ ] `pages/appliance-repair-san-clemente-ca.html`  →  `/seo-hub --type=city --city=san-clemente`
-  23. [ ] `pages/appliance-repair-dana-point-ca.html`  →  `/seo-hub --type=city --city=dana-point`
-  24. [ ] `pages/appliance-repair-seal-beach-ca.html`  →  `/seo-hub --type=city --city=seal-beach`
-  25. [ ] `pages/appliance-repair-cypress-ca.html`  →  `/seo-hub --type=city --city=cypress`
-  26. [ ] `pages/appliance-repair-placentia-ca.html`  →  `/seo-hub --type=city --city=placentia`
-  27. [ ] `pages/appliance-repair-la-habra-ca.html`  →  `/seo-hub --type=city --city=la-habra`
-  28. [ ] `pages/appliance-repair-los-alamitos-ca.html`  →  `/seo-hub --type=city --city=los-alamitos`
+Build the template first as a reusable scaffold so later categories drop in cleanly.
 
-### P2-4 Add the "AI answer block" to homepage
-- [x] PDF report's key GEO insight. New section near the top of `index.html` (after hero, before existing services grid). Plain prose, factual, no marketing fluff.
-- Suggested copy from PDF:
-  > Universal Appliances Repair Group Inc. provides appliance repair services in Orange County, California, including refrigerator repair, washer repair, dryer repair, dishwasher repair, oven repair, stove repair, freezer repair, and garbage disposal repair. We serve Stanton, Irvine, Anaheim, Santa Ana, Huntington Beach, Costa Mesa, Fullerton, Garden Grove, Tustin, Lake Forest, Mission Viejo, and nearby Orange County cities. Call (949) 629-5365 or book online.
-- This is the chunk LLMs lift verbatim when answering "best appliance repair in Orange County." Keep it factual.
-- **Acceptance:** Section visible above the fold on desktop; included in homepage HTML so GPTBot/ClaudeBot/PerplexityBot can read it without JS.
+- **Acceptance per page:** schema validates; clean OG card; appears in `sitemap.xml`; ranks for `[appliance] repair tips Orange County` after 30 days.
 
-### P2-5 Expand the homepage FAQ to 10–15 questions
-- [x] Current homepage FAQ has 3. Each Q&A is a chunk an AI engine can quote.
-- Required additions (from PDF report):
-  - Do you offer same-day appliance repair in Orange County?
-  - Do you repair Samsung refrigerators?
-  - Do you repair LG washers?
-  - Do you repair Whirlpool dryers?
-  - How much does appliance repair cost in Orange County?
-  - Is it better to repair or replace a refrigerator?
-  - What cities in Orange County do you serve?
-  - Do you provide warranty on parts and labor?
-  - Can I book appliance repair online?
-  - Do you repair built-in ovens and cooktops?
-- Update the inline `FAQPage` schema to match.
-- **Acceptance:** ≥ 10 Q&A pairs; schema validates with all questions; visible content matches schema content.
+### P2-3 Add client-side article search to `pages/blog.html`
+At 33 articles no library is needed.
+
+- Add `<input type="search" placeholder="Search 33 articles…">` above the grid.
+- On keystroke, filter `.blog-card` elements by matching against title + excerpt + category badge.
+- Show "No articles match" empty state.
+- Hash-sync the query so `blog.html?q=fridge` is shareable.
+- Combine with P2-1 filter pills so search + category filter compose.
+- **Acceptance:** typing instantly filters cards; works without page reload; under 60 lines of JS.
+
+### P2-4 Pagefind upgrade — trigger at 50 articles
+Tracking, not building. When `articles/` hits 50 files (likely mid-summer at the Mon/Wed/Fri cadence):
+- Install `pagefind` as a devDependency.
+- Add a one-shot script (`scripts/build-search-index.js` or postbuild step) that runs `pagefind --site .` after content lands.
+- Replace the simple JS filter from P2-3 with the Pagefind UI bundle.
+- Pagefind: free, runs over static HTML, ~100 KB JS, no backend, perfect for GitHub Pages.
+- **Acceptance trigger:** `ls articles/article-*.html | wc -l` returns ≥ 50.
+
+### P2-5 Future content lanes (after city × appliance saturation)
+Backlog for `/seo-blog` to draw from once city + appliance combos stop yielding new variations. Ranked by ROI:
+
+1. **Brand-specific error codes** — biggest unclaimed long-tail. *"Samsung refrigerator DE error", "LG washer UE code", "Whirlpool F dl error", "Bosch dishwasher E15"*. Hundreds of viable articles.
+2. **Brand × appliance landing pages (commercial intent hubs)** — *"Sub-Zero refrigerator repair Orange County"*. Premium brands convert at higher ticket sizes.
+3. **Symptom-deep articles** — *"Dryer makes thumping noise — 6 causes ranked"*. Highly shareable; AI engines lift verbatim.
+4. **"Vs." comparison guides** — *"French door vs side-by-side fridge", "Front-load vs top-load washer"*. High commercial intent at start of buying decision.
+5. **Lifespan articles** — *"How long does a refrigerator last"*. Perennial demand, natural CTA hand-off.
+6. **Seasonal / lifestyle content** — *"Prep your fridge for vacation", "End-of-summer appliance checklist"*. Newsletter-friendly.
+7. **DIY-vs-call-a-pro decision trees** — interactive content; Google + AI both reward these.
 
 ---
 
-## P3 — Trust signals & content depth
+## P3 — Local SEO depth (continue building geographic coverage)
 
-### P3-1 Replace generic testimonials with verifiable ones
-- [x] Current testimonial is a stock-photo "David Miller." This is a credibility liability.
-- Pull real Google / Yelp reviews. Each testimonial should include: customer first name, city, appliance type, repair context, approximate date.
-- Add `Review` and `AggregateRating` JSON-LD with star count + review count from GBP.
-- **Acceptance:** ≥ 6 real testimonials on homepage; `AggregateRating` schema present.
+### P3-1 Remaining city landing pages
+Built with `/seo-hub --type=city --city=[slug]`. **Wait until P1-3 sweep is done** so all city pages match the same spec (≤ 160 char meta) before adding more.
 
-### P3-2 Publish a "Brands We Service" section ✅ PR #97
-- [x] AI engines and customers both use brand names as filters. Currently no brands listed.
-- Add a brand grid with logos (or text if licensing is a concern): Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor.
-- Add to `services.html` and the per-service hub pages.
-- **Acceptance:** Brands section visible on homepage and all service pages; brand names appear as plain text in HTML (LLM-readable).
+#### Primary (priority 1 — high search volume)
+- [ ] `pages/appliance-repair-fullerton-ca.html`
+- [ ] `pages/appliance-repair-orange-ca.html`
 
-### P3-3 Replace stock photos with real ones
-- [ ] Hero, service cards, and "how it works" all use Unsplash. Real photos = trust.
-- Capture: technician at work, branded van, before/after of repaired appliances, the team in front of the shop.
-- Optimize (`<img width height>`, `loading="lazy"`, WebP + JPEG fallback).
-- **Acceptance:** Homepage and at least one service page show ≥ 5 photos that are clearly the real business.
-
-### P3-4 Add author bios for blog content
-- [ ] Currently articles have no `author` displayed on the page (only in schema).
-- Create one or two technician profiles (`pages/team/[name].html`) with: name, photo, years experience, certifications, brands worked on.
-- Update article `<head>` schema `author` to point to the bio page (`@id`).
-- **Acceptance:** Each new article references a real author with a `sameAs` URL or page link; existing articles' schema points at a real author entity.
-
-### P3-5 Add license / certification / trust badges
-- [ ] PDF report and Google E-E-A-T both reward concrete trust markers.
-- Add to homepage and footer: contractor license number, EPA Section 608 certification (for refrigerant work), BBB rating + URL, Google Guaranteed badge if eligible, factory-authorized brand badges if any.
-- **Acceptance:** Trust strip with ≥ 4 verifiable badges visible on homepage.
-
----
-
-## P4 — Off-site & operational
-
-### P4-1 Align Google Business Profile with the website
-- [ ] PDF report priority. GBP must mirror the site exactly: name, phone, address, hours, categories, services, booking URL.
-- Primary GBP category: **Appliance repair service**.
-- Secondary: Refrigerator repair service, Washer & dryer repair service, Small appliance repair service.
-- Add booking URL pointing to `pages/contact.html`.
-- Upload the same photos used on the site (P3-3).
-- **Acceptance:** All GBP fields match site; tracked in a one-row spreadsheet under `tasks/gbp-sync.md`.
-
-### P4-2 Submit sitemap to Search Console + Bing Webmaster Tools
-- [ ] Once P0-1 is live, submit `sitemap.xml` in both consoles.
-- Verify domain ownership in both.
-- Set up alerts for crawl errors.
-- **Acceptance:** Both consoles show the sitemap as `Success`; coverage report inspected after 7 days.
-
-### P4-3 Build out the directory presence
-- [ ] AI engines pull citations from these. NAP must be identical everywhere.
-- Claim/update listings on: Yelp, Better Business Bureau, Angi (Angi's List), HomeAdvisor, Thumbtack, Nextdoor business profile, Bing Places, Apple Business Connect.
-- Use the exact same business name, phone, address, hours, and a link to `https://fixappliancesfast.com/`.
-- **Acceptance:** Tracked in `tasks/directory-listings.md` with status per directory.
-
-### P4-4 Earn local citations and mentions
-- [ ] Sponsor a Little League team, Chamber of Commerce membership, donate to a local charity that publishes a thank-you list — anything that generates a link from a `.com` with local intent.
-- Reach out to 5 local home-services bloggers / Reddit r/orangecounty for honest mentions.
-- **Acceptance:** ≥ 3 inbound links from local-domain referrers within 90 days.
+#### Secondary (priority 2)
+- [ ] `pages/appliance-repair-newport-beach-ca.html`
+- [ ] `pages/appliance-repair-mission-viejo-ca.html`
+- [ ] `pages/appliance-repair-lake-forest-ca.html`
+- [ ] `pages/appliance-repair-tustin-ca.html`
+- [ ] `pages/appliance-repair-fountain-valley-ca.html`
+- [ ] `pages/appliance-repair-westminster-ca.html`
+- [ ] `pages/appliance-repair-buena-park-ca.html`
+- [ ] `pages/appliance-repair-yorba-linda-ca.html`
+- [ ] `pages/appliance-repair-brea-ca.html`
+- [ ] `pages/appliance-repair-laguna-niguel-ca.html`
+- [ ] `pages/appliance-repair-laguna-beach-ca.html`
+- [ ] `pages/appliance-repair-aliso-viejo-ca.html`
+- [ ] `pages/appliance-repair-rancho-santa-margarita-ca.html`
+- [ ] `pages/appliance-repair-san-clemente-ca.html`
+- [ ] `pages/appliance-repair-dana-point-ca.html`
+- [ ] `pages/appliance-repair-seal-beach-ca.html`
+- [ ] `pages/appliance-repair-cypress-ca.html`
+- [ ] `pages/appliance-repair-placentia-ca.html`
+- [ ] `pages/appliance-repair-la-habra-ca.html`
+- [ ] `pages/appliance-repair-los-alamitos-ca.html`
 
 ---
 
-## Verification checklist (run before declaring P0/P1/P2 "done")
+## P4 — Trust signals & E-E-A-T
+
+### P4-1 Replace stock photos with real ones
+- Hero, service cards, "how it works" still use Unsplash today (verified live)
+- Capture: technician at work, branded van, before/after, team in front of shop
+- Optimize: explicit `width`+`height`, `loading="lazy"`, WebP with JPEG fallback
+- Replace on homepage and at least one service hub
+- **Acceptance:** ≥ 5 photos that are clearly the actual business
+
+### P4-2 Add author bios
+- Articles have `author` only in schema, never on the visible page
+- Create 1–2 technician profile pages (`pages/team/[name].html`) with photo, years experience, certifications, brands worked on
+- Update article schema `author.@id` to point at the bio page
+- **Acceptance:** every article schema references a real person/page
+
+### P4-3 Add license / certification / trust badges
+- Display contractor license #, EPA Section 608 cert, BBB rating + URL, Google Guaranteed (if eligible)
+- Add to homepage hero strip and footer
+- Include factory-authorized brand badges *only if proof exists* (per `seo-content.md` rule)
+- **Acceptance:** ≥ 4 verifiable badges visible on homepage
+
+---
+
+## P5 — Off-site & operational
+
+### P5-1 Bing Webmaster Tools sitemap submission
+- Same `sitemap.xml`, ~2 minutes
+- Bing's index also feeds ChatGPT search results — direct AI-visibility lever
+- **Acceptance:** Bing Webmaster shows sitemap status `Success`
+
+### P5-2 Google Search Console — alerts and ongoing monitoring
+- ✅ Sitemap submitted 2026-05-05
+- Configure email alerts for Coverage report errors (404s, soft-404s, server errors)
+- After 7–14 days: review which URLs are `Discovered – currently not indexed` (signals thin content)
+- After 30 days: pull top 10 articles by impressions; that's the topic-quality signal for `/seo-blog` selection
+- **Acceptance:** alerts enabled; 30-day impressions snapshot saved to `tasks/seo-impressions-monthly.md`
+
+### P5-3 Align Google Business Profile with the website
+- Primary GBP category: **Appliance repair service**
+- Secondary: Refrigerator repair, Washer & dryer repair, Small appliance repair
+- Mirror site exactly: name, phone, address, hours, services, booking URL
+- Upload the same photos used on the site (P4-1)
+- **Acceptance:** all GBP fields match site; tracked in `tasks/gbp-sync.md`
+
+### P5-4 Build out the directory presence
+NAP must be identical everywhere. Claim/update:
+- Yelp, BBB, Angi, HomeAdvisor, Thumbtack, Nextdoor, Bing Places, Apple Business Connect
+- **Acceptance:** tracked in `tasks/directory-listings.md` with status per directory
+
+### P5-5 Earn local citations
+- Sponsor a Little League team / Chamber of Commerce / charity that publishes a thank-you list
+- Pitch 5 local home-services bloggers and r/orangecounty for honest mentions
+- **Acceptance:** ≥ 3 inbound links from local-domain referrers within 90 days
+
+---
+
+## P6 — Performance & housekeeping
+
+### P6-1 Optimize `logo.png`
+- Currently **996 KB**, loads on every page
+- Convert to a sub-100 KB version (or SVG if source allows)
+- Drop bundle size by ~900 KB site-wide
+- **Acceptance:** `logo.png` ≤ 100 KB; visual diff acceptable
+
+### P6-2 Mobile sticky bar — confirm on real device
+- CSS shows `display: flex` and `position: fixed; bottom: 0` correctly
+- Earlier audit couldn't confirm on Chrome desktop emulation
+- Validate on a real iPhone at 390px and 414px (Safari + Chrome)
+- If sticky bar fails to appear in Safari, debug `position: fixed` interaction with the address bar
+- **Acceptance:** sticky bar visible on real iPhone; both buttons tappable; doesn't overlap form inputs on `contact.html`
+
+### P6-3 Add a `LICENSE` file or pick one for the repo
+- Currently no license file. For a private business site this is fine, but if any of the static scripts/HTML is going to be open-sourced or reused (the `/seo-blog` skill, for example, is reasonably reusable), pick MIT or Apache-2.0 and add a `LICENSE` file at root.
+- **Acceptance:** `LICENSE` exists at root with chosen license text.
+
+---
+
+## Verification checklist (run before declaring P0/P1 "done")
 
 - [ ] `npm test` exit 0
 - [ ] `npm run screenshot` exit 0
-- [ ] Lighthouse mobile score ≥ 90 (Performance, Accessibility, Best Practices, SEO)
-- [ ] Schema Markup Validator: zero errors on `/`, `services.html`, every city/service hub
-- [ ] Google Rich Results test: `LocalBusiness`, `FAQPage`, `BreadcrumbList` all eligible
-- [ ] `https://fixappliancesfast.com/robots.txt` returns 200
-- [ ] `https://fixappliancesfast.com/sitemap.xml` returns 200 with all current pages
-- [ ] `https://fixappliancesfast.com/llms.txt` returns 200, plain text
-- [ ] Manual mobile smoke test on a real iPhone — no horizontal scroll, sticky bar present, hamburger works
+- [ ] Lighthouse mobile ≥ 90 across Performance, Accessibility, Best Practices, SEO on `/`, one service hub, one city hub, one article
+- [ ] Schema Markup Validator: zero errors on `/`, every static page, every hub
+- [ ] Google Rich Results: `LocalBusiness`, `FAQPage`, `BreadcrumbList`, `Service`, `AggregateRating` all eligible
+- [ ] `/robots.txt`, `/sitemap.xml`, `/llms.txt` all return 200
+- [ ] Manual mobile smoke test on a real iPhone
 
 ---
 
@@ -307,11 +265,28 @@ This is the section that determines whether the site can rank for "appliance rep
 
 > **Same-day appliance repair in Orange County, CA — refrigerators, washers, dryers, dishwashers, ovens, and stoves.**
 
-This phrase belongs in: hero subhead, AI answer block, GBP description, llms.txt summary, every social bio.
+Belongs in: hero subhead, AI answer block, GBP description, llms.txt summary, every social bio.
+
+---
+
+## Suggested PR sequence (top to bottom)
+
+The order maximizes user-visible impact, then site authority, then content surface area:
+
+1. `chore(logs): touch CONTENT_LOG and AUDIT_LOG` — P0-1 (1 minute)
+2. `feat(homepage): add AggregateRating to LocalBusiness schema` — P1-1
+3. `feat(static-pages): add page-type-specific schemas` — P1-2 (one PR or six)
+4. `fix(city-hubs): tighten meta description lengths` — P1-3
+5. `feat(blog): wire filter pills + appliance taxonomy + JS search` — P2-1 + P2-3 combined
+6. `feat(blog): category-page template + 4 priority category pages` — P2-2
+7. `chore(seo): submit sitemap to Bing Webmaster + enable Search Console alerts` — P5-1, P5-2
+8. `chore(perf): optimize logo.png` — P6-1
+9. Resume `/seo-hub --type=city` for the remaining 22 city pages — P3-1
+10. P4 trust signals + P5 off-site work in parallel as you have time
 
 ---
 
 ## Source reports
 
 - ChatGPT review (PDF): `fixappliancesfast_high_level_report.pdf` (root of repo)
-- Claude initial audit: in-conversation report dated 2026-05-04
+- Audit refresh: 2026-05-06 (folded into this plan; sitemap at 51 URLs, 33 articles, 6 city hubs, 5 service hubs, 6 static pages, all schemas validating)
