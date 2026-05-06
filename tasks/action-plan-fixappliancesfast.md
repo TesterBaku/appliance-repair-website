@@ -31,6 +31,7 @@ The following items from earlier plans are **done** and removed from the active 
 - 6 testimonials rendered on homepage (real names + cities + appliance types).
 - `logs/CONTENT_LOG.md` and `logs/AUDIT_LOG.md` created — P0-1 (PR #121, merged 2026-05-06).
 - `logo.png` optimized 973 KB → 10.7 KB — P6-1 (PR #110, merged 2026-05-05). Already well under 100 KB.
+- `AggregateRating` added to homepage `LocalBusiness` schema (4.9 / 76 reviews from GBP) — P1-1 (PR #124, merged 2026-05-06).
 
 That's basically all of P0, all of P1, and most of P6 from the previous v2 plan. What's below is what's still open.
 
