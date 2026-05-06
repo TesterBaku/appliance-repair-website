@@ -103,6 +103,12 @@
     .cat-pill { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1.5px solid #e5e7eb; color: #666; background: #fff; text-decoration: none; transition: all 0.15s; }
     .cat-pill:hover, .cat-pill.active { background: #e84c1e; color: #fff; border-color: #e84c1e; }
 
+    /* SEARCH */
+    #blog-search { display: block; width: 100%; max-width: 480px; margin: 32px auto 0; padding: 11px 18px; font-size: 14px; font-family: 'Inter', sans-serif; border: 1.5px solid #e5e7eb; border-radius: 10px; outline: none; background: #fff; color: #111; transition: border-color 0.15s; }
+    #blog-search:focus { border-color: #e84c1e; box-shadow: 0 0 0 3px rgba(232,76,30,0.1); }
+    #blog-search::placeholder { color: #bbb; }
+    #search-empty { text-align: center; padding: 56px 24px; color: #888; font-size: 14px; display: none; }
+
     /* DARK CTA */
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; position: relative; overflow: hidden; }
     .sticky { background: #ffe45e; border-radius: 4px; box-shadow: 2px 4px 12px rgba(0,0,0,0.18); }
@@ -296,6 +302,7 @@
   <!-- ALL POSTS GRID -->
   <section style="padding:56px 24px 80px;max-width:1100px;margin:0 auto;">
     <div style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0;">All Articles</div>
+    <input type="search" id="blog-search" placeholder="Search 33 articles…" aria-label="Search articles" autocomplete="off" />
     <div class="blog-grid">
 
       <!-- Post: Whirlpool Dryer Repair Los Alamitos -->
@@ -761,6 +768,7 @@
       </div>
 
     </div>
+    <div id="search-empty">No articles match your search. Try a different keyword.</div>
   </section>
 
   <!-- DARK CTA -->
@@ -842,6 +850,54 @@
       document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
       drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
       document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
+    })();
+  </script>
+
+  <!-- BLOG SEARCH -->
+  <script>
+    (function() {
+      var cards = Array.from(document.querySelectorAll('.blog-card'));
+      var pills = Array.from(document.querySelectorAll('.cat-pill'));
+      var input = document.getElementById('blog-search');
+      var empty = document.getElementById('search-empty');
+      var currentCat = 'all';
+
+      function applyFilter() {
+        var q = input.value.trim().toLowerCase();
+        var n = 0;
+        cards.forEach(function(c) {
+          var title = (c.querySelector('.blog-title') || {}).textContent || '';
+          var excerpt = (c.querySelector('.blog-excerpt') || {}).textContent || '';
+          var badge = (c.querySelector('.blog-cat-badge') || {}).textContent || '';
+          var cat = c.dataset.category || '';
+          var matchQ = !q || title.toLowerCase().includes(q) || excerpt.toLowerCase().includes(q) || badge.toLowerCase().includes(q);
+          var matchC = currentCat === 'all' || cat === currentCat;
+          c.style.display = (matchQ && matchC) ? '' : 'none';
+          if (matchQ && matchC) n++;
+        });
+        empty.style.display = n === 0 ? 'block' : 'none';
+      }
+
+      input.addEventListener('input', function() {
+        var url = new URL(location.href);
+        var q = this.value.trim();
+        q ? url.searchParams.set('q', q) : url.searchParams.delete('q');
+        history.replaceState(null, '', url.toString());
+        applyFilter();
+      });
+
+      pills.forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          currentCat = this.dataset.filter || 'all';
+          pills.forEach(function(p) { p.classList.remove('active'); });
+          this.classList.add('active');
+          applyFilter();
+        });
+      });
+
+      var q = new URLSearchParams(location.search).get('q');
+      if (q) { input.value = q; applyFilter(); }
     })();
   </script>
 
