@@ -114,6 +114,14 @@
       .sticky-note-anchor { bottom: -20px !important; right: 12px !important; }
     }
 
+    /* Homepage testimonials — 3-col grid */
+    #testimonials .testimonials-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    #testimonials .testimonial-card { padding: 24px 22px; }
+    @media (max-width: 900px) { #testimonials .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { #testimonials .testimonials-grid { grid-template-columns: 1fr; } }
+    /* Reviewer initials avatar */
+    .t-initial { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin: 18px auto 10px; }
+
     /* respect reduced motion preference */
     @media (prefers-reduced-motion: reduce) {
       .faq-icon, .nav-hamburger span, .nav-dropdown-arrow { transition: none; }
@@ -169,7 +177,7 @@
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.9",
+      "ratingValue": "5.0",
       "reviewCount": "76",
       "bestRating": "5",
       "worstRating": "1"
@@ -260,6 +268,104 @@
           "@type": "Answer",
           "text": "Yes — fill out the contact form on our website and a technician will reach out to confirm a time. You can also call us directly at (949) 629-5365 if you'd prefer to speak with someone right away."
         }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "position": 1,
+        "author": { "@type": "Person", "name": "Noelle B" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG of Universal Appliance Repair Group has helped our family with both our Thermador dishwasher and stove top — both times he did an excellent and professional job. He always took the time to explain thoroughly the issues at hand. I would highly recommend Universal Appliances.",
+        "datePublished": "2026-03",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 2,
+        "author": { "@type": "Person", "name": "Jennifer Trette" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "The dryer repairman was quick, efficient, and very knowledgeable. He clearly explained the issue and the fix, kept me informed throughout the process, and was friendly and professional the entire time. Great service from start to finish!",
+        "datePublished": "2026-02",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 3,
+        "author": { "@type": "Person", "name": "Kathy Calderon" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication — he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable.",
+        "datePublished": "2025-09",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 4,
+        "author": { "@type": "Person", "name": "Arzuman Qarayev" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you for fixing my Frigidaire fridge — it wasn't cooling. Fast and good service.",
+        "datePublished": "2025-05",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 5,
+        "author": { "@type": "Person", "name": "Andrea Hall" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG showed up on time, quickly diagnosed the issue with my freezer, and explained everything in a way that actually made sense. No guesswork, no upselling, just straightforward, honest work. You can tell he knows what he's doing and takes pride in doing the job right the first time. Reliable, knowledgeable, and very easy to work with.",
+        "datePublished": "2026-04",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 6,
+        "author": { "@type": "Person", "name": "Elizabeth Lovejoy" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Great service, incredibly pleasant! We were so impressed with how quickly he both diagnosed and fixed the problem.",
+        "datePublished": "2026-04",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 7,
+        "author": { "@type": "Person", "name": "Kenan Ken" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you AG for fixing my old Viking oven. Highly recommended!",
+        "datePublished": "2026-03",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 8,
+        "author": { "@type": "Person", "name": "Darina Martirosyan" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you for fixing my microwave!!!",
+        "datePublished": "2026-03",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 9,
+        "author": { "@type": "Person", "name": "Patricio Jr Villanueva" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you for fixing my LG washer.",
+        "datePublished": "2025-12",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "position": 10,
+        "author": { "@type": "Person", "name": "Cheryl Lemire" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Absolutely amazing service! Timely, cost was right, knowledgeable, great customer experience! Definitely will be using them again! Dryer is back in action!",
+        "datePublished": "2026-04",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
       }
     ]
   }
@@ -544,21 +650,86 @@
     </div>
   </section>
 
-  <!-- TESTIMONIAL -->
+  <!-- TESTIMONIALS -->
   <section class="section section-gray" id="testimonials" style="text-align:center;">
     <div class="container">
       <h2 class="h2-standard">What Our Customers Say</h2>
-      <div class="testimonials-grid">
-        <div class="testimonial-card" style="max-width:none;margin:0;">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-quote">"The dryer repairman was quick, efficient, and very knowledgeable. He clearly explained the issue and the fix, kept me informed throughout the process, and was friendly and professional the entire time. Great service from start to finish!"</p>
-          <div class="testimonial-name">Jennifer T. — Dryer repair, February 2026</div>
-        </div>
-        <div class="testimonial-card" style="max-width:none;margin:0;">
+      <p style="font-size:13.5px;color:#888;margin-top:8px;">76 verified 5-star Google reviews · Orange County, CA</p>
+      <div class="testimonials-grid" style="margin-top:32px;">
+
+        <div class="testimonial-card">
           <div class="stars">★★★★★</div>
           <p class="testimonial-quote">"AG of Universal Appliance Repair Group has helped our family with both our Thermador dishwasher and stove top — both times he did an excellent and professional job. He always took the time to explain thoroughly the issues at hand. I would highly recommend Universal Appliances."</p>
-          <div class="testimonial-name">Noelle B. — Thermador dishwasher &amp; stove repair, March 2026</div>
+          <div class="t-initial" style="background:#3b82f6;">NB</div>
+          <div class="testimonial-name">Noelle B. — Thermador dishwasher &amp; stove repair · Orange County, CA</div>
         </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"The dryer repairman was quick, efficient, and very knowledgeable. He clearly explained the issue and the fix, kept me informed throughout the process, and was friendly and professional the entire time. Great service from start to finish!"</p>
+          <div class="t-initial" style="background:#8b5cf6;">JT</div>
+          <div class="testimonial-name">Jennifer T. — Dryer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication — he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable."</p>
+          <div class="t-initial" style="background:#10b981;">KC</div>
+          <div class="testimonial-name">Kathy Calderon — Washer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you for fixing my Frigidaire fridge — it wasn't cooling. Fast and good service."</p>
+          <img src="images/real/reviewer-profiles/arzuman_qarayev_photo.webp" alt="Arzuman Qarayev" class="testimonial-avatar" />
+          <div class="testimonial-name">Arzuman Qarayev — Frigidaire refrigerator repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG showed up on time, quickly diagnosed the issue with my freezer, and explained everything in a way that actually made sense. No guesswork, no upselling, just straightforward, honest work. You can tell he knows what he's doing and takes pride in doing the job right the first time. Reliable, knowledgeable, and very easy to work with."</p>
+          <div class="t-initial" style="background:#14b8a6;">AH</div>
+          <div class="testimonial-name">Andrea Hall — Freezer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Great service, incredibly pleasant! We were so impressed with how quickly he both diagnosed and fixed the problem."</p>
+          <img src="images/real/reviewer-profiles/elizabeth_lovejoy_photo.webp" alt="Elizabeth Lovejoy" class="testimonial-avatar" />
+          <div class="testimonial-name">Elizabeth Lovejoy — Cooktop repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you AG for fixing my old Viking oven. Highly recommended!"</p>
+          <div class="t-initial" style="background:#f59e0b;">KK</div>
+          <div class="testimonial-name">Kenan Ken — Viking oven repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you for fixing my microwave!!!"</p>
+          <img src="images/real/reviewer-profiles/darina_martirosyan_photo.webp" alt="Darina Martirosyan" class="testimonial-avatar" />
+          <div class="testimonial-name">Darina Martirosyan — Microwave repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you for fixing my LG washer."</p>
+          <img src="images/real/reviewer-profiles/patricio_villanueva_photo.webp" alt="Patricio Villanueva" class="testimonial-avatar" />
+          <div class="testimonial-name">Patricio V. — LG washer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Absolutely amazing service! Timely, cost was right, knowledgeable, great customer experience! Definitely will be using them again! Dryer is back in action!"</p>
+          <img src="images/real/reviewer-profiles/cheryl_lemire_photo.webp" alt="Cheryl Lemire" class="testimonial-avatar" />
+          <div class="testimonial-name">Cheryl Lemire — Dryer repair · Orange County, CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:28px;">
+        <a href="pages/testimonials.html" style="font-size:13px;color:#3b82f6;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
