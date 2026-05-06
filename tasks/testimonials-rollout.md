@@ -218,4 +218,16 @@ Before adding a review to a hub, run a quick consistency check: count how many o
 
 ---
 
-## Applianc
+## Appliance-type quick reference
+
+| Appliance | Pool candidates (bodyStatus: "complete") |
+|---|---|
+| Refrigerator | Lale, Marcy Kucik, William Nugent, Brian Brassil, Lilya Raupova (Sub-Zero), Arzuman Qarayev (Frigidaire), Laman Anvarli (GE Monogram), Joellyn Meadows, Molla Islam, Dave Brisbin |
+| Washer | Danette Vanover, Russell Kadota, Justine Shaw, Tony Tomassini, Kelly Heyden, Craig Tudor, Patricio Jr Villanueva (LG), rick deangelo, mark rivera (Whirlpool), Greg Schnabel, Veronique Reaver, Stephen Stephen, Susie Arii, George, Kathy Calderon, Michele Ohanian |
+| Dryer | Jennifer Trette, Cindy Montefu, Katie Anne Salen, Julie L., Ernesto Ruiz, Matt Snyder, Stephen Stephen, Susie Arii, Dena Fisher, cheryl lemire, Veronique Reaver |
+| Dishwasher | Noelle B (Thermador), Robert Clemmons, Tony Tomassini, Katie Holst, Jonathan Stone, Karen Myhra, George |
+| Oven / Range / Cooktop | Steve D, Jeff Lane Songs, Susan Ryan, Roger Antonie, Kenan Ken (Viking), George Mendoza (Samsung range), Elizabeth Lovejoy, Molla Islam |
+| General / Multiple | Jovita Osorio, Wendy Henderson, David B, and others without specific appliance mention |
+
+Reviews with `bodyHasTypos: true` may receive light grammar/spelling edits for display — no paraphrasing.
+Reviews with `bodyStatus: "photo-only"` or `"no-body"` are image sources only — never quoted.
