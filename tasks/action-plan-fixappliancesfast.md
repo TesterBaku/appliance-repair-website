@@ -29,18 +29,10 @@ The following items from earlier plans are **done** and removed from the active 
 - `images/hero-homepage.jpg` exists in production (verified — 200 OK, 317 KB JPEG).
 - Sitemap on disk and live both list 51 URLs and stay in sync.
 - 6 testimonials rendered on homepage (real names + cities + appliance types).
+- `logs/CONTENT_LOG.md` and `logs/AUDIT_LOG.md` created — P0-1 (PR #121, merged 2026-05-06).
+- `logo.png` optimized 973 KB → 10.7 KB — P6-1 (PR #110, merged 2026-05-05). Already well under 100 KB.
 
 That's basically all of P0, all of P1, and most of P6 from the previous v2 plan. What's below is what's still open.
-
----
-
-## P0 — Tiny but still open
-
-### P0-1 Create the two missing log files
-- `logs/CONTENT_LOG.md` and `logs/AUDIT_LOG.md` are referenced by `CLAUDE.md` and used by the scheduled `/seo-blog` (Mon/Wed/Fri) and `/seo-audit` (quarterly) jobs.
-- Only `logs/HUB_LOG.md` exists today, so the next scheduled run can't append.
-- Touch each file with a header line.
-- **Acceptance:** both files exist; next scheduled `/seo-blog` run logs an entry.
 
 ---
 
@@ -229,12 +221,6 @@ NAP must be identical everywhere. Claim/update:
 ---
 
 ## P6 — Performance & housekeeping
-
-### P6-1 Optimize `logo.png`
-- Currently **996 KB**, loads on every page
-- Convert to a sub-100 KB version (or SVG if source allows)
-- Drop bundle size by ~900 KB site-wide
-- **Acceptance:** `logo.png` ≤ 100 KB; visual diff acceptable
 
 ### P6-2 Mobile sticky bar — confirm on real device
 - CSS shows `display: flex` and `position: fixed; bottom: 0` correctly
