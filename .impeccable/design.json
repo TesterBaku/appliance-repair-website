@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-06T00:00:00Z",
+  "title": "Design System: Universal Appliances Repair",
+  "extensions": {
+    "colorMeta": {
+      "craftsmans-ember": {
+        "role": "primary",
+        "displayName": "Craftsman's Ember",
+        "canonical": "oklch(57% 0.21 28)",
+        "tonalRamp": ["#fef3ef", "#fcdacc", "#f8b49a", "#f08060", "#e84c1e", "#cc3a10", "#a02a08", "#6b1604"]
+      },
+      "ember-deep": {
+        "role": "primary-hover",
+        "displayName": "Ember Deep",
+        "canonical": "oklch(47% 0.19 28)",
+        "tonalRamp": ["#fef0eb", "#fad0bc", "#f3a07a", "#e8703c", "#cc3d12", "#a82e0a", "#7e2006", "#511203"]
+      },
+      "coastal-mist": {
+        "role": "neutral-bg",
+        "displayName": "Coastal Mist",
+        "canonical": "oklch(98% 0.005 240)",
+        "tonalRamp": ["#fafcff", "#f2f7fb", "#e4eef6", "#d1e2ef", "#b5cfde", "#7ea5bc", "#4a7191", "#1e3d50"]
+      },
+      "surface": {
+        "role": "neutral-surface",
+        "displayName": "Surface White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": ["#ffffff", "#f5f5f5", "#e8e8e8", "#d0d0d0", "#b0b0b0", "#808080", "#505050", "#202020"]
+      },
+      "pressed-steel": {
+        "role": "neutral-text-primary",
+        "displayName": "Pressed Steel",
+        "canonical": "oklch(18% 0 0)",
+        "tonalRamp": ["#f5f5f5", "#d0d0d0", "#a0a0a0", "#707070", "#454545", "#2a2a2a", "#181818", "#0a0a0a"]
+      },
+      "dust": {
+        "role": "neutral-text-secondary",
+        "displayName": "Dust",
+        "canonical": "oklch(44% 0 0)",
+        "tonalRamp": ["#f7f7f7", "#e0e0e0", "#c4c4c4", "#999999", "#777777", "#555555", "#333333", "#111111"]
+      },
+      "night-workshop": {
+        "role": "neutral-surface-dark",
+        "displayName": "Night Workshop",
+        "canonical": "oklch(5% 0.003 30)",
+        "tonalRamp": ["#f5ede8", "#d4b8ae", "#a88070", "#7a5248", "#4e2e26", "#2e1a14", "#170d09", "#090909"]
+      },
+      "star-gold": {
+        "role": "tertiary",
+        "displayName": "Star Gold",
+        "canonical": "oklch(73% 0.17 78)",
+        "tonalRamp": ["#fef9ec", "#fdefc5", "#fce190", "#f9cc47", "#f59e0b", "#d07f05", "#9a5e02", "#613a01"]
+      }
+    },
+    "typographyMeta": {
+      "display":  { "displayName": "Display",  "purpose": "Homepage H1 only. Never reused on inner pages at this size." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings (h2). The workhorse heading level." },
+      "title":    { "displayName": "Title",    "purpose": "Hub page H1s, article headings, card names." },
+      "body":     { "displayName": "Body",     "purpose": "All paragraph copy and FAQ answers. Max 65-75ch on desktop." },
+      "label":    { "displayName": "Label",    "purpose": "Nav links, button text, tags, form labels." }
+    },
+    "shadows": [
+      { "name": "surface-low",    "value": "0 1px 12px rgba(0,0,0,0.06)", "purpose": "FAQ accordion items. Subtlest elevation." },
+      { "name": "surface",        "value": "0 2px 16px rgba(0,0,0,0.07)", "purpose": "Feature cards, stat cards. Standard card elevation." },
+      { "name": "surface-medium", "value": "0 2px 20px rgba(0,0,0,0.08)", "purpose": "Service cards. Slightly more prominent for image-bearing cards." },
+      { "name": "surface-high",   "value": "0 2px 24px rgba(0,0,0,0.08)", "purpose": "Testimonial cards." },
+      { "name": "overlay",        "value": "0 8px 28px rgba(0,0,0,0.10)", "purpose": "Nav dropdown. Floats above page." },
+      { "name": "dark-feature",   "value": "0 24px 70px rgba(0,0,0,0.50)", "purpose": "Letter card on dark section ONLY. Never use elsewhere." }
+    ],
+    "motion": [
+      { "name": "state-change",    "value": "150ms ease-out", "purpose": "Button hover, link color, border color transitions." },
+      { "name": "icon-rotate",     "value": "0.2s ease-out",   "purpose": "FAQ icon +/x rotation, dropdown arrow, hamburger spans." },
+      { "name": "reduced-motion",  "value": "none",             "purpose": "Applied via prefers-reduced-motion: reduce to all transitions." }
+    ],
+    "breakpoints": [
+      { "name": "mobile",  "value": "480px",  "purpose": "Small phones. Further text reduction, single-column grids." },
+      { "name": "tablet",  "value": "768px",  "purpose": "Tablets and phones. Hamburger nav, stacked grids, sticky bar visible." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The only orange element that is a button. Used for every primary CTA: Book a Repair, Call Us Now, Schedule a Repair.",
+      "html": "<button class=\"ds-btn-primary\">Book a Repair</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; background: var(--brand, #e84c1e); color: #ffffff; font-family: Inter, sans-serif; font-size: 13px; font-weight: 600; padding: 12px 26px; border-radius: 8px; border: none; text-decoration: none; cursor: pointer; transition: background 150ms ease-out; } .ds-btn-primary:hover { background: var(--brand-dark, #cc3d12); } .ds-btn-primary:focus-visible { outline: 2px solid var(--brand, #e84c1e); outline-offset: 2px; }"
+    },
+    {
+      "name": "Dark Button",
+      "kind": "button",
+      "refersTo": "button-dark",
+      "description": "Secondary action. Pressed Steel background. Used when the primary button already occupies the viewport (e.g. below the hero).",
+      "html": "<button class=\"ds-btn-dark\">Book a Repair</button>",
+      "css": ".ds-btn-dark { display: inline-flex; align-items: center; justify-content: center; background: var(--text-primary, #111111); color: #ffffff; font-family: Inter, sans-serif; font-size: 12.5px; font-weight: 500; padding: 10px 22px; border-radius: 8px; border: none; text-decoration: none; cursor: pointer; transition: background 150ms ease-out; } .ds-btn-dark:hover { background: #222222; } .ds-btn-dark:focus-visible { outline: 2px solid var(--brand, #e84c1e); outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Tertiary action. Transparent fill with a Linen border. Used for Discover More or secondary nav actions that must not compete with primary.",
+      "html": "<button class=\"ds-btn-outline\">Discover More</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; background: transparent; color: var(--text-primary, #111111); font-family: Inter, sans-serif; font-size: 12.5px; font-weight: 500; padding: 10px 22px; border-radius: 8px; border: 1.5px solid var(--border-medium, #dddddd); text-decoration: none; cursor: pointer; transition: border-color 150ms ease-out; } .ds-btn-outline:hover { border-color: var(--text-inactive, #aaaaaa); } .ds-btn-outline:focus-visible { outline: 2px solid var(--brand, #e84c1e); outline-offset: 2px; }"
+    },
+    {
+      "name": "Service Card",
+      "kind": "card",
+      "refersTo": "card-service",
+      "description": "Image-bearing card for appliance types. 16px radius. Used in the services grid (3 columns desktop, 1 column mobile).",
+      "html": "<div class=\"ds-service-card\"><img class=\"ds-service-card__img\" src=\"\" alt=\"Refrigerator Repair\" /><div class=\"ds-service-card__body\"><div class=\"ds-service-card__name\">Refrigerator Repair</div><div class=\"ds-service-card__desc\">Our experts fix refrigerator issues quickly, keeping your fridge running smoothly.</div><a href=\"#\" class=\"ds-service-card__link\">Learn More →</a></div></div>",
+      "css": ".ds-service-card { background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.08); } .ds-service-card__img { width: 100%; height: 200px; object-fit: cover; display: block; } .ds-service-card__body { padding: 20px 22px 24px; } .ds-service-card__name { font-family: Inter, sans-serif; font-size: 16px; font-weight: 700; color: var(--text-primary, #111111); margin-bottom: 6px; } .ds-service-card__desc { font-family: Inter, sans-serif; font-size: 12.5px; color: var(--text-sub, #666666); line-height: 1.7; } .ds-service-card__link { display: inline-block; margin-top: 14px; font-family: Inter, sans-serif; font-size: 12px; color: var(--brand, #e84c1e); font-weight: 600; text-decoration: none; } .ds-service-card__link:hover { text-decoration: underline; }"
+    },
+    {
+      "name": "Brand Tag",
+      "kind": "chip",
+      "refersTo": "brand-tag",
+      "description": "Used to list appliance brands serviced. Pill-adjacent, not fully rounded. White surface, slate-navy text. Wraps via flexbox.",
+      "html": "<span class=\"ds-brand-tag\">Whirlpool</span>",
+      "css": ".ds-brand-tag { display: inline-block; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-family: Inter, sans-serif; font-size: 13.5px; font-weight: 600; color: #1e293b; }"
+    },
+    {
+      "name": "FAQ Item",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Accordion item with aria-expanded state management. Shadow-defined boundary, no border. The + icon rotates 45deg when open.",
+      "html": "<div class=\"ds-faq-item ds-faq-item--open\"><button class=\"ds-faq-q\" aria-expanded=\"true\" aria-controls=\"ds-faq-a-1\">What appliances do you repair? <span class=\"ds-faq-icon\" aria-hidden=\"true\">+</span></button><div class=\"ds-faq-a\" id=\"ds-faq-a-1\">We repair refrigerators, stoves, washers, dryers, dishwashers, ovens, freezers, garbage disposals, microwaves, and wine coolers.</div></div>",
+      "css": ".ds-faq-item { background: #ffffff; border-radius: 12px; box-shadow: 0 1px 12px rgba(0,0,0,0.06); margin-bottom: 10px; overflow: hidden; } .ds-faq-q { width: 100%; text-align: left; padding: 18px 22px; font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary, #111111); background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; } .ds-faq-q:hover { background: var(--hover-surface, #f9fafb); } .ds-faq-q:focus-visible { outline: 2px solid var(--brand, #e84c1e); outline-offset: -2px; } .ds-faq-icon { font-size: 18px; color: var(--text-inactive, #aaaaaa); flex-shrink: 0; transition: transform 0.2s ease-out; } .ds-faq-item--open .ds-faq-icon { transform: rotate(45deg); } .ds-faq-a { padding: 0 22px 18px; font-family: Inter, sans-serif; font-size: 13px; color: var(--text-sub, #666666); line-height: 1.8; display: none; } .ds-faq-item--open .ds-faq-a { display: block; } @media (prefers-reduced-motion: reduce) { .ds-faq-icon { transition: none; } }"
+    },
+    {
+      "name": "Stat Card",
+      "kind": "card",
+      "refersTo": "card-feature",
+      "description": "Metric display card used in the stats grid. Ember number, dust label. Used in hub pages and about section.",
+      "html": "<div class=\"ds-stat-card\"><div class=\"ds-stat-number\">8+</div><div class=\"ds-stat-label\">Years in Orange County</div></div>",
+      "css": ".ds-stat-card { background: #ffffff; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 28px 20px; text-align: center; } .ds-stat-number { font-family: Inter, sans-serif; font-size: 36px; font-weight: 800; color: var(--brand, #e84c1e); letter-spacing: -1px; } .ds-stat-label { font-family: Inter, sans-serif; font-size: 12px; color: var(--text-sub, #666666); margin-top: 6px; line-height: 1.5; }"
+    },
+    {
+      "name": "Sticky Mobile Bar",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Signature conversion component. Fixed at viewport bottom on mobile only. Left = Call (Ember), Right = Book (Pressed Steel). Always 56px tall, 50/50 split, 44px+ tap targets.",
+      "html": "<div class=\"ds-sticky-bar\"><a href=\"tel:+19496295365\" class=\"ds-sticky-bar__call\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z\"/></svg>Call Now</a><a href=\"pages/contact.html\" class=\"ds-sticky-bar__book\">Book Repair</a></div>",
+      "css": ".ds-sticky-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; height: 56px; } @media (max-width: 768px) { .ds-sticky-bar { display: flex; } } .ds-sticky-bar__call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--brand, #e84c1e); color: #ffffff; gap: 6px; } .ds-sticky-bar__call:focus-visible { outline: 2px solid #ffffff; outline-offset: -3px; } .ds-sticky-bar__book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-family: Inter, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--text-primary, #111111); color: #ffffff; } .ds-sticky-bar__book:focus-visible { outline: 2px solid #ffffff; outline-offset: -3px; }"
+    },
+    {
+      "name": "Nav CTA Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Compact variant of the primary button used in the fixed navigation. Slightly smaller padding (7px 16px), 7px radius. Hidden at mobile (sticky bar takes over).",
+      "html": "<a href=\"pages/contact.html\" class=\"ds-nav-cta\">Book a Repair</a>",
+      "css": ".ds-nav-cta { display: inline-flex; align-items: center; background: var(--brand, #e84c1e); color: #ffffff; font-family: Inter, sans-serif; font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; white-space: nowrap; transition: background 150ms ease-out; } .ds-nav-cta:hover { background: var(--brand-dark, #cc3d12); } .ds-nav-cta:focus-visible { outline: 2px solid var(--brand, #e84c1e); outline-offset: 2px; } @media (max-width: 768px) { .ds-nav-cta { display: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Craftsperson's Workshop",
+    "overview": "This is a system built like a good repair: nothing wasted, everything earned. Every surface, shadow, and color exists because it solves a problem for a stressed homeowner on a 375px screen who needs to book a repair in the next thirty seconds. Decoration that doesn't serve conversion is not decoration; it's friction.\n\nThe palette is restrained orange over light gray. The typography is weight-driven, not size-driven. The component set is small and confident. There is one button color in the system, and it means one thing: take action now.\n\nThis system explicitly rejects the aesthetics of national appliance-chain franchises, HVAC corporate sterility, and over-engineered local service site templates that feel more like a tech startup than someone who shows up with tools.",
+    "keyCharacteristics": [
+      "Single accent color used only for action (calls, bookings, CTAs)",
+      "Weight contrast drives heading hierarchy; Inter at 800 and 400 feel like different typefaces",
+      "Shadows are ambient and structural, never decorative",
+      "Mobile sticky bar anchors conversion at every scroll position",
+      "Dark section uses deep brown warmth, not generic dark navy"
+    ],
+    "rules": [
+      { "name": "The One Ember Rule",       "body": "Craftsman's Ember appears on 10% or less of any given screen. Every CTA is orange; decorations are not.",                                              "section": "colors" },
+      { "name": "The Warm Footer Rule",     "body": "The footer dark section uses #090909 (brown-shifted near-black), not cold #000. This warmth connects to Ember on dark surfaces.",                    "section": "colors" },
+      { "name": "The Weight-Over-Size Rule","body": "When in doubt, add weight rather than increasing size. A 14px 700-weight label reads more distinct from 14px 400-weight body than 16px 400.",       "section": "typography" },
+      { "name": "The Tracking Rule",        "body": "Tight tracking (-1.5px to -0.5px) is reserved for display and headline sizes only. Body and label text runs at default or zero tracking.",          "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. Shadows appear only as a structural signal that an element is above the surface beneath it. No hover shadows on cards.", "section": "elevation" },
+      { "name": "The Dark Feature Exception","body": "The 0 24px 70px rgba(0,0,0,0.50) shadow is permissible on the letter card over the dark section only. Using it anywhere else is prohibited.",     "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Craftsman's Ember exclusively for calls to action, phone number emphasis, focus rings, and brand icons.",
+      "Do drive heading hierarchy with weight contrast (800 vs 700 vs 400) before reaching for size increases.",
+      "Do maintain min-height: 44px on all interactive elements at mobile viewports.",
+      "Do use Ghost (#aaa) for decorative/inactive UI elements and Chalk (#767676) minimum for any text that carries meaning.",
+      "Do include aria-expanded, aria-controls, and keyboard event handlers on any element with toggled visibility.",
+      "Do write prefers-reduced-motion: reduce overrides for every CSS transition in shared.css."
+    ],
+    "donts": [
+      "Don't use Craftsman's Ember as a decorative color — no orange section backgrounds, no orange emphasis text.",
+      "Don't use the national-chain or corporate-HVAC aesthetic: no cold blue primary colors, no clean-white-with-teal-accents.",
+      "Don't introduce a second accent color. Star Gold exists only for rating stars.",
+      "Don't stack cards inside cards.",
+      "Don't apply border-left or border-right greater than 1px as a colored stripe on cards, list items, or callouts.",
+      "Don't use gradient text (background-clip: text with a gradient fill).",
+      "Don't use glassmorphism as decoration. The nav backdrop-filter is structural only.",
+      "Don't introduce an identical icon-heading-text card grid.",
+      "Don't write body copy with em dashes.",
+      "Don't make the footer dark with cold blacks or generic navy."
+    ]
+  }
+}
