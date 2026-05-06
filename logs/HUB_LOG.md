@@ -2,6 +2,25 @@
 
 ---
 
+## May 6, 2026 — city hub: appliance-repair-orange-ca
+
+**Type:** city
+**Target:** Orange, CA
+**PR:** [#146](https://github.com/TesterBaku/appliance-repair-website/pull/146) — open, awaiting owner review
+**Word count:** ~1,100
+**FAQ count:** 8
+**Internal links wired:** service-areas.html (city card + nav dropdowns), 1 article (article-dishwasher-repair-orange), sitemap.xml
+**Schemas:** LocalBusiness, BreadcrumbList, FAQPage, Service
+
+**Outstanding for owner:**
+- Replace 2 testimonial placeholders (Maria T. / James K.) with verified GBP reviews from Orange, CA
+
+**Phase 0 highlights:**
+- Competition: Medium — directories dominate, organic pages thin on neighborhood specifics
+- Structural gaps exploited: Old Towne Victorian/Craftsman context, rare Eichler mid-century homes (Panorama Heights), full ZIP-level coverage (9 ZIPs)
+
+---
+
 ## May 6, 2026 — city hub: appliance-repair-fullerton-ca
 
 **Type:** city
