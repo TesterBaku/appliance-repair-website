@@ -6,6 +6,8 @@
   --text-sub:     #666;
   --text-muted:   #767676;
   --text-faint:   #999;
+  --text-dim:     #444;
+  --text-dark:    #222;
   --bg:           #f7fafc;
   --surface:      #fff;
   --border:       #eee;
@@ -39,7 +41,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .btn-primary { display: inline-block; background: var(--brand); color: var(--surface); font-size: 13px; font-weight: 600; padding: 12px 26px; border-radius: 8px; text-decoration: none; }
 .btn-primary:hover { background: var(--brand-dark); }
 .btn-dark { display: inline-block; background: var(--text-primary); color: var(--surface); font-size: 12.5px; font-weight: 500; padding: 10px 22px; border-radius: 8px; text-decoration: none; }
-.btn-dark:hover { background: #222; }
+.btn-dark:hover { background: var(--text-dark); }
 .btn-outline { display: inline-block; background: transparent; color: var(--text-primary); font-size: 12.5px; font-weight: 500; padding: 10px 22px; border-radius: 8px; text-decoration: none; border: 1.5px solid #ddd; }
 .btn-outline:hover { border-color: #aaa; }
 
@@ -67,7 +69,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 
 /* TESTIMONIALS */
 .testimonial-card { background: var(--surface); border-radius: 16px; box-shadow: 0 2px 24px rgba(0,0,0,0.08); padding: 32px; text-align: center; }
-.testimonial-quote { font-size: 14px; color: #444; line-height: 1.8; font-style: italic; }
+.testimonial-quote { font-size: 14px; color: var(--text-dim); line-height: 1.8; font-style: italic; }
 .testimonial-avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; margin: 18px auto 10px; display: block; border: 3px solid #f3f4f6; }
 .testimonial-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
 .testimonial-role { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
@@ -127,7 +129,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .nav-dropdown-arrow { font-size: 9px; opacity: 0.6; display: inline-block; transition: transform 0.18s; }
 .nav-dropdown:hover .nav-dropdown-arrow { transform: rotate(180deg); }
 .nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 10px); left: -12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,0.1); padding: 6px 0; min-width: 190px; z-index: 300; }
-.nav-dropdown-menu a { display: block; padding: 9px 18px; font-size: 12.5px; color: #444; text-decoration: none; white-space: nowrap; font-weight: 400; }
+.nav-dropdown-menu a { display: block; padding: 9px 18px; font-size: 12.5px; color: var(--text-dim); text-decoration: none; white-space: nowrap; font-weight: 400; }
 .nav-dropdown-menu a:hover { background: var(--bg); color: var(--text-primary); font-weight: 500; }
 .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: var(--brand); font-weight: 600; }
 .nav-dropdown-menu .dropdown-all:hover { background: #fff7f5; }
@@ -177,6 +179,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   .letter-card { padding: 28px 22px; }
   .dark-section { padding: 56px 16px; }
   .footer-grid { gap: 28px; }
+  .footer-bottom { font-size: 12px; }
   .form-input { font-size: 16px; }
   /* P1-4 — tap targets */
   .btn-primary, .btn-dark, .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
@@ -190,4 +193,10 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   .testimonial-card { padding: 24px 18px; }
   .stats-grid { grid-template-columns: 1fr; }
   .testimonials-grid { grid-template-columns: 1fr; }
+}
+
+/* ── REDUCED MOTION ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .faq-icon, .nav-hamburger span, .nav-dropdown-arrow,
+  .nav-drawer details summary::after { transition: none; }
 }
