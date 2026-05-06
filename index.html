@@ -108,9 +108,15 @@
       .testimonial-card { padding: 24px 18px; max-width: none; margin: 0; }
     }
 
-    /* sticky note — keep inside card bounds on mobile */
+    /* sticky note positioning — base values override inline style via !important at mobile */
+    .sticky-note-anchor { position: absolute; bottom: -32px; right: -24px; z-index: 10; }
     @media (max-width: 768px) {
-      .sticky-note-anchor { bottom: -20px; right: 12px; }
+      .sticky-note-anchor { bottom: -20px !important; right: 12px !important; }
+    }
+
+    /* respect reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .faq-icon, .nav-hamburger span, .nav-dropdown-arrow { transition: none; }
     }
 
     /* NAV DROPDOWN (homepage inline overrides to isolate from nav-drawer rules) */
@@ -452,7 +458,7 @@
             <div class="service-desc">Leave your washer troubles to us. Fast, reliable repairs for all makes and models, all issues.</div>
             <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
               <a href="pages/contact.html" style="font-size:12px;color:var(--brand);font-weight:600;text-decoration:none;">Book Now →</a>
-              <a href="pages/washer-repair-orange-county.html" style="font-size:12px;color:#888;font-weight:500;text-decoration:none;">Learn More</a>
+              <a href="pages/washer-repair-orange-county.html" style="font-size:12px;color:var(--text-sub);font-weight:500;text-decoration:none;">Learn More</a>
             </div>
           </div>
         </div>
@@ -464,7 +470,7 @@
   <section class="section section-white">
     <div class="container" style="text-align:center;">
       <h2 class="h2-standard">Brands We Service</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:12px;line-height:1.7;max-width:500px;margin-left:auto;margin-right:auto;">We repair all major appliance brands — from everyday household names to premium luxury lines.</p>
+      <p style="font-size:13.5px;color:var(--text-sub);margin-top:12px;line-height:1.7;max-width:500px;margin-left:auto;margin-right:auto;">We repair all major appliance brands, from everyday household names to premium luxury lines.</p>
       <div class="brands-list">
         <span class="brand-tag">Whirlpool</span>
         <span class="brand-tag">GE</span>
@@ -495,12 +501,12 @@
         <div class="why-highlight">
           <div class="why-highlight-icon">⚡</div>
           <div class="why-highlight-title">Same-Day Service</div>
-          <div class="why-highlight-desc">Call in the morning and we can often be there that afternoon. When a technician is available, we schedule same-day service — no waiting a week for the fridge to get fixed.</div>
+          <div class="why-highlight-desc">Call in the morning and we can often be there that afternoon. When a technician is available, we schedule same-day service. No waiting a week for the fridge to get fixed.</div>
         </div>
         <div class="why-highlight">
           <div class="why-highlight-icon">🛡️</div>
           <div class="why-highlight-title">Licensed, Bonded &amp; Insured</div>
-          <div class="why-highlight-desc">Every repair is backed by full licensing and insurance. If something goes wrong, you're covered — and so is your home. That's not something every repair company can say.</div>
+          <div class="why-highlight-desc">Every repair is backed by full licensing and insurance. If something goes wrong, you're covered, and so is your home. That's not something every repair company can say.</div>
         </div>
       </div>
 
@@ -517,21 +523,21 @@
           <div class="why-item-icon">💰</div>
           <div class="why-item-body">
             <div class="why-item-title">Honest, Upfront Pricing</div>
-            <div class="why-item-desc">We diagnose before we quote. You know the cost before any work begins — no surprises on the invoice.</div>
+            <div class="why-item-desc">We diagnose before we quote. You know the cost before any work begins; no surprises on the invoice.</div>
           </div>
         </div>
         <div class="why-item">
           <div class="why-item-icon">🔧</div>
           <div class="why-item-body">
             <div class="why-item-title">All Major Brands Serviced</div>
-            <div class="why-item-desc">Whirlpool, Samsung, LG, Bosch, Sub-Zero — we carry parts for the brands OC homeowners actually own.</div>
+            <div class="why-item-desc">Whirlpool, Samsung, LG, Bosch, Sub-Zero: we carry parts for the brands OC homeowners actually own.</div>
           </div>
         </div>
         <div class="why-item">
           <div class="why-item-icon">✅</div>
           <div class="why-item-body">
             <div class="why-item-title">Warranty on Every Repair</div>
-            <div class="why-item-desc">Parts and labor are warranted. If the same issue comes back, so do we — at no extra charge.</div>
+            <div class="why-item-desc">Parts and labor are warranted. If the same issue comes back, so do we, at no extra charge.</div>
           </div>
         </div>
       </div>
@@ -681,7 +687,7 @@
         </div>
 
         <!-- Sticky note -->
-        <div class="sticky-note-anchor" style="position:absolute;bottom:-32px;right:-24px;z-index:10;">
+        <div class="sticky-note-anchor">
           <div class="sticky" style="width:92px;padding:10px 10px 12px;transform:rotate(5deg);">
             <div style="font-weight:700;font-size:10px;line-height:1.3;">Same day<br/>service</div>
             <div style="font-weight:700;font-size:10px;margin-top:3px;">available!</div>
