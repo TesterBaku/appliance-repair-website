@@ -37,6 +37,16 @@ The following items from earlier plans are **done** and removed from the active 
 
 That's basically all of P0, all of P1, and most of P6 from the previous v2 plan. What's below is what's still open.
 
+### Impeccable design remediation — PRs #137–#144 (2026-05-06)
+All five impeccable audit PRs merged and `tasks/impeccable-audit-plan.md` retired:
+- PR #137 `fix(a11y)`: contrast ratios + responsive grid (`#888` → `#666`, testimonials grid class, sticky-note clip on mobile)
+- PR #138 `fix(a11y)`: keyboard navigation, focus-visible, ARIA attributes on nav dropdown + FAQ accordion
+- PR #139 `fix(perf)`: shared.css dedup, preconnect hints, hero image preload
+- PRs #140–#143 `feat(tokens)`: full CSS custom property system (`:root` tokens, replaced all hardcoded hex in shared.css + index.html)
+- PR #141 `fix(design)`: broke identical 6-card feature grid into 2-featured + 4-supporting; removed redundant hero floats
+- PR #142 `fix(polish)`: final quality pass — contrast, sticky-note clip, motion, copy
+- PR #144 `chore(design)`: added PRODUCT.md, DESIGN.md, and impeccable sidecar script
+
 ---
 
 ## P2 — Blog discoverability + scale infrastructure
@@ -55,15 +65,8 @@ That's basically all of P0, all of P1, and most of P6 from the previous v2 plan.
 
 All pages: `CollectionPage` + `BreadcrumbList` schema, full OG tags, GA tag, service hub cross-link callout, mobile responsive. All 8 blog filter pills now point to real pages (zero `href="#"` on category pills). Sitemap updated to 58 URLs.
 
-### P2-3 Add client-side article search to `pages/blog.html`
-At 33 articles no library is needed.
-
-- Add `<input type="search" placeholder="Search 33 articles…">` above the grid.
-- On keystroke, filter `.blog-card` elements by matching against title + excerpt + category badge.
-- Show "No articles match" empty state.
-- Hash-sync the query so `blog.html?q=fridge` is shareable.
-- Combine with P2-1 filter pills so search + category filter compose.
-- **Acceptance:** typing instantly filters cards; works without page reload; under 60 lines of JS.
+### ~~P2-3~~ ✅ Add client-side article search to `pages/blog.html` — shipped PR #131 (2026-05-06)
+Real-time search input above the grid; filters `.blog-card` elements by title + excerpt + category; "No articles match" empty state; hash-sync (`blog.html?q=fridge`); composes with category filter pills. Under 60 lines of JS.
 
 ### P2-4 Pagefind upgrade — trigger at 50 articles
 Tracking, not building. When `articles/` hits 50 files (likely mid-summer at the Mon/Wed/Fri cadence):
@@ -92,7 +95,7 @@ Backlog for `/seo-blog` to draw from once city + appliance combos stop yielding 
 Built with `/seo-hub --type=city --city=[slug]`. **Wait until P1-3 sweep is done** so all city pages match the same spec (≤ 160 char meta) before adding more.
 
 #### Primary (priority 1 — high search volume)
-- [ ] `pages/appliance-repair-fullerton-ca.html`
+- [x] `pages/appliance-repair-fullerton-ca.html` — shipped PR #132 (2026-05-06)
 - [ ] `pages/appliance-repair-orange-ca.html`
 
 #### Secondary (priority 2)
