@@ -32,42 +32,10 @@ The following items from earlier plans are **done** and removed from the active 
 - `logs/CONTENT_LOG.md` and `logs/AUDIT_LOG.md` created — P0-1 (PR #121, merged 2026-05-06).
 - `logo.png` optimized 973 KB → 10.7 KB — P6-1 (PR #110, merged 2026-05-05). Already well under 100 KB.
 - `AggregateRating` added to homepage `LocalBusiness` schema (4.9 / 76 reviews from GBP) — P1-1 (PR #124, merged 2026-05-06).
+- Page-type schemas added to 4 static pages (`ContactPage`, `AboutPage`+`Organization` w/ founder Gasan Aliyev, `Blog`, `OfferCatalog`); `faq.html` and `testimonials.html` already compliant — P1-2 (PR #125, merged 2026-05-06).
+- City-page meta descriptions verified ≤ 160 chars on all 6 pages; no changes needed — P1-3 (verified 2026-05-06).
 
 That's basically all of P0, all of P1, and most of P6 from the previous v2 plan. What's below is what's still open.
-
----
-
-## P1 — SEO polish on shipped pages
-
-### P1-1 Add `AggregateRating` to homepage `LocalBusiness` schema
-- Homepage has 6 real testimonials but no `aggregateRating` in JSON-LD — confirmed via live JS check.
-- Once GBP review count is at ≥ 6 (which it appears to be), embed:
-
-```json
-"aggregateRating": {
-  "@type": "AggregateRating",
-  "ratingValue": "4.9",
-  "reviewCount": "<actual count from GBP>"
-}
-```
-
-- **Acceptance:** Google Rich Results Test shows star eligibility on `/`.
-
-### P1-2 Tighten static-page schemas
-The six static pages have JSON-LD now, but most use only `LocalBusiness` + `BreadcrumbList`. They'd benefit from page-type-specific schemas Google rewards:
-- `pages/contact.html` — add `ContactPage`
-- `pages/about.html` — add `AboutPage` + `Organization` with `founder`
-- `pages/blog.html` — add `Blog`
-- `pages/faq.html` — already has `FAQPage` ✅
-- `pages/testimonials.html` — add `Review` array (one per testimonial) + `AggregateRating`
-- `pages/services.html` — add `OfferCatalog` listing each service hub
-- **Acceptance:** Schema Markup Validator returns zero errors on each page; new `@type` visible in source.
-
-### P1-3 City-page meta description length sweep
-Audit may have widened these alongside the word-count sweep, but worth confirming:
-- Spec is `≤ 160 chars`. Earlier review showed Irvine at 194.
-- One-line script: read each `pages/appliance-repair-*-ca.html`, parse the meta description, flag any over 160.
-- **Acceptance:** all 6 existing city pages have meta descriptions ≤ 160 chars.
 
 ---
 

@@ -264,11 +264,14 @@
 
       <!-- Category filters -->
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
-        <a href="#" class="cat-pill active">All Posts</a>
-        <a href="#" class="cat-pill">Tips &amp; Guides</a>
-        <a href="#" class="cat-pill">Buying Guides</a>
-        <a href="#" class="cat-pill">Maintenance</a>
-        <a href="#" class="cat-pill">Advice</a>
+        <a href="#" class="cat-pill active" data-filter="all">All Posts (33)</a>
+        <a href="#" class="cat-pill" data-filter="refrigerator">Refrigerator (6)</a>
+        <a href="#" class="cat-pill" data-filter="washer">Washer (4)</a>
+        <a href="#" class="cat-pill" data-filter="dryer">Dryer (4)</a>
+        <a href="#" class="cat-pill" data-filter="dishwasher">Dishwasher (5)</a>
+        <a href="#" class="cat-pill" data-filter="oven">Oven (3)</a>
+        <a href="#" class="cat-pill" data-filter="freezer">Freezer (4)</a>
+        <a href="#" class="cat-pill" data-filter="other">Other (7)</a>
       </div>
     </div>
   </div>
@@ -296,7 +299,7 @@
     <div class="blog-grid">
 
       <!-- Post: Whirlpool Dryer Repair Los Alamitos -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="dryer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/washer-dryer-pair.jpg" alt="Whirlpool dryer repair in Los Alamitos CA" loading="lazy" />
           <span class="blog-cat-badge">Brand-Specific</span>
@@ -310,7 +313,7 @@
       </div>
 
       <!-- Post: Freezer Repair Cost Rancho Santa Margarita -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="freezer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/fridge-vintage.jpg" alt="Freezer repair cost in Rancho Santa Margarita CA" loading="lazy" />
           <span class="blog-cat-badge">Cost Guide</span>
@@ -324,7 +327,7 @@
       </div>
 
       <!-- Post: Freezer Repair Brea -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="freezer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/fridge-vintage.jpg" alt="Freezer repair in Brea CA" loading="lazy" />
           <span class="blog-cat-badge">Freezer Repair</span>
@@ -338,7 +341,7 @@
       </div>
 
       <!-- Post: Wine Cooler Not Cooling Seal Beach -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="other">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/wine-cooler-glasses.jpg" alt="Wine cooler not cooling in Seal Beach CA" loading="lazy" />
           <span class="blog-cat-badge">Wine Cooler Repair</span>
@@ -352,7 +355,7 @@
       </div>
 
       <!-- Post 2: Mini Fridge -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="refrigerator">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/fridge-mini.jpg" alt="Best Mini Fridges for Students" loading="lazy" />
           <span class="blog-cat-badge">Buying Guide</span>
@@ -366,7 +369,7 @@
       </div>
 
       <!-- Post 3: Fridge Maintenance -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="refrigerator">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/kitchen-modern-fridge.jpg" alt="Refrigerator Maintenance Tips" loading="lazy" />
           <span class="blog-cat-badge">Maintenance</span>
@@ -380,7 +383,7 @@
       </div>
 
       <!-- Post 4: Repair or Replace -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="other">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/appliance-repair-generic.jpg" alt="Repair or Replace Your Appliance" loading="lazy" />
           <span class="blog-cat-badge">Advice</span>
@@ -394,7 +397,7 @@
       </div>
 
       <!-- Post 7: Dryer Repair Cost Orange County -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="dryer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/washer-dryer-pair.jpg" alt="Dryer repair cost Orange County CA" loading="lazy" />
           <span class="blog-cat-badge">Dryer Repair</span>
@@ -408,7 +411,7 @@
       </div>
 
       <!-- Post 6: Dishwasher Not Draining Anaheim -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="dishwasher">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/dishwasher-open.jpg" alt="Dishwasher not draining standing water Anaheim" loading="lazy" />
           <span class="blog-cat-badge">Dishwasher Repair</span>
@@ -422,7 +425,7 @@
       </div>
 
       <!-- Post: Washer Repair Garden Grove -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="washer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/washer-frontload.jpg" alt="Washer repair in Garden Grove CA" loading="lazy" />
           <span class="blog-cat-badge">Washer Repair</span>
@@ -436,7 +439,7 @@
       </div>
 
       <!-- Post: Microwave Not Heating Costa Mesa -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="other">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/microwave.jpg" alt="Microwave not heating repair Costa Mesa CA" loading="lazy" />
           <span class="blog-cat-badge">Microwave Repair</span>
@@ -450,7 +453,7 @@
       </div>
 
       <!-- Post: Dishwasher Maintenance Fullerton -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="dishwasher">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/dishwasher-open.jpg" alt="Dishwasher maintenance tips Fullerton CA" loading="lazy" />
           <span class="blog-cat-badge">Maintenance</span>
@@ -464,7 +467,7 @@
       </div>
 
       <!-- Post: Dryer Not Heating Santa Ana -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="dryer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/washer-dryer-pair.jpg" alt="Dryer not heating repair in Santa Ana CA" loading="lazy" />
           <span class="blog-cat-badge">Dryer Repair</span>
@@ -478,7 +481,7 @@
       </div>
 
       <!-- Post: Fridge Not Cooling Huntington Beach -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="refrigerator">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/fridge-sidebyside.jpg" alt="Refrigerator not cooling in Huntington Beach CA" loading="lazy" />
           <span class="blog-cat-badge">Refrigerator Repair</span>
@@ -492,7 +495,7 @@
       </div>
 
       <!-- Post: Garbage Disposal Repair Costa Mesa -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="other">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/dishwasher-open.jpg" alt="Garbage disposal repair in Costa Mesa CA" loading="lazy" />
           <span class="blog-cat-badge">Garbage Disposal</span>
@@ -506,7 +509,7 @@
       </div>
 
       <!-- Post: Fridge Repair Garden Grove -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="refrigerator">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/kitchen-modern-fridge.jpg" alt="Refrigerator repair in Garden Grove CA" loading="lazy" />
           <span class="blog-cat-badge">Refrigerator Repair</span>
@@ -520,7 +523,7 @@
       </div>
 
       <!-- Post: Washer Not Spinning Huntington Beach -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="washer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/washer-frontload.jpg" alt="Washing machine not spinning — Huntington Beach CA" loading="lazy" />
           <span class="blog-cat-badge">Washer Repair</span>
@@ -534,7 +537,7 @@
       </div>
 
       <!-- Post: Oven Repair Santa Ana -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="oven">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/kitchen-stove.jpg" alt="Oven repair in Santa Ana CA" loading="lazy" />
           <span class="blog-cat-badge">Oven Repair</span>
@@ -548,7 +551,7 @@
       </div>
 
       <!-- Post: Washer Leaking Buena Park -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="washer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/washer-frontload.jpg" alt="Washing machine leaking repair in Buena Park CA" loading="lazy" />
           <span class="blog-cat-badge">Washer Repair</span>
@@ -562,7 +565,7 @@
       </div>
 
       <!-- Post: Dishwasher Repair Orange -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="dishwasher">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/dishwasher-open.jpg" alt="Dishwasher repair in Orange CA" loading="lazy" />
           <span class="blog-cat-badge">Dishwasher Repair</span>
@@ -576,7 +579,7 @@
       </div>
 
       <!-- Post: Freezer Not Freezing Anaheim -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="freezer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/kitchen-modern-fridge.jpg" alt="Freezer not freezing repair in Anaheim CA" loading="lazy" />
           <span class="blog-cat-badge">Freezer Repair</span>
@@ -590,7 +593,7 @@
       </div>
 
       <!-- Post: Dryer Takes Too Long Yorba Linda -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="dryer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/washer-dryer-pair.jpg" alt="Dryer taking too long in Yorba Linda CA" loading="lazy" />
           <span class="blog-cat-badge">Dryer Repair</span>
@@ -604,7 +607,7 @@
       </div>
 
       <!-- Post: Oven Repair Laguna Niguel -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="oven">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/kitchen-stove.jpg" alt="Oven repair in Laguna Niguel CA" loading="lazy" />
           <span class="blog-cat-badge">Oven Repair</span>
@@ -618,7 +621,7 @@
       </div>
 
       <!-- Post: Wine Cooler Repair Newport Beach -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="other">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/wine-cooler-glasses.jpg" alt="Wine cooler repair in Newport Beach CA" loading="lazy" />
           <span class="blog-cat-badge">Wine Cooler</span>
@@ -632,7 +635,7 @@
       </div>
 
       <!-- Post 5: Washer Repair Irvine -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="washer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/washer-frontload.jpg" alt="Washer repair in Irvine CA" loading="lazy" />
           <span class="blog-cat-badge">Washer Repair</span>
@@ -646,7 +649,7 @@
       </div>
 
       <!-- Post: Freezer Not Freezing Westminster -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="freezer">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/fridge-vintage.jpg" alt="Freezer not freezing in Westminster CA" loading="lazy" />
           <span class="blog-cat-badge">Freezer Repair</span>
@@ -660,7 +663,7 @@
       </div>
 
       <!-- Post: Dishwasher Leaking Dana Point -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="dishwasher">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/repair-tech.jpg" alt="Dishwasher leaking in Dana Point CA" loading="lazy" />
           <span class="blog-cat-badge">Dishwasher Repair</span>
@@ -674,7 +677,7 @@
       </div>
 
       <!-- Post: Oven Not Heating Tustin -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="oven">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/kitchen-stove.jpg" alt="Oven not heating in Tustin CA" loading="lazy" />
           <span class="blog-cat-badge">Oven Repair</span>
@@ -688,7 +691,7 @@
       </div>
 
       <!-- Post: Fridge Not Cooling Fountain Valley -->
-      <div class="blog-card">
+      <div class="blog-card" data-category="refrigerator">
         <div class="blog-img-wrap">
           <img class="blog-img" src="../images/fridge-sidebyside.jpg" alt="Refrigerator not cooling in Fountain Valley CA" loading="lazy" />
           <span class="blog-cat-badge">Refrigerator Repair</span>
@@ -698,6 +701,62 @@
           <div class="blog-title">Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes</div>
           <div class="blog-excerpt">Fridge running warm? Learn the 6 most common reasons a refrigerator stops cooling, what each repair costs in Orange County, and when to call a technician.</div>
           <a href="../articles/article-fridge-not-cooling-fountain-valley.html" class="blog-link">Read Article →</a>
+        </div>
+      </div>
+
+      <!-- Post: Dishwasher Repair Cost Orange County -->
+      <div class="blog-card" data-category="dishwasher">
+        <div class="blog-img-wrap">
+          <img class="blog-img" src="../images/dishwasher-open.jpg" alt="Dishwasher repair cost in Orange County CA" loading="lazy" />
+          <span class="blog-cat-badge">Cost Guide</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">April 29, 2025</div>
+          <div class="blog-title">How Much Does Dishwasher Repair Cost in Orange County? (2025 Pricing Guide)</div>
+          <div class="blog-excerpt">Dishwasher repair costs in Orange County: exact pricing for common repairs, diagnostic fees, and when replacement makes sense vs repair.</div>
+          <a href="../articles/article-dishwasher-cost-orange-county.html" class="blog-link">Read Article →</a>
+        </div>
+      </div>
+
+      <!-- Post: LG Fridge Repair Laguna Beach -->
+      <div class="blog-card" data-category="refrigerator">
+        <div class="blog-img-wrap">
+          <img class="blog-img" src="../images/fridge-sidebyside.jpg" alt="LG refrigerator repair in Laguna Beach CA" loading="lazy" />
+          <span class="blog-cat-badge">Brand-Specific</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">April 29, 2025</div>
+          <div class="blog-title">LG Refrigerator Repair in Laguna Beach, CA — Common Issues &amp; What to Expect</div>
+          <div class="blog-excerpt">LG fridge repair in Laguna Beach? We fix cooling problems, ice makers, and compressor issues. Expert repair or honest advice on replacement.</div>
+          <a href="../articles/article-lg-fridge-repair-laguna-beach.html" class="blog-link">Read Article →</a>
+        </div>
+      </div>
+
+      <!-- Post: Microwave Not Heating Mission Viejo -->
+      <div class="blog-card" data-category="other">
+        <div class="blog-img-wrap">
+          <img class="blog-img" src="../images/microwave.jpg" alt="Microwave not heating in Mission Viejo CA" loading="lazy" />
+          <span class="blog-cat-badge">Microwave Repair</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">April 29, 2025</div>
+          <div class="blog-title">Microwave Not Heating in Mission Viejo? 5 Common Causes &amp; How to Fix It</div>
+          <div class="blog-excerpt">Microwave not heating in Mission Viejo? Learn the 5 most common causes and how we repair them. Same-day service available.</div>
+          <a href="../articles/article-microwave-not-heating-mission-viejo.html" class="blog-link">Read Article →</a>
+        </div>
+      </div>
+
+      <!-- Post: Dorm Appliances Guide -->
+      <div class="blog-card" data-category="other">
+        <div class="blog-img-wrap">
+          <img class="blog-img" src="../images/dorm-appliances.jpg" alt="Must-have appliances for dorm life" loading="lazy" />
+          <span class="blog-cat-badge">Buying Guide</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">April 2, 2025</div>
+          <div class="blog-title">5 Must-Have Appliances for Dorm Life</div>
+          <div class="blog-excerpt">College dorm life is tight on space. Every appliance has to pull its weight — here are 5 compact, student-friendly picks that are functional and worth every penny.</div>
+          <a href="../articles/article-dorm-appliances.html" class="blog-link">Read Article →</a>
         </div>
       </div>
 
