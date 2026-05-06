@@ -96,7 +96,7 @@ Built with `/seo-hub --type=city --city=[slug]`. **Wait until P1-3 sweep is done
 
 #### Primary (priority 1 — high search volume)
 - [x] `pages/appliance-repair-fullerton-ca.html` — shipped PR #132 (2026-05-06)
-- [ ] `pages/appliance-repair-orange-ca.html`
+- [x] `pages/appliance-repair-orange-ca.html` — shipped PR #146 (2026-05-06)
 
 #### Secondary (priority 2)
 - [ ] `pages/appliance-repair-newport-beach-ca.html`
