@@ -84,6 +84,16 @@
     .btn-white { display: inline-block; background: #fff; color: #e84c1e; font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
     .btn-white-outline { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.6); }
 
+    /* Testimonials */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .testimonial-card { background: #fff; border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
+    .stars { color: #f59e0b; font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .testimonial-quote { font-size: 13.5px; color: #444; line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .testimonial-name { font-size: 12px; color: #888; font-weight: 500; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
     @media (max-width: 768px) {
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
@@ -126,6 +136,64 @@
     "areaServed": [
       { "@type": "City", "name": "Garden Grove", "addressRegion": "CA" },
       "Orange County, CA"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "76",
+      "bestRating": "5"
+    }
+  }
+  </script>
+
+  <!-- SCHEMA: Review -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Craig Tudor" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG was awesome!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Kathy Calderon" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "I had a great experience with AG and this appliance repair service. The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication—he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable—couldn't ask for better service!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Ernesto Ruiz" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Awesome work, fixed my dryer, and resolved all my issues in a timely manner. Good price as well.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Lilya Raupova" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Karen Myhra" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Fast and effective!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "George Mendoza" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you for fixing my Samsung range",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      }
     ]
   }
   </script>
@@ -451,6 +519,62 @@
           <div class="step-title">Repair &amp; Warranty</div>
           <div class="step-desc">Most repairs finish in a single visit. All work carries a warranty on parts and labor.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Garden Grove Customers Say</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:8px;">From our 76 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG was awesome!"</p>
+          <div class="t-initial" style="background:#3b82f6;">CT</div>
+          <div class="testimonial-name">Craig Tudor — Washer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"I had a great experience with AG and this appliance repair service. The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication—he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable—couldn't ask for better service!"</p>
+          <div class="t-initial" style="background:#10b981;">KC</div>
+          <div class="testimonial-name">Kathy Calderon — Washer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Awesome work, fixed my dryer, and resolved all my issues in a timely manner. Good price as well."</p>
+          <div class="t-initial" style="background:#8b5cf6;">ER</div>
+          <div class="testimonial-name">Ernesto Ruiz — Dryer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!"</p>
+          <div class="t-initial" style="background:#ef4444;">LR</div>
+          <div class="testimonial-name">Lilya Raupova — Sub-Zero refrigerator repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Fast and effective!"</p>
+          <div class="t-initial" style="background:#f59e0b;">KM</div>
+          <div class="testimonial-name">Karen Myhra — Dishwasher repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you for fixing my Samsung range"</p>
+          <div class="t-initial" style="background:#06b6d4;">GM</div>
+          <div class="testimonial-name">George Mendoza — Samsung range repair · Orange County, CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:#3b82f6;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
