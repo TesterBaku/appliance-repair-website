@@ -148,11 +148,14 @@ Include at least 2 question-format phrases that map to FAQ schema sections.
 ## Required SEO Elements in Every Article
 
 ### `<head>` tags (required — production URLs only)
+
+**`<link rel="canonical">` is mandatory on every new HTML page.** Missing it caused a GSC "Duplicate without user-selected canonical" flag on 4 articles. The `/review` skill treats a missing canonical as a FAIL — same gate as the GA tag. Place it immediately after `<title>`.
+
 ```html
 <title>[Primary Keyword] | Universal Appliances Repair</title>
+<link rel="canonical" href="https://fixappliancesfast.com/[path]" />
 <meta name="description" content="[150–160 chars, includes primary keyword and city]" />
 <meta name="keywords" content="[5–8 comma-separated keywords]" />
-<link rel="canonical" href="https://fixappliancesfast.com/[path]" />
 
 <!-- Open Graph -->
 <meta property="og:site_name" content="Universal Appliances Repair" />
