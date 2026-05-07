@@ -104,6 +104,16 @@
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
     }
+
+    /* Testimonials */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .testimonial-card { background: #fff; border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
+    .stars { color: #f59e0b; font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .testimonial-quote { font-size: 13.5px; color: #444; line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .testimonial-name { font-size: 12px; color: #888; font-weight: 500; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Fullerton) -->
@@ -127,6 +137,64 @@
     "areaServed": [
       { "@type": "City", "name": "Fullerton", "addressRegion": "CA" },
       "Orange County, CA"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "76",
+      "bestRating": "5"
+    }
+  }
+  </script>
+
+  <!-- SCHEMA: Review -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Michele Ohanian" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Friendly, on time, efficient, and successful repair.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Laman Anvarli" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you for fixing my mom GE Monogram refrigerator. I recommend it fast and good service. Thank you!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Veronique Reaver" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "I got my maintenance done on my washing machine and dryer.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Matt Snyder" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "was able to accommodate evening hours and fixed the dryer at a reasonable price, would use again",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Katie Holst" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG did a great job repairing my dishwasher. He was prompt, quick and fair. I will use him again for any future repair needs.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Brian Brassil" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG fixed our fridge same day. Thank you",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      }
     ]
   }
   </script>
@@ -459,6 +527,62 @@
           <div class="step-title">Repair &amp; Warranty</div>
           <div class="step-desc">Most repairs complete in a single visit. All work carries a warranty on parts and labor.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Fullerton Customers Say</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:8px;">From our 76 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Friendly, on time, efficient, and successful repair."</p>
+          <div class="t-initial" style="background:#3b82f6;">MO</div>
+          <div class="testimonial-name">Michele Ohanian — Washer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you for fixing my mom GE Monogram refrigerator. I recommend it fast and good service. Thank you!"</p>
+          <div class="t-initial" style="background:#10b981;">LA</div>
+          <div class="testimonial-name">Laman Anvarli — GE Monogram refrigerator repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"I got my maintenance done on my washing machine and dryer."</p>
+          <div class="t-initial" style="background:#8b5cf6;">VR</div>
+          <div class="testimonial-name">Veronique Reaver — Washer &amp; dryer maintenance · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"was able to accommodate evening hours and fixed the dryer at a reasonable price, would use again"</p>
+          <div class="t-initial" style="background:#ef4444;">MS</div>
+          <div class="testimonial-name">Matt Snyder — Dryer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG did a great job repairing my dishwasher. He was prompt, quick and fair. I will use him again for any future repair needs."</p>
+          <div class="t-initial" style="background:#f59e0b;">KH</div>
+          <div class="testimonial-name">Katie Holst — Dishwasher repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG fixed our fridge same day. Thank you"</p>
+          <div class="t-initial" style="background:#06b6d4;">BB</div>
+          <div class="testimonial-name">Brian Brassil — Refrigerator repair · Orange County, CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:#3b82f6;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
