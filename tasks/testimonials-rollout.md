@@ -125,40 +125,25 @@ Same shape.
 
 ---
 
-## Phase 3 — Service hubs (5 PRs, one per hub)
+## Phase 3 — Service hubs (5 PRs) ✅ DONE — PRs #166, #171–#174 (merged 2026-05-07)
 
-Service hubs should prefer testimonials that match their appliance.
+### ~~Task 3.1~~ ✅ — `pages/refrigerator-repair-orange-county.html` — PR #166
+Reviews: Lilya Raupova (Sub-Zero), Lale (GE Monogram), Joellyn Meadows, Molla Islam, Marcy Kucik, Dave Brisbin
 
-### Task 3.1 — `pages/refrigerator-repair-orange-county.html`
-- [ ] Filter pool: `appliance` contains "refrigerator" — 8 candidates: Lale, Marcy Kucik, William Nugent, Brian Brassil, Lilya Raupova (Sub-Zero), Arzuman Qarayev (Frigidaire), Laman Anvarli (GE Monogram), Joellyn Meadows
-- [ ] Plus Molla Islam (refrigerator + cooktop) and Dave Brisbin (refrigerator/freezer)
-- [ ] Pick 4–6, prefer brand-specific reviews; include AggregateRating
+### ~~Task 3.2~~ ✅ — `pages/washer-repair-orange-county.html` — PR #171
+Reviews: Danette Vanover, Russell Kadota, Kelly Heyden, Mark Rivera (Whirlpool), Patricio Jr Villanueva (LG), Craig Tudor
 
-**PR title:** `feat(hub-refrigerator): wire testimonials from canonical pool`
+### ~~Task 3.3~~ ✅ — `pages/dryer-repair-orange-county.html` — PR #173
+Reviews: Cindy Montefu, Katie Anne Salen, Julie L., Ernesto Ruiz, Dena Fisher, Cheryl Lemire
 
-### Task 3.2 — `pages/washer-repair-orange-county.html`
-- [ ] Filter pool: `appliance` contains "washer" — 13 candidates including Danette Vanover, Russell Kadota, Justine Shaw, Tony Tomassini, Kelly Heyden, Craig Tudor, Patricio Jr Villanueva (LG), rick deangelo, mark rivera (Whirlpool), Greg Schnabel, Veronique Reaver, Stephen Stephen, Susie Arii, George
-- [ ] Pick 4–6 prioritizing variety of issues (leak, drain, spinning) and brand mentions
+### ~~Task 3.4~~ ✅ — `pages/dishwasher-repair-orange-county.html` — PR #174
+Reviews: Robert Clemmons, Jonathan Stone, Katie Holst, Karen Myhra, Tony Tomassini, Katherine Bosboom
 
-**PR title:** `feat(hub-washer): wire testimonials from canonical pool`
+### ~~Task 3.5~~ ✅ — `pages/oven-stove-repair-orange-county.html` — PR #172
+Reviews: Steve D (cooktop/spark module), Susan Ryan (oven igniter), Roger Antonie (stove), Kenan Ken (Viking oven), George Mendoza (Samsung range), Elizabeth Lovejoy (cooktop)
 
-### Task 3.3 — `pages/dryer-repair-orange-county.html`
-- [ ] Filter pool: `appliance` contains "dryer" — 10 candidates: Jennifer Trette, Cindy Montefu, Katie Anne Salen, Julie L., Ernesto Ruiz, Matt Snyder, Stephen Stephen, Susie Arii, Dena Fisher, cheryl lemire
-- [ ] Pick 4–6
-
-**PR title:** `feat(hub-dryer): wire testimonials from canonical pool`
-
-### Task 3.4 — `pages/dishwasher-repair-orange-county.html`
-- [ ] Filter pool: `appliance` contains "dishwasher" — 8 candidates: Noelle B (Thermador), Robert Clemmons, Tony Tomassini, Katie Holst, Jonathan Stone, Karen Myhra, George
-- [ ] Pick 4–6 — Thermador is a strong pull for high-end customer signal
-
-**PR title:** `feat(hub-dishwasher): wire testimonials from canonical pool`
-
-### Task 3.5 — `pages/oven-stove-repair-orange-county.html`
-- [ ] Filter pool: `appliance` contains oven/range/cooktop/stove — 8 candidates: Steve D (cooktop, long-form), Jeff Lane Songs, Susan Ryan (oven igniter), Roger Antonie, Kenan Ken (Viking), George Mendoza (Samsung range), Theresa Robinson (photo-only — exclude), Elizabeth Lovejoy (cooktop), Molla Islam (cooktop+fridge)
-- [ ] Pick 4–6 — Steve D's review is a strong long-form quote for this hub
-
-**PR title:** `feat(hub-oven-stove): wire testimonials from canonical pool`
+**Impeccable design audit applied to 3.1:** grid `align-items: stretch` (card height parity), `aria-hidden` on avatar initials, stripped `· Orange County, CA` location suffix. All improvements carried into 3.2–3.5.
+**Pool fix:** Mark Rivera name corrected to title case in `data/testimonials.json` (PR #171).
 
 ---
 
