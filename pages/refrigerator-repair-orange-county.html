@@ -77,6 +77,14 @@
 
     /* TESTIMONIALS */
     .testimonials-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .testimonial-card { background: #fff; border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
+    .stars { color: #f59e0b; font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .testimonial-quote { font-size: 13.5px; color: #444; line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .testimonial-name { font-size: 12px; color: #666; font-weight: 500; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
 
     /* CTA BOX */
     .cta-box { background: linear-gradient(135deg, #e84c1e 0%, #c03a14 100%); border-radius: 16px; padding: 48px 40px; text-align: center; margin-top: 0; }
@@ -94,6 +102,7 @@
       .brands-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .testimonials-row { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
@@ -139,7 +148,13 @@
       "postalCode": "90680",
       "addressCountry": "US"
     },
-    "areaServed": "Orange County, CA"
+    "areaServed": "Orange County, CA",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "76",
+      "bestRating": "5"
+    }
   }
   </script>
 
@@ -226,6 +241,58 @@
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fixappliancesfast.com/" },
       { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://fixappliancesfast.com/pages/services.html" },
       { "@type": "ListItem", "position": 3, "name": "Refrigerator Repair Orange County", "item": "https://fixappliancesfast.com/pages/refrigerator-repair-orange-county.html" }
+    ]
+  }
+  </script>
+
+  <!-- SCHEMA: Review -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Lilya Raupova" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Lale" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Joellyn Meadows" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Molla Islam" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "This guy is wonderful. Not only fixed the fridge. He took time and no rush. He cleaned everything and even before he left we heard the sound of making ice cubes. On top of that he fixed the gas flow of the burner as a courtesy. Nice guy. Very friendly and professional as well.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Marcy Kucik" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Absolutely excellent! AG fixed my refrigerator in a timely and professional manner with great customer service. He is now my go-to for appliance repair. I highly recommend AG as your tech.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Dave Brisbin" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Our repairman was great! On time, personable, knowledgeable, and fixed our problem. Looking to him to repair another appliance as well. We'll be back!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      }
     ]
   }
   </script>
@@ -549,18 +616,55 @@
   <!-- TESTIMONIALS -->
   <section class="section section-gray" style="text-align:center;">
     <div class="container">
-      <h2 class="h2-standard">What Orange County Customers Say</h2>
-      <div class="testimonials-row">
+      <h2 class="h2-standard">What Refrigerator Repair Customers Say</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:8px;">From our 76 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
         <div class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-quote">"AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend."</p>
-          <div class="testimonial-name">Lale — GE Monogram refrigerator repair, March 2026</div>
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!"</p>
+          <div class="t-initial" style="background:#444444;">LR</div>
+          <div class="testimonial-name">Lilya Raupova — Sub-Zero refrigerator repair · Orange County, CA</div>
         </div>
+
         <div class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-quote">"Absolutely excellent! AG fixed my refrigerator in a timely and professional manner with great customer service. He is now my go to for appliance repair. I highly recommend AG as your tech."</p>
-          <div class="testimonial-name">Marcy K. — Refrigerator repair, February 2026</div>
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend"</p>
+          <div class="t-initial" style="background:#444444;">LA</div>
+          <div class="testimonial-name">Lale — GE Monogram refrigerator repair · Orange County, CA</div>
         </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs."</p>
+          <div class="t-initial" style="background:#444444;">JM</div>
+          <div class="testimonial-name">Joellyn Meadows — Refrigerator repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"This guy is wonderful. Not only fixed the fridge. He took time and no rush. He cleaned everything and even before he left we heard the sound of making ice cubes. On top of that he fixed the gas flow of the burner as a courtesy. Nice guy. Very friendly and professional as well."</p>
+          <div class="t-initial" style="background:#444444;">MI</div>
+          <div class="testimonial-name">Molla Islam — Refrigerator &amp; cooktop repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Absolutely excellent! AG fixed my refrigerator in a timely and professional manner with great customer service. He is now my go-to for appliance repair. I highly recommend AG as your tech."</p>
+          <div class="t-initial" style="background:#444444;">MK</div>
+          <div class="testimonial-name">Marcy Kucik — Refrigerator repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Our repairman was great! On time, personable, knowledgeable, and fixed our problem. Looking to him to repair another appliance as well. We'll be back!"</p>
+          <div class="t-initial" style="background:#444444;">DB</div>
+          <div class="testimonial-name">Dave Brisbin — Refrigerator &amp; freezer repair · Orange County, CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:#e84c1e;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
