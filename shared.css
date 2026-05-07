@@ -77,7 +77,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .testimonial-quote { font-size: 14px; color: var(--text-dim); line-height: 1.8; font-style: italic; }
 .testimonial-avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; margin: 18px auto 10px; display: block; border: 3px solid #f3f4f6; }
 .testimonial-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-.testimonial-role { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.testimonial-role { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 .stars { color: var(--amber); font-size: 14px; letter-spacing: 1px; margin-bottom: 14px; }
 
 /* FAQ */
