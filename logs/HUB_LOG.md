@@ -165,3 +165,42 @@ Running log of every `/seo-hub` run. Each entry records the page built, PR, stat
 **Phase 0 highlights:**
 - Competition: High — 8+ dedicated Irvine pages from local competitors
 - Structural gaps exploited: no FAQs on most competitor pages; no neighborhood/ZIP breakdown; no AI answer block on any competitor
+
+---
+
+## May 2026 — Testimonials rollout: canonical 76-review pool across all hub pages
+
+**Type:** Rollout (not a single hub — cross-site testimonials retrofit)
+**PRs:** #151–#165, #166, #171–#174, #176–#178
+**Pages updated:** 16 (homepage, 8 city hubs, 5 service hubs, testimonials.html, about.html)
+**Pool source:** `data/testimonials.json` — 76 verified 5-star Google reviews, 74 with complete bodies, 73 eligible for display (1 flagged non-person)
+
+### What was done
+
+Established `data/testimonials.json` as the single source of truth for all testimonials across the site. Retrofitted every page that displays reviews to pull from the canonical pool, enforcing the ≤2-overlap rule (tracked in `tasks/testimonial-usage.md`).
+
+**Phase 0 — Audit + skill wiring (PRs #151, #152)**
+Confirmed zero placeholder/invented testimonials site-wide. Wired `/seo-hub` skill and scheduled city-hub routine to the canonical pool. Created `rules/testimonial-selection.md` as a shared reference.
+
+**Phase 1 — Homepage (PRs #153–#155)**
+9 canonical reviews in a 3×3 grid (Noelle B, Jennifer Trette, Kathy Calderon, Arzuman Qarayev, Andrea Hall, Elizabeth Lovejoy, Kenan Ken, Patricio Jr Villanueva, Cheryl Lemire). AggregateRating updated to 76 reviews. Initials avatars replacing placeholder images.
+
+**Phase 2 — 8 city hubs (PRs #156–#165)**
+Each hub: 6 appliance-mixed reviews, AggregateRating schema, Review JSON-LD. A11y sweep (PR #164) fixed contrast, aria-labels, avatar rainbow → Workshop Charcoal #444444. Jeff Lane Songs replaced with Arzuman Qarayev on Anaheim (PR #165) after being identified as a music entity, not a residential customer.
+
+**Phase 3 — 5 service hubs (PRs #166, #171–#174)**
+Each hub: 6 appliance-matched reviews. Refrigerator hub upgraded from 2 bare legacy cards; oven-stove hub removed maxed + wrong-appliance cards (Noelle B + Robert Clemmons). Impeccable design audit on refrigerator hub introduced `align-items: stretch`, `aria-hidden` on avatars, stripped redundant `· Orange County, CA` suffix — applied to all 5 hubs.
+
+**Phase 4 — Testimonials page (PR #176)**
+Full rewrite: 73 cards from the pool, filter pills (7 categories), complete JSON-LD review schema (73 entries), `scripts/build-testimonials-html.js` generator for future pool updates. Was previously showing only 8 hand-coded cards with 3 reviews in schema.
+
+**Phase 5 — About page (PR #177)**
+Removed 2 fabricated sentences from Noelle B's quote. Replaced all 3 overused reviews (all at count=2) with Suzan Hier, Wendy Henderson, Jeff C — emphasising repeat-customer and honesty themes. Added AggregateRating + Review schema.
+
+### Outstanding for owner
+- None — all pages now use verified pool reviews with ≤2-overlap rule enforced
+- Run `node scripts/build-testimonials-html.js` after any pool update to regenerate testimonials.html
+
+### Pool fixes delivered
+- `Mark Rivera` name corrected to title case in pool
+- `Jeff Lane Songs` flagged `nameFlag: "non-person"` — permanently excluded from hub display
