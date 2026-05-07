@@ -103,7 +103,69 @@
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
     }
+
+    /* Testimonials */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .testimonial-card { background: #fff; border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
+    .stars { color: #f59e0b; font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .testimonial-quote { font-size: 13.5px; color: #444; line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .testimonial-name { font-size: 12px; color: #888; font-weight: 500; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
   </style>
+
+  <!-- SCHEMA: Review -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Jovita Osorio" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG was awesome! Fast and reliable! He explained everything to me and my machine is working excellent now. Thanks",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Wendy Henderson" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Technician was on time and polite. Could have charged me a bunch of money for unnecessary repairs but he was honest and didn't do that. I will definitely call again when another appliance needs attention.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Tony Tomassini" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Our technician was top rate in terms of product knowledge so the repairs on our dishwasher and wash machine were handled efficiently and on budget. Great customer service as well — I highly recommend this company.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Marcy Kucik" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Absolutely excellent! AG fixed my refrigerator in a timely and professional manner with great customer service. He is now my go-to for appliance repair. I highly recommend AG as your tech.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Emily Palmer" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG was super professional, did a great job fixing my freezer and I would highly recommend him to anyone needing appliance repair!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Jeff Lane Songs" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG arrived on time and fixed the oven. Great work!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      }
+    ]
+  }
+  </script>
 
   <!-- SCHEMA: LocalBusiness (Anaheim) -->
   <script type="application/ld+json">
@@ -126,7 +188,13 @@
     "areaServed": [
       { "@type": "City", "name": "Anaheim", "addressRegion": "CA" },
       "Orange County, CA"
-    ]
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "76",
+      "bestRating": "5"
+    }
   }
   </script>
 
@@ -451,6 +519,62 @@
           <div class="step-title">Repair &amp; Warranty</div>
           <div class="step-desc">Most repairs finish in a single visit. All work comes with a warranty on parts and labor.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Anaheim Customers Say</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:8px;">From our 76 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG was awesome! Fast and reliable! He explained everything to me and my machine is working excellent now. Thanks"</p>
+          <div class="t-initial" style="background:#3b82f6;">JO</div>
+          <div class="testimonial-name">Jovita Osorio — Appliance repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Technician was on time and polite. Could have charged me a bunch of money for unnecessary repairs but he was honest and didn't do that. I will definitely call again when another appliance needs attention."</p>
+          <div class="t-initial" style="background:#10b981;">WH</div>
+          <div class="testimonial-name">Wendy Henderson — Appliance repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Our technician was top rate in terms of product knowledge so the repairs on our dishwasher and wash machine were handled efficiently and on budget. Great customer service as well — I highly recommend this company."</p>
+          <div class="t-initial" style="background:#8b5cf6;">TT</div>
+          <div class="testimonial-name">Tony Tomassini — Dishwasher &amp; washer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Absolutely excellent! AG fixed my refrigerator in a timely and professional manner with great customer service. He is now my go-to for appliance repair. I highly recommend AG as your tech."</p>
+          <div class="t-initial" style="background:#ef4444;">MK</div>
+          <div class="testimonial-name">Marcy Kucik — Refrigerator repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG was super professional, did a great job fixing my freezer and I would highly recommend him to anyone needing appliance repair!"</p>
+          <div class="t-initial" style="background:#f59e0b;">EP</div>
+          <div class="testimonial-name">Emily Palmer — Freezer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG arrived on time and fixed the oven. Great work!"</p>
+          <div class="t-initial" style="background:#06b6d4;">JL</div>
+          <div class="testimonial-name">Jeff Lane Songs — Oven repair · Orange County, CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:#3b82f6;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
