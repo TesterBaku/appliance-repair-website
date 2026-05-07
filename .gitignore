@@ -1,5 +1,8 @@
 node_modules/
 test/screenshots/
+
+# Local task/planning files — owner's working notes, not part of the site
+tasks/
 *.png
 !logo.png
 .playwright-mcp/
