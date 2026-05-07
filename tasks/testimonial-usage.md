@@ -102,6 +102,18 @@ Enforces the ≤2-overlap rule: a review may appear on at most **2 hub pages tot
 
 ---
 
+## About page — Phase 5
+
+| Review ID | About |
+|---|---|
+| google-suzan-hier-2025-05 | ✓ |
+| google-wendy-henderson-2026-02 | ✓ |
+| google-jeff-c-2026-03 | ✓ |
+
+Note: Wendy Henderson was already on Anaheim hub (count=1) → now count=2. Suzan Hier and Jeff C are first use (count=1).
+
+---
+
 ## Update instructions
 
 After each hub PR merges: change `✓ planned` → `✓` for the relevant hub column.
