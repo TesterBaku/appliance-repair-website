@@ -1,4 +1,24 @@
 
+## May 07, 2026 — cost hub: appliance-repair-cost-orange-county
+
+**Type:** cost cornerstone (S-2)
+**Target:** Appliance Repair Cost in Orange County
+**PR:** [#190](https://github.com/TesterBaku/appliance-repair-website/pull/190) — open, awaiting owner review
+**Word count:** ~1,800+ body words
+**FAQ count:** 10
+**Internal links wired:** index.html (nav dropdown, mobile drawer, footer), services.html (nav, drawer, footer, grid card), refrigerator/washer/dryer hub pages (in-body), sitemap.xml (priority 0.9), llms.txt
+**Schemas:** Service / LocalBusiness+AggregateRating / BreadcrumbList / FAQPage / 5×Review (individual blocks)
+**Testimonials:** Andrea Hall, John Dinger, Shawne King, D Light, paul guns (all value/pricing-themed, all bodyStatus: complete)
+**Visual review:** 17/17 PASS — desktop 1440×900 + mobile 375×812, zero FAILs, zero WARNs
+
+**Outstanding for owner:**
+- Real hero photo: currently uses hero-homepage.jpg — replace with cost/invoice-themed image when available
+- OG image: uses logo-og.png — a 1200×630 cost-guide image would improve social sharing
+
+**Phase 0 highlights:**
+- Competition: Medium (cost guides exist but few are OC-specific with symptom-level breakdown)
+- Structural gaps exploited: symptom-level cost table (not just appliance-level), diagnostic fee transparency callout, repair-vs-replace guidance with specific dollar thresholds
+
 ## May 04, 2026 — service hub: washer-repair-orange-county
 
 **Type:** service
