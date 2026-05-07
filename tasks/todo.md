@@ -1,152 +1,109 @@
-# GSC Indexing Remediation — 2026-05-06
+# Active Todo — 2026-05-07 audit refresh
 
-Source: Google Search Console alert flagging four "Why pages aren't indexed" reasons on `fixappliancesfast.com`:
-- Not found (404) — 3 pages
-- Page with redirect — 2 pages
-- Duplicate without user-selected canonical — 1 page
-- Blocked by robots.txt — 1 page
+Source: two external audit reports analyzed in chat session 2026-05-07. Refined plan in `tasks/action-plan-fixappliancesfast.md` § "2026-05-07 audit refresh".
 
-Plus visible in the same report (not in the alert) — Crawled - currently not indexed — 7 pages.
+The previous GSC remediation todo (May 6) shipped via PRs #181–#184 and is now done — its content moved to git history.
 
-Audit performed against the working tree on 2026-05-06. See "Findings" at the bottom.
+**Pacing reminder.** Hub pages: max 1–2/week. Article retrofits: max 2–3/week. No same-day batch merges. See action plan § "Pacing guardrails" for the full set.
 
 ---
 
-## P0 — Environment cleanup (must happen before any branch/commit work)
+## P0 — Foundation (this week)
 
-- [x] **Delete stale git lock file.** From PowerShell:
-  ```powershell
-  Remove-Item C:\Rufat_docs\appliance-repair-website\.git\index.lock
-  ```
-  This is a 0-byte leftover from an interrupted git operation. Safe to delete.
+### P0-1 PR-A: Rule update — allow estimated price ranges in cost content
+Single-file edit to `.claude/rules/seo-content.md`. Replaces blanket "no dollar amounts" rule with a carve-out + disclaimer template.
 
-- [x] **Resolve the dirty working tree on `master`.** `git diff --stat` shows **3,200 deletions across 17 files, 16 insertions** — all uncommitted. This is almost certainly accidental:
-  - `pages/testimonials.html` lost **1,155 lines** (essentially the whole page)
-  - `index.html` lost 192 lines (FAQs 9–10, full contact section, sticky CTA bar)
-  - All hub pages (`appliance-repair-*-ca.html`, `*-repair-orange-county.html`) lost 100–157 lines each
-  - `tasks/testimonials-rollout.md` truncated mid-sentence at "Jovita Osorio,"
+- [ ] Branch off `master`: `chore/rule-allow-cost-ranges`
+- [ ] Edit `.claude/rules/seo-content.md` § "Writing rules" — replace the no-prices line with the new policy + disclaimer template (see PR draft below)
+- [ ] Run `npm test` and `npm run screenshot` (smoke-only — rule files don't affect the site, but the workflow requires it)
+- [ ] Commit: `chore(rules): allow estimated price ranges in cost content with required disclaimer`
+- [ ] Push, open PR via `/pr`
+- [ ] Run `/review` as an **independent subagent** (per `rules/git-workflow.md` § "PR on Every Change")
+- [ ] Address blockers, re-run `/review` until `✅ APPROVED`
+- [ ] Merge
 
-  Recommended action — verify nothing of value is in the dirty tree, then revert:
-  ```bash
-  cd C:\Rufat_docs\appliance-repair-website
-  git diff index.html | less                  # spot-check what was deleted
-  git diff pages/testimonials.html | less     # the big one
-  git diff --stat                             # full file-by-file count
-  git restore .                               # revert all 17 files when ready
-  git status                                  # confirm clean tree
-  ```
+### P0-2 PR-B: Verification audit — single subagent pass
+Confirm the action plan's "snapshot" claims are still true on production.
 
-- [x] Confirm the working tree is clean (`git status` shows "nothing to commit, working tree clean") before moving to P1.
+- [ ] Spawn an independent subagent with this scope: verify AggregateRating renders on homepage + all hub pages, verify `/llms.txt` returns 200, verify GA tag is first child of `<head>` on every HTML page, sweep About page for any stale personas
+- [ ] Save report to `tasks/seo-verification-2026-05-07.md`
+- [ ] If gaps found: each gap becomes its own follow-up PR (one fix per PR — no batching)
 
----
+### P0-3 PR-C: Update `tasks/lessons.md` with mount-wipe pattern
+The accidental working-tree wipe has now happened twice (May 6, May 7). Capture the pattern + recovery steps so future runs don't burn cycles re-diagnosing.
 
-## P1 — Add missing canonical tags (autonomous fix, likely closes the GSC duplicate-canonical flag)
-
-Four articles are missing `<link rel="canonical">` entirely. Every other page on the site has one. One of these four is almost certainly the page GSC flagged as "Duplicate without user-selected canonical (1)"; the other three are likely-future flags waiting to happen.
-
-Files to edit and the exact tag to insert into each:
-
-- [ ] `articles/article-dorm-appliances.html`
-  ```html
-  <link rel="canonical" href="https://fixappliancesfast.com/articles/article-dorm-appliances.html" />
-  ```
-- [ ] `articles/article-fridge-maintenance.html`
-  ```html
-  <link rel="canonical" href="https://fixappliancesfast.com/articles/article-fridge-maintenance.html" />
-  ```
-- [ ] `articles/article-mini-fridge.html`
-  ```html
-  <link rel="canonical" href="https://fixappliancesfast.com/articles/article-mini-fridge.html" />
-  ```
-- [ ] `articles/article-repair-replace.html`
-  ```html
-  <link rel="canonical" href="https://fixappliancesfast.com/articles/article-repair-replace.html" />
-  ```
-
-**Insertion point in each file:** immediately after the `<title>...</title>` line (currently line 14 in each), before the Google Fonts `<link>`. This matches the placement used by every other page on the site (verified with `grep -h 'rel="canonical"' --include="*.html" -r .`).
+- [ ] Add lesson to `tasks/lessons.md`
+- [ ] Consider hardening `.husky/pre-commit` to refuse a commit that deletes ≥ 1,000 lines across ≥ 5 unstaged files — would catch this before it could even be staged
+- [ ] Ship as part of the same docs PR that lands the action-plan refresh + this todo
 
 ---
 
-## P2 — Full git workflow per `rules/git-workflow.md`
+## P1 — Cost hub (next 1–2 weeks, after P0-1 lands)
 
-- [ ] Branch off `master`:
-  ```bash
-  git checkout -b fix/missing-canonicals
-  ```
-- [ ] Apply the 4 edits from P1.
-- [ ] Run tests:
-  ```bash
-  npm test            # link checker
-  npm run screenshot  # puppeteer visual smoke
-  ```
-  Both must exit code 0. Fix any failures one at a time per the bug-fix loop in `rules/git-workflow.md`.
-- [ ] Commit:
-  ```bash
-  git add articles/article-dorm-appliances.html articles/article-fridge-maintenance.html articles/article-mini-fridge.html articles/article-repair-replace.html
-  git commit -m "fix(seo): add canonical tags to 4 articles missing them"
-  ```
-- [ ] Push:
-  ```bash
-  git push -u origin fix/missing-canonicals
-  ```
-- [ ] Open PR using `/pr` skill. PR title: `fix(seo): add canonical tags to 4 articles missing them`. PR body should reference this todo and note that the change likely resolves the GSC "Duplicate without user-selected canonical" flag.
-- [ ] Run `/review` **as an independent subagent** (per the standing rule in `rules/git-workflow.md` § "PR on Every Change"). Reviewer must be a fresh Agent with no context from the implementation conversation.
-- [ ] Address blockers if any; re-run `/review` until verdict is `✅ APPROVED`.
-- [ ] Merge.
+### P1-1 Build `pages/appliance-repair-cost-orange-county.html`
+The cornerstone for cost-keyword traffic. Only start after P0-1 (rule update) is merged.
+
+- [ ] Run `/seo-hub --type=service --slug=appliance-repair-cost-orange-county` (or scaffold manually if the skill doesn't fit)
+- [ ] Required sections: hero + AI answer block, average cost in OC, cost-by-appliance table, cost-by-symptom table, diagnostic-fee explanation, repair-vs-replace guidance, brand/part availability notes, 8+ FAQs, real testimonials, CTA
+- [ ] Schema: Service + FAQPage + BreadcrumbList + AggregateRating + LocalBusiness
+- [ ] Cross-link from homepage and all 5 service hubs (1 link each — light touch, not a sitewide rebuild)
+- [ ] `npm test`, `npm run screenshot`, `/visual-review` desktop + mobile
+- [ ] PR title: `feat(hub): add appliance-repair-cost-orange-county cornerstone hub`
+- [ ] `/review` as independent subagent
+- [ ] **Manual review** — hub pages never auto-merge per existing rule
+- [ ] After merge: update `sitemap.xml`, `llms.txt`, `logs/HUB_LOG.md`
 
 ---
 
-## P3 — GSC follow-ups (need the actual URL lists from Search Console)
+## P2 — Selective price retrofits (next 4 weeks, paced)
 
-These three buckets cannot be addressed without knowing the specific URLs. Click into each row in GSC → "Page indexing" → export the URL list, then handle as below.
+### P2-1 Identify retrofit candidates from GSC
+Pull the top 5 cost-relevant articles by impressions from Google Search Console.
 
-- [ ] **Not found (404) — 3 pages.** For each URL:
-  - If it's an old slug from before a rename, add a redirect to the live equivalent. GitHub Pages doesn't support `_redirects` natively — easiest path is a static HTML file at the old slug containing `<meta http-equiv="refresh" content="0; url=/new-slug">` plus `<link rel="canonical" href="https://fixappliancesfast.com/new-slug">`.
-  - If the page is genuinely gone, leave the 404 and use GSC's URL removal tool to drop it from the index.
-- [ ] **Blocked by robots.txt — 1 page.** Current `robots.txt` is `User-agent: * / Allow: /` — there is no rule that should be blocking anything. Most likely a stale Google-side state. Confirm the URL, then in GSC use "Validate fix" to trigger a recrawl.
-- [ ] **Page with redirect — 2 pages.** Almost certainly the GitHub Pages forced HTTP→HTTPS redirect on stale `http://` URLs Google has from before. Confirm by inspecting the URLs in GSC. If they redirect to the canonical HTTPS URL, no action needed — use "Validate fix" to clear them.
+- [ ] Articles already cost-themed by slug: `article-dishwasher-cost-orange-county.html`, `article-dryer-repair-cost-orange-county.html`, `article-freezer-cost-rancho-santa-margarita.html` — likely top of the list
+- [ ] Save chosen list to `tasks/retrofit-candidates-2026-05.md`
 
----
-
-## P4 — Crawled - currently not indexed (7 pages, not in the alert but visible in the same report)
-
-Strong hypothesis: this matches exactly the 7 blog category pages added today (2026-05-06):
-`pages/blog/refrigerator.html`, `washer.html`, `dryer.html`, `oven-stove.html`, `dishwasher.html`, `freezer.html`, `other.html`.
-
-- [ ] Confirm the 7 URLs in GSC match the new blog category pages.
-- [ ] Verify each is linked from `pages/blog.html` (the main blog hub) — Google deprioritizes pages with weak internal-link signals. If any aren't linked, add them.
-- [ ] Verify each has substantive unique content and a unique meta description (not just a list of article links). The 7 share a template — if their bodies are mostly the same, that depresses indexing priority.
-- [ ] Submit each URL via "Request indexing" in GSC URL Inspection.
+### P2-2 Retrofit price ranges + disclaimer — one article per week
+- [ ] Week 1: highest-traffic candidate
+- [ ] Week 2: next
+- [ ] Week 3: next
+- [ ] Week 4: next
+- [ ] Each as its own PR. Mixed in with regular `/seo-blog` publishing, never as a batch update
 
 ---
 
-## P5 — Capture lessons (after P1–P2 ship)
+## P3+ — Long-term items
 
-- [ ] Add to `tasks/lessons.md`:
-  > **Always include `<link rel="canonical">` on every new HTML page at creation time.** The site has 62 HTML pages and 4 were missing canonicals — all four were articles likely created before the canonical convention was uniform. Gate this in `/review` and `/seo-blog`'s test phase: any new `.html` file missing `rel="canonical"` is a FAIL.
-
-- [ ] Update the `/review` skill so it greps for `rel="canonical"` on every changed `.html` file and fails the review if missing (parallel to the existing Google Analytics tag check in `CLAUDE.md`).
-
-- [ ] Update `.claude/rules/seo-content.md` § "`<head>` tags (required — production URLs only)" to call out canonical as a hard requirement, not just a list item.
+Tracked in the action plan, not duplicated here. Don't start L-1, L-2, L-3, L-4 until S-1 through S-4 are done **and** GSC data is available. See `tasks/action-plan-fixappliancesfast.md` § "LONG TERM".
 
 ---
 
-## Findings (audit performed 2026-05-06)
+## Out of scope (operational / business decisions)
 
-Recorded here so future runs don't have to re-audit:
-
-- **Sitemap is clean.** `sitemap.xml` lists 60 URLs; every URL has a corresponding file on disk. The two HTML files not in the sitemap are `404.html` (correct) and `index.html` (correct — listed as `/` in the sitemap).
-- **`robots.txt` is permissive.** Just `User-agent: * / Allow: /` plus a sitemap reference. Nothing on the site is currently disallowed.
-- **No `meta robots noindex`** anywhere except `404.html` (correct).
-- **All canonicals on the site point to `https://fixappliancesfast.com/...`** — no off-domain or http:// canonicals.
-- **No deploy-time redirect config** (no `_redirects`, `_headers`, `vercel.json`, `netlify.toml`, `.htaccess`, etc.). The site is hosted on **GitHub Pages** (per `.github/workflows/deploy.yml`), which only does HTTP→HTTPS and trailing-slash normalization automatically.
-- **Only 4 pages are missing canonicals** — the 4 listed in P1.
+Documented in the action plan § "OUT OF SCOPE for website work". Don't add website-side work for these until they're green-lit operationally.
 
 ---
 
-## Review (fill in after P1–P2 merge)
+## PR-A draft — exact rule change for P0-1
+
+The current rule in `.claude/rules/seo-content.md` § "Writing rules" reads:
+
+> - No dollar amounts or price ranges (unless cost content is explicitly approved for the run)
+
+Proposed replacement:
+
+> - **Estimated price ranges are allowed in cost-focused content** (cost hub pages, repair-cost articles, repair-vs-replace guides). Use *ranges* (e.g. "$150–$650"), never flat rates (e.g. "$280"). Prices are estimates, not quotes.
+> - Every page or section that displays prices **must include this disclaimer verbatim** somewhere on the page (above the table is preferred):
+>
+>   > *Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.*
+>
+> - Non-cost articles (DIY guides, symptom guides, maintenance guides) should still avoid prices unless cost is integral to the topic — keep dollars where readers expect them.
+> - `/review` flags as **FAIL**: any flat rate; any cost section missing the disclaimer; any non-cost article with prices but no clear cost-content angle.
+
+---
+
+## Review (fill in after P0-1 ships)
 
 - _Date merged:_
 - _PR number:_
-- _GSC validation result for each fixed URL (re-check 7–14 days after merge):_
-- _Did the duplicate-canonical flag clear?_
+- _Followed by:_ (P0-2, P0-3, P1-1)

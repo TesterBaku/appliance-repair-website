@@ -11,6 +11,121 @@ Consolidated remediation plan for **Universal Appliances Repair** (`fixappliance
 - One PR per task per `.claude/rules/git-workflow.md`. No batching unrelated changes.
 - Phases sequential by priority: P0 → P1 → P2 → P3 → P4 → P5 → P6.
 - v3 captures the state on 2026-05-06: a lot landed since v2, plan compacted accordingly.
+- **2026-05-07 audit refresh** — see new section directly below; folds in two external review docs.
+
+---
+
+## 2026-05-07 audit refresh — short-term + long-term roadmap
+
+**Source.** Two external audit reports analyzed in chat session 2026-05-07:
+- `fixappliancesfast_website_analysis_recommendations.md` — comprehensive report with concrete templates and phased monetization roadmap.
+- `Website_Analysis_Recommendations.md` — short strategic memo with operational/business-side ideas (subscriptions, SMS reviews, luxury-brand targeting, booking widget).
+
+Most items in both reports are **already shipped or in-flight** under existing P-sections (hub pages, schema, AI answer block, `llms.txt`, mobile sticky bar, AggregateRating). What follows is what's net-new or unresolved after that comparison.
+
+### Pacing guardrails — apply across every item below
+
+Google's risk vector for sites like ours isn't *frequency of changes* — it's *pattern*. The Helpful Content System penalizes mass programmatic content drops, sudden site-wide internal-link explosions, schema spam without matching visible content, and thin doorway pages. Our existing pacing (3 articles/week auto-merge, hub pages manual review) is the opposite of the risk pattern. To stay there:
+
+- **Hub pages:** max 1–2 per week, never batch-merged on the same day.
+- **Existing-article retrofits** (e.g. adding price ranges): max 2–3 per week, mixed in with new-content publishing — never a "retrofit week" sweep.
+- **Internal-link rebuilds:** stagger across 2–3 PRs over 2 weeks. No single sitewide sweep.
+- **Schema changes:** roll out alongside content updates, not as standalone sitewide PRs.
+- **Auto-merge cadence stays at Mon/Wed/Fri** for new articles. Don't accelerate.
+
+### SHORT TERM — next 4–6 weeks
+
+#### S-1 ✅ Allow estimated price ranges in cost content — **rule update PR (this is the focused PR after this plan lands)**
+Update `.claude/rules/seo-content.md` § "Writing rules" — replace the blanket "No dollar amounts or price ranges" with a carve-out: estimated *ranges* (not flat rates) are allowed in cost-focused articles and on cost hub pages, with a required disclaimer template. Final quote is always provided before repair. This is a small, single-file rule change — its own PR.
+
+- **Acceptance:** rule reads as policy + disclaimer template; `/review` flags any article using a flat rate (e.g. "$280") or omitting the disclaimer when prices are present.
+
+#### S-2 Build the cost cornerstone hub — `pages/appliance-repair-cost-orange-county.html`
+Cornerstone for cost-keyword traffic. Hub structure: hero + AI answer block, average cost in OC, cost-by-appliance table, cost-by-symptom table, diagnostic fee explanation, repair-vs-replace guidance, brand/part availability notes, 8+ FAQs, real testimonials, CTA. Required schema set (Service, FAQPage, BreadcrumbList, AggregateRating). Cross-link from homepage and every service hub.
+
+- **Acceptance:** page live; ≥ 1,500 words; in `sitemap.xml` and `llms.txt`; passes `/visual-review` desktop + mobile.
+- **Pacing:** ship as one hub PR. Hold per-appliance cost sub-pages (L-1) until this hub has indexed and ranked.
+
+#### S-3 Verify shipped state — single audit subagent pass
+Confirm what's actually in production matches the plan's "snapshot" claims:
+- AggregateRating renders on homepage and all hub pages (has it slipped on any newer hub?).
+- `/llms.txt` returns 200 and is current.
+- GA tag is the first child of `<head>` on every page.
+- About page has zero stale personas (user already confirmed "Ashley Davis" not present, but worth a sweep).
+
+- **Acceptance:** subagent report saved to `tasks/seo-verification-2026-05-07.md`; any gaps become single-fix follow-up PRs.
+
+#### S-4 Selective price retrofits on top-traffic articles
+After S-1 lands, identify the 4–5 highest-traffic cost-relevant existing articles via GSC (currently 33 articles; some already cost-themed by slug — `article-dishwasher-cost-orange-county.html`, `article-dryer-repair-cost-orange-county.html`, `article-freezer-cost-rancho-santa-margarita.html`). Retrofit price ranges + disclaimer into those.
+
+- **Acceptance:** at most 1 retrofit PR per week, mixed in with new-content publishing. No batch-update PR touching ≥ 5 articles at once (Google-flag risk).
+
+#### S-5 Author bios on articles — already P4-2 in v3 plan
+Mentioned here so it's not lost. Both audit reports flagged trust signals. Already an open item under P4-2 — start once S-1, S-2, S-3 are done.
+
+### LONG TERM — months 2–12
+
+#### L-1 Per-appliance cost sub-pages
+After S-2 indexes (allow ~3 months for measurable GSC data):
+- `pages/refrigerator-repair-cost-orange-county.html`
+- `pages/washer-repair-cost-orange-county.html`
+- `pages/dryer-repair-cost-orange-county.html`
+- `pages/dishwasher-repair-cost-orange-county.html`
+- `pages/oven-repair-cost-orange-county.html`
+
+Pacing: max 1 per 2–3 weeks. Each is its own hub PR with manual review.
+
+#### L-2 Luxury-brand vertical hubs
+Higher-margin work; less competition than the generic city-hub keyword set. Ship one to test demand, then expand if GSC impressions are positive after 60 days:
+- `pages/sub-zero-repair-orange-county.html`
+- `pages/viking-repair-orange-county.html`
+- `pages/thermador-repair-orange-county.html`
+- (Wolf, Miele, Dacor as later additions if the first three pull traffic)
+
+Required: don't claim "factory authorized" or "certified" — write "we service" per existing brand rule in `seo-content.md`.
+
+#### L-3 Booking widget integration (Housecall Pro / Calendly) — **needs owner sign-off before website work**
+Real conversion lift per audit doc 2. Trade-offs:
+- **Housecall Pro:** ties into dispatch + invoicing if the business already uses it; embed is straightforward.
+- **Calendly:** simpler embed, no dispatch integration, generic look-and-feel.
+- **Custom form (current):** zero third-party dependency; no real-time slot picker.
+
+Decision is operational, not technical. Needs Rufat to confirm which platform (or "stay with current form") before we touch the contact and homepage.
+
+#### L-4 Phase-2 buying guides + cross-link to repair hubs
+Doc 1's Phase 2/3 monetization arc. Only after S-2 is producing measurable organic traffic (≥ 3 months of GSC data). Articles like *"Best refrigerator brands for easy repair"*, *"Best washers for families"*. Each guide cross-links back to the relevant repair hub. Affiliate links optional.
+
+- **Pre-condition:** S-2 ranking signals available; minimum 6 months of cost-hub data.
+
+### OUT OF SCOPE for website work — track separately
+
+These came from audit doc 2 and are operational/business decisions that don't belong in this plan but shouldn't be forgotten:
+- **Maintenance subscription plan** ("Appliance Health Check" annual fee). Needs a pricing model + ops workflow before any website landing page is justified.
+- **SMS-based review acquisition** after every completed job. Tooling decision (Podium / Birdeye / NiceJob / homegrown). Not website work.
+- **High-end-brand ad targeting** (Sub-Zero, Viking, Thermador). Paid-marketing work; pairs with L-2 once those hubs exist.
+- **Technician at-the-door upsells** (vent cleaning, coil vacuuming). Pure operations / training. Out of scope.
+
+If/when these get green-lit operationally, spin them into their own task files (e.g. `tasks/ops-subscription-plan.md`).
+
+### Sequencing summary
+
+```
+S-1 (rule)  →  S-2 (cost hub)  →  S-3 (audit pass)  →  S-4 (selective retrofits, paced)
+                                                 │
+                                                 └─►  S-5 (author bios — P4-2)
+                                                        │
+                                              wait ~3 months for GSC data
+                                                        │
+                                                        ▼
+                                                L-1 (appliance cost sub-pages, paced)
+                                                L-2 (luxury-brand vertical, paced)
+                                                L-3 (booking widget — pending owner)
+                                                        │
+                                              wait ~6 months for cost-hub data
+                                                        │
+                                                        ▼
+                                                L-4 (buying guides + affiliate)
+```
 
 ---
 
