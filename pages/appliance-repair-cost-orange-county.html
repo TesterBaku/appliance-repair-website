@@ -214,23 +214,23 @@
     .symptom-range { font-size: 12px; font-weight: 700; color: #e84c1e; white-space: nowrap; }
 
     /* FACTORS */
-    .factors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
-    .factor-card { background: #fff; border-radius: 12px; padding: 22px 20px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
-    .factor-icon { font-size: 26px; margin-bottom: 10px; }
-    .factor-title { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 6px; }
-    .factor-desc { font-size: 12.5px; color: #666; line-height: 1.65; }
+    .factors-list { list-style: decimal; padding-left: 22px; margin-top: 28px; max-width: 720px; }
+    .factors-list li { font-size: 14px; color: #444; line-height: 1.75; padding: 11px 0; border-bottom: 1px solid #eee; }
+    .factors-list li:last-child { border-bottom: none; }
+    .factors-list li strong { color: #111; font-weight: 700; }
 
     /* DIAGNOSTIC CALLOUT */
     .diagnostic-card { background: linear-gradient(135deg, #1a0a02 0%, #3d1a08 100%); border-radius: 16px; padding: 40px; text-align: center; margin-top: 32px; }
     .diagnostic-card h3 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: -0.4px; }
     .diagnostic-card p { font-size: 14px; color: rgba(255,255,255,0.82); line-height: 1.7; margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto; }
     .diagnostic-badge { display: inline-block; background: #e84c1e; color: #fff; font-size: 22px; font-weight: 800; padding: 14px 32px; border-radius: 12px; margin-bottom: 20px; letter-spacing: -0.3px; }
-    /* PRICING POLICY GRID */
-    .policy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 28px; }
-    .policy-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 20px 18px; text-align: left; }
-    .policy-icon { font-size: 22px; margin-bottom: 8px; }
-    .policy-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.3; }
-    .policy-desc { font-size: 12.5px; color: rgba(255,255,255,0.78); line-height: 1.6; }
+    /* PRICING POLICY ROWS */
+    .policy-rows { margin-top: 24px; text-align: left; }
+    .policy-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
+    .policy-row:last-child { border-bottom: none; }
+    .policy-row-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .policy-row-title { font-size: 13px; font-weight: 700; color: #fff; }
+    .policy-row-text { font-size: 13px; color: rgba(255,255,255,0.78); line-height: 1.65; }
 
     /* REPAIR VS REPLACE */
     .rvr-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
@@ -251,8 +251,8 @@
     .brands-cost-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
     .brand-cost-card { background: #fff; border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
     .brand-tier { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-    .brand-tier.premium { color: #7c3aed; }
-    .brand-tier.standard { color: #0369a1; }
+    .brand-tier.premium { color: #111; }
+    .brand-tier.standard { color: #555; }
     .brand-cost-card h3 { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 6px; }
     .brand-cost-card p { font-size: 12.5px; color: #666; line-height: 1.6; }
 
@@ -276,7 +276,7 @@
     @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
 
     /* CTA BOX */
-    .cta-box { background: linear-gradient(135deg, #e84c1e 0%, #c03a14 100%); border-radius: 16px; padding: 48px 40px; text-align: center; }
+    .cta-box { background: #e84c1e; border-radius: 16px; padding: 48px 40px; text-align: center; }
     .cta-box h2 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: -0.4px; }
     .cta-box p { font-size: 14px; color: rgba(255,255,255,0.85); margin-bottom: 28px; line-height: 1.65; }
     .btn-white { display: inline-block; background: #fff; color: #e84c1e; font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
@@ -287,14 +287,14 @@
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
       .symptom-rows { grid-template-columns: 1fr; }
-      .factors-grid { grid-template-columns: 1fr; }
+      .factors-list { padding-left: 18px; }
       .rvr-grid { grid-template-columns: 1fr; }
       .brands-cost-grid { grid-template-columns: 1fr; }
       .testimonials-grid { grid-template-columns: 1fr; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
       .diagnostic-card { padding: 28px 20px; }
-      .policy-grid { grid-template-columns: 1fr; }
+      .policy-row { gap: 12px; }
       body { padding-bottom: 64px; }
       .sticky-mobile-bar { display: flex; }
     }
@@ -548,21 +548,18 @@
         <h3>Honest, Predictable Pricing</h3>
         <p>A licensed technician diagnoses your appliance, identifies the exact cause, and provides a written estimate before any work begins. The diagnostic visit is $99 — and that $99 is applied toward the repair if you approve it. If you decide not to proceed, you pay only the diagnostic fee.</p>
 
-        <div class="policy-grid">
-          <div class="policy-card">
-            <div class="policy-icon">🗓️</div>
-            <div class="policy-title">30-Day Deposit</div>
-            <div class="policy-desc">Need time to think it over? If you call us back within 30 days of the diagnostic visit to schedule the repair, your $99 still credits as a deposit and is deducted from the repair estimate.</div>
+        <div class="policy-rows">
+          <div class="policy-row">
+            <span class="policy-row-icon">🗓️</span>
+            <div><span class="policy-row-title">30-Day Deposit. </span><span class="policy-row-text">Call us back within 30 days of the diagnostic visit and your $99 still credits as a deposit, deducted from the repair estimate.</span></div>
           </div>
-          <div class="policy-card">
-            <div class="policy-icon">🔌</div>
-            <div class="policy-title">Multi-Unit Visits</div>
-            <div class="policy-desc">More than one appliance acting up? On the same visit, the first unit's diagnostic is $99 and each additional unit is $49.</div>
+          <div class="policy-row">
+            <span class="policy-row-icon">🔌</span>
+            <div><span class="policy-row-title">Multi-Unit Visits. </span><span class="policy-row-text">First unit $99; each additional appliance on the same visit is $49.</span></div>
           </div>
-          <div class="policy-card">
-            <div class="policy-icon">🎖️</div>
-            <div class="policy-title">20% Off Labor — Seniors &amp; Returning Customers</div>
-            <div class="policy-desc">Customers 60 and over and anyone who has booked a repair with us before automatically receive 20% off labor. Doesn't combine with other promotions; we may verify age for the senior discount.</div>
+          <div class="policy-row">
+            <span class="policy-row-icon">🎖️</span>
+            <div><span class="policy-row-title">20% Off Labor. </span><span class="policy-row-text">Repeat customers and seniors 60+ receive 20% off labor. Doesn't combine with other promotions; we may verify age.</span></div>
           </div>
         </div>
 
@@ -582,38 +579,14 @@
       <h2 class="h2-standard" style="text-align:center;">What Affects the Repair Cost?</h2>
       <p style="text-align:center;font-size:13.5px;color:#888;margin-top:10px;">Five variables account for most price variation between similar repairs.</p>
 
-      <div class="factors-grid">
-        <div class="factor-card">
-          <div class="factor-icon">🔧</div>
-          <div class="factor-title">The Specific Failure</div>
-          <div class="factor-desc">A faulty thermostat costs far less than a compressor. The symptom matters, but the root cause matters more. Diagnosis pins this down before any commitment.</div>
-        </div>
-        <div class="factor-card">
-          <div class="factor-icon">🏷️</div>
-          <div class="factor-title">Brand &amp; Parts Availability</div>
-          <div class="factor-desc">Whirlpool, GE, and Samsung parts are widely stocked. Sub-Zero, Viking, and Thermador parts are often proprietary and may need to be ordered — adding time and cost.</div>
-        </div>
-        <div class="factor-card">
-          <div class="factor-icon">📅</div>
-          <div class="factor-title">Age of the Appliance</div>
-          <div class="factor-desc">Older units may have multiple worn components. A single trip can address the primary failure, but secondary issues sometimes surface after the repair — we flag these in the estimate.</div>
-        </div>
-        <div class="factor-card">
-          <div class="factor-icon">⚙️</div>
-          <div class="factor-title">Repair Complexity</div>
-          <div class="factor-desc">Sealed-system refrigerator work and smart-appliance control boards take more labor than a belt or latch replacement. Labor time scales with how deep the technician has to go into the unit.</div>
-        </div>
-        <div class="factor-card">
-          <div class="factor-icon">🚚</div>
-          <div class="factor-title">Parts on the Truck</div>
-          <div class="factor-desc">Common parts for the most popular brands are stocked on our vehicles — this enables same-visit repairs without added cost. Specialty parts may require a follow-up visit after ordering.</div>
-        </div>
-        <div class="factor-card">
-          <div class="factor-icon">📍</div>
-          <div class="factor-title">Same-Day Service</div>
-          <div class="factor-desc">We don't charge a premium for same-day appointments. The price is the same whether you call today or schedule a week out — availability is the only variable.</div>
-        </div>
-      </div>
+      <ol class="factors-list">
+        <li><strong>The specific failure.</strong> A faulty thermostat costs far less than a compressor. The root cause matters more than the symptom; diagnosis pins this down before any commitment.</li>
+        <li><strong>Brand and parts availability.</strong> Whirlpool, GE, and Samsung parts are widely stocked. Sub-Zero, Viking, and Thermador parts are often proprietary and may need to be ordered, adding time and cost.</li>
+        <li><strong>Age of the appliance.</strong> Older units may have multiple worn components. Secondary issues sometimes surface after the primary repair; we flag these in the estimate before any work starts.</li>
+        <li><strong>Repair complexity.</strong> Sealed-system refrigerator work and smart-appliance control boards take more labor than a belt or latch replacement. Labor time scales with how deep the technician has to go.</li>
+        <li><strong>Parts on the truck.</strong> Common parts for the most popular brands ride on our vehicles, enabling same-visit repairs at no added cost. Specialty parts may require a follow-up after ordering.</li>
+        <li><strong>Scheduling.</strong> We don't charge a premium for same-day service. The price is the same whether you call today or book a week out; availability is the only variable.</li>
+      </ol>
     </div>
   </section>
 
