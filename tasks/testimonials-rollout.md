@@ -147,32 +147,30 @@ Reviews: Steve D (cooktop/spark module), Susan Ryan (oven igniter), Roger Antoni
 
 ---
 
-## Phase 4 — Testimonials standalone page (1 PR)
+## Phase 4 — Testimonials standalone page ✅ DONE — PR #176 (merged 2026-05-07)
 
-### Task 4.1 — Refresh `pages/testimonials.html`
-Currently advertises 76 reviews in meta but renders 3. Goal: render the full pool.
-
-- [ ] Render all 74 reviews with complete bodies as cards (`bodyStatus: "complete"`)
-- [ ] Group / filter by appliance type (refrigerator, washer, dryer, etc.) — UI affordance for visitors
-- [ ] Include all 74 in JSON-LD `Review` schema (in addition to existing `AggregateRating`)
-- [ ] The 2 photo-only / no-body records may be used as image-only entries below the quoted reviews, clearly separated
-- [ ] Handle `bodyHasTypos: true` reviews with light edits
-- [ ] Verify mobile layout — long page, must remain performant
-
-**PR title:** `feat(testimonials-page): render full canonical pool of 76 reviews`
-**Files affected:** `pages/testimonials.html`
-**Tests:** `npm test`, `npm run screenshot`, manual mobile + desktop viewport
+### ~~Task 4.1~~ ✅ — `pages/testimonials.html`
+- 73 review cards from canonical pool (74 complete-body minus Jeff Lane Songs, flagged non-person)
+- Filter pills: All / Washer / Dryer / Refrigerator & Freezer / Dishwasher / Oven & Stove / General
+- All 73 in JSON-LD `review:[]` array inside LocalBusiness schema
+- All `bodyHasTypos` reviews light-edited for display
+- Uniform `#444444` avatars, aria-labels, aria-hidden
+- `scripts/build-testimonials-html.js` added for future pool updates
+- `scripts/generate-testimonials-page.js` added as helper
 
 ---
 
-## Phase 5 — About page audit (1 PR)
+## Phase 5 — About page audit ✅ DONE — PR #177 (merged 2026-05-07)
 
-### Task 5.1 — `pages/about.html`
-The grep found testimonial markup on this page. Audit and either:
-- (a) Remove testimonial section if it's redundant with homepage / testimonials page
-- (b) Replace with 2–3 reviews from the pool that emphasize trust/longevity themes (e.g., Steve D's long-form, Kathy Calderon's "special trip on Saturday" story, Suzan Hier's "second time using their services")
+### ~~Task 5.1~~ ✅ — `pages/about.html`
+Chose option (b) — replaced with 3 trust/repeat-themed pool reviews.
 
-**PR title:** `feat(about): rationalize testimonials section against canonical pool`
+**Issues found and fixed:**
+- All 3 existing reviews were at count=2 (rule violated)
+- Noelle B's quote had 2 fabricated sentences not in the pool — removed entirely
+- Stars had no aria-label; no initials avatars; missing AggregateRating schema
+
+**New reviews:** Suzan Hier ("second time I have used their services"), Wendy Henderson (honesty theme), Jeff C ("Always a timely and competent repair")
 
 ---
 
