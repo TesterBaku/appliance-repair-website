@@ -300,7 +300,13 @@ These three files must exist at the root and return 200:
 - Use real, specific details (repair timelines, part names, symptoms)
 - Every section should answer a question the reader has
 - No filler phrases ("In conclusion", "It goes without saying")
-- No dollar amounts or price ranges (unless cost content is explicitly approved for the run)
+- **Estimated price ranges are allowed in cost-focused content** (cost hub pages, repair-cost articles, repair-vs-replace guides). Use *ranges* (e.g. "$150–$650"), never flat rates (e.g. "$280"). Prices are estimates, not quotes.
+- Every page or section that displays prices **must include this disclaimer verbatim** somewhere on the page (above the table is preferred):
+
+  > *Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.*
+
+- Non-cost articles (DIY guides, symptom guides, maintenance guides) should still avoid prices unless cost is integral to the topic.
+- `/review` flags as **FAIL**: any flat rate; any cost section missing the disclaimer; any non-cost article with prices but no clear cost-content angle.
 
 ### Human-like writing rules (required)
 - **Never open with a keyword phrase as the subject.** Sentences like "A washing machine not spinning in Huntington Beach is..." or "Refrigerator repair in Santa Ana, CA is..." are unnatural and robotic. Start with the reader's experience instead: "You open the lid and the clothes are still soaking wet." or "Your oven stopped heating right before dinner."
