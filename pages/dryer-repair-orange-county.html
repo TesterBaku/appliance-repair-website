@@ -80,6 +80,14 @@
     .faq-item.open .icon { transform: rotate(45deg); }
 
     .testimonials-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; align-items: stretch; }
+    .testimonial-card { background: #fff; border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
+    .stars { color: #f59e0b; font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .testimonial-quote { font-size: 13.5px; color: #444; line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .testimonial-name { font-size: 12px; color: #666; font-weight: 500; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
 
     .cta-box { background: linear-gradient(135deg, #e84c1e 0%, #c03a14 100%); border-radius: 16px; padding: 48px 40px; text-align: center; }
     .cta-box h2 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: -0.4px; }
@@ -95,6 +103,7 @@
       .brands-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .testimonials-row { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
       .safety-box { padding: 22px 18px; }
@@ -137,7 +146,13 @@
       "postalCode": "90680",
       "addressCountry": "US"
     },
-    "areaServed": "Orange County, CA"
+    "areaServed": "Orange County, CA",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "76",
+      "bestRating": "5"
+    }
   }
   </script>
 
@@ -200,6 +215,22 @@
         "name": "How do I know if it is worth repairing my dryer?",
         "acceptedAnswer": { "@type": "Answer", "text": "Dryers typically last 13 years. If your dryer is under 10 years old and the repair cost is less than half the price of a new unit, repair is nearly always the better value — a quality replacement dryer runs $600–$1,000 installed. Common repairs (thermal fuse, heating element, rollers) are well under that threshold. We give you an honest quote before any work starts." }
       }
+    ]
+  }
+  </script>
+
+  <!-- SCHEMA: Review -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      { "@type": "Review", "author": { "@type": "Person", "name": "Cindy Montefu" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG has been fantastic while fixing our dryer! His work is thorough and his customer service is A+++! He will definitely be my 1st call when we need another repair! Thanks again AG!", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } },
+      { "@type": "Review", "author": { "@type": "Person", "name": "Katie Anne Salen" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear — we will call him again when another appliance needs repair.", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } },
+      { "@type": "Review", "author": { "@type": "Person", "name": "Julie L." }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliances, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help.", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } },
+      { "@type": "Review", "author": { "@type": "Person", "name": "Ernesto Ruiz" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Awesome work, fixed my dryer, and resolved all my issues in a timely manner. Good price as well.", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } },
+      { "@type": "Review", "author": { "@type": "Person", "name": "Dena Fisher" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG went above and beyond on the repair of my dryer. Not only did he fix the problem, but he also cleaned all the vents and made sure the dryer was in proper working condition.", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } },
+      { "@type": "Review", "author": { "@type": "Person", "name": "Cheryl Lemire" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Absolutely amazing service! Timely, cost was right, knowledgeable, great customer experience! Definitely will be using them again! Thank you! Dryer is back in action!", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } }
     ]
   }
   </script>
@@ -480,22 +511,57 @@
   </section>
 
   <!-- TESTIMONIALS -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">What Orange County Customers Say</h2>
-      <div class="testimonials-row">
-        <div style="background:#fff;border-radius:14px;padding:28px 24px;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <div style="color:#f59e0b;font-size:16px;margin-bottom:12px;">★★★★★</div>
-          <p style="font-size:13.5px;color:#333;line-height:1.75;margin:0 0 16px;">"The dryer repairman was quick, efficient, and very knowledgeable. He clearly explained the issue and the fix, kept me informed throughout the process, and was friendly and professional the entire time. Great service from start to finish!"</p>
-          <div style="font-size:13px;font-weight:700;color:#111;">Jennifer Trette</div>
-          <div style="font-size:11.5px;color:#888;margin-top:3px;">Dryer Repair · Orange County, CA · February 2026</div>
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Dryer Repair Customers Say</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:8px;">From our 76 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG has been fantastic while fixing our dryer! His work is thorough and his customer service is A+++! He will definitely be my 1st call when we need another repair! Thanks again AG!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">CM</div>
+          <div class="testimonial-name">Cindy Montefu — Dryer repair</div>
         </div>
-        <div style="background:#fff;border-radius:14px;padding:28px 24px;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <div style="color:#f59e0b;font-size:16px;margin-bottom:12px;">★★★★★</div>
-          <p style="font-size:13.5px;color:#333;line-height:1.75;margin:0 0 16px;">"AG has been fantastic while fixing our dryer!! His work is thorough &amp; his customer service is A+++!! He will definitely be my 1st call when we need another repair!! Thanks again AG!!"</p>
-          <div style="font-size:13px;font-weight:700;color:#111;">Cindy Montefu</div>
-          <div style="font-size:11.5px;color:#888;margin-top:3px;">Dryer Repair · Orange County, CA · January 2026</div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear — we will call him again when another appliance needs repair."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">KS</div>
+          <div class="testimonial-name">Katie Anne Salen — Dryer repair</div>
         </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliances, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JL</div>
+          <div class="testimonial-name">Julie L. — Dryer repair</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Awesome work, fixed my dryer, and resolved all my issues in a timely manner. Good price as well."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">ER</div>
+          <div class="testimonial-name">Ernesto Ruiz — Dryer repair</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG went above and beyond on the repair of my dryer. Not only did he fix the problem, but he also cleaned all the vents and made sure the dryer was in proper working condition."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">DF</div>
+          <div class="testimonial-name">Dena Fisher — Dryer repair</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Absolutely amazing service! Timely, cost was right, knowledgeable, great customer experience! Definitely will be using them again! Thank you! Dryer is back in action!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">CL</div>
+          <div class="testimonial-name">Cheryl Lemire — Dryer repair</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:#e84c1e;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
