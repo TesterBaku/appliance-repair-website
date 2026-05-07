@@ -41,7 +41,13 @@
       "postalCode": "90680",
       "addressCountry": "US"
     },
-    "areaServed": ["Orange County CA","Irvine CA","Anaheim CA","Santa Ana CA","Huntington Beach CA","Costa Mesa CA","Garden Grove CA","Fullerton CA","Orange CA"]
+    "areaServed": ["Orange County CA","Irvine CA","Anaheim CA","Santa Ana CA","Huntington Beach CA","Costa Mesa CA","Garden Grove CA","Fullerton CA","Orange CA"],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "76",
+      "bestRating": "5"
+    }
   }
   </script>
   <script type="application/ld+json">
@@ -85,6 +91,23 @@
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../shared.css" />
+
+  <!-- SCHEMA: Review -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      { "@type": "Review", "author": { "@type": "Person", "name": "Suzan Hier" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "They were fast and efficient and very pleasant. This is the second time I have used their services and will not hesitate to use them again.", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } },
+      { "@type": "Review", "author": { "@type": "Person", "name": "Wendy Henderson" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Technician was on time and polite. Could have charged me a bunch of money for unnecessary repairs but he was honest and didn't do that. I will definitely call again when another appliance needs attention.", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } },
+      { "@type": "Review", "author": { "@type": "Person", "name": "Jeff C" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Always a timely and competent repair. Highly recommend.", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } }
+    ]
+  }
+  </script>
+
+  <style>
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; background: #444444; margin: 16px auto 6px; }
+  </style>
 </head>
 <body>
 
@@ -255,22 +278,25 @@
       <p style="font-size:13px;color:#888;margin-top:10px;">5.0 ★★★★★ · 76 Google reviews</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px;">
         <div class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-quote">"The dryer repairman was quick, efficient, and very knowledgeable. He clearly explained the issue and the fix, kept me informed throughout the process, and was friendly and professional the entire time. Great service from start to finish!"</p>
-          <div class="testimonial-name">Jennifer Trette</div>
-          <div class="testimonial-role">Dryer Repair · February 2026</div>
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"They were fast and efficient and very pleasant. This is the second time I have used their services and will not hesitate to use them again."</p>
+          <div class="t-initial" aria-hidden="true">SH</div>
+          <div class="testimonial-name">Suzan Hier</div>
+          <div class="testimonial-role">Appliance Repair · May 2025</div>
         </div>
         <div class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-quote">"AG helped our family with both our Thermador dishwasher and stove top — both times he did an excellent and professional job. He always took the time to explain the issues thoroughly. I would highly recommend Universal Appliances."</p>
-          <div class="testimonial-name">Noelle B.</div>
-          <div class="testimonial-role">Dishwasher &amp; Stove Repair · March 2026</div>
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Technician was on time and polite. Could have charged me a bunch of money for unnecessary repairs but he was honest and didn't do that. I will definitely call again when another appliance needs attention."</p>
+          <div class="t-initial" aria-hidden="true">WH</div>
+          <div class="testimonial-name">Wendy Henderson</div>
+          <div class="testimonial-role">Appliance Repair · February 2026</div>
         </div>
         <div class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-quote">"Absolutely excellent! AG fixed my refrigerator in a timely and professional manner with great customer service. He is now my go-to for appliance repair. I highly recommend AG as your tech."</p>
-          <div class="testimonial-name">Marcy Kucik</div>
-          <div class="testimonial-role">Refrigerator Repair · February 2026</div>
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Always a timely and competent repair. Highly recommend."</p>
+          <div class="t-initial" aria-hidden="true">JC</div>
+          <div class="testimonial-name">Jeff C</div>
+          <div class="testimonial-role">Appliance Repair · March 2026</div>
         </div>
       </div>
       <div style="margin-top:28px;">
