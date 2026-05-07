@@ -84,6 +84,16 @@
     .btn-white { display: inline-block; background: #fff; color: #e84c1e; font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
     .btn-white-outline { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.6); }
 
+    /* Testimonials */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .testimonial-card { background: #fff; border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
+    .stars { color: #f59e0b; font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .testimonial-quote { font-size: 13.5px; color: #444; line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .testimonial-name { font-size: 12px; color: #888; font-weight: 500; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
     @media (max-width: 768px) {
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
@@ -127,7 +137,13 @@
     "areaServed": [
       { "@type": "City", "name": "Irvine", "addressRegion": "CA" },
       "Orange County, CA"
-    ]
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "76",
+      "bestRating": "5"
+    }
   }
   </script>
 
@@ -207,6 +223,58 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven & Stove Repair" } }
       ]
     }
+  }
+  </script>
+
+  <!-- SCHEMA: Review -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Molla Islam" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "This guy is wonderful. Not only fixed the fridge. He took time and no rush. He cleaned everything and even before he left we heard the sound of making ice cubes. On top of that he fixed the gas flow of the burner as a courtesy. Nice guy. Very friendly and professional as well.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Russell Kadota" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "A.G. arrived with the part my washing machine needed and replaced it very quickly. He was very courteous and professional.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Katie Anne Salen" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear — we will call him again when another appliance needs repair.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Robert Clemmons" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "They saved Christmas entertaining by coming before Christmas (though it took a couple trips)! Thank you for a job well done!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Steve D" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "My cooktop burners kept clicking and sparking. We didn't feel that it was safe to use. Called AG and he quickly diagnosed the problem as a bad spark module, came out the same day, ordered the part and fixed it the next day, as soon as the part came in. He was fast, efficient, with fair pricing. He was a great communicator and kept me in the loop the whole time. Highly recommended and will use again. Thanks, AJ!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Dave Brisbin" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Our repairman was great! On time, personable, knowledgeable, and fixed our problem. Looking to him to repair another appliance as well. We'll be back!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      }
+    ]
   }
   </script>
 </head>
@@ -467,6 +535,62 @@
           <div class="step-title">Repair &amp; Warranty</div>
           <div class="step-desc">Most repairs finish in a single visit. All work comes with a warranty on parts and labor.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Irvine Customers Say</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:8px;">From our 76 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"This guy is wonderful. Not only fixed the fridge. He took time and no rush. He cleaned everything and even before he left we heard the sound of making ice cubes. On top of that he fixed the gas flow of the burner as a courtesy. Nice guy. Very friendly and professional as well."</p>
+          <div class="t-initial" style="background:#3b82f6;">MI</div>
+          <div class="testimonial-name">Molla Islam — Refrigerator &amp; cooktop repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"A.G. arrived with the part my washing machine needed and replaced it very quickly. He was very courteous and professional."</p>
+          <div class="t-initial" style="background:#10b981;">RK</div>
+          <div class="testimonial-name">Russell Kadota — Washer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear — we will call him again when another appliance needs repair."</p>
+          <div class="t-initial" style="background:#8b5cf6;">KS</div>
+          <div class="testimonial-name">Katie Anne Salen — Dryer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"They saved Christmas entertaining by coming before Christmas (though it took a couple trips)! Thank you for a job well done!"</p>
+          <div class="t-initial" style="background:#ef4444;">RC</div>
+          <div class="testimonial-name">Robert Clemmons — Dishwasher repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"My cooktop burners kept clicking and sparking. We didn't feel that it was safe to use. Called AG and he quickly diagnosed the problem as a bad spark module, came out the same day, ordered the part and fixed it the next day, as soon as the part came in. He was fast, efficient, with fair pricing. He was a great communicator and kept me in the loop the whole time. Highly recommended and will use again. Thanks, AJ!"</p>
+          <div class="t-initial" style="background:#f59e0b;">SD</div>
+          <div class="testimonial-name">Steve D — Cooktop repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Our repairman was great! On time, personable, knowledgeable, and fixed our problem. Looking to him to repair another appliance as well. We'll be back!"</p>
+          <div class="t-initial" style="background:#06b6d4;">DB</div>
+          <div class="testimonial-name">Dave Brisbin — Refrigerator &amp; freezer repair · Orange County, CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:#3b82f6;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
