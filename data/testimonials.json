@@ -285,8 +285,10 @@
       "dateText": "3 months ago",
       "body": "AG arrived on time and fixed the oven. Great work!",
       "bodyStatus": "complete",
+      "nameFlag": "non-person",
       "profilePhoto": null,
-      "reviewPhoto": "https://lh3.googleusercontent.com/grass-cs/ANxoTn0F2o2nj1hlUl244lw5puCxxsTMexW0G_dtTjvQ0K7n30MyM7EtwJqbazzy4fgvqRTZg2W2_Hc_gt7A3QEaR-U4f4C2E8iVa_UEYPP-1qybj05oR-n_W6tSMY2yFHzKpUao4KsT3cYda5o=w600-h450-p-k-no"
+      "reviewPhoto": "https://lh3.googleusercontent.com/grass-cs/ANxoTn0F2o2nj1hlUl244lw5puCxxsTMexW0G_dtTjvQ0K7n30MyM7EtwJqbazzy4fgvqRTZg2W2_Hc_gt7A3QEaR-U4f4C2E8iVa_UEYPP-1qybj05oR-n_W6tSMY2yFHzKpUao4KsT3cYda5o=w600-h450-p-k-no",
+      "_note": "Google Maps listing for a music entity, not a residential customer. Do not display on hub pages."
     },
     {
       "id": "google-emily-palmer-2026-03",
