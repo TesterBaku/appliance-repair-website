@@ -101,6 +101,16 @@
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
     }
+
+    /* Testimonials */
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .testimonial-card { background: #fff; border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
+    .stars { color: #f59e0b; font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .testimonial-quote { font-size: 13.5px; color: #444; line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .testimonial-name { font-size: 12px; color: #888; font-weight: 500; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Orange, CA) -->
@@ -124,7 +134,13 @@
     "areaServed": [
       { "@type": "City", "name": "Orange", "addressRegion": "CA" },
       "Orange County, CA"
-    ]
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "76",
+      "bestRating": "5"
+    }
   }
   </script>
 
@@ -221,6 +237,58 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven &amp; Stove Repair" } }
       ]
     }
+  }
+  </script>
+
+  <!-- SCHEMA: Review -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Mark Koss" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "He did a fantastic job!!! Thank you so much for your help!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Cheryl Kirkpatrick" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Very responsive, timely and professional. Price was reasonable. Would definitely use again.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "rick deangelo" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Prompt, professional, clean, reasonably priced — would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Susie Arii" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Thank you AG for servicing my washer and dryer!!!",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Stephen Stephen" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "The gentleman was completely professional, clean, cleaned up after himself. It was an absolute pleasure having him repair my appliance — being the washer and dryer. Thank you so much",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Susan Ryan" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG replaced our oven igniter today on short notice. Very efficient and friendly. He was recommended by a friend.",
+        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
+      }
+    ]
   }
   </script>
 </head>
@@ -463,6 +531,62 @@
           <div class="step-title">Repair &amp; Warranty</div>
           <div class="step-desc">Most repairs complete in a single visit. All work carries a warranty on parts and labor.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Orange Customers Say</h2>
+      <p style="font-size:13.5px;color:#888;margin-top:8px;">From our 76 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"He did a fantastic job!!! Thank you so much for your help!"</p>
+          <div class="t-initial" style="background:#3b82f6;">MK</div>
+          <div class="testimonial-name">Mark Koss — Appliance repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Very responsive, timely and professional. Price was reasonable. Would definitely use again."</p>
+          <div class="t-initial" style="background:#10b981;">CK</div>
+          <div class="testimonial-name">Cheryl Kirkpatrick — Appliance repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Prompt, professional, clean, reasonably priced — would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure."</p>
+          <div class="t-initial" style="background:#8b5cf6;">RD</div>
+          <div class="testimonial-name">Rick DeAngelo — Washer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you AG for servicing my washer and dryer!!!"</p>
+          <div class="t-initial" style="background:#ef4444;">SA</div>
+          <div class="testimonial-name">Susie Arii — Washer &amp; dryer service · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"The gentleman was completely professional, clean, cleaned up after himself. It was an absolute pleasure having him repair my appliance — being the washer and dryer. Thank you so much"</p>
+          <div class="t-initial" style="background:#f59e0b;">SS</div>
+          <div class="testimonial-name">Stephen S. — Washer &amp; dryer repair · Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-quote">"AG replaced our oven igniter today on short notice. Very efficient and friendly. He was recommended by a friend."</p>
+          <div class="t-initial" style="background:#06b6d4;">SR</div>
+          <div class="testimonial-name">Susan Ryan — Oven repair · Orange County, CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:#3b82f6;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
