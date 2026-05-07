@@ -177,6 +177,9 @@
   <script type="application/ld+json">
   { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "paul guns" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Agie was terrific!! Very honest, very friendly and highly professional!! Great \"customer service!!\"", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } }
   </script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Katherine Bosboom" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Excellent service. Fair prices!! Highly recommend!!", "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" } }
+  </script>
 
   <style>
     .hub-hero { position: relative; min-height: 480px; display: flex; align-items: center; text-align: center; padding-top: 70px; overflow: hidden; }
@@ -199,10 +202,8 @@
     .cost-table tr:nth-child(even) td { background: #fafafa; }
     .cost-table tr:hover td { background: #fff7ed; }
     .cost-range { font-weight: 700; color: #e84c1e; white-space: nowrap; }
-    .cost-note { font-size: 12px; color: #666; margin-top: 4px; }
-
     /* DISCLAIMER */
-    .disclaimer-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 13px; color: #9a3412; font-style: italic; }
+    .disclaimer-box { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 13px; color: #555; }
 
     /* SYMPTOM GRID */
     .symptom-section { margin-top: 32px; }
@@ -281,8 +282,13 @@
     .cta-box p { font-size: 14px; color: rgba(255,255,255,0.85); margin-bottom: 28px; line-height: 1.65; }
     .btn-white { display: inline-block; background: #fff; color: #e84c1e; font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
     .btn-white-outline { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.6); }
+    .mid-cta-strip { display: flex; align-items: center; justify-content: center; gap: 28px; padding: 24px 32px; background: #f7fafc; border-radius: 12px; margin-top: 32px; border: 1px solid #e2e8f0; }
+    .mid-cta-strip .mid-cta-phone { font-size: 18px; font-weight: 700; color: #e84c1e; text-decoration: none; letter-spacing: -0.3px; }
+    .mid-cta-strip .mid-cta-text { font-size: 13px; color: #555; }
+    .mid-cta-strip .mid-cta-book { font-size: 13px; font-weight: 600; color: #111; text-decoration: underline; text-underline-offset: 2px; }
 
     @media (max-width: 768px) {
+      .mid-cta-strip { display: none; }
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
@@ -391,7 +397,7 @@
     <div class="hub-hero-overlay"></div>
     <div class="hub-hero-content">
       <h1>How Much Does Appliance Repair Cost in Orange County?</h1>
-      <p>Transparent pricing for every major appliance. $99 diagnostic fee applied toward your repair. Same-day service, no hidden charges.</p>
+      <p>No hidden charges. $99 diagnostic fee applied toward your repair. Transparent pricing for every major appliance. Same-day service available.</p>
       <div class="hub-cta-row">
         <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
         <a href="contact.html" class="btn-outline-white">Book a Repair Visit</a>
@@ -721,6 +727,18 @@
     </div>
   </section>
 
+  <!-- MID-SCROLL CTA (desktop only) -->
+  <section class="section section-white" style="padding-top:0;padding-bottom:48px;">
+    <div class="container">
+      <div class="mid-cta-strip">
+        <span class="mid-cta-text">Ready to book a repair?</span>
+        <a href="tel:+19496295365" class="mid-cta-phone">Call (949) 629-5365</a>
+        <span class="mid-cta-text">or</span>
+        <a href="contact.html" class="mid-cta-book">Book online</a>
+      </div>
+    </div>
+  </section>
+
   <!-- TESTIMONIALS -->
   <section class="section section-gray" style="text-align:center;">
     <div class="container">
@@ -731,36 +749,43 @@
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"I had a great experience with this appliance repair service. AG showed up on time, quickly diagnosed the issue with my freezer, and explained everything in a way that actually made sense. No guesswork, no upselling, just straightforward, honest work."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">AH</div>
+          <div class="t-initial" aria-hidden="true" style="background:#1a0a02;">AH</div>
           <div class="testimonial-name">Andrea Hall — Freezer repair</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG was polite, on time, fairly priced and very knowledgeable."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JD</div>
+          <div class="t-initial" aria-hidden="true" style="background:#3d1a08;">JD</div>
           <div class="testimonial-name">John Dinger — Appliance repair</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Very quick to come out. Helped explore all options to save money. Had to take in to shop but quickly removed and reinstalled after just a couple days. Very responsive and kept me updated."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">SK</div>
+          <div class="t-initial" aria-hidden="true" style="background:#90500c;">SK</div>
           <div class="testimonial-name">Shawne King — Appliance repair</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Great Service. Arrived promptly, fair pricing"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">DL</div>
+          <div class="t-initial" aria-hidden="true" style="background:#555;">DL</div>
           <div class="testimonial-name">D Light — Appliance repair</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Agie was terrific!! Very honest, very friendly and highly professional!! Great &quot;customer service!!&quot;"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">PG</div>
+          <div class="t-initial" aria-hidden="true" style="background:#333;">PG</div>
           <div class="testimonial-name">Paul Guns — Appliance repair</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Excellent service. Fair prices!! Highly recommend!!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#7c4a1f;">KB</div>
+          <div class="testimonial-name">Katherine Bosboom — Appliance repair</div>
         </div>
 
       </div>
