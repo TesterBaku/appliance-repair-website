@@ -28,7 +28,7 @@ The following items from earlier plans are **done** and removed from the active 
 - Branded `404.html` ships at root — has GA tag, "Page Not Found" h1, 62 links to popular hubs/articles.
 - `images/hero-homepage.jpg` exists in production (verified — 200 OK, 317 KB JPEG).
 - Sitemap on disk and live both list 51 URLs and stay in sync.
-- 6 testimonials rendered on homepage (real names + cities + appliance types).
+- 6 testimonials rendered on homepage (real names + cities + appliance types). **Superseded by testimonials rollout below.**
 - `logs/CONTENT_LOG.md` and `logs/AUDIT_LOG.md` created — P0-1 (PR #121, merged 2026-05-06).
 - `logo.png` optimized 973 KB → 10.7 KB — P6-1 (PR #110, merged 2026-05-05). Already well under 100 KB.
 - `AggregateRating` added to homepage `LocalBusiness` schema (4.9 / 76 reviews from GBP) — P1-1 (PR #124, merged 2026-05-06).
@@ -36,6 +36,16 @@ The following items from earlier plans are **done** and removed from the active 
 - City-page meta descriptions verified ≤ 160 chars on all 6 pages; no changes needed — P1-3 (verified 2026-05-06).
 
 That's basically all of P0, all of P1, and most of P6 from the previous v2 plan. What's below is what's still open.
+
+### Testimonials rollout — PRs #151–#165, #166, #171–#174, #176–#178 (May 2026) ✅
+Canonical 76-review pool (`data/testimonials.json`) wired to all 16 pages that display reviews:
+- **Homepage** (PRs #153–#155): 9 canonical reviews in 3×3 grid, AggregateRating updated to 76, initials avatars.
+- **8 city hubs** (PRs #156–#165): 6 reviews each, AggregateRating + Review JSON-LD. A11y sweep: contrast #888→#666, aria-labels, avatar Workshop Charcoal #444444. Jeff Lane Songs (non-person) replaced with Arzuman Qarayev on Anaheim hub.
+- **5 service hubs** (PRs #166, #171–#174): 6 appliance-matched reviews each, align-items:stretch, aria-hidden avatars, no location suffix.
+- **Testimonials page** (PR #176): full rewrite — 73 cards, 7 filter pills, 73 Review JSON-LD entries, `scripts/build-testimonials-html.js` generator added.
+- **About page** (PR #177): fabricated Noelle B sentences removed; 3 overused reviews replaced; AggregateRating + Review schema added.
+- **Skill + rules** (PRs #151–#152): `rules/testimonial-selection.md` created; `/seo-hub` skill wired to pool; pool fixes (Mark Rivera title-case, Jeff Lane Songs `nameFlag: "non-person"`).
+- **≤2-overlap rule** tracked in `tasks/testimonial-usage.md` — all pages compliant.
 
 ### Impeccable design remediation — PRs #137–#144 (2026-05-06)
 All five impeccable audit PRs merged and `tasks/impeccable-audit-plan.md` retired:
