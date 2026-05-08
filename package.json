@@ -11,6 +11,8 @@
     "build:sitemap": "node scripts/build-sitemap.js",
     "clean:images": "node scripts/clean-images.js",
     "optimize:logo": "node scripts/optimize-logo.js",
+    "build:favicons": "node scripts/build-favicons.js",
+    "apply:favicon-metadata": "node scripts/apply-favicon-metadata.js",
     "build:tailwind": "tailwindcss -i tailwind.input.css -o tailwind.css --minify",
     "prepare": "husky"
   },
