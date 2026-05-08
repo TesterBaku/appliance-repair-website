@@ -105,15 +105,36 @@ npm run test:all         # runs all three above in sequence
 
 ---
 
+## UI/UX Development Requirement
+
+Any PR that touches `.html` or `.css` files **must** use the impeccable skill before creating the PR:
+
+1. **Run `/impeccable critique` on every changed page.** Read the full FAIL / WARN / PASS report.
+2. **Fix all FAIL items.** Do not open the PR until impeccable returns zero FAILs on all changed pages.
+3. **Include the impeccable score** in the PR description (e.g. "Impeccable: 35/40, 0 FAILs").
+4. **WARN items** are advisory — list them in the PR description so the reviewer can decide whether to address them.
+
+**What impeccable flags as FAIL (design blockers):**
+- Side-stripe accent borders (`border-left` / `border-right` > 1px as colored decoration)
+- Gradient text (`background-clip: text` + gradient fill)
+- Glassmorphism used decoratively
+- Identical icon+heading+text card grids
+- Em dashes (`—`) in user-visible copy
+- Off-palette colors not defined in `DESIGN.md`
+- `color: #888` or dimmer for meaningful text (minimum `#666` on white backgrounds)
+- "Book" / "Schedule" CTAs linking to the wrong destination
+
+This applies to: new pages, redesigned sections, copy changes, CSS refactors, and hub pages.
+
 ## Code Review
 
 ### What to check
-- Visual fidelity against the reference image
+- Visual fidelity against the reference design
 - Tailwind classes are correct and not redundant
-- No hardcoded colors outside of Tailwind config
-- Images use `placehold.co` if source not available
+- No hardcoded colors outside of `DESIGN.md` palette
 - No unused CSS or dead code
 - Mobile layout works at 375px width
+- **Impeccable critique shows 0 FAILs on all changed HTML/CSS pages**
 
 ### Review rules
 - At least one approval required before merging

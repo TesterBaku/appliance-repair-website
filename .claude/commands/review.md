@@ -26,15 +26,54 @@ For any HTML file touched, read the complete `<head>` section and the full page 
 
 ### Step 3 — Run the tests
 ```bash
-npm test           # must exit 0
+npm test                 # link checker — must exit 0
+npm run test:functional  # 165 functional tests — must exit 0
 ```
-If tests fail, the PR is an automatic **FAIL** — do not proceed with the rest of the review.
+If either test fails, the PR is an automatic **FAIL** — do not proceed with the rest of the review.
+
+### Step 3b — Run impeccable critique (UI/UX PRs only)
+**Trigger:** the diff touches any `.html` or `.css` file.
+
+Spawn `/impeccable critique` on every HTML page changed in this PR. Collect the structured PASS / WARN / FAIL report. Any FAIL item from impeccable is a **blocker** — the PR cannot merge until it is fixed.
+
+Key impeccable checks to enforce as blockers:
+- No `border-left` or `border-right` > 1px used as a colored accent (side-stripe ban)
+- No gradient text (`background-clip: text` + gradient fill)
+- No glassmorphism used decoratively (backdrop-filter blur + glass card)
+- No identical icon+heading+text card grids
+- No em dashes (`—`) in any user-visible copy
+- No off-palette colors (new colors not defined in `DESIGN.md`)
+- `#888` or dimmer for any text on white/light backgrounds (WCAG AA minimum is `#666`)
+- No `border-left` used as a side-stripe accent on `.city-pricing-line` or similar callouts
+
+WARN items from impeccable should be listed in the review output but do not block merge.
 
 ### Step 4 — Apply every checklist below
 
 ---
 
 ## Checklist
+
+### 🎨 Design quality — blockers for any PR touching HTML or CSS
+
+These checks apply whenever the diff includes `.html` or `.css` files. Run `/impeccable critique` on each changed page and enforce the findings.
+
+**Impeccable blockers (FAIL = do not merge):**
+- [ ] No side-stripe accent borders (`border-left` or `border-right` > 1px as a colored stripe on cards, callouts, or list items)
+- [ ] No gradient text (`background-clip: text` combined with a gradient)
+- [ ] No glassmorphism used decoratively (blurred card backgrounds without structural purpose)
+- [ ] No identical icon+heading+text card grid (same card repeated ≥ 4 times with identical structure)
+- [ ] No em dashes (`—`) in any user-visible copy (use commas, colons, semicolons, or periods)
+- [ ] No off-palette colors introduced (every new color must exist in `DESIGN.md`)
+- [ ] No `color: #888` or dimmer for meaningful text on white/light backgrounds (minimum `#666` per DESIGN.md)
+- [ ] No `#000` or `#fff` as pure values — neutrals must be tinted toward the brand hue
+- [ ] No "Book" or "Schedule" CTA button linking to `services.html` instead of `contact.html`
+- [ ] Impeccable critique returns no FAIL items on any changed page
+
+**Impeccable warnings (flag but do not block):**
+- [ ] Note any WARN items from the impeccable critique in the review output
+
+---
 
 ### 🔴 Blockers — any FAIL here means DO NOT MERGE
 
@@ -128,15 +167,22 @@ Reviewer: Senior Engineer (independent)
 ❌ [file:line] <what is wrong and what the correct value should be>
 ❌ [file:line] ...
 
+--- DESIGN BLOCKERS (impeccable — HTML/CSS PRs only) ---
+❌ [file:line] <impeccable FAIL item>
+  OR
+✅ Impeccable critique: no FAIL items (score: ??/40)
+
 --- WARNINGS (should fix, does not block) ---
 ⚠️  [file:line] <what to improve>
+⚠️  [impeccable WARN] <design warning>
 
 --- SENIOR OBSERVATIONS ---
 💬 <question or flag for the implementer>
 
 --- TEST RESULTS ---
-npm test: PASS / FAIL
-<output if FAIL>
+npm test:            PASS / FAIL
+npm run test:functional: PASS / FAIL  (N tests)
+/impeccable critique: PASS / WARN / FAIL  (HTML/CSS PRs only)
 
 --- VERDICT ---
 ✅ APPROVED — ready to merge
@@ -151,7 +197,10 @@ Always end with one of those two verdicts. No "mostly fine, up to you" — make 
 ## Rules
 
 - Never rubber-stamp a PR. If you did not read every changed line, you did not review it.
-- A passing `npm test` is necessary but not sufficient for approval.
+- Passing `npm test` and `npm run test:functional` are necessary but not sufficient for approval.
+- If the PR touches any `.html` or `.css` file, running `/impeccable critique` on changed pages is **required** — not optional.
+- An impeccable FAIL is a blocker with the same weight as a broken link. Do not approve until it is fixed.
 - If you find a blocker, stop and report it — do not keep looking for more issues as if one is enough.
 - If the PR description says "no visual changes" but CSS was modified, verify that claim.
 - "It looks fine" is not a review comment. Cite file and line.
+- Never approve a PR that does not show `npm run test:functional: PASS` in the test results.
