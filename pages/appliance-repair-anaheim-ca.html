@@ -53,12 +53,6 @@
     .neighborhood-zip { font-size: 12px; color: #666; }
     .neighborhood-note { font-size: 12px; color: #666; margin-top: 6px; line-height: 1.5; }
 
-    .services-icon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
-    .service-icon-card { background: #fff; border-radius: 12px; padding: 22px 16px; text-align: center; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-decoration: none; transition: box-shadow 0.15s; }
-    .service-icon-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
-    .service-icon { font-size: 28px; margin-bottom: 10px; }
-    .service-icon-label { font-size: 13px; font-weight: 600; color: #111; line-height: 1.4; }
-
     .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
     .brand-pill { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #333; }
 
@@ -89,7 +83,7 @@
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
       .neighborhoods-grid { grid-template-columns: 1fr; }
-      .services-icon-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-links-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
@@ -98,7 +92,7 @@
     }
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
-      .services-icon-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-links-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr; }
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
@@ -117,6 +111,9 @@
     .city-pricing-line strong { color: #1a0a02; }
     .city-pricing-disclaimer { display: block; font-size: 11.5px; color: #666; margin-top: 6px; }
     .city-pricing-disclaimer a { color: #e84c1e; font-weight: 600; }
+    .services-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .services-links-grid a { font-size: 14px; font-weight: 600; color: #111; text-decoration: none; padding: 9px 4px; border-bottom: 1px solid #eee; display: block; }
+    .services-links-grid a:hover { color: #e84c1e; }
   </style>
 
   <!-- SCHEMA: Review -->
@@ -434,41 +431,17 @@
     <div class="container-lg">
       <h2 class="h2-page">Appliance Repair Services in Anaheim</h2>
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From a fridge that stopped cooling in the middle of the night to a washer leaking on your laundry room floor — we diagnose it and fix it, usually in one visit.</p>
-      <div class="services-icon-grid">
-        <a href="refrigerator-repair-orange-county.html" class="service-icon-card">
-          <div class="service-icon">🧊</div>
-          <div class="service-icon-label">Refrigerator Repair</div>
-        </a>
-        <a href="washer-repair-orange-county.html" class="service-icon-card">
-          <div class="service-icon">🫧</div>
-          <div class="service-icon-label">Washer Repair</div>
-        </a>
-        <a href="dryer-repair-orange-county.html" class="service-icon-card">
-          <div class="service-icon">💨</div>
-          <div class="service-icon-label">Dryer Repair</div>
-        </a>
-        <a href="dishwasher-repair-orange-county.html" class="service-icon-card">
-          <div class="service-icon">🍽️</div>
-          <div class="service-icon-label">Dishwasher Repair</div>
-        </a>
-        <a href="oven-stove-repair-orange-county.html" class="service-icon-card">
-          <div class="service-icon">🔥</div>
-          <div class="service-icon-label">Oven &amp; Stove Repair</div>
-        </a>
-        <a href="services.html" class="service-icon-card">
-          <div class="service-icon">❄️</div>
-          <div class="service-icon-label">Freezer Repair</div>
-        </a>
-        <a href="services.html" class="service-icon-card">
-          <div class="service-icon">🍷</div>
-          <div class="service-icon-label">Wine Cooler Repair</div>
-        </a>
-        <a href="services.html" class="service-icon-card">
-          <div class="service-icon">🔧</div>
-          <div class="service-icon-label">Garbage Disposal</div>
-        </a>
+            <div class="services-links-grid">
+        <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
+        <a href="washer-repair-orange-county.html">Washer Repair</a>
+        <a href="dryer-repair-orange-county.html">Dryer Repair</a>
+        <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
+        <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+        <a href="services.html">Freezer Repair</a>
+        <a href="services.html">Wine Cooler Repair</a>
+        <a href="services.html">Garbage Disposal Repair</a>
       </div>
-    </div>
+</div>
   </section>
 
   <!-- BRANDS -->
