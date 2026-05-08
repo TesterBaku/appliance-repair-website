@@ -44,8 +44,8 @@
     .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: #f0f4f8; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 860px; margin: 0 auto; }
+    .ai-block { background: #f7fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
+    .ai-block p { font-size: 13.5px; color: #666; line-height: 1.85; max-width: 860px; margin: 0 auto; }
 
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: #fff; border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
@@ -53,7 +53,10 @@
     .neighborhood-zip { font-size: 12px; color: #666; }
     .neighborhood-note { font-size: 12px; color: #666; margin-top: 6px; line-height: 1.5; }
 
-    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; }
+    .brands-group { margin-top: 24px; }
+    .brands-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-bottom: 10px; text-align: center; }
+    .brand-pill.premium { border: 1.5px solid #c03a14; color: #111; }
     .brand-pill { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #333; }
 
     .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
@@ -108,13 +111,15 @@
     .testimonial-name { font-size: 12px; color: #666; font-weight: 500; }
     @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
-    .city-pricing-line { background: #f9fafb; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: #333; line-height: 1.7; max-width: 760px; }
-    .city-pricing-line strong { color: #1a0a02; }
+    .city-pricing-line { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: #333; line-height: 1.7; max-width: 760px; }
+    .city-pricing-line strong { color: #111; }
     .city-pricing-disclaimer { display: block; font-size: 11.5px; color: #666; margin-top: 6px; }
     .city-pricing-disclaimer a { color: #e84c1e; font-weight: 600; }
     .services-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
     .services-links-grid a { font-size: 14px; font-weight: 600; color: #111; text-decoration: none; padding: 9px 4px; border-bottom: 1px solid #eee; display: block; }
     .services-links-grid a:hover { color: #e84c1e; }
+    .services-links-grid a.hub-link::after { content: " 92"; font-size: 11px; color: #e84c1e; opacity: 0.8; font-style: normal; }
+    .services-links-grid a:not(.hub-link) { color: #666; font-weight: 500; }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Fullerton) -->
@@ -306,11 +311,11 @@
           <div class="nav-dropdown">
             <a href="services.html" class="nav-dropdown-toggle">Services <span class="nav-dropdown-arrow">&#9660;</span></a>
             <div class="nav-dropdown-menu">
-              <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
-              <a href="washer-repair-orange-county.html">Washer Repair</a>
-              <a href="dryer-repair-orange-county.html">Dryer Repair</a>
-              <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
-              <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+              <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
+              <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
+              <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
+              <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
+              <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
               <a href="services.html" class="dropdown-all">All Services &rarr;</a>
             </div>
           </div>
@@ -344,11 +349,11 @@
       <a href="about.html">About</a>
       <details>
         <summary>Services</summary>
-        <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
-        <a href="washer-repair-orange-county.html">Washer Repair</a>
-        <a href="dryer-repair-orange-county.html">Dryer Repair</a>
-        <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
-        <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+        <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
+        <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
+        <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
+        <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
+        <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
         <a href="services.html" class="drawer-all">All Services &rarr;</a>
       </details>
       <details>
@@ -403,12 +408,12 @@
   <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page">Fullerton Neighborhoods We Serve</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the midcentury ranch homes of Sunny Hills to the newer builds of Amerige Heights, we send technicians to every Fullerton neighborhood — same rates, no travel surcharges.</p>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the midcentury ranch homes of Sunny Hills to the newer builds of Amerige Heights, we send technicians to every Fullerton neighborhood. Same rates, no travel surcharges.</p>
       <div class="neighborhoods-grid">
         <div class="neighborhood-card">
           <div class="neighborhood-name">Sunny Hills</div>
           <div class="neighborhood-zip">ZIP 92835</div>
-          <div class="neighborhood-note">Hillside community in northeast Fullerton — midcentury and ranch homes from the 1960s–1990s. Near Laguna Lake Park and Ralph B. Clark Regional Park.</div>
+          <div class="neighborhood-note">Hillside community in northeast Fullerton, midcentury and ranch homes from the 1960s–1990s. Near Laguna Lake Park and Ralph B. Clark Regional Park.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Amerige Heights</div>
@@ -433,7 +438,7 @@
         <div class="neighborhood-card">
           <div class="neighborhood-name">Northwest &amp; South Fullerton</div>
           <div class="neighborhood-zip">ZIP 92833 &amp; 92832</div>
-          <div class="neighborhood-note">Also covering ZIPs 92834, 92836, 92837, and 92838. All of Fullerton is within our service area — if you're here, we come to you.</div>
+          <div class="neighborhood-note">Also covering ZIPs 92834, 92836, 92837, and 92838. All of Fullerton is within our service area, if you're here, we come to you.</div>
         </div>
       </div>
     </div>
@@ -442,14 +447,14 @@
   <!-- SERVICES -->
   <section class="section section-white">
     <div class="container-lg">
-      <h2 class="h2-page">Appliance Repair Services in Fullerton</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Whether your fridge stopped cooling before the week's groceries spoil, or your washer is leaving clothes soaked, we diagnose and fix it — usually in a single visit.</p>
+      <h2 class="h2-page" style="text-align:center;">What We Fix in Fullerton</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Whether your fridge stopped cooling before the week's groceries spoil, or your washer is leaving clothes soaked, we diagnose and fix it, usually in a single visit.</p>
             <div class="services-links-grid">
-        <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
-        <a href="washer-repair-orange-county.html">Washer Repair</a>
-        <a href="dryer-repair-orange-county.html">Dryer Repair</a>
-        <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
-        <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+        <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
+        <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
+        <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
+        <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
+        <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
         <a href="services.html">Freezer Repair</a>
         <a href="services.html">Wine Cooler Repair</a>
         <a href="services.html">Garbage Disposal Repair</a>
@@ -461,18 +466,31 @@
   <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page">Brands We Service in Fullerton</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Fullerton homes run a wide range of brands — Whirlpool and GE in the older neighborhoods, LG and Samsung in mid-2000s builds, and Sub-Zero or Viking in the larger Sunny Hills estates. We service all of them.</p>
-      <div class="brands-list">
-        <span class="brand-pill">Whirlpool</span>
-        <span class="brand-pill">GE</span>
-        <span class="brand-pill">Samsung</span>
-        <span class="brand-pill">LG</span>
-        <span class="brand-pill">Bosch</span>
-        <span class="brand-pill">KitchenAid</span>
-        <span class="brand-pill">Maytag</span>
-        <span class="brand-pill">Frigidaire</span>
-        <span class="brand-pill">Sub-Zero</span>
-        <span class="brand-pill">Viking</span>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Fullerton homes run a wide range of brands, Whirlpool and GE in the older neighborhoods, LG and Samsung in mid-2000s builds, and Sub-Zero or Viking in the larger Sunny Hills estates. We service all of them.</p>
+      <div class="brands-group">
+        <div class="brands-group-label">Premium &amp; Luxury</div>
+        <div class="brands-list">
+          <span class="brand-pill premium">Sub-Zero</span>
+          <span class="brand-pill premium">Wolf</span>
+          <span class="brand-pill premium">Viking</span>
+          <span class="brand-pill premium">Thermador</span>
+          <span class="brand-pill premium">Miele</span>
+          <span class="brand-pill premium">Dacor</span>
+          <span class="brand-pill premium">Bosch</span>
+        </div>
+      </div>
+      <div class="brands-group">
+        <div class="brands-group-label">All Major Brands</div>
+        <div class="brands-list">
+          <span class="brand-pill">Whirlpool</span>
+          <span class="brand-pill">GE</span>
+          <span class="brand-pill">Samsung</span>
+          <span class="brand-pill">LG</span>
+          <span class="brand-pill">KitchenAid</span>
+          <span class="brand-pill">Maytag</span>
+          <span class="brand-pill">Frigidaire</span>
+          <span class="brand-pill">Kenmore</span>
+        </div>
       </div>
       <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;">We service these brands but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
     </div>
@@ -518,43 +536,43 @@
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Friendly, on time, efficient, and successful repair."</p>
-          <div class="t-initial" style="background:#444444;">MO</div>
-          <div class="testimonial-name">Michele Ohanian — Washer repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#832f10;">MO</div>
+          <div class="testimonial-name">Michele Ohanian · Washer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Thank you for fixing my mom GE Monogram refrigerator. I recommend it fast and good service. Thank you!"</p>
-          <div class="t-initial" style="background:#444444;">LA</div>
-          <div class="testimonial-name">Laman Anvarli — GE Monogram refrigerator repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#5a3518;">LA</div>
+          <div class="testimonial-name">Laman Anvarli, GE Monogram refrigerator repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"I got my maintenance done on my washing machine and dryer."</p>
-          <div class="t-initial" style="background:#444444;">VR</div>
-          <div class="testimonial-name">Veronique Reaver — Washer &amp; dryer maintenance · Orange County, CA</div>
+          <div class="t-initial" style="background:#9e4c20;">VR</div>
+          <div class="testimonial-name">Veronique Reaver, Washer &amp; dryer maintenance · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"was able to accommodate evening hours and fixed the dryer at a reasonable price, would use again"</p>
-          <div class="t-initial" style="background:#444444;">MS</div>
-          <div class="testimonial-name">Matt Snyder — Dryer repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#6f3822;">MS</div>
+          <div class="testimonial-name">Matt Snyder · Dryer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG did a great job repairing my dishwasher. He was prompt, quick and fair. I will use him again for any future repair needs."</p>
-          <div class="t-initial" style="background:#444444;">KH</div>
-          <div class="testimonial-name">Katie Holst — Dishwasher repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#8e4a10;">KH</div>
+          <div class="testimonial-name">Katie Holst · Dishwasher repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG fixed our fridge same day. Thank you"</p>
-          <div class="t-initial" style="background:#444444;">BB</div>
-          <div class="testimonial-name">Brian Brassil — Refrigerator repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#4e2810;">BB</div>
+          <div class="testimonial-name">Brian Brassil · Refrigerator repair · Orange County, CA</div>
         </div>
 
       </div>
@@ -577,7 +595,7 @@
   <!-- FAQ -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Frequently Asked Questions — Fullerton</h2>
+      <h2 class="h2-page" style="text-align:center;">FAQ: Fullerton</h2>
       <div class="faq-list">
 
         <div class="faq-item">
@@ -587,27 +605,27 @@
 
         <div class="faq-item">
           <button class="faq-q">Which appliance brands do you service in Fullerton?<span class="icon">+</span></button>
-          <div class="faq-a">We service all major brands in Fullerton — Whirlpool, GE, Samsung, LG, Bosch, KitchenAid, Maytag, Frigidaire, Sub-Zero, and Viking, among others. We service these brands but make no claim of factory authorization. If your appliance is still under manufacturer warranty, verify with the manufacturer before booking.</div>
+          <div class="faq-a">We service all major brands in Fullerton, Whirlpool, GE, Samsung, LG, Bosch, KitchenAid, Maytag, Frigidaire, Sub-Zero, and Viking, among others. We service these brands but make no claim of factory authorization. If your appliance is still under manufacturer warranty, verify with the manufacturer before booking.</div>
         </div>
 
         <div class="faq-item">
           <button class="faq-q">What ZIP codes in Fullerton do you cover?<span class="icon">+</span></button>
-          <div class="faq-a">We cover all of Fullerton's ZIP codes: 92831 (CSUF area), 92832 (Downtown / Historic Fullerton), 92833 (Amerige Heights / northwest Fullerton), 92835 (Sunny Hills / northeast Fullerton), plus 92834, 92836, 92837, and 92838. If you're in Fullerton, we come to you — no extra travel fees.</div>
+          <div class="faq-a">We cover all of Fullerton's ZIP codes: 92831 (CSUF area), 92832 (Downtown / Historic Fullerton), 92833 (Amerige Heights / northwest Fullerton), 92835 (Sunny Hills / northeast Fullerton), plus 92834, 92836, 92837, and 92838. If you're in Fullerton, we come to you, no extra travel fees.</div>
         </div>
 
         <div class="faq-item">
           <button class="faq-q">Do you repair appliances in Sunny Hills and Amerige Heights?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Sunny Hills (92835) and Amerige Heights (92833) are both areas we serve regularly. Amerige Heights homes, built in the early 2000s, are now at the age where common appliance failures start — drive belts, heating elements, drain pumps. Sunny Hills features older midcentury homes often with appliances that are worth repairing rather than replacing.</div>
+          <div class="faq-a">Yes. Sunny Hills (92835) and Amerige Heights (92833) are both areas we serve regularly. Amerige Heights homes, built in the early 2000s, are now at the age where common appliance failures start, drive belts, heating elements, drain pumps. Sunny Hills features older midcentury homes often with appliances that are worth repairing rather than replacing.</div>
         </div>
 
         <div class="faq-item">
           <button class="faq-q">Do you carry parts on the truck, or will I need a second appointment?<span class="icon">+</span></button>
-          <div class="faq-a">Our technicians stock common replacement parts — heating elements, drive belts, drain pumps, thermostats, door gaskets, start relays — on the van. The majority of repairs are completed in a single visit. For less common parts that need to be ordered, we schedule a return visit as soon as the part arrives, typically within 1–2 business days.</div>
+          <div class="faq-a">Our technicians stock common replacement parts, heating elements, drive belts, drain pumps, thermostats, door gaskets, start relays, on the van. The majority of repairs are completed in a single visit. For less common parts that need to be ordered, we schedule a return visit as soon as the part arrives, typically within 1–2 business days.</div>
         </div>
 
         <div class="faq-item">
           <button class="faq-q">Is it worth repairing my appliance, or should I replace it?<span class="icon">+</span></button>
-          <div class="faq-a">The general guideline: if the appliance is under 10 years old and the repair costs less than half the price of a comparable new unit, repair almost always makes sense. Our technicians give you an honest assessment during the diagnostic visit — we'll tell you if replacement is the smarter call. We'd rather give you straight advice than spend money on a repair that won't last.</div>
+          <div class="faq-a">The general guideline: if the appliance is under 10 years old and the repair costs less than half the price of a comparable new unit, repair almost always makes sense. Our technicians give you an honest assessment during the diagnostic visit, we'll tell you if replacement is the smarter call. We'd rather give you straight advice than spend money on a repair that won't last.</div>
         </div>
 
         <div class="faq-item">
@@ -647,11 +665,11 @@
       <div>
         <div class="footer-col-label">Services</div>
         <ul class="footer-links">
-          <li><a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a></li>
-          <li><a href="washer-repair-orange-county.html">Washer Repair</a></li>
-          <li><a href="dryer-repair-orange-county.html">Dryer Repair</a></li>
-          <li><a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a></li>
-          <li><a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a></li>
+          <li><a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a></li>
+          <li><a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a></li>
+          <li><a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a></li>
+          <li><a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a></li>
+          <li><a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a></li>
           <li><a href="services.html">All Services</a></li>
         </ul>
       </div>
