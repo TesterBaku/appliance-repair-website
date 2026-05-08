@@ -44,8 +44,8 @@
     .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: #f0f4f8; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 860px; margin: 0 auto; }
+    .ai-block { background: #f7fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
+    .ai-block p { font-size: 13.5px; color: #666; line-height: 1.85; max-width: 860px; margin: 0 auto; }
 
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: #fff; border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
@@ -53,7 +53,10 @@
     .neighborhood-zip { font-size: 12px; color: #666; }
     .neighborhood-note { font-size: 12px; color: #666; margin-top: 6px; line-height: 1.5; }
 
-    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; }
+    .brands-group { margin-top: 24px; }
+    .brands-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-bottom: 10px; text-align: center; }
+    .brand-pill.premium { border: 1.5px solid #c03a14; color: #111; }
     .brand-pill { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #333; }
 
     .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
@@ -105,13 +108,15 @@
     .testimonial-name { font-size: 12px; color: #666; font-weight: 500; }
     @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
-    .city-pricing-line { background: #f9fafb; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: #333; line-height: 1.7; max-width: 760px; }
-    .city-pricing-line strong { color: #1a0a02; }
+    .city-pricing-line { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: #333; line-height: 1.7; max-width: 760px; }
+    .city-pricing-line strong { color: #111; }
     .city-pricing-disclaimer { display: block; font-size: 11.5px; color: #666; margin-top: 6px; }
     .city-pricing-disclaimer a { color: #e84c1e; font-weight: 600; }
     .services-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
     .services-links-grid a { font-size: 14px; font-weight: 600; color: #111; text-decoration: none; padding: 9px 4px; border-bottom: 1px solid #eee; display: block; }
     .services-links-grid a:hover { color: #e84c1e; }
+    .services-links-grid a.hub-link::after { content: " 92"; font-size: 11px; color: #e84c1e; opacity: 0.8; font-style: normal; }
+    .services-links-grid a:not(.hub-link) { color: #666; font-weight: 500; }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Orange, CA) -->
@@ -235,7 +240,10 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Washer Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dryer Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dishwasher Repair" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven &amp; Stove Repair" } }
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven &amp; Stove Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Freezer Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Wine Cooler Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Garbage Disposal Repair" } }
       ]
     }
   }
@@ -308,11 +316,11 @@
           <div class="nav-dropdown">
             <a href="services.html" class="nav-dropdown-toggle">Services <span class="nav-dropdown-arrow">&#9660;</span></a>
             <div class="nav-dropdown-menu">
-              <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
-              <a href="washer-repair-orange-county.html">Washer Repair</a>
-              <a href="dryer-repair-orange-county.html">Dryer Repair</a>
-              <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
-              <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+              <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
+              <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
+              <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
+              <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
+              <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
               <a href="services.html" class="dropdown-all">All Services &rarr;</a>
             </div>
           </div>
@@ -346,11 +354,11 @@
       <a href="about.html">About</a>
       <details>
         <summary>Services</summary>
-        <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
-        <a href="washer-repair-orange-county.html">Washer Repair</a>
-        <a href="dryer-repair-orange-county.html">Dryer Repair</a>
-        <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
-        <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+        <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
+        <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
+        <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
+        <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
+        <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
         <a href="services.html" class="drawer-all">All Services &rarr;</a>
       </details>
       <details>
@@ -405,12 +413,12 @@
   <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page">Orange Neighborhoods We Serve</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the Victorian bungalows of Old Towne to the hillside newer builds in Serrano Heights, we send technicians to every corner of Orange — same rates, no travel surcharges.</p>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the Victorian bungalows of Old Towne to the hillside newer builds in Serrano Heights, we send technicians to every corner of Orange. Same rates, no travel surcharges.</p>
       <div class="neighborhoods-grid">
         <div class="neighborhood-card">
           <div class="neighborhood-name">Old Towne Orange</div>
           <div class="neighborhood-zip">ZIP 92866</div>
-          <div class="neighborhood-note">Historic district surrounding The Plaza — one of Orange County's best-preserved Victorian and Craftsman neighborhoods. Renovated kitchens in these homes often hold premium appliances that are worth repairing rather than replacing.</div>
+          <div class="neighborhood-note">Historic district surrounding The Plaza, one of Orange County's best-preserved Victorian and Craftsman neighborhoods. Renovated kitchens in these homes often hold premium appliances that are worth repairing rather than replacing.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Chapman University Area</div>
@@ -420,22 +428,22 @@
         <div class="neighborhood-card">
           <div class="neighborhood-name">Eichler Homes (Panorama Heights)</div>
           <div class="neighborhood-zip">ZIP 92869</div>
-          <div class="neighborhood-note">One of Southern California's rare Eichler mid-century modern subdivisions. These homes frequently feature aging appliances or premium replacements — we service both with equal care.</div>
+          <div class="neighborhood-note">One of Southern California's rare Eichler mid-century modern subdivisions. These homes frequently feature aging appliances or premium replacements, we service both with equal care.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Serrano Heights</div>
           <div class="neighborhood-zip">ZIP 92869</div>
-          <div class="neighborhood-note">Newer planned community in the foothills of east Orange. Homes built in the early 2000s are now at the age where appliances start needing service — drive belts, heating elements, drain pumps.</div>
+          <div class="neighborhood-note">Newer planned community in the foothills of east Orange. Homes built in the early 2000s are now at the age where appliances start needing service, drive belts, heating elements, drain pumps.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">El Modena &amp; Orange Hills</div>
           <div class="neighborhood-zip">ZIP 92869</div>
-          <div class="neighborhood-note">Southeast Orange neighborhoods ranging from working-class ranchers to larger hillside estates. We cover the full range — compact apartment appliances and high-end built-ins alike.</div>
+          <div class="neighborhood-note">Southeast Orange neighborhoods ranging from working-class ranchers to larger hillside estates. We cover the full range, compact apartment appliances and high-end built-ins alike.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Orange Park Acres &amp; Villa Park Adjacent</div>
           <div class="neighborhood-zip">ZIP 92869 &amp; 92861</div>
-          <div class="neighborhood-note">Also covering all remaining Orange ZIPs: 92856, 92857, 92862, 92865, 92867, 92868. If you're in Orange, we come to you — no extra travel fees.</div>
+          <div class="neighborhood-note">Also covering all remaining Orange ZIPs: 92856, 92857, 92862, 92865, 92867, 92868. If you're in Orange, we come to you, no extra travel fees.</div>
         </div>
       </div>
     </div>
@@ -444,14 +452,14 @@
   <!-- SERVICES -->
   <section class="section section-white">
     <div class="container-lg">
-      <h2 class="h2-page">Appliance Repair Services in Orange</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Your fridge stops cooling the morning after a grocery run. The washer locks mid-cycle with a full load inside. Whatever broke, we fix it — usually on the same day you call.</p>
+      <h2 class="h2-page" style="text-align:center;">What We Fix in Orange</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Your fridge stops cooling the morning after a grocery run. The washer locks mid-cycle with a full load inside. Whatever broke, we fix it, usually on the same day you call.</p>
             <div class="services-links-grid">
-        <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
-        <a href="washer-repair-orange-county.html">Washer Repair</a>
-        <a href="dryer-repair-orange-county.html">Dryer Repair</a>
-        <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
-        <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+        <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
+        <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
+        <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
+        <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
+        <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
         <a href="services.html">Freezer Repair</a>
         <a href="services.html">Wine Cooler Repair</a>
         <a href="services.html">Garbage Disposal Repair</a>
@@ -463,20 +471,31 @@
   <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page">Brands We Service in Orange</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Orange homes run the full range — Whirlpool and GE in the older bungalows, LG and Samsung in mid-2000s builds, and Sub-Zero, Thermador, or Miele in the renovated Old Towne kitchens and hilltop estates. We service all of them.</p>
-      <div class="brands-list">
-        <span class="brand-pill">Whirlpool</span>
-        <span class="brand-pill">GE</span>
-        <span class="brand-pill">Samsung</span>
-        <span class="brand-pill">LG</span>
-        <span class="brand-pill">Bosch</span>
-        <span class="brand-pill">KitchenAid</span>
-        <span class="brand-pill">Maytag</span>
-        <span class="brand-pill">Frigidaire</span>
-        <span class="brand-pill">Sub-Zero</span>
-        <span class="brand-pill">Viking</span>
-        <span class="brand-pill">Thermador</span>
-        <span class="brand-pill">Miele</span>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Orange homes run the full range, Whirlpool and GE in the older bungalows, LG and Samsung in mid-2000s builds, and Sub-Zero, Thermador, or Miele in the renovated Old Towne kitchens and hilltop estates. We service all of them.</p>
+      <div class="brands-group">
+        <div class="brands-group-label">Premium &amp; Luxury</div>
+        <div class="brands-list">
+          <span class="brand-pill premium">Sub-Zero</span>
+          <span class="brand-pill premium">Wolf</span>
+          <span class="brand-pill premium">Viking</span>
+          <span class="brand-pill premium">Thermador</span>
+          <span class="brand-pill premium">Miele</span>
+          <span class="brand-pill premium">Dacor</span>
+          <span class="brand-pill premium">Bosch</span>
+        </div>
+      </div>
+      <div class="brands-group">
+        <div class="brands-group-label">All Major Brands</div>
+        <div class="brands-list">
+          <span class="brand-pill">Whirlpool</span>
+          <span class="brand-pill">GE</span>
+          <span class="brand-pill">Samsung</span>
+          <span class="brand-pill">LG</span>
+          <span class="brand-pill">KitchenAid</span>
+          <span class="brand-pill">Maytag</span>
+          <span class="brand-pill">Frigidaire</span>
+          <span class="brand-pill">Kenmore</span>
+        </div>
       </div>
       <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;">We service these brands but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
     </div>
@@ -522,43 +541,43 @@
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"He did a fantastic job!!! Thank you so much for your help!"</p>
-          <div class="t-initial" style="background:#444444;">MK</div>
-          <div class="testimonial-name">Mark Koss — Appliance repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#7e3214;">MK</div>
+          <div class="testimonial-name">Mark Koss · Appliance repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Very responsive, timely and professional. Price was reasonable. Would definitely use again."</p>
-          <div class="t-initial" style="background:#444444;">CK</div>
-          <div class="testimonial-name">Cheryl Kirkpatrick — Appliance repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#5f3e1e;">CK</div>
+          <div class="testimonial-name">Cheryl Kirkpatrick · Appliance repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Prompt, professional, clean, reasonably priced — would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure."</p>
-          <div class="t-initial" style="background:#444444;">RD</div>
-          <div class="testimonial-name">Rick DeAngelo — Washer repair · Orange County, CA</div>
+          <p class="testimonial-quote">"Prompt, professional, clean, reasonably priced, would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure."</p>
+          <div class="t-initial" style="background:#974e22;">RD</div>
+          <div class="testimonial-name">Rick DeAngelo · Washer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Thank you AG for servicing my washer and dryer!!!"</p>
-          <div class="t-initial" style="background:#444444;">SA</div>
-          <div class="testimonial-name">Susie Arii — Washer &amp; dryer service · Orange County, CA</div>
+          <div class="t-initial" style="background:#6d3824;">SA</div>
+          <div class="testimonial-name">Susie Arii, Washer &amp; dryer service · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"The gentleman was completely professional, clean, cleaned up after himself. It was an absolute pleasure having him repair my appliance — being the washer and dryer. Thank you so much"</p>
-          <div class="t-initial" style="background:#444444;">SS</div>
-          <div class="testimonial-name">Stephen S. — Washer &amp; dryer repair · Orange County, CA</div>
+          <p class="testimonial-quote">"The gentleman was completely professional, clean, cleaned up after himself. It was an absolute pleasure having him repair my appliance, being the washer and dryer. Thank you so much"</p>
+          <div class="t-initial" style="background:#8a3e10;">SS</div>
+          <div class="testimonial-name">Stephen S., Washer &amp; dryer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG replaced our oven igniter today on short notice. Very efficient and friendly. He was recommended by a friend."</p>
-          <div class="t-initial" style="background:#444444;">SR</div>
-          <div class="testimonial-name">Susan Ryan — Oven repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#4d2714;">SR</div>
+          <div class="testimonial-name">Susan Ryan · Oven repair · Orange County, CA</div>
         </div>
 
       </div>
@@ -581,7 +600,7 @@
   <!-- FAQ -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Frequently Asked Questions — Orange, CA</h2>
+      <h2 class="h2-page" style="text-align:center;">FAQ: Orange, CA</h2>
       <div class="faq-list">
 
         <div class="faq-item">
@@ -591,17 +610,17 @@
 
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false">Which appliance brands do you service in Orange, CA?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-2">We service all major brands in Orange — Whirlpool, GE, Samsung, LG, Bosch, KitchenAid, Maytag, Frigidaire, Sub-Zero, Viking, Thermador, and Miele, among others. We service these brands but make no claim of factory authorization. If your appliance is still under manufacturer warranty, verify with the manufacturer before booking.</div>
+          <div class="faq-a" id="faq-a-2">We service all major brands in Orange, Whirlpool, GE, Samsung, LG, Bosch, KitchenAid, Maytag, Frigidaire, Sub-Zero, Viking, Thermador, and Miele, among others. We service these brands but make no claim of factory authorization. If your appliance is still under manufacturer warranty, verify with the manufacturer before booking.</div>
         </div>
 
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false">What ZIP codes in Orange, CA do you cover?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-3">We cover all of Orange's ZIP codes: 92856, 92857, 92861, 92862, 92865, 92866 (Old Towne Orange), 92867, 92868, and 92869 (El Modena, Serrano Heights, Orange Park Acres). If you're in Orange, we come to you — no extra travel fees.</div>
+          <div class="faq-a" id="faq-a-3">We cover all of Orange's ZIP codes: 92856, 92857, 92861, 92862, 92865, 92866 (Old Towne Orange), 92867, 92868, and 92869 (El Modena, Serrano Heights, Orange Park Acres). If you're in Orange, we come to you, no extra travel fees.</div>
         </div>
 
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false">Do you repair appliances in Old Towne Orange and the historic districts?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-4">Yes. Old Towne Orange (ZIP 92866) is a regular service area. The Victorian and Craftsman bungalows around The Plaza often have older appliances — or newer high-end replacements in renovated kitchens. We service both. Same-day appointments available most days of the week.</div>
+          <div class="faq-a" id="faq-a-4">Yes. Old Towne Orange (ZIP 92866) is a regular service area. The Victorian and Craftsman bungalows around The Plaza often have older appliances, or newer high-end replacements in renovated kitchens. We service both. Same-day appointments available most days of the week.</div>
         </div>
 
         <div class="faq-item">
@@ -611,12 +630,12 @@
 
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false">Do you carry parts on the truck, or will I need a second appointment?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-6">Our technicians stock common replacement parts — heating elements, drive belts, drain pumps, thermostats, door gaskets, start relays, and ice maker components — on the van. The majority of repairs are completed in a single visit. For less common parts, we schedule a return visit as soon as the part arrives, typically within 1–2 business days.</div>
+          <div class="faq-a" id="faq-a-6">Our technicians stock common replacement parts, heating elements, drive belts, drain pumps, thermostats, door gaskets, start relays, and ice maker components, on the van. The majority of repairs are completed in a single visit. For less common parts, we schedule a return visit as soon as the part arrives, typically within 1–2 business days.</div>
         </div>
 
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false">Is it worth repairing my appliance, or should I replace it?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-7">The general guideline: if the appliance is under 10 years old and the repair costs less than half the price of a comparable new unit, repair almost always makes sense. Our technicians give you an honest assessment during the diagnostic visit — we'll tell you if replacement is the smarter call. We'd rather give you straight advice than spend money on a repair that won't last.</div>
+          <div class="faq-a" id="faq-a-7">The general guideline: if the appliance is under 10 years old and the repair costs less than half the price of a comparable new unit, repair almost always makes sense. Our technicians give you an honest assessment during the diagnostic visit, we'll tell you if replacement is the smarter call. We'd rather give you straight advice than spend money on a repair that won't last.</div>
         </div>
 
         <div class="faq-item">
@@ -655,11 +674,11 @@
       <div>
         <div class="footer-col-label">Services</div>
         <ul class="footer-links">
-          <li><a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a></li>
-          <li><a href="washer-repair-orange-county.html">Washer Repair</a></li>
-          <li><a href="dryer-repair-orange-county.html">Dryer Repair</a></li>
-          <li><a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a></li>
-          <li><a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a></li>
+          <li><a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a></li>
+          <li><a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a></li>
+          <li><a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a></li>
+          <li><a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a></li>
+          <li><a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a></li>
           <li><a href="services.html">All Services</a></li>
         </ul>
       </div>
