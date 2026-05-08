@@ -46,8 +46,8 @@
     .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: #f0f4f8; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 860px; margin: 0 auto; }
+    .ai-block { background: #f7fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
+    .ai-block p { font-size: 13.5px; color: #666; line-height: 1.85; max-width: 860px; margin: 0 auto; }
 
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: #fff; border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
@@ -55,13 +55,16 @@
     .neighborhood-zip { font-size: 12px; color: #666; }
     .neighborhood-note { font-size: 12px; color: #666; margin-top: 6px; line-height: 1.5; }
 
-    .coastal-callout { background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 14px; padding: 28px 32px; margin-top: 32px; }
-    .coastal-callout h3 { font-size: 17px; font-weight: 700; color: #1e40af; margin-bottom: 12px; }
-    .coastal-callout p { font-size: 13.5px; color: #1e3a8a; line-height: 1.8; margin-bottom: 10px; }
+    .coastal-callout { background: #fdf5f3; border: 1.5px solid #f0c8bc; border-radius: 14px; padding: 28px 32px; margin-top: 32px; }
+    .coastal-callout h3 { font-size: 17px; font-weight: 700; color: #c03a14; margin-bottom: 12px; }
+    .coastal-callout p { font-size: 13.5px; color: #444; line-height: 1.8; margin-bottom: 10px; }
     .coastal-callout p:last-child { margin-bottom: 0; }
 
-    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .brand-pill { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #333; }
+    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; }
+    .brands-group { margin-top: 24px; }
+    .brands-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-bottom: 10px; text-align: center; }
+    .brand-pill { background: #fff; border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #333; }
+    .brand-pill.premium { border: 1.5px solid #c03a14; color: #111; }
 
     .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
     .process-step { text-align: center; }
@@ -113,13 +116,15 @@
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
     }
-    .city-pricing-line { background: #f9fafb; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: #333; line-height: 1.7; max-width: 760px; }
-    .city-pricing-line strong { color: #1a0a02; }
+    .city-pricing-line { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: #333; line-height: 1.7; max-width: 760px; }
+    .city-pricing-line strong { color: #111; }
     .city-pricing-disclaimer { display: block; font-size: 11.5px; color: #666; margin-top: 6px; }
     .city-pricing-disclaimer a { color: #e84c1e; font-weight: 600; }
     .services-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
     .services-links-grid a { font-size: 14px; font-weight: 600; color: #111; text-decoration: none; padding: 9px 4px; border-bottom: 1px solid #eee; display: block; }
     .services-links-grid a:hover { color: #e84c1e; }
+    .services-links-grid a.hub-link::after { content: ' \2192'; font-size: 11px; color: #e84c1e; opacity: 0.8; font-style: normal; }
+    .services-links-grid a:not(.hub-link) { color: #666; font-weight: 500; }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Huntington Beach) -->
@@ -227,7 +232,7 @@
       {
         "@type": "Question",
         "name": "Do you offer same-day appliance repair in Huntington Beach, CA?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Same-day appliance repair is available throughout Huntington Beach when you call before noon. We dispatch from Stanton and can reach most Huntington Beach neighborhoods — including Downtown near the Pier, Seacliff, and Central HB — within a few hours. Call (949) 629-5365 to check same-day availability." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Same-day appliance repair is available throughout Huntington Beach when you call before noon. We dispatch from Stanton and can reach most Huntington Beach neighborhoods, including Downtown near the Pier, Seacliff, and Central HB, within a few hours. Call (949) 629-5365 to check same-day availability." }
       },
       {
         "@type": "Question",
@@ -237,7 +242,7 @@
       {
         "@type": "Question",
         "name": "Does the coastal salt air in Huntington Beach affect appliances?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Salt air and coastal humidity accelerate corrosion on metal components — particularly refrigerator condenser coils, dryer heating elements, and dishwasher spray arms. Homes within a mile of the beach see this most acutely. Regular cleaning of condenser coils and inspecting door gaskets can extend appliance life. When symptoms appear — a fridge that runs hot, a dryer that takes two cycles — coastal corrosion is often a contributing factor." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Salt air and coastal humidity accelerate corrosion on metal components, particularly refrigerator condenser coils, dryer heating elements, and dishwasher spray arms. Homes within a mile of the beach see this most acutely. Regular cleaning of condenser coils and inspecting door gaskets can extend appliance life. When symptoms appear, such as a fridge running hot or a dryer taking two cycles, coastal corrosion is often a contributing factor." }
       },
       {
         "@type": "Question",
@@ -278,7 +283,10 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Washer Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dryer Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dishwasher Repair" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven & Stove Repair" } }
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven & Stove Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Freezer Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Wine Cooler Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Garbage Disposal Repair" } }
       ]
     }
   }
@@ -389,14 +397,14 @@
 
   <!-- AI ANSWER BLOCK -->
   <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. serves Huntington Beach, California, providing same-day appliance repair for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover all Huntington Beach neighborhoods — Downtown and the Pier area, Seacliff, Central HB, Huntington Harbour, and Bolsa Chica — across ZIP codes 92646, 92647, 92648, and 92649. Coastal salt air and humidity are hard on appliances; we know what to look for. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
+    <p>Universal Appliances Repair Group Inc. serves Huntington Beach, California, providing same-day appliance repair for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover all Huntington Beach neighborhoods: Downtown and the Pier area, Seacliff, Central HB, Huntington Harbour, and Bolsa Chica, across ZIP codes 92646, 92647, 92648, and 92649. Coastal salt air and humidity are hard on appliances; we know what to look for. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
   </div>
 
   <!-- NEIGHBORHOODS -->
   <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page">Huntington Beach Areas We Serve</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the surf shops near the Pier to the waterfront homes of Huntington Harbour, we send technicians to every part of HB — same rates, no travel surcharges.</p>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the surf shops near the Pier to the waterfront homes of Huntington Harbour, we send technicians to every part of HB. Same rates, no travel surcharges.</p>
       <div class="neighborhoods-grid">
         <div class="neighborhood-card">
           <div class="neighborhood-name">Downtown &amp; Pier Area</div>
@@ -434,7 +442,7 @@
       <div class="coastal-callout">
         <h3>Living near the coast? Here's what salt air does to your appliances.</h3>
         <p>Huntington Beach's ocean air carries salt and moisture that corrodes metal components faster than in inland cities. Refrigerator condenser coils collect salt deposits that reduce cooling efficiency. Dryer heating elements and drum supports oxidize. Dishwasher spray arms and door hinges corrode. Stainless steel exteriors pit near the water.</p>
-        <p>The fix isn't complicated — regular condenser coil cleaning, checking door gaskets, and addressing small symptoms early. But when a repair is needed, knowing the coastal context helps diagnose the root cause. Our technicians work in HB regularly and look for salt-related damage as part of every inspection.</p>
+        <p>The fix isn't complicated: regular condenser coil cleaning, checking door gaskets, and addressing small symptoms early. But when a repair is needed, knowing the coastal context helps diagnose the root cause. Our technicians work in HB regularly and look for salt-related damage as part of every inspection.</p>
       </div>
     </div>
   </section>
@@ -442,44 +450,52 @@
   <!-- SERVICES -->
   <section class="section section-white">
     <div class="container-lg">
-      <h2 class="h2-page">Appliance Repair Services in Huntington Beach</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Whether your fridge stopped cooling after a hot summer week or your washer leaked onto the laundry room floor, we diagnose and fix it — usually in one visit.</p>
-            <div class="services-links-grid">
-        <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
-        <a href="washer-repair-orange-county.html">Washer Repair</a>
-        <a href="dryer-repair-orange-county.html">Dryer Repair</a>
-        <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
-        <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+      <h2 class="h2-page" style="text-align:center;">What We Fix in Huntington Beach</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:560px;text-align:center;margin-left:auto;margin-right:auto;">Whether your fridge stopped cooling after a hot summer week or your washer leaked onto the laundry room floor, we diagnose and fix it, usually in one visit.</p>
+      <div class="services-links-grid">
+        <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
+        <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
+        <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
+        <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
+        <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
         <a href="services.html">Freezer Repair</a>
         <a href="services.html">Wine Cooler Repair</a>
         <a href="services.html">Garbage Disposal Repair</a>
       </div>
-</div>
+    </div>
   </section>
 
   <!-- BRANDS -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page">Brands We Service in Huntington Beach</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From everyday Whirlpool and Samsung to the Sub-Zero and Wolf appliances in Seacliff and Huntington Harbour homes — we service all of them.</p>
-      <div class="brands-list">
-        <span class="brand-pill">Whirlpool</span>
-        <span class="brand-pill">GE</span>
-        <span class="brand-pill">Samsung</span>
-        <span class="brand-pill">LG</span>
-        <span class="brand-pill">Sub-Zero</span>
-        <span class="brand-pill">Wolf</span>
-        <span class="brand-pill">Bosch</span>
-        <span class="brand-pill">Viking</span>
-        <span class="brand-pill">KitchenAid</span>
-        <span class="brand-pill">Maytag</span>
-        <span class="brand-pill">Frigidaire</span>
-        <span class="brand-pill">Kenmore</span>
-        <span class="brand-pill">Thermador</span>
-        <span class="brand-pill">Miele</span>
-        <span class="brand-pill">Dacor</span>
+      <h2 class="h2-page" style="text-align:center;">Brands We Service in Huntington Beach</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:600px;text-align:center;margin-left:auto;margin-right:auto;">From everyday Whirlpool and Samsung to the Sub-Zero and Wolf appliances in Seacliff and Huntington Harbour homes, we service all of them.</p>
+      <div class="brands-group">
+        <div class="brands-group-label">Premium &amp; Luxury</div>
+        <div class="brands-list">
+          <span class="brand-pill premium">Sub-Zero</span>
+          <span class="brand-pill premium">Wolf</span>
+          <span class="brand-pill premium">Viking</span>
+          <span class="brand-pill premium">Thermador</span>
+          <span class="brand-pill premium">Miele</span>
+          <span class="brand-pill premium">Dacor</span>
+          <span class="brand-pill premium">Bosch</span>
+        </div>
       </div>
-      <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;">We service these brands — but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
+      <div class="brands-group">
+        <div class="brands-group-label">All Major Brands</div>
+        <div class="brands-list">
+          <span class="brand-pill">Whirlpool</span>
+          <span class="brand-pill">GE</span>
+          <span class="brand-pill">Samsung</span>
+          <span class="brand-pill">LG</span>
+          <span class="brand-pill">KitchenAid</span>
+          <span class="brand-pill">Maytag</span>
+          <span class="brand-pill">Frigidaire</span>
+          <span class="brand-pill">Kenmore</span>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;text-align:center;">We service these brands but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
     </div>
   </section>
 
@@ -497,7 +513,7 @@
         <div class="process-step">
           <div class="step-number">2</div>
           <div class="step-title">Same-Day Dispatch</div>
-          <div class="step-desc">We dispatch from Stanton — about 15–20 minutes from most HB addresses. Two-hour arrival window, call when on the way.</div>
+          <div class="step-desc">We dispatch from Stanton, about 15–20 minutes from most HB addresses. Two-hour arrival window, call when on the way.</div>
         </div>
         <div class="process-step">
           <div class="step-number">3</div>
@@ -523,43 +539,43 @@
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!"</p>
-          <div class="t-initial" style="background:#444444;">KH</div>
-          <div class="testimonial-name">Kelly Heyden — Washer repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#7d3510;">KH</div>
+          <div class="testimonial-name">Kelly Heyden · Washer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Awesome service and price!! Thank You.."</p>
-          <div class="t-initial" style="background:#444444;">WN</div>
-          <div class="testimonial-name">William Nugent — Refrigerator repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#5c2d1a;">WN</div>
+          <div class="testimonial-name">William Nugent · Refrigerator repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG did a great job detecting and repairing my washing machine leak. He was prompt and courteous. Will use him and his company in the future."</p>
-          <div class="t-initial" style="background:#444444;">JS</div>
-          <div class="testimonial-name">Justine Shaw — Washer repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#8a4a20;">JS</div>
+          <div class="testimonial-name">Justine Shaw · Washer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs."</p>
-          <div class="t-initial" style="background:#444444;">JM</div>
-          <div class="testimonial-name">Joellyn Meadows — Refrigerator repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#6b2e1e;">JM</div>
+          <div class="testimonial-name">Joellyn Meadows · Refrigerator repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"A.G. does excellent work. Very professional! Thank you"</p>
-          <div class="t-initial" style="background:#444444;">SG</div>
-          <div class="testimonial-name">Susan Gerakos — Appliance repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#9b4015;">SG</div>
+          <div class="testimonial-name">Susan Gerakos · Appliance repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliance, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help."</p>
-          <div class="t-initial" style="background:#444444;">JL</div>
-          <div class="testimonial-name">Julie L. — Dryer repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#4d2810;">JL</div>
+          <div class="testimonial-name">Julie L. · Dryer repair · Orange County, CA</div>
         </div>
 
       </div>
@@ -582,12 +598,12 @@
   <!-- FAQ -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Frequently Asked Questions — Huntington Beach</h2>
+      <h2 class="h2-page" style="text-align:center;">FAQ: Huntington Beach Appliance Repair</h2>
       <div class="faq-list">
 
         <div class="faq-item">
           <button class="faq-q">Do you offer same-day appliance repair in Huntington Beach, CA?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Same-day appliance repair is available throughout Huntington Beach when you call before noon. We dispatch from Stanton and can reach most Huntington Beach neighborhoods — including Downtown near the Pier, Seacliff, and Central HB — within a few hours. Call (949) 629-5365 to check same-day availability.</div>
+          <div class="faq-a">Yes. Same-day appliance repair is available throughout Huntington Beach when you call before noon. We dispatch from Stanton and can reach most Huntington Beach neighborhoods, including Downtown near the Pier, Seacliff, and Central HB, within a few hours. Call (949) 629-5365 to check same-day availability.</div>
         </div>
 
         <div class="faq-item">
@@ -597,7 +613,7 @@
 
         <div class="faq-item">
           <button class="faq-q">Does the coastal salt air in Huntington Beach affect appliances?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Salt air and coastal humidity accelerate corrosion on metal components — particularly refrigerator condenser coils, dryer heating elements, and dishwasher spray arms. Homes within a mile of the beach see this most acutely. Regular cleaning of condenser coils and inspecting door gaskets can extend appliance life. When symptoms appear — a fridge that runs hot, a dryer that takes two cycles — coastal corrosion is often a contributing factor our technicians check for first.</div>
+          <div class="faq-a">Yes. Salt air and coastal humidity accelerate corrosion on metal components, particularly refrigerator condenser coils, dryer heating elements, and dishwasher spray arms. Homes within a mile of the beach see this most acutely. Regular cleaning of condenser coils and inspecting door gaskets can extend appliance life. When symptoms appear, such as a fridge running hot or a dryer taking two cycles, coastal corrosion is often a contributing factor our technicians check for first.</div>
         </div>
 
         <div class="faq-item">
