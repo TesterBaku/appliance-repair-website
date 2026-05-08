@@ -148,7 +148,7 @@ Every new `.html` file — article, hub page, or static page — must include th
 - `/pr` — generate and create a pull request for the current branch
 - `/review` — review changed files before merging. **Must flag as FAIL if `npm run test:functional` is not confirmed passing. Must run `/impeccable critique` on any changed HTML/CSS page and flag impeccable FAILs as merge blockers.**
 - `/test` — run all three test commands: `npm test` (links) + `npm run screenshot` + `npm run test:functional` (263 Playwright tests). All must exit 0.
-- `/impeccable` — design quality tool. Required before any PR that touches HTML or CSS. Fix all FAIL items before opening the PR. See `.claude/skills/impeccable/` for full documentation.
+- `/impeccable` — design quality tool. Required before any PR that touches HTML or CSS. Fix all FAIL items before opening the PR. See `.agents/skills/impeccable/` for full documentation.
 - `/visual-review` — Playwright MCP-driven deep visual check at desktop + mobile viewports, scoped to touched pages by default. Use after `/test` for any visual/CSS work; auto-invoked by `/seo-hub` Phase 5.
 - `/new-content` — lightweight scaffolder for a single article, hub page, or static page (no research, no test loop — use when you just need a stub)
 
