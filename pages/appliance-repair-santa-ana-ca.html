@@ -46,8 +46,8 @@
     .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: #f0f4f8; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 860px; margin: 0 auto; }
+    .ai-block { background: #f7fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
+    .ai-block p { font-size: 13.5px; color: #666; line-height: 1.85; max-width: 860px; margin: 0 auto; }
 
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: #fff; border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
@@ -55,8 +55,11 @@
     .neighborhood-zip { font-size: 12px; color: #666; }
     .neighborhood-note { font-size: 12px; color: #666; margin-top: 6px; line-height: 1.5; }
 
-    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .brand-pill { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #333; }
+    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; }
+    .brands-group { margin-top: 24px; }
+    .brands-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #999; margin-bottom: 10px; text-align: center; }
+    .brand-pill { background: #fff; border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: #333; }
+    .brand-pill.premium { border: 1.5px solid #c03a14; color: #111; }
 
     .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
     .process-step { text-align: center; }
@@ -107,13 +110,15 @@
     .testimonial-name { font-size: 12px; color: #666; font-weight: 500; }
     @media (max-width: 900px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px) { .testimonials-grid { grid-template-columns: 1fr; } }
-    .city-pricing-line { background: #f9fafb; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: #333; line-height: 1.7; max-width: 760px; }
-    .city-pricing-line strong { color: #1a0a02; }
+    .city-pricing-line { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: #333; line-height: 1.7; max-width: 760px; }
+    .city-pricing-line strong { color: #111; }
     .city-pricing-disclaimer { display: block; font-size: 11.5px; color: #666; margin-top: 6px; }
     .city-pricing-disclaimer a { color: #e84c1e; font-weight: 600; }
     .services-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
     .services-links-grid a { font-size: 14px; font-weight: 600; color: #111; text-decoration: none; padding: 9px 4px; border-bottom: 1px solid #eee; display: block; }
     .services-links-grid a:hover { color: #e84c1e; }
+    .services-links-grid a.hub-link::after { content: ' \2192'; font-size: 11px; color: #e84c1e; opacity: 0.8; font-style: normal; }
+    .services-links-grid a:not(.hub-link) { color: #666; font-weight: 500; }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Santa Ana) -->
@@ -169,7 +174,7 @@
       {
         "@type": "Question",
         "name": "Do you offer same-day appliance repair in Santa Ana, CA?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Same-day appliance repair is available throughout Santa Ana when you call before noon. We dispatch from Stanton — just minutes from Santa Ana — and can reach most neighborhoods including Floral Park, Downtown, and South Coast Metro within a few hours. Call (949) 629-5365 to check same-day availability." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Same-day appliance repair is available throughout Santa Ana when you call before noon. We dispatch from Stanton, just minutes from Santa Ana, and can reach most neighborhoods including Floral Park, Downtown, and South Coast Metro within a few hours. Call (949) 629-5365 to check same-day availability." }
       },
       {
         "@type": "Question",
@@ -179,7 +184,7 @@
       {
         "@type": "Question",
         "name": "Do you repair appliances in Floral Park and other historic-home neighborhoods?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Floral Park, Wilshire Square, and French Park have many older homes that often contain a mix of newer appliances retrofitted into vintage kitchens — and sometimes older freestanding ranges or refrigerators that still need servicing. Our technicians work on all eras and configurations. We come to your address regardless of the home's age or style." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Floral Park, Wilshire Square, and French Park have many older homes that often contain a mix of newer appliances retrofitted into vintage kitchens, and sometimes older freestanding ranges or refrigerators that still need servicing. Our technicians work on all eras and configurations. We come to your address regardless of the home's age or style." }
       },
       {
         "@type": "Question",
@@ -220,7 +225,10 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Washer Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dryer Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dishwasher Repair" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven & Stove Repair" } }
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven & Stove Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Freezer Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Wine Cooler Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Garbage Disposal Repair" } }
       ]
     }
   }
@@ -383,14 +391,14 @@
 
   <!-- AI ANSWER BLOCK -->
   <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. serves Santa Ana, California, providing same-day appliance repair for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover all Santa Ana neighborhoods — Downtown, Floral Park, Wilshire Square, South Coast Metro, Midtown, Cabrillo Park, and East Santa Ana — across ZIP codes 92701, 92703, 92704, 92705, and 92706. We service Whirlpool, GE, Samsung, LG, Sub-Zero, Bosch, Viking, KitchenAid, and more. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
+    <p>Universal Appliances Repair Group Inc. serves Santa Ana, California, providing same-day appliance repair for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover all Santa Ana neighborhoods: Downtown, Floral Park, Wilshire Square, South Coast Metro, Midtown, Cabrillo Park, and East Santa Ana, across ZIP codes 92701, 92703, 92704, 92705, and 92706. We service Whirlpool, GE, Samsung, LG, Sub-Zero, Bosch, Viking, KitchenAid, and more. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
   </div>
 
   <!-- NEIGHBORHOODS -->
   <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page">Santa Ana Neighborhoods We Serve</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the historic bungalows of Floral Park to the high-rises of South Coast Metro, we send technicians to every corner of Santa Ana — same rates, no travel surcharges.</p>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the historic bungalows of Floral Park to the high-rises of South Coast Metro, we send technicians to every corner of Santa Ana. Same rates, no travel surcharges.</p>
       <div class="neighborhoods-grid">
         <div class="neighborhood-card">
           <div class="neighborhood-name">Downtown &amp; 4th Street Arts District</div>
@@ -434,44 +442,52 @@
   <!-- SERVICES -->
   <section class="section section-white">
     <div class="container-lg">
-      <h2 class="h2-page">Appliance Repair Services in Santa Ana</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Whether your dryer stopped heating or your dishwasher is leaving standing water, we diagnose and fix it — usually in a single visit.</p>
-            <div class="services-links-grid">
-        <a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a>
-        <a href="washer-repair-orange-county.html">Washer Repair</a>
-        <a href="dryer-repair-orange-county.html">Dryer Repair</a>
-        <a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a>
-        <a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a>
+      <h2 class="h2-page" style="text-align:center;">What We Fix in Santa Ana</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:560px;text-align:center;margin-left:auto;margin-right:auto;">Whether your dryer stopped heating or your dishwasher is leaving standing water, we diagnose and fix it, usually in a single visit.</p>
+      <div class="services-links-grid">
+        <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
+        <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
+        <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
+        <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
+        <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
         <a href="services.html">Freezer Repair</a>
         <a href="services.html">Wine Cooler Repair</a>
         <a href="services.html">Garbage Disposal Repair</a>
       </div>
-</div>
+    </div>
   </section>
 
   <!-- BRANDS -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page">Brands We Service in Santa Ana</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From Whirlpool and Samsung in everyday kitchens to Sub-Zero and Wolf in Floral Park renovations — we service all of them.</p>
-      <div class="brands-list">
-        <span class="brand-pill">Whirlpool</span>
-        <span class="brand-pill">GE</span>
-        <span class="brand-pill">Samsung</span>
-        <span class="brand-pill">LG</span>
-        <span class="brand-pill">Sub-Zero</span>
-        <span class="brand-pill">Wolf</span>
-        <span class="brand-pill">Bosch</span>
-        <span class="brand-pill">Viking</span>
-        <span class="brand-pill">KitchenAid</span>
-        <span class="brand-pill">Maytag</span>
-        <span class="brand-pill">Frigidaire</span>
-        <span class="brand-pill">Kenmore</span>
-        <span class="brand-pill">Thermador</span>
-        <span class="brand-pill">Miele</span>
-        <span class="brand-pill">Dacor</span>
+      <h2 class="h2-page" style="text-align:center;">Brands We Service in Santa Ana</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:600px;text-align:center;margin-left:auto;margin-right:auto;">From Whirlpool and Samsung in everyday kitchens to Sub-Zero and Wolf in Floral Park renovations, we service all of them.</p>
+      <div class="brands-group">
+        <div class="brands-group-label">Premium &amp; Luxury</div>
+        <div class="brands-list">
+          <span class="brand-pill premium">Sub-Zero</span>
+          <span class="brand-pill premium">Wolf</span>
+          <span class="brand-pill premium">Viking</span>
+          <span class="brand-pill premium">Thermador</span>
+          <span class="brand-pill premium">Miele</span>
+          <span class="brand-pill premium">Dacor</span>
+          <span class="brand-pill premium">Bosch</span>
+        </div>
       </div>
-      <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;">We service these brands — but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
+      <div class="brands-group">
+        <div class="brands-group-label">All Major Brands</div>
+        <div class="brands-list">
+          <span class="brand-pill">Whirlpool</span>
+          <span class="brand-pill">GE</span>
+          <span class="brand-pill">Samsung</span>
+          <span class="brand-pill">LG</span>
+          <span class="brand-pill">KitchenAid</span>
+          <span class="brand-pill">Maytag</span>
+          <span class="brand-pill">Frigidaire</span>
+          <span class="brand-pill">Kenmore</span>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;text-align:center;">We service these brands but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
     </div>
   </section>
 
@@ -489,7 +505,7 @@
         <div class="process-step">
           <div class="step-number">2</div>
           <div class="step-title">Same-Day Dispatch</div>
-          <div class="step-desc">Stanton borders Santa Ana — most addresses are 10–15 minutes from our dispatch point. We give you a two-hour arrival window.</div>
+          <div class="step-desc">Stanton borders Santa Ana, so most addresses are 10–15 minutes from our dispatch point. We give you a two-hour arrival window.</div>
         </div>
         <div class="process-step">
           <div class="step-number">3</div>
@@ -515,43 +531,43 @@
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Have used Appliance Repair in the past. AG is a 5 star technician. On time, polite. Offered a detailed description of the problem. For a 12 year old washer the repair cost would far exceed in comparison to today's market value of a new washer. Appreciated the up front honesty. At no charge he did a minor adjustment to prevent stagnant water accumulating in the soap dispenser thus eliminating the foul odor emitting in my washer. Have no problem calling AG in the future. It's reassuring to find a service with integrity that is honest up front. Thank you. D. Vanover"</p>
-          <div class="t-initial" style="background:#444444;">DV</div>
-          <div class="testimonial-name">Danette Vanover — Washer repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#7b2d14;">DV</div>
+          <div class="testimonial-name">Danette Vanover · Washer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend"</p>
-          <div class="t-initial" style="background:#444444;">LA</div>
-          <div class="testimonial-name">Lale — GE Monogram refrigerator repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#5e3b1c;">LA</div>
+          <div class="testimonial-name">Lale · GE Monogram refrigerator repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"MK arrived on time, quickly diagnosed and repaired our dishwasher. Great service, reasonably priced."</p>
-          <div class="t-initial" style="background:#444444;">JS</div>
-          <div class="testimonial-name">Jonathan Stone — Dishwasher repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#954820;">JS</div>
+          <div class="testimonial-name">Jonathan Stone · Dishwasher repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG has been fantastic while fixing our dryer! His work is thorough and his customer service is A+++! He will definitely be my 1st call when we need another repair! Thanks again AG!"</p>
-          <div class="t-initial" style="background:#444444;">CM</div>
-          <div class="testimonial-name">Cindy Montefu — Dryer repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#6a3028;">CM</div>
+          <div class="testimonial-name">Cindy Montefu · Dryer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Competent and friendly service."</p>
-          <div class="t-initial" style="background:#444444;">RA</div>
-          <div class="testimonial-name">Roger Antonie — Stove repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#8c4312;">RA</div>
+          <div class="testimonial-name">Roger Antonie · Stove repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG was polite, on time, fairly priced and very knowledgeable."</p>
-          <div class="t-initial" style="background:#444444;">JD</div>
-          <div class="testimonial-name">John Dinger — Appliance repair · Orange County, CA</div>
+          <div class="t-initial" style="background:#4b2614;">JD</div>
+          <div class="testimonial-name">John Dinger · Appliance repair · Orange County, CA</div>
         </div>
 
       </div>
@@ -574,12 +590,12 @@
   <!-- FAQ -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Frequently Asked Questions — Santa Ana</h2>
+      <h2 class="h2-page" style="text-align:center;">FAQ: Santa Ana Appliance Repair</h2>
       <div class="faq-list">
 
         <div class="faq-item">
           <button class="faq-q">Do you offer same-day appliance repair in Santa Ana, CA?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Same-day appliance repair is available throughout Santa Ana when you call before noon. We dispatch from Stanton — just minutes from Santa Ana — and can reach most neighborhoods including Floral Park, Downtown, and South Coast Metro within a few hours. Call (949) 629-5365 to check same-day availability.</div>
+          <div class="faq-a">Yes. Same-day appliance repair is available throughout Santa Ana when you call before noon. We dispatch from Stanton, just minutes from Santa Ana, and can reach most neighborhoods including Floral Park, Downtown, and South Coast Metro within a few hours. Call (949) 629-5365 to check same-day availability.</div>
         </div>
 
         <div class="faq-item">
@@ -589,7 +605,7 @@
 
         <div class="faq-item">
           <button class="faq-q">Do you repair appliances in Floral Park and other historic-home neighborhoods?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Floral Park, Wilshire Square, and French Park have many older homes that often contain a mix of newer appliances retrofitted into vintage kitchens — and sometimes older freestanding ranges or refrigerators that still need servicing. Our technicians work on all eras and configurations. We come to your address regardless of the home's age or style.</div>
+          <div class="faq-a">Yes. Floral Park, Wilshire Square, and French Park have many older homes that often contain a mix of newer appliances retrofitted into vintage kitchens, and sometimes older freestanding ranges or refrigerators that still need servicing. Our technicians work on all eras and configurations. We come to your address regardless of the home's age or style.</div>
         </div>
 
         <div class="faq-item">
