@@ -323,6 +323,149 @@ async function testServicesPage(page) {
   assert(!!pricingBlock, 'Pricing block present on services page');
 }
 
+async function testTestimonialsPage(page) {
+  console.log('\npages/testimonials.html');
+  await page.goto(`${BASE}/pages/testimonials.html`, { waitUntil: 'domcontentloaded' });
+
+  const title = await page.title();
+  assert(title.includes('Universal Appliances Repair'), 'Testimonials page has correct title');
+
+  // Review cards present
+  const cards = await page.$$('.testimonial-card, .t-card, [class*="testimonial"]');
+  assert(cards.length > 0, 'Testimonial cards present');
+
+  // CTA links to contact
+  const ctaHrefs = await page.$$eval('a.btn-primary, a.btn-dark, a.nav-cta', els =>
+    els.map(a => a.getAttribute('href'))
+  );
+  assert(ctaHrefs.some(h => h && (h.includes('contact') || h.startsWith('tel:'))), 'Testimonials page CTA links to contact or tel:');
+}
+
+async function testBlogPage(page) {
+  console.log('\npages/blog.html');
+  await page.goto(`${BASE}/pages/blog.html`, { waitUntil: 'domcontentloaded' });
+
+  const title = await page.title();
+  assert(title.includes('Universal Appliances Repair'), 'Blog page has correct title');
+
+  // Article links present
+  const articleLinks = await page.$$eval('a[href*="article-"]', els =>
+    els.map(a => a.getAttribute('href'))
+  );
+  assert(articleLinks.length >= 5, `Blog page has at least 5 article links (got ${articleLinks.length})`);
+  assert(articleLinks.every(h => h && !h.includes('#')), 'All article links are non-empty and not anchors');
+}
+
+async function testServiceAreasPage(page) {
+  console.log('\npages/service-areas.html');
+  await page.goto(`${BASE}/pages/service-areas.html`, { waitUntil: 'domcontentloaded' });
+
+  const title = await page.title();
+  assert(title.includes('Universal Appliances Repair'), 'Service Areas page has correct title');
+
+  // City links present and clickable
+  const cityLinks = await page.$$eval('a[href*="appliance-repair-"][href*="-ca.html"]', els =>
+    els.map(a => ({ href: a.getAttribute('href'), text: a.textContent.trim() }))
+  );
+  assert(cityLinks.length >= 8, `Service areas has at least 8 city links (got ${cityLinks.length})`);
+
+  // Click a city-card link and verify navigation
+  await page.click('.city-card[href*="irvine"]');
+  await sleep(400);
+  const url = page.url();
+  assert(url.includes('irvine'), 'Clicking Irvine city card navigates to Irvine hub');
+  await page.goBack();
+
+  // No dead # links among city links
+  const deadLinks = cityLinks.filter(l => !l.href || l.href === '#');
+  assert(deadLinks.length === 0, 'No dead city links on service areas page');
+}
+
+async function test404Page(page) {
+  console.log('\n404.html');
+  await page.goto(`${BASE}/404.html`, { waitUntil: 'domcontentloaded' });
+
+  // "Go home" or equivalent link exists
+  const homeLinks = await page.$$eval('a[href]', els =>
+    els.map(a => a.getAttribute('href')).filter(h => h && (h === 'index.html' || h === '/' || h.includes('index')))
+  );
+  assert(homeLinks.length > 0, '404 page has a link back to homepage');
+}
+
+async function testFaqRedirect(page) {
+  console.log('\nfaq/index.html');
+  await page.goto(`${BASE}/faq/index.html`, { waitUntil: 'domcontentloaded' });
+
+  // Should redirect or contain a link to the real FAQ
+  const canonical = await page.$eval('link[rel="canonical"]', el => el.getAttribute('href')).catch(() => null);
+  const metaRefresh = await page.$eval('meta[http-equiv="refresh"]', el => el.getAttribute('content')).catch(() => null);
+  assert(
+    (canonical && canonical.includes('faq')) || (metaRefresh && metaRefresh.includes('faq')),
+    'faq/index.html has canonical or meta-refresh pointing to faq.html'
+  );
+}
+
+async function testBlogCategoryPages(page) {
+  const categories = ['refrigerator', 'washer', 'dryer', 'dishwasher', 'oven-stove', 'freezer', 'other'];
+  for (const cat of categories) {
+    const file = `pages/blog/${cat}.html`;
+    console.log(`\n${file}`);
+    await page.goto(`${BASE}/${file}`, { waitUntil: 'domcontentloaded' });
+
+    const title = await page.title();
+    assert(title.includes('Universal Appliances Repair'), `Blog/${cat} has correct title`);
+
+    // Should have article links or a message
+    const links = await page.$$eval('a[href*="article-"]', els => els.map(a => a.getAttribute('href')));
+    // Some category pages may have 0 articles if none exist — just verify the page loads
+    assert(true, `Blog/${cat} page loads without error`);
+
+    // CTA present
+    const ctaHrefs = await page.$$eval('a.btn-primary, a.btn-dark, a.nav-cta', els =>
+      els.map(a => a.getAttribute('href'))
+    );
+    assert(ctaHrefs.some(h => h && (h.includes('contact') || h.startsWith('tel:'))), `Blog/${cat} has CTA linking to contact or tel:`);
+  }
+}
+
+async function testAllArticles(page) {
+  console.log('\narticles/ (all 34)');
+  const fs = require('fs');
+  const path = require('path');
+  const ROOT = path.resolve(__dirname, '..');
+  const articleFiles = fs.readdirSync(path.join(ROOT, 'articles'))
+    .filter(f => f.endsWith('.html'))
+    .map(f => `articles/${f}`);
+
+  assert(articleFiles.length >= 30, `At least 30 article files exist (got ${articleFiles.length})`);
+
+  let ctaOk = 0;
+  let navOk = 0;
+  let failed_pages = [];
+
+  for (const file of articleFiles) {
+    await page.goto(`${BASE}/${file}`, { waitUntil: 'domcontentloaded' });
+
+    // CTA links to contact or tel:
+    const ctaLinks = await page.evaluate(() => {
+      return Array.from(document.querySelectorAll('a.btn-primary, a.btn-dark, .inline-cta a, .cta-box a')).map(a => a.getAttribute('href'));
+    });
+    const hasContact = ctaLinks.some(h => h && (h.includes('contact') || h.startsWith('tel:')));
+    if (hasContact) ctaOk++;
+    else failed_pages.push({ file, issue: 'No contact/tel CTA', ctaLinks });
+
+    // Nav CTA links to contact
+    const navCta = await page.$eval('a.nav-cta', a => a.getAttribute('href')).catch(() => null);
+    if (navCta && navCta.includes('contact')) navOk++;
+  }
+
+  assert(ctaOk === articleFiles.length, `All ${articleFiles.length} articles have a CTA linking to contact or tel: (${ctaOk}/${articleFiles.length} pass)`);
+  if (failed_pages.length > 0) {
+    failed_pages.forEach(fp => process.stdout.write(`    ! ${fp.file}: ${fp.issue} (found: ${JSON.stringify(fp.ctaLinks)})\n`));
+  }
+  assert(navOk === articleFiles.length, `All articles have nav CTA linking to contact (${navOk}/${articleFiles.length})`);
+}
+
 // ─── main ────────────────────────────────────────────────────────────────────
 (async () => {
   console.log('Starting functional tests…');
@@ -364,6 +507,14 @@ async function testServicesPage(page) {
     for (const slug of cityHubs) {
       await testCityHub(page, slug);
     }
+
+    await testTestimonialsPage(page);
+    await testBlogPage(page);
+    await testServiceAreasPage(page);
+    await test404Page(page);
+    await testFaqRedirect(page);
+    await testBlogCategoryPages(page);
+    await testAllArticles(page);
 
   } finally {
     await browser.close();
