@@ -76,6 +76,19 @@ async function testHomepage(page) {
   assert(dropdownLinks.some(h => h && h.includes('refrigerator')), 'Services dropdown contains refrigerator hub link');
   assert(dropdownLinks.some(h => h && h.includes('cost')), 'Services dropdown contains pricing guide link');
 
+  // Dropdown menus become visible on hover (regression: display:none !important blocks JS)
+  await page.setViewport({ width: 1280, height: 800 });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  const firstDropdown = await page.$('.nav-dropdown');
+  if (firstDropdown) {
+    await firstDropdown.hover();
+    await sleep(200);
+    const menuVisible = await page.$eval('.nav-dropdown .nav-dropdown-menu', el => {
+      return window.getComputedStyle(el).display !== 'none';
+    }).catch(() => false);
+    assert(menuVisible, 'Nav dropdown menu is visible on hover (not blocked by display:none !important)');
+  }
+
   // Footer services links
   const footerLinks = await page.$$eval('.footer-links a', els => els.map(a => a.getAttribute('href')));
   assert(footerLinks.some(h => h && h.includes('refrigerator')), 'Footer contains refrigerator link');
