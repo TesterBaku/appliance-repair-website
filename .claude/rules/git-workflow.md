@@ -58,10 +58,11 @@ feat(about): add team section with cards
 - Attach before/after screenshots if layout changed
 
 ## Test Checklist
+- [ ] `npm test` — link checker exits 0
+- [ ] `npm run screenshot` — all page screenshots captured
+- [ ] `npm run test:functional` — all 165 functional tests pass (buttons, nav, forms, accordions)
 - [ ] Opened in browser and checked visually
-- [ ] Tested on mobile viewport
-- [ ] No broken links or missing images
-- [ ] Matches reference design
+- [ ] Tested on mobile viewport (375px)
 ```
 
 ## Bug Fix Workflow
@@ -75,7 +76,7 @@ When a test (`npm test` or `npm run screenshot`) reports a failure, follow this 
 4. **Validate** — re-run the same test immediately after the fix
    - If it passes → mark fixed, move to next failure
    - If it still fails → do NOT re-run the same fix; change approach and repeat from step 2
-5. **Repeat** until `npm test` and `npm run screenshot` both exit with code 0
+5. **Repeat** until all three test commands exit with code 0
 
 ### Rules
 - Never skip validation after a fix — always re-run the test before moving on
@@ -85,9 +86,13 @@ When a test (`npm test` or `npm run screenshot`) reports a failure, follow this 
 
 ### Test Commands
 ```
-npm test            # link checker — checks all internal .html hrefs
-npm run screenshot  # puppeteer — loads each page and captures a screenshot
+npm test                 # link checker — checks all internal .html hrefs
+npm run screenshot       # puppeteer — loads each page and captures a screenshot
+npm run test:functional  # functional — verifies buttons, nav, forms, accordions (165 tests)
+npm run test:all         # runs all three above in sequence
 ```
+
+**All three must exit 0 before a PR is created or approved.**
 
 ### Common Failure Patterns
 | Test | Symptom | Likely Cause |
@@ -96,6 +101,7 @@ npm run screenshot  # puppeteer — loads each page and captures a screenshot
 | `npm test` | `broken link: <path>` | Wrong relative path in `href` |
 | `npm run screenshot` | `MISSING: <page>.html` | Page listed in `screenshot.js` but file not created |
 | `npm run screenshot` | `FAIL: <page>.html — ...` | Puppeteer navigation error or page crash |
+| `npm run test:functional` | `✗ <test name>` | Button/CTA points to wrong page; accordion broken; form field missing |
 
 ---
 
@@ -121,11 +127,15 @@ Every request that results in any code or file change — however small — must
 
 1. Create a branch off `master`
 2. Make the change and commit it
-3. Run `npm test` and `npm run screenshot`
+3. Run **all three** test commands — all must exit 0:
+   - `npm test` — link checker
+   - `npm run screenshot` — page screenshots
+   - `npm run test:functional` — 165 functional tests (buttons, nav, forms, accordions)
 4. Create a PR
 5. **Run `/review` as an independent subagent** — spawn a fresh Agent with no context from the implementation conversation. The reviewer must not be the same agent that wrote the code.
-6. Fix any blockers the reviewer raises, then re-run `/review`
-7. Merge only after the reviewer outputs `✅ APPROVED`
+6. The `/review` subagent **must verify** that the PR description shows all three tests passing. Flag as **FAIL** if `npm run test:functional` is missing from the checklist or not confirmed passing.
+7. Fix any blockers the reviewer raises, re-run all three tests, then re-run `/review`
+8. Merge only after the reviewer outputs `✅ APPROVED`
 
 No direct commits to `master`. No skipping steps for "small" changes. No self-merging without a reviewer verdict.
 
