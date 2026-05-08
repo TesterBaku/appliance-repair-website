@@ -264,7 +264,17 @@
   <section class="section map-section">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;margin-bottom:24px;">Our Coverage Area</h2>
-      <div id="service-map"></div>
+      <div id="service-map">
+        <noscript><div style="padding:40px;text-align:center;font-size:14px;color:#666;">Interactive map requires JavaScript. See city list below.</div></noscript>
+      </div>
+      <script>
+        setTimeout(function() {
+          if (!window._mapLoaded) {
+            var el = document.getElementById('service-map');
+            if (el) el.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:280px;font-size:14px;color:#666;background:#f7fafc;border-radius:14px;">Map temporarily unavailable. See city list below.</div>';
+          }
+        }, 5000);
+      </script>
     </div>
   </section>
 
@@ -282,23 +292,23 @@
             <div><div class="city-name">Huntington Beach</div><div class="city-tag">Dedicated service page</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Newport%20Beach" class="city-card">
             <div><div class="city-name">Newport Beach</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Laguna%20Beach" class="city-card">
             <div><div class="city-name">Laguna Beach</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Seal%20Beach" class="city-card">
             <div><div class="city-name">Seal Beach</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Dana%20Point" class="city-card">
             <div><div class="city-name">Dana Point</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=San%20Clemente" class="city-card">
             <div><div class="city-name">San Clemente</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
@@ -333,15 +343,15 @@
             <div><div class="city-name">Costa Mesa</div><div class="city-tag">Dedicated service page</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Tustin" class="city-card">
             <div><div class="city-name">Tustin</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Westminster" class="city-card">
             <div><div class="city-name">Westminster</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Fountain%20Valley" class="city-card">
             <div><div class="city-name">Fountain Valley</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
@@ -356,31 +366,31 @@
             <div><div class="city-name">Fullerton</div><div class="city-tag">Dedicated service page</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Buena%20Park" class="city-card">
             <div><div class="city-name">Buena Park</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Yorba%20Linda" class="city-card">
             <div><div class="city-name">Yorba Linda</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Brea" class="city-card">
             <div><div class="city-name">Brea</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Placentia" class="city-card">
             <div><div class="city-name">Placentia</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=La%20Habra" class="city-card">
             <div><div class="city-name">La Habra</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Cypress" class="city-card">
             <div><div class="city-name">Cypress</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Los%20Alamitos" class="city-card">
             <div><div class="city-name">Los Alamitos</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
@@ -391,23 +401,23 @@
       <div class="region-block">
         <div class="region-title">🌴 South Orange County</div>
         <div class="cities-grid">
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Mission%20Viejo" class="city-card">
             <div><div class="city-name">Mission Viejo</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Lake%20Forest" class="city-card">
             <div><div class="city-name">Lake Forest</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Laguna%20Niguel" class="city-card">
             <div><div class="city-name">Laguna Niguel</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Aliso%20Viejo" class="city-card">
             <div><div class="city-name">Aliso Viejo</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <a href="contact.html" class="city-card">
+          <a href="contact.html?city=Rancho%20Santa%20Margarita" class="city-card">
             <div><div class="city-name">Rancho Santa Margarita</div><div class="city-tag">Book a visit</div></div>
             <span class="city-arrow">→</span>
           </a>
@@ -522,29 +532,48 @@
 
     var icon = L.divIcon({ className: '', html: '<div style="background:#e84c1e;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>', iconSize: [10,10], iconAnchor: [5,5] });
 
+    // [name, lat, lng, hubUrl or null]
     var cities = [
-      ["Anaheim", 33.8353, -117.9145], ["Santa Ana", 33.7455, -117.8677],
-      ["Irvine", 33.6846, -117.8265], ["Huntington Beach", 33.6595, -117.9988],
-      ["Garden Grove", 33.7741, -117.9400], ["Fullerton", 33.8704, -117.9245],
-      ["Orange", 33.7879, -117.8531], ["Costa Mesa", 33.6411, -117.9187],
-      ["Newport Beach", 33.6189, -117.9289], ["Laguna Beach", 33.5427, -117.7854],
-      ["Mission Viejo", 33.6000, -117.6719], ["Lake Forest", 33.6464, -117.6894],
-      ["Yorba Linda", 33.8886, -117.8131], ["Brea", 33.9167, -117.9000],
-      ["Laguna Niguel", 33.5222, -117.7075], ["Tustin", 33.7458, -117.8261],
-      ["Westminster", 33.7514, -117.9939], ["Fountain Valley", 33.7091, -117.9534],
-      ["Buena Park", 33.8675, -117.9981], ["Cypress", 33.8169, -118.0373],
-      ["Placentia", 33.8722, -117.8703], ["La Habra", 33.9319, -117.9462],
-      ["Seal Beach", 33.7414, -118.1047], ["San Clemente", 33.4270, -117.6120],
-      ["Dana Point", 33.4669, -117.6981], ["Aliso Viejo", 33.5769, -117.7256],
-      ["Rancho Santa Margarita", 33.6408, -117.6030], ["Los Alamitos", 33.8033, -118.0723],
-      ["Stanton", 33.8005, -117.9931]
+      ["Anaheim", 33.8353, -117.9145, "appliance-repair-anaheim-ca.html"],
+      ["Santa Ana", 33.7455, -117.8677, "appliance-repair-santa-ana-ca.html"],
+      ["Irvine", 33.6846, -117.8265, "appliance-repair-irvine-ca.html"],
+      ["Huntington Beach", 33.6595, -117.9988, "appliance-repair-huntington-beach-ca.html"],
+      ["Garden Grove", 33.7741, -117.9400, "appliance-repair-garden-grove-ca.html"],
+      ["Fullerton", 33.8704, -117.9245, "appliance-repair-fullerton-ca.html"],
+      ["Orange", 33.7879, -117.8531, "appliance-repair-orange-ca.html"],
+      ["Costa Mesa", 33.6411, -117.9187, "appliance-repair-costa-mesa-ca.html"],
+      ["Newport Beach", 33.6189, -117.9289, null],
+      ["Laguna Beach", 33.5427, -117.7854, null],
+      ["Mission Viejo", 33.6000, -117.6719, null],
+      ["Lake Forest", 33.6464, -117.6894, null],
+      ["Yorba Linda", 33.8886, -117.8131, null],
+      ["Brea", 33.9167, -117.9000, null],
+      ["Laguna Niguel", 33.5222, -117.7075, null],
+      ["Tustin", 33.7458, -117.8261, null],
+      ["Westminster", 33.7514, -117.9939, null],
+      ["Fountain Valley", 33.7091, -117.9534, null],
+      ["Buena Park", 33.8675, -117.9981, null],
+      ["Cypress", 33.8169, -118.0373, null],
+      ["Placentia", 33.8722, -117.8703, null],
+      ["La Habra", 33.9319, -117.9462, null],
+      ["Seal Beach", 33.7414, -118.1047, null],
+      ["San Clemente", 33.4270, -117.6120, null],
+      ["Dana Point", 33.4669, -117.6981, null],
+      ["Aliso Viejo", 33.5769, -117.7256, null],
+      ["Rancho Santa Margarita", 33.6408, -117.6030, null],
+      ["Los Alamitos", 33.8033, -118.0723, null],
+      ["Stanton", 33.8005, -117.9931, null]
     ];
 
     cities.forEach(function(c) {
-      L.marker([c[1], c[2]], { icon: icon })
+      var name = c[0], lat = c[1], lng = c[2], hub = c[3];
+      var href = hub ? hub : 'contact.html?city=' + encodeURIComponent(name);
+      var label = hub ? 'View ' + name + ' page' : 'Book repair in ' + name;
+      L.marker([lat, lng], { icon: icon })
         .addTo(map)
-        .bindPopup('<strong>' + c[0] + '</strong><br><a href="contact.html" style="color:#e84c1e;font-size:12px;">Book a Repair →</a>');
+        .bindPopup('<strong>' + name + '</strong><br><a href="' + href + '" style="color:#e84c1e;font-size:12px;">' + label + ' →</a>');
     });
+    window._mapLoaded = true;
   </script>
 
   <!-- Hamburger nav -->

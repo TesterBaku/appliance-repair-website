@@ -444,6 +444,24 @@
         });
       });
     })();
+
+    // City context: pre-fill from ?city= param when arriving from service-areas page
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var city = params.get('city');
+      if (!city) return;
+      // Update form heading to name the city
+      var heading = document.querySelector('.card h2');
+      if (heading) heading.textContent = 'Book a Repair in ' + city;
+      // Pre-select city in the dropdown if it exists
+      var citySelect = document.querySelector('select[name="city"]');
+      if (citySelect) {
+        var opt = Array.from(citySelect.options).find(function(o) {
+          return o.text.toLowerCase().replace(/[^a-z]/g, '').includes(city.toLowerCase().replace(/[^a-z]/g, ''));
+        });
+        if (opt) { opt.selected = true; citySelect.dispatchEvent(new Event('change')); }
+      }
+    })();
   </script>
 </body>
 </html>

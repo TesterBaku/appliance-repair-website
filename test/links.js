@@ -29,10 +29,11 @@ for (const filePath of htmlFiles) {
   const fromFile = path.relative(root, filePath);
   const fromDir = path.dirname(filePath);
 
-  // Check internal HTML hrefs
+  // Check internal HTML hrefs (strip query params before resolving)
   for (const [, href] of content.matchAll(/href="([^"#][^"]*\.html[^"]*)"/g)) {
     if (href.startsWith('http://') || href.startsWith('https://')) continue;
-    const target = path.resolve(fromDir, href);
+    const cleanHref = href.split('?')[0]; // strip ?city= and other query params
+    const target = path.resolve(fromDir, cleanHref);
     if (!fs.existsSync(target)) {
       issues.push(`${fromFile} → broken link: ${href}`);
     }
