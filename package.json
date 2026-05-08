@@ -5,6 +5,8 @@
   "scripts": {
     "start": "npx serve .",
     "test": "node test/links.js",
+    "test:functional": "node test/functional.js",
+    "test:all": "node test/links.js && node test/screenshot.js && node test/functional.js",
     "screenshot": "node test/screenshot.js",
     "build:sitemap": "node scripts/build-sitemap.js",
     "clean:images": "node scripts/clean-images.js",
@@ -18,6 +20,7 @@
     "puppeteer": "^24.40.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@secretlint/secretlint-rule-preset-recommend": "^12.2.0",
     "husky": "^9.1.7",
     "secretlint": "^12.2.0",
