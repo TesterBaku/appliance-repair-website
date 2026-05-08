@@ -1,6 +1,10 @@
 node_modules/
 test/screenshots/
 
+# Playwright output — never commit test run artifacts
+test-results/
+playwright-report/
+
 # Local task/planning files — owner's working notes, not part of the site
 tasks/
 *.png
