@@ -5,7 +5,7 @@ module.exports = defineConfig({
   testDir: './test',
   testMatch: ['**/*.spec.js'],
   fullyParallel: true,
-  timeout: 20000,
+  timeout: 10000,
   retries: 0,
   reporter: [['list']],
   use: {
