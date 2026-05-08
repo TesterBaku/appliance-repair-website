@@ -550,6 +550,28 @@ for (const file of articleFiles) {
       expect(links.some(h => h && (h.includes('contact') || h.startsWith('tel:')))).toBe(true);
     });
 
+    test('inline CTA paragraph links render as text links, not buttons', async ({ page }) => {
+      const issues = await page.locator('.inline-cta p a').evaluateAll(links => links.map(link => {
+        const styles = window.getComputedStyle(link);
+        return {
+          text: link.textContent.trim(),
+          display: styles.display,
+          backgroundColor: styles.backgroundColor,
+          paddingLeft: styles.paddingLeft,
+          paddingRight: styles.paddingRight,
+          textDecorationLine: styles.textDecorationLine,
+        };
+      }).filter(result => (
+        result.display !== 'inline' ||
+        result.backgroundColor !== 'rgba(0, 0, 0, 0)' ||
+        result.paddingLeft !== '0px' ||
+        result.paddingRight !== '0px' ||
+        !result.textDecorationLine.includes('underline')
+      )));
+
+      expect(issues).toEqual([]);
+    });
+
     test('nav CTA links to contact', async ({ page }) => {
       const href = await page.locator('a.nav-cta').getAttribute('href');
       expect(href).toMatch(/contact/);
