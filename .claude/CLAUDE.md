@@ -98,7 +98,16 @@ Runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Audits all artic
 
 ## Standing Rule — PR on Every Change
 Any request that results in a code or file change must go through the full workflow:
-branch → commit → test → PR → review → merge. No exceptions, even for small edits.
+branch → commit → **all three tests** → PR → review → merge. No exceptions, even for small edits.
+
+**Three required tests — all must exit 0 before opening a PR:**
+```
+npm test                 # link checker (64 pages, no broken hrefs)
+npm run screenshot       # puppeteer batch screenshots
+npm run test:functional  # 165 functional tests — buttons, nav, forms, accordions across all pages
+```
+
+The `/review` subagent must flag as **FAIL** any PR whose description does not confirm `npm run test:functional` passing.
 
 ## Site-wide required files (must return 200)
 - `/robots.txt`
@@ -129,8 +138,8 @@ Every new `.html` file — article, hub page, or static page — must include th
 - `/seo-hub` — full hub-page workflow for service and city landing pages. Same shape as `/seo-blog` but **interactive-only and never auto-merges** — hub pages always wait for owner review. Use this for P2-2 (per-service hubs) and P2-3 (per-city hubs) in the action plan.
 - `/seo-audit` — quarterly SEO audit: scan all articles, auto-fix schema/meta gaps, open PR with report
 - `/pr` — generate and create a pull request for the current branch
-- `/review` — review changed files before merging
-- `/test` — run screenshot and link checks across all pages (fast smoke gate)
+- `/review` — review changed files before merging. **Must flag as FAIL if `npm run test:functional` is not confirmed passing in the PR description.**
+- `/test` — run all three test commands: `npm test` (links) + `npm run screenshot` + `npm run test:functional` (165 functional tests). All must exit 0.
 - `/visual-review` — Playwright MCP-driven deep visual check at desktop + mobile viewports, scoped to touched pages by default. Use after `/test` for any visual/CSS work; auto-invoked by `/seo-hub` Phase 5.
 - `/new-content` — lightweight scaffolder for a single article, hub page, or static page (no research, no test loop — use when you just need a stub)
 
