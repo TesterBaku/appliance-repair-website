@@ -5,7 +5,7 @@ const path = require('path');
 const url = require('url');
 
 const ROOT = path.resolve(__dirname, '..');
-const PORT = 8788;
+const PORT = Number(process.env.PORT || 8788);
 
 const MIME = {
   '.html': 'text/html',
@@ -30,6 +30,6 @@ const server = http.createServer((req, res) => {
   fs.createReadStream(filePath).pipe(res);
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Static server running on http://localhost:${PORT}`);
 });
