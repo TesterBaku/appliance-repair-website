@@ -275,6 +275,38 @@ async function testCostHub(page) {
   assert(!!midCta, 'Mid-scroll CTA strip present');
 }
 
+async function testAboutPage(page) {
+  console.log('\npages/about.html');
+  await page.goto(`${BASE}/pages/about.html`, { waitUntil: 'domcontentloaded' });
+
+  // Primary CTA must go to contact, not services
+  const primaryCta = await page.$eval('a.btn-primary', a => a.getAttribute('href')).catch(() => null);
+  assert(primaryCta && primaryCta.includes('contact'), 'About page primary CTA links to contact');
+
+  // Secondary CTA must go to services
+  const outlineCta = await page.$eval('a.btn-outline', a => a.getAttribute('href')).catch(() => null);
+  assert(outlineCta && outlineCta.includes('services'), 'About page secondary CTA links to services');
+
+  // Footer service links must point to hub pages, not services.html
+  const footerServiceLinks = await page.$$eval('.footer-links a', els =>
+    els.map(a => ({ text: a.textContent.trim(), href: a.getAttribute('href') }))
+  );
+  const refrigeratorLink = footerServiceLinks.find(l => l.text === 'Refrigerator Repair');
+  assert(refrigeratorLink && refrigeratorLink.href.includes('refrigerator-repair'), 'Footer "Refrigerator Repair" links to refrigerator hub');
+
+  const stoveLink = footerServiceLinks.find(l => l.text.includes('Stove'));
+  assert(stoveLink && stoveLink.href.includes('oven-stove'), 'Footer stove link goes to oven-stove hub');
+
+  const washerLink = footerServiceLinks.find(l => l.text === 'Washer Repair');
+  assert(washerLink && washerLink.href.includes('washer-repair'), 'Footer "Washer Repair" links to washer hub');
+
+  // Nav dropdown has Pricing Guide
+  const navLinks = await page.$$eval('.nav-dropdown-menu a', els =>
+    els.map(a => a.getAttribute('href'))
+  );
+  assert(navLinks.some(h => h && h.includes('cost')), 'About nav Services dropdown has Pricing Guide');
+}
+
 async function testServicesPage(page) {
   console.log('\npages/services.html');
   await page.goto(`${BASE}/pages/services.html`, { waitUntil: 'domcontentloaded' });
@@ -306,6 +338,7 @@ async function testServicesPage(page) {
     await testFaqPage(page);
     await testCostHub(page);
     await testServicesPage(page);
+    await testAboutPage(page);
 
     const serviceHubs = [
       { slug: 'refrigerator-repair-orange-county', appliance: 'refrigerator' },
