@@ -480,6 +480,16 @@ test.describe('Service areas page', () => {
     await page.waitForURL(/irvine/);
   });
 
+  test('Laguna Beach city card points to the dedicated hub', async ({ page }) => {
+    const lagunaCard = page.locator('.city-card[href="appliance-repair-laguna-beach-ca.html"] .city-name');
+    await expect(lagunaCard).toHaveText('Laguna Beach');
+  });
+
+  test('Laguna Beach map entry points to the dedicated hub', async ({ page }) => {
+    const html = await page.content();
+    expect(html).toMatch(/\["Laguna Beach",\s*33\.5427,\s*-117\.7854,\s*"appliance-repair-laguna-beach-ca\.html"\]/);
+  });
+
   test('no dead # city links', async ({ page }) => {
     const links = await hrefs(page, 'a[href*="appliance-repair-"][href*="-ca.html"]');
     expect(links.every(h => h && h !== '#')).toBe(true);
