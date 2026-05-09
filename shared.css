@@ -87,7 +87,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .faq-q { width: 100%; text-align: left; padding: 18px 22px; font-size: 14px; font-weight: 600; color: var(--text-primary); background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .faq-q:hover { background: var(--hover-surface); }
 .faq-icon { font-size: 18px; color: var(--text-inactive); flex-shrink: 0; transition: transform 0.2s; }
-.faq-a { padding: 0 22px 18px; font-size: 13px; color: var(--text-sub); line-height: 1.8; display: none; text-align: left; }
+.faq-a { padding: 0 22px 18px; font-size: 13px; color: var(--text-sub); line-height: 1.8; display: none; text-align: left; text-indent: 1em; }
 .faq-item.open .faq-a { display: block; }
 .faq-item.open .faq-icon { transform: rotate(45deg); }
 
