@@ -465,7 +465,9 @@
       "body": "Excellent Service! PLease use this company for all your appliance repairs!",
       "bodyStatus": "complete",
       "profilePhoto": null,
-      "reviewPhoto": null
+      "reviewPhoto": null,
+      "bodyHasTypos": true,
+      "bodyNote": "\"PLease\" has capital L — mid-word capitalization artifact. Light correction to \"Please\" applied for display."
     },
     {
       "id": "google-jeff-c-2026-03",
