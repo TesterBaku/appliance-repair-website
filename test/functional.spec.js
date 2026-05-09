@@ -377,9 +377,9 @@ for (const slug of CITY_HUBS) {
       expect(links.some(h => h && h.includes('refrigerator'))).toBe(true);
     });
 
-    test('5 hub-linked services have arrow indicator (.hub-link class)', async ({ page }) => {
+    test('hub-linked services have arrow indicator (.hub-link class)', async ({ page }) => {
       const count = await page.locator('.services-links-grid a.hub-link').count();
-      expect(count).toBe(5);
+      expect(count).toBeGreaterThanOrEqual(8);
     });
 
     test('brand section has Premium & Luxury tier label', async ({ page }) => {
