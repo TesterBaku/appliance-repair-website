@@ -300,7 +300,7 @@ These three files must exist at the root and return 200:
 - Use real, specific details (repair timelines, part names, symptoms)
 - Every section should answer a question the reader has
 - No filler phrases ("In conclusion", "It goes without saying")
-- **Estimated price ranges are allowed in cost-focused content** (cost hub pages, repair-cost articles, repair-vs-replace guides). Use *ranges* (e.g. "$150–$650"), never flat rates (e.g. "$280"). Prices are estimates, not quotes.
+- **Estimated price ranges are allowed by default on hub pages** (service hubs, brand hubs, city hubs, cost hubs) **and on cost-focused articles** (repair-cost articles, repair-vs-replace guides). Use *ranges* (e.g. "$150–$650"), never flat rates (e.g. "$280"). Prices are estimates, not quotes.
 - Every page or section that displays prices **must include this disclaimer verbatim** somewhere on the page (above the table is preferred):
 
   > *Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.*
