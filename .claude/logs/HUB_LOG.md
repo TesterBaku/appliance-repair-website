@@ -4,6 +4,33 @@ Running log of every `/seo-hub` run. PRs are open for owner review; hub pages ne
 
 ---
 
+## May 09, 2026 — brand hub: sub-zero-appliance-repair-orange-county
+
+**Type:** service (brand-vertical)
+**Target:** Sub-Zero
+**PR:** [#257](https://github.com/TesterBaku/appliance-repair-website/pull/257) — open, awaiting owner review
+**Word count:** ~1,400
+**FAQ count:** 8
+**Models featured:** 6 Sub-Zero product lines (BI Series, 700 Series, 400 Series, PRO 48, Designer, Classic)
+**Common issues:** 8
+**Testimonials:** 5 (from data/testimonials.json — 0 invented)
+**Internal links wired:** services.html, refrigerator hub, article-fridge-repair-garden-grove, article-wine-cooler-repair-newport-beach, sitemap.xml
+**Schemas:** Service (with brand field), LocalBusiness, BreadcrumbList, FAQPage, AggregateRating, 5x Review
+
+**Outstanding for owner:**
+- Hero photo: reuses fridge-sidebyside.jpg — replace with Sub-Zero built-in photo when available
+- Cost ranges are industry estimates — review against actual job records before merge
+- Wolf/Miele/Viking/Thermador cross-links temporarily point to services.html (update in PRs #2–5)
+
+**Phase 0 highlights:**
+- L-2 luxury brand hubs program — first of 5 sequential PRs
+- Pricing rule update (PR #256) applied before this PR: cost ranges now allowed by default on all hub pages
+- Testimonial pool was exhausted for fridge-specific reviews (all at cap from city/service hubs); relaxed appliance filter to pick 5 general-quality reviews
+- Brian Brassil (bodyHasTypos: true): light correction applied — "ARE PRIDGE" → "our fridge", case normalized. Pool raw body unchanged.
+- Susan Gerakos: pool name normalized from "susan gerakos" to "Susan Gerakos" (GBP scrape artifact)
+
+---
+
 ## May 09, 2026 — city hub: appliance-repair-newport-beach-ca
 
 **Type:** city
