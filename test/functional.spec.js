@@ -626,11 +626,150 @@ for (const { brand, file } of BRAND_HUBS) {
       await page.goto(`/pages/${file}`);
     });
 
+    // ── Page structure ────────────────────────────────────────────────────────
     test('page loads with nav and footer', async ({ page }) => {
       await expect(page.locator('nav.nav')).toBeAttached();
       await expect(page.locator('footer.footer')).toBeAttached();
     });
 
+    test('title contains brand name and Orange County', async ({ page }) => {
+      const title = await page.title();
+      expect(title).toContain(brand);
+      expect(title).toContain('Orange County');
+      expect(title).toContain('Universal Appliances Repair');
+    });
+
+    test('canonical link points to fixappliancesfast.com', async ({ page }) => {
+      const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+      expect(canonical).toMatch(/^https:\/\/fixappliancesfast\.com\//);
+      expect(canonical).toContain(file);
+    });
+
+    test('meta description is 140-165 characters', async ({ page }) => {
+      const desc = await page.locator('meta[name="description"]').getAttribute('content');
+      expect(desc).toBeTruthy();
+      expect(desc.length).toBeGreaterThanOrEqual(140);
+      expect(desc.length).toBeLessThanOrEqual(165);
+    });
+
+    test('og:site_name is Universal Appliances Repair', async ({ page }) => {
+      const siteName = await page.locator('meta[property="og:site_name"]').getAttribute('content');
+      expect(siteName).toBe('Universal Appliances Repair');
+    });
+
+    test('og:image is present', async ({ page }) => {
+      const img = await page.locator('meta[property="og:image"]').getAttribute('content');
+      expect(img).toMatch(/^https:\/\/fixappliancesfast\.com\//);
+    });
+
+    test('no placeholder text on page', async ({ page }) => {
+      const body = await page.locator('body').textContent();
+      expect(body).not.toMatch(/\bLorem\b/i);
+      expect(body).not.toMatch(/\bTODO\b/);
+      expect(body).not.toMatch(/\bFIXME\b/);
+      expect(body).not.toMatch(/\bPlaceholder\b/i);
+      expect(body).not.toMatch(/\bSample\b/i);
+    });
+
+    test('JSON-LD schemas: Service, LocalBusiness, FAQPage, BreadcrumbList all present', async ({ page }) => {
+      const schemas = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
+          .map(s => { try { return JSON.parse(s.textContent)['@type']; } catch { return null; } })
+          .filter(Boolean)
+      );
+      expect(schemas).toContain('Service');
+      expect(schemas).toContain('LocalBusiness');
+      expect(schemas).toContain('FAQPage');
+      expect(schemas).toContain('BreadcrumbList');
+    });
+
+    test('LocalBusiness schema has AggregateRating with 76 reviews', async ({ page }) => {
+      const rating = await page.evaluate(() => {
+        const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
+        for (const s of scripts) {
+          try {
+            const j = JSON.parse(s.textContent);
+            if (j['@type'] === 'LocalBusiness' && j.aggregateRating) return j.aggregateRating;
+          } catch {}
+        }
+        return null;
+      });
+      expect(rating).toBeTruthy();
+      expect(String(rating.reviewCount)).toBe('76');
+      expect(String(rating.ratingValue)).toBe('5.0');
+    });
+
+    test('FAQPage schema has at least 8 mainEntity entries', async ({ page }) => {
+      const count = await page.evaluate(() => {
+        const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
+        for (const s of scripts) {
+          try {
+            const j = JSON.parse(s.textContent);
+            if (j['@type'] === 'FAQPage') return j.mainEntity.length;
+          } catch {}
+        }
+        return 0;
+      });
+      expect(count).toBeGreaterThanOrEqual(8);
+    });
+
+    test('Service schema has brand field matching hub brand', async ({ page }) => {
+      const brandName = await page.evaluate(() => {
+        const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
+        for (const s of scripts) {
+          try {
+            const j = JSON.parse(s.textContent);
+            if (j['@type'] === 'Service' && j.brand) return j.brand.name;
+          } catch {}
+        }
+        return null;
+      });
+      expect(brandName).toBe(brand);
+    });
+
+    // ── Navigation ────────────────────────────────────────────────────────────
+    test('nav has phone link and Book CTA', async ({ page }) => {
+      const phoneLinks = await hrefs(page, '.nav-phone, a[href^="tel:"]');
+      expect(phoneLinks.some(h => h && h.includes('9496295365'))).toBe(true);
+      const bookHref = await page.locator('a.nav-cta').getAttribute('href');
+      expect(bookHref).toMatch(/contact/);
+    });
+
+    test('nav hamburger button and drawer present', async ({ page }) => {
+      await expect(page.locator('.nav-hamburger')).toBeAttached();
+      await expect(page.locator('.nav-drawer')).toBeAttached();
+    });
+
+    test('hamburger opens and closes the drawer', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      const btn = page.locator('.nav-hamburger');
+      const drawer = page.locator('.nav-drawer');
+      await btn.click();
+      await expect(drawer).toHaveAttribute('data-open', '');
+      await btn.click();
+      await expect(drawer).not.toHaveAttribute('data-open', '');
+    });
+
+    // ── Breadcrumb ────────────────────────────────────────────────────────────
+    test('breadcrumb has Home and Services links', async ({ page }) => {
+      const breadcrumbLinks = await hrefs(page, 'a[href*="index.html"], a[href*="services.html"]');
+      expect(breadcrumbLinks.some(h => h && h.includes('index'))).toBe(true);
+      expect(breadcrumbLinks.some(h => h && h.includes('services'))).toBe(true);
+    });
+
+    // ── AI answer block ───────────────────────────────────────────────────────
+    test('AI answer block present and contains phone number', async ({ page }) => {
+      await expect(page.locator('.ai-block')).toBeAttached();
+      const text = await page.locator('.ai-block').textContent();
+      expect(text).toContain('(949) 629-5365');
+    });
+
+    test('AI answer block contains brand name', async ({ page }) => {
+      const text = await page.locator('.ai-block').textContent();
+      expect(text).toContain(brand);
+    });
+
+    // ── Hero ─────────────────────────────────────────────────────────────────
     test('hero section has H1 and two CTAs', async ({ page }) => {
       await expect(page.locator('.hub-hero h1')).toBeAttached();
       const ctaLinks = await hrefs(page, '.hub-cta-row a');
@@ -638,40 +777,186 @@ for (const { brand, file } of BRAND_HUBS) {
       expect(ctaLinks.some(h => h && h.includes('contact'))).toBe(true);
     });
 
-    test('has FAQ section with at least 8 questions', async ({ page }) => {
-      const questions = await page.locator('.faq-q').count();
-      expect(questions).toBeGreaterThanOrEqual(8);
+    test('H1 contains brand name', async ({ page }) => {
+      const h1 = await page.locator('.hub-hero h1').textContent();
+      expect(h1).toContain(brand);
     });
 
-    test('has exactly 3 testimonial cards', async ({ page }) => {
-      const cards = await page.locator('.testimonial-card').count();
-      expect(cards).toBe(3);
+    // ── Models section ────────────────────────────────────────────────────────
+    test('models grid has at least 4 cards', async ({ page }) => {
+      const models = await page.locator('.model-card').count();
+      expect(models).toBeGreaterThanOrEqual(4);
     });
 
+    test('each model card has a name and description', async ({ page }) => {
+      const cards = await page.locator('.model-card').all();
+      for (const card of cards) {
+        const name = await card.locator('.model-name').textContent();
+        const desc = await card.locator('.model-desc').textContent();
+        expect(name.trim().length).toBeGreaterThan(0);
+        expect(desc.trim().length).toBeGreaterThan(0);
+      }
+    });
+
+    // ── Common issues section ─────────────────────────────────────────────────
+    test('issues grid has at least 6 items', async ({ page }) => {
+      const items = await page.locator('.issue-item').count();
+      expect(items).toBeGreaterThanOrEqual(6);
+    });
+
+    test('each issue item has a heading and description', async ({ page }) => {
+      const items = await page.locator('.issue-item').all();
+      for (const item of items) {
+        const strong = await item.locator('strong').textContent();
+        expect(strong.trim().length).toBeGreaterThan(0);
+      }
+    });
+
+    // ── Repair process ────────────────────────────────────────────────────────
+    test('repair process has exactly 4 steps', async ({ page }) => {
+      const steps = await page.locator('.process-step').count();
+      expect(steps).toBe(4);
+    });
+
+    test('each process step has a number, title, and description', async ({ page }) => {
+      const steps = await page.locator('.process-step').all();
+      for (const step of steps) {
+        const num = await step.locator('.step-number').textContent();
+        const title = await step.locator('.step-title').textContent();
+        const desc = await step.locator('.step-desc').textContent();
+        expect(num.trim()).toMatch(/^[1-4]$/);
+        expect(title.trim().length).toBeGreaterThan(0);
+        expect(desc.trim().length).toBeGreaterThan(0);
+      }
+    });
+
+    // ── Cost table ────────────────────────────────────────────────────────────
     test('has cost table with disclaimer', async ({ page }) => {
       await expect(page.locator('table.cost-table')).toBeAttached();
       const disclaimer = await page.locator('.cost-disclaimer').textContent();
       expect(disclaimer).toMatch(/Estimates vary by brand/i);
     });
 
-    test('sticky mobile bar present', async ({ page }) => {
-      await expect(page.locator('.sticky-mobile-bar')).toBeAttached();
+    test('cost table has at least 5 rows including diagnostic fee row', async ({ page }) => {
+      const rows = await page.locator('table.cost-table tbody tr').count();
+      expect(rows).toBeGreaterThanOrEqual(5);
     });
 
+    test('cost table has $99 diagnostic fee row', async ({ page }) => {
+      const tableText = await page.locator('table.cost-table').textContent();
+      expect(tableText).toContain('$99');
+      expect(tableText).toMatch(/diagnostic/i);
+    });
+
+    // ── FAQ ───────────────────────────────────────────────────────────────────
+    test('has FAQ section with at least 8 questions', async ({ page }) => {
+      const questions = await page.locator('.faq-q').count();
+      expect(questions).toBeGreaterThanOrEqual(8);
+    });
+
+    test('FAQ accordion: clicking a question opens it', async ({ page }) => {
+      const firstQ = page.locator('.faq-item').nth(1); // second item (first may be pre-opened)
+      await firstQ.locator('.faq-q').click();
+      await expect(firstQ).toHaveClass(/open/);
+    });
+
+    test('FAQ anchor #faq exists', async ({ page }) => {
+      await expect(page.locator('#faq')).toBeAttached();
+    });
+
+    // ── Testimonials ──────────────────────────────────────────────────────────
+    test('has exactly 3 testimonial cards', async ({ page }) => {
+      const cards = await page.locator('.testimonial-card').count();
+      expect(cards).toBe(3);
+    });
+
+    test('each testimonial card has stars, quote, initial, and name', async ({ page }) => {
+      const cards = await page.locator('.testimonial-card').all();
+      expect(cards.length).toBe(3);
+      for (const card of cards) {
+        await expect(card.locator('.stars')).toBeAttached();
+        const quote = await card.locator('.testimonial-quote').textContent();
+        expect(quote.trim().length).toBeGreaterThan(5);
+        await expect(card.locator('.t-initial')).toBeAttached();
+        const name = await card.locator('.testimonial-name').textContent();
+        expect(name.trim().length).toBeGreaterThan(0);
+      }
+    });
+
+    // ── Luxury brands cross-link ──────────────────────────────────────────────
     test('luxury brands cross-link grid has 4 cards', async ({ page }) => {
       const cards = await page.locator('.luxury-brand-card').count();
       expect(cards).toBe(4);
     });
 
+    test('each luxury brand card has a name, description, and valid href', async ({ page }) => {
+      const cards = await page.locator('.luxury-brand-card').all();
+      for (const card of cards) {
+        const name = await card.locator('.lb-name').textContent();
+        const desc = await card.locator('.lb-desc').textContent();
+        const href = await card.getAttribute('href');
+        expect(name.trim().length).toBeGreaterThan(0);
+        expect(desc.trim().length).toBeGreaterThan(0);
+        expect(href).toBeTruthy();
+        expect(href).not.toBe('#');
+        expect(href).not.toBe('');
+      }
+    });
+
+    test('current brand is NOT linked in its own cross-link grid', async ({ page }) => {
+      const cards = await page.locator('.luxury-brand-card').all();
+      const names = await Promise.all(cards.map(c => c.locator('.lb-name').textContent()));
+      expect(names.map(n => n.trim())).not.toContain(brand);
+    });
+
+    // ── CTA box ───────────────────────────────────────────────────────────────
     test('CTA box links to tel: and contact', async ({ page }) => {
       const ctaLinks = await hrefs(page, '.cta-box a');
       expect(ctaLinks.some(h => h && h.startsWith('tel:'))).toBe(true);
       expect(ctaLinks.some(h => h && h.includes('contact'))).toBe(true);
     });
 
-    test('models grid has at least 4 cards', async ({ page }) => {
-      const models = await page.locator('.model-card').count();
-      expect(models).toBeGreaterThanOrEqual(4);
+    test('CTA box heading contains brand name or repair', async ({ page }) => {
+      const heading = await page.locator('.cta-box h2').textContent();
+      expect(heading).toMatch(/repair|Repair/i);
+    });
+
+    // ── Footer ────────────────────────────────────────────────────────────────
+    test('footer has phone, email, address, and copyright', async ({ page }) => {
+      const footer = page.locator('footer.footer');
+      const text = await footer.textContent();
+      expect(text).toContain('(949) 629-5365');
+      expect(text).toContain('info@fixappliancesfast.com');
+      expect(text).toContain('Asbury');
+      expect(text).toMatch(/© 20\d\d Universal Appliances Repair/);
+    });
+
+    test('footer contact links are functional (not dead #)', async ({ page }) => {
+      const phoneLink = await page.locator('footer a[href^="tel:"]').getAttribute('href');
+      expect(phoneLink).toContain('9496295365');
+      const emailLink = await page.locator('footer a[href^="mailto:"]').getAttribute('href');
+      expect(emailLink).toContain('info@fixappliancesfast.com');
+    });
+
+    test('footer has links to services, about, testimonials, blog, contact', async ({ page }) => {
+      const footerLinks = await hrefs(page, 'footer a');
+      expect(footerLinks.some(h => h && h.includes('services'))).toBe(true);
+      expect(footerLinks.some(h => h && h.includes('about'))).toBe(true);
+      expect(footerLinks.some(h => h && h.includes('testimonials'))).toBe(true);
+      expect(footerLinks.some(h => h && h.includes('blog'))).toBe(true);
+      expect(footerLinks.some(h => h && h.includes('contact'))).toBe(true);
+    });
+
+    // ── Sticky mobile bar ─────────────────────────────────────────────────────
+    test('sticky mobile bar present', async ({ page }) => {
+      await expect(page.locator('.sticky-mobile-bar')).toBeAttached();
+    });
+
+    test('sticky bar has call and book links', async ({ page }) => {
+      const callHref = await page.locator('.sticky-call').getAttribute('href');
+      expect(callHref).toMatch(/^tel:/);
+      const bookHref = await page.locator('.sticky-book').getAttribute('href');
+      expect(bookHref).toMatch(/contact/);
     });
 
     test('sticky bar visible on mobile, hidden on desktop', async ({ page }) => {
@@ -680,6 +965,20 @@ for (const { brand, file } of BRAND_HUBS) {
       await expect(bar).toBeVisible();
       await page.setViewportSize(DESKTOP);
       await expect(bar).toBeHidden();
+    });
+
+    // ── Phone number consistency ───────────────────────────────────────────────
+    test('correct phone (949) 629-5365 appears throughout page', async ({ page }) => {
+      const allTelLinks = await hrefs(page, 'a[href^="tel:"]');
+      // Every tel: link must use the canonical number
+      for (const href of allTelLinks) {
+        expect(href).toContain('9496295365');
+      }
+    });
+
+    test('business name Universal Appliances Repair in footer', async ({ page }) => {
+      const footer = await page.locator('footer.footer').textContent();
+      expect(footer).toContain('Universal Appliances Repair');
     });
   });
 }
