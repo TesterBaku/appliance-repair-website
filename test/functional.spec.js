@@ -349,6 +349,7 @@ const CITY_HUBS = [
   'appliance-repair-fullerton-ca',
   'appliance-repair-garden-grove-ca',
   'appliance-repair-orange-ca',
+  'appliance-repair-laguna-beach-ca',
 ];
 
 for (const slug of CITY_HUBS) {
