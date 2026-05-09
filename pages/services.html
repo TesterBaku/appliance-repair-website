@@ -85,6 +85,8 @@
     .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
     @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
     @media (min-width: 480px) and (max-width: 768px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    .service-card-center { grid-column: 2; }
+    @media (max-width: 768px) { .service-card-center { grid-column: auto; } }
     .value-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
     @media (max-width: 768px) { .value-row { grid-template-columns: 1fr; } }
     .value-item { background: #fff; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 28px 24px; text-align: center; }
@@ -305,18 +307,6 @@
           </div>
         </div>
 
-        <!-- Pricing Guide -->
-        <div class="service-card" style="display:flex;flex-direction:column;">
-          <div style="flex:1;background:#f7fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;border-bottom:1px solid #eeeeee;">
-            <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:10px;">Pricing Guide</div>
-            <div style="font-size:20px;font-weight:800;color:#111;margin-bottom:10px;">What does repair cost?</div>
-            <div style="font-size:12.5px;color:#666;line-height:1.7;">Typical ranges for refrigerators, washers, dryers, dishwashers, and ovens across Orange County.</div>
-          </div>
-          <div class="service-body" style="padding-top:16px;">
-            <a href="appliance-repair-cost-orange-county.html" class="btn-outline" style="display:block;text-align:center;font-size:12px;padding:9px 18px;">View Pricing</a>
-          </div>
-        </div>
-
         <!-- All Appliances -->
         <div class="service-card" style="display:flex;flex-direction:column;">
           <div style="flex:1;background:#f7fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;border-bottom:1px solid #eeeeee;">
@@ -326,6 +316,18 @@
           </div>
           <div class="service-body" style="padding-top:16px;">
             <a href="contact.html" class="btn-primary" style="display:block;text-align:center;font-size:12px;padding:9px 18px;">Contact Us</a>
+          </div>
+        </div>
+
+        <!-- Pricing Guide -->
+        <div class="service-card service-card-center" style="display:flex;flex-direction:column;">
+          <div style="flex:1;background:#f7fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;border-bottom:1px solid #eeeeee;">
+            <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:10px;">Pricing Guide</div>
+            <div style="font-size:20px;font-weight:800;color:#111;margin-bottom:10px;">What does repair cost?</div>
+            <div style="font-size:12.5px;color:#666;line-height:1.7;">Typical ranges for refrigerators, washers, dryers, dishwashers, and ovens across Orange County.</div>
+          </div>
+          <div class="service-body" style="padding-top:16px;">
+            <a href="appliance-repair-cost-orange-county.html" class="btn-outline" style="display:block;text-align:center;font-size:12px;padding:9px 18px;">View Pricing</a>
           </div>
         </div>
 
