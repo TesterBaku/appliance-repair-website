@@ -610,3 +610,76 @@ test.describe('Price disclaimer on cost articles', () => {
     expect(disclaimerIdx.dIdx).toBeLessThan(disclaimerIdx.tIdx);
   });
 });
+
+// ─── Brand hub pages — required sections ──────────────────────────────────────
+const BRAND_HUBS = [
+  { brand: 'Sub-Zero', file: 'sub-zero-appliance-repair-orange-county.html' },
+  { brand: 'Wolf',     file: 'wolf-appliance-repair-orange-county.html' },
+  { brand: 'Miele',    file: 'miele-appliance-repair-orange-county.html' },
+  { brand: 'Viking',   file: 'viking-appliance-repair-orange-county.html' },
+  { brand: 'Thermador',file: 'thermador-appliance-repair-orange-county.html' },
+];
+
+for (const { brand, file } of BRAND_HUBS) {
+  test.describe(`Brand hub: ${brand}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/pages/${file}`);
+    });
+
+    test('page loads with nav and footer', async ({ page }) => {
+      await expect(page.locator('nav.nav')).toBeAttached();
+      await expect(page.locator('footer.footer')).toBeAttached();
+    });
+
+    test('hero section has H1 and two CTAs', async ({ page }) => {
+      await expect(page.locator('.hub-hero h1')).toBeAttached();
+      const ctaLinks = await hrefs(page, '.hub-cta-row a');
+      expect(ctaLinks.some(h => h && h.startsWith('tel:'))).toBe(true);
+      expect(ctaLinks.some(h => h && h.includes('contact'))).toBe(true);
+    });
+
+    test('has FAQ section with at least 8 questions', async ({ page }) => {
+      const questions = await page.locator('.faq-q').count();
+      expect(questions).toBeGreaterThanOrEqual(8);
+    });
+
+    test('has exactly 3 testimonial cards', async ({ page }) => {
+      const cards = await page.locator('.testimonial-card').count();
+      expect(cards).toBe(3);
+    });
+
+    test('has cost table with disclaimer', async ({ page }) => {
+      await expect(page.locator('table.cost-table')).toBeAttached();
+      const disclaimer = await page.locator('.cost-disclaimer').textContent();
+      expect(disclaimer).toMatch(/Estimates vary by brand/i);
+    });
+
+    test('sticky mobile bar present', async ({ page }) => {
+      await expect(page.locator('.sticky-mobile-bar')).toBeAttached();
+    });
+
+    test('luxury brands cross-link grid has 4 cards', async ({ page }) => {
+      const cards = await page.locator('.luxury-brand-card').count();
+      expect(cards).toBe(4);
+    });
+
+    test('CTA box links to tel: and contact', async ({ page }) => {
+      const ctaLinks = await hrefs(page, '.cta-box a');
+      expect(ctaLinks.some(h => h && h.startsWith('tel:'))).toBe(true);
+      expect(ctaLinks.some(h => h && h.includes('contact'))).toBe(true);
+    });
+
+    test('models grid has at least 4 cards', async ({ page }) => {
+      const models = await page.locator('.model-card').count();
+      expect(models).toBeGreaterThanOrEqual(4);
+    });
+
+    test('sticky bar visible on mobile, hidden on desktop', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      const bar = page.locator('.sticky-mobile-bar');
+      await expect(bar).toBeVisible();
+      await page.setViewportSize(DESKTOP);
+      await expect(bar).toBeHidden();
+    });
+  });
+}
