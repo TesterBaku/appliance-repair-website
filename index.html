@@ -74,23 +74,17 @@
     /* FAQ list wrapper (not in shared.css) */
     .faq-list { margin-top: 36px; max-width: 700px; margin-left: auto; margin-right: auto; }
 
-    /* WHY US — mixed layout (2 featured cards + 4-item list) */
-    .why-highlights { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 36px; }
+    /* WHY US — uniform 6-card grid */
+    .why-highlights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
     .why-highlight { background: var(--surface); border-radius: 16px; box-shadow: 0 2px 20px rgba(0,0,0,0.08); padding: 28px; display: flex; flex-direction: column; gap: 10px; }
     .why-highlight-icon { font-size: 30px; }
     .why-highlight-title { font-size: 17px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
     .why-highlight-desc { font-size: 13px; color: var(--text-sub); line-height: 1.7; }
-    .why-list { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 4px; border-top: 1px solid var(--border-subtle); }
-    .why-item { display: flex; align-items: flex-start; gap: 12px; padding: 18px 12px; border-bottom: 1px solid var(--border-subtle); }
-    .why-item:nth-child(odd) { border-right: 1px solid var(--border-subtle); }
-    .why-item-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-    .why-item-body {}
-    .why-item-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
-    .why-item-desc { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
+    @media (max-width: 900px) {
+      .why-highlights { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 768px) {
       .why-highlights { grid-template-columns: 1fr; }
-      .why-list { grid-template-columns: 1fr; }
-      .why-item:nth-child(odd) { border-right: none; }
     }
 
     /* Letter card inner content (homepage contact section) */
@@ -594,7 +588,6 @@
     <div class="container">
       <h2 class="h2-section" style="text-align:center;">Why Choose Universal<br/>Appliances Repair?</h2>
 
-      <!-- Two featured differentiators -->
       <div class="why-highlights">
         <div class="why-highlight">
           <div class="why-highlight-icon">⚡</div>
@@ -606,37 +599,25 @@
           <div class="why-highlight-title">Licensed, Bonded &amp; Insured</div>
           <div class="why-highlight-desc">Every repair is backed by full licensing and insurance. If something goes wrong, you're covered, and so is your home. That's not something every repair company can say.</div>
         </div>
-      </div>
-
-      <!-- Four supporting qualities as a compact list -->
-      <div class="why-list">
-        <div class="why-item">
-          <div class="why-item-icon">🏠</div>
-          <div class="why-item-body">
-            <div class="why-item-title">Family-Owned &amp; Operated</div>
-            <div class="why-item-desc">A local business that treats every home like our own. You'll deal with real people, not a call center.</div>
-          </div>
+        <div class="why-highlight">
+          <div class="why-highlight-icon">🏠</div>
+          <div class="why-highlight-title">Family-Owned &amp; Operated</div>
+          <div class="why-highlight-desc">A local business that treats every home like our own. You'll deal with real people, not a call center.</div>
         </div>
-        <div class="why-item">
-          <div class="why-item-icon">💰</div>
-          <div class="why-item-body">
-            <div class="why-item-title">Honest, Upfront Pricing</div>
-            <div class="why-item-desc">We diagnose before we quote. You know the cost before any work begins; no surprises on the invoice.</div>
-          </div>
+        <div class="why-highlight">
+          <div class="why-highlight-icon">💰</div>
+          <div class="why-highlight-title">Honest, Upfront Pricing</div>
+          <div class="why-highlight-desc">We diagnose before we quote. You know the cost before any work begins; no surprises on the invoice.</div>
         </div>
-        <div class="why-item">
-          <div class="why-item-icon">🔧</div>
-          <div class="why-item-body">
-            <div class="why-item-title">All Major Brands Serviced</div>
-            <div class="why-item-desc">Whirlpool, Samsung, LG, Bosch, Sub-Zero: we carry parts for the brands OC homeowners actually own.</div>
-          </div>
+        <div class="why-highlight">
+          <div class="why-highlight-icon">🔧</div>
+          <div class="why-highlight-title">All Major Brands Serviced</div>
+          <div class="why-highlight-desc">Whirlpool, Samsung, LG, Bosch, Sub-Zero: we carry parts for the brands OC homeowners actually own.</div>
         </div>
-        <div class="why-item">
-          <div class="why-item-icon">✅</div>
-          <div class="why-item-body">
-            <div class="why-item-title">Warranty on Every Repair</div>
-            <div class="why-item-desc">Parts and labor are warranted. If the same issue comes back, so do we, at no extra charge.</div>
-          </div>
+        <div class="why-highlight">
+          <div class="why-highlight-icon">✅</div>
+          <div class="why-highlight-title">Warranty on Every Repair</div>
+          <div class="why-highlight-desc">Parts and labor are warranted. If the same issue comes back, so do we, at no extra charge.</div>
         </div>
       </div>
     </div>
