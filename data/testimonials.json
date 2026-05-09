@@ -395,7 +395,7 @@
     },
     {
       "id": "google-susan-gerakos-2026-03",
-      "name": "susan gerakos",
+      "name": "Susan Gerakos",
       "location": "Orange County, CA",
       "appliance": null,
       "brand": null,
@@ -405,7 +405,8 @@
       "body": "A.G. does excellent work. Very professional! Thank you",
       "bodyStatus": "complete",
       "profilePhoto": null,
-      "reviewPhoto": null
+      "reviewPhoto": null,
+      "nameNote": "Display name normalized to title case from lowercase GBP scrape artifact."
     },
     {
       "id": "google-michele-ohanian-2025-12",
