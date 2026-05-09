@@ -4,6 +4,27 @@ Running log of every `/seo-hub` run. PRs are open for owner review; hub pages ne
 
 ---
 
+## May 09, 2026 — brand hub: thermador-appliance-repair-orange-county
+
+**Type:** service (brand-vertical)
+**Target:** Thermador
+**PR:** [#262](https://github.com/TesterBaku/appliance-repair-website/pull/262) — open, awaiting owner review
+**Word count:** ~1,400
+**FAQ count:** 8
+**Models featured:** 6 Thermador product lines (Pro Grand/Harmony ranges, Masterpiece ovens, Sapphire dishwashers, Freedom Column fridges, Star Burner cooktops, CIT induction)
+**Testimonials:** 5 (D Light, Elvin Mammadov, Clifford Wright, Laurie Summers, Mark Koss)
+**Internal links wired:** services.html, oven-stove hub, dishwasher hub, Sub-Zero/Wolf/Miele/Viking hubs, 2 oven articles, sitemap.xml
+**Schemas:** Service (with brand), LocalBusiness, BreadcrumbList, FAQPage, AggregateRating, 5x Review
+
+**Outstanding for owner:**
+- Hero photo: reuses oven-stainless-range.jpg -- replace with Thermador-specific photo
+- Cost ranges are industry estimates -- review before merge
+
+**Phase 0 highlights:**
+- L-2 program -- 5th and final PR. All 5 brand hubs fully cross-linked to each other.
+
+---
+
 ## May 09, 2026 — brand hub: sub-zero-appliance-repair-orange-county
 
 **Type:** service (brand-vertical)
