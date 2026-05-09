@@ -196,6 +196,7 @@ Cards are the primary surface of this system. Corner radius signals importance t
 - **Service Cards** (16px radius, 20px shadow): Image-bearing cards for appliance types. Full-width image (200px height, cover fit), then padded body. The largest card unit in the system.
 - **Feature/Stat Cards** (14px radius, 16px shadow): Content-only cards for "Why Us" highlights and statistics. Padding: 24–28px internal. Never nested inside another card.
 - **Testimonial Cards** (16px radius, 24px shadow): Full-bleed width at any column count. Centered text, star row above quote, name below. On desktop, two columns via `.testimonials-grid`. Collapses to single column at 480px.
+- **Testimonial Avatars** (`#444444`): Initial badges inside testimonial cards. Use Workshop Charcoal for reviewer initials so city pages match the homepage review treatment.
 - **Letter Card** (18px radius, 70px Dark Feature shadow): The signature component. White card on the dark brown section. Internal padding 44px 52px (desktop), 28px 22px (mobile). Houses the "Get in touch" copy, contact info, and a sticky-note decoration. Never replicate this shadow outside this context.
 - **FAQ Items** (12px radius, 6px shadow): Accordion containers. No outer border; shadow provides boundary. The button question row has `min-height: 44px` for mobile tap targets.
 - **Brand Tags** (8px radius, `#e2e8f0` 1.5px border): Pill-adjacent tags for brand names. White surface, `#1e293b` text — slightly navy, not Pressed Steel. No shadow.
