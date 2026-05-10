@@ -14,7 +14,7 @@
       });
     }
 
-    if (/book|schedule|repair/i.test(text) && href.indexOf('contact') !== -1) {
+    if (/book|schedule|repair/i.test(text) && href.endsWith('contact.html')) {
       gtag('event', 'book_repair_click', {
         link_text: text,
         page_location: window.location.href
@@ -36,8 +36,8 @@
     }
   });
 
-  // Contact form submission tracking
-  document.addEventListener('DOMContentLoaded', function () {
+  // Contact form submission tracking — readyState guard handles script-at-body-end case
+  function attachFormTracking() {
     var form = document.querySelector('form');
     if (form) {
       form.addEventListener('submit', function () {
@@ -46,5 +46,10 @@
         });
       });
     }
-  });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attachFormTracking);
+  } else {
+    attachFormTracking();
+  }
 }());
