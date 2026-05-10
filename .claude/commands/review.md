@@ -90,6 +90,7 @@ These checks apply whenever the diff includes `.html` or `.css` files. Run `/imp
 - [ ] `<title>` is keyword-first, not `Page Name – Brand`
 - [ ] `<meta name="description">` present, 140–165 characters
 - [ ] `<link rel="canonical">` present, uses `https://fixappliancesfast.com/...` (not `universalappliancesrepair.com`)
+- [ ] If any new `.html` file was added, `sitemap.xml` was regenerated (`npm run build:sitemap`) and the new page's URL appears in it — missing from sitemap is a blocker
 - [ ] `og:image` present and points to a real image URL under `fixappliancesfast.com`
 - [ ] `og:site_name` is `Universal Appliances Repair`
 - [ ] At least one JSON-LD schema block present (type appropriate to page)

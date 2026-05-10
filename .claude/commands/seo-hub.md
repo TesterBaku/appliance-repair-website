@@ -226,7 +226,7 @@ Apply `rules/mobile-design.md` in full:
 2. **Footer** — wire one of the dead `#` links (or add a row) for the new hub.
 3. **`pages/services.html`** — add a card linking to the hub.
 4. **Existing articles** — find the top 3 articles in `articles/` whose primary keyword overlaps with the new hub's target. Add **one** in-body internal link from each article to the new hub. Use natural anchor text like "our [appliance] repair service in Orange County" — never raw URLs.
-5. **`sitemap.xml`** — add the new page (run `scripts/build-sitemap.js` if it exists; otherwise add manually).
+5. **`sitemap.xml`** — run `npm run build:sitemap` to regenerate the full sitemap with current `lastmod` dates. Include `sitemap.xml` in the internal-links commit below.
 
 ### Commit
 One commit per logical chunk:
