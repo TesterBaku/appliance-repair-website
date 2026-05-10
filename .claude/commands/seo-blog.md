@@ -170,9 +170,13 @@ Append a new card in the blog grid `.blog-grid` section:
 ### Note on `test/screenshot.js`
 No update needed — screenshot.js auto-discovers all `article-*.html` files in the project root.
 
+### Sitemap
+Run `npm run build:sitemap` after writing the article. The script walks the file tree and regenerates `sitemap.xml` with correct `lastmod` dates — include the result in the same commit.
+
 ### Commit
 ```
-git add [slug].html blog.html
+npm run build:sitemap
+git add articles/[slug].html pages/blog.html sitemap.xml
 git commit -m "content([slug]): add [short description of topic]"
 ```
 
