@@ -113,7 +113,8 @@
     /* sticky note positioning — base values override inline style via !important at mobile */
     .sticky-note-anchor { position: absolute; bottom: -32px; right: -24px; z-index: 10; }
     @media (max-width: 768px) {
-      .sticky-note-anchor { display: none; }
+      .sticky-note-anchor { bottom: 14px; right: 14px; }
+      .letter-card .sticky { width: 120px !important; padding: 14px 16px !important; font-size: 18px !important; }
     }
 
     /* Homepage testimonials — 3-col grid */
