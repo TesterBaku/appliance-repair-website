@@ -7,6 +7,7 @@ const { execSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..');
 const BASE_URL = 'https://fixappliancesfast.com';
 const EXCLUDE_DIRS = new Set(['node_modules', 'scripts', 'test', 'tasks', '.git', '.claude', 'logs']);
+const EXCLUDE_FILES = new Set(['404.html']);
 
 function priority(urlPath) {
   if (urlPath === '/') return '1.0';
@@ -38,7 +39,7 @@ function collectFiles(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (entry.isDirectory()) {
       if (!EXCLUDE_DIRS.has(entry.name)) collectFiles(path.join(dir, entry.name), files);
-    } else if (entry.name.endsWith('.html')) {
+    } else if (entry.name.endsWith('.html') && !EXCLUDE_FILES.has(entry.name)) {
       files.push(path.join(dir, entry.name));
     }
   }
@@ -50,7 +51,10 @@ const files = collectFiles(ROOT);
 
 const urls = files.map(abs => {
   const rel = path.relative(ROOT, abs).replace(/\\/g, '/');
-  const urlPath = rel === 'index.html' ? '/' : '/' + rel;
+  // Strip index.html from any directory-index path (root or subdirectory)
+  const urlPath = rel.endsWith('/index.html')
+    ? '/' + rel.slice(0, -'index.html'.length)
+    : rel === 'index.html' ? '/' : '/' + rel;
   const loc = BASE_URL + urlPath;
   const lastmod = gitLastmod(abs) || today;
   return { loc, lastmod, urlPath };
