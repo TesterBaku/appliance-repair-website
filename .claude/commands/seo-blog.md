@@ -130,6 +130,33 @@ Write real, helpful content — not placeholder text. Include:
 - Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or CSS media queries in the embedded `<style>` tag
 - Test mentally: hero text readable, cards stack vertically, nav collapses, CTA box full-width on mobile
 
+### Sticky mobile bar (required on every article)
+
+Articles are self-contained (no `shared.css`), so both the CSS and the HTML must be added manually.
+
+**Add to the embedded `<style>` block** (base rules + 768px activation):
+```css
+/* Sticky mobile bar */
+.sticky-mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; height: 56px; }
+.sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #e84c1e; color: #fff; gap: 6px; }
+.sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #111; color: #fff; }
+@media (max-width: 768px) {
+  body { padding-bottom: 64px; }
+  .sticky-mobile-bar { display: flex; }
+}
+```
+
+**Add HTML immediately before `</body>`**:
+```html
+  <!-- STICKY MOBILE CALL/BOOK BAR -->
+  <div class="sticky-mobile-bar">
+    <a href="tel:+19496295365" class="sticky-call">📞 Call Now</a>
+    <a href="../pages/contact.html" class="sticky-book">Book Repair</a>
+  </div>
+```
+
+Note: articles live in `articles/`, so the contact link uses `../pages/contact.html`.
+
 ### Hub-page interlinking (required when applicable)
 If the article targets an appliance × city combination that has a published hub page in `pages/`, the article body **must** include exactly one in-body internal link to the matching hub page(s). This is how article link equity flows into the conversion-focused hubs.
 
