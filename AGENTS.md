@@ -85,7 +85,7 @@ Runs **Mon/Wed/Fri at 6 AM Pacific (13:00 UTC)**. Fully autonomous: research →
 
 - **Routine ID:** `trig_01ApQaWZG9LhY6jsp8tbxn8D`
 - **Manage / disable:** https://claude.ai/code/routines/trig_01ApQaWZG9LhY6jsp8tbxn8D
-- **What it does:** Phase 0 web research, auto-selects topics 1–3, creates 3 articles, runs tests, reviews, **merges automatically**, logs in `CONTENT_LOG.md`
+- **What it does:** Phase 0 web research, auto-selects topic 1, creates 1 article per run, runs tests, reviews, **merges automatically**, logs in `CONTENT_LOG.md`
 - **DST note:** cron is fixed at 13:00 UTC; update to `0 14 * * 1,3,5` in November when clocks fall back to PST
 
 ### Quarterly SEO audit — `/seo-audit`
