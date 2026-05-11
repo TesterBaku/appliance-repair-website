@@ -18,7 +18,7 @@ All testimonials come from `data/testimonials.json`. Never invent reviewer names
 
 5. **Pick the target count:**
    - Homepage: 8–12 reviews
-   - Service hub: 3 reviews (prefer appliance-matched) — one clean row in the 3-col grid
+   - Service hub: 3 reviews (prefer appliance-matched) — one clean row in the 3-col grid. Existing hubs built with 4–6 reviews are grandfathered; apply the 3-card rule to new hubs and to any hub being substantially edited.
    - City hub: 4–6 reviews (any appliance) — see Visual layout rules below
    - Testimonials page: all complete-body reviews
 
