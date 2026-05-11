@@ -4,6 +4,7 @@
 :root {
   --brand:        #e84c1e;
   --brand-dark:   #cc3d12;
+  --brand-deeper: #aa3210;
   --text-primary: #111;
   --text-body:    #000000e6;
   --text-sub:     #666;
@@ -37,8 +38,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Public Sans
 .nav-links a:hover, .nav-links a.active { color: var(--text-primary); font-weight: 600; }
 .nav-actions { display: flex; align-items: center; gap: 14px; }
 .nav-phone { font-size: 13px; font-weight: 600; color: var(--text-primary); text-decoration: none; }
-.nav-cta { background: var(--brand); color: var(--surface); font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; white-space: nowrap; }
-.nav-cta:hover { background: var(--brand-dark); }
+.nav-cta { background: var(--brand-dark); color: var(--surface); font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; white-space: nowrap; }
+.nav-cta:hover { background: var(--brand-deeper); }
 
 /* PAGE HERO (inner pages) */
 .page-hero { padding: 100px 24px 60px; text-align: center; background: linear-gradient(180deg, #edf3f8 0%, var(--bg) 70%); border-bottom: 1px solid var(--border); }
@@ -46,8 +47,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Public Sans
 .page-hero p { font-size: 15px; color: var(--text-sub); margin-top: 14px; line-height: 1.7; max-width: 520px; margin-left: auto; margin-right: auto; }
 
 /* BUTTONS */
-.btn-primary { display: inline-block; background: var(--brand); color: var(--surface); font-size: 13px; font-weight: 700; padding: 12px 26px; border-radius: 8px; text-decoration: none; }
-.btn-primary:hover { background: var(--brand-dark); }
+.btn-primary { display: inline-block; background: var(--brand-dark); color: var(--surface); font-size: 13px; font-weight: 700; padding: 12px 26px; border-radius: 8px; text-decoration: none; }
+.btn-primary:hover { background: var(--brand-deeper); }
 .btn-dark { display: inline-block; background: var(--text-primary); color: var(--surface); font-size: 12.5px; font-weight: 500; padding: 10px 22px; border-radius: 8px; text-decoration: none; }
 .btn-dark:hover { background: var(--text-dark); }
 .btn-outline { display: inline-block; background: transparent; color: var(--text-primary); font-size: 12.5px; font-weight: 500; padding: 10px 22px; border-radius: 8px; text-decoration: none; border: 1.5px solid var(--border-medium); }
@@ -168,7 +169,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Public Sans
 
 /* STICKY BOTTOM CALL / BOOK BAR (hidden on desktop) */
 .sticky-mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; height: 56px; }
-.sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--brand); color: var(--surface); gap: 6px; }
+.sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--brand-dark); color: var(--surface); gap: 6px; }
 .sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--text-primary); color: var(--surface); }
 
 /* ── MOBILE: 768px ─────────────────────────────────────── */
