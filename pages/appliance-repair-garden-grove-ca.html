@@ -93,6 +93,12 @@
     .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
     @media (max-width: 900px) { .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
+    /* 2 reviews: center the pair in columns 2 and 3 of a 4-track grid */
+    @media (min-width: 901px) {
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(2):last-child) { grid-template-columns: 1fr 2fr 2fr 1fr; }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(2):last-child) .testimonial-card:nth-child(1) { grid-column: 2; }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(2):last-child) .testimonial-card:nth-child(2) { grid-column: 3; }
+    }
 
     @media (max-width: 768px) {
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
@@ -158,13 +164,7 @@
   {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": [{
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Craig Tudor" },
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "AG was awesome!",
-        "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
-      },
+    "itemListElement": [
       {
         "@type": "Review",
         "author": { "@type": "Person", "name": "Lilya Raupova" },
@@ -174,11 +174,12 @@
       },
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "George Mendoza" },
+        "author": { "@type": "Person", "name": "Kathy Calderon" },
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "Thank you for fixing my Samsung range",
+        "reviewBody": "I had a great experience with AG and this appliance repair service. The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication—he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable—couldn't ask for better service!",
         "itemReviewed": { "@type": "LocalBusiness", "name": "Universal Appliances Repair" }
-      }]
+      }
+    ]
   }
   </script>
 
@@ -424,6 +425,11 @@
         <a href="wine-cooler-repair-orange-county.html" class="hub-link">Wine Cooler Repair</a>
         <a href="garbage-disposal-repair-orange-county.html" class="hub-link">Garbage Disposal Repair</a>
       </div>
+      <p style="font-size:13.5px;color:#555;margin-top:32px;text-align:center;">More on appliance repair in Garden Grove neighborhoods:</p>
+      <ul style="list-style:none;padding:0;margin:8px 0 0;display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+        <li><a href="../articles/article-fridge-repair-garden-grove.html" style="font-size:14px;color:var(--brand);font-weight:600;text-decoration:none;">Refrigerator Repair in Garden Grove, CA: What to Expect &rarr;</a></li>
+        <li><a href="../articles/article-washer-repair-garden-grove.html" style="font-size:14px;color:var(--brand);font-weight:600;text-decoration:none;">Washer Repair in Garden Grove, CA: Signs You Need a Pro &rarr;</a></li>
+      </ul>
 </div>
   </section>
 
@@ -458,6 +464,19 @@
         </div>
       </div>
       <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;text-align:center;">We service these brands but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
+    </div>
+  </section>
+
+  <!-- COMMON ISSUES -->
+  <section class="section section-white">
+    <div class="container-lg">
+      <h2 class="h2-page" style="text-align:center;">Common Appliance Issues We See in Garden Grove Homes</h2>
+      <div style="max-width:760px;margin:32px auto 0;font-size:14px;color:#444;line-height:1.85;">
+        <p>Garden Grove is one of the most diverse cities in Orange County, and that variety shows up in its appliances. The older neighborhoods of Downtown and West Garden Grove — many homes built in the 1960s through 1980s — are where we see the most age-related failures: refrigerators with worn-out defrost timers, evaporator fans that stopped circulating cold air, and oven igniter assemblies that can no longer open the gas valve. These are fixable problems, not reasons to buy new.</p>
+        <p>In the condos and apartment clusters near the Anaheim border (92845), compact stackable washer-dryer units are common. They're efficient but demanding — the small drain pumps clog more easily, and the control boards wear faster when the units run multiple cycles daily. If your stackable washer won't drain or the dryer runs but produces no heat, those are the two most likely culprits.</p>
+        <p>Little Saigon (92844) is a high-density neighborhood with multi-generational households. Dishwashers and washing machines run far more cycles per week here than the national average. Heavy use accelerates spray arm clogging in dishwashers and valve wear in washers — issues we see regularly on Bolsa Avenue and the surrounding residential streets.</p>
+        <p>Hard water is a citywide issue throughout Garden Grove and the rest of Orange County. Mineral deposits build up inside dishwasher spray arms, reduce water flow in washer inlet valves, and coat refrigerator water filters. If your dishwasher leaves spots or your washer runs slower than it used to, calcium buildup is often the starting point of the diagnosis.</p>
+      </div>
     </div>
   </section>
 
@@ -500,13 +519,6 @@
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG was awesome!"</p>
-          <div class="t-initial" style="background:#444444;">CT</div>
-          <div class="testimonial-name">Craig Tudor · Washer repair · Orange County, CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!"</p>
           <div class="t-initial" style="background:#444444;">LR</div>
           <div class="testimonial-name">Lilya Raupova, Sub-Zero refrigerator repair · Orange County, CA</div>
@@ -514,9 +526,9 @@
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Thank you for fixing my Samsung range"</p>
-          <div class="t-initial" style="background:#444444;">GM</div>
-          <div class="testimonial-name">George Mendoza, Samsung range repair · Orange County, CA</div>
+          <p class="testimonial-quote">"I had a great experience with AG and this appliance repair service. The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication&#8212;he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable&#8212;couldn't ask for better service!"</p>
+          <div class="t-initial" style="background:#444444;">KC</div>
+          <div class="testimonial-name">Kathy Calderon, Washer repair · Orange County, CA</div>
         </div>
 
       </div>
@@ -531,7 +543,7 @@
     <div class="container">
       <div class="city-pricing-line">
         <strong>$99 diagnostic fee</strong>, applied toward your repair · <strong>20% off labor</strong> for seniors 60+ &amp; repeat customers.
-        <span class="city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. <a href="appliance-repair-cost-orange-county.html">Full pricing guide →</a></span>
+        <span class="city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair. <a href="appliance-repair-cost-orange-county.html">Full pricing guide →</a></span>
       </div>
     </div>
   </section>
