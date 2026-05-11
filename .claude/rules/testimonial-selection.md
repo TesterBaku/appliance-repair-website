@@ -34,21 +34,22 @@ The testimonial section on hub pages uses a 3-column CSS grid. Counts that aren'
 - **5 reviews:** the 4th and 5th cards must center as a pair on the second row, not left-align.
 - **6 reviews:** clean 2×3 grid, no centering needed.
 
-CSS pattern using `:has()` (universally supported):
+CSS pattern using `:has()` (Chrome 105+, Firefox 121+, Safari 15.4+ — fallback is orphan left-aligned, which is acceptable):
 
 ```css
-/* 4 reviews: center the orphan */
+/* 4 reviews: center the orphan in column 2 */
 .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) {
   grid-column: 2;
 }
-/* 5 reviews: shift the second row right by half a column to center the pair */
+/* 5 reviews: widen to a 4-track grid and place the pair in tracks 2 and 3 */
+.testimonials-grid:has(.testimonial-card:nth-child(5):last-child) {
+  grid-template-columns: 1fr 2fr 2fr 1fr;
+}
 .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(4) {
-  grid-column: 1 / 3;
-  justify-self: end;
+  grid-column: 2;
 }
 .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(5) {
-  grid-column: 2 / 4;
-  justify-self: start;
+  grid-column: 3;
 }
 ```
 
@@ -84,10 +85,9 @@ After adding testimonials to any hub page, update `tasks/testimonial-usage.md` �
 
 ## If the pool cannot supply enough reviews
 
-If, after filtering by appliance, fewer than 4 complete-body reviews are available:
-1. First, relax the appliance filter and pick any unmatched reviews from the pool.
-2. If still short, drop to a 3-card layout rather than render an unbalanced row.
-3. If still short of 3, leave the section with fewer reviews rather than fabricating names or using photo-only records.
-4. Call out the shortfall in the PR description.
+If, after filtering by appliance, fewer than 3 complete-body reviews are available:
+1. Relax the appliance filter and pick any unmatched reviews from the pool.
+2. If still short of 3, use however many the pool supplies rather than fabricating names or using photo-only records.
+3. Call out the shortfall in the PR description.
 
 **An empty or short testimonials section is always better than a fake quote or a thin one.**
