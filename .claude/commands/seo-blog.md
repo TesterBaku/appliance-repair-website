@@ -16,7 +16,7 @@ Follow every phase in order. Do not skip phases or combine steps.
 
 ### Scheduled (automated Mon/Wed/Fri run)
 - Skip cost question — default is **keep out** (no dollar amounts)
-- Skip topic selection — default is **topics 1, 2, 3**
+- Skip topic selection — default is **topic 1**
 - Show screenshot inline in output, then proceed directly to PR (no approval gate)
 - Run `/review`, fix any FAILs
 - **Merge each PR automatically** after review passes — no human gate
@@ -81,7 +81,7 @@ Manage at: https://claude.ai/code/routines/trig_01ApQaWZG9LhY6jsp8tbxn8D
    - **FAQ seeds** — 2 real questions from Phase 0 research to include in the article's FAQ section
 
 3. **Interactive mode**: Ask _"Which topic(s) do you want to create? Enter numbers (e.g., 1 or 1,3,5). Or type 'all'."_ and wait for the user's selection.  
-   **Scheduled mode**: Auto-select topics 1, 2, 3. Log the selection in output.
+   **Scheduled mode**: Auto-select topic 1. Log the selection in output.
 
 ---
 
@@ -337,8 +337,6 @@ git checkout master && git pull origin master
 === SEO Run Complete — [Date] ===
 
 Articles created and merged: [N]
-  - [Article title] → merged at [commit hash]
-  - [Article title] → merged at [commit hash]
   - [Article title] → merged at [commit hash]
 
 Screenshots captured in test/screenshots/.
