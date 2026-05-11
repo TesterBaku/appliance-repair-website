@@ -33,7 +33,8 @@
   <meta name="twitter:description" content="Same-day appliance repair in Garden Grove, CA. Refrigerators, washers, dryers, dishwashers, ovens & stoves. Licensed techs. Call (949) 629-5365." />
   <meta name="twitter:image" content="https://fixappliancesfast.com/images/hero-homepage.jpg" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="../images/hero-homepage.jpg" fetchpriority="high" />
   <link rel="stylesheet" href="../shared.css" />
 
   <style>
@@ -56,14 +57,14 @@
     .issues-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
     @media (max-width: 768px) { .issues-grid { grid-template-columns: 1fr; } }
     .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
-    .neighborhood-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .neighborhood-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; line-height: 1.3; }
     .neighborhood-zip { font-size: 12px; color: var(--text-sub); }
     .neighborhood-note { font-size: 12px; color: var(--text-sub); margin-top: 6px; line-height: 1.5; }
 
     .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; }
     .brands-group { margin-top: 24px; }
     .brands-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #767676; margin-bottom: 10px; text-align: center; }
-    .brand-pill.premium { border: 1.5px solid #c03a14; color: var(--text-primary); }
+    .brand-pill.premium { border: 1.5px solid var(--brand-dark); color: var(--text-primary); }
     .brand-pill { background: var(--surface); border: 1px solid #e2e8f0; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: var(--text-soft); }
 
     .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
@@ -74,13 +75,13 @@
 
     .faq-list { margin-top: 36px; max-width: 760px; margin-left: auto; margin-right: auto; }
     .hub-page .faq-item { border-bottom: 1px solid var(--border); padding: 18px 0; }
-    .hub-page .faq-q { font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; width: 100%; text-align: left; padding: 0; }
+    .hub-page .faq-q { font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; width: 100%; text-align: left; padding: 0; min-height: 44px; }
     .hub-page .faq-q .icon { color: var(--brand); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
     .hub-page .faq-a { font-size: 13px; color: var(--text-sub); line-height: 1.75; margin-top: 10px; display: none; }
     .hub-page .faq-item.open .faq-a { display: block; }
     .hub-page .faq-item.open .icon { transform: rotate(45deg); }
 
-    .cta-box { background: linear-gradient(135deg, #e84c1e 0%, #c03a14 100%); border-radius: 16px; padding: 48px 40px; text-align: center; }
+    .cta-box { background: var(--brand-dark); border-radius: 16px; padding: 48px 40px; text-align: center; }
     .cta-box h2 { font-size: 28px; font-weight: 800; color: var(--surface); margin-bottom: 12px; letter-spacing: -0.4px; }
     .cta-box p { font-size: 14px; color: rgba(255,255,255,0.85); margin-bottom: 28px; line-height: 1.65; }
     .btn-white { display: inline-block; background: var(--surface); color: var(--brand); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
@@ -118,7 +119,7 @@
     .city-pricing-disclaimer { display: block; font-size: 13px; color: var(--text-sub); margin-top: 6px; }
     .city-pricing-disclaimer a { color: var(--brand); font-weight: 600; }
     .services-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
-    .services-links-grid a { font-size: 14px; font-weight: 600; color: var(--text-primary); text-decoration: none; padding: 9px 4px; border-bottom: 1px solid var(--border); display: block; }
+    .services-links-grid a { font-size: 14px; font-weight: 600; color: var(--text-primary); text-decoration: none; padding: 9px 4px; border-bottom: 1px solid var(--border); display: flex; align-items: center; min-height: 44px; }
     .services-links-grid a:hover { color: var(--brand); }
     .services-links-grid a.hub-link::after { content: ' →'; font-size: 11px; color: var(--brand); opacity: 0.8; font-style: normal; }
     .services-links-grid a:not(.hub-link) { color: var(--text-sub); font-weight: 500; }
@@ -272,7 +273,7 @@
     <div class="nav-inner">
       <div class="nav-logo-group">
         <a href="../index.html" class="logo">
-          <img src="../logo.png" alt="Universal Appliances Repair logo" style="height:52px;width:auto;">
+          <img src="../logo.png" alt="Universal Appliances Repair logo" width="52" height="52" style="height:52px;width:auto;">
           <span>Universal Appliances Repair</span>
         </a>
         <div class="nav-links">
@@ -358,15 +359,15 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <div style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
-    <div style="max-width:1100px;margin:0 auto;font-size:12px;color:#666;">
-      <a href="../index.html" style="color:#666;text-decoration:none;">Home</a>
-      <span style="margin:0 6px;">›</span>
-      <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
-      <span style="margin:0 6px;">›</span>
-      <span style="color:#333;">Appliance Repair Garden Grove, CA</span>
-    </div>
-  </div>
+  <nav aria-label="Breadcrumb" style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
+    <ol style="list-style:none;max-width:1100px;margin:0 auto;font-size:12px;color:#666;display:flex;align-items:center;gap:0;padding:0;">
+      <li><a href="../index.html" style="color:#666;text-decoration:none;">Home</a></li>
+      <li aria-hidden="true" style="margin:0 6px;">›</li>
+      <li><a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a></li>
+      <li aria-hidden="true" style="margin:0 6px;">›</li>
+      <li><span aria-current="page" style="color:var(--text-primary);">Appliance Repair Garden Grove, CA</span></li>
+    </ol>
+  </nav>
 
   <!-- AI ANSWER BLOCK -->
   <div class="ai-block">
@@ -380,32 +381,32 @@
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the family homes of West Garden Grove to the vibrant streets of Little Saigon, we send technicians to every corner of the city. Same rates, no travel surcharges.</p>
       <div class="neighborhoods-grid">
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Little Saigon</div>
+          <h3 class="neighborhood-name">Little Saigon</h3>
           <div class="neighborhood-zip">ZIP 92844</div>
           <div class="neighborhood-note">Heart of Southern California's Vietnamese community, centered along Bolsa Avenue, hundreds of family homes and residential buildings throughout the area.</div>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Downtown &amp; Historic Main Street</div>
+          <h3 class="neighborhood-name">Downtown &amp; Historic Main Street</h3>
           <div class="neighborhood-zip">ZIP 92840</div>
           <div class="neighborhood-note">Garden Grove's original city center, home to the GEM Theater and historic cottages. A walkable district with a mix of older and newer residences.</div>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Koreatown</div>
+          <h3 class="neighborhood-name">Koreatown</h3>
           <div class="neighborhood-zip">ZIP 92843</div>
           <div class="neighborhood-note">Orange County's first Koreatown, along Garden Grove Boulevard. Dense residential blocks with a mix of single-family homes and apartments.</div>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">West Garden Grove</div>
+          <h3 class="neighborhood-name">West Garden Grove</h3>
           <div class="neighborhood-zip">ZIP 92841</div>
           <div class="neighborhood-note">Spacious lots and tree-lined streets on the west side of the city. Single-family homes with a range of appliance ages and brands.</div>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Resort &amp; Anaheim Border</div>
+          <h3 class="neighborhood-name">Resort &amp; Anaheim Border</h3>
           <div class="neighborhood-zip">ZIP 92845</div>
           <div class="neighborhood-note">Minutes from the Disneyland Resort. A mix of single-family homes, apartments, and condos close to the 5 freeway.</div>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Central Garden Grove</div>
+          <h3 class="neighborhood-name">Central Garden Grove</h3>
           <div class="neighborhood-zip">ZIP 92842</div>
           <div class="neighborhood-note">Mid-city residential neighborhoods with easy access to the 22, 405, and 5 freeways. Mix of single-family homes and apartments across a wide age range.</div>
         </div>
@@ -476,19 +477,19 @@
       <h2 class="h2-page" style="text-align:center;">Common Appliance Issues We See in Garden Grove Homes</h2>
       <div class="issues-grid">
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Older Homes: Downtown &amp; West Garden Grove</div>
+          <h3 class="neighborhood-name">Older Homes: Downtown &amp; West Garden Grove</h3>
           <p style="font-size:13.5px;color:var(--text-dim);line-height:1.8;margin:8px 0 0;">Many homes in the 92840 and 92841 ZIP codes were built in the 1960s through 1980s. Age-related failures are common: refrigerators with worn-out defrost timers, evaporator fans that stopped circulating cold air, and oven igniter assemblies that can no longer open the gas valve. Fixable problems, not reasons to replace.</p>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Condo Clusters Near the Anaheim Border (92845)</div>
+          <h3 class="neighborhood-name">Condo Clusters Near the Anaheim Border (92845)</h3>
           <p style="font-size:13.5px;color:var(--text-dim);line-height:1.8;margin:8px 0 0;">Compact stackable washer-dryer units are the norm in many apartments here. They're efficient but demanding: the small drain pumps clog more easily, and control boards wear faster under heavy daily use. If your stackable washer won't drain or the dryer runs but produces no heat, those are the two most likely culprits.</p>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Little Saigon: High-Use Households (92844)</div>
+          <h3 class="neighborhood-name">Little Saigon: High-Use Households (92844)</h3>
           <p style="font-size:13.5px;color:var(--text-dim);line-height:1.8;margin:8px 0 0;">Multi-generational households run dishwashers and washing machines far more cycles per week than the national average. Heavy use accelerates spray arm clogging in dishwashers and inlet valve wear in washers. It's one of the most consistent patterns we see on Bolsa Avenue and the surrounding residential streets.</p>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Hard Water Citywide</div>
+          <h3 class="neighborhood-name">Hard Water Citywide</h3>
           <p style="font-size:13.5px;color:var(--text-dim);line-height:1.8;margin:8px 0 0;">Mineral deposits build up inside dishwasher spray arms, reduce water flow in washer inlet valves, and coat refrigerator water filters across all of Garden Grove. If your dishwasher leaves spots or your washer runs slower than it used to, calcium buildup is often the starting point of the diagnosis.</p>
         </div>
       </div>
@@ -555,7 +556,7 @@
 
       </div>
       <div style="margin-top:24px;">
-        <a href="testimonials.html" style="font-size:13px;color:#e84c1e;font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
+        <a href="testimonials.html" style="font-size:13px;color:var(--brand);font-weight:500;text-decoration:none;">Read all 76 reviews &rarr;</a>
       </div>
     </div>
   </section>
@@ -577,28 +578,28 @@
       <div class="faq-list">
 
         <div class="faq-item">
-          <button class="faq-q">Do you offer same-day appliance repair in Garden Grove, CA?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Same-day appliance repair is available throughout Garden Grove when you call before noon. We dispatch from Stanton, just 10–15 minutes away, and can typically have a technician at your door the same afternoon with a two-hour arrival window. Call (949) 629-5365 to check availability.</div>
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-gg-1">Do you offer same-day appliance repair in Garden Grove, CA?<span class="icon">+</span></button>
+          <div class="faq-a" id="faq-gg-1">Yes. Same-day appliance repair is available throughout Garden Grove when you call before noon. We dispatch from Stanton, just 10–15 minutes away, and can typically have a technician at your door the same afternoon with a two-hour arrival window. Call (949) 629-5365 to check availability.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Which Garden Grove neighborhoods and ZIP codes do you serve?<span class="icon">+</span></button>
-          <div class="faq-a">We cover all of Garden Grove: Little Saigon (92844), Downtown and Historic Main Street (92840), Koreatown (92843), West Garden Grove (92841), the Anaheim Border and Resort area (92845), and Central Garden Grove (92842). Every neighborhood in the city is in our service area.</div>
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-gg-2">Which Garden Grove neighborhoods and ZIP codes do you serve?<span class="icon">+</span></button>
+          <div class="faq-a" id="faq-gg-2">We cover all of Garden Grove: Little Saigon (92844), Downtown and Historic Main Street (92840), Koreatown (92843), West Garden Grove (92841), the Anaheim Border and Resort area (92845), and Central Garden Grove (92842). Every neighborhood in the city is in our service area.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Do you repair appliances in the Little Saigon area of Garden Grove?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Little Saigon, centered in the 92844 ZIP code along Bolsa Avenue, is one of our regular service neighborhoods. We service refrigerators, washers, dryers, dishwashers, ovens, and more in family homes and residential apartments throughout the area.</div>
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-gg-3">Do you repair appliances in the Little Saigon area of Garden Grove?<span class="icon">+</span></button>
+          <div class="faq-a" id="faq-gg-3">Yes. Little Saigon, centered in the 92844 ZIP code along Bolsa Avenue, is one of our regular service neighborhoods. We service refrigerators, washers, dryers, dishwashers, ovens, and more in family homes and residential apartments throughout the area.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">What appliance brands do you service in Garden Grove?<span class="icon">+</span></button>
-          <div class="faq-a">We service Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor, and most other major residential appliance brands. If you don't see your brand listed, call us, we service virtually all makes and models.</div>
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-gg-4">What appliance brands do you service in Garden Grove?<span class="icon">+</span></button>
+          <div class="faq-a" id="faq-gg-4">We service Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor, and most other major residential appliance brands. If you don't see your brand listed, call us, we service virtually all makes and models.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Is it worth repairing an older appliance, or should I replace it?<span class="icon">+</span></button>
-          <div class="faq-a">A useful rule of thumb: if the repair cost is less than 50% of what a new appliance would cost and the unit is under 10 years old, repair is typically the better value. Our technician will diagnose the issue and give you a firm quote before any work begins, so you can make an informed decision. We never pressure you toward a repair if replacement makes more sense.</div>
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-gg-5">Is it worth repairing an older appliance, or should I replace it?<span class="icon">+</span></button>
+          <div class="faq-a" id="faq-gg-5">A useful rule of thumb: if the repair cost is less than 50% of what a new appliance would cost and the unit is under 10 years old, repair is typically the better value. Our technician will diagnose the issue and give you a firm quote before any work begins, so you can make an informed decision. We never pressure you toward a repair if replacement makes more sense.</div>
         </div>
 
       </div>
@@ -624,10 +625,10 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-          <img src="../logo.png" alt="Universal Appliances Repair logo" style="height:52px;width:auto;">
+          <img src="../logo.png" alt="Universal Appliances Repair logo" width="52" height="52" style="height:52px;width:auto;">
           <span style="color:#fff;font-weight:700;font-size:13px;">Universal Appliances Repair</span>
         </div>
-        <p style="font-size:12px;color:#555;line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
+        <p style="font-size:12px;color:var(--text-sub);line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
       </div>
       <div>
         <div class="footer-col-label">Services</div>
@@ -692,7 +693,11 @@
       document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
     })();
     document.querySelectorAll('.faq-q').forEach(function(btn) {
-      btn.addEventListener('click', function() { this.closest('.faq-item').classList.toggle('open'); });
+      btn.addEventListener('click', function() {
+        var item = this.closest('.faq-item');
+        item.classList.toggle('open');
+        this.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false');
+      });
     });
   </script>
 
