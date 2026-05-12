@@ -8,7 +8,7 @@ All testimonials come from `data/testimonials.json`. Never invent reviewer names
 
 ## Filtering steps (in order)
 
-1. **Exclude non-body records.** Keep only entries where `bodyStatus: "complete"`. Records with `bodyStatus: "photo-only"` or `"no-body"` may be used as image sources but never as quoted testimonials.
+1. **Exclude non-body records.** Keep only entries where `bodyStatus: "complete"`. Records with `bodyStatus: "photo-only"` or `"no-body"` may be used as image sources but never as quoted testimonials. Also exclude records where `rating < 5` — non-5-star reviews are captured for accurate cross-source rating math and complete record-keeping, but are never displayed as quoted testimonials.
 
 2. **Prefer appliance match.** For a service hub, filter for entries whose `appliance` field contains the hub's appliance type (e.g., `"washer"` for the washer hub). For a city hub, any appliance is fine.
 
