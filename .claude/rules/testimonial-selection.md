@@ -76,9 +76,10 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 ## Display rules
 
 - Show reviewer name exactly as it appears in the pool's `name` field. Last-initial abbreviations (e.g., "Jennifer T." for "Jennifer Trette") are acceptable if the page already uses that style — otherwise use the full name.
-- Location label: use `"Orange County, CA"` unless the reviewer's review text explicitly names an OC city, in which case use that city.
+- Location label depends on the record's `source` field. **Google records (`source: "google"`):** Google does not expose reviewer city, so use `"Orange County, CA"` unless the reviewer's review text explicitly names an OC city, in which case use that city. **Yelp records (`source: "yelp"`):** Yelp displays the reviewer's city directly — use the Yelp-displayed city verbatim (e.g., `"Dana Point, CA"`, `"Anaheim, CA"`).
 - Star rating: always render 5 stars (all 76 pool reviews are verified 5-star Google reviews).
 - Light typo/grammar editing is allowed for reviews flagged `bodyHasTypos: true`. No paraphrasing or substantive rewording.
+- For Yelp records with a `previousBody` field, display only `body` (the current version). `previousBody` is reference-only.
 
 ## Schema requirements
 

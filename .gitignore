@@ -15,6 +15,9 @@ photo-*.jpeg
 # Audit/research screenshots — agents write here; never committed
 .audits/
 
+# Staging area for raw photo imports before classification — never committed
+.staging/
+
 # Temp images — download trial assets here during tasks; cleaned by `npm run clean:images`
 images/temp/*
 !images/temp/.gitkeep
