@@ -1,25 +1,49 @@
 {
   "_meta": {
-    "source": "Google Business Profile reviews — Universal Appliances Repair Group INC",
-    "googleListingId": "0x8b077922f41c72e9:0x553def80f47c770e",
-    "totalReviewsOnListing": 76,
-    "capturedCount": 76,
     "lastUpdated": "2026-05-12",
-    "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-12; 56 from user-supplied screenshots and full-review images on 2026-05-06; 13 review photos relocated from reviewer-profiles/ to reviews/ and renamed by appliance on 2026-05-12 (PR: chore/move-review-photos)",
+    "sources": {
+      "google": {
+        "name": "Google Business Profile",
+        "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
+        "businessName": "Universal Appliances Repair Group INC",
+        "totalReviewsOnListing": 76,
+        "capturedCount": 76,
+        "ratingAverage": 5,
+        "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-12; 56 from user-supplied screenshots and full-review images on 2026-05-06; 13 review photos relocated from reviewer-profiles/ to reviews/ on 2026-05-12 (PR #review-photos-reclassify-plan)"
+      },
+      "yelp": {
+        "name": "Yelp",
+        "businessUrl": "https://www.yelp.com/biz/universal-appliances-repair-tustin",
+        "totalReviewsOnListing": 4,
+        "capturedCount": 4,
+        "ratingAverage": 4,
+        "ratingDistribution": {
+          "1": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 3
+        },
+        "captureMethod": "User-supplied screenshot + Yelp listing capture on 2026-05-12"
+      }
+    },
     "policyNotes": [
-      "Reviewer city not exposed by Google. All locations standardized to 'Orange County, CA' per project rule.",
-      "All reviews are 5-star (verified on listing).",
+      "Location policy is source-specific. Google records: city not exposed by Google, all standardized to 'Orange County, CA'. Yelp records: use the city displayed on the reviewer's Yelp profile (real OC cities like Dana Point, Anaheim, Irvine).",
+      "Rating filter is enforced by display rule, not by capture. All Google records (76) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
       "Bodies preserved verbatim including spelling/grammar issues. Use _bodyHasTypos flag to decide if light correction is acceptable for display.",
       "All review bodies that have text are now complete (Kathy Calderon, Dave Brisbin, andrea hall full bodies sourced from missing_data/ folder).",
       "Two reviews have no body text (Theresa Robinson is photo-only with stove image; Luci LaBue has only 'Reasonable price' + 'Washing machine repair' service tags). Useful for photo display only.",
       "Review photos (.webp) for 13 reviewers stored at images/real/reviews/, named [appliance]-[brand-if-confirmed]-[reviewer].webp. Each is referenced via its reviewPhoto field. The profilePhoto field is currently null for every record — no actual reviewer avatars have been captured.",
       "Review photos: 7 captured as Google CDN URLs from initial browser scrape (may need re-download to local before they expire); 13 previously embedded in screenshots have been extracted and saved locally at images/real/reviews/ (2026-05-12).",
-      "Display rule for testimonials (mirrors .claude/rules/testimonial-selection.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body ≥3 words; (b) no reviewPhoto and body ≥8 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and ≤2-overlap rules in the same rules file also apply."
+      "Display rule for testimonials (mirrors .claude/rules/testimonial-selection.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body ≥3 words; (b) no reviewPhoto and body ≥8 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and ≤2-overlap rules in the same rules file also apply.",
+      "Schema: every record has a 'source' field ('google' | 'yelp'). Yelp records may have a 'previousBody' field for updated reviews. Records linked across sources have a '_crossSourceMatch' field pointing to the corresponding record's id.",
+      "AggregateRating in HTML schema markup is Google-only (5.0 × 76). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
     ]
   },
   "reviews": [
     {
       "id": "google-jovita-osorio-2026-04",
+      "source": "google",
       "name": "Jovita Osorio",
       "location": "Orange County, CA",
       "appliance": null,
@@ -34,6 +58,7 @@
     },
     {
       "id": "google-noelle-b-2026-03",
+      "source": "google",
       "name": "Noelle B",
       "location": "Orange County, CA",
       "appliance": "dishwasher",
@@ -49,6 +74,7 @@
     },
     {
       "id": "google-jennifer-trette-2026-02",
+      "source": "google",
       "name": "Jennifer Trette",
       "location": "Orange County, CA",
       "appliance": "dryer",
@@ -63,6 +89,7 @@
     },
     {
       "id": "google-lale-2026-02",
+      "source": "google",
       "name": "Lale",
       "location": "Orange County, CA",
       "appliance": "refrigerator",
@@ -77,6 +104,7 @@
     },
     {
       "id": "google-marcy-kucik-2026-02",
+      "source": "google",
       "name": "Marcy Kucik",
       "location": "Orange County, CA",
       "appliance": "refrigerator",
@@ -91,6 +119,7 @@
     },
     {
       "id": "google-cindy-montefu-2026-01",
+      "source": "google",
       "name": "Cindy Montefu",
       "location": "Orange County, CA",
       "appliance": "dryer",
@@ -106,6 +135,7 @@
     },
     {
       "id": "google-robert-clemmons-2026-01",
+      "source": "google",
       "name": "Robert Clemmons",
       "location": "Orange County, CA",
       "appliance": "dishwasher",
@@ -120,6 +150,7 @@
     },
     {
       "id": "google-wendy-henderson-2026-02",
+      "source": "google",
       "name": "Wendy Henderson",
       "location": "Orange County, CA",
       "appliance": null,
@@ -134,6 +165,7 @@
     },
     {
       "id": "google-danette-vanover-2026-01",
+      "source": "google",
       "name": "Danette Vanover",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -150,6 +182,7 @@
     },
     {
       "id": "google-russell-kadota-2026-01",
+      "source": "google",
       "name": "Russell Kadota",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -164,6 +197,7 @@
     },
     {
       "id": "google-tony-tomassini-2026-03",
+      "source": "google",
       "name": "Tony Tomassini",
       "location": "Orange County, CA",
       "appliance": "dishwasher,washer",
@@ -178,6 +212,7 @@
     },
     {
       "id": "google-justine-shaw-2026-02",
+      "source": "google",
       "name": "Justine Shaw",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -192,6 +227,7 @@
     },
     {
       "id": "google-katie-holst-2026-02",
+      "source": "google",
       "name": "Katie Holst",
       "location": "Orange County, CA",
       "appliance": "dishwasher",
@@ -206,6 +242,7 @@
     },
     {
       "id": "google-katie-anne-salen-2026-02",
+      "source": "google",
       "name": "Katie Anne Salen",
       "location": "Orange County, CA",
       "appliance": "dryer",
@@ -220,6 +257,7 @@
     },
     {
       "id": "google-john-dinger-2025-10",
+      "source": "google",
       "name": "John Dinger",
       "location": "Orange County, CA",
       "appliance": null,
@@ -234,6 +272,7 @@
     },
     {
       "id": "google-steve-d-2026-01",
+      "source": "google",
       "name": "Steve D",
       "location": "Orange County, CA",
       "appliance": "cooktop",
@@ -249,6 +288,7 @@
     },
     {
       "id": "google-julie-l-2025-05",
+      "source": "google",
       "name": "Julie L.",
       "location": "Orange County, CA",
       "appliance": "dryer",
@@ -263,6 +303,7 @@
     },
     {
       "id": "google-greg-schnabel-2025-12",
+      "source": "google",
       "name": "Greg Schnabel",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -277,6 +318,7 @@
     },
     {
       "id": "google-jeff-lane-songs-2026-02",
+      "source": "google",
       "name": "Jeff Lane Songs",
       "location": "Orange County, CA",
       "appliance": "oven",
@@ -293,6 +335,7 @@
     },
     {
       "id": "google-emily-palmer-2026-03",
+      "source": "google",
       "name": "Emily Palmer",
       "location": "Orange County, CA",
       "appliance": "freezer",
@@ -308,6 +351,7 @@
     },
     {
       "id": "google-jonathan-stone-2026-02",
+      "source": "google",
       "name": "Jonathan Stone",
       "location": "Orange County, CA",
       "appliance": "dishwasher",
@@ -323,6 +367,7 @@
     },
     {
       "id": "google-katherine-bosboom-2026-03",
+      "source": "google",
       "name": "Katherine Bosboom",
       "location": "Orange County, CA",
       "appliance": null,
@@ -337,6 +382,7 @@
     },
     {
       "id": "google-jonra-babiracki-2026-03",
+      "source": "google",
       "name": "Jonra Babiracki",
       "location": "Orange County, CA",
       "appliance": null,
@@ -351,6 +397,7 @@
     },
     {
       "id": "google-kathy-calderon-2025-09",
+      "source": "google",
       "name": "Kathy Calderon",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -366,6 +413,7 @@
     },
     {
       "id": "google-paul-guns-2026-02",
+      "source": "google",
       "name": "paul guns",
       "location": "Orange County, CA",
       "appliance": null,
@@ -381,6 +429,7 @@
     },
     {
       "id": "google-william-nugent-2026-01",
+      "source": "google",
       "name": "William Nugent",
       "location": "Orange County, CA",
       "appliance": "refrigerator",
@@ -396,6 +445,7 @@
     },
     {
       "id": "google-susan-gerakos-2026-03",
+      "source": "google",
       "name": "Susan Gerakos",
       "location": "Orange County, CA",
       "appliance": null,
@@ -411,6 +461,7 @@
     },
     {
       "id": "google-michele-ohanian-2025-12",
+      "source": "google",
       "name": "Michele Ohanian",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -426,6 +477,7 @@
     },
     {
       "id": "google-roger-antonie-2026-03",
+      "source": "google",
       "name": "Roger Antonie",
       "location": "Orange County, CA",
       "appliance": "stove",
@@ -441,6 +493,7 @@
     },
     {
       "id": "google-rick-deangelo-2025-05",
+      "source": "google",
       "name": "rick deangelo",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -456,6 +509,7 @@
     },
     {
       "id": "google-dana-mcneill-2026-03",
+      "source": "google",
       "name": "Dana McNeill",
       "location": "Orange County, CA",
       "appliance": null,
@@ -472,6 +526,7 @@
     },
     {
       "id": "google-jeff-c-2026-03",
+      "source": "google",
       "name": "Jeff C",
       "location": "Orange County, CA",
       "appliance": null,
@@ -486,6 +541,7 @@
     },
     {
       "id": "google-cheryl-kirkpatrick-2025-11",
+      "source": "google",
       "name": "Cheryl Kirkpatrick",
       "location": "Orange County, CA",
       "appliance": null,
@@ -500,6 +556,7 @@
     },
     {
       "id": "google-d-light-2026-02",
+      "source": "google",
       "name": "D Light",
       "location": "Orange County, CA",
       "appliance": null,
@@ -514,6 +571,7 @@
     },
     {
       "id": "google-kelly-heyden-2025-07",
+      "source": "google",
       "name": "Kelly Heyden",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -531,6 +589,7 @@
     },
     {
       "id": "google-satara-armstrong-charlson-2026-03",
+      "source": "google",
       "name": "Satara Armstrong Charlson",
       "location": "Orange County, CA",
       "appliance": null,
@@ -545,6 +604,7 @@
     },
     {
       "id": "google-elvin-mammadov-2026-01",
+      "source": "google",
       "name": "Elvin Mammadov",
       "location": "Orange County, CA",
       "appliance": null,
@@ -561,6 +621,7 @@
     },
     {
       "id": "google-craig-tudor-2026-02",
+      "source": "google",
       "name": "Craig Tudor",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -576,6 +637,7 @@
     },
     {
       "id": "google-shawne-king-2025-07",
+      "source": "google",
       "name": "Shawne King",
       "location": "Orange County, CA",
       "appliance": null,
@@ -590,6 +652,7 @@
     },
     {
       "id": "google-kat-tesh-2026-03",
+      "source": "google",
       "name": "Kat Tesh",
       "location": "Orange County, CA",
       "appliance": null,
@@ -604,6 +667,7 @@
     },
     {
       "id": "google-patricio-jr-villanueva-2025-12",
+      "source": "google",
       "name": "Patricio Jr Villanueva",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -620,6 +684,7 @@
     },
     {
       "id": "google-dave-brisbin-2025-07",
+      "source": "google",
       "name": "Dave Brisbin",
       "location": "Orange County, CA",
       "appliance": "refrigerator,freezer",
@@ -637,6 +702,7 @@
     },
     {
       "id": "google-darina-martirosyan-2026-03",
+      "source": "google",
       "name": "Darina Martirosyan",
       "location": "Orange County, CA",
       "appliance": "microwave",
@@ -652,6 +718,7 @@
     },
     {
       "id": "google-kenan-ken-2026-03",
+      "source": "google",
       "name": "Kenan Ken",
       "location": "Orange County, CA",
       "appliance": "oven",
@@ -668,6 +735,7 @@
     },
     {
       "id": "google-b-p-2026-03",
+      "source": "google",
       "name": "B P",
       "location": "Orange County, CA",
       "appliance": null,
@@ -682,6 +750,7 @@
     },
     {
       "id": "google-naoki-macinnes-2026-03",
+      "source": "google",
       "name": "Naoki MacInnes",
       "location": "Orange County, CA",
       "appliance": null,
@@ -696,6 +765,7 @@
     },
     {
       "id": "google-arzuman-qarayev-2025-05",
+      "source": "google",
       "name": "Arzuman Qarayev",
       "location": "Orange County, CA",
       "appliance": "refrigerator",
@@ -712,6 +782,7 @@
     },
     {
       "id": "google-brian-brassil-2026-03",
+      "source": "google",
       "name": "Brian Brassil",
       "location": "Orange County, CA",
       "appliance": "refrigerator",
@@ -728,6 +799,7 @@
     },
     {
       "id": "google-lilya-raupova-2025-05",
+      "source": "google",
       "name": "Lilya Raupova",
       "location": "Orange County, CA",
       "appliance": "refrigerator",
@@ -744,6 +816,7 @@
     },
     {
       "id": "google-suzan-hier-2025-05",
+      "source": "google",
       "name": "Suzan Hier",
       "location": "Orange County, CA",
       "appliance": null,
@@ -760,6 +833,7 @@
     },
     {
       "id": "google-mark-koss-2025-08",
+      "source": "google",
       "name": "Mark Koss",
       "location": "Orange County, CA",
       "appliance": null,
@@ -774,6 +848,7 @@
     },
     {
       "id": "google-ernesto-ruiz-2025-05",
+      "source": "google",
       "name": "Ernesto Ruiz",
       "location": "Orange County, CA",
       "appliance": "dryer",
@@ -788,6 +863,7 @@
     },
     {
       "id": "google-laman-anvarli-2025-08",
+      "source": "google",
       "name": "Laman Anvarli",
       "location": "Orange County, CA",
       "appliance": "refrigerator",
@@ -803,6 +879,7 @@
     },
     {
       "id": "google-karen-myhra-2025-11",
+      "source": "google",
       "name": "Karen Myhra",
       "location": "Orange County, CA",
       "appliance": "dishwasher",
@@ -818,6 +895,7 @@
     },
     {
       "id": "google-mark-rivera-2026-03",
+      "source": "google",
       "name": "Mark Rivera",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -832,6 +910,7 @@
     },
     {
       "id": "google-matt-snyder-2025-05",
+      "source": "google",
       "name": "Matt Snyder",
       "location": "Orange County, CA",
       "appliance": "dryer",
@@ -847,6 +926,7 @@
     },
     {
       "id": "google-veronique-reaver-2025-09",
+      "source": "google",
       "name": "Veronique Reaver",
       "location": "Orange County, CA",
       "appliance": "washer,dryer",
@@ -862,6 +942,7 @@
     },
     {
       "id": "google-george-2025-05",
+      "source": "google",
       "name": "George",
       "location": "Orange County, CA",
       "appliance": "dishwasher",
@@ -877,6 +958,7 @@
     },
     {
       "id": "google-andrea-walter-2025-05",
+      "source": "google",
       "name": "Andrea Walter",
       "location": "Orange County, CA",
       "appliance": null,
@@ -891,6 +973,7 @@
     },
     {
       "id": "google-chi-wright-2025-06",
+      "source": "google",
       "name": "Chi Wright",
       "location": "Orange County, CA",
       "appliance": null,
@@ -905,6 +988,7 @@
     },
     {
       "id": "google-laurie-summers-2025-05",
+      "source": "google",
       "name": "Laurie Summers",
       "location": "Orange County, CA",
       "appliance": null,
@@ -919,6 +1003,7 @@
     },
     {
       "id": "google-jaz-a-2026-01",
+      "source": "google",
       "name": "Jaz A",
       "location": "Orange County, CA",
       "appliance": null,
@@ -933,6 +1018,7 @@
     },
     {
       "id": "google-diane-tweedy-2025-05",
+      "source": "google",
       "name": "Diane Tweedy",
       "location": "Orange County, CA",
       "appliance": null,
@@ -948,6 +1034,7 @@
     },
     {
       "id": "google-elizabeth-lovejoy-2026-04-30",
+      "source": "google",
       "name": "Elizabeth Lovejoy",
       "location": "Orange County, CA",
       "appliance": "cooktop",
@@ -964,6 +1051,7 @@
     },
     {
       "id": "google-andrea-hall-2026-04-29",
+      "source": "google",
       "name": "andrea hall",
       "location": "Orange County, CA",
       "appliance": "freezer",
@@ -980,6 +1068,7 @@
     },
     {
       "id": "google-molla-islam-2026-04-22",
+      "source": "google",
       "name": "Molla Islam",
       "location": "Orange County, CA",
       "appliance": "refrigerator,cooktop",
@@ -996,6 +1085,7 @@
     },
     {
       "id": "google-joellyn-meadows-2026-04",
+      "source": "google",
       "name": "Joellyn Meadows",
       "location": "Orange County, CA",
       "appliance": "refrigerator",
@@ -1010,6 +1100,7 @@
     },
     {
       "id": "google-susan-ryan-2026-04",
+      "source": "google",
       "name": "Susan Ryan",
       "location": "Orange County, CA",
       "appliance": "oven",
@@ -1025,6 +1116,7 @@
     },
     {
       "id": "google-stephen-stephen-2026-04",
+      "source": "google",
       "name": "Stephen Stephen",
       "location": "Orange County, CA",
       "appliance": "washer,dryer",
@@ -1039,6 +1131,7 @@
     },
     {
       "id": "google-dena-fisher-2026-04",
+      "source": "google",
       "name": "Dena Fisher",
       "location": "Orange County, CA",
       "appliance": "dryer",
@@ -1053,6 +1146,7 @@
     },
     {
       "id": "google-cheryl-lemire-2026-04",
+      "source": "google",
       "name": "cheryl lemire",
       "location": "Orange County, CA",
       "appliance": "dryer",
@@ -1068,6 +1162,7 @@
     },
     {
       "id": "google-george-mendoza-2026-04",
+      "source": "google",
       "name": "George Mendoza",
       "location": "Orange County, CA",
       "appliance": "range",
@@ -1084,6 +1179,7 @@
     },
     {
       "id": "google-clifford-wright-2026-04",
+      "source": "google",
       "name": "Clifford Wright",
       "location": "Orange County, CA",
       "appliance": null,
@@ -1100,6 +1196,7 @@
     },
     {
       "id": "google-susie-arii-2026-04",
+      "source": "google",
       "name": "Susie Arii",
       "location": "Orange County, CA",
       "appliance": "washer,dryer",
@@ -1116,6 +1213,7 @@
     },
     {
       "id": "google-theresa-robinson-2026-02",
+      "source": "google",
       "name": "Theresa Robinson",
       "location": "Orange County, CA",
       "appliance": "range",
@@ -1131,6 +1229,7 @@
     },
     {
       "id": "google-luci-labue-2025-07",
+      "source": "google",
       "name": "Luci LaBue",
       "location": "Orange County, CA",
       "appliance": "washer",
@@ -1145,6 +1244,75 @@
       "profilePhoto": null,
       "reviewPhoto": null,
       "_note": "No body text, only service and price tags. Cannot be used as quoted testimonial."
+    },
+    {
+      "id": "yelp-linda-b-2025-05",
+      "source": "yelp",
+      "name": "Linda B.",
+      "location": "Dana Point, CA",
+      "appliance": "dishwasher",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2025-05",
+      "dateText": "May 2, 2025",
+      "body": "AG was thorough and professional and best of all he quickly fixed my dishwasher. I will definitely use him again.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Yelp profile shows 0 photos for this reviewer."
+    },
+    {
+      "id": "yelp-william-l-2024-08",
+      "source": "yelp",
+      "name": "William L.",
+      "location": "Anaheim, CA",
+      "appliance": "cooktop",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2024-08",
+      "dateText": "Aug 23, 2024 (Updated review)",
+      "body": "We had a cooktop installed, and the wiring was a little short on the model we bought and the workmen had to get additional wiring to complete the job and did a wonderful job installing the cooktop. His price was so considerate I gave him a tip.",
+      "previousBody": "Old cooktop needed to be replaced. The old cooktop was 36 inch and the new one was also advertised as 36 inch but was actually 34 inches. The serviceman pulled out the old one out only to find the new one was too small and replaced the old one back in the hole. He helped me order the correct cooktop and will come back to reinstall it. Great service and a great value highly recommended.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Yelp updated review (previous Aug 17, 2024). No photo attached to this review on Yelp (reviewer's profile photo count is lifetime, not per-review). Note: this is a cooktop installation/replacement, not a repair — still credible trust signal."
+    },
+    {
+      "id": "yelp-mrs-d-2024-08",
+      "source": "yelp",
+      "name": "mrs d.",
+      "location": "Irvine, CA",
+      "appliance": "range,dishwasher",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2024-08",
+      "dateText": "Aug 26, 2024",
+      "body": "AG did a great job moving my gas range from one house to another house. He also uninstalled a dishwasher for me. Various contractors lately have damaged my house which created more work for me, thus, I am extremely pleased that AG and his helpers were very careful. I appreciate that he was punctual and did the work in the time he said it would take.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Service type is appliance moving + uninstall, not repair. Display preferred on city pages (Irvine) over service hubs. No photo attached to this review on Yelp (the 8 photos shown on reviewer's profile are lifetime across all her Yelp reviews, not attached to this one)."
+    },
+    {
+      "id": "yelp-tony-b-2024-08",
+      "source": "yelp",
+      "name": "Tony B.",
+      "location": "San Bernardino, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 1,
+      "approxDate": "2024-08",
+      "dateText": "Aug 17, 2024",
+      "body": "Had scheduled an appointment for 3pm-4pm today. Never showed up and tried to reach out to them multiple times.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "1-star review. Reviewer's displayed location is San Bernardino, CA — outside the business's Orange County service area, which likely explains the no-show (logistics/range mismatch, not a service quality issue). Captured for accurate rating math; never displayed as testimonial (filtered by 5-star precondition in testimonial-selection.md step 1)."
     }
   ]
 }
