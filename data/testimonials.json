@@ -4,16 +4,17 @@
     "googleListingId": "0x8b077922f41c72e9:0x553def80f47c770e",
     "totalReviewsOnListing": 76,
     "capturedCount": 76,
-    "lastUpdated": "2026-05-06",
-    "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-06; 56 from user-supplied screenshots and full-review images on 2026-05-06",
+    "lastUpdated": "2026-05-12",
+    "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-12; 56 from user-supplied screenshots and full-review images on 2026-05-06; 13 review photos relocated from reviewer-profiles/ to reviews/ and renamed by appliance on 2026-05-12 (PR: chore/move-review-photos)",
     "policyNotes": [
       "Reviewer city not exposed by Google. All locations standardized to 'Orange County, CA' per project rule.",
       "All reviews are 5-star (verified on listing).",
       "Bodies preserved verbatim including spelling/grammar issues. Use _bodyHasTypos flag to decide if light correction is acceptable for display.",
       "All review bodies that have text are now complete (Kathy Calderon, Dave Brisbin, andrea hall full bodies sourced from missing_data/ folder).",
       "Two reviews have no body text (Theresa Robinson is photo-only with stove image; Luci LaBue has only 'Reasonable price' + 'Washing machine repair' service tags). Useful for photo display only.",
-      "Reviewer profile photos (.webp avatars) for 13 reviewers stored at images/real/reviewer-profiles/. Each is referenced via its profilePhoto field where available.",
-      "Review photos: 7 captured as Google CDN URLs from initial browser scrape (may need re-download to local before they expire); ~12 more are visible in screenshots but need to be extracted or re-saved as separate files."
+      "Review photos (.webp) for 13 reviewers stored at images/real/reviews/, named [appliance]-[brand-if-confirmed]-[reviewer].webp. Each is referenced via its reviewPhoto field. The profilePhoto field is currently null for every record — no actual reviewer avatars have been captured.",
+      "Review photos: 7 captured as Google CDN URLs from initial browser scrape (may need re-download to local before they expire); 13 previously embedded in screenshots have been extracted and saved locally at images/real/reviews/ (2026-05-12).",
+      "Display rule for testimonials (mirrors .claude/rules/testimonial-selection.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body ≥3 words; (b) no reviewPhoto and body ≥8 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and ≤2-overlap rules in the same rules file also apply."
     ]
   },
   "reviews": [
@@ -389,9 +390,9 @@
       "dateText": "4 months ago",
       "body": "Awesome service and price!! Thank You..",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/william_nugent_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_2.png",
-      "_note": "Review photo (built-in fridge) embedded in screenshot — needs extraction."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/refrigerator-william-nugent.webp",
+      "_note": "Review photo shows a stainless built-in side-by-side refrigerator."
     },
     {
       "id": "google-susan-gerakos-2026-03",
@@ -419,9 +420,9 @@
       "dateText": "5 months ago",
       "body": "Friendly, on time, efficient, and successful repair.",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/michele_ohanian_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_2.png",
-      "_note": "Review photo (front-load washer) embedded in screenshot. Reviewer has 13 reviews · 2 photos — second photo may exist on listing."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/washer-michele-ohanian.webp",
+      "_note": "Review photo shows a front-load washer/dryer pair. Reviewer has 13 reviews, 2 photos — second photo may exist on the listing."
     },
     {
       "id": "google-roger-antonie-2026-03",
@@ -434,9 +435,9 @@
       "dateText": "2 months ago",
       "body": "Competent and friendly service.",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/roger_antonie_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_3.png",
-      "_note": "Review photo shows a high-end gas range/stove with red knobs."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/range-roger-antonie.webp",
+      "_note": "Review photo shows a high-end stainless gas range with red knobs (pro-style)."
     },
     {
       "id": "google-rick-deangelo-2025-05",
@@ -449,8 +450,8 @@
       "dateText": "a year ago",
       "body": "Prompt, professional, clean, reasonably priced — would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure.",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/rick_deangelo_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_3.png",
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/washer-rick-deangelo.webp",
       "_note": "Review photo shows a black front-load washer."
     },
     {
@@ -569,9 +570,9 @@
       "dateText": "3 months ago",
       "body": "AG was awesome!",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/craig_tudor_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_6.png",
-      "_note": "Review photo shows a white front-load washer/dryer."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/washer-craig-tudor.webp",
+      "_note": "Review photo shows a white washer/dryer with a black door panel."
     },
     {
       "id": "google-shawne-king-2025-07",
@@ -613,9 +614,9 @@
       "body": "Thank you for fix my washer lg",
       "bodyStatus": "complete",
       "bodyHasTypos": true,
-      "profilePhoto": "images/real/reviewer-profiles/patricio_villanueva_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_6.png",
-      "_note": "Non-native English. 'fix' should be 'fixing'. Review photo shows LG front-load washer."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/washer-lg-patricio-villanueva.webp",
+      "_note": "Non-native English. 'fix' should be 'fixing'. Review photo shows an LG front-load washer with a paper receipt on top — light trust signal."
     },
     {
       "id": "google-dave-brisbin-2025-07",
@@ -645,9 +646,9 @@
       "dateText": "2 months ago",
       "body": "Thank you for fixing my microwave !!!",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/darina_martirosyan_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_7.png",
-      "_note": "Review photo shows built-in microwave above oven."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/microwave-darina-martirosyan.webp",
+      "_note": "Review photo shows a stainless built-in microwave in wood cabinetry."
     },
     {
       "id": "google-kenan-ken-2026-03",
@@ -705,9 +706,9 @@
       "body": "Thank you for fix my Frigidaire fridge. Did not cool. Fast and good service",
       "bodyStatus": "complete",
       "bodyHasTypos": true,
-      "profilePhoto": "images/real/reviewer-profiles/arzuman_qarayev_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_8.png",
-      "_note": "Non-native English. Review photo shows white Frigidaire side-by-side fridge."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/refrigerator-frigidaire-arzuman-qarayev.webp",
+      "_note": "Non-native English. Review photo shows a white Frigidaire top-mount refrigerator."
     },
     {
       "id": "google-brian-brassil-2026-03",
@@ -811,9 +812,9 @@
       "dateText": "6 months ago",
       "body": "Fast and effective!",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/karen_myhra.webp",
-      "reviewPhoto": "from-screenshot:review_scr_10.png",
-      "_note": "Review photo shows built-in dishwasher under granite countertop."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/dishwasher-karen-myhra.webp",
+      "_note": "Review photo shows a stainless built-in dishwasher under a granite countertop."
     },
     {
       "id": "google-mark-rivera-2026-03",
@@ -870,9 +871,9 @@
       "dateText": "a year ago",
       "body": "He fixed the washing machine 👍",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/george_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_11.png",
-      "_note": "Body says 'washing machine' but photo shows a dishwasher with hand pointing inside. Likely the body text was about washing machine but the photo was their dishwasher repair — the same tech may have done both. Recommend treating as dishwasher for hub-page assignment since the photo is the visual."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/dishwasher-george.webp",
+      "_note": "Body says 'washing machine' but photo shows a dishwasher with hand pointing inside. Likely the body text was about washing machine but the photo was their dishwasher repair — the same tech may have done both. Recommend treating as dishwasher for hub-page assignment since the photo is the visual. Photo file: images/real/reviews/dishwasher-george.webp (extracted from screenshot)."
     },
     {
       "id": "google-andrea-walter-2025-05",
@@ -957,9 +958,9 @@
       "isNew": true,
       "body": "Great service, incredibly pleasant! We were so impressed with how quickly he both diagnosed and fixed the problem.",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/elizabeth_lovejoy_photo.webp",
-      "reviewPhoto": "from-screenshot:review_13.png",
-      "_note": "Review photo shows pink-tile counter with gas cooktop."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/cooktop-elizabeth-lovejoy.webp",
+      "_note": "Review photo shows a gas cooktop with terracotta-tile backsplash."
     },
     {
       "id": "google-andrea-hall-2026-04-29",
@@ -1061,9 +1062,9 @@
       "dateText": "a month ago",
       "body": "Absolutely amazing service! Timely, cost was right, knowledgeable, great customer experience! Definitely will be using them again! Thank you! Dryer is back in action!",
       "bodyStatus": "complete",
-      "profilePhoto": "images/real/reviewer-profiles/cheryl_lemire_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_15.png",
-      "_note": "Review photo shows white front-load dryer."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/dryer-cheryl-lemire.webp",
+      "_note": "Review photo shows a white front-load dryer control panel close-up."
     },
     {
       "id": "google-george-mendoza-2026-04",
@@ -1124,9 +1125,9 @@
       "dateText": "3 months ago",
       "body": null,
       "bodyStatus": "photo-only",
-      "profilePhoto": "images/real/reviewer-profiles/theresa_robinson_photo.webp",
-      "reviewPhoto": "from-screenshot:review_scr_16.png",
-      "_note": "Photo-only review — no body text. Photo shows stainless steel pro-style range with red knobs. Useful as a hub-page image but cannot be used as a quoted testimonial."
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/range-theresa-robinson.webp",
+      "_note": "Photo-only review — no body text. Photo shows a stainless pro-style range with red knobs. Usable as hub-page imagery only; never as a quoted testimonial."
     },
     {
       "id": "google-luci-labue-2025-07",
