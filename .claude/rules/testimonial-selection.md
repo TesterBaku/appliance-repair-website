@@ -22,7 +22,15 @@ All testimonials come from `data/testimonials.json`. Never invent reviewer names
    - City hub: 4–6 reviews (any appliance) — see Visual layout rules below
    - Testimonials page: all complete-body reviews
 
-6. **Apply the quality floor.** Each displayed testimonial body must be **≥25 words**. A 4–7 word review (e.g., "AG was awesome!") is worse than no review at all — Google can flag thin `Review` schema as a low-quality signal, and visually it shrinks the card next to longer ones. Photo-only and short-body reviews stay in the pool as image sources but are never displayed as quoted testimonials.
+6. **Apply the quality floor.** A review is displayable as a quoted testimonial if it satisfies one of the following. Otherwise it stays in the pool as an image source only.
+
+   a. **Photo + body ≥3 words** — the photo carries the specificity, so the body can be brief.
+
+   b. **No photo + body ≥8 words** — without a photo the body has to do the credibility work alone. The pool's median body is 14 words; 8 admits genre-normal short praise (e.g., "Friendly, on time, efficient, and successful repair.") while excluding pure single-thought reviews ("AG was awesome!").
+
+   c. **No photo + body <8 words + names a specific appliance or brand** — short reviews that explicitly identify what was repaired carry SEO and trust value even when terse. "Appliance" means one of: refrigerator, fridge, washer, washing machine, dryer, dishwasher, oven, stove, range, cooktop, microwave, freezer, garbage disposal, wine cooler. "Brand" means one of: Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor. Generic phrases like "my appliance" or "the unit" do not qualify.
+
+   Photo-only (`bodyStatus: "photo-only"`) and no-body (`bodyStatus: "no-body"`) records are never displayable as quoted testimonials regardless of any other property; their photos may be used as imagery.
 
 ## Visual layout rules (3-column grid)
 
