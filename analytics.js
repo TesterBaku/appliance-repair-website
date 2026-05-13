@@ -52,4 +52,54 @@
   } else {
     attachFormTracking();
   }
+
+  // Keyboard accessibility for nav dropdowns
+  // analytics.js loads at body-end so DOM is ready; no DOMContentLoaded guard needed.
+  function initNavKeyboard() {
+    // Stamp aria-expanded on every toggle so screen readers see the closed state on load
+    document.querySelectorAll('.nav-dropdown-toggle').forEach(function (toggle) {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-haspopup', 'true');
+    });
+
+    // Single delegated keydown listener covers all dropdowns on the page
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Escape') return;
+
+      // Escape: close every open dropdown
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.nav-dropdown-toggle').forEach(function (toggle) {
+          var dd = toggle.closest('.nav-dropdown');
+          var menu = dd && dd.querySelector('.nav-dropdown-menu');
+          if (menu) menu.style.display = '';
+          toggle.setAttribute('aria-expanded', 'false');
+          var arrow = toggle.querySelector('.nav-dropdown-arrow');
+          if (arrow) arrow.style.transform = '';
+        });
+        return;
+      }
+
+      // Enter / Space: toggle the focused dropdown
+      var toggle = document.activeElement;
+      if (!toggle || !toggle.classList.contains('nav-dropdown-toggle')) return;
+      e.preventDefault();
+
+      var dd = toggle.closest('.nav-dropdown');
+      if (!dd) return;
+      var menu = dd.querySelector('.nav-dropdown-menu');
+      if (!menu) return;
+
+      var isOpen = menu.style.display === 'block';
+      menu.style.display = isOpen ? '' : 'block';
+      toggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      var arrow = toggle.querySelector('.nav-dropdown-arrow');
+      if (arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavKeyboard);
+  } else {
+    initNavKeyboard();
+  }
 }());
