@@ -115,3 +115,17 @@
 | Freezer Repair Cost in Rancho Santa Margarita, CA — What Homeowners Usually Pay | `article-freezer-cost-rancho-santa-margarita.html` | freezer repair cost Rancho Santa Margarita CA | Cost guide | [#49](https://github.com/TesterBaku/appliance-repair-website/pull/49) | `c506cd1` |
 
 **Workflow changes:** None
+
+---
+
+## Run — May 13, 2026
+
+**Articles created:** 1
+**Cost content:** Yes
+**Mode:** Interactive
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| Sub-Zero Refrigerator Repair Cost in Orange County (2026 Guide) | `article-sub-zero-repair-cost-orange-county.html` | sub-zero refrigerator repair cost orange county | Cost guide | [#292](https://github.com/TesterBaku/appliance-repair-website/pull/292) | `9ae697a` |
+
+**Workflow changes:** None — scheduled Week 1 Wed article per `tasks/schedule-4-weeks.md`; review blocked on em dashes (14 instances), fixed before merge.
