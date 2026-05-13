@@ -151,7 +151,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .nav-drawer details[open] summary::after { transform: rotate(180deg); }
 .nav-drawer details a { display: block; font-size: 13.5px; color: var(--text-sub); padding: 9px 0 9px 14px; border-bottom: 1px solid var(--border-subtle); text-decoration: none; }
 .nav-drawer details a:last-child { border-bottom: none; padding-bottom: 12px; }
-.nav-drawer details .drawer-all { color: var(--brand); font-weight: 600; }
+.nav-drawer details .drawer-all { color: var(--brand-text); font-weight: 600; }
 
 /* HAMBURGER BUTTON (hidden on desktop) */
 .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0; width: 44px; height: 44px; align-items: center; justify-content: center; flex-direction: column; gap: 5px; flex-shrink: 0; }
