@@ -24,7 +24,7 @@ Read every `article-*.html` file in the project (under `articles/` and the root)
 **Required root files (must return 200):**
 - [ ] `/robots.txt` exists and points to `sitemap.xml`
 - [ ] `/sitemap.xml` exists and contains every published HTML file
-- [ ] `/llms.txt` exists with current business summary (template in `tasks/action-plan-fixappliancesfast.md`)
+- [ ] `/llms.txt` exists with current business summary
 
 **Brand canonicalization:**
 - [ ] No HTML or schema contains the string `Fix Appliances Fast` as a brand name (the domain is fine in URLs)

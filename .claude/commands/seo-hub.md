@@ -34,7 +34,7 @@ If arguments are missing, ask the user:
 1. **Read the rules first.** Open and read:
    - `rules/seo-content.md` — brand canonicalization, AI answer block template, FAQ count requirements, schema templates
    - `rules/mobile-design.md` — mobile breakpoints, hamburger, sticky CTA bar
-   - `tasks/action-plan-fixappliancesfast.md` — confirm which hub pages are already P2-2 / P2-3 work in flight
+   - `tasks/backlog.md` — confirm which hub pages are already in flight (P3 section)
 
 2. **Confirm no duplicate.** Check `pages/` for an existing file with the target slug:
    - Service: `pages/[appliance]-repair-orange-county.html`

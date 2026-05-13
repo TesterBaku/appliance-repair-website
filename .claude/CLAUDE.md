@@ -70,8 +70,10 @@ Static HTML website for an appliance repair service. Built with Tailwind CSS via
 - `rules/seo-content.md` — SEO guidelines, brand canonicalization, hub-page architecture, AI answer block, llms.txt requirement, schema templates
 - `rules/mobile-design.md` — required `@media` breakpoints, hamburger nav, sticky bottom Call/Book bar, tap-target sizes, form behavior on mobile
 
-## Active remediation plan
-- `tasks/action-plan-fixappliancesfast.md` — combined SEO/mobile/agent-readiness remediation plan from the May 2026 audit. Work is grouped P0 → P4. Treat each item as one PR.
+## Active plans
+- `tasks/backlog.md` — single source of truth for all open work. Includes Mobile UX remediation (P0–P3) and Months 2–3 themes folded in 2026-05-13.
+- `tasks/schedule-4-weeks.md` — current dated execution plan (May 11 – Jun 7, 2026); includes the 8-piece luxury content cluster specs as appendix.
+- `tasks/social-media-launch-plan.md` — YouTube Shorts / Instagram Reels / TikTok launch plan (drafted 2026-05-13).
 
 ## Logs
 - `logs/CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
@@ -120,7 +122,7 @@ The `/review` subagent must flag as **FAIL** any PR whose description does not c
 ## Site-wide required files (must return 200)
 - `/robots.txt`
 - `/sitemap.xml`
-- `/llms.txt` — plain-text business summary for AI crawlers (template in `tasks/action-plan-fixappliancesfast.md`)
+- `/llms.txt` — plain-text business summary for AI crawlers
 
 ## Required on every new HTML page
 Every new `.html` file — article, hub page, or static page — must include the Google Analytics tag as the **first child of `<head>`**, before any other tags:
@@ -143,7 +145,7 @@ Every new `.html` file — article, hub page, or static page — must include th
 
 ## Skills (slash commands)
 - `/seo-blog` — full SEO blog workflow for articles: research → propose → create → test → demo → iterate → PR → review → merge. Auto-merges in scheduled mode (Mon/Wed/Fri).
-- `/seo-hub` — full hub-page workflow for service and city landing pages. Same shape as `/seo-blog` but **interactive-only and never auto-merges** — hub pages always wait for owner review. Use this for P2-2 (per-service hubs) and P2-3 (per-city hubs) in the action plan.
+- `/seo-hub` — full hub-page workflow for service and city landing pages. Same shape as `/seo-blog` but **interactive-only and never auto-merges** — hub pages always wait for owner review. Use this for per-service hubs and per-city hubs (see `backlog.md` P3).
 - `/seo-audit` — quarterly SEO audit: scan all articles, auto-fix schema/meta gaps, open PR with report
 - `/pr` — generate and create a pull request for the current branch
 - `/review` — review changed files before merging. **Must flag as FAIL if `npm run test:functional` is not confirmed passing. Must run `/impeccable critique` on any changed HTML/CSS page and flag impeccable FAILs as merge blockers.**
@@ -155,15 +157,15 @@ Every new `.html` file — article, hub page, or static page — must include th
 ## Project Structure
 - `index.html` — homepage
 - `pages/about.html`, `pages/services.html`, `pages/contact.html`, `pages/faq.html`, `pages/testimonials.html`, `pages/blog.html` — main pages
-- `pages/[appliance]-repair-orange-county.html` — per-service hub pages (P2 of action plan)
-- `pages/appliance-repair-[city]-ca.html` — per-city landing pages (P2 of action plan)
-- `pages/service-areas.html` — service-areas hub (P2 of action plan)
+- `pages/[appliance]-repair-orange-county.html` — per-service hub pages (see `backlog.md` for status)
+- `pages/appliance-repair-[city]-ca.html` — per-city landing pages (see `backlog.md` P3)
+- `pages/service-areas.html` — service-areas hub
 - `articles/article-*.html` — individual blog articles
 - `shared.css` — shared styles used across all pages
 - `scripts/` — node scripts: `add-seo-improvements.js`, future `build-sitemap.js`
 - `test/` — screenshot and link-check scripts
 
 ## Tech Stack
-- Tailwind CSS via CDN (consider compiling to a static stylesheet — see action plan)
+- Tailwind CSS via CDN (consider compiling to a static stylesheet — see `backlog.md` Mobile-P3-2)
 - Vanilla HTML — no build step
-- Puppeteer for visual testing
+- Puppeteer / Playwright for visual testing

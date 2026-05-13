@@ -259,7 +259,7 @@ These three files must exist at the root and return 200:
 
 1. `/robots.txt` — allow crawling, point to sitemap
 2. `/sitemap.xml` — every published HTML file, with `lastmod`
-3. `/llms.txt` — plain-text business summary for AI crawlers (see template in `tasks/action-plan-fixappliancesfast.md`)
+3. `/llms.txt` — plain-text business summary for AI crawlers
 
 ---
 
