@@ -4,10 +4,10 @@
   "description": "Appliance repair service static website",
   "scripts": {
     "start": "npx serve .",
-    "test": "node test/links.js && node test/html-integrity.js",
+    "test": "node test/links.js && node test/html-integrity.js && node test/css-vars.js",
     "test:integrity": "node test/html-integrity.js",
     "test:functional": "playwright test",
-    "test:all": "node test/links.js && node test/html-integrity.js && node test/screenshot.js && playwright test",
+    "test:all": "node test/links.js && node test/html-integrity.js && node test/css-vars.js && node test/screenshot.js && playwright test",
     "screenshot": "node test/screenshot.js",
     "build:sitemap": "node scripts/build-sitemap.js",
     "clean:images": "node scripts/clean-images.js",
