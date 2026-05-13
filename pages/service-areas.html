@@ -255,6 +255,7 @@
       <a href="contact.html" class="nav-drawer-cta">Book a Repair</a>
     </div>
   </nav>
+<main>
 
   <!-- HERO -->
   <div class="page-hero">
@@ -493,6 +494,7 @@
   </section>
 
   <!-- FOOTER -->
+</main>
   <footer class="footer">
     <div class="footer-grid">
       <div class="footer-brand">
@@ -584,7 +586,7 @@
       var label = hub ? 'View ' + name + ' page' : 'Book repair in ' + name;
       L.marker([lat, lng], { icon: icon })
         .addTo(map)
-        .bindPopup('<strong>' + name + '</strong><br><a href="' + href + '" style="color:#e84c1e;font-size:12px;">' + label + ' →</a>');
+        .bindPopup('<strong>' + name + '</strong><br><a href="' + href + '" style="color:var(--brand-text);font-size:12px;">' + label + ' →</a>');
     });
     window._mapLoaded = true;
   </script>
