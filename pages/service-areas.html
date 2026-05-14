@@ -515,7 +515,7 @@
           <img src="../logo.png" alt="Universal Appliances Repair logo" style="height:52px;width:auto;">
           <span style="color:#fff;font-weight:700;font-size:13px;">Universal Appliances Repair</span>
         </div>
-        <p style="font-size:12px;color:#555;line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
+        <p style="font-size:12px;line-height:1.7;max-width:220px;">Family-owned appliance repair serving Orange County, CA.</p>
       </div>
       <div>
         <div class="footer-col-label">Services</div>
@@ -538,8 +538,8 @@
       </div>
       <div>
         <div class="footer-col-label">Contact</div>
-        <div class="footer-contact-line">📞 <a href="tel:+19496295365" style="color:#555;text-decoration:none;">(949) 629-5365</a></div>
-        <div class="footer-contact-line">✉️ <a href="mailto:info@fixappliancesfast.com" style="color:#555;text-decoration:none;">info@fixappliancesfast.com</a></div>
+        <div class="footer-contact-line">📞 <a href="tel:+19496295365">(949) 629-5365</a></div>
+        <div class="footer-contact-line">✉️ <a href="mailto:info@fixappliancesfast.com">info@fixappliancesfast.com</a></div>
         <div class="footer-contact-line">📍 10832 Asbury Ave, Stanton, CA 90680</div>
       </div>
     </div>
@@ -558,7 +558,7 @@
       maxZoom: 13
     }).addTo(map);
 
-    var icon = L.divIcon({ className: '', html: '<div style="background:#e84c1e;width:10px;height:10px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>', iconSize: [10,10], iconAnchor: [5,5] });
+    var icon = L.divIcon({ className: '', html: '<div style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;"><div style="background:#e84c1e;width:12px;height:12px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div></div>', iconSize: [44,44], iconAnchor: [22,22] });
 
     // [name, lat, lng, hubUrl or null]
     var cities = [
@@ -597,9 +597,12 @@
       var name = c[0], lat = c[1], lng = c[2], hub = c[3];
       var href = hub ? hub : 'contact.html?city=' + encodeURIComponent(name);
       var label = hub ? 'View ' + name + ' page' : 'Book repair in ' + name;
-      L.marker([lat, lng], { icon: icon })
-        .addTo(map)
-        .bindPopup('<strong>' + name + '</strong><br><a href="' + href + '" style="color:var(--brand-text);font-size:12px;">' + label + ' →</a>');
+      var marker = L.marker([lat, lng], { icon: icon }).addTo(map);
+      marker.on('add', function() {
+        var el = marker.getElement();
+        if (el) el.setAttribute('aria-label', name + ' appliance repair service area');
+      });
+      marker.bindPopup('<strong>' + name + '</strong><br><a href="' + href + '" style="color:var(--brand-text);font-size:12px;">' + label + ' →</a>');
     });
     window._mapLoaded = true;
   </script>
