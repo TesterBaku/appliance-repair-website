@@ -8,11 +8,11 @@
   --text-body:    #000000e6;
   --text-sub:     #666;
   --text-muted:   #767676;
-  --text-faint:   #999;
+  --text-faint:   #767676;
   --text-dim:     #444;
   --text-dark:    #222;
   --text-soft:    #333;
-  --text-inactive:#aaa;
+  --text-inactive:#767676;
   --bg:           #f7fafc;
   --surface:      #fff;
   --border:       #eee;
