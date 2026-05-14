@@ -54,9 +54,12 @@
       font-family: 'Inter', sans-serif !important;
     }
     /* PAGE HERO */
-    .page-hero { background: linear-gradient(135deg, #1a0a02 0%, #2c1608 100%); padding: 100px 24px 64px; text-align: center; }
-    .page-hero h1 { font-size: 42px; font-weight: 800; letter-spacing: -1px; line-height: 1.15; color: #fff; max-width: 720px; margin: 0 auto 18px; }
-    .page-hero p { color: rgba(255,255,255,0.75); font-size: 16px; line-height: 1.7; max-width: 520px; margin: 0 auto 32px; }
+    .hub-hero { position: relative; min-height: 480px; display: flex; align-items: center; text-align: center; padding-top: 70px; overflow: hidden; }
+    .hub-hero-bg { position: absolute; inset: 0; background-image: url('../images/hero-homepage.webp'); background-size: cover; background-position: center; }
+    .hub-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,18,30,0.68) 0%, rgba(10,18,30,0.78) 100%); }
+    .hub-hero-content { position: relative; z-index: 5; padding: 72px 24px 72px; width: 100%; }
+    .hub-hero h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.1; color: var(--surface); max-width: 720px; margin: 0 auto 18px; }
+    .hub-hero p { color: rgba(255,255,255,0.82); font-size: 16px; line-height: 1.65; max-width: 540px; margin: 0 auto 32px; }
     .hero-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
     .hero-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); font-size: 12px; padding: 6px 14px; border-radius: 20px; }
 
@@ -90,8 +93,9 @@
     .faq-item.open .icon { transform: rotate(45deg); }
 
     @media (max-width: 768px) {
-      .page-hero h1 { font-size: 28px; }
-      .page-hero p { font-size: 14px; }
+      .hub-hero h1 { font-size: 28px; letter-spacing: -0.5px; }
+      .hub-hero p { font-size: 14px; }
+      .hub-hero-content { padding: 48px 16px 56px; }
       .cities-grid { grid-template-columns: 1fr 1fr; }
       #service-map { height: 280px; }
     }
@@ -263,14 +267,18 @@
 <main>
 
   <!-- HERO -->
-  <div class="page-hero">
-    <h1>Appliance Repair Service Areas<br/>in Orange County, CA</h1>
-    <p>From Anaheim to San Clemente, our licensed technicians cover 25+ cities across Orange County. Same-day service, $99 diagnostic fee applied toward your repair, no hidden charges.</p>
-    <div class="hero-badges">
-      <span class="hero-badge">25+ Cities Covered</span>
-      <span class="hero-badge">Same-Day Available</span>
-      <span class="hero-badge">Licensed &amp; Insured</span>
-      <span class="hero-badge">All Major Brands</span>
+  <div class="hub-hero">
+    <div class="hub-hero-bg"></div>
+    <div class="hub-hero-overlay"></div>
+    <div class="hub-hero-content">
+      <h1>Appliance Repair Service Areas<br/>in Orange County, CA</h1>
+      <p>From Anaheim to San Clemente, our licensed technicians cover 25+ cities across Orange County. Same-day service, $99 diagnostic fee applied toward your repair, no hidden charges.</p>
+      <div class="hero-badges">
+        <span class="hero-badge">25+ Cities Covered</span>
+        <span class="hero-badge">Same-Day Available</span>
+        <span class="hero-badge">Licensed &amp; Insured</span>
+        <span class="hero-badge">All Major Brands</span>
+      </div>
     </div>
   </div>
 
