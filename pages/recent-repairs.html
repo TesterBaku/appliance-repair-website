@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TSFHKJ6ZEK"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-TSFHKJ6ZEK');
+  window.addEventListener('load', function() {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-TSFHKJ6ZEK';
+    document.head.appendChild(s);
+  });
 </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,6 +38,8 @@
   <meta name="twitter:description" content="See real appliance repairs completed by Universal Appliances Repair across Orange County. Actual technician photos from completed jobs." />
   <meta name="twitter:image" content="https://fixappliancesfast.com/images/real/business/completed-repair-range-wolf-cooktop-newport-beach.jpg" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="../shared.css" />
@@ -295,7 +302,7 @@
         <div class="repair-card" data-appliance="range" data-brand="wolf" data-city="newport-beach">
           <picture>
             <source srcset="../images/real/business/completed-repair-range-wolf-cooktop-newport-beach-800w.webp 800w, ../images/real/business/completed-repair-range-wolf-cooktop-newport-beach.webp 1200w" type="image/webp" sizes="(max-width:480px) 100vw, (max-width:900px) 50vw, 360px">
-            <img class="card-photo" src="../images/real/business/completed-repair-range-wolf-cooktop-newport-beach.jpg" alt="Wolf 6-burner professional gas range serviced in a Newport Beach kitchen with hex tile backsplash and signature red knobs" width="1200" height="900" loading="eager">
+            <img class="card-photo" src="../images/real/business/completed-repair-range-wolf-cooktop-newport-beach.jpg" alt="Wolf 6-burner professional gas range serviced in a Newport Beach kitchen with hex tile backsplash and signature red knobs" width="1200" height="900" loading="lazy">
           </picture>
           <div class="card-body">
             <div class="card-pill">Wolf · Range</div>
