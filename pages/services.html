@@ -91,8 +91,24 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="../shared.css" />
   <style>
+    /* PAGE HERO */
+    .hub-hero { position: relative; min-height: 480px; display: flex; align-items: center; text-align: center; padding-top: 70px; overflow: hidden; }
+    .hub-hero-bg { position: absolute; inset: 0; background-image: url('../images/hero-homepage.webp'); background-size: cover; background-position: center; }
+    .hub-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,18,30,0.68) 0%, rgba(10,18,30,0.78) 100%); }
+    .hub-hero-content { position: relative; z-index: 5; padding: 72px 24px 72px; width: 100%; }
+    .hub-hero h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.1; color: var(--surface); max-width: 720px; margin: 0 auto 18px; }
+    .hub-hero p { color: rgba(255,255,255,0.82); font-size: 16px; line-height: 1.65; max-width: 540px; margin: 0 auto 32px; }
+    .hub-cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
+    .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
+
     .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
-    @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
+      .hub-hero p { font-size: 14px; }
+      .hub-hero-content { padding: 48px 16px 56px; }
+      .services-grid { grid-template-columns: 1fr; }
+    }
     @media (min-width: 480px) and (max-width: 768px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
     .service-card-center { grid-column: 2; }
     @media (max-width: 768px) { .service-card-center { grid-column: auto; } }
@@ -203,9 +219,17 @@
 <main>
 
   <!-- PAGE HERO -->
-  <div class="page-hero">
-    <h1>Appliance Repair<br/>in Orange County</h1>
-    <p>Same-day service for refrigerators, washers, dryers, dishwashers, ovens, freezers, and more. Licensed technicians, all major brands. The $99 diagnostic fee credits toward your repair.</p>
+  <div class="hub-hero">
+    <div class="hub-hero-bg"></div>
+    <div class="hub-hero-overlay"></div>
+    <div class="hub-hero-content">
+      <h1>Appliance Repair<br/>in Orange County</h1>
+      <p>Same-day service for refrigerators, washers, dryers, dishwashers, ovens, freezers, and more. Licensed technicians, all major brands. The $99 diagnostic fee credits toward your repair.</p>
+      <div class="hub-cta-row">
+        <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
+        <a href="contact.html" class="btn-outline-white">Book Online</a>
+      </div>
+    </div>
   </div>
 
   <!-- SERVICES GRID -->
