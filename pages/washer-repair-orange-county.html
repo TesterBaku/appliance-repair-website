@@ -51,7 +51,7 @@
 
     /* AI ANSWER BLOCK */
     .ai-block { background: #f0f4f8; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 860px; margin: 0; }
+    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
 
     /* SYMPTOMS */
     .symptoms-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 32px; }
@@ -78,11 +78,11 @@
 
     /* FAQ */
     .faq-list { margin-top: 36px; max-width: 760px; margin-left: auto; margin-right: auto; }
-    .faq-item { border-bottom: 1px solid #eee; padding: 18px 0; }
-    .faq-q { font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; width: 100%; text-align: left; padding: 0; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 0; }
+    .faq-q { font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; width: 100%; text-align: left; padding: 18px 22px; }
     .faq-q .icon { color: var(--brand); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
-    .faq-a { font-size: 13px; color: var(--text-sub); line-height: 1.75; margin-top: 10px; display: none; }
-    .faq-item.open .faq-a { display: block; }
+    .faq-a { font-size: 13px; color: var(--text-sub); line-height: 1.75; margin-top: 10px; display: none; padding: 0 22px 18px; }
+    .faq-item.open .faq-a { display: block; padding: 0 22px 18px; }
     .faq-item.open .icon { transform: rotate(45deg); }
 
     /* TESTIMONIALS */
