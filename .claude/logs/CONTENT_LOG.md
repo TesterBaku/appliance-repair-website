@@ -129,3 +129,17 @@
 | Sub-Zero Refrigerator Repair Cost in Orange County (2026 Guide) | `article-sub-zero-repair-cost-orange-county.html` | sub-zero refrigerator repair cost orange county | Cost guide | [#292](https://github.com/TesterBaku/appliance-repair-website/pull/292) | `9ae697a` |
 
 **Workflow changes:** None — scheduled Week 1 Wed article per `tasks/schedule-4-weeks.md`; review blocked on em dashes (14 instances), fixed before merge.
+
+---
+
+## Run — May 15, 2026
+
+**Articles created:** 1
+**Cost content:** Yes (decision-guide; prices used in ranges only, with verbatim disclaimer)
+**Mode:** Interactive (user-initiated via `start work on scheduled tasks`)
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| Sub-Zero Refrigerator: Repair or Replace? An Honest Decision Guide for Orange County | `article-sub-zero-repair-vs-replace.html` | sub-zero refrigerator repair or replace | Decision guide | [#325](https://github.com/TesterBaku/appliance-repair-website/pull/325) | `4341df8` |
+
+**Workflow changes:** None — scheduled Week 1 Fri article (piece #4 of the 8-piece luxury cluster per `tasks/schedule-4-weeks.md`). Clean run: zero em dashes from the start (avoided the regression that blocked the May 13 article); `/review` subagent returned `✅ APPROVED` on first pass with 2 WARNs (illustrative flat-rate hypotheticals + word count 1,701 vs spec 1,600); flat-rate WARN addressed in a follow-up commit before merge.
