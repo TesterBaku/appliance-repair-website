@@ -307,6 +307,19 @@ These three files must exist at the root and return 200:
 
 - Non-cost articles (DIY guides, symptom guides, maintenance guides) should still avoid prices unless cost is integral to the topic.
 - `/review` flags as **FAIL**: any flat rate; any cost section missing the disclaimer; any non-cost article with prices but no clear cost-content angle.
+- **Service-fee references — tiered rule (2026-05-14):** Two distinct contexts, never mixed:
+  1. **Cost-estimate table row** (OC market framing) → always a **range**, tiered by brand:
+
+     | Tier | Cost-table range | Applies to |
+     |---|---|---|
+     | Standard brands | `$75 – $100` | Service hubs + articles for refrigerator, washer, dryer, dishwasher, oven, freezer, microwave, disposal |
+     | Premium brands | `$95 – $150` | Hubs + articles for Sub-Zero, Wolf, Viking, Thermador, Miele |
+
+     Row label: `Service call / diagnostic (generally credited toward repair if you proceed)`
+
+  2. **"Our company fee" statement** (policy framing, anywhere in body copy, FAQ answers, schema, step descriptions) → always flat **`$99`**, regardless of brand tier.
+
+  Never state our fee as a range. Never put a flat value in a cost-table row when surrounding rows are ranges. These two contexts must stay separate.
 
 ### Human-like writing rules (required)
 - **Never open with a keyword phrase as the subject.** Sentences like "A washing machine not spinning in Huntington Beach is..." or "Refrigerator repair in Santa Ana, CA is..." are unnatural and robotic. Start with the reader's experience instead: "You open the lid and the clothes are still soaking wet." or "Your oven stopped heating right before dinner."

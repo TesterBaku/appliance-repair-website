@@ -842,10 +842,11 @@ for (const { brand, file } of BRAND_HUBS) {
       expect(rows).toBeGreaterThanOrEqual(5);
     });
 
-    test('cost table has $99 diagnostic fee row', async ({ page }) => {
+    test('cost table has diagnostic fee row', async ({ page }) => {
       const tableText = await page.locator('table.cost-table').textContent();
-      expect(tableText).toContain('$99');
       expect(tableText).toMatch(/diagnostic/i);
+      // Premium hubs: $95 – $150; standard hubs: $75 – $100 or $99
+      expect(tableText).toMatch(/\$(?:75|95|99)/);
     });
 
     // ── FAQ ───────────────────────────────────────────────────────────────────
