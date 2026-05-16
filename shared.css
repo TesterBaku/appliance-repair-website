@@ -202,7 +202,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 
 /* ── MOBILE: 480px ─────────────────────────────────────── */
 @media (max-width: 480px) {
-  .page-hero h1 { font-size: 26px; }
+  .page-hero h1 { font-size: 28px; }
   .testimonial-card { padding: 24px 18px; }
   .stats-grid { grid-template-columns: 1fr; }
   .testimonials-grid { grid-template-columns: 1fr; }
