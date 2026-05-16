@@ -2,6 +2,28 @@
 
 ---
 
+## May 16, 2026 — service hub: dacor-appliance-repair-orange-county
+
+**Type:** service (brand hub)
+**Target:** Dacor
+**PR:** [#333](https://github.com/TesterBaku/appliance-repair-website/pull/333) — open, awaiting owner review
+**Word count:** ~4,350
+**FAQ count:** 10
+**Internal links wired:** pages/services.html (Dacor card added), pages/refrigerator-repair-orange-county.html, pages/oven-stove-repair-orange-county.html, sitemap.xml
+**Schemas:** Service, LocalBusiness, FAQPage, BreadcrumbList, AggregateRating, Review ItemList (3 reviews)
+**Testimonials used:** google-kathy-calderon-2025-09, yelp-mrs-d-2024-08, yelp-william-l-2024-08
+
+**Outstanding for owner:**
+- No Dacor-specific reviews in pool; 3 general-quality reviews used
+- Real Dacor repair photos would strengthen the page when available
+- City hub pages not yet updated with Dacor links (low priority; can fold into weekly chore PR)
+
+**Phase 0 highlights:**
+- Competition: High (8+ dedicated Dacor repair OC pages)
+- Structural gaps exploited: Samsung ownership/parts angle, Heritage vs. IQ Series distinction, DiscoverIQ control board diagnosis specifics
+
+---
+
 ## May 6, 2026 — city hub: appliance-repair-orange-ca
 
 **Type:** city
