@@ -251,6 +251,28 @@ Every article must include all four schemas:
 
 Hub pages additionally include `Service` schema; pages with 6+ verifiable reviews also include `AggregateRating`.
 
+**5. VideoObject schema** (optional — only when a real video is embedded on the page)
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "[Video title]",
+  "description": "[One sentence describing what the video shows]",
+  "thumbnailUrl": "https://fixappliancesfast.com/videos/posters/[slug]-poster.jpg",
+  "contentUrl": "https://fixappliancesfast.com/videos/[slug].mp4",
+  "uploadDate": "[YYYY-MM-DDT00:00:00+00:00]",
+  "duration": "PT[N]S",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Universal Appliances Repair",
+    "logo": { "@type": "ImageObject", "url": "https://fixappliancesfast.com/logo.png" }
+  }
+}
+```
+
+**`uploadDate` rule (mandatory):** Always use the full ISO 8601 format with timezone: `"2026-05-14T00:00:00+00:00"`. A date-only value like `"2026-05-14"` fails GSC validation with "missing timezone" and "invalid datetime value". Never omit the `T00:00:00+00:00` suffix.
+
 ---
 
 ## Site-wide required files (root)
