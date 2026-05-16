@@ -103,14 +103,7 @@
     .nav-dropdown-menu a { display: block !important; padding: 9px 18px !important; font-size: 12.5px !important; color: #444 !important; text-decoration: none; white-space: nowrap; font-weight: 400 !important; }
     .nav-dropdown-menu a:hover { background: #f7fafc !important; color: #111 !important; font-weight: 500 !important; }
     .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: #e84c1e !important; font-weight: 600 !important; }
-
-    /* Sticky mobile bar */
-    .sticky-mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; height: 56px; }
-    .sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #e84c1e; color: #fff; gap: 6px; }
-    .sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #111; color: #fff; }
     @media (max-width: 768px) {
-      body { padding-bottom: 64px; }
-      .sticky-mobile-bar { display: flex; }
       .nav-links { display: none; }
       .nav-cta { display: none; }
       .related-grid { grid-template-columns: 1fr; }
@@ -517,11 +510,5 @@
     })();
   </script>
   <script defer src="../analytics.js"></script>
-
-  <!-- STICKY MOBILE CALL/BOOK BAR -->
-  <div class="sticky-mobile-bar">
-    <a href="tel:+19496295365" class="sticky-call">📞 Call Now</a>
-    <a href="../pages/contact.html" class="sticky-book">Book Repair</a>
-  </div>
 </body>
 </html>
