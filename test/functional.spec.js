@@ -590,6 +590,49 @@ for (const file of articleFiles) {
   });
 }
 
+// ─── Regression: article hamburger nav (scroll-then-open bug) ────────────────
+// Bug fixed in PR #343: drawer had position:relative so it scrolled out of view.
+// Tapping the hamburger after scrolling down locked body scroll but the drawer
+// was already above the viewport — page appeared frozen with no menu visible.
+test.describe('Regression: article hamburger nav', () => {
+  const TEST_ARTICLE = 'article-whirlpool-dryer-repair-los-alamitos.html';
+
+  test('nav drawer has position:fixed so it is always viewport-anchored', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto(`/articles/${TEST_ARTICLE}`);
+    const position = await page.locator('.nav-drawer').evaluate(
+      el => window.getComputedStyle(el).position
+    );
+    expect(position).toBe('fixed');
+  });
+
+  test('hamburger opens visible drawer after scrolling to bottom of article', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto(`/articles/${TEST_ARTICLE}`);
+    // Simulate the exact bug scenario: user scrolls to bottom then taps hamburger
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.locator('.nav-hamburger').click();
+    // Drawer must be visible in the viewport — not hidden above the scroll position
+    await expect(page.locator('.nav-drawer')).toBeInViewport();
+  });
+
+  test('nav drawer links are reachable after scroll-and-open', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto(`/articles/${TEST_ARTICLE}`);
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.locator('.nav-hamburger').click();
+    const links = await page.locator('.nav-drawer a').count();
+    expect(links).toBeGreaterThanOrEqual(7);
+  });
+
+  test('desktop nav links hidden at mobile viewport', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto(`/articles/${TEST_ARTICLE}`);
+    const visible = await page.locator('.nav-links').isVisible();
+    expect(visible).toBe(false);
+  });
+});
+
 // ─── Regression: price disclaimer on cost articles ────────────────────────────
 test.describe('Price disclaimer on cost articles', () => {
   const DISCLAIMER = /Estimates vary by brand, part availability, and diagnosis/i;
