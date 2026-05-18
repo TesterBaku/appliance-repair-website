@@ -210,6 +210,10 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 
 /* ── REDUCED MOTION ────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .faq-icon, .nav-hamburger span, .nav-dropdown-arrow,
-  .nav-drawer details summary::after { transition: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
