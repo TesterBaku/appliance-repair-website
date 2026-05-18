@@ -40,7 +40,7 @@
     .nav-links { display: flex; gap: 22px; }
     .nav-links a { font-size: 13px; color: #666; text-decoration: none; }
     .nav-links a:hover { color: #111; font-weight: 600; }
-    .nav-cta { background: #e84c1e; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; }
+    .nav-cta { background: #cc3d12; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; }
     .article-hero { padding-top: 70px; position: relative; overflow: hidden; }
     .article-hero-img { width: 100%; height: 460px; object-fit: cover; display: block; }
     .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.72) 100%); }
@@ -77,7 +77,7 @@
     .related-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); text-decoration: none; }
     .related-card img { width: 100%; height: 140px; object-fit: cover; display: block; }
     .related-card-body { padding: 16px 18px 20px; }
-    .related-card-cat { font-size: 10px; color: #e84c1e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .related-card-cat { font-size: 10px; color: #aa3210; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
     .related-card-title { font-size: 13px; font-weight: 700; color: #111; line-height: 1.35; }
     .footer { background: #090909; padding: 56px 24px 36px; color: #999; }
     .footer-grid { max-width: 1000px; margin: 0 auto; display: flex; gap: 48px; flex-wrap: wrap; }
@@ -119,6 +119,20 @@
     @media (max-width: 480px) {
       .nav-cta { display: none; }
     }
+  
+    /* HAMBURGER NAV (mobile) */
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0; width: 44px; height: 44px; align-items: center; justify-content: center; flex-direction: column; gap: 5px; flex-shrink: 0; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #111; border-radius: 2px; transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-drawer { display: none; flex-direction: column; background: #fff; padding: 8px 24px 20px; border-top: 1px solid #eee; position: relative; z-index: 99; }
+    .nav-drawer[data-open] { display: flex; }
+    .nav-drawer a { font-size: 15px; color: #666; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #eee; font-weight: 500; min-height: 44px; display: flex; align-items: center; }
+    .nav-drawer a:last-child { border-bottom: none; }
+    .nav-drawer a.nav-drawer-cta { color: #aa3210; font-weight: 600; }
+    @media (max-width: 768px) { .nav-hamburger { display: flex; } }
+    @media (prefers-reduced-motion: reduce) { .nav-hamburger span { transition: none; } }
   </style>
   <script type="application/ld+json">
   {
@@ -301,9 +315,20 @@
       <div style="display:flex;align-items:center;gap:14px;">
         <a href="tel:+19496295365" style="font-size:13px;font-weight:600;color:#111;text-decoration:none;">(949) 629-5365</a>
         <a href="../pages/contact.html" class="nav-cta">Book a Repair</a>
+      <button class="nav-hamburger" aria-expanded="false" aria-controls="mobile-nav-drawer" aria-label="Open menu" type="button"><span></span><span></span><span></span></button>
       </div>
     </div>
   </nav>
+  <div class="nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
+    <a href="../pages/about.html">About</a>
+    <a href="../pages/services.html">Services</a>
+    <a href="../pages/service-areas.html">Service Areas</a>
+    <a href="../pages/faq.html">FAQ</a>
+    <a href="../pages/testimonials.html">Testimonials</a>
+    <a href="../pages/contact.html">Contact</a>
+    <a href="../pages/blog.html">Blog</a>
+    <a href="tel:+19496295365" class="nav-drawer-cta">Call (949) 629-5365</a>
+  </div>
 
   <div class="article-hero">
     <picture>
@@ -340,7 +365,18 @@
 
       <p>Heading to school this fall? Here's what to buy, what to skip, and how to make whatever you choose last four years instead of two.</p>
 
-      <h2>How to Choose a Dorm Fridge</h2>
+      <nav class="article-toc" aria-label="In this guide">
+        <p class="article-toc__label">In this guide</p>
+        <ol>
+          <li><a href="#how-to-choose">How to choose a dorm fridge</a></li>
+          <li><a href="#our-picks">Our 3 picks for 2026</a></li>
+          <li><a href="#brands-we-avoid">Brands and models we avoid</a></li>
+          <li><a href="#make-it-last">How to make your fridge last 4+ years</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="how-to-choose">How to Choose a Dorm Fridge</h2>
 
       <h3>Size: stay under 4.5 cu ft, and measure your space first</h3>
 
@@ -376,7 +412,7 @@
 
       <p>Pro tip from our techs: noise that increases over time is the number one early-warning sign of compressor failure. If your fridge gets noticeably louder than it was when new, it's likely a failing start relay or worn compressor bearings. Catch it early and the relay swap is cheap ($30 to $60 part). Wait until the compressor seizes and you're buying a new fridge.</p>
 
-      <h2>Our 3 Picks for 2026</h2>
+      <h2 id="our-picks">Our 3 Picks for 2026</h2>
 
       <!-- Product 1 -->
       <div class="product-card">
@@ -438,7 +474,7 @@
         <div class="product-flag"><strong>What we'd flag:</strong> as a newer brand, the long-term reliability data isn't as deep as Whirlpool's or Midea's. Five years from now we'll know more. For four years of college, current data is encouraging.</div>
       </div>
 
-      <h2>Brands and Models We Avoid (the Technician's View)</h2>
+      <h2 id="brands-we-avoid">Brands and Models We Avoid (the Technician's View)</h2>
 
       <p>This is the section every other "best of" guide won't write, because it has nothing to sell.</p>
 
@@ -448,7 +484,7 @@
 
       <p><strong>Be cautious about 2-door units under $200.</strong> Two-door designs require two sets of door seals and often a divided cooling system. At the budget tier, manufacturers cut corners on both. Single-door units in the same price range are typically more reliable.</p>
 
-      <h2>How to Make Your Fridge Last 4+ Years (Technician Tips)</h2>
+      <h2 id="make-it-last">How to Make Your Fridge Last 4+ Years (Technician Tips)</h2>
 
       <p>These are the maintenance habits we wish every customer knew before they bought, because they extend mini-fridge life by years.</p>
 
@@ -470,7 +506,7 @@
         <li><strong>A mini fridge will outlast college.</strong> A reliable model becomes the garage backup, the apartment beer fridge, the office snack drawer. Spending an extra $40 on a more reliable unit is almost always worth it.</li>
       </ul>
 
-      <h2>Frequently Asked Questions</h2>
+      <h2 id="faq">Frequently Asked Questions</h2>
 
       <div class="faq-section">
 
@@ -627,6 +663,24 @@
           this.setAttribute('aria-expanded', open ? 'true' : 'false');
         });
       });
+    })();
+  </script>
+  <script>
+
+    (function() {
+      var hamburger = document.querySelector('.nav-hamburger');
+      var drawer = document.getElementById('mobile-nav-drawer');
+      if (!hamburger || !drawer) return;
+      function setOpen(open) {
+        hamburger.setAttribute('aria-expanded', String(open));
+        hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        drawer.setAttribute('aria-hidden', String(!open));
+        if (open) { drawer.setAttribute('data-open', ''); } else { drawer.removeAttribute('data-open'); }
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+      hamburger.addEventListener('click', function() { setOpen(hamburger.getAttribute('aria-expanded') !== 'true'); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') { setOpen(false); hamburger.focus(); } });
+      drawer.querySelectorAll('a').forEach(function(link) { link.addEventListener('click', function() { setOpen(false); }); });
     })();
   </script>
   <script defer src="../analytics.js"></script>
