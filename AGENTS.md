@@ -117,6 +117,24 @@ npm run test:functional  # 263 Playwright tests — nav, dropdowns, forms, accor
 
 The `/review` subagent must flag as **FAIL** any PR whose description does not confirm `npm run test:functional` passing.
 
+## Standing Rule — Article modified_time on Every Edit
+
+Whenever any file in `articles/` is edited — content, meta tags, images, links, or schema — update **both** of these fields to today's date before committing:
+
+1. `<meta property="article:modified_time" content="YYYY-MM-DD" />`
+2. `"dateModified": "YYYY-MM-DD"` in the JSON-LD Article schema block
+
+Both must match. Applies to every edit, even one-liners. Do NOT change `article:published_time` or `datePublished`.
+
+When the content change is substantive (not just metadata), also update the matching blog card date in `pages/blog.html` to `Updated [Month YYYY]`.
+
+## Standing Rule — UTF-8 Without BOM
+
+All HTML files must be plain UTF-8, no BOM. When writing files programmatically on Windows:
+- Check that the tool or script does not prepend `EF BB BF` bytes (UTF-8 BOM preamble).
+- When using PowerShell 5.1, `[System.Text.Encoding]::UTF8` with `WriteAllText` adds a BOM — use `[System.IO.File]::WriteAllBytes` with bytes from `[System.Text.Encoding]::UTF8.GetBytes($content)` instead.
+- After writing, verify first 3 bytes are not `EF BB BF`.
+
 ## Site-wide required files (must return 200)
 - `/robots.txt`
 - `/sitemap.xml`
