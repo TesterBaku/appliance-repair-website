@@ -4,6 +4,33 @@ Running log of every `/seo-blog` run: articles created, PRs opened, commits, and
 
 ---
 
+## Run — May 20, 2026 (impeccable audit — May 13 article)
+
+**Articles created:** 0 (post-publish quality pass)
+**Mode:** Interactive
+
+| Article | PR | Fixes applied |
+|---|---|---|
+| `article-sub-zero-repair-cost-orange-county.html` | [#351](https://github.com/TesterBaku/appliance-repair-website/pull/351) | Contrast (footer, CTA gradient, CTA button, breadcrumb); 6-item TOC; related card #3 image; ISO 8601 dates |
+
+**Impeccable result:** 10 findings → 4 (remaining: 2 false positives, 2 by-design Inter font warnings).
+
+---
+
+## Run — May 13, 2026
+
+**Articles created:** 1
+**Cost content:** Yes (full cost table by repair type, price pills, repair-vs-replace 50% rule)
+**Mode:** Autonomous (scheduled W1 Wed per schedule-4-weeks.md)
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| Sub-Zero Refrigerator Repair Cost in Orange County (2026 Guide) | `article-sub-zero-repair-cost-orange-county.html` | sub-zero refrigerator repair cost orange county | Cost guide | [#292](https://github.com/TesterBaku/appliance-repair-website/pull/292) | `9ae697a` |
+
+**Workflow changes:** None.
+
+---
+
 ## Run — May 18, 2026
 
 **Articles created:** 1
