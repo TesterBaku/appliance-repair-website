@@ -4,6 +4,20 @@ Running log of every `/seo-blog` run: articles created, PRs opened, commits, and
 
 ---
 
+## Run — May 20, 2026
+
+**Articles created:** 1
+**Cost content:** Yes (cost table with ranges)
+**Mode:** Autonomous (scheduled W2 Wed per schedule-4-weeks.md)
+
+| Title | Slug | Primary Keyword | Type | PR | Commit |
+|---|---|---|---|---|---|
+| Wolf Range Igniter Not Working? 4 Causes and How to Fix It | `article-wolf-range-igniter-not-working-orange-county.html` | wolf range igniter not working orange county | Symptom guide | [#354](https://github.com/TesterBaku/appliance-repair-website/pull/354) | `a0f3bd7` |
+
+**Workflow changes:** None. All impeccable fixes pre-applied at creation time. Impeccable result: 3 findings (1 false positive, 2 by-design Inter font warnings).
+
+---
+
 ## Run — May 20, 2026 (impeccable audit — May 13 article)
 
 **Articles created:** 0 (post-publish quality pass)
