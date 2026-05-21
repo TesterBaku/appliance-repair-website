@@ -160,7 +160,7 @@ const html = `<!DOCTYPE html>
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "76",
+      "reviewCount": "78",
       "bestRating": "5",
       "worstRating": "1"
     },
@@ -216,7 +216,7 @@ ${reviewSchemaEntries}
 <body>
 ${navHtml}  <div class="page-hero">
     <h1>What Our Customers Say</h1>
-    <p>73 verified 5-star Google reviews from Orange County homeowners. Filter by appliance to find repairs like yours.</p>
+    <p>78 verified 5-star Google reviews from Orange County homeowners. Filter by appliance to find repairs like yours.</p>
   </div>
 
   <!-- STATS BAR -->
@@ -227,11 +227,11 @@ ${navHtml}  <div class="page-hero">
         <div style="font-size:12px;color:#888;margin-top:4px;">Average Google Rating</div>
       </div>
       <div>
-        <div style="font-size:32px;font-weight:800;color:#e84c1e;letter-spacing:-1px;">76</div>
+        <div style="font-size:32px;font-weight:800;color:#e84c1e;letter-spacing:-1px;">78</div>
         <div style="font-size:12px;color:#888;margin-top:4px;">Verified Google Reviews</div>
       </div>
       <div>
-        <div style="font-size:32px;font-weight:800;color:#e84c1e;letter-spacing:-1px;">8+</div>
+        <div style="font-size:32px;font-weight:800;color:#e84c1e;letter-spacing:-1px;">9+</div>
         <div style="font-size:12px;color:#888;margin-top:4px;">Years in Business</div>
       </div>
     </div>
@@ -243,7 +243,7 @@ ${navHtml}  <div class="page-hero">
 
       <!-- Filter pills -->
       <div class="filter-bar" role="group" aria-label="Filter reviews by appliance">
-        <button class="filter-pill active" data-filter="all">All (73)</button>
+        <button class="filter-pill active" data-filter="all">All (74)</button>
         <button class="filter-pill" data-filter="washer">Washer</button>
         <button class="filter-pill" data-filter="dryer">Dryer</button>
         <button class="filter-pill" data-filter="refrigerator">Refrigerator &amp; Freezer</button>
