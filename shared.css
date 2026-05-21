@@ -134,6 +134,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 /* TESTIMONIALS GRID */
 .testimonials-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
 .brand-tag { background: var(--surface); border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-size: 13.5px; font-weight: 600; color: #1e293b; }
+.brand-tag--linked { text-decoration: none; color: inherit; cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease; }
+.brand-tag--linked:hover, .brand-tag--linked:focus-visible { border-color: var(--brand); color: var(--brand-text); }
 
 /* NAV DROPDOWN (desktop) */
 .nav-dropdown { position: relative; display: flex; align-items: center; }
