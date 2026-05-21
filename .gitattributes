@@ -1,1 +1,7 @@
 * text=auto
+
+# Shell scripts and git hooks must always use LF line endings.
+# CRLF causes "Exec format error" when bash tries to execute them
+# on Windows checkouts.
+.husky/* text eol=lf
+*.sh text eol=lf
