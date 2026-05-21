@@ -1,15 +1,15 @@
 {
   "_meta": {
-    "lastUpdated": "2026-05-12",
+    "lastUpdated": "2026-05-20",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 76,
-        "capturedCount": 76,
+        "totalReviewsOnListing": 77,
+        "capturedCount": 77,
         "ratingAverage": 5,
-        "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-12; 56 from user-supplied screenshots and full-review images on 2026-05-06; 13 review photos relocated from reviewer-profiles/ to reviews/ on 2026-05-12 (PR #review-photos-reclassify-plan)"
+        "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-12; 56 from user-supplied screenshots and full-review images on 2026-05-06; 13 review photos relocated from reviewer-profiles/ to reviews/ on 2026-05-12 (PR #review-photos-reclassify-plan); 2026-05-20: +1 review (Erin Ponchak, LG dryer no-heat, Huntington Beach) added directly from owner-supplied verbatim text"
       },
       "yelp": {
         "name": "Yelp",
@@ -86,6 +86,21 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null
+    },
+    {
+      "id": "google-erin-ponchak-2026-05",
+      "source": "google",
+      "name": "Erin Ponchak",
+      "location": "Orange County, CA",
+      "appliance": "dryer",
+      "brand": "LG",
+      "rating": 5,
+      "approxDate": "2026-05",
+      "dateText": "May 2026",
+      "body": "Ag was extremely professional and very efficient. He diagnosed the problem and fixed it on the spot. I highly recommend him!",
+      "bodyStatus": "complete",
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/dryer-lg-ponchak.webp"
     },
     {
       "id": "google-lale-2026-02",
