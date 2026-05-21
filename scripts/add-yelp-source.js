@@ -53,8 +53,8 @@ const newMeta = {
       name: 'Google Business Profile',
       listingId: oldMeta.googleListingId || '0x8b077922f41c72e9:0x553def80f47c770e',
       businessName: 'Universal Appliances Repair Group INC',
-      totalReviewsOnListing: oldMeta.totalReviewsOnListing || 76,
-      capturedCount: oldMeta.capturedCount || 76,
+      totalReviewsOnListing: oldMeta.totalReviewsOnListing || 78,
+      capturedCount: oldMeta.capturedCount || 78,
       ratingAverage: 5.0,
       captureMethod: googleCaptureMethod,
     },
@@ -85,7 +85,7 @@ else if (!policyNotes.some(n => n.includes('Location policy is source-specific')
 
 // Replace all-5-star note
 const starsOld = 'All reviews are 5-star (verified on listing).';
-const starsNew = 'Rating filter is enforced by display rule, not by capture. All Google records (76) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the \'didn\'t show up\' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).';
+const starsNew = 'Rating filter is enforced by display rule, not by capture. All Google records (78) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the \'didn\'t show up\' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).';
 const starsIdx = policyNotes.findIndex(n => n.includes('All reviews are 5-star') || n.includes('Rating filter is enforced'));
 if (starsIdx !== -1) { policyNotes[starsIdx] = starsNew; console.log('Updated stars policyNote.'); }
 else if (!policyNotes.some(n => n.includes('Rating filter is enforced'))) {
@@ -99,7 +99,7 @@ if (!policyNotes.some(n => n.includes('source\' field') && n.includes('previousB
 }
 
 // Add AggregateRating scope note
-const aggNote = 'AggregateRating in HTML schema markup is Google-only (5.0 × 76). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google\'s discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal.';
+const aggNote = 'AggregateRating in HTML schema markup is Google-only (5.0 × 78). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google\'s discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal.';
 if (!policyNotes.some(n => n.includes('AggregateRating in HTML schema markup is Google-only'))) {
   policyNotes.push(aggNote); console.log('Added AggregateRating policyNote.');
 }
