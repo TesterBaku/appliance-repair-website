@@ -114,11 +114,12 @@
     .chip-source { background: #f1f5f9; color: #475569; }
 
     /* BRAND TABLE */
-    .brand-table { width: 100%; border-collapse: collapse; margin: 20px 0 28px; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
-    .brand-table th { background: #f8f9fa; font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.06em; padding: 12px 16px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+    .brand-table-wrap { overflow-x: auto; margin: 20px 0 28px; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
+    .brand-table { width: 100%; border-collapse: collapse; background: #fff; min-width: 420px; }
+    .brand-table th { background: #f8f9fa; font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.06em; padding: 12px 16px; text-align: left; border-bottom: 1px solid #f0f0f0; white-space: nowrap; }
     .brand-table td { font-size: 13px; color: #444; padding: 12px 16px; border-bottom: 1px solid #f8f8f8; vertical-align: top; }
     .brand-table tr:last-child td { border-bottom: none; }
-    .brand-table td:first-child { font-weight: 600; color: #111; }
+    .brand-table td:first-child { font-weight: 600; color: #111; white-space: nowrap; }
 
     /* TOC */
     .article-toc { background: #f7fafc; border: 1px solid rgba(232,76,30,0.18); border-radius: 12px; padding: 18px 22px; margin: 0 0 32px; }
@@ -712,14 +713,14 @@
 
       <p>The data above reflects averages across brands. Yale Appliance's 2024 Annual Reliability Report, which aggregates service data across tens of thousands of units sold, shows meaningful reliability differences by brand tier.</p>
 
+      <div class="brand-table-wrap">
       <table class="brand-table">
         <thead>
           <tr>
             <th>Tier</th>
             <th>Representative brands</th>
-            <th>Typical 5-year repair rate</th>
-            <th>Typical 10-year repair rate</th>
-            <th>Note</th>
+            <th>Typical 5-yr repair rate</th>
+            <th>Typical 10-yr repair rate</th>
           </tr>
         </thead>
         <tbody>
@@ -728,24 +729,22 @@
             <td>Amana, Hotpoint, entry-level GE</td>
             <td>18-28%</td>
             <td>40-55%</td>
-            <td>Higher repair rates; lower per-incident parts cost</td>
           </tr>
           <tr>
             <td>Mid-range</td>
-            <td>Whirlpool, LG, Samsung, Bosch (standard)</td>
+            <td>Whirlpool, LG, Samsung, Bosch (standard)<br><span style="font-size:11px;color:#888;font-weight:400;">Samsung runs higher-than-average rates within this tier per Yale 2024</span></td>
             <td>12-20%</td>
             <td>28-42%</td>
-            <td>Broad variation within tier; Samsung has higher-than-average rates per Yale 2024</td>
           </tr>
           <tr>
             <td>Premium</td>
             <td>Sub-Zero, Wolf, Miele, Thermador, Viking</td>
             <td>8-14%</td>
             <td>18-30%</td>
-            <td>Lower failure rates; higher per-incident parts and labor cost</td>
           </tr>
         </tbody>
       </table>
+      </div>
       <p class="table-source-note">Source: Yale Appliance Annual Reliability Report 2024. Repair rates represent percentage of units requiring at least one service call within the stated period. Rates vary by specific model line and usage conditions.</p>
 
       <p>The honest framing: premium appliances fail less often, but parts cost more when they do fail. A <a href="../pages/viking-appliance-repair-orange-county.html">Viking range</a> with a failed bake igniter at year 12 may cost $350-$500 to repair; the equivalent repair on a budget range is $120-$200. The premium unit is still worth repairing because replacement is $4,000-$8,000. But the calculus is different for a premium dishwasher versus a budget dishwasher when both are at year 10 and facing a control board failure.</p>
