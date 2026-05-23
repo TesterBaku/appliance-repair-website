@@ -1,15 +1,15 @@
 {
   "_meta": {
-    "lastUpdated": "2026-05-20",
+    "lastUpdated": "2026-05-23",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 78,
-        "capturedCount": 78,
+        "totalReviewsOnListing": 80,
+        "capturedCount": 80,
         "ratingAverage": 5,
-        "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-12; 56 from user-supplied screenshots and full-review images on 2026-05-06; 13 review photos relocated from reviewer-profiles/ to reviews/ on 2026-05-12 (PR #review-photos-reclassify-plan); 2026-05-20: +1 review (Erin Ponchak, LG dryer no-heat, Huntington Beach) added directly from owner-supplied verbatim text. GBP total bumped 76→78 (owner-confirmed re-scrape on 2026-05-20). 2026-05-20: +1 no-body record (Drew McMillan, 5★ rating, no body, no photo, no service tag) added; gap between capturedCount and totalReviewsOnListing now closed at 78."
+        "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-12; 56 from user-supplied screenshots and full-review images on 2026-05-06; 13 review photos relocated from reviewer-profiles/ to reviews/ on 2026-05-12 (PR #review-photos-reclassify-plan); 2026-05-20: +1 review (Erin Ponchak, LG dryer no-heat, Huntington Beach) added directly from owner-supplied verbatim text. GBP total bumped 76→78 (owner-confirmed re-scrape on 2026-05-20). 2026-05-20: +1 no-body record (Drew McMillan, 5★ rating, no body, no photo, no service tag) added; gap between capturedCount and totalReviewsOnListing now closed at 78. 2026-05-23: +2 reviews (mike bonilla — no appliance tag; Ken Turknette — wine cooler repair) captured live from GBP reviews dialog via Chrome MCP, sorted Newest. GBP total bumped 78→80 (owner-confirmed via 80-review count on knowledge panel)."
       },
       "yelp": {
         "name": "Yelp",
@@ -41,6 +41,36 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-mike-bonilla-2026-05",
+      "source": "google",
+      "name": "mike bonilla",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-05",
+      "dateText": "May 2026",
+      "body": "Excellent service and affordable with great customer service. Highly recommend.",
+      "bodyStatus": "complete",
+      "profilePhoto": null,
+      "reviewPhoto": null
+    },
+    {
+      "id": "google-ken-turknette-2026-05",
+      "source": "google",
+      "name": "Ken Turknette",
+      "location": "Orange County, CA",
+      "appliance": "wine cooler",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-05",
+      "dateText": "May 2026",
+      "body": "AG responded quickly and was very professional on the maintenance call. I highly recommend Universal for wine cooler repair.",
+      "bodyStatus": "complete",
+      "profilePhoto": null,
+      "reviewPhoto": null
+    },
     {
       "id": "google-jovita-osorio-2026-04",
       "source": "google",

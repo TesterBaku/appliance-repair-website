@@ -23,7 +23,7 @@ const pool = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/testimonia
 
 // ── Config ──────────────────────────────────────────────────────────────────
 const META               = pool._meta.sources.google;
-const REVIEW_COUNT       = META.capturedCount;            // 78 today; drives every count surface on the page
+const REVIEW_COUNT       = META.capturedCount;            // drives every count surface on the page; sourced from data/testimonials.json
 const YEARS_IN_BUSINESS  = '9+';                          // not in JSON; bump here when the business hits 10+
 
 // ── Body cleanups (one-off typo edits keyed by review id) ───────────────────
@@ -78,7 +78,8 @@ function getApplianceLabel(r) {
   if (!r.appliance) return 'Verified Customer';
   const map = { washer:'Washing Machine Repair', dryer:'Dryer Repair', refrigerator:'Refrigerator Repair',
     dishwasher:'Dishwasher Repair', oven:'Oven Repair', stove:'Stove Repair',
-    cooktop:'Cooktop Repair', range:'Range Repair', freezer:'Freezer Repair', microwave:'Microwave Repair' };
+    cooktop:'Cooktop Repair', range:'Range Repair', freezer:'Freezer Repair', microwave:'Microwave Repair',
+    'wine cooler':'Wine Cooler Repair', 'garbage disposal':'Garbage Disposal Repair' };
   const parts = [...new Set(r.appliance.split(',').map(s => map[s.trim()] || 'Appliance Repair'))];
   return parts.join(' &amp; ');
 }
@@ -180,6 +181,9 @@ const html = `<!DOCTYPE html>
 </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png" />
   <title>Customer Reviews — Appliance Repair Orange County | Universal Appliances Repair</title>
   <meta name="description" content="${REVIEW_COUNT} verified 5-star Google reviews for Universal Appliances Repair in Orange County, CA. See what customers say about our refrigerator, washer, dryer, and dishwasher repair." />
   <link rel="canonical" href="https://fixappliancesfast.com/pages/testimonials.html" />
