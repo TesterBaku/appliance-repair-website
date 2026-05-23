@@ -118,6 +118,11 @@
     #blog-search::placeholder { color: #bbb; }
     #search-empty { text-align: center; padding: 56px 24px; color: #666; font-size: 14px; display: none; }
 
+    /* LOAD MORE */
+    #blog-load-more { display: block; margin: 28px auto 0; padding: 11px 36px; background: #fff; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; font-weight: 600; color: #111; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.15s, border-color 0.15s; }
+    #blog-load-more:hover { background: #f9fafb; border-color: #ccc; }
+    @media (min-width: 769px) { #blog-load-more { display: none !important; } }
+
     /* DARK CTA */
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; position: relative; overflow: hidden; }
     .sticky { background: #ffe45e; border-radius: 4px; box-shadow: 2px 4px 12px rgba(0,0,0,0.18); }
@@ -1016,6 +1021,7 @@
       </div>
 
     </div>
+    <button id="blog-load-more" style="display:none;" aria-label="Load more articles">Load more</button>
     <div id="search-empty">No articles match your search. Try a different keyword.</div>
   </section>
 
@@ -1105,26 +1111,45 @@
   <!-- BLOG SEARCH -->
   <script>
     (function() {
+      var BATCH = 12;
       var cards = Array.from(document.querySelectorAll('.blog-card'));
       var pills = Array.from(document.querySelectorAll('.cat-pill'));
       var input = document.getElementById('blog-search');
       var empty = document.getElementById('search-empty');
+      var loadMore = document.getElementById('blog-load-more');
       var currentCat = 'all';
+
+      function isMobile() { return window.innerWidth <= 768; }
 
       function applyFilter() {
         var q = input.value.trim().toLowerCase();
-        var n = 0;
+        var matched = [];
         cards.forEach(function(c) {
-          var title = (c.querySelector('.blog-title') || {}).textContent || '';
-          var excerpt = (c.querySelector('.blog-excerpt') || {}).textContent || '';
-          var badge = (c.querySelector('.blog-cat-badge') || {}).textContent || '';
-          var cat = c.dataset.category || '';
-          var matchQ = !q || title.toLowerCase().includes(q) || excerpt.toLowerCase().includes(q) || badge.toLowerCase().includes(q);
-          var matchC = currentCat === 'all' || cat === currentCat;
-          c.style.display = (matchQ && matchC) ? '' : 'none';
-          if (matchQ && matchC) n++;
+          var title   = (c.querySelector('.blog-title')     || {}).textContent || '';
+          var excerpt = (c.querySelector('.blog-excerpt')   || {}).textContent || '';
+          var badge   = (c.querySelector('.blog-cat-badge') || {}).textContent || '';
+          var cat     = c.dataset.category || '';
+          var matchQ  = !q || title.toLowerCase().includes(q) || excerpt.toLowerCase().includes(q) || badge.toLowerCase().includes(q);
+          var matchC  = currentCat === 'all' || cat === currentCat;
+          if (matchQ && matchC) matched.push(c);
         });
-        empty.style.display = n === 0 ? 'block' : 'none';
+        cards.forEach(function(c) { c.style.display = 'none'; });
+        matched.slice(0, showing).forEach(function(c) { c.style.display = ''; });
+        empty.style.display = matched.length === 0 ? 'block' : 'none';
+        if (loadMore) {
+          var remaining = Math.max(0, matched.length - showing);
+          loadMore.style.display = remaining > 0 ? 'block' : 'none';
+          loadMore.textContent = 'Load ' + Math.min(BATCH, remaining) + ' more';
+        }
+      }
+
+      var showing = isMobile() ? BATCH : cards.length;
+
+      if (loadMore) {
+        loadMore.addEventListener('click', function() {
+          showing += BATCH;
+          applyFilter();
+        });
       }
 
       input.addEventListener('input', function() {
@@ -1132,6 +1157,7 @@
         var q = this.value.trim();
         q ? url.searchParams.set('q', q) : url.searchParams.delete('q');
         history.replaceState(null, '', url.toString());
+        showing = isMobile() ? BATCH : cards.length;
         applyFilter();
       });
 
@@ -1141,6 +1167,7 @@
           currentCat = this.dataset.filter || 'all';
           pills.forEach(function(p) { p.classList.remove('active'); });
           this.classList.add('active');
+          showing = isMobile() ? BATCH : cards.length;
           applyFilter();
         });
       });

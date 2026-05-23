@@ -458,6 +458,10 @@ test.describe('Blog page', () => {
     const links = await hrefs(page, 'a[href*="article-"]');
     expect(links.every(h => h && !h.includes('#'))).toBe(true);
   });
+
+  test('load-more button is present in DOM', async ({ page }) => {
+    await expect(page.locator('#blog-load-more')).toBeAttached();
+  });
 });
 
 // ─── Service areas page ───────────────────────────────────────────────────────
