@@ -4,6 +4,34 @@ Running log of every `/seo-blog` run: articles created, PRs opened, commits, and
 
 ---
 
+## Statistics Cluster — May 23, 2026 (Slot 3: maintenance-skip cost statistics)
+
+**Article created:** `article-maintenance-skip-cost-statistics.html`
+**Plan:** `tasks/statistics-articles-plan.md` Slot 3 (originally scheduled Jun 29; shipped early since Slot 2 was published ahead of schedule and research was ready)
+**Mode:** Interactive (owner review required before merge per cluster policy)
+
+| Change | Detail |
+|---|---|
+| Branch | `feat/statistics-article-maintenance-cost` |
+| Primary keyword | appliance maintenance cost vs repair |
+| Centerpiece | Preventable-cause breakdown table (5 appliances) — pairs each category with the strongest published preventability evidence |
+| Supporting tables | 3-stat headline grid (NFPA 32%, Energy Star 35%, CR 49%); 5-row cost comparison (preventive task vs major repair) |
+| Lead reframe | Plan called for "30-50% more life when maintained" lead stat — research found NO primary source for that figure. Lead reframed around 3 verified statistics (NFPA dryer-fire 32% leading factor; Energy Star refrigerator 35% energy increase; Consumer Reports 49% problem rate by year 5). |
+| Citations | NFPA Home Dryer Fires 2014-2018; USFA/FEMA confirming; Energy Star (EPA) refrigerator page; Consumer Reports 2026 (n=71,534); Yale Appliance 2026 (n=33,190); HomeAdvisor 2025 cost guides; NAHB 2021 |
+| ASHRAE / DOE | Plan called for ASHRAE + DOE citations — research found ASHRAE has no residential appliance maintenance standard (covers commercial HVAC only). DOE has guidance but no quotable maintenance frequency. Both removed from references. |
+| Schema | Article, FAQPage (5 Q), BreadcrumbList, LocalBusiness |
+| Price disclaimer | Present verbatim under the cost-comparison table per S-4 rule |
+| Service-fee compliance | $99 flat fee referenced (our pricing); national $50-$200 diagnostic range cited per HomeAdvisor for comparison |
+| Internal links | 9 (Slot 1, Slot 2, fridge-maintenance, dishwasher-maintenance-fullerton, dryer-cost guide, repair-replace, cost-OC hub, sub-zero hub, 4 city hubs) |
+| Author E-E-A-T | Byline links to About page (per cluster plan line 151) |
+| Blog index | Card added; All Posts pill 40→41; Other pill 9→10; search placeholder 40→41 |
+| Blog/other.html subpage | Card added; section label 9→10 Articles |
+| Sitemap | Added; lastmod 2026-05-23, priority 0.6 |
+
+**Cluster status after this run:** Slot 1 MERGED (#384, #387). Slot 2 MERGED (#386, #388, #389). Slot 3 PR open for owner review (final piece — closes the cluster).
+
+---
+
 ## Statistics Cluster — May 23, 2026 (Slot 2: lifespan data 2026)
 
 **Article created:** `article-appliance-lifespan-data-2026.html`
