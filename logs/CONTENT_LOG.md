@@ -4,6 +4,52 @@ Running log of every `/seo-blog` run: articles created, PRs opened, commits, and
 
 ---
 
+## Statistics Cluster — May 23, 2026 (Slot 2: lifespan data 2026)
+
+**Article created:** `article-appliance-lifespan-data-2026.html`
+**Plan:** `tasks/statistics-articles-plan.md` Slot 2
+**Mode:** Interactive (owner review required before merge; autonomous merging banned for this cluster)
+
+| Change | Detail |
+|---|---|
+| Branch | `feat/statistics-article-lifespan-data` |
+| Primary keyword | how long do appliances last |
+| Centerpiece | Brand-tier lifespan table (rows = appliance, cols = budget / mid / premium) |
+| Supporting data | 10-row NAHB vs InterNACHI hero table; 6 per-appliance stat cards |
+| Citations | NAHB 2021 lifespan study; InterNACHI Standard Life Expectancy Chart; Consumer Reports reliability surveys 2022/2024; Miele 10,000-hour design spec; Sub-Zero 12-year sealed-system warranty; Yale Appliance 2024; Energy Star |
+| Schema | Article, FAQPage (5 Q), BreadcrumbList, LocalBusiness |
+| Internal links | 11 (failure-rates Slot 1, repair-replace pillar, sub-zero-repair-vs-replace, fridge-maintenance, dryer-cost guide, 5 luxury brand hubs, cost-OC hub, about) |
+| Cluster cross-link | Slot 1 (failure-rates) linked from "How Lifespan Connects to Failure Rates" section |
+| Impeccable | PASS — 27/32 heuristics (~84%), 0 FAILs (5 WARNs, all polish-level / shared with sibling) |
+| Tests | npm test ✓ (93 pages, link + html-integrity + content-integrity + css-vars all clean); npm run screenshot ✓; npm run test:functional 564 ✓ |
+| Blog index | Added card; counter bumped 35 → 36 |
+| Sitemap | Added; lastmod 2026-05-23, priority 0.6 |
+
+**Cluster status after this run:** Slot 1 MERGED (#384). Slot 2 PR open for owner review. Slot 3 (maintenance cost) still scheduled per plan.
+
+---
+
+## Legacy Rewrite — May 21, 2026 (Tier A: dryer-repair-cost)
+
+**Article rewritten:** `article-dryer-repair-cost-orange-county.html`
+**Plan:** `tasks/legacy-article-rewrite-plan.md` Tier A, W1
+**Mode:** Interactive (owner-reviewed during session)
+
+| Change | Detail |
+|---|---|
+| PR | [#385](https://github.com/TesterBaku/appliance-repair-website/pull/385) — MERGED |
+| Lines changed | ~85% of body (392 insertions, 167 deletions) |
+| Cost table | 9-row price table, diagnostic $75–$125, through control board $250–$450 |
+| New sections | Gas vs electric cost differential; 6-question interactive FAQ accordion |
+| Citations | NAHB 2021 lifespan data; Consumer Reports reliability surveys |
+| S-4 backlog | Price-disclaimer retrofit closed |
+| Impeccable | 4 findings (site-wide baseline; 0 article-specific) |
+| Tests | npm test ✓, screenshot ✓, functional 561 ✓ |
+
+**Pre-merge owner action pending:** fill in `tasks/legacy-rewrite-baselines-2026-05.md` GSC/GA4 rows for Day-60 comparison.
+
+---
+
 ## Run — May 20, 2026
 
 **Articles created:** 1
