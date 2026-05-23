@@ -809,12 +809,13 @@
       var hamburger = document.querySelector('.nav-hamburger');
       var drawer = document.getElementById('mobile-nav-drawer');
       if (hamburger && drawer) {
-        function setNavOpen(open) {
+        var setNavOpen = function(open) {
           hamburger.setAttribute('aria-expanded', String(open));
           hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
           drawer.setAttribute('aria-hidden', String(!open));
           if (open) { drawer.setAttribute('data-open', ''); } else { drawer.removeAttribute('data-open'); }
-        }
+          document.body.style.overflow = open ? 'hidden' : '';
+        };
         hamburger.addEventListener('click', function() { setNavOpen(hamburger.getAttribute('aria-expanded') !== 'true'); });
         document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') { setNavOpen(false); hamburger.focus(); } });
         drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', function() { setNavOpen(false); }); });
