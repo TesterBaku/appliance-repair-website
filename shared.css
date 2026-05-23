@@ -214,6 +214,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   .services-grid { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .float { display: none; }
   .letter-card { padding: 28px 22px; }
   .dark-section { padding: 56px 16px; }
   .footer-grid { gap: 28px; }
