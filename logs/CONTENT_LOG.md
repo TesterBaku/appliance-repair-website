@@ -4,6 +4,35 @@ Running log of every `/seo-blog` run: articles created, PRs opened, commits, and
 
 ---
 
+## Luxury Content Cluster — May 25, 2026 (Piece #7: Viking oven not heating)
+
+**Article created:** `articles/article-viking-oven-not-heating-orange-county.html`
+**Cluster:** Luxury appliance content cluster, piece #7 of 8
+**Mode:** Interactive (owner review required before merge)
+
+| Change | Detail |
+|---|---|
+| Branch | `content/viking-oven-not-heating` |
+| PR | [#402](https://github.com/TesterBaku/appliance-repair-website/pull/402) |
+| Primary keyword | viking oven not heating |
+| Secondary keywords | viking oven temperature low, viking range bake element, viking convection fan repair, viking oven control board, viking pro range repair |
+| Article type | Symptom guide |
+| Word count | ~1,500 words |
+| Causes covered | Bake element (#1 electric), gas igniter (#1 gas VGIC/VGSC/VGRC), convection fan motor, temperature sensor, control board |
+| AI answer block | Present (callout-blue, 60-word structured block) |
+| Hero image | `oven-stainless-range.jpg/webp` (existing verified image) |
+| Internal links OUT | Viking hub 3x, oven-stove service hub 2x |
+| Related articles | Wolf range igniter, Sub-Zero repair vs replace, built-in refrigerator repair |
+| Schema | Article, LocalBusiness, FAQPage (5 Q), BreadcrumbList |
+| Cost disclaimer | Present verbatim after every cost estimate |
+| Price ranges | Diagnostic $95-$150, bake element $250-$450, igniter $200-$400, convection fan $300-$550, temperature sensor $150-$300, control board $500-$1,100 |
+| GA tag | Correct inline pattern (not deferred load) |
+| BOM | None (written via Node.js fs.writeFileSync utf8) |
+| Tests | `npm test` EXIT 0 (96 pages, all checks pass); `npm run screenshot` EXIT 0 |
+| Fixes during write | (1) meta description shortened from 191 to 155 chars; (2) JSON-LD headline aligned to H1; (3) og:description synced to meta description |
+
+---
+
 ## Luxury Content Cluster — May 25, 2026 (Piece #8: Miele dishwasher error codes)
 
 **Article created:** `articles/article-miele-dishwasher-error-codes.html`
