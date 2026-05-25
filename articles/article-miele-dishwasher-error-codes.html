@@ -2,18 +2,13 @@
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-TSFHKJ6ZEK');
-  window.addEventListener('load', function() {
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-TSFHKJ6ZEK';
-    document.head.appendChild(s);
-  });
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TSFHKJ6ZEK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TSFHKJ6ZEK');
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Miele Dishwasher Error Codes: F11, F14, F70 and More Explained | Universal Appliances Repair</title>
@@ -126,6 +121,10 @@
     .nav-drawer a { font-size: 15px; color: #666; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #eee; font-weight: 500; min-height: 44px; display: flex; align-items: center; }
     .nav-drawer a:last-child { border-bottom: none; }
     .nav-drawer a.nav-drawer-cta { color: #aa3210; font-weight: 600; }
+    /* STICKY MOBILE BAR */
+    .sticky-mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; height: 56px; }
+    .sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #e84c1e; color: #fff; gap: 6px; }
+    .sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #111; color: #fff; }
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .nav-cta { display: none; }
@@ -137,6 +136,8 @@
       .cost-table { font-size: 12px; }
       .cost-table th, .cost-table td { padding: 9px 10px; }
       .inline-cta a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+      body { padding-bottom: 64px; }
+      .sticky-mobile-bar { display: flex; }
     }
     @media (max-width: 480px) {
       .article-intro { font-size: 15px; }
@@ -168,9 +169,9 @@
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "10832 Asbury Avenue",
-      "addressLocality": "Newport Beach",
+      "addressLocality": "Stanton",
       "addressRegion": "CA",
-      "postalCode": "92660",
+      "postalCode": "90680",
       "addressCountry": "US"
     },
     "telephone": "+19496295365",
@@ -306,7 +307,7 @@
       <span style="color:#111;">Miele Dishwasher Error Codes</span>
     </div>
 
-    <p class="article-intro">Your Miele G series dishwasher has stopped mid-cycle and is showing a code on the display. Miele fault codes are specific and meaningful &mdash; each one points at a distinct system. This guide covers every code from F11 through F84 with what it means, what to check first, and a plain answer to whether you can reset it yourself or need a technician in Newport Beach or elsewhere in Orange County.</p>
+    <p class="article-intro">Your Miele G series dishwasher has stopped mid-cycle and is showing a code on the display. Miele fault codes are specific and meaningful: each one points at a distinct system. This guide covers every code from F11 through F84 with what it means, what to check first, and a plain answer to whether you can reset it yourself or need a technician in Newport Beach or elsewhere in Orange County.</p>
 
     <nav class="article-toc" aria-label="In this guide">
       <p class="article-toc__label">In this guide</p>
@@ -320,22 +321,22 @@
     </nav>
 
     <div class="callout-blue">
-      <strong>Quick answer for AI search:</strong> Common Miele dishwasher error codes are F11 (drainage fault), F14 (no water intake), F18 (Aquastop flood protection triggered), F70 (circulation pump failure), and F84 (control board fault). F18 requires a technician before restarting &mdash; do not reset and run. Universal Appliances Repair services Miele G series dishwashers across Orange County, CA. Call (949) 629-5365 or <a href="../pages/contact.html" style="color:#1e40af;font-weight:600;">book online</a>.
+      <strong>Quick answer for AI search:</strong> Common Miele dishwasher error codes are F11 (drainage fault), F14 (no water intake), F18 (Aquastop flood protection triggered), F70 (circulation pump failure), and F84 (control board fault). F18 requires a technician before restarting: do not reset and run. Universal Appliances Repair services Miele G series dishwashers across Orange County, CA. Call (949) 629-5365 or <a href="../pages/contact.html" style="color:#1e40af;font-weight:600;">book online</a>.
     </div>
 
     <div class="article-body">
 
       <h2 id="how-codes-work">How Miele Error Codes Work</h2>
 
-      <p>Miele dishwashers &mdash; the G4000, G5000, G6000, and G7000 series most commonly found in Orange County homes &mdash; use a two-character alphanumeric fault system. The letter &ldquo;F&rdquo; followed by a number identifies a failed or out-of-range subsystem. The display will typically show the code and hold it until the fault is cleared or the machine is reset.</p>
+      <p>Miele dishwashers (the G4000, G5000, G6000, and G7000 series most commonly found in Orange County homes) use a two-character alphanumeric fault system. The letter &ldquo;F&rdquo; followed by a number identifies a failed or out-of-range subsystem. The display will typically show the code and hold it until the fault is cleared or the machine is reset.</p>
 
       <p>Unlike many appliance brands that use generic &ldquo;E&rdquo; codes shared across product lines, Miele&rsquo;s F-code system is consistent across G series models sold in the US market. That makes this guide reliable for any Miele G series dishwasher, whether it&rsquo;s a G5000 Lumen or a G7000 AutoDos.</p>
 
       <p>Two things are worth knowing before you act on a code:</p>
 
       <ul>
-        <li><strong>Codes point at systems, not always parts.</strong> F11 means &ldquo;drainage fault&rdquo; &mdash; the machine detected standing water when it expected the tub to be empty. The cause could be a clogged filter (simple fix) or a failed drain pump (part replacement). Knowing the code is the starting point, not the diagnosis.</li>
-        <li><strong>Resetting without investigating can worsen damage.</strong> Water-related codes &mdash; especially F18 &mdash; exist because Miele detected a problem. Running another cycle before addressing the root cause can turn a seal leak into a subfloor water damage situation.</li>
+        <li><strong>Codes point at systems, not always parts.</strong> F11 means &ldquo;drainage fault&rdquo;: the machine detected standing water when it expected the tub to be empty. The cause could be a clogged filter (simple fix) or a failed drain pump (part replacement). Knowing the code is the starting point, not the diagnosis.</li>
+        <li><strong>Resetting without investigating can worsen damage.</strong> Water-related codes, especially F18, exist because Miele detected a problem. Running another cycle before addressing the root cause can turn a seal leak into a subfloor water damage situation.</li>
       </ul>
 
       <p>For <a href="../pages/miele-appliance-repair-orange-county.html">Miele dishwasher repair in Orange County</a>, Universal Appliances Repair carries G series parts and offers same-day diagnosis for most fault codes.</p>
@@ -369,7 +370,7 @@
 
       <div class="cause-card">
         <div class="error-badge error-badge-orange">F14</div>
-        <h3>Water Inlet Issue &mdash; No Water Detected</h3>
+        <h3>Water Inlet Issue: No Water Detected</h3>
         <p><strong>What it means:</strong> The machine attempted to fill and detected no water entering at all. This is a harder fault than F12: nothing arrived at the flow meter.</p>
         <p><strong>Check first:</strong> Confirm the water supply shutoff valve under the sink is fully open. Check the fill hose for kinks. Make sure the home water supply to that area of the kitchen has not been interrupted (check other fixtures).</p>
         <p><strong>If supply is confirmed open:</strong> The water inlet valve solenoid has likely failed in the closed position. This is a common wear item on older G series dishwashers and is a straightforward technician repair.</p>
@@ -379,17 +380,17 @@
       <div class="cause-card">
         <div class="error-badge">F15</div>
         <h3>Water Inlet Pressure Sensor Fault</h3>
-        <p><strong>What it means:</strong> The pressure switch that monitors water level in the sump is reporting a reading that does not match what the fill sequence expects &mdash; either there is water present when the machine expects a dry sump, or no pressure reading is returned during a fill.</p>
+        <p><strong>What it means:</strong> The pressure switch that monitors water level in the sump is reporting a reading that does not match what the fill sequence expects: either there is water present when the machine expects a dry sump, or no pressure reading is returned during a fill.</p>
         <p><strong>Check first:</strong> Clean the drain filter and run a drain cycle (hold Start/Stop to cancel the program and allow the machine to drain). If the tub drains fully and the code clears on the next cycle, a partial-drain situation may have triggered a false reading.</p>
         <p><strong>If it persists:</strong> The pressure switch or fill valve is faulty and needs replacement by a technician.</p>
       </div>
 
       <div class="cause-card">
         <div class="error-badge error-badge-red">F18</div>
-        <h3>Aquastop Triggered &mdash; Flood Protection Active</h3>
-        <p><strong>What it means:</strong> Miele&rsquo;s Aquastop system detected moisture in the base pan of the dishwasher. The machine shut off water flow and stopped the cycle to prevent flooding. This is not a sensor glitch &mdash; it is a real leak detection event.</p>
-        <p><strong>Do not reset and run.</strong> Running another cycle before finding the source of the leak risks significant water damage to cabinetry and subfloor &mdash; exactly what the Aquastop system was designed to prevent.</p>
-        <p><strong>What to do:</strong> Pull the dishwasher slightly forward from the cabinet. Tilt it carefully backward (with help &mdash; Miele dishwashers weigh 55&ndash;65 lbs) to drain any water from the base pan through the front. Then inspect the door seal, hose connections at the inlet valve, sump seal, and spray arm connections for the source of the leak.</p>
+        <h3>Aquastop Triggered: Flood Protection Active</h3>
+        <p><strong>What it means:</strong> Miele&rsquo;s Aquastop system detected moisture in the base pan of the dishwasher. The machine shut off water flow and stopped the cycle to prevent flooding. This is not a sensor glitch; it is a real leak detection event.</p>
+        <p><strong>Do not reset and run.</strong> Running another cycle before finding the source of the leak risks significant water damage to cabinetry and subfloor, exactly what the Aquastop system was designed to prevent.</p>
+        <p><strong>What to do:</strong> Pull the dishwasher slightly forward from the cabinet. Tilt it carefully backward (Miele dishwashers weigh 55&ndash;65 lbs) to drain any water from the base pan through the front. Then inspect the door seal, hose connections at the inlet valve, sump seal, and spray arm connections for the source of the leak.</p>
         <p><strong>Repair:</strong> Door seal replacement, hose connection repair, or sump seal replacement depending on the source. A technician is strongly recommended to confirm the leak source before you run the machine again.</p>
       </div>
 
@@ -414,24 +415,24 @@
       <div class="cause-card">
         <div class="error-badge">F36</div>
         <h3>Temperature Sensor Reading Out of Range</h3>
-        <p><strong>What it means:</strong> Related to F32. Where F32 signals a general sensor fault, F36 specifically indicates the sensor returned a temperature value outside the physically plausible range &mdash; either far below ambient temperature or above the maximum operating threshold.</p>
+        <p><strong>What it means:</strong> Related to F32. Where F32 signals a general sensor fault, F36 specifically indicates the sensor returned a temperature value outside the physically plausible range: either far below ambient temperature or above the maximum operating threshold.</p>
         <p><strong>Common causes:</strong> A broken NTC sensor element, a failed solder connection on the sensor wiring harness, or in some cases a heater element failure that is cooking the sensor. If the heater element is running unchecked, you may notice dishes coming out with unusual scale or discoloration at the same time as the code.</p>
-        <p><strong>Repair:</strong> Same as F32 &mdash; technician repair required. If the heater element is implicated, repair cost moves to the higher end of the $150&ndash;$300 range or beyond depending on what needs replacement.</p>
+        <p><strong>Repair:</strong> Same as F32; technician repair required. If the heater element is implicated, repair cost moves to the higher end of the $150&ndash;$300 range or beyond depending on what needs replacement.</p>
       </div>
 
       <div class="cause-card">
         <div class="error-badge error-badge-red">F70</div>
         <h3>Circulation Pump Fault</h3>
-        <p><strong>What it means:</strong> The wash motor &mdash; the pump that circulates water through the spray arms during a cycle &mdash; is not turning. Without circulation, no washing occurs. The machine detected this and stopped the cycle.</p>
+        <p><strong>What it means:</strong> The wash motor (the pump that circulates water through the spray arms during a cycle) is not turning. Without circulation, no washing occurs. The machine detected this and stopped the cycle.</p>
         <p><strong>Check first:</strong> Clean the drain filter and sump thoroughly. A severe blockage can occasionally load the motor enough to prevent it from starting. With power disconnected, manually check that the spray arms spin freely and are not jammed by an oversized item in the rack.</p>
-        <p><strong>If blockage is ruled out:</strong> The circulation pump motor has failed. On Miele G series machines, the circulation pump and wash motor are an integrated assembly. This is one of the more significant repairs &mdash; the assembly must be removed from the sump and replaced with an OEM Miele part.</p>
+        <p><strong>If blockage is ruled out:</strong> The circulation pump motor has failed. On Miele G series machines, the circulation pump and wash motor are an integrated assembly. This is one of the more significant repairs; the assembly must be removed from the sump and replaced with an OEM Miele part.</p>
         <p><strong>Repair cost:</strong> $400&ndash;$750. <em>Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</em></p>
       </div>
 
       <div class="cause-card">
         <div class="error-badge error-badge-red">F78</div>
         <h3>Circulation Pump Speed Too Low</h3>
-        <p><strong>What it means:</strong> The wash motor is running &mdash; unlike F70 where it is not &mdash; but its rotational speed is below the threshold required for effective wash pressure. You may notice dishes coming out poorly cleaned in the cycles before the code appears, because the machine ran at insufficient pressure before the speed dropped low enough to trigger the fault.</p>
+        <p><strong>What it means:</strong> The wash motor is running (unlike F70 where it is not) but its rotational speed is below the threshold required for effective wash pressure. You may notice dishes coming out poorly cleaned in the cycles before the code appears, because the machine ran at insufficient pressure before the speed dropped low enough to trigger the fault.</p>
         <p><strong>Common causes:</strong> Worn motor brushes on older machines, a damaged pump impeller (often from a foreign object that partially cleared), or a failing motor bearing creating drag on the rotor.</p>
         <p><strong>Repair:</strong> Technician repair required. In most cases the full circulation pump assembly is replaced rather than individual motor components.</p>
         <p><strong>Repair cost:</strong> $400&ndash;$750. <em>Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</em></p>
@@ -441,9 +442,9 @@
         <div class="error-badge error-badge-red">F84</div>
         <h3>Control Board / PCB Communication Fault</h3>
         <p><strong>What it means:</strong> The control board (PCB) has reported an internal communication error or failed to receive a response from one of the monitored components within the expected time window. F84 is sometimes described as a &ldquo;drain fault&rdquo; in simplified guides, but it is more accurately a control electronics fault that can manifest in multiple ways depending on the specific G series model.</p>
-        <p><strong>Why it is frequently misdiagnosed:</strong> F84 can appear after power surges, after a drain pump replacement where the wiring harness was not fully reseated, or when a failed sensor is causing the PCB to lose its reference reading. Before condemning the control board &mdash; the most expensive repair in this guide &mdash; a Miele-experienced technician should test the full wiring harness, all sensor connections, and any recently replaced components.</p>
+        <p><strong>Why it is frequently misdiagnosed:</strong> F84 can appear after power surges, after a drain pump replacement where the wiring harness was not fully reseated, or when a failed sensor is causing the PCB to lose its reference reading. Before condemning the control board (the most expensive repair in this guide), a Miele-experienced technician should test the full wiring harness, all sensor connections, and any recently replaced components.</p>
         <p><strong>Repair cost:</strong> $500&ndash;$1,100. <em>Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</em></p>
-        <p>Our <a href="../pages/miele-appliance-repair-orange-county.html">Miele appliance repair team in Orange County</a> has seen F84 resolve after a harness reseating &mdash; a ten-minute correction &mdash; just as often as it has required full PCB replacement. Accurate diagnosis saves significant cost here.</p>
+        <p>Our <a href="../pages/miele-appliance-repair-orange-county.html">Miele appliance repair team in Orange County</a> has seen F84 resolve after a harness reseating (a ten-minute correction) just as often as it has required full PCB replacement. Accurate diagnosis saves significant cost here.</p>
       </div>
 
       <h2 id="reset-vs-repair">When to Reset vs When to Repair</h2>
@@ -461,27 +462,27 @@
         <tbody>
           <tr>
             <td><strong>F11</strong></td>
-            <td>Yes &mdash; after cleaning filter</td>
+            <td>Yes, after cleaning filter</td>
             <td>Clean drain filter, check hose</td>
           </tr>
           <tr>
             <td><strong>F12</strong></td>
-            <td>Yes &mdash; after cleaning inlet screen</td>
+            <td>Yes, after cleaning inlet screen</td>
             <td>Clean inlet filter screen</td>
           </tr>
           <tr>
             <td><strong>F13</strong></td>
-            <td>Yes &mdash; after checking supply pressure</td>
+            <td>Yes, after checking supply pressure</td>
             <td>Verify water pressure, clean inlet screen</td>
           </tr>
           <tr>
             <td><strong>F14</strong></td>
-            <td>Yes &mdash; after confirming water supply is open</td>
+            <td>Yes, after confirming water supply is open</td>
             <td>Check shutoff valve, check for kinked hose</td>
           </tr>
           <tr>
             <td><strong>F15</strong></td>
-            <td>Once &mdash; run a drain cycle first</td>
+            <td>Once; run a drain cycle first</td>
             <td>Drain the machine, check filter</td>
           </tr>
           <tr>
@@ -491,7 +492,7 @@
           </tr>
           <tr>
             <td><strong>F24</strong></td>
-            <td>Yes &mdash; after clearing sump debris</td>
+            <td>Yes, after clearing sump debris</td>
             <td>Clean filter, check sump for glass or debris</td>
           </tr>
           <tr>
@@ -507,13 +508,13 @@
           <tr>
             <td><strong>F84</strong></td>
             <td>Once to confirm recurrence</td>
-            <td>None safe beyond reset &mdash; call technician</td>
+            <td>None safe beyond reset; call technician</td>
           </tr>
         </tbody>
       </table>
 
       <div class="callout">
-        <strong>The reset rule:</strong> If the same error code appears in two consecutive cycles after your DIY check, the fault is confirmed and is not going to clear on its own. Schedule a service visit. Running additional cycles while the fault is active can escalate the repair cost &mdash; particularly for F70, F78, and F84.
+        <strong>The reset rule:</strong> If the same error code appears in two consecutive cycles after your DIY check, the fault is confirmed and is not going to clear on its own. Schedule a service visit. Running additional cycles while the fault is active can escalate the repair cost, particularly for F70, F78, and F84.
       </div>
 
       <p>Our <a href="../pages/dishwasher-repair-orange-county.html">dishwasher repair service in Orange County</a> covers Miele G series machines across Newport Beach, Laguna Beach, Irvine, and the rest of Orange County. We carry the most common Miele dishwasher parts to enable same-day completion on most fault code repairs.</p>
@@ -569,9 +570,9 @@
         </tbody>
       </table>
 
-      <p>For context, a new Miele G7000 series dishwasher starts around $1,400 and reaches $2,800 for top-tier AutoDos models. Most single-fault repairs stay well under the replacement threshold. Even a circulation pump replacement at $750 is less than 30% of a new entry-level G7000 &mdash; and Miele machines are built for 20-year service lives when properly maintained. Repair is the right economic call for most fault codes.</p>
+      <p>For context, a new Miele G7000 series dishwasher starts around $1,400 and reaches $2,800 for top-tier AutoDos models. Most single-fault repairs stay well under the replacement threshold. Even a circulation pump replacement at $750 is less than 30% of a new entry-level G7000, and Miele machines are built for 20-year service lives when properly maintained. Repair is the right economic call for most fault codes.</p>
 
-      <p>If you are seeing multiple codes in sequence &mdash; for example F11 followed by F70 &mdash; that pattern often indicates a long-term debris accumulation problem that has stressed both the drain and circulation pump. A thorough mechanical service during the repair visit addresses both simultaneously and prevents a second callback.</p>
+      <p>If you are seeing multiple codes in sequence (for example F11 followed by F70) that pattern often indicates a long-term debris accumulation problem that has stressed both the drain and circulation pump. A thorough mechanical service during the repair visit addresses both simultaneously and prevents a second callback.</p>
 
       <h2 id="faq">Frequently Asked Questions</h2>
 
@@ -582,12 +583,12 @@
 
       <div class="faq-item">
         <h3>What does F11 mean on a Miele dishwasher?</h3>
-        <p>F11 is a drainage fault: water is not leaving the machine at the end of a cycle. Start by cleaning the three-piece drain filter at the bottom of the tub &mdash; this resolves the majority of F11 codes. If the filter is clean and the code returns, the drain pump has likely failed and requires replacement, typically $250&ndash;$450 in Orange County.</p>
+        <p>F11 is a drainage fault: water is not leaving the machine at the end of a cycle. Start by cleaning the three-piece drain filter at the bottom of the tub; this resolves the majority of F11 codes. If the filter is clean and the code returns, the drain pump has likely failed and requires replacement, typically $250&ndash;$450 in Orange County.</p>
       </div>
 
       <div class="faq-item">
         <h3>Is it safe to run my Miele dishwasher after an error code?</h3>
-        <p>It depends on the code. F11, F12, F14, F32, and F36 can be reset and run once to confirm whether the fault is intermittent after a quick DIY check. F18 should never be reset and run before finding the source of the leak &mdash; the Aquastop system activated because there is water in the base pan. F70, F78, and F84 should not be run repeatedly; each additional cycle risks escalating the damage.</p>
+        <p>It depends on the code. F11, F12, F14, F32, and F36 can be reset and run once to confirm whether the fault is intermittent after a quick DIY check. F18 should never be reset and run before finding the source of the leak; the Aquastop system activated because there is water in the base pan. F70, F78, and F84 should not be run repeatedly; each additional cycle risks escalating the damage.</p>
       </div>
 
       <div class="faq-item">
@@ -710,6 +711,12 @@
       document.addEventListener('click', function(e) { if (hamburger.getAttribute('aria-expanded') === 'true' && !e.target.closest('.nav')) setOpen(false); });
     })();
   </script>
+  <!-- STICKY MOBILE CALL/BOOK BAR -->
+  <div class="sticky-mobile-bar">
+    <a href="tel:+19496295365" class="sticky-call">&#128222; Call Now</a>
+    <a href="../pages/contact.html" class="sticky-book">Book Repair</a>
+  </div>
+
   <script defer src="../analytics.js"></script>
 </body>
 </html>
