@@ -4,6 +4,36 @@ Running log of every `/seo-blog` run: articles created, PRs opened, commits, and
 
 ---
 
+## Luxury Content Cluster — May 25, 2026 (Piece #8: Miele dishwasher error codes)
+
+**Article created:** `articles/article-miele-dishwasher-error-codes.html`
+**Cluster:** Luxury appliance content cluster, piece #8 of 8 (final piece)
+**Mode:** Interactive (owner review required before merge)
+
+| Change | Detail |
+|---|---|
+| Branch | `content/miele-dishwasher-error-codes` |
+| PR | [#401](https://github.com/TesterBaku/appliance-repair-website/pull/401) |
+| Primary keyword | miele dishwasher error codes |
+| Secondary keywords | miele f11 error, miele f14 error, miele f70 error, miele dishwasher fault codes, miele G series error codes |
+| Article type | Reference guide / symptom |
+| Word count | ~1,700 words |
+| Codes covered | F11, F12, F13, F14, F15, F18, F24, F32, F36, F70, F78, F84 (all 12 specified) |
+| AI answer block | Present (60-word callout-blue block, structured for snippet pickup) |
+| Hero image | `dishwasher-open.jpg/webp` (existing verified image) |
+| Internal links OUT | Miele hub (3 links), dishwasher service hub (1 link) |
+| Schema | Article, LocalBusiness, FAQPage (5 Q), BreadcrumbList |
+| Cost disclaimer | Present verbatim at every cost table/estimate |
+| Price ranges | All ranges: diagnostic $95-$150, drain pump $250-$450, inlet valve $200-$400, NTC sensor $150-$300, circulation pump $400-$750, door seal $200-$450, control board $500-$1,100 |
+| GA tag | Deferred load pattern (matches Wolf article template exactly) |
+| BOM | None (verified via Node.js hex check) |
+| Tests | `npm test` EXIT 0 (95 pages, link + html-integrity + content-integrity + css-vars); `npm run screenshot` EXIT 0 |
+| Fixes during write | (1) em-dash in JSON-LD replaced with semicolon; (2) meta description shortened from 196 to 153 chars |
+
+**Cluster status after this run:** All 8 pieces written. Pieces #1-#7 previously merged. Piece #8 PR open for owner review.
+
+---
+
 ## Statistics Cluster — May 23, 2026 (Slot 3: maintenance-skip cost statistics)
 
 **Article created:** `article-maintenance-skip-cost-statistics.html`
