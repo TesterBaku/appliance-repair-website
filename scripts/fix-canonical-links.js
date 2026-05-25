@@ -28,7 +28,7 @@ function walk(dir) {
 function processFile(filePath) {
   // Read as bytes to detect/strip BOM if present, then decode as UTF-8
   const raw = fs.readFileSync(filePath);
-  let hasBom = raw[0] === 0xEF && raw[1] === 0xBB && raw[2] === 0xBF;
+  const hasBom = raw[0] === 0xEF && raw[1] === 0xBB && raw[2] === 0xBF;
   const content = hasBom ? raw.slice(3).toString('utf8') : raw.toString('utf8');
 
   let updated = content;
