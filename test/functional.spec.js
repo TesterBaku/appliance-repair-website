@@ -505,7 +505,7 @@ test.describe('404 page', () => {
   test('has a link back to homepage', async ({ page }) => {
     await page.goto('/404.html');
     const links = await hrefs(page, 'a[href]');
-    expect(links.some(h => h === 'index.html' || h === '/' || (h && h.includes('index')))).toBe(true);
+    expect(links.some(h => h === 'index.html' || h === './' || h === '/' || (h && h.includes('index')))).toBe(true);
   });
 });
 
@@ -799,8 +799,8 @@ for (const { brand, file } of BRAND_HUBS) {
 
     // ── Breadcrumb ────────────────────────────────────────────────────────────
     test('breadcrumb has Home and Services links', async ({ page }) => {
-      const breadcrumbLinks = await hrefs(page, 'a[href*="index.html"], a[href*="services.html"]');
-      expect(breadcrumbLinks.some(h => h && h.includes('index'))).toBe(true);
+      const breadcrumbLinks = await hrefs(page, 'a[href="../"], a[href*="services.html"]');
+      expect(breadcrumbLinks.some(h => h === '../' || (h && h.includes('index')))).toBe(true);
       expect(breadcrumbLinks.some(h => h && h.includes('services'))).toBe(true);
     });
 
