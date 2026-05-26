@@ -117,6 +117,10 @@
     .nav-drawer a { font-size: 15px; color: #666; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #eee; font-weight: 500; min-height: 44px; display: flex; align-items: center; }
     .nav-drawer a:last-child { border-bottom: none; }
     .nav-drawer a.nav-drawer-cta { color: #aa3210; font-weight: 600; }
+    /* STICKY MOBILE BAR */
+    .sticky-mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; height: 56px; }
+    .sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #e84c1e; color: #fff; gap: 6px; }
+    .sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #111; color: #fff; }
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .nav-cta { display: none; }
@@ -129,6 +133,8 @@
       .cost-table th, .cost-table td { padding: 9px 10px; }
       .comparison-grid { grid-template-columns: 1fr; }
       .inline-cta a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+      body { padding-bottom: 64px; }
+      .sticky-mobile-bar { display: flex; }
     }
     @media (max-width: 480px) {
       .article-intro { font-size: 15px; }
@@ -659,6 +665,11 @@
       document.addEventListener('click', function(e) { if (hamburger.getAttribute('aria-expanded') === 'true' && !e.target.closest('.nav')) setOpen(false); });
     })();
   </script>
+  <!-- STICKY MOBILE CALL/BOOK BAR -->
+  <div class="sticky-mobile-bar">
+    <a href="tel:+19496295365" class="sticky-call">&#128222; Call Now</a>
+    <a href="../pages/contact.html" class="sticky-book">Book Repair</a>
+  </div>
   <script defer src="../analytics.js"></script>
 </body>
 </html>
