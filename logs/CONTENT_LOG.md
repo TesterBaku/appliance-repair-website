@@ -4,6 +4,53 @@ Running log of every `/seo-blog` run: articles created, PRs opened, commits, and
 
 ---
 
+## Stove Mini-Cluster — May 25, 2026 (3 articles)
+
+**Articles created:**
+- `articles/article-gas-stove-igniter-not-working-orange-county.html`
+- `articles/article-stove-burner-not-lighting-orange-county.html`
+- `articles/article-gas-vs-electric-range-repair-cost-orange-county.html`
+
+**Trigger:** GSC "Crawled – not indexed" on oven-stove hub (topic dilution diagnosis). Built stove content cluster first to support Phase 2B hub refocus.
+
+| Change | Detail |
+|---|---|
+| Branch | `feat/stove-mini-cluster-articles` |
+| Keywords | gas stove igniter not working, stove burner not lighting after cleaning, gas range vs electric range repair cost orange county |
+| Article type | 2 × symptom guides, 1 × cost comparison |
+| Word count | ~1,400–1,600 words each |
+| Cross-links | All 3 interlink; all link to oven-stove service hub |
+| Schema | Article, LocalBusiness, FAQPage, BreadcrumbList (each) |
+| GA tag | Canonical inline pattern (not deferred load) |
+| BOM | None |
+| blog.html | 3 new cards added; counters updated to 44 articles, Oven (7) |
+| blog/oven-stove.html | 4 new cards added (incl. Wolf igniter); label → "7 Oven, Stove & Range Articles" |
+| sitemap.xml | 3 new entries (priority 0.6, lastmod 2026-05-25) |
+| Next step | Phase 2B: refocus oven-stove hub to "Oven, Stove & Range Repair" |
+
+---
+
+## City Hub Depth Pass — May 25, 2026 (Fullerton + Irvine)
+
+**Pages updated:** `pages/appliance-repair-fullerton-ca.html`, `pages/appliance-repair-irvine-ca.html`
+**Trigger:** GSC "Crawled – not indexed" validation failure 2026-05-18 (Fullerton confirmed; Irvine bundled as at-risk)
+**PR:** [#403](https://github.com/TesterBaku/appliance-repair-website/pull/403) — merged 2026-05-25
+
+| Change | Detail |
+|---|---|
+| Fullerton word count | ~1,250 → ~1,650+ words (+400) |
+| Irvine word count | ~1,134 → ~1,700+ words (+560) |
+| Images added | +3 per page (Fullerton: non-city-tagged; Irvine: 1 real Irvine + 2 generic) |
+| GA tag fix | Both pages: deferred pattern → canonical `<script async src="...">` |
+| New sections | "Repair Types We Handle", "Common Appliance Issues in [City] Homes", "[City] Service Area Details", "Repair Resources for [City] Homeowners" |
+| Internal links | Fullerton → dishwasher article + dishwasher hub; Irvine → washer article + washer hub |
+| Title/meta | Rewritten with city-specific neighborhood phrasing |
+| Testimonials | Q2=A: kept generic OC, no fabricated city tags |
+| Tests | `npm test` (96p, 0 broken), `npm run screenshot` OK, `npm run test:functional` 574 passed |
+| Post-merge action | Owner: request GSC "Validate Fix" for both URLs; check status +7d and +14d |
+
+---
+
 ## Luxury Content Cluster — May 25, 2026 (Piece #7: Viking oven not heating)
 
 **Article created:** `articles/article-viking-oven-not-heating-orange-county.html`
