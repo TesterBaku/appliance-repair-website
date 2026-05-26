@@ -4,6 +4,39 @@ Running log of every `/seo-blog` run: articles created, PRs opened, commits, and
 
 ---
 
+## Impeccable + UTC Date Fix — May 25, 2026 (7 articles)
+
+**PR:** [#406](https://github.com/TesterBaku/appliance-repair-website/pull/406) — merged 2026-05-25
+**Trigger:** Post-merge impeccable critique on the 3 stove cluster articles.
+
+| Fix | Detail |
+|---|---|
+| Cost disclaimer | Added to `article-stove-burner-not-lighting-orange-county.html` (was missing after cost ranges) |
+| UTC timezone | Normalized `-07:00` → `+00:00` on all 7 recently-created articles: gas-stove-igniter, stove-burner-not-lighting, gas-vs-electric, wolf-range-igniter, viking-oven-not-heating, miele-dishwasher-error-codes, sub-zero-repair-cost |
+| Impeccable scores | gas-stove-igniter 15/15, stove-burner-not-lighting 15/15, gas-vs-electric 15/15 |
+| Root cause | Recent article sessions used PDT (-07:00) instead of UTC (+00:00) — now documented in `tasks/lessons.md` |
+
+---
+
+## Oven-Stove Hub Refocus (Phase 2B) — May 25, 2026
+
+**PR:** [#405](https://github.com/TesterBaku/appliance-repair-website/pull/405) — merged 2026-05-25
+**Page:** `pages/oven-stove-repair-orange-county.html`
+**Trigger:** GSC "Crawled – not indexed" root-cause = topic dilution. Phase 2B unblocked after PR #404 (stove cluster).
+
+| Change | Detail |
+|---|---|
+| Title/H1/OG | "Oven & Stove" → "Oven, Stove & Range Repair" across all meta + schema |
+| GA tag | Fixed deferred `window.addEventListener` → canonical `<script async src="...">` |
+| New section | "Gas Stove & Range Repairs in Orange County" (~300 words, links to all 3 stove articles) |
+| Latest Guides | 2 → 5 articles (3 new stove articles added) |
+| Em dashes | 20+ pre-existing body copy violations replaced |
+| og:description | Synced to meta description (was missing "Licensed & insured.") |
+| Impeccable | 14/14 PASS |
+| Post-merge action | Owner: GSC "Validate Fix" for `oven-stove-repair-orange-county.html`; check +7d, +14d |
+
+---
+
 ## Stove Mini-Cluster — May 25, 2026 (3 articles)
 
 **Articles created:**
