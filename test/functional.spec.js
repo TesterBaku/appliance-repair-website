@@ -226,6 +226,13 @@ test.describe('Cost hub (appliance-repair-cost-orange-county.html)', () => {
   test('mid-scroll CTA strip present', async ({ page }) => {
     await expect(page.locator('.mid-cta-strip')).toBeAttached();
   });
+
+  test('nav dropdown is visible on hover', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    const dropdown = page.locator('.nav-dropdown').first();
+    await dropdown.hover();
+    await expect(dropdown.locator('.nav-dropdown-menu')).toBeVisible();
+  });
 });
 
 // ─── Services page ────────────────────────────────────────────────────────────
@@ -436,6 +443,13 @@ test.describe('Testimonials page', () => {
   test('CTA links to contact or tel:', async ({ page }) => {
     const links = await hrefs(page, 'a.btn-primary, a.btn-dark, a.nav-cta');
     expect(links.some(h => h && (h.includes('contact') || h.startsWith('tel:')))).toBe(true);
+  });
+
+  test('nav dropdown is visible on hover', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    const dropdown = page.locator('.nav-dropdown').first();
+    await dropdown.hover();
+    await expect(dropdown.locator('.nav-dropdown-menu')).toBeVisible();
   });
 });
 
