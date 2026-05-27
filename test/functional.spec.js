@@ -946,9 +946,9 @@ for (const { brand, file } of BRAND_HUBS) {
     });
 
     // ── Luxury brands cross-link ──────────────────────────────────────────────
-    test('luxury brands cross-link grid has 4 cards', async ({ page }) => {
+    test('luxury brands cross-link grid has 5 cards', async ({ page }) => {
       const cards = await page.locator('.luxury-brand-card').count();
-      expect(cards).toBe(4);
+      expect(cards).toBe(5);
     });
 
     test('each luxury brand card has a name, description, and valid href', async ({ page }) => {
