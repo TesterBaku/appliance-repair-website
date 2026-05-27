@@ -730,7 +730,7 @@ for (const { brand, file } of BRAND_HUBS) {
       expect(schemas).toContain('BreadcrumbList');
     });
 
-    test('LocalBusiness schema has AggregateRating with 80 reviews', async ({ page }) => {
+    test('LocalBusiness schema has AggregateRating with 82 reviews', async ({ page }) => {
       const rating = await page.evaluate(() => {
         const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
         for (const s of scripts) {
@@ -742,7 +742,7 @@ for (const { brand, file } of BRAND_HUBS) {
         return null;
       });
       expect(rating).toBeTruthy();
-      expect(String(rating.reviewCount)).toBe('80');
+      expect(String(rating.reviewCount)).toBe('82');
       expect(String(rating.ratingValue)).toBe('5.0');
     });
 
