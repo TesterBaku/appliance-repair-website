@@ -73,7 +73,7 @@
     .card-pill { display: inline-block; font-size: 10px; font-weight: 700; color: var(--brand-text); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
     .card-title { font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.3; margin-bottom: 6px; }
     .card-location { font-size: 12px; color: var(--text-sub); margin-bottom: 8px; }
-    .card-caption { font-size: 13px; color: #555; line-height: 1.65; }
+    .card-caption { font-size: 13px; color: #666; line-height: 1.65; }
 
     /* Empty state */
     .gallery-empty { display: none; text-align: center; padding: 64px 24px; color: var(--text-sub); font-size: 15px; }
@@ -109,6 +109,20 @@
     "description": "Real appliance repairs completed by Universal Appliances Repair across Orange County, CA.",
     "url": "https://fixappliancesfast.com/pages/recent-repairs.html",
     "image": [
+      {
+        "@type": "ImageObject",
+        "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-wine-cooler-viking-costa-mesa-brazing.jpg",
+        "name": "Viking wine cooler compressor brazing — Costa Mesa",
+        "description": "Brazing a new compressor onto the refrigerant lines of a Viking wine cooler during a Costa Mesa service call.",
+        "contentLocation": "Costa Mesa, CA"
+      },
+      {
+        "@type": "ImageObject",
+        "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-wine-cooler-viking-costa-mesa-compressor.jpg",
+        "name": "Viking wine cooler compressor replacement — Costa Mesa",
+        "description": "Technician replacing the compressor and evaporator coil on an older Viking wine cooler in Costa Mesa, CA.",
+        "contentLocation": "Costa Mesa, CA"
+      },
       {
         "@type": "ImageObject",
         "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-range-wolf-cooktop-newport-beach.jpg",
@@ -305,6 +319,7 @@
           <button class="chip" data-filter="appliance" data-value="range">Range</button>
           <button class="chip" data-filter="appliance" data-value="oven">Oven</button>
           <button class="chip" data-filter="appliance" data-value="refrigerator">Refrigerator</button>
+          <button class="chip" data-filter="appliance" data-value="wine-cooler">Wine Cooler</button>
           <button class="chip" data-filter="appliance" data-value="dryer">Dryer</button>
         </div>
         <div class="filter-row">
@@ -313,6 +328,7 @@
           <button class="chip" data-filter="brand" data-value="wolf">Wolf</button>
           <button class="chip" data-filter="brand" data-value="kitchenaid">KitchenAid</button>
           <button class="chip" data-filter="brand" data-value="whirlpool">Whirlpool</button>
+          <button class="chip" data-filter="brand" data-value="viking">Viking</button>
           <button class="chip" data-filter="brand" data-value="lg">LG</button>
           <button class="chip" data-filter="brand" data-value="maytag">Maytag</button>
         </div>
@@ -393,6 +409,34 @@
           </div>
         </div>
 
+
+        <!-- Card NEW-1: Viking wine cooler compressor (Costa Mesa) -->
+        <div class="repair-card" data-appliance="wine-cooler" data-brand="viking" data-city="costa-mesa">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-wine-cooler-viking-costa-mesa-compressor-480w.webp 480w, ../images/real/business/completed-repair-wine-cooler-viking-costa-mesa-compressor.webp 1200w" type="image/webp" sizes="(max-width:480px) 100vw, (max-width:900px) 50vw, 360px">
+            <img class="card-photo" src="../images/real/business/completed-repair-wine-cooler-viking-costa-mesa-compressor.jpg" alt="Technician replacing the compressor on an older Viking wine cooler in a Costa Mesa driveway, with tools laid out and a cypress tree in the background" width="1200" height="1600" loading="lazy">
+          </picture>
+          <div class="card-body">
+            <div class="card-pill">Viking · Wine Cooler</div>
+            <div class="card-title">Compressor &amp; Evaporator Replacement</div>
+            <div class="card-location">Costa Mesa, CA</div>
+            <p class="card-caption">Older Viking wine cooler restored with a fresh Embraco compressor and new evaporator coil. Owner left a 5&#9733; review the next day.</p>
+          </div>
+        </div>
+
+        <!-- Card NEW-2: Viking wine cooler brazing close-up (Costa Mesa) -->
+        <div class="repair-card" data-appliance="wine-cooler" data-brand="viking" data-city="costa-mesa">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-wine-cooler-viking-costa-mesa-brazing-480w.webp 480w, ../images/real/business/completed-repair-wine-cooler-viking-costa-mesa-brazing.webp 1200w" type="image/webp" sizes="(max-width:480px) 100vw, (max-width:900px) 50vw, 360px">
+            <img class="card-photo" src="../images/real/business/completed-repair-wine-cooler-viking-costa-mesa-brazing.jpg" alt="Brazing a new compressor onto the refrigerant lines of a Viking wine cooler during a Costa Mesa service call" width="1200" height="1600" loading="lazy">
+          </picture>
+          <div class="card-body">
+            <div class="card-pill">Viking · Wine Cooler</div>
+            <div class="card-title">Compressor Brazing: Close-up</div>
+            <div class="card-location">Costa Mesa, CA</div>
+            <p class="card-caption">Diagnostic-level work: micro-torch brazing the suction and discharge lines onto the new compressor body. No shortcuts, no glue-on fittings.</p>
+          </div>
+        </div>
 
         <!-- Card 6: LG dryer exhaust temperature sensor -->
         <div class="repair-card" data-appliance="dryer" data-brand="lg" data-city="mission-viejo">
