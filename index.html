@@ -248,6 +248,24 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   .faq-icon, .nav-hamburger span, .nav-dropdown-arrow,
   .nav-drawer details summary::after { transition: none; }
 }
+
+/* BLOG PREVIEW (homepage) */
+.blog-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+.blog-preview-card { background: var(--surface); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.08); display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; }
+.blog-preview-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
+.blog-preview-img { width: 100%; height: 180px; object-fit: cover; display: block; transition: transform 0.2s; }
+.blog-preview-card:hover .blog-preview-img { transform: scale(1.03); }
+.blog-preview-body { padding: 18px 20px 22px; display: flex; flex-direction: column; flex: 1; }
+.blog-preview-meta { font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.blog-preview-title { font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.45; margin-bottom: 8px; }
+.blog-preview-excerpt { font-size: 12.5px; color: var(--text-sub); line-height: 1.7; flex: 1; margin-bottom: 14px; }
+.blog-preview-link { font-size: 12px; font-weight: 600; color: var(--brand-text); }
+@media (max-width: 768px) {
+  .blog-preview-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .blog-preview-grid { grid-template-columns: 1fr; }
+}
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
@@ -997,6 +1015,70 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
           </button>
           <div class="faq-a" id="faq-a-12">Yes. Customers 60 and over and anyone who has previously booked a repair with us receive 20% off labor. The discount applies to the labor portion of the quote and cannot be combined with other promotions. We may ask for proof of age for the senior discount.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST FROM THE BLOG -->
+  <section style="padding: 64px 24px 80px; background: var(--bg);">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <h2 class="h2-section">Latest from the Blog</h2>
+        <a href="pages/blog.html" style="font-size: 13px; font-weight: 600; color: var(--brand-text); text-decoration: none; white-space: nowrap;">View all articles →</a>
+      </div>
+      <p style="margin-top: 10px; font-size: 14px; color: var(--text-sub); max-width: 560px;">Repair guides, cost breakdowns, and maintenance tips from our Orange County technicians.</p>
+      <div class="blog-preview-grid">
+
+        <a href="articles/article-appliance-lifespan-data-2026.html" class="blog-preview-card">
+          <img class="blog-preview-img" src="images/appliance-repair-generic.jpg" alt="How long do appliances last: lifespan data 2026" loading="lazy" width="800" height="533" />
+          <div class="blog-preview-body">
+            <div class="blog-preview-meta">May 23, 2026 &middot; Data Guide</div>
+            <div class="blog-preview-title">How Long Do Appliances Actually Last? 2026 Lifespan Data by Type and Brand</div>
+            <div class="blog-preview-excerpt">Three lifespan numbers per appliance: builder-grade, mid-range, and premium. Sourced from NAHB and Consumer Reports. Finally useful data.</div>
+            <span class="blog-preview-link">Read more →</span>
+          </div>
+        </a>
+
+        <a href="articles/article-viking-oven-not-heating-orange-county.html" class="blog-preview-card">
+          <img class="blog-preview-img" src="images/oven-stainless-range.jpg" alt="Viking oven not heating: repair guide Orange County" loading="lazy" width="1200" height="800" />
+          <div class="blog-preview-body">
+            <div class="blog-preview-meta">May 25, 2026 &middot; Repair Guide</div>
+            <div class="blog-preview-title">Viking Oven Not Heating? Causes, DIY Checks and Repair Costs</div>
+            <div class="blog-preview-excerpt">Viking oven not heating in Orange County? Walk through the most likely causes: bake element, gas igniter, temperature sensor. Includes repair costs and DIY checks before calling a tech.</div>
+            <span class="blog-preview-link">Read more →</span>
+          </div>
+        </a>
+
+        <a href="articles/article-gas-stove-igniter-not-working-orange-county.html" class="blog-preview-card">
+          <img class="blog-preview-img" src="images/real/business/completed-repair-range-gas-burner-valve.jpg" alt="Gas stove igniter not working: 5 causes and fixes Orange County" loading="lazy" width="1200" height="800" />
+          <div class="blog-preview-body">
+            <div class="blog-preview-meta">May 25, 2026 &middot; Repair Guide</div>
+            <div class="blog-preview-title">Gas Stove Igniter Not Working? 5 Causes and Fixes</div>
+            <div class="blog-preview-excerpt">Gas stove clicking but not lighting, or completely silent? The five most common causes, DIY checks you can do at home, and what each repair costs in Orange County.</div>
+            <span class="blog-preview-link">Read more →</span>
+          </div>
+        </a>
+
+        <a href="articles/article-gas-vs-electric-range-repair-cost-orange-county.html" class="blog-preview-card">
+          <img class="blog-preview-img" src="images/oven-stainless-range.jpg" alt="Gas vs electric range repair cost comparison Orange County 2026" loading="lazy" width="1200" height="800" />
+          <div class="blog-preview-body">
+            <div class="blog-preview-meta">May 25, 2026 &middot; Cost Guide</div>
+            <div class="blog-preview-title">Gas Range vs Electric Range Repair Costs in Orange County (2026)</div>
+            <div class="blog-preview-excerpt">Side-by-side cost breakdown for the most common gas and electric range repairs, with price tables and the 50% repair-vs-replace rule applied to ranges.</div>
+            <span class="blog-preview-link">Read more →</span>
+          </div>
+        </a>
+
+        <a href="articles/article-dishwasher-maintenance-fullerton.html" class="blog-preview-card">
+          <img class="blog-preview-img" src="images/dishwasher-open.jpg" alt="Dishwasher maintenance tips Fullerton CA" loading="lazy" width="1200" height="800" />
+          <div class="blog-preview-body">
+            <div class="blog-preview-meta">Apr 23, 2026 &middot; Maintenance</div>
+            <div class="blog-preview-title">5 Dishwasher Maintenance Tips to Avoid Breakdowns in Fullerton</div>
+            <div class="blog-preview-excerpt">What to clean, how often, and warning signs to watch for, from Fullerton appliance technicians who see the results of skipped maintenance every week.</div>
+            <span class="blog-preview-link">Read more →</span>
+          </div>
+        </a>
+
       </div>
     </div>
   </section>
