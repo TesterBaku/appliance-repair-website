@@ -10,7 +10,7 @@ Enforces the ≤2-overlap rule: a review may appear on at most **2 hub pages tot
 
 | Review ID | Homepage | Anaheim | Santa Ana | Irvine | HB | Garden Grove | Fullerton | Orange | Costa Mesa | Newport Beach | Count |
 |---|---|---|---|---|---|---|---|---|---|---|
-| google-noelle-b-2026-03 | ✓ | | | | | | | | ✓ | 2 |
+| google-noelle-b-2026-03 | ✓ | | | | | | | | ✓ | 3 (also YL pending / CM swap in progress) |
 | google-jennifer-trette-2026-02 | ✓ | | | | | | | | ✓ | 2 |
 | google-kathy-calderon-2025-09 | ✓ | | | | | | | | | 1 |
 | google-arzuman-qarayev-2025-05 | ✓ | ✓ | | | | | | | | 2 |
@@ -72,14 +72,20 @@ Enforces the ≤2-overlap rule: a review may appear on at most **2 hub pages tot
 | google-robert-clemmons-2026-01 | | ✓ | | 2 (also Irvine) |
 | google-katie-anne-salen-2026-02 | | ✓ | | 2 (also Irvine) |
 | google-joellyn-meadows-2026-04 | | ✓ | | 2 (also HB) |
-| google-a-t-2026-05-25 | | | ✓ | 2 (also testimonials.html photo) |
+| google-noelle-b-2026-03 | | | ✓ | 3 (homepage + YL pending / CM swap in progress) |
 | google-ken-turknette-2026-05 | | | ✓ | 1 |
 | google-erin-ponchak-2026-05 | | | ✓ | 1 |
 
-Note (Yorba Linda, PR #416, 2026-05-28):
+Note (Yorba Linda, PR #416, 2026-05-28 — original):
 - google-a-t-2026-05-25: was count=1 (testimonials.html photo) — now count=2. AT CAP.
 - google-ken-turknette-2026-05: first use on Yorba Linda hub = count 1.
 - google-erin-ponchak-2026-05: first use on Yorba Linda hub = count 1.
+
+Note (Yorba Linda, PR #416, 2026-05-28 — testimonial swap):
+- google-a-t-2026-05-25: removed from Yorba Linda. Reverts to count=1 (testimonials.html photo only). Moving to Costa Mesa PR.
+- google-noelle-b-2026-03: added to Yorba Linda. Was count=2 (homepage + Costa Mesa). Temporarily count=3 — YL pending / CM swap in progress (Costa Mesa will remove Noelle B. in a separate PR, restoring to count=2).
+- google-ken-turknette-2026-05: unchanged. count=1.
+- google-erin-ponchak-2026-05: unchanged. count=1.
 
 ---
 
