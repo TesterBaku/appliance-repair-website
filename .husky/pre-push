@@ -1,3 +1,4 @@
+#!/bin/sh
 while read local_ref local_sha remote_ref remote_sha; do
   if echo "$remote_ref" | grep -qE '^refs/heads/(master|main)$'; then
     echo "ERROR: Direct pushes to master/main are not allowed."
