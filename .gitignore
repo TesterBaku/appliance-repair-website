@@ -5,8 +5,9 @@ test/screenshots/
 test-results/
 playwright-report/
 
-# Local task/planning files — owner's working notes, not part of the site
+# Local task/planning files and run logs — owner's working notes, not part of the site
 tasks/
+logs/
 *.png
 !logo.png
 .playwright-mcp/
