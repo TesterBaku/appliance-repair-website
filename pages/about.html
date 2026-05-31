@@ -112,6 +112,9 @@
 
   <style>
     .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; background: #444444; margin: 16px auto 6px; }
+    .about-reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 36px; }
+    @media (max-width: 900px) { .about-reviews-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .about-reviews-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -269,7 +272,7 @@
     <div class="container">
       <h2 class="h2-standard">What Our Customers Say</h2>
       <p style="font-size:13px;color:#888;margin-top:10px;">5.0 ★★★★★ · 82 Google reviews</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px;">
+      <div class="about-reviews-grid">
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"They were fast and efficient and very pleasant. This is the second time I have used their services and will not hesitate to use them again."</p>
