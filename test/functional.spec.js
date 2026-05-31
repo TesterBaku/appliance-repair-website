@@ -366,8 +366,10 @@ for (const slug of CITY_HUBS) {
       await page.goto(`/pages/${slug}.html`);
     });
 
-    test('page title contains brand name', async ({ page }) => {
-      await expect(page).toHaveTitle(/Universal Appliances Repair/);
+    test('page title contains city name', async ({ page }) => {
+      // P2-3 SEO audit: city page titles are now differentiated without brand suffix.
+      // Verify the title contains "Appliance Repair" and "CA" instead.
+      await expect(page).toHaveTitle(/Appliance Repair.*CA/);
     });
 
     test('services list has 8 links', async ({ page }) => {
