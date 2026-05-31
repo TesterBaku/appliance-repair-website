@@ -259,15 +259,14 @@
       <div style="display:flex;align-items:center;gap:14px;">
         <a href="tel:+19496295365" style="font-size:13px;font-weight:600;color:var(--text-primary);text-decoration:none;">(949) 629-5365</a>
         <a href="contact.html" class="nav-cta">Book a Repair</a>
+        <button class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-drawer">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
-  </nav>
 
-  <!-- Mobile nav drawer -->
-  <button class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-drawer">
-    <span></span><span></span><span></span>
-  </button>
-  <nav class="nav-drawer" id="nav-drawer" aria-label="Mobile navigation">
+    <!-- Mobile nav drawer -->
+    <div class="nav-drawer" id="nav-drawer" role="navigation" aria-label="Mobile navigation">
     <a href="../">Home</a>
     <details>
       <summary>Services</summary>
@@ -292,6 +291,7 @@
     <a href="blog.html">Blog</a>
     <a href="contact.html">Contact</a>
     <a href="tel:+19496295365" class="nav-drawer-cta">(949) 629-5365</a>
+    </div>
   </nav>
 
   <main>
@@ -561,7 +561,7 @@
         btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
         document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
         document.addEventListener('click', function(e) {
-          if (drawer.hasAttribute('data-open') && !drawer.contains(e.target) && e.target !== btn) closeDrawer();
+          if (drawer.hasAttribute('data-open') && !drawer.contains(e.target) && !btn.contains(e.target)) closeDrawer();
         });
         drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
       }
