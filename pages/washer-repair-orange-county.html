@@ -135,6 +135,15 @@
     .policy-disclaimer { font-size: 12px; color: var(--text-sub); margin-top: 14px; line-height: 1.6; }
     .policy-disclaimer a { color: #9a3412; font-weight: 600; text-decoration: underline; }
     @media (max-width: 480px) { .pricing-policy-card { padding: 22px 20px; } }
+    .cost-table-wrap { max-width: 720px; margin: 28px auto 0; }
+    .cost-table { width: 100%; border-collapse: collapse; }
+    .cost-table th { background: var(--brand); color: #fff; font-size: 12.5px; font-weight: 700; padding: 11px 16px; text-align: left; }
+    .cost-table td { font-size: 13px; color: var(--text-soft); padding: 11px 16px; border-bottom: 1px solid var(--border); line-height: 1.5; }
+    .cost-table tr:last-child td { border-bottom: none; }
+    .cost-table tr:nth-child(even) td { background: #f8fafc; }
+    .cost-disclaimer { font-size: 12.5px; color: var(--text-sub); font-style: italic; margin-bottom: 18px; line-height: 1.65; }
+    .cost-range { font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+    @media (max-width: 480px) { .cost-table th, .cost-table td { padding: 10px 12px; font-size: 12px; } }
   </style>
 
   <!-- SCHEMA: Service -->
@@ -541,6 +550,26 @@
         </ul>
         <p class="policy-disclaimer">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair. <a href="appliance-repair-cost-orange-county.html">See full pricing guide →</a></p>
       </div>
+        <div class="cost-table-wrap">
+          <h3 style="text-align:center;font-size:18px;font-weight:800;color:var(--text-primary);letter-spacing:-0.3px;margin:0 0 8px;">Typical Washer Repair Costs in Orange County</h3>
+          <p class="cost-disclaimer" style="text-align:center;">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</p>
+          <table class="cost-table">
+            <thead>
+              <tr><th>Repair Type</th><th>Typical Range</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Service call / diagnostic: Orange County market average (often credited toward repair)</td><td class="cost-range">$75 – $100</td></tr>
+              <tr><td>Drain pump</td><td class="cost-range">$180 – $350</td></tr>
+              <tr><td>Door lock / lid switch</td><td class="cost-range">$130 – $260</td></tr>
+              <tr><td>Water inlet valve</td><td class="cost-range">$150 – $300</td></tr>
+              <tr><td>Drive belt</td><td class="cost-range">$130 – $250</td></tr>
+              <tr><td>Door boot seal (front-load)</td><td class="cost-range">$200 – $400</td></tr>
+              <tr><td>Drive motor / motor control</td><td class="cost-range">$280 – $500</td></tr>
+              <tr><td>Control board</td><td class="cost-range">$250 – $480</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--text-sub);margin-top:14px;line-height:1.6;text-align:center;">See our <a href="appliance-repair-cost-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">full appliance repair cost guide</a> for broader Orange County pricing context.</p>
+        </div>
     </div>
   </section>
 
