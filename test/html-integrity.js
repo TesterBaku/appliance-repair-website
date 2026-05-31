@@ -1,7 +1,7 @@
 /**
  * html-integrity.js — raw HTML quality checks
  *
- * Two checks, two severity levels:
+ * Three checks, all EXIT 1 on failure:
  *
  *   doctype  — every .html file must start with exactly `<!DOCTYPE html>` (no BOM,
  *              no truncation). EXIT 1 on any failure. Added after PR #294 fixed 32
@@ -12,10 +12,17 @@
  *              dashes. Run `npm run test:integrity` to check; violations in files
  *              predating this rule are tracked in tasks/lessons.md.
  *
+ *   grid     — no inline `style="…grid-template-columns:…"` with 2+ fixed tracks,
+ *              since inline styles cannot be overridden by a CSS @media query and
+ *              never collapse on mobile. Responsive `auto-fit`/`auto-fill` and
+ *              single-column inline grids are exempt. Added after the about.html /
+ *              laguna / newport mobile-collapse bug (2026-05-31).
+ *
  * Usage:
- *   node test/html-integrity.js           — run both checks
+ *   node test/html-integrity.js           — run all checks
  *   node test/html-integrity.js doctype   — DOCTYPE only
  *   node test/html-integrity.js emdash    — em-dash only
+ *   node test/html-integrity.js grid      — inline-grid only
  */
 
 'use strict';
@@ -49,6 +56,34 @@ const articles   = allHtml.filter(
 const issues = [];
 let   doctypeChecked = 0;
 let   emdashChecked  = 0;
+let   gridChecked    = 0;
+
+// Inline `grid-template-columns` with 2+ FIXED tracks cannot be overridden by a
+// CSS @media query, so it never collapses on mobile (cards render crammed side by
+// side). Responsive forms (`auto-fit`/`auto-fill` with minmax) are fine. Move any
+// fixed multi-column grid into a CSS class with a mobile breakpoint instead.
+// Added after the about.html testimonials + laguna/newport gallery bug (2026-05-31).
+function inlineFixedGridIssues(content, rel) {
+  const out = [];
+  content.split('\n').forEach((line, i) => {
+    const re = /grid-template-columns\s*:\s*([^;"']+)/gi;
+    let m;
+    while ((m = re.exec(line)) !== null) {
+      // only inline style attributes (a `style=` must precede the match on this line);
+      // CSS inside <style> blocks (overridable by @media) is exempt.
+      if (!/style\s*=/i.test(line.slice(0, m.index))) continue;
+      const val = m[1].trim();
+      if (/auto-fit|auto-fill/i.test(val)) continue;               // responsive — OK
+      const repeatN = val.match(/repeat\(\s*(\d+)/i);
+      const tracks  = val.replace(/\b(?:repeat|minmax|fit-content|calc)\([^)]*\)/gi, 'X')
+                         .split(/\s+/).filter(Boolean);
+      if ((repeatN && parseInt(repeatN[1], 10) >= 2) || tracks.length >= 2) {
+        out.push(`[GRID] ${rel}:${i + 1} — inline fixed-column grid won't collapse on mobile: ${val}`);
+      }
+    }
+  });
+  return out;
+}
 
 // ── Check 1: DOCTYPE integrity ────────────────────────────────────────────────
 if (mode === 'all' || mode === 'doctype') {
@@ -83,10 +118,21 @@ if (mode === 'all' || mode === 'emdash') {
   }
 }
 
+// ── Check 3: No inline fixed-column grids (won't collapse on mobile) ───────────
+if (mode === 'all' || mode === 'grid') {
+  for (const filePath of allHtml) {
+    const rel     = path.relative(root, filePath);
+    const content = fs.readFileSync(filePath, 'utf8');
+    gridChecked++;
+    issues.push(...inlineFixedGridIssues(content, rel));
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 if (issues.length) {
   const doctypeIssues = issues.filter(i => i.startsWith('[DOCTYPE]'));
   const emdashIssues  = issues.filter(i => i.startsWith('[EM-DASH]'));
+  const gridIssues    = issues.filter(i => i.startsWith('[GRID]'));
 
   if (doctypeIssues.length) {
     console.error(`\nDOCTYPE failures (${doctypeIssues.length}):`);
@@ -99,11 +145,16 @@ if (issues.length) {
       console.error(`  ... and ${emdashIssues.length - 20} more (run with emdash mode to see all)`);
     }
   }
+  if (gridIssues.length) {
+    console.error(`\nInline fixed-column grid violations (${gridIssues.length}) — move to a CSS class with a mobile @media breakpoint (or use repeat(auto-fit, minmax(...))):`);
+    gridIssues.forEach(i => console.error('  ' + i));
+  }
   console.error('');
   process.exit(1);
 } else {
   const parts = [];
   if (doctypeChecked) parts.push(`${doctypeChecked} files DOCTYPE-clean`);
   if (emdashChecked)  parts.push(`no em dashes in ${emdashChecked} articles`);
+  if (gridChecked)    parts.push(`no inline fixed-column grids in ${gridChecked} files`);
   console.log(`html-integrity: ${parts.join(', ')}.`);
 }
