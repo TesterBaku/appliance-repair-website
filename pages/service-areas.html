@@ -546,8 +546,9 @@
   </footer>
 
   <!-- Leaflet map script -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
     var map = L.map('service-map').setView([33.72, -117.87], 10);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
@@ -602,6 +603,7 @@
       marker.bindPopup('<strong>' + name + '</strong><br><a href="' + href + '" style="color:var(--brand-text);font-size:12px;">' + label + ' →</a>');
     });
     window._mapLoaded = true;
+    });
   </script>
 
   <!-- Hamburger nav -->
