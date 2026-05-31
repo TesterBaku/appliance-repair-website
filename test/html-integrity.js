@@ -1,7 +1,7 @@
 /**
  * html-integrity.js — raw HTML quality checks
  *
- * Two checks, two severity levels:
+ * Three checks, all EXIT 1 on failure:
  *
  *   doctype  — every .html file must start with exactly `<!DOCTYPE html>` (no BOM,
  *              no truncation). EXIT 1 on any failure. Added after PR #294 fixed 32
@@ -12,10 +12,17 @@
  *              dashes. Run `npm run test:integrity` to check; violations in files
  *              predating this rule are tracked in tasks/lessons.md.
  *
+ *   grid     — no inline `style="…grid-template-columns:…"` with 2+ fixed tracks,
+ *              since inline styles cannot be overridden by a CSS @media query and
+ *              never collapse on mobile. Responsive `auto-fit`/`auto-fill` and
+ *              single-column inline grids are exempt. Added after the about.html /
+ *              laguna / newport mobile-collapse bug (2026-05-31).
+ *
  * Usage:
- *   node test/html-integrity.js           — run both checks
+ *   node test/html-integrity.js           — run all checks
  *   node test/html-integrity.js doctype   — DOCTYPE only
  *   node test/html-integrity.js emdash    — em-dash only
+ *   node test/html-integrity.js grid      — inline-grid only
  */
 
 'use strict';
