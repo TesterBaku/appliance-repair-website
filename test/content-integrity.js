@@ -1,7 +1,8 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Eight checks, all EXIT 1 on any failure. Each check exists because a real bug
+ * Eight enforced checks (EXIT 1 on any failure) plus one informational report
+ * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
  *   review-count   — every page with `AggregateRating.reviewCount` must match
@@ -44,12 +45,19 @@
  *                    a pre-existing missing comma in a Review[] array on the Miele
  *                    hub was found during the LocalBusiness @id consolidation.
  *
+ *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
+ *                    page whose <title> exceeds 60 chars (Google SERP truncation
+ *                    threshold), so the over-length titles are visible ahead of a
+ *                    deliberate editorial shorten-pass. Added 2026-06-01; shortening
+ *                    titles is a separate owner-reviewed batch (SEO/keyword judgment),
+ *                    so this check only surfaces the list and does NOT block.
+ *
  * Usage:
- *   node test/content-integrity.js          — run all eight checks
+ *   node test/content-integrity.js          — run all eight enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
- *                                             analytics-present, jsonld-valid)
+ *                                             analytics-present, jsonld-valid, title-length)
  */
 
 'use strict';
@@ -228,7 +236,34 @@ if (run('jsonld-valid')) {
   }
 }
 
+// ── Check 9: title-length (INFORMATIONAL — never pushes to issues) ────────────
+if (run('title-length')) {
+  const LIMIT = 60; // Google SERP truncation threshold (~60 chars)
+  const offenders = [];
+  let scanned = 0;
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const m = content.match(/<title>([\s\S]*?)<\/title>/i);
+    if (!m) continue;
+    scanned++;
+    const title = m[1].replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+    if (title.length > LIMIT) offenders.push({ file: rel(filePath), len: title.length, title });
+  }
+  offenders.sort((a, b) => b.len - a.len);
+  checked['title-length'] = { limit: LIMIT, scanned, offenders };
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
+// Informational title-length report — printed regardless of enforced-check
+// outcome, and never affects the exit code.
+if (checked['title-length'] && checked['title-length'].offenders.length) {
+  const { limit, offenders } = checked['title-length'];
+  console.log(`\nℹ️  title-length (informational, not enforced): ${offenders.length} <title> tag(s) exceed ${limit} chars (SERP truncation):`);
+  offenders.slice(0, 80).forEach(o => console.log(`     ${o.len}  ${o.file}`));
+  if (offenders.length > 80) console.log(`     ... and ${offenders.length - 80} more`);
+  console.log('');
+}
+
 if (issues.length) {
   const groups = {};
   for (const i of issues) {
@@ -254,4 +289,5 @@ if (checked['schema-headline-sync']) parts.push(`schema headline = H1 on ${check
 if (checked['modified-time-sync'])   parts.push(`modified_time meta = dateModified JSON-LD on ${checked['modified-time-sync'].files} articles`);
 if (checked['analytics-present'])    parts.push(`analytics.js present on all ${checked['analytics-present'].files} nav pages`);
 if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].blocks} JSON-LD blocks valid across ${checked['jsonld-valid'].files} files`);
+if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
