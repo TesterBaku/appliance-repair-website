@@ -644,7 +644,7 @@
       <div class="faq-list">
 
         <div class="faq-item open">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Do you repair Miele dishwashers in Orange County?
             <span class="faq-icon">+</span>
           </button>
@@ -652,7 +652,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             What does the F11 error code mean on my Miele dishwasher?
             <span class="faq-icon">+</span>
           </button>
@@ -660,7 +660,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             How much does it cost to repair a Miele washer drum bearing?
             <span class="faq-icon">+</span>
           </button>
@@ -668,7 +668,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Can you replace the M-Touch display on an H7000 oven?
             <span class="faq-icon">+</span>
           </button>
@@ -676,7 +676,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Do you service Miele heat-pump dryers?
             <span class="faq-icon">+</span>
           </button>
@@ -684,7 +684,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             My Miele dishwasher won't drain - is it always the pump?
             <span class="faq-icon">+</span>
           </button>
@@ -692,7 +692,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Is it worth repairing a 10-year-old Miele appliance?
             <span class="faq-icon">+</span>
           </button>
@@ -700,7 +700,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Do you service Miele coffee systems?
             <span class="faq-icon">+</span>
           </button>
@@ -865,49 +865,7 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <script>
-    function toggleFaq(btn) {
-      const item = btn.closest('.faq-item');
-      item.classList.toggle('open');
-    }
-    (function() {
-      var btn = document.querySelector('.nav-hamburger');
-      var drawer = document.querySelector('.nav-drawer');
-      if (!btn || !drawer) return;
-      function openDrawer() { drawer.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
-      function closeDrawer() { drawer.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
-      btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
-      drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
-      document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
-    })();
-    (function() {
-      var dropdowns = document.querySelectorAll('.nav-dropdown');
-      dropdowns.forEach(function(dd) {
-        var menu = dd.querySelector('.nav-dropdown-menu');
-        if (!menu) return;
-        var timer;
-        dd.addEventListener('mouseenter', function() {
-          clearTimeout(timer);
-          menu.style.display = 'block';
-          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
-        });
-        dd.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
-        menu.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-      });
-    })();
-  </script>
+  <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 </body>
 </html>

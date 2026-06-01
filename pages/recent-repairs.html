@@ -592,68 +592,7 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <script>
-    (function() {
-      // Nav hamburger
-      var btn = document.querySelector('.nav-hamburger');
-      var drawer = document.querySelector('.nav-drawer');
-      if (btn && drawer) {
-        function openDrawer() { drawer.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
-        function closeDrawer() { drawer.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
-        btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
-        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
-        document.addEventListener('click', function(e) {
-          if (drawer.hasAttribute('data-open') && !drawer.contains(e.target) && !btn.contains(e.target)) closeDrawer();
-        });
-        drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
-      }
-
-      // Nav dropdowns
-      document.querySelectorAll('.nav-dropdown').forEach(function(dd) {
-        var menu = dd.querySelector('.nav-dropdown-menu');
-        if (!menu) return;
-        var timer;
-        dd.addEventListener('mouseenter', function() { clearTimeout(timer); menu.style.display = 'block'; var arr = dd.querySelector('.nav-dropdown-arrow'); if (arr) arr.style.transform = 'rotate(180deg)'; });
-        dd.addEventListener('mouseleave', function() { timer = setTimeout(function() { menu.style.display = ''; var arr = dd.querySelector('.nav-dropdown-arrow'); if (arr) arr.style.transform = ''; }, 120); });
-        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
-        menu.addEventListener('mouseleave', function() { timer = setTimeout(function() { menu.style.display = ''; var arr = dd.querySelector('.nav-dropdown-arrow'); if (arr) arr.style.transform = ''; }, 120); });
-      });
-
-      // Gallery filters
-      var activeAppliance = 'all';
-      var activeBrand = 'all';
-      var cards = document.querySelectorAll('.repair-card');
-      var empty = document.getElementById('gallery-empty');
-
-      function applyFilters() {
-        var visible = 0;
-        cards.forEach(function(card) {
-          var applianceMatch = activeAppliance === 'all' || card.dataset.appliance === activeAppliance;
-          var brandMatch = activeBrand === 'all' || card.dataset.brand === activeBrand;
-          if (applianceMatch && brandMatch) {
-            card.removeAttribute('hidden');
-            visible++;
-          } else {
-            card.setAttribute('hidden', '');
-          }
-        });
-        empty.classList.toggle('visible', visible === 0);
-      }
-
-      document.querySelectorAll('.chip').forEach(function(chip) {
-        chip.addEventListener('click', function() {
-          var filterType = chip.dataset.filter;
-          var value = chip.dataset.value;
-          // Update active state for this row
-          document.querySelectorAll('.chip[data-filter="' + filterType + '"]').forEach(function(c) { c.classList.remove('active'); });
-          chip.classList.add('active');
-          if (filterType === 'appliance') activeAppliance = value;
-          if (filterType === 'brand') activeBrand = value;
-          applyFilters();
-        });
-      });
-    })();
-  </script>
+  <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 
 </body>

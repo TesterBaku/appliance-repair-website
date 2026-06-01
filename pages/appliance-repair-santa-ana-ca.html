@@ -674,52 +674,8 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <script>
-    (function() {
-      var btn = document.querySelector('.nav-hamburger');
-      var drawer = document.querySelector('.nav-drawer');
-      if (!btn || !drawer) return;
-      function openDrawer() { drawer.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
-      function closeDrawer() { drawer.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
-      btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
-      drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
-      document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
-    })();
-    document.querySelectorAll('.faq-q').forEach(function(btn) {
-      btn.addEventListener('click', function() { this.closest('.faq-item').classList.toggle('open'); });
-    });
-  </script>
 
-  <!-- DROPDOWN_JS_INJECTED -->
-  <script>
-    (function() {
-      var dropdowns = document.querySelectorAll('.nav-dropdown');
-      dropdowns.forEach(function(dd) {
-        var menu = dd.querySelector('.nav-dropdown-menu');
-        if (!menu) return;
-        var timer;
-        dd.addEventListener('mouseenter', function() {
-          clearTimeout(timer);
-          menu.style.display = 'block';
-          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
-        });
-        dd.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
-        menu.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-      });
-    })();
-  </script>
+  <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 </body>
 </html>

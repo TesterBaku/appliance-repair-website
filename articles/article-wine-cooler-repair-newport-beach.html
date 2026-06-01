@@ -472,54 +472,7 @@
     </div>
   </footer>
 
-  <!-- DROPDOWN_JS_INJECTED -->
-  <script>
-    (function() {
-      var dropdowns = document.querySelectorAll('.nav-dropdown');
-      dropdowns.forEach(function(dd) {
-        var menu = dd.querySelector('.nav-dropdown-menu');
-        if (!menu) return;
-        var timer;
-        dd.addEventListener('mouseenter', function() {
-          clearTimeout(timer);
-          menu.style.display = 'block';
-          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
-        });
-        dd.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
-        menu.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-      });
-    })();
-  </script>
-  <script>
-
-    (function() {
-      var hamburger = document.querySelector('.nav-hamburger');
-      var drawer = document.getElementById('mobile-nav-drawer');
-      if (!hamburger || !drawer) return;
-      function setOpen(open) {
-        hamburger.setAttribute('aria-expanded', String(open));
-        hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        drawer.setAttribute('aria-hidden', String(!open));
-        if (open) { drawer.setAttribute('data-open', ''); } else { drawer.removeAttribute('data-open'); }
-        document.body.style.overflow = open ? 'hidden' : '';
-      }
-      hamburger.addEventListener('click', function() { setOpen(hamburger.getAttribute('aria-expanded') !== 'true'); });
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') { setOpen(false); hamburger.focus(); } });
-      drawer.querySelectorAll('a').forEach(function(link) { link.addEventListener('click', function() { setOpen(false); }); });
-      document.addEventListener('click', function(e) { if (hamburger.getAttribute('aria-expanded') === 'true' && !e.target.closest('.nav')) setOpen(false); });
-    })();
-  </script>
+  <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 </body>
 </html>

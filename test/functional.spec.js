@@ -174,11 +174,19 @@ test.describe('FAQ page', () => {
     await expect(page.locator('.faq-item.open').first()).toBeAttached();
   });
 
-  test('clicking a closed FAQ item opens it', async ({ page }) => {
-    const closedBtn = page.locator('.faq-item:not(.open) .faq-q').first();
-    await closedBtn.click();
+  test('clicking a closed FAQ item opens it (accordion: single-open)', async ({ page }) => {
+    const items = page.locator('.faq-item');
+    // Resolve the first currently-closed item by index (a stable positional
+    // locator — a :not(.open) selector would re-resolve after the click).
+    const classes = await items.evaluateAll(els => els.map(e => e.className));
+    const idx = classes.findIndex(c => !/\bopen\b/.test(c));
+    const target = items.nth(idx);
+    await target.locator('.faq-q').click();
+    await expect(target).toHaveClass(/\bopen\b/);
+    // Accordion behaviour (site.js): opening one item closes the rest, so
+    // exactly one item is open at a time.
     const openCount = await page.locator('.faq-item.open').count();
-    expect(openCount).toBeGreaterThanOrEqual(2);
+    expect(openCount).toBe(1);
   });
 
   test('$99 diagnostic FAQ present', async ({ page }) => {
