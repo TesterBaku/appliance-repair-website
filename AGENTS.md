@@ -119,14 +119,16 @@ The `/review` subagent must flag as **FAIL** any PR whose description does not c
 
 ## Standing Rule — Article modified_time on Every Edit
 
-Whenever any file in `articles/` is edited — content, meta tags, images, links, or schema — update **both** of these fields to today's date before committing:
+Whenever any file in `articles/` is edited — content, meta tags, images, links, or schema — update **both** of these fields to today's UTC date timestamp before committing:
 
-1. `<meta property="article:modified_time" content="YYYY-MM-DD" />`
-2. `"dateModified": "YYYY-MM-DD"` in the JSON-LD Article schema block
+1. `<meta property="article:modified_time" content="YYYY-MM-DDT00:00:00+00:00" />`
+2. `"dateModified": "YYYY-MM-DDT00:00:00+00:00"` in the JSON-LD Article schema block
 
-Both must match. Applies to every edit, even one-liners. Do NOT change `article:published_time` or `datePublished`.
+Both must match exactly, including the `T00:00:00+00:00` UTC offset. Applies to every edit, even one-liners. Do NOT change `article:published_time` or `datePublished`.
 
 When the content change is substantive (not just metadata), also update the matching blog card date in `pages/blog.html` to `Updated [Month YYYY]`.
+
+**Exception — site-wide chrome / template rollouts.** A change that only restamps shared chrome on every page (the injected footer / nav / head partials via `scripts/build/inject-partials.js`) does **not** bump article `modified_time` / `dateModified`, even though it alters the rendered footer/nav DOM. `modified_time` signals *article content* freshness; marking dozens of articles "modified today" for a global footer change is a misleading freshness signal to search engines. Such PRs MUST state this exemption in the description and link to this rule. Owner-confirmed precedent: PR-5 footer partial injection, 2026-05-31. (Distinct from the cosmetic-href exemption, which requires zero DOM change; this one explicitly permits the chrome DOM change.)
 
 ## Standing Rule — UTF-8 Without BOM
 

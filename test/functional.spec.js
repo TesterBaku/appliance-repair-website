@@ -283,7 +283,7 @@ test.describe('About page', () => {
   });
 
   test('footer Washer Repair links to hub', async ({ page }) => {
-    const link = await page.locator('.footer-links a', { hasText: 'Washer Repair' }).getAttribute('href');
+    const link = await page.locator('.footer-links a').filter({ hasText: /^Washer Repair$/ }).getAttribute('href');
     expect(link).toMatch(/washer-repair/);
   });
 
