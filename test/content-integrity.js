@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Six checks, all EXIT 1 on any failure. Each check exists because a real bug
+ * Seven checks, all EXIT 1 on any failure. Each check exists because a real bug
  * shipped before it was added:
  *
  *   review-count   — every page with `AggregateRating.reviewCount` must match
@@ -32,11 +32,18 @@
  *                    review.
  *                    Added 2026-05-21.
  *
+ *   analytics-present — every page that renders the site nav (`<nav class="nav">`)
+ *                    must load `analytics.js` (GA event tracking, contact-form
+ *                    tracking, and keyboard-accessible dropdown nav all live there).
+ *                    Added 2026-05-31 after 6 pages (testimonials + 5 articles)
+ *                    shipped without it.
+ *
  * Usage:
- *   node test/content-integrity.js          — run all six checks
+ *   node test/content-integrity.js          — run all seven checks
  *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
- *                                             schema-headline-sync, modified-time-sync)
+ *                                             schema-headline-sync, modified-time-sync,
+ *                                             analytics-present)
  */
 
 'use strict';
@@ -186,6 +193,19 @@ if (run('modified-time-sync')) {
   }
 }
 
+// ── Check 7: analytics.js present on every nav-bearing page ───────────────────
+if (run('analytics-present')) {
+  checked['analytics-present'] = { files: 0 };
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (!content.includes('<nav class="nav"')) continue;   // redirect stubs have no site nav — exempt
+    checked['analytics-present'].files++;
+    if (!/<script[^>]*\banalytics\.js\b/.test(content)) {
+      issues.push(`[ANALYTICS] ${rel(filePath)} — renders the site nav but does not load analytics.js`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 if (issues.length) {
   const groups = {};
@@ -210,4 +230,5 @@ if (checked['meta-desc-len'])        parts.push(`meta descriptions ≤ ${checked
 if (checked['og-desc-sync'])         parts.push(`og:description = name="description" on ${checked['og-desc-sync'].files} articles`);
 if (checked['schema-headline-sync']) parts.push(`schema headline = H1 on ${checked['schema-headline-sync'].files} articles`);
 if (checked['modified-time-sync'])   parts.push(`modified_time meta = dateModified JSON-LD on ${checked['modified-time-sync'].files} articles`);
+if (checked['analytics-present'])    parts.push(`analytics.js present on all ${checked['analytics-present'].files} nav pages`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
