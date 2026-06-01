@@ -140,7 +140,7 @@ The site footer is single-sourced in `partials/footer.html` and stamped into eve
 - `rules/git-workflow.md` — branch naming, commits, PRs, code review
 - `rules/seo-content.md` — SEO guidelines, brand canonicalization, hub-page architecture, AI answer block, llms.txt requirement, schema templates
 - `rules/mobile-design.md` — required `@media` breakpoints, hamburger nav, sticky bottom Call/Book bar, tap-target sizes, form behavior on mobile
-- `rules/gbp-platform-policy.md` — verify platform content policies before writing any external-platform copy (GBP posts must be purely descriptive)
+- `.claude/rules/gbp-platform-policy.md` — verify platform content policies before writing any external-platform copy (GBP posts must be purely descriptive)
 
 ## Active plans (tasks/ — gitignored, local)
 - `tasks/backlog.md` — single source of truth for all open work
