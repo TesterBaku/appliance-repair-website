@@ -4,7 +4,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const htmlFiles = [];
 
-const SKIP_DIRS = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp']);
+const SKIP_DIRS = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', 'partials']);
 
 function collectHtmlFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });

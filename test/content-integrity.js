@@ -59,7 +59,7 @@ const path = require('path');
 
 const root       = path.resolve(__dirname, '..');
 const mode       = process.argv[2] || 'all';
-const SKIP_DIRS  = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', '.staging', '.husky', 'test-results']);
+const SKIP_DIRS  = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', '.staging', '.husky', 'test-results', 'partials']);
 
 function collectHtmlFiles(dir) {
   const results = [];

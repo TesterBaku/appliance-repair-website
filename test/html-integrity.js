@@ -34,7 +34,7 @@ const root   = path.resolve(__dirname, '..');
 const BOM    = Buffer.from([0xEF, 0xBB, 0xBF]);
 const mode   = process.argv[2] || 'all';   // 'all' | 'doctype' | 'emdash'
 
-const SKIP_DIRS = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp']);
+const SKIP_DIRS = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', 'partials']);
 
 function collectHtmlFiles(dir) {
   const results = [];
