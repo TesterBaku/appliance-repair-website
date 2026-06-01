@@ -1,2 +1,6 @@
 #!/bin/sh
-npx secretlint --secretlintrc .secretlintrc.json "**/*"
+# Scan ONLY staged files for secrets. The previous `secretlint "**/*"` rescanned
+# the whole working tree (incl. node_modules) on every commit -- ~6.5 minutes.
+# Staged-only is the correct pre-commit scope and runs in seconds.
+git diff --cached --name-only --diff-filter=ACM -z |
+  xargs -0 -r npx secretlint --secretlintrc .secretlintrc.json

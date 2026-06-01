@@ -1,0 +1,15 @@
+# EditorConfig (https://editorconfig.org)
+# Keeps editors consistent with the repo's UTF-8 (no BOM) rule from CLAUDE.md
+# and the LF requirement for shell/husky hooks. HTML/CSS/JS end_of_line is
+# intentionally left to git (.gitattributes `* text=auto`) to avoid churning
+# the existing CRLF working tree.
+root = true
+
+[*]
+charset = utf-8
+
+[*.sh]
+end_of_line = lf
+
+[.husky/*]
+end_of_line = lf
