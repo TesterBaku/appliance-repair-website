@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Seven checks, all EXIT 1 on any failure. Each check exists because a real bug
+ * Eight checks, all EXIT 1 on any failure. Each check exists because a real bug
  * shipped before it was added:
  *
  *   review-count   — every page with `AggregateRating.reviewCount` must match
@@ -38,12 +38,18 @@
  *                    Added 2026-05-31 after 6 pages (testimonials + 5 articles)
  *                    shipped without it.
  *
+ *   jsonld-valid   — every `<script type="application/ld+json">` block on every
+ *                    page must be valid JSON. No other test parses JSON-LD, so
+ *                    broken structured data ships silently. Added 2026-05-31 after
+ *                    a pre-existing missing comma in a Review[] array on the Miele
+ *                    hub was found during the LocalBusiness @id consolidation.
+ *
  * Usage:
- *   node test/content-integrity.js          — run all seven checks
+ *   node test/content-integrity.js          — run all eight checks
  *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
- *                                             analytics-present)
+ *                                             analytics-present, jsonld-valid)
  */
 
 'use strict';
@@ -206,6 +212,22 @@ if (run('analytics-present')) {
   }
 }
 
+// ── Check 8: every JSON-LD block must be valid JSON ───────────────────────────
+if (run('jsonld-valid')) {
+  checked['jsonld-valid'] = { files: 0, blocks: 0 };
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const blocks = [...content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+    if (!blocks.length) continue;
+    checked['jsonld-valid'].files++;
+    blocks.forEach((m, i) => {
+      checked['jsonld-valid'].blocks++;
+      try { JSON.parse(m[1]); }
+      catch (e) { issues.push(`[JSONLD] ${rel(filePath)} block#${i} — invalid JSON: ${e.message.slice(0, 70)}`); }
+    });
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 if (issues.length) {
   const groups = {};
@@ -231,4 +253,5 @@ if (checked['og-desc-sync'])         parts.push(`og:description = name="descript
 if (checked['schema-headline-sync']) parts.push(`schema headline = H1 on ${checked['schema-headline-sync'].files} articles`);
 if (checked['modified-time-sync'])   parts.push(`modified_time meta = dateModified JSON-LD on ${checked['modified-time-sync'].files} articles`);
 if (checked['analytics-present'])    parts.push(`analytics.js present on all ${checked['analytics-present'].files} nav pages`);
+if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].blocks} JSON-LD blocks valid across ${checked['jsonld-valid'].files} files`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
