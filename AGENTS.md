@@ -69,12 +69,13 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 
 ```bash
 npm start                  # Serve locally at http://localhost:3000 (via npx serve .)
-npm test                   # Link check + HTML integrity + content integrity + CSS vars + footer-partial drift check
+npm test                   # Link check + HTML integrity + content integrity + CSS vars + partial drift check (footer/nav) + site.js drift check
 npm run test:functional    # Playwright functional suite (currently ~585 tests; auto-starts a server on :8788 via test/serve.js)
 npm run screenshot         # Puppeteer batch screenshots
 npm run test:all           # All of the above in one shot
 npm run build:sitemap      # Regenerate sitemap.xml from the file tree + git history
-npm run build:partials     # Re-stamp the shared footer partial into every page (run after editing partials/footer.html)
+npm run build:partials     # Re-stamp the shared footer + nav partials into every page (run after editing partials/footer.html or partials/nav-*.html)
+npm run build:site-js      # Re-run the interaction-JS extraction (run after editing site.js or the inline-JS rollout)
 npm run sync:testimonials  # Sync the GBP review-count surfaces from data/testimonials.json
 ```
 
@@ -111,12 +112,14 @@ Hub pages share the same section structure: hero → trust bar → services → 
 
 ### Shared chrome (partials)
 
-The site footer is single-sourced in `partials/footer.html` and stamped into every page at build time by `scripts/build/inject-partials.js` (depth-aware: `root → pages/`, `pages/ → ""`, `pages/blog/ → ../`, `articles/ → ../pages/`). The deployed artifact stays pure static HTML. Edit the partial, then `npm run build:partials`; `npm test` runs `inject-partials --check` and fails on drift (or a forgotten rebuild). Do NOT hand-edit a page's `<footer>` — change the partial.
+The site footer and nav are single-sourced as partials (`partials/footer.html`, `partials/nav-main.html` for root + `pages/` + `pages/blog/`, `partials/nav-article.html` for `articles/`) and stamped into every page at build time by `scripts/build/inject-partials.js` (depth-aware: `root → pages/`, `pages/ → ""`, `pages/blog/ → ../`, `articles/ → ../pages/`). The deployed artifact stays pure static HTML. Edit the partial, then `npm run build:partials`; `npm test` runs `inject-partials --check` and fails on drift (or a forgotten rebuild). Do NOT hand-edit a page's `<footer>` or `<nav>` — change the partial.
+
+The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is single-sourced in `/site.js` — one defer-loaded file, feature-detected and idempotent, safe to load on every page. It is included at the correct depth on every nav page by `scripts/build/inject-site-js.js`; `npm test` runs `inject-site-js --check` and fails if a page reintroduces inline interaction JS or drops the include. Do NOT paste inline drawer/dropdown/FAQ scripts into a page — add behavior to `site.js`. The two nav-drawer markup families (main: `.nav-drawer` + `data-open`; article: `#mobile-nav-drawer` + `aria-hidden`) are auto-detected at runtime. Page-specific singletons (blog search filter, testimonials filter) intentionally remain inline.
 
 ### Scripts
 
 - `scripts/` — active automation: `build-sitemap.js`, `add-seo-improvements.js` (quarterly-audit SEO fixer), `sync-testimonials-count.js`, `add-hero-preload.mjs`, `add-nav-link.js`, `add-article-hamburger.js`, image/favicon helpers. Run these explicitly; none are wired to pre-commit hooks.
-- `scripts/build/` — build-time injectors (`inject-partials.js`).
+- `scripts/build/` — build-time injectors (`inject-partials.js` for footer/nav; `inject-site-js.js` for the interaction-JS extraction).
 - `scripts/oneoff/` — historical, already-run one-off scripts, kept for provenance (see its README). None are npm-wired.
 
 ## Critical technical patterns
@@ -124,7 +127,7 @@ The site footer is single-sourced in `partials/footer.html` and stamped into eve
 **Every HTML page must have:**
 1. GA tag as the first child of `<head>` (id: `G-TSFHKJ6ZEK`) — see "Required on every new HTML page".
 2. `<link rel="canonical" href="https://fixappliancesfast.com/...">` after `<title>`.
-3. Dropdown nav JS injected before `</body>` (sentinel: `<!-- DROPDOWN_JS_INJECTED -->`).
+3. The shared interaction JS via one `<script defer src="…/site.js">` before `</body>` (single-sourced in `/site.js`; see "Shared chrome"). The old per-page inline dropdown/drawer/FAQ scripts and the `<!-- DROPDOWN_JS_INJECTED -->` sentinel were retired in PR-9 (#461).
 
 **Article dates** — all timestamps use the UTC offset (`+00:00`), not PDT (`-07:00`). See the "Article modified_time" standing rule.
 
@@ -185,7 +188,7 @@ branch → commit → **all three tests** → PR → review → merge. No except
 
 **Three required tests — all must exit 0 before opening a PR:**
 ```
-npm test                 # link check (101 pages) + integrity + CSS vars + footer-partial drift check
+npm test                 # link check (101 pages) + integrity + CSS vars + partial drift check (footer/nav) + site.js drift check
 npm run screenshot       # puppeteer batch screenshots
 npm run test:functional  # Playwright functional suite (currently ~585 tests) — nav, dropdowns, forms, accordions, articles, hubs
 ```
@@ -211,7 +214,7 @@ When the content change is substantive (not just metadata), also update the matc
 
 **Exception — cosmetic href-target changes.** A change that swaps only the target of an `<a href="…">` to an equivalent canonical URL (e.g., `/index.html` → `/`) and does not alter any rendered DOM, text, image, or schema field is exempt. Such PRs MUST state the exemption in the description. Precedent: the internal-link-canonicalization PR, 2026-05-25.
 
-**Exception — site-wide chrome / template rollouts.** A change that only restamps shared chrome on every page (the injected footer / nav / head partials via `scripts/build/inject-partials.js`) does **not** bump article `modified_time` / `dateModified`, even though it alters the rendered footer/nav DOM. `modified_time` signals *article content* freshness; marking dozens of articles "modified today" for a global footer change is a misleading freshness signal to search engines. Such PRs MUST state this exemption in the description and link to this rule. Owner-confirmed precedent: PR-5 footer partial injection, 2026-05-31. (Distinct from the cosmetic-href exemption, which requires zero DOM change; this one explicitly permits the chrome DOM change.)
+**Exception — site-wide chrome / template rollouts.** A change that only restamps shared chrome on every page (the injected footer / nav / head partials via `scripts/build/inject-partials.js`, or the shared interaction JS via `scripts/build/inject-site-js.js`) does **not** bump article `modified_time` / `dateModified`, even though it alters the rendered footer/nav DOM or removes inline scripts. `modified_time` signals *article content* freshness; marking dozens of articles "modified today" for a global chrome/infra change is a misleading freshness signal to search engines. Such PRs MUST state this exemption in the description and link to this rule. Owner-confirmed precedents: PR-5 footer partial injection (#457, 2026-05-31); PR-9 site.js interaction-JS extraction (#461, 2026-06-01). (Distinct from the cosmetic-href exemption, which requires zero DOM change; this one explicitly permits the chrome DOM change.)
 
 ## Standing Rule — UTF-8 Without BOM
 
@@ -264,13 +267,14 @@ Every new `.html` file — article, hub page, or static page — must include th
 - `pages/service-areas.html` — service-areas hub
 - `pages/blog/*.html` — blog category pages
 - `articles/article-*.html` — individual blog articles
-- `partials/footer.html` — single-sourced footer (injected by the build step)
+- `partials/footer.html`, `partials/nav-main.html`, `partials/nav-article.html` — single-sourced chrome (injected by the build step)
 - `shared.css` — shared styles used across all pages
+- `site.js` — single-sourced interaction JS (nav drawer, dropdown, FAQ accordion), defer-loaded on every nav page
 - `scripts/` — active node scripts; `scripts/build/` injectors; `scripts/oneoff/` historical one-offs
 - `test/` — link/integrity/css checks, Puppeteer screenshots, Playwright functional spec, static server
 
 ## Tech Stack
 - Vanilla static HTML — no framework, no Tailwind
-- `shared.css` + small per-page `<style>` blocks (no CSS compile step)
-- Minimal build steps (run explicitly, output committed): `build:sitemap`, `build:partials`
+- `shared.css` + small per-page `<style>` blocks (no CSS compile step); shared interaction JS in `site.js` (no JS build/bundle step)
+- Minimal build steps (run explicitly, output committed): `build:sitemap`, `build:partials`, `build:site-js`
 - Puppeteer (screenshots) + Playwright (functional testing, currently ~585 tests in `test/functional.spec.js`)
