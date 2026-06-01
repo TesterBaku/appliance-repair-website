@@ -9,7 +9,16 @@
         "totalReviewsOnListing": 83,
         "capturedCount": 83,
         "ratingAverage": 5,
-        "captureMethod": "Mixed: 20 via Claude in Chrome browser scrape on 2026-05-12; 56 from user-supplied screenshots and full-review images on 2026-05-06; 13 review photos relocated from reviewer-profiles/ to reviews/ on 2026-05-12 (PR #review-photos-reclassify-plan); 2026-05-20: +1 review (Erin Ponchak, LG dryer no-heat, Huntington Beach) added directly from owner-supplied verbatim text. GBP total bumped 76→78 (owner-confirmed re-scrape on 2026-05-20). 2026-05-20: +1 no-body record (Drew McMillan, 5★ rating, no body, no photo, no service tag) added; gap between capturedCount and totalReviewsOnListing now closed at 78. 2026-05-23: +2 reviews (mike bonilla — no appliance tag; Ken Turknette — wine cooler repair) captured live from GBP reviews dialog via Chrome MCP, sorted Newest. GBP total bumped 78→80 (owner-confirmed via 80-review count on knowledge panel). 2026-05-26: +2 reviews (Surma Karimova — GE oven, with photo; A T — Viking wine cooler compressor replacement in Costa Mesa, with exterior photo) added from owner-supplied screenshot and downloaded review photos. Two technician job photos (brazing + compressor) saved to images/real/business/ for use on recent-repairs, Costa Mesa city page, and wine cooler hub. GBP total bumped 80→82. 2026-05-31: GBP total bumped 82→83 (owner-confirmed via GBP screenshot showing 83 reviews). The item shown as newest on GBP is Roger Antonie's pre-existing review (originally approxDate 2026-03), edited to append 'Thank you'; his existing record body was updated accordingly (no new card added). The actual 83rd, genuinely-new review was not visible in the supplied screenshot and has not yet been captured."
+        "captureHistory": [
+          { "date": "2026-05-06", "note": "56 reviews captured from user-supplied screenshots and full-review images." },
+          { "date": "2026-05-12", "note": "20 reviews captured via Claude in Chrome browser scrape." },
+          { "date": "2026-05-12", "note": "13 review photos relocated from reviewer-profiles/ to reviews/ (PR #review-photos-reclassify-plan)." },
+          { "date": "2026-05-20", "note": "+1 review (Erin Ponchak, LG dryer no-heat, Huntington Beach) added directly from owner-supplied verbatim text. GBP total bumped 76 to 78 (owner-confirmed re-scrape)." },
+          { "date": "2026-05-20", "note": "+1 no-body record (Drew McMillan, 5-star rating, no body, no photo, no service tag) added; gap between capturedCount and totalReviewsOnListing now closed at 78." },
+          { "date": "2026-05-23", "note": "+2 reviews (mike bonilla, no appliance tag; Ken Turknette, wine cooler repair) captured live from GBP reviews dialog via Chrome MCP, sorted Newest. GBP total bumped 78 to 80 (owner-confirmed via 80-review count on knowledge panel)." },
+          { "date": "2026-05-26", "note": "+2 reviews (Surma Karimova, GE oven, with photo; A T, Viking wine cooler compressor replacement in Costa Mesa, with exterior photo) added from owner-supplied screenshot and downloaded review photos. Two technician job photos (brazing + compressor) saved to images/real/business/ for use on recent-repairs, Costa Mesa city page, and wine cooler hub. GBP total bumped 80 to 82." },
+          { "date": "2026-05-31", "note": "GBP total bumped 82 to 83 (owner-confirmed via GBP screenshot showing 83 reviews). The item shown as newest on GBP is Roger Antonie's pre-existing review (originally approxDate 2026-03), edited to append 'Thank you'; his existing record body was updated accordingly (no new card added). The actual 83rd, genuinely-new review was not visible in the supplied screenshot and has not yet been captured." }
+        ]
       },
       "yelp": {
         "name": "Yelp",
@@ -24,7 +33,9 @@
           "4": 0,
           "5": 3
         },
-        "captureMethod": "User-supplied screenshot + Yelp listing capture on 2026-05-12"
+        "captureHistory": [
+          { "date": "2026-05-12", "note": "User-supplied screenshot + Yelp listing capture." }
+        ]
       }
     },
     "policyNotes": [
