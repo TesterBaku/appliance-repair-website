@@ -29,7 +29,7 @@
     },
     "policyNotes": [
       "Location policy is source-specific. Google records: city not exposed by Google, all standardized to 'Orange County, CA'. Yelp records: use the city displayed on the reviewer's Yelp profile (real OC cities like Dana Point, Anaheim, Irvine).",
-      "Rating filter is enforced by display rule, not by capture. All Google records (76) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
+      "Rating filter is enforced by display rule, not by capture. All Google records (83) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
       "Bodies preserved verbatim including spelling/grammar issues. Use _bodyHasTypos flag to decide if light correction is acceptable for display.",
       "All review bodies that have text are now complete (Kathy Calderon, Dave Brisbin, andrea hall full bodies sourced from missing_data/ folder).",
       "Two reviews have no body text (Theresa Robinson is photo-only with stove image; Luci LaBue has only 'Reasonable price' + 'Washing machine repair' service tags). Useful for photo display only.",
@@ -37,7 +37,7 @@
       "Review photos: 7 captured as Google CDN URLs from initial browser scrape (may need re-download to local before they expire); 13 previously embedded in screenshots have been extracted and saved locally at images/real/reviews/ (2026-05-12).",
       "Display rule for testimonials (mirrors .claude/rules/testimonial-selection.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body ≥3 words; (b) no reviewPhoto and body ≥8 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and ≤2-overlap rules in the same rules file also apply.",
       "Schema: every record has a 'source' field ('google' | 'yelp'). Yelp records may have a 'previousBody' field for updated reviews. Records linked across sources have a '_crossSourceMatch' field pointing to the corresponding record's id.",
-      "AggregateRating in HTML schema markup is Google-only (5.0 × 76). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
+      "AggregateRating in HTML schema markup is Google-only (5.0 × 83). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
     ]
   },
   "reviews": [
