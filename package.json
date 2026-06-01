@@ -11,6 +11,7 @@
     "test:all": "node test/links.js && node test/html-integrity.js && node test/content-integrity.js && node test/css-vars.js && node test/screenshot.js && playwright test",
     "screenshot": "node test/screenshot.js",
     "build:sitemap": "node scripts/build-sitemap.js",
+    "sync:testimonials": "node scripts/sync-testimonials-count.js",
     "clean:images": "node scripts/clean-images.js",
     "optimize:logo": "node scripts/optimize-logo.js",
     "build:favicons": "node scripts/build-favicons.js",
