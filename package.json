@@ -4,8 +4,9 @@
   "description": "Appliance repair service static website",
   "scripts": {
     "start": "npx serve .",
-    "test": "node test/links.js && node test/html-integrity.js && node test/content-integrity.js && node test/css-vars.js && node scripts/build/inject-partials.js --check",
+    "test": "node test/links.js && node test/html-integrity.js && node test/content-integrity.js && node test/css-vars.js && node scripts/build/inject-partials.js --check && node scripts/build/inject-site-js.js --check",
     "build:partials": "node scripts/build/inject-partials.js",
+    "build:site-js": "node scripts/build/inject-site-js.js",
     "test:integrity": "node test/html-integrity.js",
     "test:content": "node test/content-integrity.js",
     "test:functional": "playwright test",

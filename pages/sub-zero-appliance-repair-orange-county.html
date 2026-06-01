@@ -647,7 +647,7 @@
       <div class="faq-list">
 
         <div class="faq-item open">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Do you repair Sub-Zero built-in refrigerators in Orange County?
             <span class="faq-icon">+</span>
           </button>
@@ -655,7 +655,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             How much does Sub-Zero compressor or sealed-system repair cost?
             <span class="faq-icon">+</span>
           </button>
@@ -663,7 +663,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             My Sub-Zero freezer works but the fresh food section is warm: what's wrong?
             <span class="faq-icon">+</span>
           </button>
@@ -671,7 +671,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Can a 20-year-old Sub-Zero still be repaired?
             <span class="faq-icon">+</span>
           </button>
@@ -679,7 +679,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Do you repair Sub-Zero wine storage and undercounter units?
             <span class="faq-icon">+</span>
           </button>
@@ -687,7 +687,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             How long does a Sub-Zero repair typically take?
             <span class="faq-icon">+</span>
           </button>
@@ -695,7 +695,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Is it worth repairing a Sub-Zero or should I replace it?
             <span class="faq-icon">+</span>
           </button>
@@ -703,7 +703,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" onclick="toggleFaq(this)">
+          <button class="faq-q" aria-expanded="false">
             Do you service the integrated 700 Series column units?
             <span class="faq-icon">+</span>
           </button>
@@ -871,49 +871,7 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <script>
-    function toggleFaq(btn) {
-      const item = btn.closest('.faq-item');
-      item.classList.toggle('open');
-    }
-    (function() {
-      var btn = document.querySelector('.nav-hamburger');
-      var drawer = document.querySelector('.nav-drawer');
-      if (!btn || !drawer) return;
-      function openDrawer() { drawer.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
-      function closeDrawer() { drawer.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
-      btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
-      drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
-      document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
-    })();
-    (function() {
-      var dropdowns = document.querySelectorAll('.nav-dropdown');
-      dropdowns.forEach(function(dd) {
-        var menu = dd.querySelector('.nav-dropdown-menu');
-        if (!menu) return;
-        var timer;
-        dd.addEventListener('mouseenter', function() {
-          clearTimeout(timer);
-          menu.style.display = 'block';
-          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
-        });
-        dd.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
-        menu.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-      });
-    })();
-  </script>
+  <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 </body>
 </html>

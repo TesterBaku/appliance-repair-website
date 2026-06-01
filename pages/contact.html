@@ -402,112 +402,14 @@
     </div>
   </footer>
 
-  <script>
-    (function() {
-      var form = document.getElementById('contact-form');
-      var submitBtn = document.getElementById('form-submit');
-      var successEl = document.getElementById('form-success');
-      var errorEl = document.getElementById('form-error');
 
-      if (!form) return;
-
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        errorEl.style.display = 'none';
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending…';
-
-        fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        })
-        .then(function(res) {
-          if (res.ok) {
-            form.style.display = 'none';
-            successEl.style.display = 'block';
-            if (typeof gtag !== 'undefined') {
-              gtag('event', 'form_submit', { event_category: 'contact', event_label: 'repair_request' });
-            }
-          } else {
-            return res.json().then(function(data) {
-              throw new Error(data.error || 'Submission failed');
-            });
-          }
-        })
-        .catch(function() {
-          errorEl.style.display = 'block';
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Send Message';
-        });
-      });
-    })();
-    (function() {
-      var btn = document.querySelector('.nav-hamburger');
-      var drawer = document.querySelector('.nav-drawer');
-      if (!btn || !drawer) return;
-      function openDrawer() { drawer.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
-      function closeDrawer() { drawer.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
-      btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
-      drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
-      document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
-    })();
-  </script>
-
-  <!-- DROPDOWN_JS_INJECTED -->
-  <script>
-    (function() {
-      var dropdowns = document.querySelectorAll('.nav-dropdown');
-      dropdowns.forEach(function(dd) {
-        var menu = dd.querySelector('.nav-dropdown-menu');
-        if (!menu) return;
-        var timer;
-        dd.addEventListener('mouseenter', function() {
-          clearTimeout(timer);
-          menu.style.display = 'block';
-          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
-        });
-        dd.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
-        menu.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-      });
-    })();
-
-    // City context: pre-fill from ?city= param when arriving from service-areas page
-    (function() {
-      var params = new URLSearchParams(window.location.search);
-      var city = params.get('city');
-      if (!city) return;
-      // Update form heading to name the city
-      var heading = document.querySelector('.card h2');
-      if (heading) heading.textContent = 'Book a Repair in ' + city;
-      // Pre-select city in the dropdown if it exists
-      var citySelect = document.querySelector('select[name="city"]');
-      if (citySelect) {
-        var opt = Array.from(citySelect.options).find(function(o) {
-          return o.text.toLowerCase().replace(/[^a-z]/g, '').includes(city.toLowerCase().replace(/[^a-z]/g, ''));
-        });
-        if (opt) { opt.selected = true; citySelect.dispatchEvent(new Event('change')); }
-      }
-    })();
-  </script>
 
   <!-- STICKY MOBILE CALL/BOOK BAR -->
   <div class="sticky-mobile-bar">
     <a href="tel:+19496295365" class="sticky-call">📞 Call Now</a>
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
+  <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 </body>
 </html>

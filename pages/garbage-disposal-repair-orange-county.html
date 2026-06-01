@@ -802,57 +802,7 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <script>
-    document.querySelectorAll('.faq-q').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var item = btn.closest('.faq-item');
-        var open = item.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    });
-
-    (function() {
-      var btn = document.querySelector('.nav-hamburger');
-      var drawer = document.querySelector('.nav-drawer');
-      if (!btn || !drawer) return;
-      btn.addEventListener('click', function() {
-        var expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', !expanded);
-        drawer.setAttribute('data-open', !expanded);
-      });
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          btn.setAttribute('aria-expanded', 'false');
-          drawer.setAttribute('data-open', 'false');
-        }
-      });
-      document.addEventListener('click', function(e) {
-        if (!btn.contains(e.target) && !drawer.contains(e.target)) {
-          btn.setAttribute('aria-expanded', 'false');
-          drawer.setAttribute('data-open', 'false');
-        }
-      });
-    })();
-
-    (function() {
-      document.querySelectorAll('.nav-dropdown').forEach(function(dd) {
-        var toggle = dd.querySelector('.nav-dropdown-toggle');
-        var menu = dd.querySelector('.nav-dropdown-menu');
-        if (!toggle || !menu) return;
-        dd.addEventListener('mouseenter', function() { menu.style.display = 'block'; toggle.setAttribute('aria-expanded', 'true'); });
-        dd.addEventListener('mouseleave', function() { menu.style.display = ''; toggle.setAttribute('aria-expanded', 'false'); });
-        toggle.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            var open = menu.style.display === 'block';
-            menu.style.display = open ? '' : 'block';
-            toggle.setAttribute('aria-expanded', !open);
-          }
-          if (e.key === 'Escape') { menu.style.display = ''; toggle.setAttribute('aria-expanded', 'false'); }
-        });
-      });
-    })();
-  </script>
+  <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 </body>
 </html>

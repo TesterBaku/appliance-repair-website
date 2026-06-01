@@ -242,7 +242,7 @@
     <div class="container" style="max-width:720px;">
 
       <div class="faq-item open">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Which appliances do you service?
           <span class="faq-icon">+</span>
         </button>
@@ -250,7 +250,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           How long does a standard repair take?
           <span class="faq-icon">+</span>
         </button>
@@ -258,7 +258,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Do you provide a warranty on repairs?
           <span class="faq-icon">+</span>
         </button>
@@ -266,7 +266,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           How can I book a repair service?
           <span class="faq-icon">+</span>
         </button>
@@ -274,7 +274,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Do you offer same-day service?
           <span class="faq-icon">+</span>
         </button>
@@ -282,7 +282,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Are you licensed, bonded, and insured?
           <span class="faq-icon">+</span>
         </button>
@@ -290,7 +290,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           What areas do you serve?
           <span class="faq-icon">+</span>
         </button>
@@ -298,7 +298,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           How much does appliance repair cost?
           <span class="faq-icon">+</span>
         </button>
@@ -306,7 +306,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Do you charge a diagnostic or service call fee?
           <span class="faq-icon">+</span>
         </button>
@@ -314,7 +314,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           If I pay the $99 diagnostic fee but want to think about the repair, is the $99 still credited toward the repair later?
           <span class="faq-icon">+</span>
         </button>
@@ -322,7 +322,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Do you charge a separate diagnostic fee for each appliance if I have more than one?
           <span class="faq-icon">+</span>
         </button>
@@ -330,7 +330,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Do you offer discounts for seniors or returning customers?
           <span class="faq-icon">+</span>
         </button>
@@ -338,7 +338,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Which brands do you repair?
           <span class="faq-icon">+</span>
         </button>
@@ -346,7 +346,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Do you repair high-end or built-in appliances?
           <span class="faq-icon">+</span>
         </button>
@@ -354,7 +354,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           How do I know if my appliance is worth repairing?
           <span class="faq-icon">+</span>
         </button>
@@ -362,7 +362,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           What if my appliance can't be repaired?
           <span class="faq-icon">+</span>
         </button>
@@ -370,7 +370,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           Do you offer emergency or after-hours repair?
           <span class="faq-icon">+</span>
         </button>
@@ -378,7 +378,7 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">
+        <button class="faq-q" aria-expanded="false">
           What should I do to prepare for the technician's visit?
           <span class="faq-icon">+</span>
         </button>
@@ -458,53 +458,8 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <script>
-    function toggleFaq(btn) {
-      const item = btn.closest('.faq-item');
-      item.classList.toggle('open');
-    }
-    (function() {
-      var btn = document.querySelector('.nav-hamburger');
-      var drawer = document.querySelector('.nav-drawer');
-      if (!btn || !drawer) return;
-      function openDrawer() { drawer.setAttribute('data-open', ''); btn.setAttribute('aria-expanded', 'true'); }
-      function closeDrawer() { drawer.removeAttribute('data-open'); btn.setAttribute('aria-expanded', 'false'); }
-      btn.addEventListener('click', function() { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDrawer(); });
-      drawer.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeDrawer); });
-      document.addEventListener('click', function(e) { if (!e.target.closest('.nav')) closeDrawer(); });
-    })();
-  </script>
 
-  <!-- DROPDOWN_JS_INJECTED -->
-  <script>
-    (function() {
-      var dropdowns = document.querySelectorAll('.nav-dropdown');
-      dropdowns.forEach(function(dd) {
-        var menu = dd.querySelector('.nav-dropdown-menu');
-        if (!menu) return;
-        var timer;
-        dd.addEventListener('mouseenter', function() {
-          clearTimeout(timer);
-          menu.style.display = 'block';
-          dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = 'rotate(180deg)');
-        });
-        dd.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-        menu.addEventListener('mouseenter', function() { clearTimeout(timer); });
-        menu.addEventListener('mouseleave', function() {
-          timer = setTimeout(function() {
-            menu.style.display = '';
-            dd.querySelector('.nav-dropdown-arrow') && (dd.querySelector('.nav-dropdown-arrow').style.transform = '');
-          }, 120);
-        });
-      });
-    })();
-  </script>
+  <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 </body>
 </html>
