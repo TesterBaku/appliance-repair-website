@@ -63,7 +63,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 **Public business name:** Universal Appliances Repair
 **Legal name:** Universal Appliances Repair Group Inc.
 
-> Brand canonicalization is enforced in `rules/seo-content.md`. Never write "Fix Appliances Fast" as a brand — it is only a URL.
+> Brand canonicalization is enforced in `.claude/rules/seo-content.md`. Never write "Fix Appliances Fast" as a brand — it is only a URL.
 
 ## Commands
 
@@ -140,9 +140,11 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 **Inline CTA paragraph links** — any `.inline-cta` block must define `.inline-cta p a` before `.inline-cta a` to prevent paragraph links from inheriting button styles.
 
 ## Rules
-- `rules/git-workflow.md` — branch naming, commits, PRs, code review
-- `rules/seo-content.md` — SEO guidelines, brand canonicalization, hub-page architecture, AI answer block, llms.txt requirement, schema templates
-- `rules/mobile-design.md` — required `@media` breakpoints, hamburger nav, sticky bottom Call/Book bar, tap-target sizes, form behavior on mobile
+All rule files live in `.claude/rules/` (gitignored — local-only, kept out of the public repo since #348; restore from git history at `c8962327^` if a local copy is lost).
+- `.claude/rules/git-workflow.md` — branch naming, commits, PRs, code review
+- `.claude/rules/seo-content.md` — SEO guidelines, brand canonicalization, hub-page architecture, AI answer block, llms.txt requirement, schema templates
+- `.claude/rules/mobile-design.md` — required `@media` breakpoints, hamburger nav, sticky bottom Call/Book bar, tap-target sizes, form behavior on mobile
+- `.claude/rules/testimonial-selection.md` — which captured reviews are quotable as testimonials (display/quotability rules referenced by `data/testimonials.json`)
 - `.claude/rules/gbp-platform-policy.md` — verify platform content policies before writing any external-platform copy (GBP posts must be purely descriptive)
 
 ## Active plans (tasks/ — gitignored, local)
