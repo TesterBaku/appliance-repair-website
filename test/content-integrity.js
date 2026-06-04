@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Eight enforced checks (EXIT 1 on any failure) plus one informational report
+ * Nine enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -45,6 +45,14 @@
  *                    a pre-existing missing comma in a Review[] array on the Miele
  *                    hub was found during the LocalBusiness @id consolidation.
  *
+ *   footer-self-contained — the single-sourced footer (partials/footer.html) and
+ *                    every injected footer must contain no CSS var() references.
+ *                    The footer is stamped into the 46 article pages, which do not
+ *                    load shared.css, so any var() resolves to nothing and the text
+ *                    falls back to the dark body color (invisible) on the dark
+ *                    footer. Added 2026-06-03 after the brand column shipped
+ *                    invisible on every article (PR #470).
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -57,7 +65,8 @@
  *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
- *                                             analytics-present, jsonld-valid, title-length)
+ *                                             analytics-present, jsonld-valid,
+ *                                             footer-self-contained, title-length)
  */
 
 'use strict';
@@ -253,6 +262,37 @@ if (run('title-length')) {
   checked['title-length'] = { limit: LIMIT, scanned, offenders };
 }
 
+// ── Check 9: footer-self-contained ────────────────────────────────────────────
+// The single-sourced footer is injected verbatim into pages that do NOT load
+// shared.css (the 46 article pages use a self-contained <style> block). Any CSS
+// custom property (var(--…)) inside the footer therefore resolves to nothing and
+// the text falls back to the dark body color on the #090909 footer — invisible.
+// The footer must be fully self-contained: no var() references anywhere in it.
+// Added 2026-06-03 after the brand column (name + tagline + icon) shipped
+// invisible on every article page (fixed in PR #470).
+if (run('footer-self-contained')) {
+  checked['footer-self-contained'] = { files: 0 };
+  const VAR_RE = /var\(\s*--[a-z0-9-]+\s*\)/gi;
+
+  // (a) the single-source partial itself
+  const partialPath = path.join(root, 'partials', 'footer.html');
+  if (fs.existsSync(partialPath)) {
+    const partial = fs.readFileSync(partialPath, 'utf8');
+    const m = partial.match(VAR_RE);
+    if (m) issues.push(`[FOOTER-VAR] partials/footer.html — footer partial uses ${m.length} CSS var() (${[...new Set(m)].join(', ')}); the footer is injected into pages without shared.css, where these are undefined`);
+  }
+
+  // (b) every injected footer region in the served HTML
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const fm = content.match(/<footer class="footer">[\s\S]*?<\/footer>/i);
+    if (!fm) continue;
+    checked['footer-self-contained'].files++;
+    const vars = fm[0].match(VAR_RE);
+    if (vars) issues.push(`[FOOTER-VAR] ${rel(filePath)} — injected footer uses ${vars.length} CSS var() (${[...new Set(vars)].join(', ')}); will render invisible on pages without shared.css`);
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -289,5 +329,6 @@ if (checked['schema-headline-sync']) parts.push(`schema headline = H1 on ${check
 if (checked['modified-time-sync'])   parts.push(`modified_time meta = dateModified JSON-LD on ${checked['modified-time-sync'].files} articles`);
 if (checked['analytics-present'])    parts.push(`analytics.js present on all ${checked['analytics-present'].files} nav pages`);
 if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].blocks} JSON-LD blocks valid across ${checked['jsonld-valid'].files} files`);
+if (checked['footer-self-contained']) parts.push(`footer self-contained (no var()) across ${checked['footer-self-contained'].files} pages`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);

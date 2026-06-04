@@ -615,6 +615,26 @@ for (const file of articleFiles) {
       const href = await page.locator('a.nav-cta').getAttribute('href');
       expect(href).toMatch(/contact/);
     });
+
+    // Regression: PR #470. The footer is injected into article pages, which do NOT
+    // load shared.css, so var(--surface)/var(--footer-text) in the brand column were
+    // undefined and the brand name + tagline fell back to the dark body color on the
+    // #090909 footer (invisible). Assert they compute to a light, visible color.
+    test('footer brand column renders light, visible text', async ({ page }) => {
+      const lum = await page.locator('.footer-brand').evaluate(el => {
+        const avg = node => {
+          if (!node) return -1;
+          const m = window.getComputedStyle(node).color.match(/\d+(\.\d+)?/g);
+          if (!m) return -1;
+          const [r, g, b] = m.map(Number);
+          return (r + g + b) / 3;
+        };
+        return { name: avg(el.querySelector('span')), tagline: avg(el.querySelector('p')) };
+      });
+      // brand name is #fff (255); tagline is #b3b3b3 (179). Dark fallback ≈ 0.
+      expect(lum.name).toBeGreaterThan(150);
+      expect(lum.tagline).toBeGreaterThan(120);
+    });
   });
 }
 
