@@ -163,16 +163,17 @@ All rule files live in `.claude/rules/` (gitignored — local-only, kept out of 
 ### Content publishing — `/seo-blog`
 Runs **Mon/Wed/Fri at 6 AM Pacific (13:00 UTC)**. Fully autonomous: research → propose → write → test → merge.
 
-- **Routine ID:** `trig_01ApQaWZG9LhY6jsp8tbxn8D`
-- **Manage / disable:** https://claude.ai/code/routines/trig_01ApQaWZG9LhY6jsp8tbxn8D
+- **Routine ID:** `trig_015WszAyFWDSSsyfP9GF7F2u` (recreated 2026-06-03; the prior `trig_01ApQaWZG9LhY6jsp8tbxn8D` was found deleted — the trigger list was empty, so autonomous runs had silently stopped)
+- **Manage / disable:** https://claude.ai/code/routines/trig_015WszAyFWDSSsyfP9GF7F2u
 - **What it does:** Phase 0 web research, auto-selects topic 1, creates 1 article per run, runs tests, reviews, **merges automatically**, logs in `CONTENT_LOG.md`
+- **Config:** model `claude-sonnet-4-6`; Gmail connector attached (Phase 12 summary email). If autonomous runs stop again, first check the routine still exists via `RemoteTrigger {action:"list"}` — a 404/empty list means it was deleted.
 - **DST note:** cron is fixed at 13:00 UTC; update to `0 14 * * 1,3,5` in November when clocks fall back to PST
 
 ### Quarterly SEO audit — `/seo-audit`
 Runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Audits all articles, auto-fixes schema/meta gaps, opens a PR with a report of flagged items.
 
-- **Routine ID:** `trig_01Sh3FPw2RJwrnSPXG3KjnrD`
-- **Manage / disable:** https://claude.ai/code/routines/trig_01Sh3FPw2RJwrnSPXG3KjnrD
+- **Routine ID:** `trig_01ACtLHhzTt8XnwP5udBX3Fv` (recreated 2026-06-03; prior `trig_01Sh3FPw2RJwrnSPXG3KjnrD` was deleted alongside the content routine)
+- **Manage / disable:** https://claude.ai/code/routines/trig_01ACtLHhzTt8XnwP5udBX3Fv
 - **What it does:** scans all `article-*.html` for schema, OG tags, image dimensions, content quality; auto-fixes with `scripts/add-seo-improvements.js`; opens a PR with audit report — **does not merge** (needs owner review of flagged items)
 - **Audit log:** `logs/AUDIT_LOG.md`
 
