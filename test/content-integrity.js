@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Nine enforced checks (EXIT 1 on any failure) plus one informational report
+ * Ten enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -53,6 +53,14 @@
  *                    footer. Added 2026-06-03 after the brand column shipped
  *                    invisible on every article (PR #470).
  *
+ *   iso8601-timestamps — every Google-consumed content timestamp (Article/
+ *                    VideoObject datePublished/dateModified/uploadDate + OG
+ *                    article:*_time) must be full ISO 8601 with a timezone offset
+ *                    (2026-06-04T00:00:00+00:00). Bare dates fail Google's
+ *                    validator (missing timezone; hard-fails uploadDate).
+ *                    Review.datePublished is exempt (reduced-precision GBP dates).
+ *                    Added 2026-06-04 after two hubs shipped date-only.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -61,12 +69,13 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all eight enforced checks + the report
+ *   node test/content-integrity.js          — run all ten enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
  *                                             analytics-present, jsonld-valid,
- *                                             footer-self-contained, title-length)
+ *                                             footer-self-contained, iso8601-timestamps,
+ *                                             title-length)
  */
 
 'use strict';
