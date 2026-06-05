@@ -129,7 +129,7 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 2. `<link rel="canonical" href="https://fixappliancesfast.com/...">` after `<title>`.
 3. The shared interaction JS via one `<script defer src="…/site.js">` before `</body>` (single-sourced in `/site.js`; see "Shared chrome"). The old per-page inline dropdown/drawer/FAQ scripts and the `<!-- DROPDOWN_JS_INJECTED -->` sentinel were retired in PR-9 (#461).
 
-**Article dates** — all timestamps use the UTC offset (`+00:00`), not PDT (`-07:00`). See the "Article modified_time" standing rule.
+**Content timestamps (ISO 8601 with offset)** — every Google-consumed *content* timestamp must be full ISO 8601 with a timezone offset, `YYYY-MM-DDT00:00:00+00:00` (UTC, not PDT `-07:00`). This covers JSON-LD `datePublished` / `dateModified` on `Article`/`NewsArticle`/`BlogPosting`/`TechArticle` nodes (articles **and** hub pages), `VideoObject.uploadDate`, and the OG `article:published_time` / `article:modified_time` metas. A bare date (`2026-06-04`) is rejected by Google's Rich Results / GSC validator ("missing timezone"; it hard-fails `uploadDate`). Enforced site-wide by the `iso8601-timestamps` check in `test/content-integrity.js` (`npm test`). **Exception:** `Review.datePublished` is intentionally left as reduced-precision (`YYYY-MM`) — GBP only exposes "N months ago", so adding a fake day/time would fabricate precision; the CI check skips Review nodes. See also the "Article modified_time" standing rule.
 
 **Sitemap** — always regenerate with `npm run build:sitemap` and commit the result on any PR that adds, removes, or renames an `.html` file. Never hand-edit `sitemap.xml`.
 

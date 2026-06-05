@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Nine enforced checks (EXIT 1 on any failure) plus one informational report
+ * Ten enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -53,6 +53,14 @@
  *                    footer. Added 2026-06-03 after the brand column shipped
  *                    invisible on every article (PR #470).
  *
+ *   iso8601-timestamps — every Google-consumed content timestamp (Article/
+ *                    VideoObject datePublished/dateModified/uploadDate + OG
+ *                    article:*_time) must be full ISO 8601 with a timezone offset
+ *                    (2026-06-04T00:00:00+00:00). Bare dates fail Google's
+ *                    validator (missing timezone; hard-fails uploadDate).
+ *                    Review.datePublished is exempt (reduced-precision GBP dates).
+ *                    Added 2026-06-04 after two hubs shipped date-only.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -61,12 +69,13 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all eight enforced checks + the report
+ *   node test/content-integrity.js          — run all ten enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
  *                                             analytics-present, jsonld-valid,
- *                                             footer-self-contained, title-length)
+ *                                             footer-self-contained, iso8601-timestamps,
+ *                                             title-length)
  */
 
 'use strict';
@@ -293,6 +302,57 @@ if (run('footer-self-contained')) {
   }
 }
 
+// ── Check 10: iso8601-timestamps ──────────────────────────────────────────────
+// Google-consumed CONTENT timestamps must be full ISO 8601 with a timezone offset
+// (e.g. 2026-06-04T00:00:00+00:00), never a bare date ("2026-06-04"). schema.org
+// types these as DateTime; Google's Rich Results / GSC validator flags a missing
+// timezone — it hard-fails VideoObject.uploadDate ("invalid datetime value") and
+// is inconsistent for Article datePublished/dateModified. Enforced on the page's
+// own content nodes (Article/NewsArticle/BlogPosting/TechArticle → datePublished,
+// dateModified; VideoObject → uploadDate) and the OG article:*_time metas.
+//
+// Deliberately NOT enforced on Review.datePublished: those are reduced-precision
+// review dates (GBP only exposes "N months ago"), so "2026-03" is honest ISO 8601
+// and forcing T00:00:00+00:00 would fabricate day/time precision we don't have.
+// Added 2026-06-04. `Z` and ±hh:mm offsets both pass.
+if (run('iso8601-timestamps')) {
+  checked['iso8601-timestamps'] = { files: 0, stamps: 0 };
+  const ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;
+  const CONTENT_TYPES = new Set(['Article', 'NewsArticle', 'BlogPosting', 'TechArticle', 'VideoObject']);
+  const DATE_FIELDS = ['datePublished', 'dateModified', 'uploadDate'];
+  const typesOf = node => (Array.isArray(node['@type']) ? node['@type'] : [node['@type']]).filter(Boolean);
+  function walk(node, filePath, c) {
+    if (Array.isArray(node)) { node.forEach(n => walk(n, filePath, c)); return; }
+    if (!node || typeof node !== 'object') return;
+    if (typesOf(node).some(t => CONTENT_TYPES.has(t))) {
+      for (const f of DATE_FIELDS) {
+        if (typeof node[f] === 'string') {
+          c.stamps++;
+          if (!ISO.test(node[f])) issues.push(`[ISO8601] ${rel(filePath)} — ${typesOf(node).join('/')} ${f} "${node[f]}" is not full ISO 8601 with timezone offset (expected e.g. 2026-06-04T00:00:00+00:00)`);
+        }
+      }
+    }
+    for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v, filePath, c);
+  }
+  const OG_RE = /<meta\s+property="(article:(?:published|modified)_time)"\s+content="([^"]*)"/g;
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const c = checked['iso8601-timestamps'];
+    const before = c.stamps;
+    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; }  // jsonld-valid reports parse errors
+      walk(parsed, filePath, c);
+    }
+    let og;
+    OG_RE.lastIndex = 0;
+    while ((og = OG_RE.exec(content))) {
+      c.stamps++;
+      if (!ISO.test(og[2])) issues.push(`[ISO8601] ${rel(filePath)} — ${og[1]} "${og[2]}" is not full ISO 8601 with timezone offset`);
+    }
+    if (c.stamps > before) c.files++;
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -330,5 +390,6 @@ if (checked['modified-time-sync'])   parts.push(`modified_time meta = dateModifi
 if (checked['analytics-present'])    parts.push(`analytics.js present on all ${checked['analytics-present'].files} nav pages`);
 if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].blocks} JSON-LD blocks valid across ${checked['jsonld-valid'].files} files`);
 if (checked['footer-self-contained']) parts.push(`footer self-contained (no var()) across ${checked['footer-self-contained'].files} pages`);
+if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
