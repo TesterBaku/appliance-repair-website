@@ -107,13 +107,13 @@ Notes:
 | Review ID | Tustin | Count | Prior use |
 |---|---|---|---|
 | google-surma-karimova-2026-05-26 | ✓ | 2 (AT CAP) | testimonials.html photo card (count 1) → now text testimonial on Tustin |
-| google-b-p-2026-03 | ✓ | 2 (AT CAP) | Sub-Zero brand hub (count 1) |
+| google-b-p-2026-03 | ✓ | 2 (AT CAP) | Viking brand hub (count 1) |
 | google-darina-martirosyan-2026-03 | ✓ | 2 (AT CAP) | Brea city hub (count 1) |
 
 Notes (Tustin, city hub):
 - Pool is thin for an unmatched city; these three are the only cap-eligible complete-body reviews left. All Google, labeled "Orange County, CA" (GBP does not expose reviewer city; none name Tustin).
 - google-surma-karimova-2026-05-26: was a photo review card on testimonials.html (count 1). Now also a text testimonial on the Tustin hub → count 2. Per the testimonials-page note, a photo-card review promoted to a hub text testimonial is moved into cap tracking. Body displayed with light typo correction (`bodyHasTypos: true`): "Geniral Elcteic" → "General Electric".
-- google-b-p-2026-03: Sub-Zero brand hub (count 1) + Tustin = count 2. AT CAP.
+- google-b-p-2026-03: Viking brand hub (count 1) + Tustin = count 2. AT CAP.
 - google-darina-martirosyan-2026-03: Brea city hub (count 1) + Tustin = count 2. AT CAP.
 
 ## Backfill + cap reconciliation (2026-06-04, chore PR `chore/laguna-beach-testimonial-cap`)
