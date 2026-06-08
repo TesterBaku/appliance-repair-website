@@ -73,8 +73,8 @@ Enforces the ≤2-overlap rule: a review may appear on at most **2 hub pages tot
 | google-katie-anne-salen-2026-02 | | ✓ | | 2 (also Irvine) |
 | google-joellyn-meadows-2026-04 | | ✓ | | 2 (also HB) |
 | google-noelle-b-2026-03 | | | ✓ | 3 (homepage + YL pending / CM swap in progress) |
-| google-ken-turknette-2026-05 | | | ✓ | 1 |
-| google-erin-ponchak-2026-05 | | | ✓ | 1 |
+| google-ken-turknette-2026-05 | | | ✓ | 2 (also Laguna Niguel — AT CAP) |
+| google-erin-ponchak-2026-05 | | | ✓ | 2 (also Laguna Niguel — AT CAP) |
 
 Note (Yorba Linda, PR #416, 2026-05-28 — original):
 - google-a-t-2026-05-25: was count=1 (testimonials.html photo) — now count=2. AT CAP.
@@ -86,6 +86,56 @@ Note (Yorba Linda, PR #416, 2026-05-28 — testimonial swap):
 - google-noelle-b-2026-03: added to Yorba Linda. Was count=2 (homepage + Costa Mesa). Temporarily count=3 — YL pending / CM swap in progress (Costa Mesa will remove Noelle B. in a separate PR, restoring to count=2).
 - google-ken-turknette-2026-05: unchanged. count=1.
 - google-erin-ponchak-2026-05: unchanged. count=1.
+
+## City hubs — Phase 4 (Brea, Laguna Niguel) — PRs #473 / #474, 2026-06-04
+
+| Review ID | Brea | Laguna Niguel | Count |
+|---|---|---|---|
+| google-darina-martirosyan-2026-03 | ✓ | | 1 (first use) |
+| google-kat-tesh-2026-03 | ✓ | | 2 (also Viking brand hub — AT CAP) |
+| google-mike-bonilla-2026-05 | ✓ | | 2 (also Lake Forest hub* — AT CAP) |
+| google-erin-ponchak-2026-05 | | ✓ | 2 (also Yorba Linda — AT CAP) |
+| yelp-linda-b-2025-05 | | ✓ | 2 (also Lake Forest — AT CAP) |
+| google-ken-turknette-2026-05 | | ✓ | 2 (also Yorba Linda — AT CAP) |
+
+Notes:
+- Brea (PR #473): Darina Martirosyan first use (count 1). Kat Tesh was on the Viking brand hub (count 1) → count 2, at cap. Mike Bonilla rendered Title Case from pool `name` "mike bonilla".
+- Laguna Niguel (PR #474): Erin Ponchak + Ken Turknette each shared with Yorba Linda (2 each = the allowed ≤2 between two hubs). Linda B. (Yelp, Dana Point) shared with Lake Forest = count 2.
+
+## City hubs — Phase 5 (Tustin) — 2026-06-08
+
+| Review ID | Tustin | Count | Prior use |
+|---|---|---|---|
+| google-surma-karimova-2026-05-26 | ✓ | 2 (AT CAP) | testimonials.html photo card (count 1) → now text testimonial on Tustin |
+| google-b-p-2026-03 | ✓ | 2 (AT CAP) | Viking brand hub (count 1) |
+| google-darina-martirosyan-2026-03 | ✓ | 2 (AT CAP) | Brea city hub (count 1) |
+
+Notes (Tustin, city hub):
+- Pool is thin for an unmatched city; these three are the only cap-eligible complete-body reviews left. All Google, labeled "Orange County, CA" (GBP does not expose reviewer city; none name Tustin).
+- google-surma-karimova-2026-05-26: was a photo review card on testimonials.html (count 1). Now also a text testimonial on the Tustin hub → count 2. Per the testimonials-page note, a photo-card review promoted to a hub text testimonial is moved into cap tracking. Body displayed with light typo correction (`bodyHasTypos: true`): "Geniral Elcteic" → "General Electric".
+- google-b-p-2026-03: Viking brand hub (count 1) + Tustin = count 2. AT CAP.
+- google-darina-martirosyan-2026-03: Brea city hub (count 1) + Tustin = count 2. AT CAP.
+
+## Backfill + cap reconciliation (2026-06-04, chore PR `chore/laguna-beach-testimonial-cap`)
+
+Backfilled from actual page schema (`Review.author.name`) — ground truth. Previously-untracked hubs:
+
+| Hub | Reviews displayed (post-reconciliation) |
+|---|---|
+| **Lake Forest** (`appliance-repair-lake-forest-ca.html`) | yelp-linda-b-2025-05, google-mark-rivera-2026-03, google-mike-bonilla-2026-05 |
+| **Laguna Beach** (`appliance-repair-laguna-beach-ca.html`) — AFTER swap | google-elizabeth-lovejoy-2026-04-30, google-russell-kadota-2026-01, google-emily-palmer-2026-03 |
+
+**Laguna Beach over-cap swap (this chore PR):** the three original Laguna Beach testimonials were all over the ≤2 cap. Replaced with three count-1 reviews (each now at cap):
+- OUT: google-joellyn-meadows-2026-04 (was 4 → now **3**), google-molla-islam-2026-04-22 (was 4 → now **3**), google-steve-d-2026-01 (was 3 → now **2**, AT CAP — fixed).
+- IN: google-elizabeth-lovejoy-2026-04-30 (cooktop, was 1 → **2**), google-russell-kadota-2026-01 (washer, was 1 → **2**), google-emily-palmer-2026-03 (freezer, was 1 → **2**). All AT CAP. Row word-balanced 18/20/22.
+
+**Residual over-cap — NOT fixed here (grandfathered until those hubs are substantially edited):**
+- google-joellyn-meadows-2026-04 = **3** (HB + Mission Viejo + Refrigerator service hub)
+- google-molla-islam-2026-04-22 = **3** (Irvine + Newport Beach + Refrigerator service hub)
+- google-lilya-raupova-2025-05 = **3** (Garden Grove + Newport Beach + Refrigerator service hub)
+- google-katie-anne-salen-2026-02 = **3** (Irvine + Mission Viejo + Dryer service hub)
+
+These four are pre-existing drift unrelated to the Laguna Beach hub; fix the next time one of their host hubs is edited (remove the review from one hub each to reach ≤2). Do not reuse any of them on a new hub.
 
 ---
 
