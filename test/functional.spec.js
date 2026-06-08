@@ -14,6 +14,14 @@ const path = require('path');
 const DESKTOP = { width: 1440, height: 900 };
 const MOBILE  = { width: 375,  height: 812 };
 
+// Canonical AggregateRating.reviewCount — mirrors the public GBP listing total.
+// Read from the data file so this never goes stale on a review-count bump
+// (matches the content-integrity "review-count" check).
+const EXPECTED_REVIEW_COUNT = String(
+  JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'testimonials.json'), 'utf8'))
+    ._meta.sources.google.totalReviewsOnListing
+);
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 async function hrefs(page, selector) {
   return page.locator(selector).evaluateAll(els => els.map(a => a.getAttribute('href')));
@@ -781,7 +789,7 @@ for (const { brand, file } of BRAND_HUBS) {
       expect(schemas).toContain('BreadcrumbList');
     });
 
-    test('LocalBusiness schema has AggregateRating with 83 reviews', async ({ page }) => {
+    test('LocalBusiness schema has AggregateRating matching the canonical review count', async ({ page }) => {
       const rating = await page.evaluate(() => {
         const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'));
         for (const s of scripts) {
@@ -793,7 +801,7 @@ for (const { brand, file } of BRAND_HUBS) {
         return null;
       });
       expect(rating).toBeTruthy();
-      expect(String(rating.reviewCount)).toBe('83');
+      expect(String(rating.reviewCount)).toBe(EXPECTED_REVIEW_COUNT);
       expect(String(rating.ratingValue)).toBe('5.0');
     });
 

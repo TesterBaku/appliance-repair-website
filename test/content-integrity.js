@@ -6,7 +6,13 @@
  * shipped before it was added:
  *
  *   review-count   — every page with `AggregateRating.reviewCount` must match
- *                    `data/testimonials.json` `_meta.sources.google.capturedCount`.
+ *                    `data/testimonials.json` `_meta.sources.google.totalReviewsOnListing`
+ *                    (the public GBP listing total the schema mirrors). This is
+ *                    distinct from `capturedCount`, which tracks how many reviews
+ *                    we've transcribed into the pool; the two diverge whenever the
+ *                    listing gains a review we haven't captured yet (currently 84
+ *                    on the listing vs 83 transcribed). AggregateRating is a public
+ *                    claim about the listing, so it tracks the listing total.
  *                    Added 2026-05-21 after PRs #374–377 spent 4 commits
  *                    reconciling 5 different count values across 32 files.
  *
@@ -113,7 +119,7 @@ function run(check) { return mode === 'all' || mode === check; }
 // ── Check 1: review-count ─────────────────────────────────────────────────────
 if (run('review-count')) {
   const json = JSON.parse(fs.readFileSync(path.join(root, 'data', 'testimonials.json'), 'utf8'));
-  const expectedCount = String(json._meta.sources.google.capturedCount);
+  const expectedCount = String(json._meta.sources.google.totalReviewsOnListing);
   checked['review-count'] = { expected: expectedCount, files: 0 };
 
   for (const filePath of allHtml) {
