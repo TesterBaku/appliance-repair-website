@@ -365,6 +365,13 @@ const CITY_HUBS = [
   'appliance-repair-garden-grove-ca',
   'appliance-repair-orange-ca',
   'appliance-repair-laguna-beach-ca',
+  'appliance-repair-newport-beach-ca',
+  'appliance-repair-mission-viejo-ca',
+  'appliance-repair-lake-forest-ca',
+  'appliance-repair-yorba-linda-ca',
+  'appliance-repair-brea-ca',
+  'appliance-repair-laguna-niguel-ca',
+  'appliance-repair-tustin-ca',
 ];
 
 for (const slug of CITY_HUBS) {
