@@ -148,8 +148,7 @@ All rule files live in `.claude/rules/` (gitignored — local-only, kept out of 
 - `.claude/rules/gbp-platform-policy.md` — verify platform content policies before writing any external-platform copy (GBP posts must be purely descriptive)
 
 ## Active plans (tasks/ — gitignored, local)
-- `tasks/backlog.md` — single source of truth for all open work
-- `tasks/schedule-4-weeks.md` — current dated execution plan
+- `tasks/backlog.md` — single source of truth for all open work (includes the Months 2–3 themes; the May 11–Jun 7 4-week schedule completed and was retired 2026-06-08)
 - `tasks/architecture-cleanup-plan-2026-05-31.md` — the P0–P3 architecture/refactor roadmap (footer/nav/head partials, CSS/JS consolidation, schema)
 - `tasks/lessons.md` — patterns learned from corrections; review at session start
 
