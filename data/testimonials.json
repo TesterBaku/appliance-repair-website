@@ -1,12 +1,12 @@
 {
   "_meta": {
-    "lastUpdated": "2026-05-31",
+    "lastUpdated": "2026-06-08",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 83,
+        "totalReviewsOnListing": 84,
         "capturedCount": 83,
         "ratingAverage": 5,
         "captureHistory": [
@@ -17,7 +17,8 @@
           { "date": "2026-05-20", "note": "+1 no-body record (Drew McMillan, 5-star rating, no body, no photo, no service tag) added; gap between capturedCount and totalReviewsOnListing now closed at 78." },
           { "date": "2026-05-23", "note": "+2 reviews (mike bonilla, no appliance tag; Ken Turknette, wine cooler repair) captured live from GBP reviews dialog via Chrome MCP, sorted Newest. GBP total bumped 78 to 80 (owner-confirmed via 80-review count on knowledge panel)." },
           { "date": "2026-05-26", "note": "+2 reviews (Surma Karimova, GE oven, with photo; A T, Viking wine cooler compressor replacement in Costa Mesa, with exterior photo) added from owner-supplied screenshot and downloaded review photos. Two technician job photos (brazing + compressor) saved to images/real/business/ for use on recent-repairs, Costa Mesa city page, and wine cooler hub. GBP total bumped 80 to 82." },
-          { "date": "2026-05-31", "note": "GBP total bumped 82 to 83 (owner-confirmed via GBP screenshot showing 83 reviews). The item shown as newest on GBP is Roger Antonie's pre-existing review (originally approxDate 2026-03), edited to append 'Thank you'; his existing record body was updated accordingly (no new card added). The actual 83rd, genuinely-new review was not visible in the supplied screenshot and has not yet been captured." }
+          { "date": "2026-05-31", "note": "GBP total bumped 82 to 83 (owner-confirmed via GBP screenshot showing 83 reviews). The item shown as newest on GBP is Roger Antonie's pre-existing review (originally approxDate 2026-03), edited to append 'Thank you'; his existing record body was updated accordingly (no new card added). The actual 83rd, genuinely-new review was not visible in the supplied screenshot and has not yet been captured." },
+          { "date": "2026-06-08", "note": "+1 review (Pawan Deepak, range-hood light-fixture repair by tech Ag, with photo) captured from owner-supplied GBP screenshot. GBP listing total bumped 83 to 84. Review photo saved to images/real/reviews/hood-pawan-deepak.webp (downscaled from 3393x1495/602KB to 1200x529/35KB to match the gallery). Reconciliation: the array held 82 genuine google records while capturedCount read 83 (a phantom slot from the 2026-05-31 optimistic bump, where no new card was actually added). This Pawan Deepak card fills that slot, so capturedCount stays 83 and is now accurate; the 84-vs-83 gap is the still-uncaptured review the 2026-05-31 note flagged. capturedCount intentionally NOT bumped to 84 here: that drives every page's AggregateRating.reviewCount (content-integrity check) and a site-wide bump to 84 is deferred per tasks/add-review-pawan-deepak-2026-06-08.md Task 4. Next GBP scrape should verify the two newest cards to confirm no older review is still missing." }
         ]
       },
       "yelp": {
@@ -52,6 +53,24 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-pawan-deepak-2026-06-01",
+      "source": "google",
+      "name": "Pawan Deepak",
+      "location": "Orange County, CA",
+      "appliance": "range hood",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "7 days ago",
+      "isNew": true,
+      "body": "Agee was very professional and did a great job repairing the light fixture of the hood.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/hood-pawan-deepak.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-06-08. Range-hood light-fixture repair by tech Ag ('Agee'). Photo shows a stainless-steel range-hood underside (downscaled to 1200px-wide webp to match the review gallery). Location standardized to 'Orange County, CA' per Google source policy (city not exposed). bodyHasTypos=false ('Agee' is the customer's spelling of the technician's name, preserved verbatim). This card fills the phantom capturedCount slot from the 2026-05-31 optimistic bump; GBP listing total moved to 84 (see _meta reconciliation note)."
+    },
     {
       "id": "google-surma-karimova-2026-05-26",
       "source": "google",
