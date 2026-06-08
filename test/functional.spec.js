@@ -325,8 +325,8 @@ for (const { slug } of SERVICE_HUBS) {
       await page.goto(`/pages/${slug}.html`);
     });
 
-    test('page title contains brand name', async ({ page }) => {
-      await expect(page).toHaveTitle(/Universal Appliances Repair/);
+    test('page title contains the appliance and Orange County location', async ({ page }) => {
+      await expect(page).toHaveTitle(/Repair in Orange County, CA/);
     });
 
     test('FAQ accordion toggles', async ({ page }) => {
@@ -456,8 +456,8 @@ test.describe('Testimonials page', () => {
     await page.goto('/pages/testimonials.html');
   });
 
-  test('page title contains brand name', async ({ page }) => {
-    await expect(page).toHaveTitle(/Universal Appliances Repair/);
+  test('page title is the testimonials/reviews title', async ({ page }) => {
+    await expect(page).toHaveTitle(/Customer Reviews/);
   });
 
   test('testimonial cards present', async ({ page }) => {
@@ -484,8 +484,8 @@ test.describe('Blog page', () => {
     await page.goto('/pages/blog.html');
   });
 
-  test('page title contains brand name', async ({ page }) => {
-    await expect(page).toHaveTitle(/Universal Appliances Repair/);
+  test('page title is the blog title', async ({ page }) => {
+    await expect(page).toHaveTitle(/Appliance Repair Blog/);
   });
 
   test('at least 5 article links present', async ({ page }) => {
@@ -509,8 +509,8 @@ test.describe('Service areas page', () => {
     await page.goto('/pages/service-areas.html');
   });
 
-  test('page title contains brand name', async ({ page }) => {
-    await expect(page).toHaveTitle(/Universal Appliances Repair/);
+  test('page title is the service-areas title', async ({ page }) => {
+    await expect(page).toHaveTitle(/Service Areas/);
   });
 
   test('at least 8 city hub links', async ({ page }) => {
@@ -568,7 +568,7 @@ for (const cat of BLOG_CATEGORIES) {
     });
 
     test('has correct title', async ({ page }) => {
-      await expect(page).toHaveTitle(/Universal Appliances Repair/);
+      await expect(page).toHaveTitle(/Tips/);
     });
 
     test('page loads without error', async ({ page }) => {
@@ -742,7 +742,6 @@ for (const { brand, file } of BRAND_HUBS) {
       const title = await page.title();
       expect(title).toContain(brand);
       expect(title).toContain('Orange County');
-      expect(title).toContain('Universal Appliances Repair');
     });
 
     test('canonical link points to fixappliancesfast.com', async ({ page }) => {

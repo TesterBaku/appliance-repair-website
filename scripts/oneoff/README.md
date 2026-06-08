@@ -18,6 +18,7 @@ so the active set is obvious.
 | `add-yelp-source.js` | added the Yelp source block to `data/testimonials.json` |
 | `repair-pr313-bugs.mjs` | PR #313-specific repair |
 | `trim_testimonials_safe.js` | one-time removal of specific brand-hub testimonial cards |
+| `trim-titles-2026-06-08.py` | P1-4 title sweep: trimmed all `<title>`/`og:title`/`twitter:title` to ≤60 chars site-wide (dropped the brand suffix), bumped article dates |
 
 **Active scripts** live in `scripts/` (root): build-sitemap, clean-images,
 optimize-logo, build-favicons, apply-favicon-metadata, sync-testimonials-count,
