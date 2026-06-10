@@ -121,11 +121,12 @@ Notes (Tustin, city hub):
 | Review ID | Fountain Valley | Count | Prior use |
 |---|---|---|---|
 | google-pawan-deepak-2026-06-01 | ✓ | 1 (first hub use) | none (new review, captured 2026-06-08) |
-| google-a-t-2026-05-25 | ✓ | 2 (AT CAP) | testimonials.html photo card → now also FV text testimonial |
-| google-dana-mcneill-2026-03 | ✓ | 2 (AT CAP) | Wolf brand hub (count 1) |
+| google-a-t-2026-05-25 | ✓ | 2 (AT CAP) | Costa Mesa hub text testimonial (verified by page grep) → now also FV |
+| google-dana-mcneill-2026-03 | ✓ | 1 | testimonials.html page card only; NOT on the Wolf hub despite the stale ✓ in the Brand-hubs table below (verified against actual page schema) |
 
 Notes (Fountain Valley):
-- **Pool correction (2026-06-09):** the original FV draft used Lale + Marcy Kucik, but an independent review caught that both were already AT CAP (Lale: Santa Ana city + Refrigerator service hub; Marcy: Anaheim city + Refrigerator service hub). The Phase-2 table's "Count" column only tallies that table, NOT the service/brand/about tables — so it under-reports. Swapped to A T + Dana McNeill (true count ≤1). Light typo edits per `bodyHasTypos`: A T "work!!!"→"works!", "fixed.Compressor"→"fixing it. Compressor"; Dana "PLease"→"Please".
+- **Pool correction (2026-06-09):** the original FV draft used Lale + Marcy Kucik, but an independent review caught both were already AT CAP (Lale: Santa Ana + Refrigerator service hub; Marcy: Anaheim + Refrigerator service hub). Swapped to A T + Dana McNeill. Light typo edits per `bodyHasTypos`: A T "work!!!"→"works!", "fixed.Compressor"→"fixing it. Compressor"; Dana "PLease"→"Please".
+- **⚠️ This tracker has drifted from reality.** Ground truth is each hub page's `Review.author.name` schema, not this doc. Confirmed drift this session: (a) the Phase-2 "Count" column under-reports because it ignores the service/brand/about tables; (b) A T's Costa Mesa placement was never recorded in the Phase-2 Costa Mesa column; (c) the Brand-hubs Wolf table marks Dana McNeill, but she is not on the live Wolf page. **Before reusing any review on a future hub, grep the actual `pages/*.html` for that reviewer's name — do not trust the ✓ marks alone.**
 - **Pool now effectively exhausted for new hubs.** After FV, the only displayable reviews with headroom are two long Yelp reviews (mrs d. 66w, William L. 47w) + George (6w) + Pawan's 2nd slot — they cannot form a balanced 3-card row, so Westminster + Buena Park are DEFERRED until new GBP reviews are captured. (Per `testimonial-selection.md`: a short/deferred section beats a thin or unbalanced one.)
 
 ## Backfill + cap reconciliation (2026-06-04, chore PR `chore/laguna-beach-testimonial-cap`)
