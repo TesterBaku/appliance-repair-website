@@ -1,304 +1,130 @@
-# Testimonial Usage Tracker
+# Testimonial Hub-Usage Tracker
 
-Enforces the ≤2-overlap rule: a review may appear on at most **2 hub pages total** (homepage counts as 1).
+> **Auto-generated from live HTML on 2026-06-10** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
+> re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
+> after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
 
-**Key:** ✓ = used on this page | blank = not used
+## The rule (canonical: `.claude/rules/testimonial-selection.md`)
 
----
+**A review may appear on at most 2 HUBS.** A hub is a city hub
+(`pages/appliance-repair-*-ca.html`) or a service/brand/cost hub (`pages/*-orange-county.html`).
+The **homepage** and the **testimonials page** are NOT hubs and do NOT count toward the limit.
 
-## City hubs — Phase 2
+## Capacity at a glance
 
-| Review ID | Homepage | Anaheim | Santa Ana | Irvine | HB | Garden Grove | Fullerton | Orange | Costa Mesa | Newport Beach | Count |
-|---|---|---|---|---|---|---|---|---|---|---|
-| google-noelle-b-2026-03 | ✓ | | | | | | | | ✓ | 3 (also YL pending / CM swap in progress) |
-| google-jennifer-trette-2026-02 | ✓ | | | | | | | | ✓ | 2 |
-| google-kathy-calderon-2025-09 | ✓ | | | | | | | | | 1 |
-| google-arzuman-qarayev-2025-05 | ✓ | ✓ | | | | | | | | 2 |
-| google-andrea-hall-2026-04-29 | | | | | | | | | | 2 |
-| google-elizabeth-lovejoy-2026-04-30 | ✓ | | | | | | | | | 2 |
-| google-kenan-ken-2026-03 | ✓ | | | | | | | | | 2 |
-| google-patricio-jr-villanueva-2025-12 | ✓ | | | | | | | | | 2 |
-| google-cheryl-lemire-2026-04 | ✓ | | | | | | | | | 2 |
-| google-jovita-osorio-2026-04 | | ✓ | | | | | | | | 2 |
-| google-wendy-henderson-2026-02 | | ✓ | | | | | | | | 1 |
-| google-tony-tomassini-2026-03 | | ✓ | | | | | | | | ✓ | 2 |
-| google-marcy-kucik-2026-02 | | ✓ | | | | | | | | 1 |
-| google-emily-palmer-2026-03 | | ✓ | | | | | | | | 2 |
-| google-jeff-lane-songs-2026-02 | | ~~✓~~ removed (nameFlag:non-person) | | | | | | | | 0 |
-| google-danette-vanover-2026-01 | | | ✓ | | | | | | | 2 |
-| google-lale-2026-02 | | | ✓ | | | | | | | 1 |
-| google-jonathan-stone-2026-02 | | | ✓ | | | | | | | 2 |
-| google-cindy-montefu-2026-01 | | | ✓ | | | | | | | 2 |
-| google-roger-antonie-2026-03 | | | ✓ | | | | | | | 2 |
-| google-john-dinger-2025-10 | | | ✓ | | | | | | | 2 |
-| google-molla-islam-2026-04-22 | | | | ✓ | | | | | | ✓ | 2 |
-| google-russell-kadota-2026-01 | | | | ✓ | | | | | | 1 |
-| google-katie-anne-salen-2026-02 | | | | ✓ | | | | | | 1 |
-| google-robert-clemmons-2026-01 | | | | ✓ | | | | | | 1 |
-| google-steve-d-2026-01 | | | | ✓ | | | | | | ✓ | 2 |
-| google-dave-brisbin-2025-07 | | | | ✓ | | | | | | ✓ | 2 |
-| google-kelly-heyden-2025-07 | | | | | ✓ | | | | | 2 |
-| google-william-nugent-2026-01 | | | | | ✓ | | | | | 2 |
-| google-justine-shaw-2026-02 | | | | | ✓ | | | | | 2 |
-| google-joellyn-meadows-2026-04 | | | | | ✓ | | | | | 1 |
-| google-susan-gerakos-2026-03 | | | | | ✓ | | | | | 1 |
-| google-julie-l-2025-05 | | | | | ✓ | | | | | 2 |
-| google-craig-tudor-2026-02 | | | | | | ✓ | | | | 2 |
-| google-ernesto-ruiz-2025-05 | | | | | | ✓ | | | | 2 |
-| google-lilya-raupova-2025-05 | | | | | | ✓ | | | | 1 |
-| google-karen-myhra-2025-11 | | | | | | ✓ | | | | 2 |
-| google-george-mendoza-2026-04 | | | | | | ✓ | | | | 2 |
-| google-michele-ohanian-2025-12 | | | | | | | ✓ | | | 1 |
-| google-laman-anvarli-2025-08 | | | | | | | ✓ | | | 2 |
-| google-veronique-reaver-2025-09 | | | | | | | ✓ | | | 1 |
-| google-matt-snyder-2025-05 | | | | | | | ✓ | | | 2 |
-| google-katie-holst-2026-02 | | | | | | | ✓ | | | 2 |
-| google-brian-brassil-2026-03 | | | | | | | ✓ | | | 1 |
-| google-mark-koss-2025-08 | | | | | | | | ✓ | | 1 |
-| google-cheryl-kirkpatrick-2025-11 | | | | | | | | ✓ | | 2 |
-| google-rick-deangelo-2025-05 | | | | | | | | ✓ | | 2 |
-| google-susie-arii-2026-04 | | | | | | | | ✓ | | 1 |
-| google-stephen-stephen-2026-04 | | | | | | | | ✓ | | 2 |
-| google-susan-ryan-2026-04 | | | | | | | | ✓ | | 2 |
-| google-greg-schnabel-2025-12 | | | | | | | | | ✓ | 1 |
-| google-shawne-king-2025-07 | | | | | | | | | ✓ | 2 |
-| google-dena-fisher-2026-04 | | | | | | | | | ✓ | 2 |
-| google-paul-guns-2026-02 | | | | | | | | | ✓ | 2 |
-
-## City hubs — Phase 3 (Laguna Beach, Mission Viejo, Yorba Linda)
-
-| Review ID | Laguna Beach | Mission Viejo | Yorba Linda | Count |
-|---|---|---|---|---|
-| google-robert-clemmons-2026-01 | | ✓ | | 2 (also Irvine) |
-| google-katie-anne-salen-2026-02 | | ✓ | | 2 (also Irvine) |
-| google-joellyn-meadows-2026-04 | | ✓ | | 2 (also HB) |
-| google-noelle-b-2026-03 | | | ✓ | 3 (homepage + YL pending / CM swap in progress) |
-| google-ken-turknette-2026-05 | | | ✓ | 2 (also Laguna Niguel — AT CAP) |
-| google-erin-ponchak-2026-05 | | | ✓ | 2 (also Laguna Niguel — AT CAP) |
-
-Note (Yorba Linda, PR #416, 2026-05-28 — original):
-- google-a-t-2026-05-25: was count=1 (testimonials.html photo) — now count=2. AT CAP.
-- google-ken-turknette-2026-05: first use on Yorba Linda hub = count 1.
-- google-erin-ponchak-2026-05: first use on Yorba Linda hub = count 1.
-
-Note (Yorba Linda, PR #416, 2026-05-28 — testimonial swap):
-- google-a-t-2026-05-25: removed from Yorba Linda. Reverts to count=1 (testimonials.html photo only). Moving to Costa Mesa PR.
-- google-noelle-b-2026-03: added to Yorba Linda. Was count=2 (homepage + Costa Mesa). Temporarily count=3 — YL pending / CM swap in progress (Costa Mesa will remove Noelle B. in a separate PR, restoring to count=2).
-- google-ken-turknette-2026-05: unchanged. count=1.
-- google-erin-ponchak-2026-05: unchanged. count=1.
-
-## City hubs — Phase 4 (Brea, Laguna Niguel) — PRs #473 / #474, 2026-06-04
-
-| Review ID | Brea | Laguna Niguel | Count |
-|---|---|---|---|
-| google-darina-martirosyan-2026-03 | ✓ | | 1 (first use) |
-| google-kat-tesh-2026-03 | ✓ | | 2 (also Viking brand hub — AT CAP) |
-| google-mike-bonilla-2026-05 | ✓ | | 2 (also Lake Forest hub* — AT CAP) |
-| google-erin-ponchak-2026-05 | | ✓ | 2 (also Yorba Linda — AT CAP) |
-| yelp-linda-b-2025-05 | | ✓ | 2 (also Lake Forest — AT CAP) |
-| google-ken-turknette-2026-05 | | ✓ | 2 (also Yorba Linda — AT CAP) |
-
-Notes:
-- Brea (PR #473): Darina Martirosyan first use (count 1). Kat Tesh was on the Viking brand hub (count 1) → count 2, at cap. Mike Bonilla rendered Title Case from pool `name` "mike bonilla".
-- Laguna Niguel (PR #474): Erin Ponchak + Ken Turknette each shared with Yorba Linda (2 each = the allowed ≤2 between two hubs). Linda B. (Yelp, Dana Point) shared with Lake Forest = count 2.
-
-## City hubs — Phase 5 (Tustin) — 2026-06-08
-
-| Review ID | Tustin | Count | Prior use |
-|---|---|---|---|
-| google-surma-karimova-2026-05-26 | ✓ | 2 (AT CAP) | testimonials.html photo card (count 1) → now text testimonial on Tustin |
-| google-b-p-2026-03 | ✓ | 2 (AT CAP) | Viking brand hub (count 1) |
-| google-darina-martirosyan-2026-03 | ✓ | 2 (AT CAP) | Brea city hub (count 1) |
-
-Notes (Tustin, city hub):
-- Pool is thin for an unmatched city; these three are the only cap-eligible complete-body reviews left. All Google, labeled "Orange County, CA" (GBP does not expose reviewer city; none name Tustin).
-- google-surma-karimova-2026-05-26: was a photo review card on testimonials.html (count 1). Now also a text testimonial on the Tustin hub → count 2. Per the testimonials-page note, a photo-card review promoted to a hub text testimonial is moved into cap tracking. Body displayed with light typo correction (`bodyHasTypos: true`): "Geniral Elcteic" → "General Electric".
-- google-b-p-2026-03: Viking brand hub (count 1) + Tustin = count 2. AT CAP.
-- google-darina-martirosyan-2026-03: Brea city hub (count 1) + Tustin = count 2. AT CAP.
-
-## City hubs — Phase 6 (Fountain Valley) — PR #499, 2026-06-09
-
-| Review ID | Fountain Valley | Count | Prior use |
-|---|---|---|---|
-| google-pawan-deepak-2026-06-01 | ✓ | 1 (first hub use) | none (new review, captured 2026-06-08) |
-| google-a-t-2026-05-25 | ✓ | 2 (AT CAP) | Costa Mesa hub text testimonial (verified by page grep) → now also FV |
-| google-dana-mcneill-2026-03 | ✓ | 1 | testimonials.html page card only; NOT on the Wolf hub despite the stale ✓ in the Brand-hubs table below (verified against actual page schema) |
-
-Notes (Fountain Valley):
-- **Pool correction (2026-06-09):** the original FV draft used Lale + Marcy Kucik, but an independent review caught both were already AT CAP (Lale: Santa Ana + Refrigerator service hub; Marcy: Anaheim + Refrigerator service hub). Swapped to A T + Dana McNeill. Light typo edits per `bodyHasTypos`: A T "work!!!"→"works!", "fixed.Compressor"→"fixing it. Compressor"; Dana "PLease"→"Please".
-- **⚠️ This tracker has drifted from reality.** Ground truth is each hub page's `Review.author.name` schema, not this doc. Confirmed drift this session: (a) the Phase-2 "Count" column under-reports because it ignores the service/brand/about tables; (b) A T's Costa Mesa placement was never recorded in the Phase-2 Costa Mesa column; (c) the Brand-hubs Wolf table marks Dana McNeill, but she is not on the live Wolf page. **Before reusing any review on a future hub, grep the actual `pages/*.html` for that reviewer's name — do not trust the ✓ marks alone.**
-- **Pool now effectively exhausted for new hubs.** After FV, the only displayable reviews with headroom are two long Yelp reviews (mrs d. 66w, William L. 47w) + George (6w) + Pawan's 2nd slot — they cannot form a balanced 3-card row, so Westminster + Buena Park are DEFERRED until new GBP reviews are captured. (Per `testimonial-selection.md`: a short/deferred section beats a thin or unbalanced one.)
-
-## Backfill + cap reconciliation (2026-06-04, chore PR `chore/laguna-beach-testimonial-cap`)
-
-Backfilled from actual page schema (`Review.author.name`) — ground truth. Previously-untracked hubs:
-
-| Hub | Reviews displayed (post-reconciliation) |
+| Metric | Value |
 |---|---|
-| **Lake Forest** (`appliance-repair-lake-forest-ca.html`) | yelp-linda-b-2025-05, google-mark-rivera-2026-03, google-mike-bonilla-2026-05 |
-| **Laguna Beach** (`appliance-repair-laguna-beach-ca.html`) — AFTER swap | google-elizabeth-lovejoy-2026-04-30, google-russell-kadota-2026-01, google-emily-palmer-2026-03 |
+| Distinct reviews currently on >=1 hub | 77 |
+| On exactly 1 hub (1 free slot each) | 41 |
+| On exactly 2 hubs (at cap) | 32 |
+| On 3 hubs (grandfathered exceptions) | 4 |
+| **Free hub-slots available now** | **41** |
+| Approx. new city hubs supportable @ 3/hub | **~13** (before appliance-match / brand-variety / row-balance filters) |
 
-**Laguna Beach over-cap swap (this chore PR):** the three original Laguna Beach testimonials were all over the ≤2 cap. Replaced with three count-1 reviews (each now at cap):
-- OUT: google-joellyn-meadows-2026-04 (was 4 → now **3**), google-molla-islam-2026-04-22 (was 4 → now **3**), google-steve-d-2026-01 (was 3 → now **2**, AT CAP — fixed).
-- IN: google-elizabeth-lovejoy-2026-04-30 (cooktop, was 1 → **2**), google-russell-kadota-2026-01 (washer, was 1 → **2**), google-emily-palmer-2026-03 (freezer, was 1 → **2**). All AT CAP. Row word-balanced 18/20/22.
+The pool is **not** exhausted: the ~39 reviews sitting on a single hub each have a free
+second slot. Allocate from the "1 free slot" list below when building new hubs.
 
-**Residual over-cap — NOT fixed here (grandfathered until those hubs are substantially edited):**
-- google-joellyn-meadows-2026-04 = **3** (HB + Mission Viejo + Refrigerator service hub)
-- google-molla-islam-2026-04-22 = **3** (Irvine + Newport Beach + Refrigerator service hub)
-- google-lilya-raupova-2025-05 = **3** (Garden Grove + Newport Beach + Refrigerator service hub)
-- google-katie-anne-salen-2026-02 = **3** (Irvine + Mission Viejo + Dryer service hub)
+## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
 
-These four are pre-existing drift unrelated to the Laguna Beach hub; fix the next time one of their host hubs is edited (remove the review from one hub each to reach ≤2). Do not reuse any of them on a new hub.
+These four predate the ≤2-hubs rule and are sanctioned. Future audits must treat them as allowed,
+not as violations to fix. No other review may exceed 2 hubs.
 
----
-
-## Service hubs — Phase 3
-
-| Review ID | Refrigerator | Washer | Dryer | Dishwasher | Oven-Stove | Freezer | Wine Cooler | Garbage Disposal |
-|---|---|---|---|---|---|---|---|---|
-| google-lilya-raupova-2025-05 | ✓ | | | | | | | | Newport Beach city hub (count=2) |
-| google-lale-2026-02 | ✓ | | | | | | | |
-| google-joellyn-meadows-2026-04 | ✓ | | | | | | | |
-| google-molla-islam-2026-04-22 | ✓ | | | | | | | |
-| google-marcy-kucik-2026-02 | ✓ | | | | | | | |
-| google-dave-brisbin-2025-07 | ✓ | | | | | | | |
-| google-emily-palmer-2026-03 | | | | | | ✓ | | |
-| google-andrea-hall-2026-04-29 | | | | | | ✓ | | |
-| google-william-nugent-2026-01 | | | | | | ✓ | | |
-| google-laman-anvarli-2025-08 | | | | | | ✓ | | |
-| google-jovita-osorio-2026-04 | | | | | | | ✓ | |
-| google-rick-deangelo-2025-05 | | | | | | | ✓ | |
-| google-cheryl-kirkpatrick-2025-11 | | | | | | | ✓ | |
-| google-naoki-macinnes-2026-03 | | | | | | | ✓ | |
-| google-justine-shaw-2026-02 | | | | | | | | ✓ |
-| google-stephen-stephen-2026-04 | | | | | | | | ✓ |
-| google-matt-snyder-2025-05 | | | | | | | | ✓ |
-| google-jonra-babiracki-2026-03 | | | | | | | | ✓ |
-| google-danette-vanover-2026-01 | | ✓ | | | | | | |
-| google-russell-kadota-2026-01 | | ✓ | | | | | | |
-| google-kelly-heyden-2025-07 | | ✓ | | | | | | |
-| google-mark-rivera-2026-03 | | ✓ | | | | | | |
-| google-patricio-jr-villanueva-2025-12 | | ✓ | | | | | | |
-| google-craig-tudor-2026-02 | | ✓ | | | | | | |
-| google-cindy-montefu-2026-01 | | | ✓ | | | | | |
-| google-katie-anne-salen-2026-02 | | | ✓ | | | | | |
-| google-julie-l-2025-05 | | | ✓ | | | | | |
-| google-ernesto-ruiz-2025-05 | | | ✓ | | | | | |
-| google-dena-fisher-2026-04 | | | ✓ | | | | | |
-| google-cheryl-lemire-2026-04 | | | ✓ | | | | | |
-| google-robert-clemmons-2026-01 | | | | ✓ | | | | |
-| google-jonathan-stone-2026-02 | | | | ✓ | | | | |
-| google-katie-holst-2026-02 | | | | ✓ | | | | |
-| google-karen-myhra-2025-11 | | | | ✓ | | | | |
-| google-tony-tomassini-2026-03 | | | | ✓ | | | | |
-| google-katherine-bosboom-2026-03 | | | | ✓ | | | | ← also cost hub (count=2)
-| google-steve-d-2026-01 | | | | | ✓ | | | |
-| google-susan-ryan-2026-04 | | | | | ✓ | | | |
-| google-roger-antonie-2026-03 | | | | | ✓ | | | |
-| google-kenan-ken-2026-03 | | | | | ✓ | | | |
-| google-george-mendoza-2026-04 | | | | | ✓ | | | |
-| google-elizabeth-lovejoy-2026-04-30 | | | | | ✓ | | | |
-
----
-
-## Cost hub — S-2 (merged PR #190, 2026-05-07)
-
-| Review ID | Cost Hub |
+| Review | Hubs (3) |
 |---|---|
-| google-andrea-hall-2026-04-29 | ✓ |
-| google-john-dinger-2025-10 | ✓ |
-| google-shawne-king-2025-07 | ✓ |
-| google-d-light-2026-02 | ✓ |
-| google-paul-guns-2026-02 | ✓ |
+| Joellyn Meadows | huntington-beach, mission-viejo, refrigerator-repair-hub |
+| Katie Anne Salen | irvine, mission-viejo, dryer-repair-hub |
+| Lilya Raupova | garden-grove, newport-beach, refrigerator-repair-hub |
+| Molla Islam | irvine, newport-beach, refrigerator-repair-hub |
 
-Note: All 5 are pricing/value-themed reviews. D Light (count=1, first use). Andrea Hall, John Dinger, Shawne King, paul guns all now at count=2 (at cap).
+## Reviews with a free slot (on exactly 1 hub) — allocate these first
 
----
-
-## Brand hubs — L-2
-
-| Review ID | Sub-Zero | Wolf | Miele | Viking | Thermador | Dacor |
-|---|---|---|---|---|---|
-| google-brian-brassil-2026-03 | ✓ | | | | |
-| google-naoki-macinnes-2026-03 | ✓ | | | | |
-| google-suzan-hier-2025-05 | ✓ | | | | |
-| google-jeff-c-2026-03 | ✓ | | | | |
-| google-susan-gerakos-2026-03 | ✓ | | | | |
-| google-clifford-wright-2026-04 | | ✓ | | | |
-| google-dana-mcneill-2026-03 | | ✓ | | | |
-| google-elvin-mammadov-2026-01 | | ✓ | | | |
-| google-laurie-summers-2025-05 | | ✓ | | | |
-| google-andrea-walter-2025-05 | | ✓ | | | |
-| google-greg-schnabel-2025-12 | | | ✓ | | |
-| google-michele-ohanian-2025-12 | | | ✓ | | |
-| google-veronique-reaver-2025-09 | | | ✓ | | |
-| google-george-2025-05 | | | ✓ | | |
-| google-susie-arii-2026-04 | | | ✓ | | |
-| google-kat-tesh-2026-03 | | | | ✓ | |
-| google-chi-wright-2025-06 | | | | ✓ | |
-| google-satara-armstrong-charlson-2026-03 | | | | ✓ | |
-| google-diane-tweedy-2025-05 | | | | ✓ | |
-| google-b-p-2026-03 | | | | ✓ | |
-| google-d-light-2026-02 | | | | | ✓ |
-| google-elvin-mammadov-2026-01 | | ✓ | | | ✓ |
-| google-clifford-wright-2026-04 | | ✓ | | | ✓ |
-| google-laurie-summers-2025-05 | | ✓ | | | ✓ |
-| google-mark-koss-2025-08 | | | | | ✓ | |
-| google-kathy-calderon-2025-09 | | | | | | ✓ |
-| yelp-mrs-d-2024-08 | | | | | | ✓ |
-| yelp-william-l-2024-08 | | | | | | ✓ |
-
-Note: All 5 are first use on the Sub-Zero hub.
-- google-brian-brassil-2026-03: Fullerton city hub (count=1) + Sub-Zero hub = count 2. AT CAP.
-- google-naoki-macinnes-2026-03: Wine Cooler hub (count=1) + Sub-Zero hub = count 2. AT CAP.
-- google-suzan-hier-2025-05: About page (count=1) + Sub-Zero hub = count 2. AT CAP.
-- google-jeff-c-2026-03: About page (count=1) + Sub-Zero hub = count 2. AT CAP.
-- google-susan-gerakos-2026-03: HB city hub (count=1) + Sub-Zero hub = count 2. AT CAP.
-Wolf hub (count=1 for all 5):
-- google-clifford-wright-2026-04: Wolf hub = count 1.
-Dacor hub (PR #333, 2026-05-16):
-- google-kathy-calderon-2025-09: city hub (count=1) + Dacor = count 2. AT CAP.
-- yelp-mrs-d-2024-08: first use = count 1.
-- yelp-william-l-2024-08: first use = count 1.
-- google-dana-mcneill-2026-03: Wolf hub = count 1.
-- google-elvin-mammadov-2026-01: Wolf hub = count 1.
-- google-laurie-summers-2025-05: Wolf hub = count 1.
-- google-andrea-walter-2025-05: Wolf hub = count 1.
-Miele hub (count=1 for all 5):
-- google-greg-schnabel-2025-12: Costa Mesa city hub (count=1) + Miele hub = count 2. AT CAP.
-- google-michele-ohanian-2025-12: Fullerton city hub (count=1) + Miele hub = count 2. AT CAP.
-- google-veronique-reaver-2025-09: Fullerton city hub (count=1) + Miele hub = count 2. AT CAP.
-- google-george-2025-05: Miele hub = count 1. (First use — not previously tracked.)
-- google-susie-arii-2026-04: Orange city hub (count=1) + Miele hub = count 2. AT CAP.
-
----
-
-## About page — Phase 5
-
-| Review ID | About |
+| Review | On hub |
 |---|---|
-| google-suzan-hier-2025-05 | ✓ |
-| google-wendy-henderson-2026-02 | ✓ |
-| google-jeff-c-2026-03 | ✓ |
+| Andrea Hall | cost-hub |
+| Arzuman Qarayev | anaheim |
+| Brian Brassil | sub-zero-hub |
+| Cheryl Kirkpatrick | wine-cooler-repair-hub |
+| Cheryl Lemire | dryer-repair-hub |
+| Dana McNeill | fountain-valley |
+| Danette Vanover | washer-repair-hub |
+| Dena Fisher | dryer-repair-hub |
+| Elvin Mammadov | wolf-hub |
+| Ernesto Ruiz | dryer-repair-hub |
+| George | miele-hub |
+| Jeff C | sub-zero-hub |
+| Jennifer Trette | costa-mesa |
+| John Dinger | cost-hub |
+| Jonra Babiracki | garbage-disposal-repair-hub |
+| Jovita Osorio | wine-cooler-repair-hub |
+| Justine Shaw | garbage-disposal-repair-hub |
+| Karen Myhra | dishwasher-repair-hub |
+| Kathy Calderon | dacor-hub |
+| Kenan Ken | oven-stove-repair-hub |
+| Laurie Summers | wolf-hub |
+| Mark Koss | thermador-hub |
+| Matt Snyder | garbage-disposal-repair-hub |
+| Mike Bonilla | brea |
+| Naoki MacInnes | wine-cooler-repair-hub |
+| Noelle B. | yorba-linda |
+| Patricio Jr Villanueva | washer-repair-hub |
+| Pawan Deepak | fountain-valley |
+| Roger Antonie | oven-stove-repair-hub |
+| Satara Armstrong Charlson | viking-hub |
+| Shawne King | cost-hub |
+| Stephen Stephen | garbage-disposal-repair-hub |
+| Surma Karimova | tustin |
+| Susie Arii | orange |
+| Suzan Hier | sub-zero-hub |
+| William L. | dacor-hub |
+| William Nugent | freezer-repair-hub |
+| andrea hall | freezer-repair-hub |
+| mike bonilla | lake-forest |
+| mrs d. | dacor-hub |
+| paul guns | cost-hub |
 
-Note: Wendy Henderson was already on Anaheim hub (count=1) → now count=2. Suzan Hier and Jeff C are first use (count=1).
+## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
 
----
+| Review | Hubs (2) |
+|---|---|
+| A T | costa-mesa, fountain-valley |
+| B P | tustin, viking-hub |
+| Cindy Montefu | santa-ana, dryer-repair-hub |
+| Clifford Wright | thermador-hub, wolf-hub |
+| Craig Tudor | garden-grove, washer-repair-hub |
+| D Light | cost-hub, thermador-hub |
+| Darina Martirosyan | brea, tustin |
+| Dave Brisbin | irvine, refrigerator-repair-hub |
+| Elizabeth Lovejoy | laguna-beach, oven-stove-repair-hub |
+| Emily Palmer | laguna-beach, freezer-repair-hub |
+| Erin Ponchak | laguna-niguel, yorba-linda |
+| George Mendoza | garden-grove, oven-stove-repair-hub |
+| Greg Schnabel | costa-mesa, miele-hub |
+| Jonathan Stone | santa-ana, dishwasher-repair-hub |
+| Julie L. | huntington-beach, dryer-repair-hub |
+| Kat Tesh | brea, viking-hub |
+| Katherine Bosboom | cost-hub, dishwasher-repair-hub |
+| Katie Holst | fullerton, dishwasher-repair-hub |
+| Kelly Heyden | huntington-beach, washer-repair-hub |
+| Ken Turknette | laguna-niguel, yorba-linda |
+| Lale | santa-ana, refrigerator-repair-hub |
+| Laman Anvarli | fullerton, freezer-repair-hub |
+| Linda B. | laguna-niguel, lake-forest |
+| Marcy Kucik | anaheim, refrigerator-repair-hub |
+| Mark Rivera | lake-forest, washer-repair-hub |
+| Robert Clemmons | mission-viejo, dishwasher-repair-hub |
+| Russell Kadota | laguna-beach, washer-repair-hub |
+| Steve D | newport-beach, oven-stove-repair-hub |
+| Susan Ryan | orange, oven-stove-repair-hub |
+| Tony Tomassini | anaheim, dishwasher-repair-hub |
+| Veronique Reaver | fullerton, miele-hub |
+| rick deangelo | orange, wine-cooler-repair-hub |
 
-## Testimonials page — photo review cards (2026-05-26)
+## Name-normalization note
 
-Photo review cards (screenshots of Google reviews displayed as images). These appear only on `testimonials.html` and do not count toward the ≤2 hub-page cap.
+A few reviewers appear under display-name variants that don't string-match the pool `name`
+(e.g. `Andrea Hall`/`andrea hall`, `Mike Bonilla`/`mike bonilla`). Each variant is still on
+<=2 hubs, so none breach the cap, but when allocating treat case-variants as the SAME person
+and sum their hub counts. Normalize the displayed name to the pool `name` on the next edit to
+each affected page.
 
-| Review ID | Image file | Category | Pages used | Count |
-|---|---|---|---|---|
-| google-surma-karimova-2026-05-26 | `images/real/reviews/oven-ge-surma-karimova.webp` | oven-stove | testimonials.html | 1 |
-| google-a-t-2026-05-25 | `images/real/reviews/wine-cooler-viking-at.webp` | wine-cooler | testimonials.html | 1 |
-
-Note: If either review is later added to a hub page as a text testimonial, move it to the relevant section above and start tracking it against the ≤2 cap.
-
----
-
-## Update instructions
-
-After each hub PR merges: change `✓ planned` → `✓` for the relevant hub column.
-Before adding a review to a new hub: count its ✓ marks across ALL columns (including homepage). If already at 2, pick a different review.
