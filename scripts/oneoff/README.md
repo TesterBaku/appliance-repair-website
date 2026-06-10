@@ -21,7 +21,6 @@ so the active set is obvious.
 | `trim-titles-2026-06-08.py` | P1-4 title sweep: trimmed all `<title>`/`og:title`/`twitter:title` to ≤60 chars site-wide (dropped the brand suffix), bumped article dates |
 | `fix-blog-emdashes-2026-06-08.py` | P1-5 residual: removed banned em dashes from the 4 blog category pages (headings/card-titles → colon, prose → comma) |
 | `city-parity-2026-06-08.py` | P2-2: brings a thin-tier city hub to rich-tier parity (Common Issues prose, Service Area Details + CSS locator, Repair Resources, hasMap). Run per city: `python city-parity-2026-06-08.py <slug>` |
-| `build-city-hub-fountain-valley.py` | Built the Fountain Valley city hub (PR #499) from the Tustin template via asserted block replacements (preserves partial-stamped nav/footer + CSS). Template for the remaining secondary city hubs |
 
 **Active scripts** live in `scripts/` (root): build-sitemap, clean-images,
 optimize-logo, build-favicons, apply-favicon-metadata, sync-testimonials-count,
