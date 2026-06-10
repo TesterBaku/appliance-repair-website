@@ -58,6 +58,14 @@ name_to_ids = {}
 for r in pool:
     name_to_ids.setdefault(r["name"].strip(), []).append(r["id"])
 
+# Case-insensitive canonical map: fold display-name variants (e.g. "Andrea Hall"
+# vs pool "andrea hall") to ONE person so hub counts aren't double-counted.
+canon = {}
+for r in pool:
+    canon[r["name"].strip().lower()] = r["name"].strip()
+def canonical(nm):
+    return canon.get(nm.lower(), nm)
+
 # Scan all candidate pages
 pages = glob.glob("index.html") + glob.glob("pages/*.html")
 hub_usage = {}      # review-name -> set of hub files
@@ -73,7 +81,7 @@ for f in pages:
         if nm not in name_to_ids:
             unmapped.add((nm, f.replace(os.sep, "/")))
         if hub:
-            hub_usage.setdefault(nm, set()).add(f.replace(os.sep, "/"))
+            hub_usage.setdefault(canonical(nm), set()).add(f.replace(os.sep, "/"))
 
 # Tally
 dist = {0: 0, 1: 0, 2: 0, 3: 0}
@@ -150,7 +158,7 @@ if "--emit-tracker" in sys.argv:
     L.append("| **Free hub-slots available now** | **%d** |" % free_slots)
     L.append("| Approx. new city hubs supportable @ 3/hub | **~%d** (before appliance-match / brand-variety / row-balance filters) |" % (free_slots // 3))
     L.append("")
-    L.append("The pool is **not** exhausted: the ~39 reviews sitting on a single hub each have a free")
+    L.append("The pool is **not** exhausted: the %d reviews sitting on a single hub each have a free" % one)
     L.append("second slot. Allocate from the \"1 free slot\" list below when building new hubs.")
     L.append("")
     L.append("## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)")
@@ -181,11 +189,16 @@ if "--emit-tracker" in sys.argv:
     L.append("")
     L.append("## Name-normalization note")
     L.append("")
-    L.append("A few reviewers appear under display-name variants that don't string-match the pool `name`")
-    L.append("(e.g. `Andrea Hall`/`andrea hall`, `Mike Bonilla`/`mike bonilla`). Each variant is still on")
-    L.append("<=2 hubs, so none breach the cap, but when allocating treat case-variants as the SAME person")
-    L.append("and sum their hub counts. Normalize the displayed name to the pool `name` on the next edit to")
-    L.append("each affected page.")
+    L.append("Counts above are computed **case-insensitively against the pool `name`**, so display-name")
+    L.append("case variants (e.g. `Andrea Hall` on the cost hub vs pool `andrea hall` on the freezer hub,")
+    L.append("and `Mike Bonilla` vs `mike bonilla`) are correctly folded to ONE person — both of those")
+    L.append("people are therefore counted at their true 2-hub (at-cap) position, not as two free singles.")
+    if unmapped:
+        rem = sorted({nm for nm, _ in unmapped if nm.lower() not in canon})
+        if rem:
+            L.append("")
+            L.append("Display names still not matched to any pool `name` (normalize in source on next edit): "
+                     + ", ".join("`%s`" % n for n in rem) + ".")
     L.append("")
     out = "\n".join(L) + "\n"
     open("tasks/testimonial-usage.md", "w", encoding="utf-8", newline="\n").write(out)
