@@ -381,6 +381,8 @@ const CITY_HUBS = [
   'appliance-repair-laguna-niguel-ca',
   'appliance-repair-tustin-ca',
   'appliance-repair-fountain-valley-ca',
+  'appliance-repair-westminster-ca',
+  'appliance-repair-buena-park-ca',
 ];
 
 for (const slug of CITY_HUBS) {
