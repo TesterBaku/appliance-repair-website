@@ -16,13 +16,13 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 | Metric | Value |
 |---|---|
 | Distinct reviews currently on >=1 hub | 75 |
-| On exactly 1 hub (1 free slot each) | 37 |
-| On exactly 2 hubs (at cap) | 34 |
+| On exactly 1 hub (1 free slot each) | 31 |
+| On exactly 2 hubs (at cap) | 40 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **37** |
-| Approx. new city hubs supportable @ 3/hub | **~12** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **31** |
+| Approx. new city hubs supportable @ 3/hub | **~10** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 37 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 31 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -41,24 +41,19 @@ not as violations to fix. No other review may exceed 2 hubs.
 
 | Review | On hub |
 |---|---|
-| Arzuman Qarayev | anaheim |
 | Brian Brassil | sub-zero-hub |
 | Cheryl Kirkpatrick | wine-cooler-repair-hub |
 | Dana McNeill | fountain-valley |
 | Danette Vanover | washer-repair-hub |
-| Dena Fisher | dryer-repair-hub |
 | Elvin Mammadov | wolf-hub |
 | Ernesto Ruiz | dryer-repair-hub |
 | George | miele-hub |
 | Jeff C | sub-zero-hub |
 | Jennifer Trette | costa-mesa |
 | John Dinger | cost-hub |
-| Jonra Babiracki | garbage-disposal-repair-hub |
 | Jovita Osorio | wine-cooler-repair-hub |
-| Justine Shaw | garbage-disposal-repair-hub |
 | Karen Myhra | dishwasher-repair-hub |
 | Kathy Calderon | dacor-hub |
-| Kenan Ken | oven-stove-repair-hub |
 | Laurie Summers | wolf-hub |
 | Mark Koss | thermador-hub |
 | Matt Snyder | garbage-disposal-repair-hub |
@@ -72,7 +67,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Stephen Stephen | garbage-disposal-repair-hub |
 | Surma Karimova | tustin |
 | Susie Arii | orange |
-| Suzan Hier | sub-zero-hub |
 | William L. | dacor-hub |
 | William Nugent | freezer-repair-hub |
 | cheryl lemire | dryer-repair-hub |
@@ -84,6 +78,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Review | Hubs (2) |
 |---|---|
 | A T | costa-mesa, fountain-valley |
+| Arzuman Qarayev | anaheim, westminster |
 | B P | tustin, viking-hub |
 | Cindy Montefu | santa-ana, dryer-repair-hub |
 | Clifford Wright | thermador-hub, wolf-hub |
@@ -91,18 +86,22 @@ not as violations to fix. No other review may exceed 2 hubs.
 | D Light | cost-hub, thermador-hub |
 | Darina Martirosyan | brea, tustin |
 | Dave Brisbin | irvine, refrigerator-repair-hub |
+| Dena Fisher | buena-park, dryer-repair-hub |
 | Elizabeth Lovejoy | laguna-beach, oven-stove-repair-hub |
 | Emily Palmer | laguna-beach, freezer-repair-hub |
 | Erin Ponchak | laguna-niguel, yorba-linda |
 | George Mendoza | garden-grove, oven-stove-repair-hub |
 | Greg Schnabel | costa-mesa, miele-hub |
 | Jonathan Stone | santa-ana, dishwasher-repair-hub |
+| Jonra Babiracki | westminster, garbage-disposal-repair-hub |
 | Julie L. | huntington-beach, dryer-repair-hub |
+| Justine Shaw | buena-park, garbage-disposal-repair-hub |
 | Kat Tesh | brea, viking-hub |
 | Katherine Bosboom | cost-hub, dishwasher-repair-hub |
 | Katie Holst | fullerton, dishwasher-repair-hub |
 | Kelly Heyden | huntington-beach, washer-repair-hub |
 | Ken Turknette | laguna-niguel, yorba-linda |
+| Kenan Ken | westminster, oven-stove-repair-hub |
 | Lale | santa-ana, refrigerator-repair-hub |
 | Laman Anvarli | fullerton, freezer-repair-hub |
 | Linda B. | laguna-niguel, lake-forest |
@@ -112,6 +111,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Russell Kadota | laguna-beach, washer-repair-hub |
 | Steve D | newport-beach, oven-stove-repair-hub |
 | Susan Ryan | orange, oven-stove-repair-hub |
+| Suzan Hier | buena-park, sub-zero-hub |
 | Tony Tomassini | anaheim, dishwasher-repair-hub |
 | Veronique Reaver | fullerton, miele-hub |
 | andrea hall | cost-hub, freezer-repair-hub |
