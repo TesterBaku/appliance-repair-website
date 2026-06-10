@@ -380,6 +380,7 @@ const CITY_HUBS = [
   'appliance-repair-brea-ca',
   'appliance-repair-laguna-niguel-ca',
   'appliance-repair-tustin-ca',
+  'appliance-repair-fountain-valley-ca',
 ];
 
 for (const slug of CITY_HUBS) {
