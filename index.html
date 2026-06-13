@@ -99,6 +99,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .service-body { padding: 20px 22px 24px; }
 .service-name { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
 .service-desc { font-size: 12.5px; color: var(--text-sub); line-height: 1.7; }
+.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+@media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* FEATURES */
 .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
