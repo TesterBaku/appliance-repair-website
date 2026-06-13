@@ -286,6 +286,9 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
     .trust-badges { display: flex; gap: 24px; justify-content: center; margin-top: 36px; flex-wrap: wrap; }
     .trust-badge { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: rgba(255,255,255,0.9); font-weight: 500; }
+    .hero-rating { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 6px 16px; font-size: 12px; font-weight: 600; color: #fff; text-decoration: none; transition: background 0.15s; }
+    .hero-rating:hover { background: rgba(255,255,255,0.18); }
+    .hero-rating .hero-stars { color: var(--amber); letter-spacing: 1px; }
     .hero-pricing-strip { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; }
     @media (max-width: 480px) {
       .hero-pricing-strip { font-size: 11.5px; }
@@ -698,7 +701,12 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
       </div>
 
       <h1>Same-Day Appliance Repair<br/>in Orange County, CA</h1>
-      <p style="color:rgba(255,255,255,0.6);font-size:13px;font-weight:500;margin-top:8px;margin-bottom:4px;letter-spacing:0.03em;">Universal Appliances Repair</p>
+      <div style="margin-top:14px;margin-bottom:4px;">
+        <a href="pages/testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 84 Google reviews">
+          <span class="hero-stars" aria-hidden="true">★★★★★</span>
+          <span>5.0 &middot; 84 Google reviews</span>
+        </a>
+      </div>
       <p>Refrigerators, washers, dryers, dishwashers, ovens, and stoves. Fixed by licensed technicians, usually same day. Transparent pricing, warranty on every repair.</p>
 
       <div style="display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap;">
