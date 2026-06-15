@@ -655,6 +655,42 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
+  <!-- Page-specific gallery filter (appliance + brand). Kept inline per the site.js page-filter convention. -->
+  <script>
+    (function () {
+      const chips = document.querySelectorAll('.filters-bar .chip');
+      const cards = document.querySelectorAll('#gallery-grid .repair-card');
+      const empty = document.getElementById('gallery-empty');
+      const active = { appliance: 'all', brand: 'all' };
+
+      function apply() {
+        let visible = 0;
+        cards.forEach(function (card) {
+          const show = (active.appliance === 'all' || card.dataset.appliance === active.appliance)
+                    && (active.brand === 'all' || card.dataset.brand === active.brand);
+          card.toggleAttribute('hidden', !show);
+          if (show) visible++;
+        });
+        if (empty) empty.classList.toggle('visible', visible === 0);
+      }
+
+      chips.forEach(function (chip) {
+        const group = chip.dataset.filter;
+        if (chip.classList.contains('active')) chip.setAttribute('aria-pressed', 'true');
+        chip.addEventListener('click', function () {
+          document.querySelectorAll('.filters-bar .chip[data-filter="' + group + '"]').forEach(function (c) {
+            c.classList.remove('active');
+            c.removeAttribute('aria-pressed');
+          });
+          chip.classList.add('active');
+          chip.setAttribute('aria-pressed', 'true');
+          active[group] = chip.dataset.value;
+          apply();
+        });
+      });
+    })();
+  </script>
+
   <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
 
