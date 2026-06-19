@@ -1,25 +1,59 @@
 {
   "_meta": {
-    "lastUpdated": "2026-06-08",
+    "lastUpdated": "2026-06-19",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 84,
-        "capturedCount": 83,
+        "totalReviewsOnListing": 89,
+        "capturedCount": 86,
         "ratingAverage": 5,
         "captureHistory": [
-          { "date": "2026-05-06", "note": "56 reviews captured from user-supplied screenshots and full-review images." },
-          { "date": "2026-05-12", "note": "20 reviews captured via Claude in Chrome browser scrape." },
-          { "date": "2026-05-12", "note": "13 review photos relocated from reviewer-profiles/ to reviews/ (PR #review-photos-reclassify-plan)." },
-          { "date": "2026-05-20", "note": "+1 review (Erin Ponchak, LG dryer no-heat, Huntington Beach) added directly from owner-supplied verbatim text. GBP total bumped 76 to 78 (owner-confirmed re-scrape)." },
-          { "date": "2026-05-20", "note": "+1 no-body record (Drew McMillan, 5-star rating, no body, no photo, no service tag) added; gap between capturedCount and totalReviewsOnListing now closed at 78." },
-          { "date": "2026-05-23", "note": "+2 reviews (mike bonilla, no appliance tag; Ken Turknette, wine cooler repair) captured live from GBP reviews dialog via Chrome MCP, sorted Newest. GBP total bumped 78 to 80 (owner-confirmed via 80-review count on knowledge panel)." },
-          { "date": "2026-05-26", "note": "+2 reviews (Surma Karimova, GE oven, with photo; A T, Viking wine cooler compressor replacement in Costa Mesa, with exterior photo) added from owner-supplied screenshot and downloaded review photos. Two technician job photos (brazing + compressor) saved to images/real/business/ for use on recent-repairs, Costa Mesa city page, and wine cooler hub. GBP total bumped 80 to 82." },
-          { "date": "2026-05-31", "note": "GBP total bumped 82 to 83 (owner-confirmed via GBP screenshot showing 83 reviews). The item shown as newest on GBP is Roger Antonie's pre-existing review (originally approxDate 2026-03), edited to append 'Thank you'; his existing record body was updated accordingly (no new card added). The actual 83rd, genuinely-new review was not visible in the supplied screenshot and has not yet been captured." },
-          { "date": "2026-06-08", "note": "+1 review (Pawan Deepak, range-hood light-fixture repair by tech Ag, with photo) captured from owner-supplied GBP screenshot. GBP listing total bumped 83 to 84. Review photo saved to images/real/reviews/hood-pawan-deepak.webp (downscaled from 3393x1495/602KB to 1200x529/35KB to match the gallery). Reconciliation: the array held 82 genuine google records while capturedCount read 83 (a phantom slot from the 2026-05-31 optimistic bump, where no new card was actually added). This Pawan Deepak card fills that slot, so capturedCount stays 83 and is now accurate; the 84-vs-83 gap is the still-uncaptured review the 2026-05-31 note flagged. Next GBP scrape should verify the two newest cards to confirm no older review is still missing." },
-          { "date": "2026-06-08", "note": "Owner-approved site-wide AggregateRating bump to 84 (Task 4 of tasks/add-review-pawan-deepak-2026-06-08.md). Schema reviewCount and visible review-count copy ('From our 84 verified 5-star Google reviews', 'Read all 84 reviews') updated 83 to 84 across 35 pages to mirror the public GBP listing total. The content-integrity 'review-count' check was repointed from capturedCount to totalReviewsOnListing (84) so capturedCount stays an honest internal transcription count (83 = 83 google records in the array). ratingValue unchanged at 5.0; GBP shows 5.0 across all 84." }
+          {
+            "date": "2026-05-06",
+            "note": "56 reviews captured from user-supplied screenshots and full-review images."
+          },
+          {
+            "date": "2026-05-12",
+            "note": "20 reviews captured via Claude in Chrome browser scrape."
+          },
+          {
+            "date": "2026-05-12",
+            "note": "13 review photos relocated from reviewer-profiles/ to reviews/ (PR #review-photos-reclassify-plan)."
+          },
+          {
+            "date": "2026-05-20",
+            "note": "+1 review (Erin Ponchak, LG dryer no-heat, Huntington Beach) added directly from owner-supplied verbatim text. GBP total bumped 76 to 78 (owner-confirmed re-scrape)."
+          },
+          {
+            "date": "2026-05-20",
+            "note": "+1 no-body record (Drew McMillan, 5-star rating, no body, no photo, no service tag) added; gap between capturedCount and totalReviewsOnListing now closed at 78."
+          },
+          {
+            "date": "2026-05-23",
+            "note": "+2 reviews (mike bonilla, no appliance tag; Ken Turknette, wine cooler repair) captured live from GBP reviews dialog via Chrome MCP, sorted Newest. GBP total bumped 78 to 80 (owner-confirmed via 80-review count on knowledge panel)."
+          },
+          {
+            "date": "2026-05-26",
+            "note": "+2 reviews (Surma Karimova, GE oven, with photo; A T, Viking wine cooler compressor replacement in Costa Mesa, with exterior photo) added from owner-supplied screenshot and downloaded review photos. Two technician job photos (brazing + compressor) saved to images/real/business/ for use on recent-repairs, Costa Mesa city page, and wine cooler hub. GBP total bumped 80 to 82."
+          },
+          {
+            "date": "2026-05-31",
+            "note": "GBP total bumped 82 to 83 (owner-confirmed via GBP screenshot showing 83 reviews). The item shown as newest on GBP is Roger Antonie's pre-existing review (originally approxDate 2026-03), edited to append 'Thank you'; his existing record body was updated accordingly (no new card added). The actual 83rd, genuinely-new review was not visible in the supplied screenshot and has not yet been captured."
+          },
+          {
+            "date": "2026-06-08",
+            "note": "+1 review (Pawan Deepak, range-hood light-fixture repair by tech Ag, with photo) captured from owner-supplied GBP screenshot. GBP listing total bumped 83 to 84. Review photo saved to images/real/reviews/hood-pawan-deepak.webp (downscaled from 3393x1495/602KB to 1200x529/35KB to match the gallery). Reconciliation: the array held 82 genuine google records while capturedCount read 83 (a phantom slot from the 2026-05-31 optimistic bump, where no new card was actually added). This Pawan Deepak card fills that slot, so capturedCount stays 83 and is now accurate; the 84-vs-83 gap is the still-uncaptured review the 2026-05-31 note flagged. Next GBP scrape should verify the two newest cards to confirm no older review is still missing."
+          },
+          {
+            "date": "2026-06-08",
+            "note": "Owner-approved site-wide AggregateRating bump to 84 (Task 4 of tasks/add-review-pawan-deepak-2026-06-08.md). Schema reviewCount and visible review-count copy ('From our 84 verified 5-star Google reviews', 'Read all 84 reviews') updated 83 to 84 across 35 pages to mirror the public GBP listing total. The content-integrity 'review-count' check was repointed from capturedCount to totalReviewsOnListing (84) so capturedCount stays an honest internal transcription count (83 = 83 google records in the array). ratingValue unchanged at 5.0; GBP shows 5.0 across all 84."
+          },
+          {
+            "date": "2026-06-19",
+            "note": "+3 reviews (Christian Dorn, dishwasher; Who-Bangin Sports Talk, dryer; Gina Kim, dryer) captured from owner-supplied GBP screenshot new_reviews_1.png, sorted Newest. GBP listing total bumped 84 to 89 (owner-confirmed: panel shows 5.0, 89 reviews). capturedCount 83 to 86 (3 new google records transcribed). Remaining 89-86=3 gap = uncaptured reviews not visible in the supplied screenshot (the 2 beyond the 3 newest, plus the 1 still-uncaptured review flagged 2026-05-31). ratingValue unchanged at 5.0. Site-wide public count surfaces (AggregateRating.reviewCount, \"N verified 5-star Google reviews\" copy, \"Read all N reviews\", \"N Google reviews\" hero-rating, testimonials stat) updated 84 to 89 = totalReviewsOnListing across 43 pages. Also fixed scripts/sync-testimonials-count.js to read totalReviewsOnListing (was capturedCount), which had written 86 to testimonials.html and would fail the content-integrity review-count check; it is now aligned and idempotent."
+          }
         ]
       },
       "yelp": {
@@ -36,7 +70,10 @@
           "5": 3
         },
         "captureHistory": [
-          { "date": "2026-05-12", "note": "User-supplied screenshot + Yelp listing capture." }
+          {
+            "date": "2026-05-12",
+            "note": "User-supplied screenshot + Yelp listing capture."
+          }
         ]
       }
     },
@@ -54,6 +91,60 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-christian-dorn-2026-06-19",
+      "source": "google",
+      "name": "Christian Dorn",
+      "location": "Orange County, CA",
+      "appliance": "dishwasher",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "1 hour ago",
+      "isNew": true,
+      "body": "Excellent customer service! Explained the situation with our dishwasher very clearly, provided a quick solution and was very friendly. Thanks AG!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP screenshot 2026-06-19 (new_reviews_1.png), sorted Newest, shown 1 hour ago. Dishwasher service by tech AG. Reviewer profile shows '3 reviews · 1 photo' (lifetime stats); no review photo was supplied, so reviewPhoto is null. Location standardized to 'Orange County, CA' per Google source policy (city not exposed; review text names no city). Part of the 84 to 89 GBP listing bump."
+    },
+    {
+      "id": "google-who-bangin-sports-talk-2026-06-19",
+      "source": "google",
+      "name": "Who-Bangin Sports Talk",
+      "location": "Orange County, CA",
+      "appliance": "dryer",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "2 days ago",
+      "isNew": true,
+      "body": "Fast And professional good service on my dryer",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP screenshot 2026-06-19 (new_reviews_1.png), shown 2 days ago. Dryer service. Name kept verbatim as displayed on GBP. bodyHasTypos=true (mid-sentence capitalization 'Fast And'); body stored verbatim, light-fix allowed at display. Qualifies as a quoted testimonial (no photo + 8 words, and names the appliance). Part of the 84 to 89 GBP listing bump."
+    },
+    {
+      "id": "google-gina-kim-2026-06-19",
+      "source": "google",
+      "name": "Gina Kim",
+      "location": "Orange County, CA",
+      "appliance": "dryer",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "2 days ago",
+      "isNew": true,
+      "body": "AG was great. He repaired my dryer, moved it, cleaned it out, and showed me exactly was causing the issue. He was clear and informative. I would recommend him again!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP screenshot 2026-06-19 (new_reviews_1.png), shown 2 days ago. Dryer repair by tech AG. bodyHasTypos=true ('showed me exactly was causing' is missing 'what'); body stored verbatim, light-fix allowed at display. Location standardized to 'Orange County, CA' per Google source policy. Part of the 84 to 89 GBP listing bump."
+    },
     {
       "id": "google-pawan-deepak-2026-06-01",
       "source": "google",
