@@ -3,8 +3,15 @@
  * sync-testimonials-count.js
  *
  * Syncs the Google review COUNT surfaces in pages/testimonials.html to match
- * data/testimonials.json (_meta.sources.google.capturedCount). Idempotent and
- * safe to run any time.
+ * data/testimonials.json (_meta.sources.google.totalReviewsOnListing, the
+ * public GBP listing total). Idempotent and safe to run any time.
+ *
+ * NOTE: these surfaces mirror the PUBLIC GBP total (totalReviewsOnListing), NOT
+ * the internal capturedCount. The content-integrity "review-count" check
+ * enforces AggregateRating.reviewCount === totalReviewsOnListing site-wide, so
+ * using capturedCount here would write a value that fails that check whenever
+ * the two diverge (e.g. when newer reviews are counted on the listing but not
+ * yet transcribed into the pool). Keep this pointed at totalReviewsOnListing.
  *
  * IMPORTANT — this is NOT a page generator. pages/testimonials.html is
  * hand-maintained:
@@ -32,7 +39,7 @@ const fs = require('fs');
 const path = require('path');
 
 const pool = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/testimonials.json'), 'utf8'));
-const N = String(pool._meta.sources.google.capturedCount);
+const N = String(pool._meta.sources.google.totalReviewsOnListing);
 const file = path.join(__dirname, '../pages/testimonials.html');
 
 let s = fs.readFileSync(file, 'utf8');
