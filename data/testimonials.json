@@ -7,7 +7,7 @@
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
         "totalReviewsOnListing": 89,
-        "capturedCount": 86,
+        "capturedCount": 88,
         "ratingAverage": 5,
         "captureHistory": [
           {
@@ -52,7 +52,7 @@
           },
           {
             "date": "2026-06-19",
-            "note": "+3 reviews (Christian Dorn, dishwasher; Who-Bangin Sports Talk, dryer; Gina Kim, dryer) captured from owner-supplied GBP screenshot new_reviews_1.png, sorted Newest. GBP listing total bumped 84 to 89 (owner-confirmed: panel shows 5.0, 89 reviews). capturedCount 83 to 86 (3 new google records transcribed). Remaining 89-86=3 gap = uncaptured reviews not visible in the supplied screenshot (the 2 beyond the 3 newest, plus the 1 still-uncaptured review flagged 2026-05-31). ratingValue unchanged at 5.0. Site-wide public count surfaces (AggregateRating.reviewCount, \"N verified 5-star Google reviews\" copy, \"Read all N reviews\", \"N Google reviews\" hero-rating, testimonials stat) updated 84 to 89 = totalReviewsOnListing across 43 pages. Also fixed scripts/sync-testimonials-count.js to read totalReviewsOnListing (was capturedCount), which had written 86 to testimonials.html and would fail the content-integrity review-count check; it is now aligned and idempotent."
+            "note": "+5 reviews captured from owner-supplied GBP screenshots new_reviews_1.png + new_reviews_2.png, sorted Newest: Christian Dorn (dishwasher), Who-Bangin Sports Talk (dryer), Gina Kim (dryer), Rachel Coleman (no appliance; one-word 'Thanks!' body, pool/count-only, fails quoted-testimonial quality floor), J. Feria (dishwasher). GBP listing total bumped 84 to 89 (owner-confirmed: panel shows 5.0, 89 reviews). capturedCount 83 to 88 (5 new google records transcribed). Remaining 89-88=1 gap = the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 84 to 89 = totalReviewsOnListing across 43 pages. Also fixed scripts/sync-testimonials-count.js to read totalReviewsOnListing (was capturedCount); it had written 86 to testimonials.html and would fail the content-integrity review-count check, now aligned and idempotent."
           }
         ]
       },
@@ -144,6 +144,42 @@
       "profilePhoto": null,
       "reviewPhoto": null,
       "_note": "Source: owner-supplied GBP screenshot 2026-06-19 (new_reviews_1.png), shown 2 days ago. Dryer repair by tech AG. bodyHasTypos=true ('showed me exactly was causing' is missing 'what'); body stored verbatim, light-fix allowed at display. Location standardized to 'Orange County, CA' per Google source policy. Part of the 84 to 89 GBP listing bump."
+    },
+    {
+      "id": "google-rachel-coleman-2026-06-19",
+      "source": "google",
+      "name": "Rachel Coleman",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "2 days ago",
+      "isNew": true,
+      "body": "Thanks!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP screenshot 2026-06-19 (new_reviews_2.png), shown 2 days ago, 5 stars. Body is a single word ('Thanks!'); it counts toward the pool/total but does NOT meet the quoted-testimonial quality floor (no photo, <8 words, names no appliance or brand), so it is pool/count-only and must not be displayed as a quoted testimonial. Part of the 84 to 89 GBP listing bump."
+    },
+    {
+      "id": "google-j-feria-2026-06-19",
+      "source": "google",
+      "name": "J. Feria",
+      "location": "Orange County, CA",
+      "appliance": "dishwasher",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "4 days ago",
+      "isNew": true,
+      "body": "Friendly professional knowledge service technician. Thank you. Fixed my dishwasher.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP screenshot 2026-06-19 (new_reviews_2.png), shown 4 days ago, 5 stars. Dishwasher repair. bodyHasTypos=true ('knowledge service technician' reads as 'knowledgeable'); body stored verbatim, light-fix allowed at display. Qualifies as a quoted testimonial (no photo, names the appliance, ~10 words). Part of the 84 to 89 GBP listing bump."
     },
     {
       "id": "google-pawan-deepak-2026-06-01",
