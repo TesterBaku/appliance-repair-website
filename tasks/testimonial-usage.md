@@ -16,13 +16,13 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 | Metric | Value |
 |---|---|
 | Distinct reviews currently on >=1 hub | 75 |
-| On exactly 1 hub (1 free slot each) | 25 |
-| On exactly 2 hubs (at cap) | 46 |
+| On exactly 1 hub (1 free slot each) | 19 |
+| On exactly 2 hubs (at cap) | 52 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **25** |
-| Approx. new city hubs supportable @ 3/hub | **~8** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **19** |
+| Approx. new city hubs supportable @ 3/hub | **~6** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 25 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 19 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -42,7 +42,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Review | On hub |
 |---|---|
 | Brian Brassil | sub-zero-hub |
-| Cheryl Kirkpatrick | wine-cooler-repair-hub |
 | Dana McNeill | fountain-valley |
 | Danette Vanover | washer-repair-hub |
 | Elvin Mammadov | wolf-hub |
@@ -56,16 +55,11 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Matt Snyder | garbage-disposal-repair-hub |
 | Naoki MacInnes | wine-cooler-repair-hub |
 | Noelle B. | yorba-linda |
-| Patricio Jr Villanueva | washer-repair-hub |
-| Roger Antonie | oven-stove-repair-hub |
 | Satara Armstrong Charlson | viking-hub |
 | Surma Karimova | tustin |
-| Susie Arii | orange |
 | William L. | dacor-hub |
-| William Nugent | freezer-repair-hub |
 | cheryl lemire | dryer-repair-hub |
 | mrs d. | dacor-hub |
-| paul guns | cost-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
 
@@ -74,6 +68,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | A T | costa-mesa, fountain-valley |
 | Arzuman Qarayev | anaheim, westminster |
 | B P | tustin, viking-hub |
+| Cheryl Kirkpatrick | seal-beach, wine-cooler-repair-hub |
 | Cindy Montefu | santa-ana, dryer-repair-hub |
 | Clifford Wright | thermador-hub, wolf-hub |
 | Craig Tudor | garden-grove, washer-repair-hub |
@@ -104,18 +99,23 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Linda B. | laguna-niguel, lake-forest |
 | Marcy Kucik | anaheim, refrigerator-repair-hub |
 | Mark Rivera | lake-forest, washer-repair-hub |
+| Patricio Jr Villanueva | la-habra, washer-repair-hub |
 | Pawan Deepak | fountain-valley, placentia |
 | Robert Clemmons | mission-viejo, dishwasher-repair-hub |
+| Roger Antonie | la-habra, oven-stove-repair-hub |
 | Russell Kadota | laguna-beach, washer-repair-hub |
 | Shawne King | cost-hub, cypress |
 | Stephen Stephen | cypress, garbage-disposal-repair-hub |
 | Steve D | newport-beach, oven-stove-repair-hub |
 | Susan Ryan | orange, oven-stove-repair-hub |
+| Susie Arii | orange, seal-beach |
 | Suzan Hier | buena-park, sub-zero-hub |
 | Tony Tomassini | anaheim, dishwasher-repair-hub |
 | Veronique Reaver | fullerton, miele-hub |
+| William Nugent | la-habra, freezer-repair-hub |
 | andrea hall | cost-hub, freezer-repair-hub |
 | mike bonilla | brea, lake-forest |
+| paul guns | cost-hub, seal-beach |
 | rick deangelo | orange, wine-cooler-repair-hub |
 
 ## Name-normalization note
