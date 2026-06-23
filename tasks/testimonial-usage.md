@@ -15,9 +15,9 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 75 |
+| Distinct reviews currently on >=1 hub | 78 |
 | On exactly 1 hub (1 free slot each) | 19 |
-| On exactly 2 hubs (at cap) | 52 |
+| On exactly 2 hubs (at cap) | 55 |
 | On 3 hubs (grandfathered exceptions) | 4 |
 | **Free hub-slots available now** | **19** |
 | Approx. new city hubs supportable @ 3/hub | **~6** (before appliance-match / brand-variety / row-balance filters) |
@@ -46,19 +46,19 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Danette Vanover | washer-repair-hub |
 | Elvin Mammadov | wolf-hub |
 | George | miele-hub |
+| Gina Kim | san-clemente |
+| J. Feria | dana-point |
 | Jeff C | sub-zero-hub |
-| John Dinger | cost-hub |
 | Karen Myhra | dishwasher-repair-hub |
 | Kathy Calderon | dacor-hub |
 | Laurie Summers | wolf-hub |
 | Mark Koss | thermador-hub |
 | Matt Snyder | garbage-disposal-repair-hub |
 | Naoki MacInnes | wine-cooler-repair-hub |
+| Noelle B | san-clemente |
 | Noelle B. | yorba-linda |
 | Satara Armstrong Charlson | viking-hub |
-| Surma Karimova | tustin |
 | William L. | dacor-hub |
-| cheryl lemire | dryer-repair-hub |
 | mrs d. | dacor-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
@@ -83,6 +83,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | George Mendoza | garden-grove, oven-stove-repair-hub |
 | Greg Schnabel | costa-mesa, miele-hub |
 | Jennifer Trette | costa-mesa, cypress |
+| John Dinger | cost-hub, dana-point |
 | Jonathan Stone | santa-ana, dishwasher-repair-hub |
 | Jonra Babiracki | westminster, garbage-disposal-repair-hub |
 | Jovita Osorio | placentia, wine-cooler-repair-hub |
@@ -107,6 +108,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Shawne King | cost-hub, cypress |
 | Stephen Stephen | cypress, garbage-disposal-repair-hub |
 | Steve D | newport-beach, oven-stove-repair-hub |
+| Surma Karimova | dana-point, tustin |
 | Susan Ryan | orange, oven-stove-repair-hub |
 | Susie Arii | orange, seal-beach |
 | Suzan Hier | buena-park, sub-zero-hub |
@@ -114,6 +116,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Veronique Reaver | fullerton, miele-hub |
 | William Nugent | la-habra, freezer-repair-hub |
 | andrea hall | cost-hub, freezer-repair-hub |
+| cheryl lemire | san-clemente, dryer-repair-hub |
 | mike bonilla | brea, lake-forest |
 | paul guns | cost-hub, seal-beach |
 | rick deangelo | orange, wine-cooler-repair-hub |
