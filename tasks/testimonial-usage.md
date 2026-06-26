@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 78 |
-| On exactly 1 hub (1 free slot each) | 13 |
-| On exactly 2 hubs (at cap) | 61 |
+| Distinct reviews currently on >=1 hub | 80 |
+| On exactly 1 hub (1 free slot each) | 14 |
+| On exactly 2 hubs (at cap) | 62 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **13** |
+| **Free hub-slots available now** | **14** |
 | Approx. new city hubs supportable @ 3/hub | **~4** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 13 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 14 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -42,9 +42,9 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Review | On hub |
 |---|---|
 | Brian Brassil | sub-zero-hub |
+| Christian Dorn | los-alamitos |
 | Elvin Mammadov | wolf-hub |
 | George | miele-hub |
-| Gina Kim | san-clemente |
 | Jeff C | sub-zero-hub |
 | Karen Myhra | dishwasher-repair-hub |
 | Laurie Summers | wolf-hub |
@@ -53,6 +53,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Noelle B | san-clemente |
 | Noelle B. | yorba-linda |
 | Satara Armstrong Charlson | viking-hub |
+| Wendy Henderson | los-alamitos |
 | William L. | dacor-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
@@ -77,6 +78,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Erin Ponchak | laguna-niguel, yorba-linda |
 | Ernesto Ruiz | placentia, dryer-repair-hub |
 | George Mendoza | garden-grove, oven-stove-repair-hub |
+| Gina Kim | los-alamitos, san-clemente |
 | Greg Schnabel | costa-mesa, miele-hub |
 | J. Feria | dana-point, rancho-santa-margarita |
 | Jennifer Trette | costa-mesa, cypress |
