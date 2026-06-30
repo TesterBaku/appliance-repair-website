@@ -5,3 +5,8 @@
 # on Windows checkouts.
 .husky/* text eol=lf
 *.sh text eol=lf
+
+# Pagefind search index is generated, committed output (incl. a WASM blob and
+# binary index fragments). Treat the whole dir as binary so no EOL conversion can
+# corrupt the index on a Windows checkout, and so diffs stay clean.
+pagefind/** binary

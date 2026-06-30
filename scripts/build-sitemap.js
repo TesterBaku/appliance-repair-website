@@ -6,7 +6,7 @@ const { execSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const BASE_URL = 'https://fixappliancesfast.com';
-const EXCLUDE_DIRS = new Set(['node_modules', 'scripts', 'test', 'tasks', '.git', '.claude', 'logs']);
+const EXCLUDE_DIRS = new Set(['node_modules', 'scripts', 'test', 'tasks', '.git', '.claude', 'logs', 'pagefind']);
 const EXCLUDE_FILES = new Set(['404.html']);
 
 function priority(urlPath) {
