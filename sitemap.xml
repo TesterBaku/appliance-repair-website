@@ -188,7 +188,7 @@
   </url>
   <url>
     <loc>https://fixappliancesfast.com/pages/blog.html</loc>
-    <lastmod>2026-06-26</lastmod>
+    <lastmod>2026-06-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -507,6 +507,12 @@
   <url>
     <loc>https://fixappliancesfast.com/articles/article-lg-fridge-repair-laguna-beach.html</loc>
     <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://fixappliancesfast.com/articles/article-lg-washer-error-codes.html</loc>
+    <lastmod>2026-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
