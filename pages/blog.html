@@ -1278,7 +1278,12 @@
         if (pagefindTried) return Promise.resolve();
         pagefindTried = true;
         return import('../pagefind/pagefind.js')
-          .then(function(mod) { pagefind = mod; pagefindReady = true; })
+          .then(function(mod) {
+            pagefind = mod; pagefindReady = true;
+            // A query may have landed during the import window and fallen back to
+            // substring; re-run it now that full-text is ready.
+            if (input.value.trim()) applyFilter();
+          })
           .catch(function() { pagefindReady = false; });
       }
 
@@ -1332,6 +1337,8 @@
             });
           }
           render(substringMatches(ql));                       // fallback: substring over card text
+        }).catch(function() {
+          if (token === seq) render(substringMatches(ql));    // any runtime failure → substring fallback
         });
       }
 
