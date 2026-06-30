@@ -28,7 +28,7 @@ const fs   = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const SKIP = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', 'partials']);
+const SKIP = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', 'partials', 'pagefind']);
 
 function collectFiles(dir, exts) {
   const results = [];
