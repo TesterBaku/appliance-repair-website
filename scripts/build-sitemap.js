@@ -6,8 +6,18 @@ const { execSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const BASE_URL = 'https://fixappliancesfast.com';
-const EXCLUDE_DIRS = new Set(['node_modules', 'scripts', 'test', 'tasks', '.git', '.claude', 'logs', 'pagefind']);
+const EXCLUDE_DIRS = new Set(['node_modules', 'scripts', 'test', 'tasks', '.git', '.claude', 'logs', 'pagefind', 'partials']);
 const EXCLUDE_FILES = new Set(['404.html']);
+
+// A redirect stub (old WP URL / pretty-URL alias) is a meta-refresh page whose only
+// job is to bounce to a canonical page. It is not itself indexable, so it must never
+// appear in the sitemap. Detecting the meta-refresh keeps this list-free: any current
+// or future stub (root faq/blog/services/testimonials.html, about/, contact/, etc.) is
+// auto-excluded without a hardcoded path list to maintain.
+function isRedirectStub(absPath) {
+  const head = fs.readFileSync(absPath, 'utf8').slice(0, 1500);
+  return /http-equiv=["']refresh["']/i.test(head);
+}
 
 function priority(urlPath) {
   if (urlPath === '/') return '1.0';
@@ -40,7 +50,8 @@ function collectFiles(dir, files = []) {
     if (entry.isDirectory()) {
       if (!EXCLUDE_DIRS.has(entry.name)) collectFiles(path.join(dir, entry.name), files);
     } else if (entry.name.endsWith('.html') && !EXCLUDE_FILES.has(entry.name)) {
-      files.push(path.join(dir, entry.name));
+      const abs = path.join(dir, entry.name);
+      if (!isRedirectStub(abs)) files.push(abs);
     }
   }
   return files;

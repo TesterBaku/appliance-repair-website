@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /partials/
 
 Sitemap: https://fixappliancesfast.com/sitemap.xml
