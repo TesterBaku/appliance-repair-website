@@ -159,8 +159,8 @@ All rule files live in `.claude/rules/` (gitignored — local-only, kept out of 
 
 ## Active plans (tasks/ — gitignored, local)
 - `tasks/backlog.md` — single source of truth for all open work (includes the Months 2–3 themes; the May 11–Jun 7 4-week schedule completed and was retired 2026-06-08)
-- `tasks/architecture-cleanup-plan-2026-05-31.md` — the P0–P3 architecture/refactor roadmap (footer/nav/head partials, CSS/JS consolidation, schema)
 - `tasks/lessons.md` — patterns learned from corrections; review at session start
+- Completed plans live in `tasks/archive/` (see its README) — e.g. the P0–P3 architecture/refactor roadmap and the GSC deep-dive action plan, both fully shipped and archived 2026-07-05.
 
 ## Logs
 - `logs/CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
