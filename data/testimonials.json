@@ -61,6 +61,10 @@
           {
             "date": "2026-07-06",
             "note": "+4 reviews transcribed from owner-supplied GBP screenshots (new_reviews/1.png + new_reviews/2.png), sorted Newest, all 5-star with the NEW badge: LethKris B&H (Electrolux dryer, 5 days ago), Adriana Lopez (LG washer drain pump, Local Guide, 6 days ago), Pat Sepulveda-Garcia (oven/pro-range, 1 week ago), Aghasahib Zarbaliyev (refrigerator not-cooling, 2 weeks ago). These are the 4 reviews behind the same-day 89-to-93 listing bump. capturedCount 88 to 92. Each review's photo downscaled from 3393x1495 to 1200x529 webp and saved to images/real/reviews/ (dryer-electrolux-lethkris, washer-lg-adriana-lopez, oven-pat-sepulveda-garcia, refrigerator-aghasahib-zarbaliyev). Remaining 93-92=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0; totalReviewsOnListing unchanged at 93 (no new public count change, this is transcription only, so no site-wide count-surface edits this pass)."
+          },
+          {
+            "date": "2026-07-06",
+            "note": "Curation: surfaced the 4 newly-transcribed reviews on pages/testimonials.html as photo cards (All pill 83 to 87), data-category dryer/washer/refrigerator/oven-stove. Their review photos were regenerated from the source screenshots as 125x125 square-crop webp thumbnails to match the testimonials-page convention (the earlier 1200x529 versions mirrored the unused hood-pawan-deepak format, which is referenced nowhere). Renamed Pat Sepulveda-Garcia's photo to oven-dacor-pat-sepulveda-garcia.webp and set brand=Dacor after the owner confirmed her range is the same unit as the recent-repairs Dacor convection-fan job (completed-repair-oven-dacor-convection-fan-pico-rivera). Adriana Lopez's LG washer likewise matches the completed-repair-washer-lg-drain-pump-santa-ana business photo (same job). No count-surface change: totalReviewsOnListing stays 93. These 4 remain OUT of the hub testimonial grids (grandfathered 6-card text-only grids); hub rotation deferred to owner decision."
           }
         ]
       },
@@ -115,7 +119,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/dryer-electrolux-lethkris.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), sorted Newest, shown 5 days ago, NEW badge. Electrolux dryer repair by tech AG. Reviewer profile shows '1 review · 1 photo'. Review photo (white Electrolux dryer) downscaled 3393x1495 to 1200x529 webp, saved to images/real/reviews/dryer-electrolux-lethkris.webp. Location standardized to 'Orange County, CA' per Google source policy (city not exposed). Quotable testimonial (has photo + body well over 3 words). Part of the 89 to 93 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), sorted Newest, shown 5 days ago, NEW badge. Electrolux dryer repair by tech AG. Reviewer profile shows '1 review · 1 photo'. Review photo (white Electrolux dryer) downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/dryer-electrolux-lethkris.webp. Location standardized to 'Orange County, CA' per Google source policy (city not exposed). Quotable testimonial (has photo + body well over 3 words). Part of the 89 to 93 GBP listing bump."
     },
     {
       "id": "google-adriana-lopez-2026-07-06",
@@ -133,7 +137,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/washer-lg-adriana-lopez.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), shown 6 days ago, NEW badge. LG front-load washer drain pump replacement by tech AG. Reviewer is a Local Guide ('15 reviews · 1 photo'). Brand LG confirmed from the review photo (LG Direct Drive front-loader). Photo downscaled 3393x1495 to 1200x529 webp, saved to images/real/reviews/washer-lg-adriana-lopez.webp. The photo/job visually matches the business photo completed-repair-washer-lg-drain-pump-santa-ana (likely the same repair). Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), shown 6 days ago, NEW badge. LG front-load washer drain pump replacement by tech AG. Reviewer is a Local Guide ('15 reviews · 1 photo'). Brand LG confirmed from the review photo (LG Direct Drive front-loader). Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/washer-lg-adriana-lopez.webp. The photo/job visually matches the business photo completed-repair-washer-lg-drain-pump-santa-ana (likely the same repair). Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
     },
     {
       "id": "google-pat-sepulveda-garcia-2026-07-06",
@@ -141,7 +145,7 @@
       "name": "Pat Sepulveda-Garcia",
       "location": "Orange County, CA",
       "appliance": "oven",
-      "brand": null,
+      "brand": "Dacor",
       "rating": 5,
       "approxDate": "2026-06",
       "dateText": "1 week ago",
@@ -150,8 +154,8 @@
       "bodyStatus": "complete",
       "bodyHasTypos": false,
       "profilePhoto": null,
-      "reviewPhoto": "images/real/reviews/oven-pat-sepulveda-garcia.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 1 week ago, NEW badge. Oven/range service by tech AG. Reviewer profile shows '1 review · 1 photo'. Review photo is a stainless professional gas range with a center griddle (visually resembles the Dacor range on completed-repair-oven-dacor-convection-fan-pico-rivera, possibly the same appliance); brand left null since the review text only says 'my oven' and does not name a brand. Photo downscaled 3393x1495 to 1200x529 webp, saved to images/real/reviews/oven-pat-sepulveda-garcia.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+      "reviewPhoto": "images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 1 week ago, NEW badge. Oven/range service by tech AG. Reviewer profile shows '1 review · 1 photo'. Review photo is a stainless professional gas range with a center griddle (visually resembles the Dacor range on completed-repair-oven-dacor-convection-fan-pico-rivera, owner-confirmed 2026-07-06 to be the same appliance as that recent-repairs Dacor convection-fan job, so brand=Dacor). Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
     },
     {
       "id": "google-aghasahib-zarbaliyev-2026-07-06",
@@ -169,7 +173,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 2 weeks ago, NEW badge. Refrigerator not-cooling repair. Reviewer profile shows '6 reviews · 2 photos' (only one photo supplied). Body stored verbatim including the reviewer's phrasing 'Universal Appliance Services' (their wording, not the canonical business name); bodyHasTypos=false. Brand not visible in the photo (stainless doors), left null. Photo downscaled 3393x1495 to 1200x529 webp, saved to images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 2 weeks ago, NEW badge. Refrigerator not-cooling repair. Reviewer profile shows '6 reviews · 2 photos' (only one photo supplied). Body stored verbatim including the reviewer's phrasing 'Universal Appliance Services' (their wording, not the canonical business name); bodyHasTypos=false. Brand not visible in the photo (stainless doors), left null. Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
     },
     {
       "id": "google-christian-dorn-2026-06-19",
