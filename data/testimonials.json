@@ -7,7 +7,7 @@
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
         "totalReviewsOnListing": 93,
-        "capturedCount": 88,
+        "capturedCount": 92,
         "ratingAverage": 5,
         "captureHistory": [
           {
@@ -57,6 +57,10 @@
           {
             "date": "2026-07-06",
             "note": "GBP listing total bumped 89 to 93 (owner-reported and self-verified 2026-07-06 via Playwright: Google Search knowledge panel for 'Universal Appliances Repair Group INC' shows 5.0 and 93 Google reviews). ratingValue unchanged at 5.0. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 89 to 93 = totalReviewsOnListing across all review-bearing pages. capturedCount stays 88: the 4 newest review bodies could not be transcribed this pass because Google gates individual review text behind sign-in for automated sessions (the Maps place returns a 'limited view'; the search-panel reviews link opens a feedback dialog). With the 1 long-standing uncaptured review, that leaves a 93-88=5 pool gap, to be closed from owner-supplied GBP screenshots per prior practice."
+          },
+          {
+            "date": "2026-07-06",
+            "note": "+4 reviews transcribed from owner-supplied GBP screenshots (new_reviews/1.png + new_reviews/2.png), sorted Newest, all 5-star with the NEW badge: LethKris B&H (Electrolux dryer, 5 days ago), Adriana Lopez (LG washer drain pump, Local Guide, 6 days ago), Pat Sepulveda-Garcia (oven/pro-range, 1 week ago), Aghasahib Zarbaliyev (refrigerator not-cooling, 2 weeks ago). These are the 4 reviews behind the same-day 89-to-93 listing bump. capturedCount 88 to 92. Each review's photo downscaled from 3393x1495 to 1200x529 webp and saved to images/real/reviews/ (dryer-electrolux-lethkris, washer-lg-adriana-lopez, oven-pat-sepulveda-garcia, refrigerator-aghasahib-zarbaliyev). Remaining 93-92=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0; totalReviewsOnListing unchanged at 93 (no new public count change, this is transcription only, so no site-wide count-surface edits this pass)."
           }
         ]
       },
@@ -83,7 +87,7 @@
     },
     "policyNotes": [
       "Location policy is source-specific. Google records: city not exposed by Google, all standardized to 'Orange County, CA'. Yelp records: use the city displayed on the reviewer's Yelp profile (real OC cities like Dana Point, Anaheim, Irvine).",
-      "Rating filter is enforced by display rule, not by capture. All Google records (88) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
+      "Rating filter is enforced by display rule, not by capture. All Google records (92) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
       "Bodies preserved verbatim including spelling/grammar issues. Use _bodyHasTypos flag to decide if light correction is acceptable for display.",
       "All review bodies that have text are now complete (Kathy Calderon, Dave Brisbin, andrea hall full bodies sourced from missing_data/ folder).",
       "Two reviews have no body text (Theresa Robinson is photo-only with stove image; Luci LaBue has only 'Reasonable price' + 'Washing machine repair' service tags). Useful for photo display only.",
@@ -91,10 +95,82 @@
       "Review photos: 7 captured as Google CDN URLs from initial browser scrape (may need re-download to local before they expire); 13 previously embedded in screenshots have been extracted and saved locally at images/real/reviews/ (2026-05-12).",
       "Display rule for testimonials (mirrors .claude/rules/testimonial-selection.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body ≥3 words; (b) no reviewPhoto and body ≥8 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and ≤2-overlap rules in the same rules file also apply.",
       "Schema: every record has a 'source' field ('google' | 'yelp'). Yelp records may have a 'previousBody' field for updated reviews. Records linked across sources have a '_crossSourceMatch' field pointing to the corresponding record's id.",
-      "AggregateRating in HTML schema markup is Google-only (5.0 × 93). reviewCount mirrors the public GBP listing total (_meta.sources.google.totalReviewsOnListing = 93), NOT capturedCount (88 transcribed records). The content-integrity 'review-count' check validates pages against totalReviewsOnListing. The two diverge by 5 because the 4 newest reviews (2026-07-06 bump) plus 1 long-standing review are counted on GBP but not yet transcribed into this pool (see captureHistory 2026-07-06). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
+      "AggregateRating in HTML schema markup is Google-only (5.0 × 93). reviewCount mirrors the public GBP listing total (_meta.sources.google.totalReviewsOnListing = 93), NOT capturedCount (92 transcribed records). The content-integrity 'review-count' check validates pages against totalReviewsOnListing. The two diverge by 1 because a single long-standing review is counted on GBP but not yet transcribed into this pool (see captureHistory 2026-07-06). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
     ]
   },
   "reviews": [
+    {
+      "id": "google-lethkris-bh-2026-07-06",
+      "source": "google",
+      "name": "LethKris B&H",
+      "location": "Orange County, CA",
+      "appliance": "dryer",
+      "brand": "Electrolux",
+      "rating": 5,
+      "approxDate": "2026-07",
+      "dateText": "5 days ago",
+      "isNew": true,
+      "body": "AG fixed my Electrolux dryer and was very professional. He was efficient, genuine, and had great customer service. I highly recommend him and would definitely use his superb technical service again!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/dryer-electrolux-lethkris.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), sorted Newest, shown 5 days ago, NEW badge. Electrolux dryer repair by tech AG. Reviewer profile shows '1 review · 1 photo'. Review photo (white Electrolux dryer) downscaled 3393x1495 to 1200x529 webp, saved to images/real/reviews/dryer-electrolux-lethkris.webp. Location standardized to 'Orange County, CA' per Google source policy (city not exposed). Quotable testimonial (has photo + body well over 3 words). Part of the 89 to 93 GBP listing bump."
+    },
+    {
+      "id": "google-adriana-lopez-2026-07-06",
+      "source": "google",
+      "name": "Adriana Lopez",
+      "location": "Orange County, CA",
+      "appliance": "washer",
+      "brand": "LG",
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "6 days ago",
+      "isNew": true,
+      "body": "AG, replaced the drain pump and even ran the washer with an antibacterial spray. Very pleased and highly recommend.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/washer-lg-adriana-lopez.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), shown 6 days ago, NEW badge. LG front-load washer drain pump replacement by tech AG. Reviewer is a Local Guide ('15 reviews · 1 photo'). Brand LG confirmed from the review photo (LG Direct Drive front-loader). Photo downscaled 3393x1495 to 1200x529 webp, saved to images/real/reviews/washer-lg-adriana-lopez.webp. The photo/job visually matches the business photo completed-repair-washer-lg-drain-pump-santa-ana (likely the same repair). Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+    },
+    {
+      "id": "google-pat-sepulveda-garcia-2026-07-06",
+      "source": "google",
+      "name": "Pat Sepulveda-Garcia",
+      "location": "Orange County, CA",
+      "appliance": "oven",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "1 week ago",
+      "isNew": true,
+      "body": "Incredible service!! My oven is my emotional lifeline and this tech has saved me a few times!! Excellent service, reasonably priced and very respectful! He is my 100% go to for all things appliances.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/oven-pat-sepulveda-garcia.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 1 week ago, NEW badge. Oven/range service by tech AG. Reviewer profile shows '1 review · 1 photo'. Review photo is a stainless professional gas range with a center griddle (visually resembles the Dacor range on completed-repair-oven-dacor-convection-fan-pico-rivera, possibly the same appliance); brand left null since the review text only says 'my oven' and does not name a brand. Photo downscaled 3393x1495 to 1200x529 webp, saved to images/real/reviews/oven-pat-sepulveda-garcia.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+    },
+    {
+      "id": "google-aghasahib-zarbaliyev-2026-07-06",
+      "source": "google",
+      "name": "Aghasahib Zarbaliyev",
+      "location": "Orange County, CA",
+      "appliance": "refrigerator",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-06",
+      "dateText": "2 weeks ago",
+      "isNew": true,
+      "body": "My refrigerator stopped keeping food cold, but Universal Appliance Services came out and fixed it quickly. Really happy with the service and glad my food isn't spoiling anymore. Highly recommend them",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 2 weeks ago, NEW badge. Refrigerator not-cooling repair. Reviewer profile shows '6 reviews · 2 photos' (only one photo supplied). Body stored verbatim including the reviewer's phrasing 'Universal Appliance Services' (their wording, not the canonical business name); bodyHasTypos=false. Brand not visible in the photo (stainless doors), left null. Photo downscaled 3393x1495 to 1200x529 webp, saved to images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+    },
     {
       "id": "google-christian-dorn-2026-06-19",
       "source": "google",
