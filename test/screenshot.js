@@ -1,4 +1,9 @@
-const puppeteer = require('puppeteer');
+// Batch full-page screenshot gate. Runs on Playwright's Chromium (the same
+// browser the functional suite uses) so the repo ships a single browser
+// toolchain. CLI contract is unchanged from the previous Puppeteer version:
+// same page discovery, same MISSING/OK/FAIL output lines, same exit codes.
+const { chromium } = require('@playwright/test');
+const { pathToFileURL } = require('url');
 const path = require('path');
 const fs = require('fs');
 
@@ -25,7 +30,7 @@ const outDir = path.join(__dirname, 'screenshots');
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
 
 (async () => {
-  const browser = await puppeteer.launch();
+  const browser = await chromium.launch();
   const failures = [];
 
   for (const page of pages) {
@@ -36,9 +41,8 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
       continue;
     }
     try {
-      const p = await browser.newPage();
-      await p.setViewport({ width: 1280, height: 800 });
-      await p.goto(`file://${filePath}`);
+      const p = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+      await p.goto(pathToFileURL(filePath).href);
       const shotName = page.replace(/[\\/]/g, '__');
       await p.screenshot({ path: path.join(outDir, `${shotName}.png`), fullPage: true });
       console.log(`OK: ${page}`);

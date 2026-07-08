@@ -29,7 +29,6 @@
     "@secretlint/secretlint-rule-preset-recommend": "^12.2.0",
     "husky": "^9.1.7",
     "pagefind": "^1.5.2",
-    "puppeteer": "^24.40.0",
     "secretlint": "^12.2.0",
     "sharp": "^0.34.5"
   }
