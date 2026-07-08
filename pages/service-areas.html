@@ -80,6 +80,8 @@
     .city-tag { font-size: 10.5px; color: #666; margin-top: 3px; }
     .city-arrow { color: #e84c1e; font-size: 14px; flex-shrink: 0; }
     .city-card.primary-city .city-name { color: #111; }
+    .city-card--info { cursor: default; }
+    .city-card--info:hover { box-shadow: none; border-color: #eee; }
 
     /* FAQ */
     .faq-item { border-bottom: 1px solid #eee; padding: 0; }
@@ -194,6 +196,11 @@
         "@type": "Question",
         "name": "How quickly can you reach South Orange County cities like Mission Viejo or San Clemente?",
         "acceptedAnswer": { "@type": "Answer", "text": "South OC cities are typically a 30–50 minute drive from our Stanton base. We route technicians to minimize travel time, so same-day appointments in Mission Viejo, Lake Forest, San Clemente, and Dana Point are available most weekdays." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you serve cities in Los Angeles County?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Orange County is our primary service area, and we also serve nearby Los Angeles County Gateway Cities: Pico Rivera, Whittier, Downey, Montebello, Santa Fe Springs, and Norwalk. Pico Rivera is about 16 miles from our Stanton base, closer than several Orange County cities we already cover, so same-day appointments are available most weekdays." }
       }
     ]
   }
@@ -533,6 +540,21 @@
         </div>
       </div>
 
+      <!-- Nearby LA County (subordinate; plain-text, dedicated pages arrive in the Pico Rivera build) -->
+      <div class="region-block" style="border-top:1px solid #eee;padding-top:40px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#666;margin-bottom:8px;">Beyond Orange County</div>
+        <div class="region-title">Nearby Los Angeles County</div>
+        <p style="font-size:13px;color:#666;line-height:1.7;margin:0 0 16px;max-width:640px;">Orange County is our primary service area. We also serve these nearby LA County Gateway Cities, with same-day appointments available most weekdays. Pico Rivera is about 16 miles from our Stanton base, closer than several Orange County cities we already cover. Dedicated city pages are on the way.</p>
+        <div class="cities-grid">
+          <div class="city-card city-card--info"><div><div class="city-name">Pico Rivera</div><div class="city-tag">Service area &middot; same-day available</div></div></div>
+          <div class="city-card city-card--info"><div><div class="city-name">Whittier</div><div class="city-tag">Service area &middot; same-day available</div></div></div>
+          <div class="city-card city-card--info"><div><div class="city-name">Downey</div><div class="city-tag">Service area &middot; same-day available</div></div></div>
+          <div class="city-card city-card--info"><div><div class="city-name">Montebello</div><div class="city-tag">Service area &middot; same-day available</div></div></div>
+          <div class="city-card city-card--info"><div><div class="city-name">Santa Fe Springs</div><div class="city-tag">Service area &middot; same-day available</div></div></div>
+          <div class="city-card city-card--info"><div><div class="city-name">Norwalk</div><div class="city-tag">Service area &middot; same-day available</div></div></div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -570,6 +592,11 @@
         <div class="faq-item">
           <button class="faq-q">How quickly can you reach South Orange County cities like Mission Viejo or San Clemente?<span class="icon">+</span></button>
           <div class="faq-a">South OC cities are typically a 30–50 minute drive from our Stanton base. Same-day appointments in Mission Viejo, Lake Forest, San Clemente, and Dana Point are available most weekdays. Call early for the best availability.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">Do you serve cities in Los Angeles County?<span class="icon">+</span></button>
+          <div class="faq-a">Yes. Orange County is our primary service area, and we also serve nearby Los Angeles County Gateway Cities: Pico Rivera, Whittier, Downey, Montebello, Santa Fe Springs, and Norwalk. Pico Rivera is about 16 miles from our Stanton base, closer than several Orange County cities we already cover, so same-day appointments are available most weekdays.</div>
         </div>
 
       </div>
