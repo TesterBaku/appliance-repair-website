@@ -16,14 +16,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 | Metric | Value |
 |---|---|
 | Distinct reviews currently on >=1 hub | 81 |
-| On exactly 1 hub (1 free slot each) | 10 |
-| On exactly 2 hubs (at cap) | 67 |
+| On exactly 1 hub (1 free slot each) | 7 |
+| On exactly 2 hubs (at cap) | 70 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **10** |
-| Approx. new city hubs supportable @ 3/hub | **~3** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **7** |
+| Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 10 reviews sitting on a single hub each have a free
-second slot. Allocate from the "1 free slot" list below when building new hubs.
+The pool is **not** exhausted: the 7 reviews sitting on a single hub each have a free
+second slot.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
 
@@ -41,12 +41,9 @@ not as violations to fix. No other review may exceed 2 hubs.
 
 | Review | On hub |
 |---|---|
-| Elvin Mammadov | wolf-hub |
 | George | miele-hub |
-| Karen Myhra | dishwasher-repair-hub |
 | Laurie Summers | wolf-hub |
 | Michele Ohanian | refrigerator-repair-cost-hub |
-| Naoki MacInnes | wine-cooler-repair-hub |
 | Noelle B | san-clemente |
 | Noelle B. | yorba-linda |
 | Satara Armstrong Charlson | viking-hub |
@@ -72,6 +69,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Dave Brisbin | irvine, refrigerator-repair-hub |
 | Dena Fisher | buena-park, dryer-repair-hub |
 | Elizabeth Lovejoy | laguna-beach, oven-stove-repair-hub |
+| Elvin Mammadov | wolf-hub, long-beach |
 | Emily Palmer | laguna-beach, freezer-repair-hub |
 | Erin Ponchak | laguna-niguel, yorba-linda |
 | Ernesto Ruiz | placentia, dryer-repair-hub |
@@ -87,6 +85,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Jovita Osorio | placentia, wine-cooler-repair-hub |
 | Julie L. | huntington-beach, dryer-repair-hub |
 | Justine Shaw | buena-park, garbage-disposal-repair-hub |
+| Karen Myhra | dishwasher-repair-hub, long-beach |
 | Kat Tesh | brea, viking-hub |
 | Katherine Bosboom | cost-hub, dishwasher-repair-hub |
 | Kathy Calderon | aliso-viejo, dacor-hub |
@@ -101,6 +100,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Mark Koss | rancho-santa-margarita, thermador-hub |
 | Mark Rivera | lake-forest, washer-repair-hub |
 | Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
+| Naoki MacInnes | wine-cooler-repair-hub, long-beach |
 | Patricio Jr Villanueva | la-habra, washer-repair-hub |
 | Pawan Deepak | fountain-valley, placentia |
 | Robert Clemmons | mission-viejo, dishwasher-repair-hub |
