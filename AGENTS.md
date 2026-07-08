@@ -71,7 +71,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 npm start                  # Serve locally at http://localhost:3000 (via npx serve .)
 npm test                   # Link check + HTML integrity + content integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check
 npm run test:functional    # Playwright functional suite (currently ~585 tests; auto-starts a server on :8788 via test/serve.js)
-npm run screenshot         # Puppeteer batch screenshots
+npm run screenshot         # Playwright batch screenshots
 npm run test:all           # All of the above in one shot
 npm run build:sitemap      # Regenerate sitemap.xml from the file tree + git history
 npm run build:partials     # Re-stamp the shared footer + nav partials into every page (run after editing partials/footer.html or partials/nav-*.html)
@@ -201,7 +201,7 @@ branch → commit → **all three tests** → PR → review → merge. No except
 **Three required tests — all must exit 0 before opening a PR:**
 ```
 npm test                 # link check (101 pages) + integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check
-npm run screenshot       # puppeteer batch screenshots
+npm run screenshot       # Playwright batch screenshots
 npm run test:functional  # Playwright functional suite (currently ~585 tests) — nav, dropdowns, forms, accordions, articles, hubs
 ```
 
@@ -283,11 +283,11 @@ Every new `.html` file — article, hub page, or static page — must include th
 - `shared.css` — shared styles used across all pages
 - `site.js` — single-sourced interaction JS (nav drawer, dropdown, FAQ accordion), defer-loaded on every nav page
 - `scripts/` — active node scripts; `scripts/build/` injectors; `scripts/oneoff/` historical one-offs
-- `test/` — link/integrity/css checks, Puppeteer screenshots, Playwright functional spec, static server
+- `test/` — link/integrity/css checks, Playwright screenshots (`test/screenshot.js`), Playwright functional spec, static server
 
 ## Tech Stack
 - Vanilla static HTML — no framework, no Tailwind
 - `shared.css` + small per-page `<style>` blocks (no CSS compile step); shared interaction JS in `site.js` (no JS build/bundle step)
 - Minimal build steps (run explicitly, output committed): `build:sitemap`, `build:partials`, `build:site-js`, `build:search`
 - Pagefind (`pagefind` devDependency) generates the committed `pagefind/` blog search index; no deploy-time build (GitHub Pages serves the committed tree as-is)
-- Puppeteer (screenshots) + Playwright (functional testing, currently ~585 tests in `test/functional.spec.js`)
+- Playwright (batch screenshots via `test/screenshot.js` + functional testing, currently ~765 tests in `test/functional.spec.js`)
