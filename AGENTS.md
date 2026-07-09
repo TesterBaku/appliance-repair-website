@@ -228,6 +228,8 @@ When the content change is substantive (not just metadata), also update the matc
 
 **Exception — site-wide chrome / template rollouts.** A change that only restamps shared chrome on every page (the injected footer / nav / head partials via `scripts/build/inject-partials.js`, or the shared interaction JS via `scripts/build/inject-site-js.js`) does **not** bump article `modified_time` / `dateModified`, even though it alters the rendered footer/nav DOM or removes inline scripts. `modified_time` signals *article content* freshness; marking dozens of articles "modified today" for a global chrome/infra change is a misleading freshness signal to search engines. Such PRs MUST state this exemption in the description and link to this rule. Owner-confirmed precedents: PR-5 footer partial injection (#457, 2026-05-31); PR-9 site.js interaction-JS extraction (#461, 2026-06-01). (Distinct from the cosmetic-href exemption, which requires zero DOM change; this one explicitly permits the chrome DOM change.)
 
+**Exception — related-card thumbnail sync.** Swapping a `.related-card` thumbnail to match the target article's upgraded real-photo hero is a cross-linking-module change, NOT an article-content edit. It does NOT bump `article:modified_time` or `dateModified` on the host article. Rationale: marking dozens of host articles as "modified today" because a card linking to a different article now shows a better photo is a misleading freshness signal to search engines, the same spirit as the chrome-rollout exemption. PRs in this sweep must state the exemption and cite this rule. Owner-confirmed 2026-07-09.
+
 ## Standing Rule — UTF-8 Without BOM
 
 All HTML files must be plain UTF-8, no BOM. When writing files programmatically on Windows:
