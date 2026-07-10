@@ -272,6 +272,29 @@ Every new `.html` file — article, hub page, or static page — must include th
 - `/visual-review` — Playwright MCP-driven deep visual check at desktop + mobile viewports, scoped to touched pages by default. Use after `/test` for any visual/CSS work; auto-invoked by `/seo-hub` Phase 5.
 - `/new-content` — lightweight scaffolder for a single article, hub page, or static page (no research, no test loop — use when you just need a stub)
 
+### Workflow Library — cross-agent portability
+
+The workflow definitions live as committed markdown in **`.claude/commands/*.md`**, and the detailed
+rules they follow live in **`.claude/rules/*.md`** (both committed since the cross-LLM-portability PR,
+2026-07-10 — they were previously gitignored, which made them invisible to every non-local tool and
+broke the cloud cron, since the runner clones only committed files). This file (`AGENTS.md`) is the
+tool-neutral hub; it is read natively by Codex, GitHub Copilot, Cursor, and Hermes, and is bridged
+into Claude Code via the root `CLAUDE.md` `@AGENTS.md` import.
+
+**How each agent runs a workflow (e.g. the SEO blog workflow in `.claude/commands/seo-blog.md`):**
+
+| Agent | How to invoke |
+|-------|---------------|
+| **Claude Code** | `/seo-blog` (native slash command; reads `.claude/commands/seo-blog.md`) |
+| **OpenAI Codex** | Reads `AGENTS.md` natively. Prompt: *"Follow the workflow in `.claude/commands/seo-blog.md`."* |
+| **Hermes** (Nous) | Reads `AGENTS.md` + `.hermes/` natively. Prompt: *"Execute `.claude/commands/seo-blog.md`."* |
+| **Cursor** | Reads `AGENTS.md` natively. Reference `.claude/commands/seo-blog.md` in chat. |
+| **Aider** | Start with `aider --read AGENTS.md`, then reference the command file. |
+
+No tool-specific adapter files are required — every supported agent reaches the same committed
+workflow + rule files through `AGENTS.md`. (GitHub Copilot is not currently wired; its stale agent
+port was removed on 2026-07-10.)
+
 ## Project Structure
 - `index.html` — homepage
 - `pages/about.html`, `pages/services.html`, `pages/contact.html`, `pages/faq.html`, `pages/testimonials.html`, `pages/blog.html` — main pages

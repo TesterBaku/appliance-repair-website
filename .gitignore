@@ -8,6 +8,8 @@ playwright-report/
 # Local task/planning files and run logs — owner's working notes, not part of the site
 tasks/
 logs/
+# Hermes Agent per-run plan scratch (like tasks/) — local working notes, not shared config
+.hermes/
 *.png
 !logo.png
 .playwright-mcp/
@@ -34,8 +36,16 @@ Thumbs.db
 *.local
 .vscode/
 
-# Claude Code config — internal AI assistant instructions, not part of the website
-.claude/
+# Claude Code config. The shareable workflow library + rule files are COMMITTED — they are
+# the single source of truth for every agent (Claude Code, Codex, Copilot, Hermes; see the
+# "Workflow Library" section of AGENTS.md) and must be in the repo so cloud cron runners, which
+# clone the default branch, can find them. Only user-local state stays ignored.
+.claude/*
+!.claude/commands/
+!.claude/rules/
+!.claude/agents/
+!.claude/CLAUDE.md
+# still ignored (not negated above): settings.local.json, worktrees/, and any local-only files
 
 # Credentials and keys
 *.pem
