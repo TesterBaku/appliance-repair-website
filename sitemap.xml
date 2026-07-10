@@ -200,7 +200,7 @@
   </url>
   <url>
     <loc>https://fixappliancesfast.com/pages/blog.html</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -242,7 +242,7 @@
   </url>
   <url>
     <loc>https://fixappliancesfast.com/pages/blog/washer.html</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -663,6 +663,12 @@
   <url>
     <loc>https://fixappliancesfast.com/articles/article-whirlpool-dryer-repair-los-alamitos.html</loc>
     <lastmod>2026-07-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://fixappliancesfast.com/articles/article-whirlpool-washer-error-codes.html</loc>
+    <lastmod>2026-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
