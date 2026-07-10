@@ -45,6 +45,11 @@ Thumbs.db
 !.claude/rules/
 !.claude/agents/
 !.claude/CLAUDE.md
+!.claude/settings.json
+
+# Impeccable per-edit design hook: the local run cache is machine-local (the shared
+# config .impeccable/config.json and sidecar .impeccable/design.json ARE committed).
+.impeccable/hook.cache.json
 # still ignored (not negated above): settings.local.json, worktrees/, and any local-only files
 
 # Credentials and keys

@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \".agents/skills/impeccable/scripts/hook.mjs\"",
+            "timeout": 5,
+            "statusMessage": "Checking UI changes"
+          }
+        ]
+      }
+    ]
+  },
+  "_comment": "Shared, committed. Impeccable per-edit design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as advisory reminders (non-blocking). Uses the repo's committed skill via relative path so it is portable across machines. Scoped rules live in .impeccable/config.json. This is IN ADDITION to the required /impeccable critique PR gate (AGENTS.md). Machine-local overrides go in the gitignored .claude/settings.local.json."
+}
