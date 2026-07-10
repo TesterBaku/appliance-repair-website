@@ -176,7 +176,7 @@ All rule files live in `.claude/rules/` (gitignored — local-only, kept out of 
 > (#575), the 2026-07-10 cloud run still produced nothing, and the run transcript isn't reachable, so
 > autonomous publishing was paused pending a move to an observable scheduler (GitHub Actions is the
 > documented option). Re-enable with `RemoteTrigger action:update body:{"enabled":true}`. Full
-> write-up + the GitHub Actions plan: `tasks/cross-llm-workflow-portability-plan.md` §6b.
+> write-up + the GitHub Actions plan: `tasks/archive/cross-llm-workflow-portability-plan-2026-07-10.md` §6b (residuals also tracked in `tasks/backlog.md` P6-5).
 
 ### Content publishing — `/seo-blog` — ⏸ PAUSED
 When enabled, runs **Mon/Wed/Fri at 6 AM Pacific (13:00 UTC)**. Fully autonomous: research → propose → write → test → merge.
