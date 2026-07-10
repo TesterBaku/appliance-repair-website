@@ -203,6 +203,11 @@ The `/review` subagent must also run `/impeccable critique` when the diff includ
 
 The impeccable design system is in `.agents/skills/impeccable/`. Context (brand, colors, typography) is in `PRODUCT.md` and `DESIGN.md` at the project root.
 
+**Keeping impeccable current (check periodically, ~monthly).** The skill is committed here (a clone-based runner / CI / a fresh machine has no access to a machine-global `~/.claude/skills/` copy, so committing it is deliberate — same portability reasoning as the `.claude/commands` library). It is a published package that ships new versions, so it drifts. To check + update:
+- **Check for updates:** `npx impeccable check` — but run it from a **neutral directory** (e.g. your home folder), NOT inside this repo. The `check`/`update`/`install` commands scan for and prefer an existing project copy, so run inside the repo they target `.agents/skills/impeccable/` (which is fine for `update`, wrong for a global install).
+- **Update the committed copy:** run `npx impeccable update` **inside the repo** (it bumps `.agents/skills/impeccable/`), then commit the skill dir only — discard the `.codex/hooks.json` pre-edit hook it also writes (a machine-local side effect we don't force on every clone). Land it as its own PR. Last bumped to v3.9.1 on 2026-07-10.
+- A machine-global install (`npx impeccable install --global --providers=.claude`, run from a neutral dir) is for auditing **other** projects; this repo always uses its own committed copy (project skills take precedence over global).
+
 ## Standing Rule — PR on Every Change
 Any request that results in a code or file change must go through the full workflow:
 branch → commit → **all three tests** → PR → review → merge. No exceptions, even for small edits.
