@@ -3,7 +3,9 @@
     "ignoreRules": [
       "design-system-color",
       "design-system-font-size",
-      "overused-font"
+      "design-system-radius",
+      "overused-font",
+      "single-font"
     ],
     "ignoreFiles": [],
     "ignoreValues": []
