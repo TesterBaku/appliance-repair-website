@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 83 |
-| On exactly 1 hub (1 free slot each) | 8 |
-| On exactly 2 hubs (at cap) | 71 |
+| Distinct reviews currently on >=1 hub | 84 |
+| On exactly 1 hub (1 free slot each) | 7 |
+| On exactly 2 hubs (at cap) | 73 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **8** |
+| **Free hub-slots available now** | **7** |
 | Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 8 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 7 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -41,12 +41,11 @@ not as violations to fix. No other review may exceed 2 hubs.
 
 | Review | On hub |
 |---|---|
-| Adriana Lopez | washer-repair-cost-hub |
-| Aghasahib Zarbaliyev | washer-repair-cost-hub |
 | Daniel Rojas | washer-repair-cost-hub |
 | George | miele-hub |
 | Laurie Summers | wolf-hub |
 | Michele Ohanian | refrigerator-repair-cost-hub |
+| Pat Sepulveda-Garcia | corona |
 | Satara Armstrong Charlson | viking-hub |
 | William L. | dacor-hub |
 
@@ -55,6 +54,8 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Review | Hubs (2) |
 |---|---|
 | A T | costa-mesa, fountain-valley |
+| Adriana Lopez | corona, washer-repair-cost-hub |
+| Aghasahib Zarbaliyev | corona, washer-repair-cost-hub |
 | Arzuman Qarayev | anaheim, westminster |
 | B P | tustin, viking-hub |
 | Brian Brassil | refrigerator-repair-cost-hub, sub-zero-hub |
