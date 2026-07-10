@@ -42,9 +42,17 @@ const agentsMd = path.join(repoRoot, 'AGENTS.md');
 const errors = [];
 const rel = (p) => path.relative(repoRoot, p).replace(/\\/g, '/');
 
+// Recursive so the routine-ID/email scans actually cover `.claude/commands/**` and
+// `.claude/rules/**` (both flat today, but a future subdirectory must not escape the scan).
 function listMd(dir) {
   if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter((f) => f.endsWith('.md')).map((f) => path.join(dir, f));
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...listMd(full));
+    else if (entry.name.endsWith('.md')) out.push(full);
+  }
+  return out;
 }
 
 const agents = fs.readFileSync(agentsMd, 'utf8');
