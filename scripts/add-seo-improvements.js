@@ -3,8 +3,9 @@
  *
  * 1. BreadcrumbList schema (all articles)
  * 2. Article schema (old articles that are missing it)
- * 3. og:url, article:published_time, article:modified_time meta tags
- * 4. width + height attributes on hero <img>
+ * 3. og:url, og:site_name, article:published_time, article:modified_time meta tags
+ * 4. Twitter card tags (twitter:card, twitter:title, twitter:description, twitter:image)
+ * 5. width + height attributes on hero <img>
  */
 
 const fs = require('fs');
@@ -67,6 +68,10 @@ function hasSchema(html, type) {
 
 function hasOGTag(html, property) {
   return html.includes(`property="${property}"`);
+}
+
+function hasMetaName(html, name) {
+  return new RegExp(`<meta\\s+name="${name}"`, 'i').test(html);
 }
 
 function hasHeroWidthHeight(html) {
@@ -142,6 +147,9 @@ function processFile(filePath) {
   // 3. Add missing OG / article meta tags
   const missingTags = [];
 
+  if (!hasOGTag(html, 'og:site_name')) {
+    missingTags.push(`  <meta property="og:site_name" content="Universal Appliances Repair" />`);
+  }
   if (!hasOGTag(html, 'og:title')) {
     missingTags.push(`  <meta property="og:title" content="${title.replace(/"/g, '&quot;')}" />`);
   }
@@ -161,7 +169,29 @@ function processFile(filePath) {
       ? heroSrcMatch[1].replace(/^\.\.\//, `${BASE_URL}/`)
       : `${BASE_URL}/images/hero-homepage.jpg`;
     missingTags.push(`  <meta property="og:image" content="${ogImage}" />`);
-    missingTags.push(`  <meta name="twitter:image" content="${ogImage}" />`);
+    if (!hasMetaName(html, 'twitter:image')) {
+      missingTags.push(`  <meta name="twitter:image" content="${ogImage}" />`);
+    }
+  }
+  if (hasOGTag(html, 'og:image') && !hasMetaName(html, 'twitter:image')) {
+    // og:image exists but twitter:image is missing — add it
+    const existingOgImage = extractOGMeta(html, 'og:image');
+    if (existingOgImage) {
+      missingTags.push(`  <meta name="twitter:image" content="${existingOgImage}" />`);
+    }
+  }
+  if (!hasMetaName(html, 'twitter:card')) {
+    missingTags.push(`  <meta name="twitter:card" content="summary_large_image" />`);
+  }
+  if (!hasMetaName(html, 'twitter:title')) {
+    const ogTitle = extractOGMeta(html, 'og:title') || title;
+    missingTags.push(`  <meta name="twitter:title" content="${ogTitle.replace(/"/g, '&quot;')}" />`);
+  }
+  if (!hasMetaName(html, 'twitter:description')) {
+    const ogDesc = extractOGMeta(html, 'og:description') || description;
+    if (ogDesc) {
+      missingTags.push(`  <meta name="twitter:description" content="${ogDesc.replace(/"/g, '&quot;')}" />`);
+    }
   }
   if (!hasOGTag(html, 'article:published_time')) {
     missingTags.push(`  <meta property="article:published_time" content="${date}" />`);
