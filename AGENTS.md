@@ -169,8 +169,17 @@ All rule files live in `.claude/rules/` (gitignored — local-only, kept out of 
 
 ## Scheduled Automation
 
-### Content publishing — `/seo-blog`
-Runs **Mon/Wed/Fri at 6 AM Pacific (13:00 UTC)**. Fully autonomous: research → propose → write → test → merge.
+> **⏸ BOTH ROUTINES PAUSED 2026-07-10 (owner decision).** Autonomous publishing is deferred — both
+> triggers below are set `enabled: false`. They still exist (manage via `RemoteTrigger`, not the
+> claude.ai UI — they were created via API and don't appear in the UI list). **Do not assume articles
+> are being published on a schedule.** Background: even after the `/seo-blog` skill was committed
+> (#575), the 2026-07-10 cloud run still produced nothing, and the run transcript isn't reachable, so
+> autonomous publishing was paused pending a move to an observable scheduler (GitHub Actions is the
+> documented option). Re-enable with `RemoteTrigger action:update body:{"enabled":true}`. Full
+> write-up + the GitHub Actions plan: `tasks/cross-llm-workflow-portability-plan.md` §6b.
+
+### Content publishing — `/seo-blog` — ⏸ PAUSED
+When enabled, runs **Mon/Wed/Fri at 6 AM Pacific (13:00 UTC)**. Fully autonomous: research → propose → write → test → merge.
 
 - **Routine ID:** `trig_015WszAyFWDSSsyfP9GF7F2u` (recreated 2026-06-03; the prior `trig_01ApQaWZG9LhY6jsp8tbxn8D` was found deleted — the trigger list was empty, so autonomous runs had silently stopped)
 - **Manage / disable:** https://claude.ai/code/routines/trig_015WszAyFWDSSsyfP9GF7F2u
@@ -178,8 +187,8 @@ Runs **Mon/Wed/Fri at 6 AM Pacific (13:00 UTC)**. Fully autonomous: research →
 - **Config:** model `claude-sonnet-4-6`; Gmail connector attached (Phase 12 summary email). If autonomous runs stop again, first check the routine still exists via `RemoteTrigger {action:"list"}` — a 404/empty list means it was deleted.
 - **DST note:** cron is fixed at 13:00 UTC; update to `0 14 * * 1,3,5` in November when clocks fall back to PST
 
-### Quarterly SEO audit — `/seo-audit`
-Runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Audits all articles, auto-fixes schema/meta gaps, opens a PR with a report of flagged items.
+### Quarterly SEO audit — `/seo-audit` — ⏸ PAUSED
+When enabled, runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Audits all articles, auto-fixes schema/meta gaps, opens a PR with a report of flagged items. (Q3 2026 audit shipped 2026-07-10 via PR #572 before the pause.)
 
 - **Routine ID:** `trig_01ACtLHhzTt8XnwP5udBX3Fv` (recreated 2026-06-03; prior `trig_01Sh3FPw2RJwrnSPXG3KjnrD` was deleted alongside the content routine)
 - **Manage / disable:** https://claude.ai/code/routines/trig_01ACtLHhzTt8XnwP5udBX3Fv
