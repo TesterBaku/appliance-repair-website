@@ -87,7 +87,7 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 
 Every page that displays testimonials must also include:
 
-- **`AggregateRating`** in JSON-LD: `ratingValue: 5.0`, `reviewCount` = `data/testimonials.json` `_meta.sources.google.totalReviewsOnListing` (currently 95), `bestRating: 5`. Never hardcode a stale literal — the `content-integrity` "review-count" check enforces this. **`AggregateRating` is Google-only** — never add Yelp's count/average into `ratingValue` or `reviewCount`. Mixing sources in `AggregateRating` is discouraged by Google's structured-data guidance.
+- **`AggregateRating`** in JSON-LD: `ratingValue: 5.0`, `reviewCount` = `data/testimonials.json` `_meta.sources.google.totalReviewsOnListing` (currently 97), `bestRating: 5`. Never hardcode a stale literal — the `content-integrity` "review-count" check enforces this. **`AggregateRating` is Google-only** — never add Yelp's count/average into `ratingValue` or `reviewCount`. Mixing sources in `AggregateRating` is discouraged by Google's structured-data guidance.
 - **Individual `Review` JSON-LD entries** for each displayed testimonial, with `author.name` matching the pool's `name` field exactly. This applies to displayed **Yelp** reviews too — emit a `Review` entry for each, but they stay out of `AggregateRating` (above).
 
 ## Tracking usage

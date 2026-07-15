@@ -1,13 +1,13 @@
 {
   "_meta": {
-    "lastUpdated": "2026-07-07",
+    "lastUpdated": "2026-07-15",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 95,
-        "capturedCount": 94,
+        "totalReviewsOnListing": 97,
+        "capturedCount": 96,
         "ratingAverage": 5,
         "captureHistory": [
           {
@@ -69,6 +69,10 @@
           {
             "date": "2026-07-07",
             "note": "+2 reviews transcribed from owner-supplied GBP screenshot (2_new_reviews.png), sorted Newest, both 5-star with the NEW badge, both shown 'Yesterday', both no-photo: atlindacity (Whirlpool refrigerator; 'AG fixed are whirlpool refrigerator Thank you!', bodyHasTypos) and Daniel Rojas (oven; fast ~15-minute repair). GBP listing total bumped 93 to 95 (owner screenshot panel shows 5.0, 95 reviews). capturedCount 92 to 94. Remaining 95-94=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 93 to 95 = totalReviewsOnListing across all review-bearing pages. Both surfaced on pages/testimonials.html as photo-less cards (All pill 87 to 89)."
+          },
+          {
+            "date": "2026-07-15",
+            "note": "+2 reviews transcribed from owner-supplied GBP screenshot (new_reviews.png), sorted Newest, both 5-star with the NEW badge: Olga Garcia (stove-top + freezer repair; no photo; '2 hours ago'; 'Great price · $500+' service tag) and Marie Bennett (oven repair; 1 photo of a black 5-burner gas cooktop; '22 hours ago'). GBP listing total bumped 95 to 97 (owner screenshot panel shows 5.0, 97 reviews). capturedCount 94 to 96. Remaining 97-96=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Marie Bennett's review photo downscaled 2540x1119 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-marie-bennett.webp (brand unconfirmed, so no brand slug). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 95 to 97 = totalReviewsOnListing across all review-bearing pages. Both surfaced on pages/testimonials.html (Olga photo-less, Marie with photo); All pill 89 to 91. Both remain OUT of the hub testimonial grids (grandfathered)."
           }
         ]
       },
@@ -95,7 +99,7 @@
     },
     "policyNotes": [
       "Location policy is source-specific. Google records: city not exposed by Google, all standardized to 'Orange County, CA'. Yelp records: use the city displayed on the reviewer's Yelp profile (real OC cities like Dana Point, Anaheim, Irvine).",
-      "Rating filter is enforced by display rule, not by capture. All Google records (94) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
+      "Rating filter is enforced by display rule, not by capture. All Google records (96) are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA — outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
       "Bodies preserved verbatim including spelling/grammar issues. Use _bodyHasTypos flag to decide if light correction is acceptable for display.",
       "All review bodies that have text are now complete (Kathy Calderon, Dave Brisbin, andrea hall full bodies sourced from missing_data/ folder).",
       "Two reviews have no body text (Theresa Robinson is photo-only with stove image; Luci LaBue has only 'Reasonable price' + 'Washing machine repair' service tags). Useful for photo display only.",
@@ -103,10 +107,46 @@
       "Review photos: 7 captured as Google CDN URLs from initial browser scrape (may need re-download to local before they expire); 13 previously embedded in screenshots have been extracted and saved locally at images/real/reviews/ (2026-05-12).",
       "Display rule for testimonials (mirrors .claude/rules/testimonial-selection.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body ≥3 words; (b) no reviewPhoto and body ≥8 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and ≤2-overlap rules in the same rules file also apply.",
       "Schema: every record has a 'source' field ('google' | 'yelp'). Yelp records may have a 'previousBody' field for updated reviews. Records linked across sources have a '_crossSourceMatch' field pointing to the corresponding record's id.",
-      "AggregateRating in HTML schema markup is Google-only (5.0 × 95). reviewCount mirrors the public GBP listing total (_meta.sources.google.totalReviewsOnListing = 95), NOT capturedCount (94 transcribed records). The content-integrity 'review-count' check validates pages against totalReviewsOnListing. The two diverge by 1 because a single long-standing review is counted on GBP but not yet transcribed into this pool (see captureHistory 2026-07-06). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
+      "AggregateRating in HTML schema markup is Google-only (5.0 × 97). reviewCount mirrors the public GBP listing total (_meta.sources.google.totalReviewsOnListing = 97), NOT capturedCount (96 transcribed records). The content-integrity 'review-count' check validates pages against totalReviewsOnListing. The two diverge by 1 because a single long-standing review is counted on GBP but not yet transcribed into this pool (see captureHistory 2026-07-06). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
     ]
   },
   "reviews": [
+    {
+      "id": "google-olga-garcia-2026-07-15",
+      "source": "google",
+      "name": "Olga Garcia",
+      "location": "Orange County, CA",
+      "appliance": "stove",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-07",
+      "dateText": "2 hours ago",
+      "isNew": true,
+      "body": "Called AG and received a quick response. Was polite and efficient. Very reasonable and honest. Fixed my stove top and freezer.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-15 (new_reviews.png), sorted Newest, shown '2 hours ago', NEW badge. Stove-top and freezer repair by tech AG. Reviewer profile shows '2 reviews · 0 photos'. Google service tag on the review reads 'Great price · $500+' (job-value band; not stored as a field). Body stored verbatim. Quotable testimonial per the quality floor: no photo but body over 8 words (also names the stove/freezer). Location standardized to 'Orange County, CA' per Google source policy. Part of the 95 to 97 GBP listing bump."
+    },
+    {
+      "id": "google-marie-bennett-2026-07-15",
+      "source": "google",
+      "name": "Marie Bennett",
+      "location": "Orange County, CA",
+      "appliance": "oven",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-07",
+      "dateText": "22 hours ago",
+      "isNew": true,
+      "body": "AG came and fixed my oven so fast! He is extremely knowledgeable- he was able to accurately diagnose the problem in minutes. As he has the parts with him- he replaced the necessary part and cleaned up everything immediately. Thank you so much!!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/oven-marie-bennett.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-15 (new_reviews.png), shown '22 hours ago', NEW badge. Oven repair by tech AG (fast diagnosis, part on hand). Reviewer profile shows '0 reviews · 1 photo'. Review photo (black 5-burner gas cooktop/range top) downscaled from 2540x1119 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-marie-bennett.webp. Brand not confirmed (no legible badge; the visible 'Power Burner'/'Accusimmer' knob labels are generic gas-range terms) so brand=null. Body stored verbatim; bodyHasTypos=true (hyphens used where a comma/space belongs: 'knowledgeable- he', 'him- he') so light correction is allowed at display. Quotable testimonial (has photo + body well over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 95 to 97 GBP listing bump."
+    },
     {
       "id": "google-atlindacity-2026-07-07",
       "source": "google",
