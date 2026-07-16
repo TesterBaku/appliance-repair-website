@@ -248,7 +248,7 @@
   </url>
   <url>
     <loc>https://fixappliancesfast.com/pages/blog/washer.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -513,6 +513,12 @@
   <url>
     <loc>https://fixappliancesfast.com/articles/article-fridge-not-cooling-huntington-beach.html</loc>
     <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://fixappliancesfast.com/articles/article-fridge-not-cooling-la-habra.html</loc>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
