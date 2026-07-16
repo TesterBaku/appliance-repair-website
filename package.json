@@ -22,7 +22,7 @@
     "apply:favicon-metadata": "node scripts/apply-favicon-metadata.js",
     "prepare": "husky"
   },
-  "license": "ISC",
+  "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.59.1",
