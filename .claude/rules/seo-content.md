@@ -60,9 +60,9 @@ Cover these appliance types across articles:
 
 List one or more of these brands by name on every service or city page. Plain text, not images — LLMs read text, not pixels.
 
-Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor.
+Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor, DCS.
 
-Rule: never claim "factory authorized" or "certified" for a brand without proof. If unverifiable, write "we service" not "we are authorized for".
+Rule: never claim "factory authorized" or "certified" for a brand without proof. If unverifiable, write "we service" not "we are authorized for". (DCS — Dynamic Cooking Systems, Fisher & Paykel's professional cooking line — was added 2026-07-17 after a verified DCS range repair in Newport Beach; it is a serviced premium cooking brand, same tier as Wolf/Viking/Thermador/Dacor, not authorized.)
 
 ---
 
