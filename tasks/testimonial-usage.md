@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 84 |
-| On exactly 1 hub (1 free slot each) | 7 |
-| On exactly 2 hubs (at cap) | 73 |
+| Distinct reviews currently on >=1 hub | 85 |
+| On exactly 1 hub (1 free slot each) | 6 |
+| On exactly 2 hubs (at cap) | 75 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **7** |
+| **Free hub-slots available now** | **6** |
 | Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 7 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 6 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -41,11 +41,10 @@ not as violations to fix. No other review may exceed 2 hubs.
 
 | Review | On hub |
 |---|---|
-| Daniel Rojas | washer-repair-cost-hub |
 | George | miele-hub |
 | Laurie Summers | wolf-hub |
+| Marie Bennett | dcs-hub |
 | Michele Ohanian | refrigerator-repair-cost-hub |
-| Pat Sepulveda-Garcia | corona |
 | Satara Armstrong Charlson | viking-hub |
 | William L. | dacor-hub |
 
@@ -67,6 +66,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | D Light | cost-hub, thermador-hub |
 | Dana McNeill | fountain-valley, rancho-santa-margarita |
 | Danette Vanover | aliso-viejo, washer-repair-hub |
+| Daniel Rojas | dcs-hub, washer-repair-cost-hub |
 | Darina Martirosyan | brea, tustin |
 | Dave Brisbin | irvine, refrigerator-repair-hub |
 | Dena Fisher | buena-park, dryer-repair-hub |
@@ -104,6 +104,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
 | Naoki MacInnes | long-beach, wine-cooler-repair-hub |
 | Noelle B | san-clemente, yorba-linda |
+| Pat Sepulveda-Garcia | corona, dcs-hub |
 | Patricio Jr Villanueva | la-habra, washer-repair-hub |
 | Pawan Deepak | fountain-valley, placentia |
 | Robert Clemmons | mission-viejo, dishwasher-repair-hub |
