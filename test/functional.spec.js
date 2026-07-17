@@ -735,6 +735,7 @@ const BRAND_HUBS = [
   { brand: 'Miele',    file: 'miele-appliance-repair-orange-county.html' },
   { brand: 'Viking',   file: 'viking-appliance-repair-orange-county.html' },
   { brand: 'Thermador',file: 'thermador-appliance-repair-orange-county.html' },
+  { brand: 'DCS',      file: 'dcs-appliance-repair-orange-county.html' },
 ];
 
 for (const { brand, file } of BRAND_HUBS) {
@@ -1001,9 +1002,9 @@ for (const { brand, file } of BRAND_HUBS) {
     });
 
     // ── Luxury brands cross-link ──────────────────────────────────────────────
-    test('luxury brands cross-link grid has 5 cards', async ({ page }) => {
+    test('luxury brands cross-link grid has 6 cards', async ({ page }) => {
       const cards = await page.locator('.luxury-brand-card').count();
-      expect(cards).toBe(5);
+      expect(cards).toBe(6);
     });
 
     test('each luxury brand card has a name, description, and valid href', async ({ page }) => {

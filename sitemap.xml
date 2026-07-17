@@ -236,7 +236,7 @@
   </url>
   <url>
     <loc>https://fixappliancesfast.com/pages/blog/oven-stove.html</loc>
-    <lastmod>2026-07-16</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -261,6 +261,12 @@
   <url>
     <loc>https://fixappliancesfast.com/pages/dacor-appliance-repair-orange-county.html</loc>
     <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fixappliancesfast.com/pages/dcs-appliance-repair-orange-county.html</loc>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
