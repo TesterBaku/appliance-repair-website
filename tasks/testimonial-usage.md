@@ -16,13 +16,13 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 | Metric | Value |
 |---|---|
 | Distinct reviews currently on >=1 hub | 85 |
-| On exactly 1 hub (1 free slot each) | 6 |
-| On exactly 2 hubs (at cap) | 75 |
+| On exactly 1 hub (1 free slot each) | 4 |
+| On exactly 2 hubs (at cap) | 77 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **6** |
-| Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **4** |
+| Approx. new city hubs supportable @ 3/hub | **~1** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 6 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 4 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -43,10 +43,8 @@ not as violations to fix. No other review may exceed 2 hubs.
 |---|---|
 | George | miele-hub |
 | Laurie Summers | wolf-hub |
-| Marie Bennett | dcs-hub |
 | Michele Ohanian | refrigerator-repair-cost-hub |
 | Satara Armstrong Charlson | viking-hub |
-| William L. | dacor-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
 
@@ -99,6 +97,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Laman Anvarli | fullerton, freezer-repair-hub |
 | Linda B. | laguna-niguel, lake-forest |
 | Marcy Kucik | anaheim, refrigerator-repair-hub |
+| Marie Bennett | bosch-hub, dcs-hub |
 | Mark Koss | rancho-santa-margarita, thermador-hub |
 | Mark Rivera | lake-forest, washer-repair-hub |
 | Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
@@ -120,6 +119,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Tony Tomassini | anaheim, dishwasher-repair-hub |
 | Veronique Reaver | fullerton, miele-hub |
 | Wendy Henderson | los-alamitos, pico-rivera |
+| William L. | bosch-hub, dacor-hub |
 | William Nugent | la-habra, freezer-repair-hub |
 | andrea hall | cost-hub, freezer-repair-hub |
 | cheryl lemire | san-clemente, dryer-repair-hub |
