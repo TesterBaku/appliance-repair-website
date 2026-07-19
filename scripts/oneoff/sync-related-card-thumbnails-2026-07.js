@@ -107,6 +107,15 @@ const REAL_HERO_MAP = {
     '../images/real/business/completed-repair-wine-cooler-undercounter-drawer.jpg',
   'article-wolf-range-igniter-not-working-orange-county.html':
     '../images/real/business/completed-repair-range-wolf-cooktop-newton-beach.jpg',
+  // Added 2026-07-19: dishwasher + Miele heroes upgraded to real photos (PR #607)
+  'article-dishwasher-leaking-dana-point.html':
+    '../images/real/business/completed-repair-dishwasher-whirlpool-leak-san-clemente.jpg',
+  'article-dishwasher-maintenance-fullerton.html':
+    '../images/real/business/completed-repair-dishwasher-whirlpool-door-mission-viejo.jpg',
+  'article-dishwasher-repair-orange.html':
+    '../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.jpg',
+  'article-miele-dishwasher-error-codes.html':
+    '../images/real/business/completed-repair-dishwasher-pump-drain.jpg',
 };
 
 // Fix the wolf-range path (cooktop newport beach, not newton beach)
