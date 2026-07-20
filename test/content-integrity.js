@@ -75,7 +75,7 @@
  *                    CSS (no shared.css), so this drifts silently. See
  *                    .claude/rules/mobile-design.md. Added 2026-07-19 after 46
  *                    articles shipped a cramming mobile header (PR #610) and 44
- *                    lacked the sticky bar (PR #B).
+ *                    lacked the sticky bar (PR #611).
  *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
@@ -375,7 +375,7 @@ if (run('iso8601-timestamps')) {
 // Call/Book bar — the primary mobile booking CTA once the header button is hidden.
 // Articles carry their OWN inline nav CSS (no shared.css), so this drifts silently
 // on new or legacy files. See .claude/rules/mobile-design.md. Established site-wide
-// 2026-07-19 (PR #610 hid .nav-cta on 46 legacy articles; PR #B added the sticky
+// 2026-07-19 (PR #610 hid .nav-cta on 46 legacy articles; PR #611 added the sticky
 // bar to the 44 that lacked it).
 if (run('article-mobile-chrome')) {
   checked['article-mobile-chrome'] = { files: 0 };

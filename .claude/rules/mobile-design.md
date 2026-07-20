@@ -78,7 +78,7 @@ Rules:
 - 50/50 split, each half is a 44×44px+ tap target
 - Add `padding-bottom: 64px` to `<body>` so content isn't covered
 - Hidden at `min-width: 769px` (desktop already has a header CTA)
-- **Required on every article too** (standard since 2026-07-19, PR #B). Because the header `Book a Repair` button is hidden on mobile (see the Hamburger rule), this bar is the primary mobile booking CTA on articles — do not ship an article without it. The `padding-bottom: 64px` keeps the FAQ and body content clear of the 56px bar, so the earlier "covers the FAQ" concern does not apply.
+- **Required on every article too** (standard since 2026-07-19, PR #611). Because the header `Book a Repair` button is hidden on mobile (see the Hamburger rule), this bar is the primary mobile booking CTA on articles — do not ship an article without it. The `padding-bottom: 64px` keeps the FAQ and body content clear of the 56px bar, so the earlier "covers the FAQ" concern does not apply.
   - **Article-specific wiring:** articles carry their own inline CSS (no `shared.css`), so the three `.sticky-mobile-bar` / `.sticky-call` / `.sticky-book` rules, the `@media (max-width: 768px)` activation (`body { padding-bottom: 64px }` + `.sticky-mobile-bar { display: flex }`), and the markup `<div>` must all be present in the article itself. Book link path is `../pages/contact.html` (articles sit one level down).
 - Enforced site-wide by the `article-mobile-chrome` check in `test/content-integrity.js` (`npm test`): every `articles/article-*.html` must hide `.nav-cta` at `≤768px` AND include the `.sticky-mobile-bar`. New articles cloned from a recent article (e.g. the newest hub/article template) inherit both automatically.
 
