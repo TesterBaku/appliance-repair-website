@@ -317,9 +317,9 @@ These three files must exist at the root and return 200:
 - Every article must be fully responsive at 375px width
 - Hero text must be readable without horizontal scrolling
 - Cards and grid sections must stack vertically on mobile
-- Nav must collapse on mobile (hamburger or hidden links)
+- Nav must collapse on mobile (hamburger or hidden links); the article's own inline `@media (max-width: 768px)` block must hide BOTH `.nav-links` and `.nav-cta` (the header Book button) so the mobile header does not cram
 - CTA box must be full-width on mobile
-- Sticky bottom Call/Book bar on mobile (homepage and hub pages — optional on articles)
+- Sticky bottom Call/Book bar on mobile — **required on articles too** (standard since 2026-07-19), not just hubs; it is the primary mobile booking CTA once the header Book button is hidden. Both this and the `.nav-cta` hide are enforced by the `article-mobile-chrome` check in `npm test`. See `rules/mobile-design.md`.
 - Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or `@media` queries in the embedded `<style>` tag
 
 ### Writing rules
