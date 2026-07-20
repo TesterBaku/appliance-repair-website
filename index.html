@@ -274,6 +274,9 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
     .logo { gap: 10px; font-size: 16px; }
     /* Nav links slightly larger on homepage */
     .nav-links a { font-size: 13px; }
+    /* Tighter link spacing on homepage so the larger logo + links don't crowd the
+       phone number against "Blog" (space-between slack was ~3px). */
+    .nav-links { gap: 16px; }
 
     /* HERO (homepage-only) */
     .hero { padding-top: 70px; position: relative; overflow: hidden; text-align: center; min-height: 600px; display: flex; align-items: center; }
