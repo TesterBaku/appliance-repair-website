@@ -57,10 +57,12 @@ A page that only uses `(max-width: 1024px)` or relies entirely on Tailwind's `md
 - Drawer slides down from below the nav bar; closes on `Esc`, on link click, and on a click outside.
 - Hamburger button must be 44×44px minimum.
 - Keep the `Call` link (`tel:`) visible at every breakpoint — the call is the primary conversion.
+- **Hide the header `Book a Repair` button (`.nav-cta`) on mobile.** At `≤ 768px` the nav must set `.nav-cta { display: none; }` (alongside `.nav-links { display: none; }`). The header only has room for logo + phone + hamburger; leaving the Book button visible crams and overflows the header. On mobile, Book lives in the sticky bottom bar + the hamburger drawer, not the header.
+  - **Article pages carry their own inline nav CSS** (they do NOT link `shared.css`), so this rule must be present in each article's own `<style>` `@media (max-width: 768px)` block. `shared.css` already does this for every hub/static page. (Fixed site-wide 2026-07-19, PR #610 — 46 legacy articles were missing it.)
 
 ---
 
-## Sticky bottom Call / Book bar (required on homepage and hub pages)
+## Sticky bottom Call / Book bar (required on homepage, hub pages, AND articles)
 
 Below 768px, a fixed-position bar at the bottom of the viewport:
 
@@ -76,7 +78,9 @@ Rules:
 - 50/50 split, each half is a 44×44px+ tap target
 - Add `padding-bottom: 64px` to `<body>` so content isn't covered
 - Hidden at `min-width: 769px` (desktop already has a header CTA)
-- Optional on long-form articles (avoid covering the FAQ on small screens)
+- **Required on every article too** (standard since 2026-07-19, PR #B). Because the header `Book a Repair` button is hidden on mobile (see the Hamburger rule), this bar is the primary mobile booking CTA on articles — do not ship an article without it. The `padding-bottom: 64px` keeps the FAQ and body content clear of the 56px bar, so the earlier "covers the FAQ" concern does not apply.
+  - **Article-specific wiring:** articles carry their own inline CSS (no `shared.css`), so the three `.sticky-mobile-bar` / `.sticky-call` / `.sticky-book` rules, the `@media (max-width: 768px)` activation (`body { padding-bottom: 64px }` + `.sticky-mobile-bar { display: flex }`), and the markup `<div>` must all be present in the article itself. Book link path is `../pages/contact.html` (articles sit one level down).
+- Enforced site-wide by the `article-mobile-chrome` check in `test/content-integrity.js` (`npm test`): every `articles/article-*.html` must hide `.nav-cta` at `≤768px` AND include the `.sticky-mobile-bar`. New articles cloned from a recent article (e.g. the newest hub/article template) inherit both automatically.
 
 ---
 

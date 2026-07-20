@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Ten enforced checks (EXIT 1 on any failure) plus one informational report
+ * Eleven enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -67,6 +67,16 @@
  *                    Review.datePublished is exempt (reduced-precision GBP dates).
  *                    Added 2026-06-04 after two hubs shipped date-only.
  *
+ *   article-mobile-chrome — every articles/article-*.html must (a) hide the header
+ *                    "Book a Repair" button (`.nav-cta { display: none }`) at
+ *                    <=768px so the mobile header does not cram, and (b) include the
+ *                    sticky bottom Call/Book bar (`class="sticky-mobile-bar"`), the
+ *                    primary mobile booking CTA. Articles carry their own inline nav
+ *                    CSS (no shared.css), so this drifts silently. See
+ *                    .claude/rules/mobile-design.md. Added 2026-07-19 after 46
+ *                    articles shipped a cramming mobile header (PR #610) and 44
+ *                    lacked the sticky bar (PR #B).
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -75,13 +85,13 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all ten enforced checks + the report
+ *   node test/content-integrity.js          — run all eleven enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
  *                                             analytics-present, jsonld-valid,
  *                                             footer-self-contained, iso8601-timestamps,
- *                                             title-length)
+ *                                             article-mobile-chrome, title-length)
  */
 
 'use strict';
@@ -359,6 +369,28 @@ if (run('iso8601-timestamps')) {
   }
 }
 
+// ── Check 11: article-mobile-chrome ───────────────────────────────────────────
+// Every article must (a) hide the header "Book a Repair" button (.nav-cta) at
+// <=768px so the mobile header does not cram, and (b) include the sticky bottom
+// Call/Book bar — the primary mobile booking CTA once the header button is hidden.
+// Articles carry their OWN inline nav CSS (no shared.css), so this drifts silently
+// on new or legacy files. See .claude/rules/mobile-design.md. Established site-wide
+// 2026-07-19 (PR #610 hid .nav-cta on 46 legacy articles; PR #B added the sticky
+// bar to the 44 that lacked it).
+if (run('article-mobile-chrome')) {
+  checked['article-mobile-chrome'] = { files: 0 };
+  for (const filePath of articles) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    checked['article-mobile-chrome'].files++;
+    if (!/\.nav-cta\s*\{\s*display:\s*none/.test(content)) {
+      issues.push(`[MOBILE-CHROME] ${rel(filePath)} — missing ".nav-cta { display: none }" at ≤768px (header Book button not hidden on mobile; header crams). See rules/mobile-design.md.`);
+    }
+    if (!/class="sticky-mobile-bar"/.test(content)) {
+      issues.push(`[MOBILE-CHROME] ${rel(filePath)} — missing the sticky-mobile-bar (mobile Call/Book CTA). See rules/mobile-design.md.`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -397,5 +429,6 @@ if (checked['analytics-present'])    parts.push(`analytics.js present on all ${c
 if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].blocks} JSON-LD blocks valid across ${checked['jsonld-valid'].files} files`);
 if (checked['footer-self-contained']) parts.push(`footer self-contained (no var()) across ${checked['footer-self-contained'].files} pages`);
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
+if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);

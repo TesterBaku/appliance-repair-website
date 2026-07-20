@@ -120,6 +120,10 @@
     .nav-drawer a.nav-drawer-cta { color: #aa3210; font-weight: 600; }
     @media (max-width: 768px) { .nav-links { display: none; } .nav-cta { display: none; } .nav-hamburger { display: flex; } }
     @media (prefers-reduced-motion: reduce) { .nav-hamburger span { transition: none; } }
+      .sticky-mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; height: 56px; }
+    .sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #e84c1e; color: #fff; gap: 6px; }
+    .sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #111; color: #fff; }
+    @media (max-width: 768px) { body { padding-bottom: 64px; } .sticky-mobile-bar { display: flex; } }
   </style>
   <script type="application/ld+json">
   {
@@ -524,5 +528,9 @@
 
   <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
+  <div class="sticky-mobile-bar">
+    <a href="tel:+19496295365" class="sticky-call">&#128222; Call Now</a>
+    <a href="../pages/contact.html" class="sticky-book">Book Repair</a>
+  </div>
 </body>
 </html>
