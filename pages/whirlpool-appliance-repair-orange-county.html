@@ -197,11 +197,48 @@
       "Santa Fe Springs, CA","Norwalk, CA","Los Angeles County, CA",
       "Corona, CA","Norco, CA","Eastvale, CA","Chino, CA","Chino Hills, CA",
       "Riverside County, CA"
-    ]
-  }
-  </script>
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "100",
+            "bestRating": "5"
+          }
+        }
+        </script>
 
-  <!-- SCHEMA: FAQPage -->
+        <!-- SCHEMA: ItemList (Reviews) -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "Review",
+              "author": { "@type": "Person", "name": "atlindacity" },
+              "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+              "reviewBody": "AG fixed our Whirlpool refrigerator. Thank you!",
+              "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+            },
+            {
+              "@type": "Review",
+              "author": { "@type": "Person", "name": "Melissa" },
+              "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+              "reviewBody": "Excellent experience! We have a Speed Queen dryer, and another company didn't want to work on it. This company was efficient, friendly, and made the whole process really easy. They ordered the needed part and came back to install it as soon as it was delivered. Prices were fair. Our dryer is working great now, highly recommend!",
+              "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+            },
+            {
+              "@type": "Review",
+              "author": { "@type": "Person", "name": "Matt Semonza" },
+              "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+              "reviewBody": "AJ was professional, fast, and honest!!",
+              "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+            }
+          ]
+        }
+        </script>
+
+        <!-- SCHEMA: FAQPage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -476,6 +513,38 @@
       <div class="hub-cta-row">
         <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
         <a href="contact.html" class="btn-outline-white">Book Online</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Our Customers Say</h2>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 100 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG fixed our Whirlpool refrigerator. Thank you!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">AT</div>
+          <div class="testimonial-name">atlindacity, Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Excellent experience! We have a Speed Queen dryer, and another company didn't want to work on it. This company was efficient, friendly, and made the whole process really easy."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">ME</div>
+          <div class="testimonial-name">Melissa, Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AJ was professional, fast, and honest!!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MS</div>
+          <div class="testimonial-name">Matt Semonza, Orange County, CA</div>
+        </div>
+
       </div>
     </div>
   </section>

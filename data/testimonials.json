@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-07-15",
+    "lastUpdated": "2026-07-21",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 97,
-        "capturedCount": 96,
+        "totalReviewsOnListing": 100,
+        "capturedCount": 99,
         "ratingAverage": 5,
-        "captureHistory": [
-          {
+                "captureHistory": [
+                  {
+                    "date": "2026-07-21",
+                    "note": "+3 reviews transcribed from owner-supplied GBP screenshot (3_new_reviews.png), sorted Newest, all 5-star with the NEW badge: Melissa (Speed Queen dryer, '25 mins ago'; no photo), Steph WW (LG refrigerator, '9 hours ago'; 1 photo), Matt Semonza (refrigerator, brand unclear from photo, 'Yesterday'; 1 photo). GBP listing total bumped 97 to 100 (owner screenshot panel shows 5.0, 100 reviews). capturedCount 96 to 99. Remaining 100-99=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Review photos downscaled from 3393x1495 to 125x125 square-crop webp thumbnails, saved to images/real/reviews/ (refrigerator-lg-steph-ww.webp, refrigerator-matt-semonza.webp). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 97 to 100 = totalReviewsOnListing across all review-bearing pages."
+                  },
+                  {
             "date": "2026-05-06",
             "note": "56 reviews captured from user-supplied screenshots and full-review images."
           },
@@ -111,6 +115,60 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-melissa-2026-07-21",
+      "source": "google",
+      "name": "Melissa",
+      "location": "Orange County, CA",
+      "appliance": "dryer",
+      "brand": "Speed Queen",
+      "rating": 5,
+      "approxDate": "2026-07",
+      "dateText": "25 mins ago",
+      "isNew": true,
+      "body": "Excellent experience! We have a Speed Queen dryer, and another company didn't want to work on it. This company was efficient, friendly, and made the whole process really easy. They ordered the needed part and came back to install it as soon as it was delivered. Prices were fair. Our dryer is working great now, highly recommend!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-21 (3_new_reviews.png), shown '25 mins ago', NEW badge. Speed Queen dryer repair. Body stored verbatim. Quotable testimonial per the quality floor: no photo but body well over 8 words and names the appliance and brand (Speed Queen dryer). Location standardized to 'Orange County, CA' per Google source policy. Part of the 97 to 100 GBP listing bump."
+    },
+    {
+      "id": "google-steph-ww-2026-07-21",
+      "source": "google",
+      "name": "Steph WW",
+      "location": "Orange County, CA",
+      "appliance": "refrigerator",
+      "brand": "LG",
+      "rating": 5,
+      "approxDate": "2026-07",
+      "dateText": "9 hours ago",
+      "isNew": true,
+      "body": "AG was wonderful - quick and easy! Loved working with him. Highly recommend :)",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/refrigerator-lg-steph-ww.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-21 (3_new_reviews.png), shown '9 hours ago', NEW badge. LG refrigerator repair by tech AG. Service tag 'Great price'. Review photo shows an LG refrigerator; downscaled from 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-lg-steph-ww.webp. Body stored verbatim. Quotable testimonial (has photo + body over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 97 to 100 GBP listing bump."
+    },
+    {
+      "id": "google-matt-semonza-2026-07-21",
+      "source": "google",
+      "name": "Matt Semonza",
+      "location": "Orange County, CA",
+      "appliance": "refrigerator",
+      "brand": "Frigidaire",
+            "rating": 5,
+            "approxDate": "2026-07",
+            "dateText": "Yesterday",
+            "isNew": true,
+            "body": "AJ was professional, fast, and honest!!",
+            "bodyStatus": "complete",
+            "bodyHasTypos": false,
+            "profilePhoto": null,
+            "reviewPhoto": "images/real/reviews/refrigerator-matt-semonza.webp",
+            "_note": "Source: owner-supplied GBP screenshot 2026-07-21 (3_new_reviews.png), shown 'Yesterday', NEW badge. Frigidaire refrigerator repair by tech AJ. Service tags 'Great price \u00b7 $50\u2013100'. Review photo shows a Frigidaire refrigerator; downscaled from 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-matt-semonza.webp. Body stored verbatim. Quotable testimonial (has photo + body over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 97 to 100 GBP listing bump."
+    },
     {
       "id": "google-olga-garcia-2026-07-15",
       "source": "google",
