@@ -197,11 +197,48 @@
       "Santa Fe Springs, CA","Norwalk, CA","Los Angeles County, CA",
       "Corona, CA","Norco, CA","Eastvale, CA","Chino, CA","Chino Hills, CA",
       "Riverside County, CA"
-    ]
-  }
-  </script>
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "100",
+            "bestRating": "5"
+          }
+        }
+        </script>
 
-  <!-- SCHEMA: FAQPage -->
+        <!-- SCHEMA: ItemList (Reviews) -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "Review",
+              "author": { "@type": "Person", "name": "Michele Ohanian" },
+              "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+              "reviewBody": "Friendly, on time, efficient, and successful repair.",
+              "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+            },
+            {
+              "@type": "Review",
+              "author": { "@type": "Person", "name": "LethKris B&H" },
+              "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+              "reviewBody": "AG fixed my Electrolux dryer and was very professional. He was efficient, genuine, and had great customer service.",
+              "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+            },
+            {
+              "@type": "Review",
+              "author": { "@type": "Person", "name": "George" },
+              "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+              "reviewBody": "He fixed the washing machine",
+              "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+            }
+          ]
+        }
+        </script>
+
+        <!-- SCHEMA: FAQPage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -468,14 +505,46 @@
       <h1>GE Refrigerator, Washer, Dryer &amp; Range Repair in Orange County</h1>
       <p>Refrigerators that stop cooling, main control boards that fail, ovens throwing F-codes, and dryers that won't heat. We service the whole GE family, from Hotpoint and GE to Profile, Cafe, and Monogram built-ins. Same-day service available.</p>
       <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 97 Google reviews">
+        <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 100 Google reviews">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 97 Google reviews</span>
+          <span>5.0 &middot; 100 Google reviews</span>
         </a>
       </div>
       <div class="hub-cta-row">
         <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
         <a href="contact.html" class="btn-outline-white">Book Online</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Our Customers Say</h2>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 100 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Friendly, on time, efficient, and successful repair."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MO</div>
+          <div class="testimonial-name">Michele Ohanian, Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG fixed my Electrolux dryer and was very professional. He was efficient, genuine, and had great customer service."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">LB</div>
+          <div class="testimonial-name">LethKris B&amp;H, Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"He fixed the washing machine"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">GE</div>
+          <div class="testimonial-name">George, Orange County, CA</div>
+        </div>
+
       </div>
     </div>
   </section>
