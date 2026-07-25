@@ -206,7 +206,7 @@
   </url>
   <url>
     <loc>https://fixappliancesfast.com/pages/blog.html</loc>
-    <lastmod>2026-07-19</lastmod>
+    <lastmod>2026-07-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -236,7 +236,7 @@
   </url>
   <url>
     <loc>https://fixappliancesfast.com/pages/blog/oven-stove.html</loc>
-    <lastmod>2026-07-17</lastmod>
+    <lastmod>2026-07-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -759,6 +759,12 @@
   <url>
     <loc>https://fixappliancesfast.com/articles/article-viking-oven-not-heating-orange-county.html</loc>
     <lastmod>2026-07-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://fixappliancesfast.com/articles/article-viking-refrigerator-not-cooling-orange-county.html</loc>
+    <lastmod>2026-07-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
