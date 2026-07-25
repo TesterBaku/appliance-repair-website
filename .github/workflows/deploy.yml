@@ -24,6 +24,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Strip committed dev/internal files so they are not served on the public
+      # Pages domain (rules, plans, logs, agent configs, build scripts, tests).
+      # Runs against the throwaway CI checkout only; the repo is untouched.
+      # The static site references none of these at runtime.
+      - name: Prune non-public files
+        run: |
+          rm -rf .claude .agents .codex .hermes .impeccable \
+                 tasks logs test scripts .github \
+                 AGENTS.md CLAUDE.md PRODUCT.md DESIGN.md README.md
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
