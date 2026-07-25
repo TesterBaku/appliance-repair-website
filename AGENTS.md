@@ -150,12 +150,13 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 **Inline CTA paragraph links** — any `.inline-cta` block must define `.inline-cta p a` before `.inline-cta a` to prevent paragraph links from inheriting button styles.
 
 ## Rules
-All rule files live in `.claude/rules/` (gitignored — local-only, kept out of the public repo since #348; restore from git history at `c8962327^` if a local copy is lost).
+All rule files live in `.claude/rules/` (**committed** since the cross-LLM-portability PR, 2026-07-10 — see the "Workflow Library" note below; they were gitignored before that, which made them invisible to non-local tools and the cloud cron).
 - `.claude/rules/git-workflow.md` — branch naming, commits, PRs, code review
 - `.claude/rules/seo-content.md` — SEO guidelines, brand canonicalization, hub-page architecture, AI answer block, llms.txt requirement, schema templates
 - `.claude/rules/mobile-design.md` — required `@media` breakpoints, hamburger nav, sticky bottom Call/Book bar, tap-target sizes, form behavior on mobile
 - `.claude/rules/testimonial-selection.md` — which captured reviews are quotable as testimonials (display/quotability rules referenced by `data/testimonials.json`)
 - `.claude/rules/gbp-platform-policy.md` — verify platform content policies before writing any external-platform copy (GBP posts must be purely descriptive)
+- `.claude/rules/trusted-sources.md` — read-only web access (WebSearch + WebFetch) is pre-authorized in `.claude/settings.json`; source quality is governed by judgment (official/manufacturer + well-established references only, cross-checked against ≥2 sources). Writes/logins to external services still require confirmation.
 
 ## Active plans (tasks/ — gitignored, local)
 - `tasks/backlog.md` — single source of truth for all open work (includes the Months 2–3 themes; the May 11–Jun 7 4-week schedule completed and was retired 2026-06-08)
