@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Eleven enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twelve enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -77,6 +77,18 @@
  *                    articles shipped a cramming mobile header (PR #610) and 44
  *                    lacked the sticky bar (PR #611).
  *
+ *   non-person-reviewers — no page may display a `Review` (in JSON-LD) whose
+ *                    `author.name` matches a data/testimonials.json record
+ *                    flagged do-not-display (`nameFlag: "non-person"`, or a
+ *                    `_note` field matching /do not display/i, e.g. a Google
+ *                    Maps business/music-entity listing that isn't a real
+ *                    customer). Catches drift where a flagged record is
+ *                    scrubbed from one page (e.g. a brand hub) but left on
+ *                    another. Added 2026-07-25 after "Jeff Lane Songs" (a
+ *                    Google Maps music-entity listing, not a customer) was
+ *                    found still displayed on pages/testimonials.html, even
+ *                    though it had already been removed from the brand hubs.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -85,13 +97,14 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all eleven enforced checks + the report
+ *   node test/content-integrity.js          — run all twelve enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
  *                                             analytics-present, jsonld-valid,
  *                                             footer-self-contained, iso8601-timestamps,
- *                                             article-mobile-chrome, title-length)
+ *                                             article-mobile-chrome, non-person-reviewers,
+ *                                             title-length)
  */
 
 'use strict';
@@ -391,6 +404,49 @@ if (run('article-mobile-chrome')) {
   }
 }
 
+// ── Check 12: non-person-reviewers ────────────────────────────────────────────
+// A handful of data/testimonials.json records are flagged as NOT a real
+// residential customer (e.g. a Google Maps business/music-entity listing that
+// left a review under a normal-looking name), via `nameFlag: "non-person"` or
+// a `_note` field matching /do not display/i. These must never be rendered as
+// a displayed Review anywhere on the site — no hub, no homepage, no
+// testimonials page. Catches drift where a flagged record is scrubbed from one
+// page but left on another. Added 2026-07-25 after "Jeff Lane Songs" (a Google
+// Maps music-entity listing, not a customer) was found still displayed on
+// pages/testimonials.html even though it had already been removed from the
+// brand hubs.
+if (run('non-person-reviewers')) {
+  checked['non-person-reviewers'] = { files: 0, blocked: 0 };
+  const testimonialsJson = JSON.parse(fs.readFileSync(path.join(root, 'data', 'testimonials.json'), 'utf8'));
+  const blockedNames = new Set(
+    testimonialsJson.reviews
+      .filter(r => r.nameFlag === 'non-person' || (typeof r._note === 'string' && /do not display/i.test(r._note)))
+      .map(r => r.name.trim().toLowerCase())
+  );
+  checked['non-person-reviewers'].blocked = blockedNames.size;
+
+  function walkReviewAuthors(node, filePath) {
+    if (Array.isArray(node)) { node.forEach(n => walkReviewAuthors(n, filePath)); return; }
+    if (!node || typeof node !== 'object') return;
+    if (node['@type'] === 'Review' && node.author && typeof node.author.name === 'string') {
+      const name = node.author.name.trim().toLowerCase();
+      if (blockedNames.has(name)) {
+        issues.push(`[NON-PERSON] ${rel(filePath)} — displays do-not-display reviewer "${node.author.name}"`);
+      }
+    }
+    for (const v of Object.values(node)) if (v && typeof v === 'object') walkReviewAuthors(v, filePath);
+  }
+
+  for (const filePath of allHtml) {
+    checked['non-person-reviewers'].files++;
+    const content = fs.readFileSync(filePath, 'utf8');
+    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; }  // jsonld-valid reports parse errors
+      walkReviewAuthors(parsed, filePath);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -430,5 +486,6 @@ if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].block
 if (checked['footer-self-contained']) parts.push(`footer self-contained (no var()) across ${checked['footer-self-contained'].files} pages`);
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
+if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
