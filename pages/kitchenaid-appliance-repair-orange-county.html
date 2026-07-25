@@ -92,6 +92,16 @@
     /* FAQ */
     .faq-list { margin-top: 36px; max-width: 760px; margin-left: auto; margin-right: auto; }
 
+    /* TESTIMONIALS */
+    .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; align-items: stretch; }
+    .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
+    .hub-page .stars { color: var(--amber); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
+    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
+    .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
+    @media (max-width: 900px) { .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
+
     /* SERVICE CROSS-LINK */
     .luxury-brands-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 28px; }
     .luxury-brand-card { background: var(--surface); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 1px 8px rgba(0,0,0,0.06); text-decoration: none; display: block; transition: box-shadow 0.15s; }
@@ -115,6 +125,7 @@
       .models-grid { grid-template-columns: 1fr; }
       .issues-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
+      .hub-page .testimonials-grid { grid-template-columns: 1fr; }
       .luxury-brands-grid { grid-template-columns: repeat(2, 1fr); }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
@@ -186,6 +197,43 @@
       "Santa Fe Springs, CA","Norwalk, CA","Los Angeles County, CA",
       "Corona, CA","Norco, CA","Eastvale, CA","Chino, CA","Chino Hills, CA",
       "Riverside County, CA"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "100",
+      "bestRating": "5"
+    }
+  }
+  </script>
+
+  <!-- SCHEMA: ItemList (Reviews) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Jeff Lane Songs" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG arrived on time and fixed the oven. Great work!",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "atlindacity" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG fixed our Whirlpool refrigerator. Thank you!",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Matt Semonza" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AJ was professional, fast, and honest!!",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      }
     ]
   }
   </script>
@@ -837,6 +885,38 @@
           <div class="lb-name">All Services</div>
           <div class="lb-desc">Every appliance we repair across Orange County, from refrigerators to wine coolers.</div>
         </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Our Customers Say</h2>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 100 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG arrived on time and fixed the oven. Great work!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JL</div>
+          <div class="testimonial-name">Jeff Lane Songs, Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG fixed our Whirlpool refrigerator. Thank you!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">AT</div>
+          <div class="testimonial-name">atlindacity, Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AJ was professional, fast, and honest!!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MS</div>
+          <div class="testimonial-name">Matt Semonza, Orange County, CA</div>
+        </div>
 
       </div>
     </div>

@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 92 |
-| On exactly 1 hub (1 free slot each) | 9 |
-| On exactly 2 hubs (at cap) | 79 |
+| Distinct reviews currently on >=1 hub | 94 |
+| On exactly 1 hub (1 free slot each) | 4 |
+| On exactly 2 hubs (at cap) | 86 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **9** |
-| Approx. new city hubs supportable @ 3/hub | **~3** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **4** |
+| Approx. new city hubs supportable @ 3/hub | **~1** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 9 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 4 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -42,14 +42,9 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Review | On hub |
 |---|---|
 | Laurie Summers | wolf-hub |
-| LethKris B&H | ge-hub |
-| Matt Semonza | whirlpool-hub |
 | Melissa | whirlpool-hub |
-| Olga Garcia | lg-hub |
 | Satara Armstrong Charlson | viking-hub |
-| Steph WW | lg-hub |
-| Who-Bangin Sports Talk | lg-hub |
-| atlindacity | whirlpool-hub |
+| Susan Gerakos | samsung-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
 
@@ -84,6 +79,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Greg Schnabel | costa-mesa, miele-hub |
 | J. Feria | dana-point, rancho-santa-margarita |
 | Jeff C | refrigerator-repair-cost-hub, sub-zero-hub |
+| Jeff Lane Songs | kitchenaid-hub, samsung-hub |
 | Jennifer Trette | costa-mesa, cypress |
 | John Dinger | cost-hub, dana-point |
 | Jonathan Stone | santa-ana, dishwasher-repair-hub |
@@ -101,15 +97,18 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Kenan Ken | westminster, oven-stove-repair-hub |
 | Lale | santa-ana, refrigerator-repair-hub |
 | Laman Anvarli | fullerton, freezer-repair-hub |
+| LethKris B&H | ge-hub, maytag-hub |
 | Linda B. | laguna-niguel, lake-forest |
 | Marcy Kucik | anaheim, refrigerator-repair-hub |
 | Marie Bennett | bosch-hub, dcs-hub |
 | Mark Koss | rancho-santa-margarita, thermador-hub |
 | Mark Rivera | lake-forest, washer-repair-hub |
+| Matt Semonza | kitchenaid-hub, whirlpool-hub |
 | Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
 | Michele Ohanian | ge-hub, refrigerator-repair-cost-hub |
 | Naoki MacInnes | long-beach, wine-cooler-repair-hub |
 | Noelle B | san-clemente, yorba-linda |
+| Olga Garcia | lg-hub, maytag-hub |
 | Pat Sepulveda-Garcia | corona, dcs-hub |
 | Patricio Jr Villanueva | la-habra, washer-repair-hub |
 | Pawan Deepak | fountain-valley, placentia |
@@ -117,6 +116,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Roger Antonie | la-habra, oven-stove-repair-hub |
 | Russell Kadota | laguna-beach, washer-repair-hub |
 | Shawne King | cost-hub, cypress |
+| Steph WW | lg-hub, maytag-hub |
 | Stephen Stephen | cypress, garbage-disposal-repair-hub |
 | Steve D | newport-beach, oven-stove-repair-hub |
 | Surma Karimova | dana-point, tustin |
@@ -126,9 +126,11 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Tony Tomassini | anaheim, dishwasher-repair-hub |
 | Veronique Reaver | fullerton, miele-hub |
 | Wendy Henderson | los-alamitos, pico-rivera |
+| Who-Bangin Sports Talk | lg-hub, samsung-hub |
 | William L. | bosch-hub, dacor-hub |
 | William Nugent | la-habra, freezer-repair-hub |
 | andrea hall | cost-hub, freezer-repair-hub |
+| atlindacity | kitchenaid-hub, whirlpool-hub |
 | cheryl lemire | san-clemente, dryer-repair-hub |
 | mike bonilla | brea, lake-forest |
 | mrs d. | aliso-viejo, dacor-hub |
