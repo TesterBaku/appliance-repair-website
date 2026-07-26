@@ -35,6 +35,8 @@ images/temp/*
 Thumbs.db
 *.local
 .vscode/
+# msys2 / Git-Bash crash dumps — never commit
+*.stackdump
 
 # Claude Code config. The shareable workflow library + rule files are COMMITTED — they are
 # the single source of truth for every agent (Claude Code, Codex, Copilot, Hermes; see the
