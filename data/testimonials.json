@@ -1,15 +1,19 @@
 {
   "_meta": {
-    "lastUpdated": "2026-07-21",
+    "lastUpdated": "2026-07-27",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 100,
-        "capturedCount": 99,
+        "totalReviewsOnListing": 101,
+        "capturedCount": 100,
         "ratingAverage": 5,
                 "captureHistory": [
+                  {
+                    "date": "2026-07-27",
+                    "note": "+1 review (Frank Rokhideh, GE range) transcribed from owner-supplied GBP dashboard screenshot (ge_range_review.png), shown '4 hours ago', NEW badge, 5-star, reviewer has 3 reviews / 0 photos. Body: 'AG came same day when called and fix my GE range' (verbatim; bodyHasTypos=true, 'fix' to 'fixed' for display only). Customer side of the GE Profile range control-board repair in Irvine (owner job photo completed-repair-range-ge-profile-control-board-irvine). GBP listing total bumped 100 to 101 (dashboard panel shows 5.0, 101 reviews). capturedCount 99 to 100. Remaining 101-100=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Quotable testimonial per the quality floor (no photo but body >=8 words naming appliance and brand). Location standardized to 'Orange County, CA' per Google source policy (reviewer city not exposed; Irvine job city not stated in the review text). Surfaced on pages/testimonials.html and the GE brand-hub testimonial grid. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 100 to 101 = totalReviewsOnListing across all review-bearing pages via npm run sync:testimonials."
+                  },
                   {
                     "date": "2026-07-21",
                     "note": "+3 reviews transcribed from owner-supplied GBP screenshot (3_new_reviews.png), sorted Newest, all 5-star with the NEW badge: Melissa (Speed Queen dryer, '25 mins ago'; no photo), Steph WW (LG refrigerator, '9 hours ago'; 1 photo), Matt Semonza (refrigerator, brand unclear from photo, 'Yesterday'; 1 photo). GBP listing total bumped 97 to 100 (owner screenshot panel shows 5.0, 100 reviews). capturedCount 96 to 99. Remaining 100-99=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Review photos downscaled from 3393x1495 to 125x125 square-crop webp thumbnails, saved to images/real/reviews/ (refrigerator-lg-steph-ww.webp, refrigerator-matt-semonza.webp). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 97 to 100 = totalReviewsOnListing across all review-bearing pages."
@@ -115,6 +119,24 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-frank-rokhideh-2026-07-27",
+      "source": "google",
+      "name": "Frank Rokhideh",
+      "location": "Orange County, CA",
+      "appliance": "range",
+      "brand": "GE",
+      "rating": 5,
+      "approxDate": "2026-07",
+      "dateText": "4 hours ago",
+      "isNew": true,
+      "body": "AG came same day when called and fix my GE range",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-07-27 (ge_range_review.png), shown '4 hours ago', NEW badge, reviewer 'Frank Rokhideh' (3 reviews, 0 photos). Same-day GE range repair by tech AG. Customer side of the GE Profile range control-board repair in Irvine (owner job photo completed-repair-range-ge-profile-control-board-irvine). Body stored verbatim; bodyHasTypos=true ('fix' to 'fixed' for display only). Quotable per the quality floor (no photo but body >=8 words naming appliance and brand: GE range). Location standardized to 'Orange County, CA' per Google source policy (reviewer city not exposed; Irvine job city not stated in the review text). Part of the 100 to 101 GBP listing bump."
+    },
     {
       "id": "google-melissa-2026-07-21",
       "source": "google",
