@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twelve enforced checks (EXIT 1 on any failure) plus one informational report
+ * Thirteen enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -104,8 +104,9 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all twelve enforced checks + the report
- *   node test/content-integrity.js <name>   — run one check (review-count, business-tenure,
+ *   node test/content-integrity.js          — run all thirteen enforced checks + the report
+ *   node test/content-integrity.js <name>   — run one check (review-count,
+ *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
  *                                             analytics-present, jsonld-valid,
@@ -171,14 +172,39 @@ if (run('review-count')) {
 // cards actually rendered in #reviews-grid. Nothing enforced this before, and it drifted
 // silently across several PRs (shipped as All (95) against 98 cards, then All (97) against
 // 100). It is a DIFFERENT number from the review-count check above: that one mirrors the
-// public GBP listing total (103), this one counts curated cards on the page.
+// public GBP listing total from data/testimonials.json, this one counts curated cards on
+// the page.
+//
+// Extraction is attribute-order agnostic, does not care whether `class` comes first, and finds
+// the grid's closing tag by real <div> depth rather than by indentation — an earlier draft keyed
+// on a fixed indent and silently counted 1 card once the cards were nested deeper. Known blind
+// spots (neither present today): a card commented out with <!-- --> or hidden with an inline
+// style="display:none" still counts.
 if (run('testimonial-pill-count')) {
   const filePath = path.join(root, 'pages', 'testimonials.html');
   const content = fs.readFileSync(filePath, 'utf8');
 
-  const grid = content.match(/<div class="testimonials-grid" id="reviews-grid">([\s\S]*?)\n      <\/div>/);
-  const cards = grid ? [...grid[1].matchAll(/<div class="t-card(?:\s[^"]*)?"/g)].length : 0;
-  const pill = content.match(/data-filter="all"[^>]*>All \((\d+)\)</);
+  // Walk <div>/</div> from the grid's opening tag to its matching close.
+  function gridInner(html) {
+    const open = html.match(/<div\b[^>]*\bid="reviews-grid"[^>]*>/);
+    if (!open) return null;
+    const start = open.index + open[0].length;
+    const tag = /<div\b[^>]*>|<\/div>/g;
+    tag.lastIndex = start;
+    let depth = 1, m;
+    while ((m = tag.exec(html)) !== null) {
+      depth += m[0] === '</div>' ? -1 : 1;
+      if (depth === 0) return html.slice(start, m.index);
+    }
+    return null;
+  }
+
+  const inner = gridInner(content);
+  const cards = inner
+    ? [...inner.matchAll(/<div\b[^>]*\bclass="[^"]*\bt-card\b[^"]*"[^>]*>/g)].length
+    : 0;
+  const pill = content.match(/data-filter="all"[^>]*>\s*All\s*\((\d+)\)\s*</);
+  const grid = inner !== null;
 
   checked['testimonial-pill-count'] = { cards, pill: pill ? Number(pill[1]) : null };
 
