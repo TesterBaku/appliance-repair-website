@@ -140,7 +140,13 @@
     /* Stretched link: the whole card becomes the hit area, so the mobile tap target is the
        full ~296x373px card instead of a 15px-tall text run (.claude/rules/mobile-design.md
        requires >=44x44px). Also gives the card the hover feedback its affordance implies.
-       Requires .job-card { position: relative } above and no other interactive child. */
+       Requires .job-card { position: relative } above and no other interactive child.
+       Known trade-off (same as Bootstrap's .stretched-link): the overlay sits above the card
+       text, so that text is no longer selectable, and a right-click lands on the link rather
+       than the photo. Accepted here because the card carries three short lines that are all
+       repeated in the link text and image alt. To restore selection, add
+       .job-card-body { position: relative } - but that also makes the body text inert, so the
+       hit area shrinks to the photo. */
     .job-card-link::after { content: ''; position: absolute; inset: 0; }
     /* gap, not a source space: inline-flex makes the label and the arrow separate flex items,
        which collapses the whitespace between them. */
