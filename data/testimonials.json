@@ -155,10 +155,10 @@
       "isNew": true,
       "body": "AG fixed my Samsung Dryer with no problem at all! Very efficient and friendly!",
       "bodyStatus": "complete",
-      "bodyHasTypos": false,
+      "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-07-28 (2_new_reviews.png), sorted Newest, shown '6 hours ago', NEW badge, reviewer 'Reuben Johnson' (1 review, 0 photos). Samsung dryer repair by tech AG. Body stored verbatim; only the mid-sentence capital in 'Dryer' is lowercased for display. Quotable per the quality floor (no photo but body >=8 words, and it names both appliance and brand). Location standardized to 'Orange County, CA' per Google source policy. Part of the 101 to 103 GBP listing bump. Surfaced on pages/testimonials.html and on the Samsung brand hub, where it replaced Susan Gerakos: the Samsung hub previously carried no Samsung-mentioning testimonial (same rationale as the Frank Rokhideh / GE-hub swap in PR #639)."
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-07-28 (2_new_reviews.png), sorted Newest, shown '6 hours ago', NEW badge, reviewer 'Reuben Johnson' (1 review, 0 photos). Samsung dryer repair by tech AG. Body stored verbatim; bodyHasTypos=true covers the single mid-sentence capital in 'Dryer', which is lowercased for display (capitalization fix only, no rewording), keeping the flag consistent with the light-correction rule in testimonial-selection.md. Quotable per the quality floor (no photo but body >=8 words, and it names both appliance and brand). Location standardized to 'Orange County, CA' per Google source policy. Part of the 101 to 103 GBP listing bump. Surfaced on pages/testimonials.html and on the Samsung brand hub, where it replaced Susan Gerakos: the Samsung hub previously carried no Samsung-mentioning testimonial (same rationale as the Frank Rokhideh / GE-hub swap in PR #639)."
     },
     {
       "id": "google-frank-rokhideh-2026-07-27",
