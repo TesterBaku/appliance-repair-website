@@ -144,9 +144,12 @@
        Known trade-off (same as Bootstrap's .stretched-link): the overlay sits above the card
        text, so that text is no longer selectable, and a right-click lands on the link rather
        than the photo. Accepted here because the card carries three short lines that are all
-       repeated in the link text and image alt. To restore selection, add
-       .job-card-body { position: relative } - but that also makes the body text inert, so the
-       hit area shrinks to the photo. */
+       repeated in the link text and image alt.
+       If selectable body text is ever wanted, constrain the overlay to the photo band with
+       `inset: 0 0 auto 0; height: 260px` - measured: the photo stays clickable and the title
+       becomes selectable. Do NOT reach for `.job-card-body { position: relative }`: that only
+       re-parents the overlay's containing block, so the overlay stops covering the photo while
+       still covering (and blocking selection of) the body text - measured, worst of both. */
     .job-card-link::after { content: ''; position: absolute; inset: 0; }
     /* gap, not a source space: inline-flex makes the label and the arrow separate flex items,
        which collapses the whitespace between them. */
