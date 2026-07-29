@@ -68,8 +68,9 @@ CSS pattern using `:has()` (Chrome 105+, Firefox 121+, Safari 15.4+ — fallback
 1. **Place all five cards, not just 4 and 5.** An earlier version of this snippet used a 4-track
    `1fr 2fr 2fr 1fr` grid and placed only cards 4–5. Cards 1–3 then auto-flowed into tracks 1, 2
    and 3, so row 1 rendered **140 / 280 / 280 px** (first card half-width, fourth track empty)
-   instead of equal thirds. The 6-track version above renders 287 / 287 / 287 with the trailing
-   pair centered to 0px offset.
+   instead of equal thirds. The 6-track version above renders row 1 as 287 / 287 / 287 spanning
+   the full grid width (0px dead space on either side), and row 2 as an equal 287 / 287 pair with
+   matching side gaps, i.e. centered.
 
 2. **The mobile reset must repeat the `:nth-child()` selectors.** A bare
    `…:has(…) .testimonial-card { grid-column: auto; }` inside a media query is *lower*
