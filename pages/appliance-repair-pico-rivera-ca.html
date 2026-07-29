@@ -127,7 +127,10 @@
     @media (max-width: 900px) {
       .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
       .neighborhoods-grid { grid-template-columns: repeat(2, 1fr); }
-      /* 2-up via 4 tracks so the trailing 5th card can centre instead of left-aligning. */
+      /* 2-up via 4 tracks so the trailing 5th card can centre instead of left-aligning.
+         ORDER-DEPENDENT: the <=768px block below resets these :nth-child() placements at
+         equal specificity, so it only wins by coming later in the file. An unrelated
+         <=480px block sits between the two; keep this block above the 768px reset. */
       .proof-grid { grid-template-columns: repeat(4, 1fr); }
       .proof-card:nth-child(1) { grid-column: 1 / span 2; }
       .proof-card:nth-child(2) { grid-column: 3 / span 2; }
@@ -568,7 +571,7 @@
       <div class="proof-grid">
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera-800w.webp 800w, ../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
+            <source srcset="../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera-800w.webp 800w, ../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:900px) 50vw, 204px">
             <img src="../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera.jpg" alt="Viking Professional range serviced for a no-power failure in a Pico Rivera kitchen" width="1024" height="768" loading="lazy">
           </picture>
           <div class="proof-card-body">
@@ -579,7 +582,7 @@
         </div>
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
+            <source srcset="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:900px) 50vw, 204px">
             <img src="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.jpg" alt="Viking dishwasher serviced for a drainage failure in a Pico Rivera home" width="768" height="1024" loading="lazy">
           </picture>
           <div class="proof-card-body">
@@ -590,7 +593,7 @@
         </div>
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera-800w.webp 800w, ../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
+            <source srcset="../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera-800w.webp 800w, ../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:900px) 50vw, 204px">
             <img src="../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera.jpg" alt="Dacor range serviced for an oven convection-fan problem in a Pico Rivera kitchen" width="1024" height="768" loading="lazy">
           </picture>
           <div class="proof-card-body">
@@ -601,7 +604,7 @@
         </div>
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
+            <source srcset="../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:900px) 50vw, 204px">
             <img src="../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera.jpg" alt="Refrigerator condenser coils cleaned during a service call in Pico Rivera" width="768" height="1024" loading="lazy">
           </picture>
           <div class="proof-card-body">
@@ -612,7 +615,7 @@
         </div>
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dryer-samsung-not-spinning-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-dryer-samsung-not-spinning-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
+            <source srcset="../images/real/business/completed-repair-dryer-samsung-not-spinning-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-dryer-samsung-not-spinning-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:900px) 50vw, 204px">
             <img src="../images/real/business/completed-repair-dryer-samsung-not-spinning-pico-rivera.jpg" alt="Samsung dryer serviced for a drum that stopped spinning in a Pico Rivera laundry room" width="768" height="1024" loading="lazy">
           </picture>
           <div class="proof-card-body">
