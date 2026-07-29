@@ -86,7 +86,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Jonathan Stone | santa-ana, dishwasher-repair-hub |
 | Jonra Babiracki | westminster, garbage-disposal-repair-hub |
 | Jovita Osorio | placentia, wine-cooler-repair-hub |
-| Julie L. | huntington-beach, dryer-repair-hub |
+| Julie L. | huntington-beach, dryer-repair-cost-hub |
 | Justine Shaw | buena-park, garbage-disposal-repair-hub |
 | Karen Myhra | long-beach, dishwasher-repair-hub |
 | Kat Tesh | brea, viking-hub |
