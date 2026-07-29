@@ -10,7 +10,19 @@ const { defineConfig } = require('@playwright/test');
 // Playwright silently reuses that foreign server and every page test fails against the
 // wrong site, with timeouts that look like real regressions. Overriding PORT is the
 // fast way out; the failure mode is documented here so the next person recognizes it.
-const PORT = Number(process.env.PORT) || 8788;
+// Validate rather than silently defaulting: `Number(process.env.PORT) || 8788` turns a typo
+// like PORT=foo into 8788, which recreates the exact busy-port failure this override exists to
+// avoid, while looking like the override was applied. Fail loudly instead.
+function resolvePort(raw) {
+  if (raw === undefined || raw === '') return 8788;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 1 || n > 65535) {
+    throw new Error(`Invalid PORT "${raw}": expected an integer between 1 and 65535 (omit PORT to use the default 8788).`);
+  }
+  return n;
+}
+
+const PORT = resolvePort(process.env.PORT);
 const ORIGIN = `http://localhost:${PORT}`;
 
 module.exports = defineConfig({

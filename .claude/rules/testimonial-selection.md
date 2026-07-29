@@ -51,17 +51,38 @@ CSS pattern using `:has()` (Chrome 105+, Firefox 121+, Safari 15.4+ — fallback
 .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) {
   grid-column: 2;
 }
-/* 5 reviews: widen to a 4-track grid and place the pair in tracks 2 and 3 */
+/* 5 reviews: 6-track grid so row 1 keeps three equal cards and the trailing pair centers.
+   All five cards must be placed explicitly. */
 .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) {
-  grid-template-columns: 1fr 2fr 2fr 1fr;
+  grid-template-columns: repeat(6, 1fr);
 }
-.testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(4) {
-  grid-column: 2;
-}
-.testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(5) {
-  grid-column: 3;
-}
+.testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(1) { grid-column: 1 / span 2; }
+.testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(2) { grid-column: 3 / span 2; }
+.testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(3) { grid-column: 5 / span 2; }
+.testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(4) { grid-column: 2 / span 2; }
+.testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(5) { grid-column: 4 / span 2; }
 ```
+
+**Two traps when adapting the 5-card block (both verified by measurement, 2026-07-28):**
+
+1. **Place all five cards, not just 4 and 5.** An earlier version of this snippet used a 4-track
+   `1fr 2fr 2fr 1fr` grid and placed only cards 4–5. Cards 1–3 then auto-flowed into tracks 1, 2
+   and 3, so row 1 rendered **140 / 280 / 280 px** (first card half-width, fourth track empty)
+   instead of equal thirds. The 6-track version above renders 287 / 287 / 287 with the trailing
+   pair centered to 0px offset.
+
+2. **The mobile reset must repeat the `:nth-child()` selectors.** A bare
+   `…:has(…) .testimonial-card { grid-column: auto; }` inside a media query is *lower*
+   specificity than `…:has(…) .testimonial-card:nth-child(N)` and silently loses, leaving the
+   desktop 6-track placement active on phones (measured: 394px scrollWidth at a 375px viewport).
+   Reset each `:nth-child(1)`–`:nth-child(5)` explicitly, and re-declare
+   `grid-template-columns` on the `:has()` selector too, since it also outranks the plain
+   `.testimonials-grid` rule.
+
+Reference implementation: `pages/dryer-repair-orange-county.html`.
+
+Remember that 5 is still the **least preferred** count (see below): prefer 6, 4, or 3, and only
+reach for this block when the pool genuinely yields 5.
 
 ### Prefer counts of 3, 4, or 6 over 5
 Five reviews has the messiest layout (a row of three followed by an off-balance row of two). Pick 5 only when the candidate pool genuinely yields 5 strong-and-similar reviews **and not a 6th**. Default order of preference: **6 ≈ 4 > 3 > 5**.
