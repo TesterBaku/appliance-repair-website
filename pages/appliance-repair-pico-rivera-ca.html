@@ -54,7 +54,9 @@
     .ai-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
 
     /* Real-work proof band */
-    .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 32px; }
+    /* 5 proof cards: one clean row at desktop. Any 2/3/4-column split would orphan the
+       last card, so the mid breakpoint below places all five explicitly on a 4-track grid. */
+    .proof-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-top: 32px; }
     .proof-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); text-align: left; display: flex; flex-direction: column; }
     .proof-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
     .proof-card-body { padding: 14px 16px 18px; }
@@ -125,7 +127,13 @@
     @media (max-width: 900px) {
       .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
       .neighborhoods-grid { grid-template-columns: repeat(2, 1fr); }
-      .proof-grid { grid-template-columns: repeat(2, 1fr); }
+      /* 2-up via 4 tracks so the trailing 5th card can centre instead of left-aligning. */
+      .proof-grid { grid-template-columns: repeat(4, 1fr); }
+      .proof-card:nth-child(1) { grid-column: 1 / span 2; }
+      .proof-card:nth-child(2) { grid-column: 3 / span 2; }
+      .proof-card:nth-child(3) { grid-column: 1 / span 2; }
+      .proof-card:nth-child(4) { grid-column: 3 / span 2; }
+      .proof-card:nth-child(5) { grid-column: 2 / span 2; }
     }
     @media (max-width: 480px) {
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
@@ -139,7 +147,14 @@
       .symptoms-list { grid-template-columns: 1fr; }
       .services-links-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
+      /* Reset must repeat :nth-child(); a bare .proof-card selector loses on specificity
+         and the 4-track placement above would stay live, overflowing the viewport. */
       .proof-grid { grid-template-columns: 1fr; }
+      .proof-card:nth-child(1),
+      .proof-card:nth-child(2),
+      .proof-card:nth-child(3),
+      .proof-card:nth-child(4),
+      .proof-card:nth-child(5) { grid-column: auto; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
@@ -549,11 +564,11 @@
   <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Recent Repairs in Pico Rivera</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:640px;text-align:center;margin:12px auto 0;">Real jobs completed at Pico Rivera addresses, from everyday kitchens to high-end Viking and Dacor units.</p>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:640px;text-align:center;margin:12px auto 0;">Real jobs completed at Pico Rivera addresses, from everyday kitchens and laundry rooms to high-end Viking and Dacor units.</p>
       <div class="proof-grid">
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera-800w.webp 800w, ../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 260px">
+            <source srcset="../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera-800w.webp 800w, ../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
             <img src="../images/real/business/completed-repair-range-viking-not-turning-on-pico-rivera.jpg" alt="Viking Professional range serviced for a no-power failure in a Pico Rivera kitchen" width="1024" height="768" loading="lazy">
           </picture>
           <div class="proof-card-body">
@@ -564,7 +579,7 @@
         </div>
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 260px">
+            <source srcset="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
             <img src="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.jpg" alt="Viking dishwasher serviced for a drainage failure in a Pico Rivera home" width="768" height="1024" loading="lazy">
           </picture>
           <div class="proof-card-body">
@@ -575,7 +590,7 @@
         </div>
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera-800w.webp 800w, ../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 260px">
+            <source srcset="../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera-800w.webp 800w, ../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
             <img src="../images/real/business/completed-repair-oven-dacor-convection-fan-pico-rivera.jpg" alt="Dacor range serviced for an oven convection-fan problem in a Pico Rivera kitchen" width="1024" height="768" loading="lazy">
           </picture>
           <div class="proof-card-body">
@@ -586,12 +601,23 @@
         </div>
         <div class="proof-card">
           <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 260px">
+            <source srcset="../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
             <img src="../images/real/business/completed-repair-refrigerator-arctic-air-condenser-coil-cleaning-pico-rivera.jpg" alt="Refrigerator condenser coils cleaned during a service call in Pico Rivera" width="768" height="1024" loading="lazy">
           </picture>
           <div class="proof-card-body">
             <div class="proof-card-kicker">Refrigeration</div>
             <div class="proof-card-title">Refrigerator condenser coil cleaning</div>
+            <div class="proof-card-loc">Pico Rivera, CA</div>
+          </div>
+        </div>
+        <div class="proof-card">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-dryer-samsung-not-spinning-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-dryer-samsung-not-spinning-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 204px">
+            <img src="../images/real/business/completed-repair-dryer-samsung-not-spinning-pico-rivera.jpg" alt="Samsung dryer serviced for a drum that stopped spinning in a Pico Rivera laundry room" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="proof-card-body">
+            <div class="proof-card-kicker">Samsung &middot; Dryer</div>
+            <div class="proof-card-title">Samsung dryer, not spinning</div>
             <div class="proof-card-loc">Pico Rivera, CA</div>
           </div>
         </div>
