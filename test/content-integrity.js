@@ -16,6 +16,13 @@
  *                    Added 2026-05-21 after PRs #374–377 spent 4 commits
  *                    reconciling 5 different count values across 32 files.
  *
+ *   testimonial-pill-count — the "All (N)" filter pill on pages/testimonials.html must equal
+ *                    the number of `.t-card` elements rendered in #reviews-grid. This is a
+ *                    DIFFERENT number from review-count: that mirrors the public GBP listing
+ *                    total, this counts the curated cards on the page. Nothing enforced it
+ *                    before, so it drifted silently (All (95) against 98 cards, then All (97)
+ *                    against 100). Added 2026-07-29 after reviewers flagged it on two PRs.
+ *
  *   business-tenure — no HTML file may contain "8+ years" or "over 8 years" in a
  *                    business-tenure context. The string itself is the regression
  *                    signal. Allowed phrasing: "9+ years" / "over 9 years".
@@ -156,6 +163,31 @@ if (run('review-count')) {
         issues.push(`[REVIEW-COUNT] ${rel(filePath)} — has "reviewCount": "${m[1]}" but data/testimonials.json says ${expectedCount}`);
       }
     }
+  }
+}
+
+// ── Check 1b: testimonial-pill-count ──────────────────────────────────────────
+// The "All (N)" filter pill on pages/testimonials.html must equal the number of review
+// cards actually rendered in #reviews-grid. Nothing enforced this before, and it drifted
+// silently across several PRs (shipped as All (95) against 98 cards, then All (97) against
+// 100). It is a DIFFERENT number from the review-count check above: that one mirrors the
+// public GBP listing total (103), this one counts curated cards on the page.
+if (run('testimonial-pill-count')) {
+  const filePath = path.join(root, 'pages', 'testimonials.html');
+  const content = fs.readFileSync(filePath, 'utf8');
+
+  const grid = content.match(/<div class="testimonials-grid" id="reviews-grid">([\s\S]*?)\n      <\/div>/);
+  const cards = grid ? [...grid[1].matchAll(/<div class="t-card(?:\s[^"]*)?"/g)].length : 0;
+  const pill = content.match(/data-filter="all"[^>]*>All \((\d+)\)</);
+
+  checked['testimonial-pill-count'] = { cards, pill: pill ? Number(pill[1]) : null };
+
+  if (!grid) {
+    issues.push(`[PILL-COUNT] ${rel(filePath)} — could not locate #reviews-grid; update this check if the markup changed`);
+  } else if (!pill) {
+    issues.push(`[PILL-COUNT] ${rel(filePath)} — could not find the All (N) filter pill; update this check if the markup changed`);
+  } else if (Number(pill[1]) !== cards) {
+    issues.push(`[PILL-COUNT] ${rel(filePath)} — All pill says ${pill[1]} but #reviews-grid renders ${cards} .t-card elements`);
   }
 }
 
@@ -476,6 +508,7 @@ if (issues.length) {
 
 const parts = [];
 if (checked['review-count'])         parts.push(`review-count matches JSON (${checked['review-count'].expected}) across ${checked['review-count'].files} pages`);
+if (checked['testimonial-pill-count']) parts.push(`testimonials All pill (${checked['testimonial-pill-count'].pill}) matches ${checked['testimonial-pill-count'].cards} rendered cards`);
 if (checked['business-tenure'])      parts.push(`no stale "8+ years" tenure claims in ${checked['business-tenure'].files} files`);
 if (checked['meta-desc-len'])        parts.push(`meta descriptions ≤ ${checked['meta-desc-len'].limit} chars on ${checked['meta-desc-len'].files} articles`);
 if (checked['og-desc-sync'])         parts.push(`og:description = name="description" on ${checked['og-desc-sync'].files} articles`);
