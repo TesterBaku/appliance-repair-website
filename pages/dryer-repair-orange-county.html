@@ -94,8 +94,29 @@
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
     .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
     .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
-    @media (max-width: 900px) { .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
+    /* Exactly 5 reviews: 6-track grid so row 1 keeps three equal cards and the trailing
+       pair centers on row 2. Implements the orphan-centering intent of
+       .claude/rules/testimonial-selection.md; that rule's 4-track (1fr 2fr 2fr 1fr) snippet
+       places only cards 4-5, which leaves row 1 sitting on unequal tracks. */
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) { grid-template-columns: repeat(6, 1fr); }
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(1) { grid-column: 1 / span 2; }
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(2) { grid-column: 3 / span 2; }
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(3) { grid-column: 5 / span 2; }
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(4) { grid-column: 2 / span 2; }
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(5) { grid-column: 4 / span 2; }
+    /* Below the 3-col breakpoint the explicit placements above must be undone. The reset has to
+       repeat the :nth-child() selectors: a bare .testimonial-card is LOWER specificity than
+       .testimonial-card:nth-child(N) and would silently lose, leaving the 6-track desktop
+       placement active on phones (which overflows the viewport). */
+    @media (max-width: 900px) { .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) { grid-template-columns: repeat(2, 1fr); }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(1),
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(2),
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(3),
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(4),
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(5) { grid-column: auto; } }
+    @media (max-width: 480px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) { grid-template-columns: 1fr; } }
 
     .cta-box { background: linear-gradient(135deg, #e84c1e 0%, #c03a14 100%); border-radius: 16px; padding: 48px 40px; text-align: center; }
     .cta-box h2 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: -0.4px; }
@@ -281,7 +302,6 @@
     "itemListElement": [
       { "@type": "Review", "author": { "@type": "Person", "name": "Cindy Montefu" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG has been fantastic while fixing our dryer! His work is thorough and his customer service is A+++! He will definitely be my 1st call when we need another repair! Thanks again AG!", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
       { "@type": "Review", "author": { "@type": "Person", "name": "Katie Anne Salen" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear — we will call him again when another appliance needs repair.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
-      { "@type": "Review", "author": { "@type": "Person", "name": "Julie L." }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliances, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
       { "@type": "Review", "author": { "@type": "Person", "name": "Ernesto Ruiz" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Awesome work, fixed my dryer, and resolved all my issues in a timely manner. Good price as well.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
       { "@type": "Review", "author": { "@type": "Person", "name": "Dena Fisher" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG went above and beyond on the repair of my dryer. Not only did he fix the problem, but he also cleaned all the vents and made sure the dryer was in proper working condition.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
       { "@type": "Review", "author": { "@type": "Person", "name": "Cheryl Lemire" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Absolutely amazing service! Timely, cost was right, knowledgeable, great customer experience! Definitely will be using them again! Thank you! Dryer is back in action!", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
@@ -719,9 +739,9 @@
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliances, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JL</div>
-          <div class="testimonial-name">Julie L., Dryer repair</div>
+          <p class="testimonial-quote">"AG went above and beyond on the repair of my dryer. Not only did he fix the problem, but he also cleaned all the vents and made sure the dryer was in proper working condition."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">DF</div>
+          <div class="testimonial-name">Dena Fisher, Dryer repair</div>
         </div>
 
         <div class="testimonial-card">
@@ -729,13 +749,6 @@
           <p class="testimonial-quote">"Awesome work, fixed my dryer, and resolved all my issues in a timely manner. Good price as well."</p>
           <div class="t-initial" aria-hidden="true" style="background:#444444;">ER</div>
           <div class="testimonial-name">Ernesto Ruiz, Dryer repair</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG went above and beyond on the repair of my dryer. Not only did he fix the problem, but he also cleaned all the vents and made sure the dryer was in proper working condition."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">DF</div>
-          <div class="testimonial-name">Dena Fisher, Dryer repair</div>
         </div>
 
         <div class="testimonial-card">
