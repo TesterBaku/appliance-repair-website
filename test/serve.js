@@ -5,7 +5,19 @@ const path = require('path');
 const url = require('url');
 
 const ROOT = path.resolve(__dirname, '..');
-const PORT = Number(process.env.PORT || 8788);
+
+// Validate instead of coercing: Number('foo') is NaN, and server.listen(NaN) silently binds a
+// random free port, so the suite would then hit the wrong origin. Mirrors playwright.config.js.
+const PORT = (() => {
+  const raw = process.env.PORT;
+  if (raw === undefined || raw === '') return 8788;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 1 || n > 65535) {
+    console.error(`test/serve.js: invalid PORT "${raw}": expected an integer between 1 and 65535 (omit PORT to use the default 8788).`);
+    process.exit(1);
+  }
+  return n;
+})();
 
 const MIME = {
   '.html': 'text/html',

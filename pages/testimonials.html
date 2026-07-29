@@ -894,14 +894,14 @@
 
       <!-- Filter pills -->
       <div class="filter-bar" role="group" aria-label="Filter reviews by appliance">
-        <button class="filter-pill active" data-filter="all">All (97)</button>
-        <button class="filter-pill" data-filter="washer">Washer</button>
-        <button class="filter-pill" data-filter="dryer">Dryer</button>
-        <button class="filter-pill" data-filter="refrigerator">Refrigerator &amp; Freezer</button>
-        <button class="filter-pill" data-filter="dishwasher">Dishwasher</button>
-        <button class="filter-pill" data-filter="oven-stove">Oven &amp; Stove</button>
-        <button class="filter-pill" data-filter="wine-cooler">Wine Cooler</button>
-        <button class="filter-pill" data-filter="general">General</button>
+        <button type="button" class="filter-pill active" data-filter="all" aria-pressed="true">All (97)</button>
+        <button type="button" class="filter-pill" data-filter="washer" aria-pressed="false">Washer</button>
+        <button type="button" class="filter-pill" data-filter="dryer" aria-pressed="false">Dryer</button>
+        <button type="button" class="filter-pill" data-filter="refrigerator" aria-pressed="false">Refrigerator &amp; Freezer</button>
+        <button type="button" class="filter-pill" data-filter="dishwasher" aria-pressed="false">Dishwasher</button>
+        <button type="button" class="filter-pill" data-filter="oven-stove" aria-pressed="false">Oven &amp; Stove</button>
+        <button type="button" class="filter-pill" data-filter="wine-cooler" aria-pressed="false">Wine Cooler</button>
+        <button type="button" class="filter-pill" data-filter="general" aria-pressed="false">General</button>
       </div>
 
       <!-- Review cards -->
@@ -2188,7 +2188,10 @@
 
     pills.forEach(pill => {
       pill.addEventListener('click', () => {
-        pills.forEach(p => { p.classList.remove('active'); p.removeAttribute('aria-pressed'); });
+        // Set aria-pressed="false" rather than removing it: a toggle button with no
+        // aria-pressed is announced as a plain button, so screen-reader users lose the
+        // pressed/unpressed distinction the visual .active state conveys.
+        pills.forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
         pill.classList.add('active');
         pill.setAttribute('aria-pressed', 'true');
 
