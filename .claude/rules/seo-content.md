@@ -345,7 +345,21 @@ These three files must exist at the root and return 200:
 
      Row label: `Service call / diagnostic (generally credited toward repair if you proceed)`
 
-  2. **"Our company fee" statement** (policy framing, anywhere in body copy, FAQ answers, schema, step descriptions) → **geography-tiered by service area, flat within each tier** (owner, 2026-07-07): **`$99`** for **Orange County** and **LA County** (Pico Rivera, Whittier, Downey, Montebello, Santa Fe Springs, Norwalk); **`$120`** for **Riverside County**. The fee never varies by brand. The `$120` Riverside tier is **intentional** (do NOT reconcile it down to `$99`): it (a) makes the longer Riverside drive economically worthwhile / funds a dedicated Riverside technician, and (b) filters out low-budget jobs that aren't profitable at that distance.
+  2. **"Our company fee" statement** (policy framing, anywhere in body copy, FAQ answers, schema, step descriptions) → **geography-tiered by county, flat within each tier** (owner, 2026-07-07; LA County confirmed uniform 2026-07-30):
+
+     | Tier | Company fee | Cities |
+     |---|---|---|
+     | Orange County | **`$99`** | all OC cities |
+     | **Los Angeles County** | **`$99`** | **all LA County cities, all brands** — the Gateway Cities (Pico Rivera, Whittier, Downey, Long Beach, Montebello, Santa Fe Springs, Norwalk) **and** the premium cities (Beverly Hills, Santa Monica, Pasadena, Manhattan Beach) |
+     | Riverside County | **`$120`** | Corona, Norco, Eastvale (+ neighboring Chino, Chino Hills) |
+
+     **The fee is flat within each tier and never varies by brand.** LA County is a **single `$99` tier: one fee for every city and every brand in the county** (owner decision 2026-07-30). ❌ Never write a per-brand or per-LA-city fee split. A Sub-Zero in Beverly Hills, a Wolf range in Santa Monica, and a Whirlpool washer in Long Beach are all **`$99`**.
+
+     Note this is separate from **service scope**: the four premium cities are marketed for premium brands only (`pages/luxury-appliance-repair-los-angeles-ca.html`). **Scheduling does NOT differ** — a technician is based in LA, so same-day is available there when that schedule is open, with next-available (usually within a day or two) as the honest fallback. Brand scope is the only thing that makes those four cities different: not the fee, not the scheduling. **Only Riverside County is next-available-only**, because it has no local technician.
+
+     The `$120` Riverside tier is **intentional** (do NOT reconcile it down to `$99`): it (a) makes the longer Riverside drive economically worthwhile / funds a dedicated Riverside technician, and (b) filters out low-budget jobs that aren't profitable at that distance.
+
+     **History:** a `$150` LA-premium tier was specified on 2026-07-30 and reversed by the owner the same day, before it ever shipped to production. Do not reintroduce it.
 
   Never state our fee as a *range* (it is flat within each geography tier). Never put a company-fee value into a cost-table row (that row stays the brand-tiered *range* above). These contexts must stay separate.
 
