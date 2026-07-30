@@ -129,9 +129,9 @@
     .job-card-link { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
     .job-card-link:hover { text-decoration: underline; }
     /* Stretched link: the whole card becomes the hit area, so the mobile tap target is the
-       full 296x378px card instead of a 188x15px text run (measured at a 375px viewport;
-       .claude/rules/mobile-design.md
-       requires >=44x44px). Also gives the card the hover feedback its affordance implies.
+       full 296x378px card instead of a 188x15px text run (both measured at a 375px viewport;
+       .claude/rules/mobile-design.md requires >=44x44px). Also gives the card the hover
+       feedback its affordance implies.
        Requires .job-card { position: relative } above and no other interactive child.
        Known trade-off (same as Bootstrap's .stretched-link): the overlay sits above the card
        text, so that text is no longer selectable, and a right-click lands on the link rather
