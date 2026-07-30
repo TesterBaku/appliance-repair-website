@@ -7,7 +7,9 @@
  * Manhattan Beach.
  *
  * Owner Phase 0 (2026-07-30): premium-brand service only in those four cities, at a
- * flat $150 diagnostic. The fee is page copy, never expressed in areaServed.
+ * flat $99 diagnostic (the same rate as the rest of LA County). A $150 premium tier was
+ * specified earlier the same day and reversed by the owner before it shipped; do not
+ * reintroduce it. The fee is page copy, never expressed in areaServed.
  *
  * NO new county umbrella: all four are Los Angeles County, and
  * "Los Angeles County, CA" is already in the array. The four cities are therefore
@@ -40,7 +42,7 @@ const CANON = `"areaServed": [
       "Garden Grove, CA","Tustin, CA","Orange, CA","Lake Forest, CA",
       "Mission Viejo, CA","Newport Beach, CA","Brea, CA","Yorba Linda, CA",
       "Westminster, CA","Seal Beach, CA","Dana Point, CA","Laguna Beach, CA",
-      "Laguna Niguel, CA","Buena Park, CA","Los Alamitos, CA",
+      "Laguna Niguel, CA","Buena Park, CA","Los Alamitos, CA","La Habra, CA",
       "Rancho Santa Margarita, CA","Fountain Valley, CA","Orange County, CA",
       "Pico Rivera, CA","Whittier, CA","Downey, CA","Long Beach, CA","Montebello, CA",
       "Santa Fe Springs, CA","Norwalk, CA","Beverly Hills, CA","Santa Monica, CA",
@@ -108,6 +110,19 @@ for (const rel of listHtml()) {
 
   // Preserve the file's line-ending convention (this repo is CRLF; keep it).
   const canon = CANON.replace(/\n/g, orig.includes('\r\n') ? '\r\n' : '\n');
+
+  // ⚠ #581 guard, the real one. --verify only asserts the canonical entries are PRESENT; it
+  // is structurally incapable of noticing that this rewrite DROPPED something, because a
+  // dropped entry is by definition not in the list it checks. So refuse to drop here, at the
+  // only point where the previous value is still in hand. Caught "La Habra, CA" on review of
+  // #652: it lived in 5 article arrays, was normalized away as a stray, and had a dedicated
+  // city hub the whole time.
+  const before = ARRAY_RE.test(orig) ? (orig.match(ARRAY_RE)[0].match(/"([^"]+)"/g) || []).map(x => x.slice(1, -1)) : [];
+  const dropped = before.filter(city => city !== 'areaServed' && !REQUIRED.includes(city));
+  if (dropped.length) {
+    errors.push(`${rel}: would DROP ${dropped.map(d => `"${d}"`).join(', ')} — add to CANON or pass --allow-drop`);
+    if (!process.argv.includes('--allow-drop')) continue;
+  }
 
   let out = orig;
   if (ARRAY_RE.test(out)) out = out.replace(ARRAY_RE, canon);
