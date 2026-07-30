@@ -345,18 +345,21 @@ These three files must exist at the root and return 200:
 
      Row label: `Service call / diagnostic (generally credited toward repair if you proceed)`
 
-  2. **"Our company fee" statement** (policy framing, anywhere in body copy, FAQ answers, schema, step descriptions) → **geography-tiered by service area, flat within each tier** (owner, 2026-07-07; LA Premium tier added 2026-07-30):
+  2. **"Our company fee" statement** (policy framing, anywhere in body copy, FAQ answers, schema, step descriptions) → **geography-tiered by county, flat within each tier** (owner, 2026-07-07; LA County confirmed uniform 2026-07-30):
 
      | Tier | Company fee | Cities |
      |---|---|---|
      | Orange County | **`$99`** | all OC cities |
-     | LA County, Gateway Cities | **`$99`** | Pico Rivera, Whittier, Downey, Long Beach, Montebello, Santa Fe Springs, Norwalk |
-     | **LA County, Premium tier** | **`$150`** | Beverly Hills, Santa Monica, Pasadena, Manhattan Beach |
+     | **Los Angeles County** | **`$99`** | **all LA County cities, all brands** — the Gateway Cities (Pico Rivera, Whittier, Downey, Long Beach, Montebello, Santa Fe Springs, Norwalk) **and** the premium cities (Beverly Hills, Santa Monica, Pasadena, Manhattan Beach) |
      | Riverside County | **`$120`** | Corona, Norco, Eastvale (+ neighboring Chino, Chino Hills) |
 
-     **The fee is flat within each tier and never varies by brand inside a tier.** The LA Premium tier is defined by city **and** scope: those four cities are served for **premium brands only** (Sub-Zero, Viking, Wolf, Miele, Thermador, Dacor, DCS, Bosch premium lines), so the tier has exactly one service scope and states in one sentence: *"In Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach we service premium brands only; the diagnostic fee is $150."* ❌ Never write a two-branch "if it's a Sub-Zero it's $150, otherwise $99" sentence in those cities' copy, FAQs, or schema. A luxury-brand job in a Gateway City (say a Sub-Zero in Long Beach) stays **`$99`**: the tier follows the city, not the brand.
+     **The fee is flat within each tier and never varies by brand.** LA County is a **single `$99` tier: one fee for every city and every brand in the county** (owner decision 2026-07-30). ❌ Never write a per-brand or per-LA-city fee split. A Sub-Zero in Beverly Hills, a Wolf range in Santa Monica, and a Whirlpool washer in Long Beach are all **`$99`**.
 
-     The `$120` Riverside tier is **intentional** (do NOT reconcile it down to `$99`): it (a) makes the longer Riverside drive economically worthwhile / funds a dedicated Riverside technician, and (b) filters out low-budget jobs that aren't profitable at that distance. The `$150` LA Premium tier is likewise intentional (do NOT flatten to `$99`): those cities run 30 to 40 miles from Stanton and premium diagnostics take materially longer than a standard service call.
+     Note this is separate from **service scope**: the four premium cities are marketed for premium brands only (`pages/luxury-appliance-repair-los-angeles-ca.html`), and they are scheduled **next-available** rather than same-day because of the drive. Scope and scheduling differ there; **the fee does not**.
+
+     The `$120` Riverside tier is **intentional** (do NOT reconcile it down to `$99`): it (a) makes the longer Riverside drive economically worthwhile / funds a dedicated Riverside technician, and (b) filters out low-budget jobs that aren't profitable at that distance.
+
+     **History:** a `$150` LA-premium tier was specified on 2026-07-30 and reversed by the owner the same day, before it ever shipped to production. Do not reintroduce it.
 
   Never state our fee as a *range* (it is flat within each geography tier). Never put a company-fee value into a cost-table row (that row stays the brand-tiered *range* above). These contexts must stay separate.
 
