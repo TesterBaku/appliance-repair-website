@@ -453,6 +453,78 @@ for (const slug of CITY_HUBS) {
   });
 }
 
+// ─── WCAG AA contrast regression guard ────────────────────────────────────────
+// P6-8 / P6-10. The CTA box shipped white 14px body text on a gradient starting at
+// #e84c1e = 3.83:1, and the footer copyright ran #767676 on #090909 = 4.38:1. Both
+// under the 4.5:1 AA floor for body text, on every hub and every article. Nothing
+// measured contrast, so it went unnoticed until the #655 design critique.
+//
+// This measures the REAL painted values in the browser rather than asserting on hex
+// literals, so it stays true if the colors are re-tuned later — it only fails if the
+// resulting contrast drops below the threshold.
+const CONTRAST_PAGES = [
+  '/index.html',
+  '/pages/refrigerator-repair-orange-county.html',
+  '/pages/appliance-repair-garden-grove-ca.html',
+  '/pages/luxury-appliance-repair-beverly-hills-ca.html',
+  '/articles/article-dorm-appliances.html',
+];
+
+const CONTRAST_PROBE = () => {
+  const lin = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+  const L = ([r, g, b]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+  const ratio = (a, b) => { const [x, y] = [L(a), L(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+  const rgb = (s) => (s.match(/\d+(\.\d+)?/g) || []).slice(0, 3).map(Number);
+  // Walk up to the first painted backdrop. A gradient returns EVERY stop, so the
+  // lightest stop is tested too — that is where the original failure lived.
+  const backdrop = (el) => {
+    let n = el;
+    while (n) {
+      const cs = getComputedStyle(n);
+      if (cs.backgroundImage && cs.backgroundImage.includes('gradient')) {
+        const stops = cs.backgroundImage.match(/rgba?\([^)]+\)/g) || [];
+        if (stops.length) return stops.map(rgb);
+      }
+      if (cs.backgroundColor && !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor)) return [rgb(cs.backgroundColor)];
+      n = n.parentElement;
+    }
+    return [[255, 255, 255]];
+  };
+  const out = [];
+  const text = (sel, need, label) => {
+    const el = document.querySelector(sel);
+    if (!el) return;
+    const fg = rgb(getComputedStyle(el).color);
+    for (const bg of backdrop(el)) out.push({ label, r: ratio(fg, bg), need });
+  };
+  text('.cta-box p', 4.5, '.cta-box p');
+  text('.cta-box h2', 3, '.cta-box h2 (large text)');
+  text('.footer-bottom', 4.5, '.footer-bottom');
+  const bo = document.querySelector('.btn-white-outline');
+  if (bo) {
+    const cs = getComputedStyle(bo);
+    const bc = rgb(cs.borderTopColor);
+    const alpha = parseFloat((cs.borderTopColor.match(/([\d.]+)\)$/) || [, '1'])[1]);
+    for (const bg of backdrop(bo)) {
+      const comp = bc.map((c, i) => Math.round(c * alpha + bg[i] * (1 - alpha)));
+      out.push({ label: '.btn-white-outline border', r: ratio(comp, bg), need: 3 });
+    }
+  }
+  return out;
+};
+
+for (const url of CONTRAST_PAGES) {
+  test(`WCAG AA contrast: ${url}`, async ({ page }) => {
+    await page.goto(url);
+    const rows = await page.evaluate(CONTRAST_PROBE);
+    expect(rows.length).toBeGreaterThan(0);   // guard: never pass on zero probes
+    const failures = rows
+      .filter(r => r.r < r.need)
+      .map(r => `${r.label}: ${r.r.toFixed(2)}:1 (needs ${r.need}:1)`);
+    expect(failures).toEqual([]);
+  });
+}
+
 // ─── Premium (luxury-brand) hubs ──────────────────────────────────────────────
 // The LA Premium layer uses a DIFFERENT template from CITY_HUBS above and cannot
 // simply be appended to that list: it has 6 service links not 8, no brand-tier
