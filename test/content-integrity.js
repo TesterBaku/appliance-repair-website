@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Thirteen enforced checks (EXIT 1 on any failure) plus one informational report
+ * Fourteen enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -96,6 +96,20 @@
  *                    found still displayed on pages/testimonials.html, even
  *                    though it had already been removed from the brand hubs.
  *
+ *   faq-jsonld-parity — every visible FAQ accordion item must match its FAQPage
+ *                    JSON-LD entry, comparing RENDERED text (tags stripped,
+ *                    entities decoded, whitespace collapsed) so wrapping existing
+ *                    words in a link is correctly a non-event while a real wording
+ *                    change fails. Also rejects raw HTML inside a Question/Answer,
+ *                    and fails loudly if a page has a FAQPage node but no accordion
+ *                    items could be parsed (vacuous-pass guard). A RATCHET against
+ *                    test/faq-parity-baseline.json: fails on new drift, on any file
+ *                    that gets worse, and on any file fixed but left in the
+ *                    baseline, so the debt can only shrink. Added 2026-07-31 during
+ *                    the PR #655 review, which found that NOTHING in npm test had
+ *                    ever compared the two — the first complete run turned up 375 drifted fields
+ *                    across 87 of 137 FAQ pages. Paying that down is P6-12.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -104,7 +118,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all thirteen enforced checks + the report
+ *   node test/content-integrity.js          — run all fourteen enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -112,6 +126,7 @@
  *                                             analytics-present, jsonld-valid,
  *                                             footer-self-contained, iso8601-timestamps,
  *                                             article-mobile-chrome, non-person-reviewers,
+ *                                             faq-jsonld-parity,
  *                                             title-length)
  */
 
@@ -561,6 +576,200 @@ if (run('non-person-reviewers')) {
   }
 }
 
+// ── Check 13: faq-jsonld-parity ───────────────────────────────────────────────
+// Every visible FAQ accordion item must match its FAQPage JSON-LD entry exactly,
+// comparing RENDERED TEXT (tags stripped, entities decoded, whitespace collapsed),
+// and the JSON-LD must never contain raw HTML.
+//
+// Why this exists: until 2026-07-31 nothing in `npm test` checked FAQ parity at
+// all — grepping content-integrity/links/html-integrity/css-vars for "FAQPage",
+// "mainEntity" or "faq-a" returned zero hits. So "npm test passes" was silent on
+// this, not evidence of it. That surfaced in the PR #655 review, where an <a> was
+// added inside a FAQ answer and the only thing standing between that and a
+// desynced rich result was authorial care.
+//
+// Comparing rendered text (not innerHTML) is the whole point. A link wrapped
+// around words that already existed leaves the rendered text identical and is
+// perfectly legal; a naive innerHTML comparator reports it as a mismatch. Google
+// reads the JSON-LD, the user reads the DOM, and the requirement is that they say
+// the same thing — not that they share markup.
+// RATCHET, not a pass/fail sweep. When this check was written the site already had
+// 375 drifted fields across 87 files (43% of all FAQ fields), because nothing had
+// ever compared the two. Failing outright would just mean the check never ships.
+// So: `test/faq-parity-baseline.json` records the known debt, and the check fails on
+// anything NEW, anything that gets WORSE, and anything that has been FIXED but not
+// removed from the baseline. That last rule is the anti-rot mechanism — the baseline
+// can only ever shrink. Paying it down is tracked as P6-12.
+if (run('faq-jsonld-parity')) {
+  checked['faq-jsonld-parity'] = { files: 0, pairs: 0, baselineFields: 0, baselineFiles: 0 };
+  const BASELINE = JSON.parse(fs.readFileSync(path.join(root, 'test', 'faq-parity-baseline.json'), 'utf8'));
+  const known = BASELINE.drift || {};
+  const knownCount = BASELINE.countMismatch || {};
+  const seenDrift = {};
+  const seenCountMismatch = {};
+  checked['faq-jsonld-parity'].baselineFields = BASELINE.totalFields;
+  checked['faq-jsonld-parity'].baselineFiles = BASELINE.totalFiles;
+
+  const decode = (s) => s
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
+    .replace(/&rsquo;/g, '’').replace(/&lsquo;/g, '‘')
+    .replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”')
+    .replace(/&middot;/g, '·').replace(/&ndash;/g, '–').replace(/&mdash;/g, '—')
+    .replace(/&rarr;/g, '→').replace(/&hellip;/g, '…');
+  // strip tags FIRST, then decode, so an encoded &lt;b&gt; in copy is not eaten as markup
+  const norm = (s) => decode(s.replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+
+    // Collect FAQPage nodes (a page may hold more than one JSON-LD block)
+    const ldPairs = [];
+    let sawFaqPage = false;
+    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; }
+      for (const node of (Array.isArray(parsed) ? parsed : [parsed])) {
+        if (!node || node['@type'] !== 'FAQPage' || !Array.isArray(node.mainEntity)) continue;
+        sawFaqPage = true;
+        for (const q of node.mainEntity) {
+          const a = q && q.acceptedAnswer;
+          ldPairs.push({ q: typeof q.name === 'string' ? q.name : '', a: a && typeof a.text === 'string' ? a.text : '' });
+        }
+      }
+    }
+    if (!sawFaqPage) continue;
+    checked['faq-jsonld-parity'].files++;
+
+    // JSON-LD must be plain text: raw markup in a Question/Answer breaks the rich result
+    for (const p of ldPairs) {
+      for (const [field, val] of [['question', p.q], ['answer', p.a]]) {
+        if (/<[a-z/][^>]*>/i.test(val)) {
+          issues.push(`[FAQ-PARITY] ${rel(filePath)} — FAQPage ${field} contains raw HTML markup, which must be plain text: "${val.slice(0, 60)}..."`);
+        }
+      }
+    }
+
+    // Visible accordion: .faq-q is a <button> carrying a decorative +/- glyph, and
+    // .faq-a is the answer div. Attribute-order tolerant. Two icon markups exist in
+    // the wild — hubs use <span class="icon">, articles use
+    // <span class="faq-icon" aria-hidden="true"> — so strip any span that is either
+    // aria-hidden (decorative by definition, never announced) or icon-classed,
+    // rather than matching one literal string.
+    const stripDeco = (s) => s
+      .replace(/<span\b[^>]*\baria-hidden="true"[^>]*>[\s\S]*?<\/span>/g, '')
+      .replace(/<span\b[^>]*\bclass="[^"]*\bicon\b[^"]*"[^>]*>[\s\S]*?<\/span>/g, '')
+      .replace(/<span\b[^>]*\bclass="[^"]*\bfaq-icon\b[^"]*"[^>]*>[\s\S]*?<\/span>/g, '');
+    // THREE accordion markup families exist site-wide; all three must be parsed or
+    // the check silently skips whole page classes:
+    //   1. hubs      — <button class="faq-q">…</button> + <div class="faq-a">
+    //   2. articles  — <div class="faq-q">…</div>       + <div class="faq-a">
+    //   3. articles  — <div class="faq-item"><h3>Q</h3><p>A</p></div>  (no faq-q/faq-a)
+    const vis = [];
+    const Q = /<(button|div|h[2-4])\b[^>]*\bclass="[^"]*\bfaq-q\b[^"]*"[^>]*>([\s\S]*?)<\/\1>/g;
+    const A = /<(div|p)\b[^>]*\bclass="[^"]*\bfaq-a\b[^"]*"[^>]*>([\s\S]*?)<\/\1>/g;
+    let qs = [...content.matchAll(Q)].map(m => norm(stripDeco(m[2])));
+    let as = [...content.matchAll(A)].map(m => norm(m[2]));
+
+    if (qs.length === 0 && as.length === 0) {
+      // family 3: heading + paragraph(s) inside .faq-item, no faq-q/faq-a classes.
+      // CONSTRAINT: this non-greedy match stops at the FIRST </div>, so a .faq-item
+      // containing a nested <div> would truncate. No page does that today (verified
+      // across all 44 family-3 pages), and it fails SAFE if one ever does — the
+      // truncated text surfaces as drift or a count mismatch, both loud. If you ever
+      // need to wrap a FAQ answer in a <div>, switch this to a depth-aware scan.
+      const ITEM = /<div\b[^>]*\bclass="[^"]*\bfaq-item\b[^"]*"[^>]*>([\s\S]*?)<\/div>/g;
+      for (const m of content.matchAll(ITEM)) {
+        const h = m[1].match(/<(h[2-4])\b[^>]*>([\s\S]*?)<\/\1>/);
+        const ps = [...m[1].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(x => norm(x[1]));
+        if (!h || !ps.length) continue;
+        qs.push(norm(stripDeco(h[2])));
+        as.push(ps.join(' '));
+      }
+    }
+    for (let i = 0; i < Math.max(qs.length, as.length); i++) vis.push({ q: qs[i] ?? '', a: as[i] ?? '' });
+
+    // Vacuous-pass guard: a FAQPage node with no parseable visible items means the
+    // accordion markup changed and this check silently stopped checking anything.
+    if (vis.length === 0) {
+      issues.push(`[FAQ-PARITY] ${rel(filePath)} — has a FAQPage JSON-LD with ${ldPairs.length} entries but no .faq-q/.faq-a items could be parsed; the accordion markup changed and this check needs updating`);
+      continue;
+    }
+    const r = rel(filePath);
+    // A count mismatch used to `continue` here, which exempted the file from ALL text
+    // checking — a fabricated JSON-LD answer on the one baselined count-mismatch file
+    // passed clean. Now the count is reported, the file is marked seen so the cleanup
+    // loop can retire it, and the overlapping pairs are still compared below.
+    if (vis.length !== ldPairs.length) {
+      const kc = knownCount[r];
+      if (!kc || kc.visible !== vis.length || kc.jsonld !== ldPairs.length) {
+        issues.push(`[FAQ-PARITY] ${r} — ${vis.length} visible FAQ item(s) but ${ldPairs.length} FAQPage JSON-LD entr(ies); they must correspond 1:1`);
+      } else {
+        seenCountMismatch[r] = true;
+      }
+    }
+
+    let drift = 0;
+    const detail = [];
+    for (let i = 0; i < Math.min(vis.length, ldPairs.length); i++) {
+      checked['faq-jsonld-parity'].pairs++;
+      if (norm(ldPairs[i].q) !== vis[i].q) {
+        drift++;
+        detail.push(`             FAQ #${i + 1} question — visible: ${vis[i].q.slice(0, 80)}`);
+        detail.push(`                              JSON-LD: ${norm(ldPairs[i].q).slice(0, 80)}`);
+      }
+      if (norm(ldPairs[i].a) !== vis[i].a) {
+        drift++;
+        detail.push(`             FAQ #${i + 1} answer   — visible: ${vis[i].a.slice(0, 80)}`);
+        detail.push(`                              JSON-LD: ${norm(ldPairs[i].a).slice(0, 80)}`);
+      }
+    }
+
+    const allowed = known[r] || 0;
+    if (drift > allowed) {
+      seenDrift[r] = drift;
+      if (allowed === 0) {
+        issues.push(`[FAQ-PARITY] ${r} — ${drift} FAQ field(s) differ between the visible page and the FAQPage JSON-LD. Google reads the JSON-LD, the user reads the page; they must say the same thing.`);
+      } else {
+        issues.push(`[FAQ-PARITY] ${r} — FAQ drift got WORSE: ${drift} field(s) now differ, baseline allows ${allowed}. Fix the new one, do not raise the baseline.`);
+      }
+      issues.push(...detail.slice(0, 6));
+    } else if (drift < allowed) {
+      // ratchet: a fixed file must be paid down in the baseline, or the debt silently persists.
+      // Still record the real drift — the measured-vs-declared summary line is a trust signal
+      // and must be accurate even on a failing run.
+      if (drift > 0) seenDrift[r] = drift;
+      issues.push(`[FAQ-PARITY] ${r} — FAQ drift IMPROVED (${allowed} → ${drift}). Update test/faq-parity-baseline.json: ${drift === 0 ? 'remove this file' : `set it to ${drift}`}. The baseline may only shrink.`);
+    } else if (drift > 0) {
+      seenDrift[r] = drift;
+    }
+  }
+
+  // Retire stale baseline entries so the file cannot silently outlive the debt.
+  // Both maps are swept: knownCount used to be a plain allowlist with no way out.
+  // Path comparison is exact (===), not substring, so e.g. "washer-repair-orange-county"
+  // cannot be masked by an issue mentioning "dishwasher-repair-orange-county".
+  const namedInIssues = new Set(
+    issues.map(i => (i.match(/^\[FAQ-PARITY\] (\S+)/) || [])[1]).filter(Boolean)
+  );
+  for (const f of Object.keys(known)) {
+    if (f in seenDrift || namedInIssues.has(f)) continue;
+    if (!fs.existsSync(path.join(root, f))) {
+      issues.push(`[FAQ-PARITY] ${f} — listed in test/faq-parity-baseline.json but the file no longer exists. Remove it from the baseline.`);
+    } else {
+      issues.push(`[FAQ-PARITY] ${f} — listed in test/faq-parity-baseline.json but no drift was detected. Remove it from the baseline.`);
+    }
+  }
+  for (const f of Object.keys(knownCount)) {
+    if (f in seenCountMismatch || namedInIssues.has(f)) continue;
+    issues.push(`[FAQ-PARITY] ${f} — listed under countMismatch in test/faq-parity-baseline.json but its visible and JSON-LD FAQ counts now agree. Remove it from the baseline.`);
+  }
+
+  // Report the MEASURED debt next to the declared one. Printing BASELINE.totalFields
+  // alone is self-certifying: it echoes what the JSON claims, not what this run found.
+  checked['faq-jsonld-parity'].measuredFields = Object.values(seenDrift).reduce((a, b) => a + b, 0);
+  checked['faq-jsonld-parity'].measuredFiles = Object.keys(seenDrift).length;
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -603,5 +812,9 @@ if (checked['footer-self-contained']) parts.push(`footer self-contained (no var(
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
+if (checked['faq-jsonld-parity']) {
+  const c = checked['faq-jsonld-parity'];
+  parts.push(`FAQ/JSON-LD parity ratchet held on ${c.pairs} Q&A pairs across ${c.files} pages (debt measured ${c.measuredFields} fields in ${c.measuredFiles} files, baseline declares ${c.baselineFields}/${c.baselineFiles}, see P6-12)`);
+}
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
