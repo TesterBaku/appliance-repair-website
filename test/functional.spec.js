@@ -453,6 +453,139 @@ for (const slug of CITY_HUBS) {
   });
 }
 
+// ─── Premium (luxury-brand) hubs ──────────────────────────────────────────────
+// The LA Premium layer uses a DIFFERENT template from CITY_HUBS above and cannot
+// simply be appended to that list: it has 6 service links not 8, no brand-tier
+// labels, and deliberately no testimonials. Until 2026-07-31 no test touched any
+// of these pages at all — CITY_HUBS is a hardcoded `appliance-repair-*` list, so
+// the county hub (#652) and both city hubs (#655) shipped with zero coverage.
+// Flagged in the #655 review; tracked as P6-9.
+const PREMIUM_HUBS = [
+  'luxury-appliance-repair-los-angeles-ca',
+  'luxury-appliance-repair-beverly-hills-ca',
+  'luxury-appliance-repair-pasadena-ca',
+];
+
+const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS', 'Bosch'];
+
+for (const slug of PREMIUM_HUBS) {
+  test.describe(`Premium hub: ${slug}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.setViewportSize(DESKTOP);
+      await page.goto(`/pages/${slug}.html`);
+    });
+
+    test('title names a premium brand or luxury repair, plus CA', async ({ page }) => {
+      await expect(page).toHaveTitle(/(Sub-Zero|Viking|Wolf|Luxury).*(CA|Los Angeles)/);
+    });
+
+    test('canonical is present and self-referential', async ({ page }) => {
+      const href = await page.locator('link[rel="canonical"]').getAttribute('href');
+      expect(href).toBe(`https://fixappliancesfast.com/pages/${slug}.html`);
+    });
+
+    test('all 8 premium brands are named as links', async ({ page }) => {
+      const pills = await page.locator('.brand-pill.premium').allTextContents();
+      for (const b of PREMIUM_BRANDS) {
+        expect(pills.some(p => p.trim() === b)).toBe(true);
+      }
+      expect(pills.length).toBe(8);
+    });
+
+    test('every brand pill points at a real brand hub', async ({ page }) => {
+      const links = await hrefs(page, '.brand-pill.premium');
+      expect(links.length).toBe(8);
+      expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
+    });
+
+    test('scope note states premium-brand only', async ({ page }) => {
+      await expect(page.locator('.scope-note').first()).toContainText(/premium.brand only/i);
+    });
+
+    test('real-work proof band renders 3 job cards', async ({ page }) => {
+      await expect(page.locator('.job-grid .job-card')).toHaveCount(3);
+    });
+
+    test('every job card carries a real city label', async ({ page }) => {
+      const locs = await page.locator('.job-card-loc').allTextContents();
+      expect(locs.length).toBe(3);
+      expect(locs.every(l => /,\s*CA$/.test(l.trim()))).toBe(true);
+    });
+
+    test('job card photos all resolve (no broken images)', async ({ page }) => {
+      const broken = await page.locator('.job-card img').evaluateAll(
+        imgs => imgs.filter(i => !i.complete || i.naturalWidth === 0).map(i => i.currentSrc || i.src)
+      );
+      expect(broken).toEqual([]);
+    });
+
+    test('diagnostic fee is the flat $99, never $150 or a range', async ({ page }) => {
+      const body = await page.locator('body').innerText();
+      expect(body).toContain('$99');
+      expect(body).not.toContain('$150');
+      expect(body).not.toMatch(/\$99\s*(to|-|–)\s*\$\d/);
+    });
+
+    test('pricing disclaimer is present verbatim', async ({ page }) => {
+      await expect(page.locator('.city-pricing-disclaimer')).toContainText(
+        'Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.'
+      );
+    });
+
+    test('no testimonials and no aggregateRating (pool cannot supply luxury quotes)', async ({ page }) => {
+      expect(await page.locator('.testimonial-card, .t-card').count()).toBe(0);
+      const ld = await page.locator('script[type="application/ld+json"]').allTextContents();
+      expect(ld.join(' ')).not.toContain('aggregateRating');
+      expect(ld.join(' ')).not.toContain('"@type": "Review"');
+    });
+
+    test('breadcrumb links back up to the county premium hub', async ({ page }) => {
+      if (slug === 'luxury-appliance-repair-los-angeles-ca') {
+        await expect(page.locator('a[href="service-areas.html"]').first()).toBeAttached();
+      } else {
+        await expect(
+          page.locator('a[href="luxury-appliance-repair-los-angeles-ca.html"]').first()
+        ).toBeAttached();
+      }
+    });
+
+    test('FAQ accordion toggles', async ({ page }) => {
+      const faqItem = page.locator('.faq-item').first();
+      await page.locator('.faq-q').first().click();
+      await expect(faqItem).toHaveClass(/\bopen\b/);
+    });
+
+    test('has at least 6 FAQ items', async ({ page }) => {
+      expect(await page.locator('.faq-item').count()).toBeGreaterThanOrEqual(6);
+    });
+
+    test('CTA box links to tel: and contact', async ({ page }) => {
+      const links = await hrefs(page, '.cta-box a');
+      expect(links.some(h => h && h.startsWith('tel:'))).toBe(true);
+      expect(links.some(h => h && h.includes('contact'))).toBe(true);
+    });
+
+    test('sticky mobile bar visible on mobile, hidden on desktop', async ({ page }) => {
+      await expect(page.locator('.sticky-mobile-bar')).toBeHidden();
+      await page.setViewportSize(MOBILE);
+      await expect(page.locator('.sticky-mobile-bar')).toBeVisible();
+    });
+
+    test('header Book button hidden on mobile', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await expect(page.locator('.nav-cta')).toBeHidden();
+    });
+
+    test('no horizontal overflow at 375px', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+      );
+      expect(overflow).toBeLessThanOrEqual(0);
+    });
+  });
+}
+
 // ─── Testimonials page ────────────────────────────────────────────────────────
 test.describe('Testimonials page', () => {
   test.beforeEach(async ({ page }) => {
