@@ -107,8 +107,8 @@
  *                    that gets worse, and on any file fixed but left in the
  *                    baseline, so the debt can only shrink. Added 2026-07-31 during
  *                    the PR #655 review, which found that NOTHING in npm test had
- *                    ever compared the two — first run turned up 371 drifted fields
- *                    across 86 of 137 FAQ pages. Paying that down is P6-12.
+ *                    ever compared the two — the first complete run turned up 375 drifted fields
+ *                    across 87 of 137 FAQ pages. Paying that down is P6-12.
  *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
@@ -594,7 +594,7 @@ if (run('non-person-reviewers')) {
 // reads the JSON-LD, the user reads the DOM, and the requirement is that they say
 // the same thing — not that they share markup.
 // RATCHET, not a pass/fail sweep. When this check was written the site already had
-// 371 drifted fields across 86 files (43% of all FAQ fields), because nothing had
+// 375 drifted fields across 87 files (43% of all FAQ fields), because nothing had
 // ever compared the two. Failing outright would just mean the check never ships.
 // So: `test/faq-parity-baseline.json` records the known debt, and the check fails on
 // anything NEW, anything that gets WORSE, and anything that has been FIXED but not
@@ -734,7 +734,10 @@ if (run('faq-jsonld-parity')) {
       }
       issues.push(...detail.slice(0, 6));
     } else if (drift < allowed) {
-      // ratchet: a fixed file must be paid down in the baseline, or the debt silently persists
+      // ratchet: a fixed file must be paid down in the baseline, or the debt silently persists.
+      // Still record the real drift — the measured-vs-declared summary line is a trust signal
+      // and must be accurate even on a failing run.
+      if (drift > 0) seenDrift[r] = drift;
       issues.push(`[FAQ-PARITY] ${r} — FAQ drift IMPROVED (${allowed} → ${drift}). Update test/faq-parity-baseline.json: ${drift === 0 ? 'remove this file' : `set it to ${drift}`}. The baseline may only shrink.`);
     } else if (drift > 0) {
       seenDrift[r] = drift;

@@ -1,4 +1,7 @@
-// Generate test/faq-parity-baseline.json from the CURRENT state of master.
+// Generate test/faq-parity-baseline.json from the CURRENT WORKING TREE (not from
+// master - it walks whatever is on disk). Regenerating from a dirty branch is the
+// failure mode --allow-growth could otherwise be used to launder, so check your
+// tree is clean before running it.
 // Reuses the exact parsing the check uses, by requiring nothing — the logic is
 // duplicated deliberately so a bug in one is not silently mirrored by the other.
 const fs = require('fs'), path = require('path');
@@ -103,7 +106,13 @@ const out = {
     "rotting into permanent silence - the baseline can only ever shrink.",
     "",
     "To pay a file down: fix its FAQPage JSON-LD to match the visible copy verbatim, then delete",
-    "its line here (or lower the number). Tracked in tasks/backlog.md as P6-12."
+    "its line here (or lower the number). Tracked in tasks/backlog.md as P6-12.",
+    "",
+    "KNOWN LIMITATION: the number is a COUNT, not a content pin. Within a file already listed",
+    "here, fixing one drifted field while breaking a previously-clean one nets to zero and passes.",
+    "It takes two compensating edits in one file to hide anything; the realistic single-edit",
+    "accident is still caught in both directions. Storing per-field hashes would close this, and",
+    "the count is the deliberate trade for a baseline a human can read and audit."
   ],
   recorded: "2026-07-31",
   totalFields: Object.values(sorted).reduce((a, b) => a + b, 0),

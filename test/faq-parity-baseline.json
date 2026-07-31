@@ -11,7 +11,13 @@
     "rotting into permanent silence - the baseline can only ever shrink.",
     "",
     "To pay a file down: fix its FAQPage JSON-LD to match the visible copy verbatim, then delete",
-    "its line here (or lower the number). Tracked in tasks/backlog.md as P6-12."
+    "its line here (or lower the number). Tracked in tasks/backlog.md as P6-12.",
+    "",
+    "KNOWN LIMITATION: the number is a COUNT, not a content pin. Within a file already listed",
+    "here, fixing one drifted field while breaking a previously-clean one nets to zero and passes.",
+    "It takes two compensating edits in one file to hide anything; the realistic single-edit",
+    "accident is still caught in both directions. Storing per-field hashes would close this, and",
+    "the count is the deliberate trade for a baseline a human can read and audit."
   ],
   "recorded": "2026-07-31",
   "totalFields": 375,
