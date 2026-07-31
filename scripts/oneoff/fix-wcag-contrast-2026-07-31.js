@@ -3,8 +3,7 @@
 // selector it belongs to so a shared literal (#767676 appears in many unrelated
 // rules) cannot be collaterally rewritten.
 const fs = require('fs'), path = require('path');
-const ROOT = path.resolve(__dirname);
-const REPO = 'C:/Rufat_docs/Projects/Applience_site/appliance-repair-website';
+const REPO = path.resolve(__dirname, '..', '..');
 const APPLY = process.argv.includes('--apply');
 const SKIP = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', '.staging', '.husky', 'test-results']);
 

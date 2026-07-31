@@ -30,3 +30,17 @@ add-seo-improvements, add-hero-preload, add-article-hamburger, add-nav-link.
 > generators were **deleted** (not archived) 2026-05-31 — they would have
 > destroyed the now hand-maintained `pages/testimonials.html`. Use
 > `scripts/sync-testimonials-count.js` to sync review counts.
+
+## `fix-wcag-contrast-2026-07-31.js` (PR #657)
+WCAG AA contrast sweep, P6-8 + P6-10. Darkened the `.cta-box` gradient from `#e84c1e`
+(3.83:1 against white 14px body text) to `#cc3d12 → #aa3210` (4.95:1 → 6.62:1), raised the
+`.btn-white-outline` border alpha 0.6 → 0.85 (WCAG SC 1.4.11 non-text, 3:1), and lightened
+`.footer-bottom` from `#767676` to `#999999` on `#090909` (4.38:1 → 6.99:1). 136 files.
+Every replacement is anchored to its selector, never a bare literal, because `#767676` and
+`rgba(255,255,255,0.6)` both appear in many unrelated rules. Superseded by the permanent
+in-browser contrast guard in `test/functional.spec.js`; kept for provenance.
+
+## `gen-faq-parity-baseline-2026-07-31.js` (PR #656)
+Regenerates `test/faq-parity-baseline.json` for the `faq-jsonld-parity` ratchet. Refuses to
+write if the baseline would GROW (new file or raised count) unless passed `--allow-growth`.
+Re-run after each P6-12 paydown batch, from a clean tree.

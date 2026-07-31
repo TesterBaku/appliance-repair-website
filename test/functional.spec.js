@@ -468,6 +468,7 @@ const CONTRAST_PAGES = [
   '/pages/appliance-repair-garden-grove-ca.html',
   '/pages/luxury-appliance-repair-beverly-hills-ca.html',
   '/articles/article-dorm-appliances.html',
+  '/pages/appliance-repair-cost-orange-county.html',   // the flat-fill .cta-box variant
 ];
 
 const CONTRAST_PROBE = () => {
@@ -475,17 +476,34 @@ const CONTRAST_PROBE = () => {
   const L = ([r, g, b]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
   const ratio = (a, b) => { const [x, y] = [L(a), L(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
   const rgb = (s) => (s.match(/\d+(\.\d+)?/g) || []).slice(0, 3).map(Number);
+  // Parse an rgb()/rgba() string into channels + alpha. Do NOT try to pull alpha
+  // with a trailing-number regex: `rgb(255, 255, 255)` matches /([\d.]+)\)$/ and
+  // yields alpha=255, which composites to a nonsense colour and reports a
+  // million-to-one ratio — a guard that cannot fail. Alpha is the 4th component
+  // when there is one, and 1 otherwise.
+  const parse = (s) => {
+    const p = (s.match(/[\d.]+/g) || []).map(Number);
+    return { rgb: p.slice(0, 3), a: p.length > 3 ? p[3] : 1 };
+  };
+  const flatten = ({ rgb: c, a }, under) => c.map((v, i) => Math.round(v * a + under[i] * (1 - a)));
   // Walk up to the first painted backdrop. A gradient returns EVERY stop, so the
   // lightest stop is tested too — that is where the original failure lived.
+  // A background-image: url(...) is treated as UNKNOWN and reported, never skipped:
+  // silently attributing a photo backdrop to an ancestor is a false pass waiting to
+  // happen if a hero selector is ever added to the probe list.
   const backdrop = (el) => {
     let n = el;
     while (n) {
       const cs = getComputedStyle(n);
-      if (cs.backgroundImage && cs.backgroundImage.includes('gradient')) {
-        const stops = cs.backgroundImage.match(/rgba?\([^)]+\)/g) || [];
-        if (stops.length) return stops.map(rgb);
+      const bi = cs.backgroundImage;
+      if (bi && bi.includes('gradient')) {
+        const stops = bi.match(/rgba?\([^)]+\)/g) || [];
+        // Composite each stop over white so a translucent stop is not scored as opaque.
+        if (stops.length) return stops.map(s => flatten(parse(s), [255, 255, 255]));
       }
-      if (cs.backgroundColor && !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor)) return [rgb(cs.backgroundColor)];
+      if (bi && /url\(/.test(bi)) return null;   // unknown backdrop, caller must report
+      const bc = cs.backgroundColor;
+      if (bc && !/rgba\(0, 0, 0, 0\)|transparent/.test(bc)) return [flatten(parse(bc), [255, 255, 255])];
       n = n.parentElement;
     }
     return [[255, 255, 255]];
@@ -494,21 +512,20 @@ const CONTRAST_PROBE = () => {
   const text = (sel, need, label) => {
     const el = document.querySelector(sel);
     if (!el) return;
-    const fg = rgb(getComputedStyle(el).color);
-    for (const bg of backdrop(el)) out.push({ label, r: ratio(fg, bg), need });
+    const fg = flatten(parse(getComputedStyle(el).color), [255, 255, 255]);
+    const bgs = backdrop(el);
+    if (!bgs) { out.push({ label: `${label} (UNRESOLVED image backdrop)`, r: 0, need }); return; }
+    for (const bg of bgs) out.push({ label, r: ratio(fg, bg), need });
   };
   text('.cta-box p', 4.5, '.cta-box p');
   text('.cta-box h2', 3, '.cta-box h2 (large text)');
   text('.footer-bottom', 4.5, '.footer-bottom');
   const bo = document.querySelector('.btn-white-outline');
   if (bo) {
-    const cs = getComputedStyle(bo);
-    const bc = rgb(cs.borderTopColor);
-    const alpha = parseFloat((cs.borderTopColor.match(/([\d.]+)\)$/) || [, '1'])[1]);
-    for (const bg of backdrop(bo)) {
-      const comp = bc.map((c, i) => Math.round(c * alpha + bg[i] * (1 - alpha)));
-      out.push({ label: '.btn-white-outline border', r: ratio(comp, bg), need: 3 });
-    }
+    const border = parse(getComputedStyle(bo).borderTopColor);
+    const bgs = backdrop(bo);
+    if (!bgs) out.push({ label: '.btn-white-outline border (UNRESOLVED image backdrop)', r: 0, need: 3 });
+    else for (const bg of bgs) out.push({ label: '.btn-white-outline border', r: ratio(flatten(border, bg), bg), need: 3 });
   }
   return out;
 };
