@@ -138,6 +138,28 @@
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
     }
+    /* RECENT JOB PHOTOS - defect-fixed .job-grid, copied from pages/dryer-repair-orange-county.html.
+       Fixed 3-up collapsing straight to 1-up (an auto-fit grid passes through a 2-column stage and
+       orphans the third card). These base rules must stay ABOVE the media block: media queries add
+       no specificity. */
+    .job-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
+    .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
+    .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
+    .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
+    .job-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
+    .job-card-body { padding: 16px 18px 20px; }
+    /* Kicker is a static label, not an action: DESIGN.md reserves brand orange for clickable or critical. */
+    .job-card-kicker { font-size: 10px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .job-card-title { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.35; }
+    .job-card-loc { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+    .job-card-link { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
+    .job-card-link:hover { text-decoration: underline; }
+    /* Stretched link: whole card becomes the hit area, so the mobile tap target is the full card
+       rather than a 15px text run (mobile-design.md requires >=44x44px). */
+    .job-card-link::after { content: ''; position: absolute; inset: 0; }
+    .job-see-all { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; font-size: 13px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
+    .job-see-all:hover { text-decoration: underline; }
+    @media (max-width: 768px) { .job-grid { grid-template-columns: 1fr; max-width: 360px; } }
   </style>
 
   <!-- SCHEMA: Article -->
@@ -701,6 +723,53 @@
       <div class="landmarks-block">
         <p>Tustin sits at the center of Orange County, bordered by <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>, <a href="appliance-repair-irvine-ca.html">Irvine</a>, and <a href="appliance-repair-orange-ca.html">Orange</a>. Few OC cities cover this much housing history in one place: the <strong>Old Town historic district</strong> dates to the 1880s, <strong>Tustin Meadows</strong> and the central tracts filled in through the 1960s and 70s, <strong>Tustin Ranch</strong> brought Mediterranean-style homes and the <strong>Tustin Ranch Golf Club</strong> in the 1990s, and <strong>Tustin Legacy</strong> is still building out on the former Marine Corps Air Station beneath its landmark WWII blimp hangar. Residents shop at <strong>The Market Place</strong> on Jamboree Road and hike <strong>Peters Canyon Regional Park</strong> on the east side. That spread of home ages means we see everything here: 30-year-old built-ins in Tustin Ranch, aging tract appliances near <strong>Centennial Park</strong>, and builder-grade packages in Tustin Legacy failing just past their warranty.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- RECENT JOB PHOTOS -->
+  <section class="section section-white">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">Recent Work in Tustin</h2>
+      <p style="text-align:center;color:var(--text-sub);font-size:13px;margin-top:8px;margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">A built-in double wall oven swap in a Tustin kitchen: the original Thermador out, a new KitchenAid in, leveled and tested before we left.</p>
+      <div class="job-grid">
+        <div class="job-card">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin-480w.webp 480w, ../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin.webp 576w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
+            <img src="../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin.jpg" alt="Original Thermador stainless double wall oven in its cabinet opening before removal in a Tustin kitchen" width="576" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">Thermador &middot; Double Wall Oven</div>
+            <div class="job-card-title">The Original Oven, Before Removal</div>
+            <div class="job-card-loc">Tustin, CA</div>
+            <a href="thermador-appliance-repair-orange-county.html" class="job-card-link">Thermador appliance repair <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+        <div class="job-card">
+          <picture>
+            <source srcset="../images/real/business/technician-oven-kitchenaid-double-wall-lift-tustin-480w.webp 480w, ../images/real/business/technician-oven-kitchenaid-double-wall-lift-tustin.webp 576w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
+            <img src="../images/real/business/technician-oven-kitchenaid-double-wall-lift-tustin.jpg" alt="New KitchenAid double wall oven still in its protective wrap, raised on an appliance lift during installation in Tustin" width="576" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">KitchenAid &middot; Double Wall Oven</div>
+            <div class="job-card-title">New Oven Going In</div>
+            <div class="job-card-loc">Tustin, CA</div>
+            <a href="oven-stove-repair-orange-county.html" class="job-card-link">Oven and stove repair <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+        <div class="job-card">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-oven-kitchenaid-double-wall-install-tustin-480w.webp 480w, ../images/real/business/completed-repair-oven-kitchenaid-double-wall-install-tustin.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
+            <img src="../images/real/business/completed-repair-oven-kitchenaid-double-wall-install-tustin.jpg" alt="Newly installed KitchenAid stainless built-in double wall oven powered on in a Tustin kitchen" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">KitchenAid &middot; Double Wall Oven</div>
+            <div class="job-card-title">Installed, Leveled and Tested</div>
+            <div class="job-card-loc">Tustin, CA</div>
+            <a href="kitchenaid-appliance-repair-orange-county.html" class="job-card-link">KitchenAid appliance repair <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:24px;"><a href="recent-repairs.html" class="job-see-all">See all recent repairs <span aria-hidden="true">&rarr;</span></a></p>
     </div>
   </section>
 
