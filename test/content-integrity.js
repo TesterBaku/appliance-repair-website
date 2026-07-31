@@ -241,9 +241,20 @@ if (run('testimonial-pill-count')) {
     opens.forEach((m, i) => {
       const block = inner.slice(m.index, opens[i + 1] ? opens[i + 1].index : inner.length);
       if (/\bt-card--no-quote\b/.test(m[0])) return; // rating-only card, no body to mirror
-      const name = block.match(/<div class="t-name">([^<]+)<\/div>/);
+      // Attribute-order tolerant, same shape as CARD_OPEN. A literal
+      // `<div class="t-name">` match would silently shrink quotedNames toward empty
+      // if markup ever put another attribute first, and the check would then pass
+      // vacuously — the exact failure mode this check exists to prevent.
+      const name = block.match(/<div\b[^>]*\bclass="[^"]*\bt-name\b[^"]*"[^>]*>([^<]+)<\/div>/);
       if (name) quotedNames.push(decode(name[1].trim()));
     });
+
+    // Belt and braces: a quoted card with no extractable name means the markup moved
+    // and this check has gone blind. Fail loudly rather than report a false all-clear.
+    const quotedCardCount = opens.filter((m) => !/\bt-card--no-quote\b/.test(m[0])).length;
+    if (quotedNames.length !== quotedCardCount) {
+      issues.push(`[REVIEW-SCHEMA] ${rel(filePath)} — found ${quotedCardCount} quoted cards but could only read ${quotedNames.length} reviewer names; the .t-name markup changed and this check needs updating`);
+    }
 
     const ldNames = new Set();
     for (const blk of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
