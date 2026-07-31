@@ -215,6 +215,62 @@ if (run('testimonial-pill-count')) {
   } else if (Number(pill[1]) !== cards) {
     issues.push(`[PILL-COUNT] ${rel(filePath)} — All pill says ${pill[1]} but #reviews-grid renders ${cards} .t-card elements`);
   }
+
+  // ── testimonial-review-schema ───────────────────────────────────────────────
+  // Every QUOTED testimonial card must have a matching Review node in the page's
+  // JSON-LD, per .claude/rules/testimonial-selection.md ("Individual Review JSON-LD
+  // entries for each displayed testimonial, with author.name matching the pool's
+  // name field exactly"). Nothing enforced this, so it drifted: a 2026-07-30 review
+  // caught 2 new cards shipped without nodes while AggregateRating.reviewCount was
+  // raised anyway — exactly the "Review snippet should have reviews" shape Google
+  // penalizes.
+  //
+  // Scoped to cards that actually carry a quote. `.t-card--no-quote` cards are
+  // rating-only reviews with no body (Drew McMillan, Theresa Robinson, Luci LaBue);
+  // a Review node with no reviewBody is legal schema but is a separate editorial
+  // decision, deliberately NOT forced by this check.
+  if (inner) {
+    const decode = (s) => s
+      .replace(/&amp;/g, '&').replace(/&rsquo;/g, '’').replace(/&lsquo;/g, '‘')
+      .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+    const CARD_OPEN = /<div\b[^>]*\bclass="[^"]*\bt-card\b[^"]*"[^>]*>/g;
+    const opens = [...inner.matchAll(CARD_OPEN)];
+    const quotedNames = [];
+    opens.forEach((m, i) => {
+      const block = inner.slice(m.index, opens[i + 1] ? opens[i + 1].index : inner.length);
+      if (/\bt-card--no-quote\b/.test(m[0])) return; // rating-only card, no body to mirror
+      // Attribute-order tolerant, same shape as CARD_OPEN. A literal
+      // `<div class="t-name">` match would silently shrink quotedNames toward empty
+      // if markup ever put another attribute first, and the check would then pass
+      // vacuously — the exact failure mode this check exists to prevent.
+      const name = block.match(/<div\b[^>]*\bclass="[^"]*\bt-name\b[^"]*"[^>]*>([^<]+)<\/div>/);
+      if (name) quotedNames.push(decode(name[1].trim()));
+    });
+
+    // Belt and braces: a quoted card with no extractable name means the markup moved
+    // and this check has gone blind. Fail loudly rather than report a false all-clear.
+    const quotedCardCount = opens.filter((m) => !/\bt-card--no-quote\b/.test(m[0])).length;
+    if (quotedNames.length !== quotedCardCount) {
+      issues.push(`[REVIEW-SCHEMA] ${rel(filePath)} — found ${quotedCardCount} quoted cards but could only read ${quotedNames.length} reviewer names; the .t-name markup changed and this check needs updating`);
+    }
+
+    const ldNames = new Set();
+    for (const blk of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed;
+      try { parsed = JSON.parse(blk[1]); } catch { continue; }
+      for (const r of parsed.review || []) {
+        if (r && r.author && r.author.name) ldNames.add(r.author.name);
+      }
+    }
+
+    const missing = quotedNames.filter((n) => !ldNames.has(n));
+    checked['testimonial-review-schema'] = { quotedCards: quotedNames.length, reviewNodes: ldNames.size, missing: missing.length };
+    if (missing.length) {
+      issues.push(`[REVIEW-SCHEMA] ${rel(filePath)} — ${missing.length} quoted testimonial card(s) have no matching Review JSON-LD node: ${missing.join(', ')}`);
+    }
+  }
 }
 
 // ── Check 2: business-tenure ──────────────────────────────────────────────────
@@ -535,6 +591,7 @@ if (issues.length) {
 const parts = [];
 if (checked['review-count'])         parts.push(`review-count matches JSON (${checked['review-count'].expected}) across ${checked['review-count'].files} pages`);
 if (checked['testimonial-pill-count']) parts.push(`testimonials All pill (${checked['testimonial-pill-count'].pill}) matches ${checked['testimonial-pill-count'].cards} rendered cards`);
+if (checked['testimonial-review-schema']) parts.push(`all ${checked['testimonial-review-schema'].quotedCards} quoted testimonial cards have a Review JSON-LD node`);
 if (checked['business-tenure'])      parts.push(`no stale "8+ years" tenure claims in ${checked['business-tenure'].files} files`);
 if (checked['meta-desc-len'])        parts.push(`meta descriptions ≤ ${checked['meta-desc-len'].limit} chars on ${checked['meta-desc-len'].files} articles`);
 if (checked['og-desc-sync'])         parts.push(`og:description = name="description" on ${checked['og-desc-sync'].files} articles`);
