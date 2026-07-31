@@ -4,6 +4,7 @@ description: Local appliance repair for Orange County homeowners — same-day se
 colors:
   craftsmans-ember:  "#e84c1e"
   ember-deep:        "#cc3d12"
+  ember-deeper:      "#aa3210"
   coastal-mist:      "#f7fafc"
   surface:           "#ffffff"
   pressed-steel:     "#111111"
