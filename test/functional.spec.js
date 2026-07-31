@@ -475,7 +475,6 @@ const CONTRAST_PROBE = () => {
   const lin = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
   const L = ([r, g, b]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
   const ratio = (a, b) => { const [x, y] = [L(a), L(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
-  const rgb = (s) => (s.match(/\d+(\.\d+)?/g) || []).slice(0, 3).map(Number);
   // Parse an rgb()/rgba() string into channels + alpha. Do NOT try to pull alpha
   // with a trailing-number regex: `rgb(255, 255, 255)` matches /([\d.]+)\)$/ and
   // yields alpha=255, which composites to a nonsense colour and reports a
@@ -512,10 +511,13 @@ const CONTRAST_PROBE = () => {
   const text = (sel, need, label) => {
     const el = document.querySelector(sel);
     if (!el) return;
-    const fg = flatten(parse(getComputedStyle(el).color), [255, 255, 255]);
+    const fg = parse(getComputedStyle(el).color);
     const bgs = backdrop(el);
     if (!bgs) { out.push({ label: `${label} (UNRESOLVED image backdrop)`, r: 0, need }); return; }
-    for (const bg of bgs) out.push({ label, r: ratio(fg, bg), need });
+    // Composite the foreground over ITS OWN backdrop, not over white. A translucent
+    // text colour on a dark backdrop composited over white would overstate contrast —
+    // the same false-pass shape as the alpha bug this guard was fixed for.
+    for (const bg of bgs) out.push({ label, r: ratio(flatten(fg, bg), bg), need });
   };
   text('.cta-box p', 4.5, '.cta-box p');
   text('.cta-box h2', 3, '.cta-box h2 (large text)');
