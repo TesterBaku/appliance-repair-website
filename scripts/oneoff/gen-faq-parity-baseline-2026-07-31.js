@@ -2,7 +2,7 @@
 // Reuses the exact parsing the check uses, by requiring nothing — the logic is
 // duplicated deliberately so a bug in one is not silently mirrored by the other.
 const fs = require('fs'), path = require('path');
-const ROOT = 'C:/Rufat_docs/Projects/Applience_site/appliance-repair-website';
+const ROOT = path.resolve(__dirname, '..', '..');
 const SKIP = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', '.staging', '.husky', 'test-results', 'partials']);
 function walk(d, out = []) {
   for (const e of fs.readdirSync(d, { withFileTypes: true })) {
@@ -49,15 +49,47 @@ for (const p of walk(ROOT)) {
     }
   }
   if (!qs.length) continue;
-  if (qs.length !== ld.length) { countMismatch[rel] = { visible: qs.length, jsonld: ld.length }; continue; }
+  // A count mismatch is recorded AND the overlapping pairs are still compared. The
+  // first version `continue`d here, which meant a count-mismatch file was exempt from
+  // text checking in both the generator and the check — a fabricated JSON-LD answer
+  // on that file passed clean. Caught in the PR #656 review.
+  if (qs.length !== ld.length) countMismatch[rel] = { visible: qs.length, jsonld: ld.length };
   let bad = 0;
-  for (let i = 0; i < ld.length; i++) {
+  for (let i = 0; i < Math.min(qs.length, ld.length); i++) {
     if (norm(ld[i].q) !== qs[i]) bad++;
     if (norm(ld[i].a) !== (as[i] ?? '')) bad++;
   }
   if (bad) drift[rel] = bad;
 }
 const sorted = Object.fromEntries(Object.entries(drift).sort(([a], [b]) => a.localeCompare(b)));
+
+// THE GENERATOR IS ITSELF A RATCHET.
+// A regenerator that rewrites the baseline unconditionally defeats the entire check:
+// run it after introducing new drift and the debt silently grows while the next
+// `npm test` reports a clean pass, because the summary echoes the file it just wrote.
+// So refuse to write anything that would ADD a file or RAISE a count. Shrinking is
+// always allowed — that is the whole point of paying the debt down.
+const BASELINE_PATH = path.join(ROOT, 'test', 'faq-parity-baseline.json');
+if (fs.existsSync(BASELINE_PATH) && !process.argv.includes('--allow-growth')) {
+  const prev = JSON.parse(fs.readFileSync(BASELINE_PATH, 'utf8'));
+  const prevDrift = prev.drift || {};
+  const prevCount = prev.countMismatch || {};
+  const grew = [];
+  for (const [f, n] of Object.entries(sorted)) {
+    if (!(f in prevDrift)) grew.push(`  NEW FILE  ${f} (${n} field(s))`);
+    else if (n > prevDrift[f]) grew.push(`  WORSE     ${f} (${prevDrift[f]} → ${n})`);
+  }
+  for (const f of Object.keys(countMismatch)) {
+    if (!(f in prevCount)) grew.push(`  NEW COUNT MISMATCH  ${f}`);
+  }
+  if (grew.length) {
+    console.error('\nREFUSING TO WRITE — this would GROW the baseline:\n');
+    grew.forEach(l => console.error(l));
+    console.error('\nThe baseline may only shrink. Fix the new drift instead of recording it.');
+    console.error('If you genuinely must record growth (e.g. a bulk import), re-run with --allow-growth.\n');
+    process.exit(1);
+  }
+}
 const out = {
   _README: [
     "BASELINE OF PRE-EXISTING FAQ / FAQPage JSON-LD DRIFT. This is a RATCHET, not an allowlist.",

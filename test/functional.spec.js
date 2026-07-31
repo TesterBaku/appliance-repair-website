@@ -512,18 +512,31 @@ for (const slug of PREMIUM_HUBS) {
       expect(locs.every(l => /,\s*CA$/.test(l.trim()))).toBe(true);
     });
 
+    // The count assertion is load-bearing: evaluateAll over an empty set returns []
+    // and [] equals [], so without it this test passes when every <img> is deleted.
+    // scrollIntoView + poll handle the lazy-load race — these images are below the
+    // fold, so from a cold cache they are legitimately not `complete` at goto() time.
     test('job card photos all resolve (no broken images)', async ({ page }) => {
-      const broken = await page.locator('.job-card img').evaluateAll(
-        imgs => imgs.filter(i => !i.complete || i.naturalWidth === 0).map(i => i.currentSrc || i.src)
-      );
-      expect(broken).toEqual([]);
+      await page.locator('.job-grid').scrollIntoViewIfNeeded();
+      const imgs = page.locator('.job-card img');
+      await expect(imgs).toHaveCount(3);
+      await expect.poll(() => imgs.evaluateAll(
+        a => a.filter(i => !i.complete || i.naturalWidth === 0).map(i => i.currentSrc || i.src)
+      )).toEqual([]);
     });
 
+    // textContent, NOT innerText: the FAQ answers are display:none until opened, and
+    // the fee is stated inside them. innerText skips collapsed content, so it was
+    // blind to the single highest-risk location. The JSON-LD is checked too, since a
+    // wrong fee in schema is what Google would surface.
     test('diagnostic fee is the flat $99, never $150 or a range', async ({ page }) => {
-      const body = await page.locator('body').innerText();
+      const body = await page.locator('body').evaluate(el => el.textContent);
+      const ld = (await page.locator('script[type="application/ld+json"]').allTextContents()).join(' ');
       expect(body).toContain('$99');
-      expect(body).not.toContain('$150');
-      expect(body).not.toMatch(/\$99\s*(to|-|–)\s*\$\d/);
+      for (const source of [body, ld]) {
+        expect(source).not.toContain('$150');
+        expect(source).not.toMatch(/\$99\s*(to|-|–)\s*\$\d/);
+      }
     });
 
     test('pricing disclaimer is present verbatim', async ({ page }) => {
@@ -532,20 +545,37 @@ for (const slug of PREMIUM_HUBS) {
       );
     });
 
+    // Parse and walk the JSON-LD rather than substring-matching it: a minified
+    // `"@type":"Review"` (no space) evades a .toContain on the spaced form.
     test('no testimonials and no aggregateRating (pool cannot supply luxury quotes)', async ({ page }) => {
       expect(await page.locator('.testimonial-card, .t-card').count()).toBe(0);
-      const ld = await page.locator('script[type="application/ld+json"]').allTextContents();
-      expect(ld.join(' ')).not.toContain('aggregateRating');
-      expect(ld.join(' ')).not.toContain('"@type": "Review"');
+      const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+      expect(blocks.length).toBeGreaterThan(0);
+      const types = [];
+      let sawAggregate = false;
+      const walk = (n) => {
+        if (Array.isArray(n)) return n.forEach(walk);
+        if (!n || typeof n !== 'object') return;
+        if (typeof n['@type'] === 'string') types.push(n['@type']);
+        if ('aggregateRating' in n) sawAggregate = true;
+        Object.values(n).forEach(v => { if (v && typeof v === 'object') walk(v); });
+      };
+      for (const b of blocks) walk(JSON.parse(b));
+      expect(types).not.toContain('Review');
+      expect(sawAggregate).toBe(false);
     });
 
-    test('breadcrumb links back up to the county premium hub', async ({ page }) => {
-      if (slug === 'luxury-appliance-repair-los-angeles-ca') {
-        await expect(page.locator('a[href="service-areas.html"]').first()).toBeAttached();
-      } else {
-        await expect(
-          page.locator('a[href="luxury-appliance-repair-los-angeles-ca.html"]').first()
-        ).toBeAttached();
+    // Scoped to the breadcrumb strip. An unscoped a[href="service-areas.html"]
+    // matches the nav dropdown toggle, the "All Cities" link and the drawer long
+    // before the breadcrumb, so deleting the breadcrumb entirely still passed.
+    test('breadcrumb links back up its hierarchy', async ({ page }) => {
+      const crumb = page.locator('nav[aria-label="Breadcrumb"]');
+      await expect(crumb).toHaveCount(1);
+      const links = await crumb.locator('a').evaluateAll(a => a.map(x => x.getAttribute('href')));
+      expect(links).toContain('../');
+      expect(links).toContain('service-areas.html');
+      if (slug !== 'luxury-appliance-repair-los-angeles-ca') {
+        expect(links).toContain('luxury-appliance-repair-los-angeles-ca.html');
       }
     });
 
