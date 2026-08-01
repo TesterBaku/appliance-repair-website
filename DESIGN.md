@@ -118,8 +118,11 @@ This system explicitly rejects the aesthetics of national appliance-chain franch
 A committed palette: one saturated accent on a cool-tinted light field, grounded by near-black surfaces in the footer.
 
 ### Primary
-- **Craftsman's Ember** (`#e84c1e`): The single action color. Used on every CTA button, active link, phone number emphasis, focus ring, and brand icons. Its rarity on any given screen is what makes it work. If something is orange, it is clickable or critical.
-- **Ember Deep** (`#cc3d12`): Hover state for the primary only. Never used independently. The shift from Ember to Ember Deep signals responsiveness without a dramatic jump.
+- **Craftsman's Ember** (`#e84c1e`): The brand's identity color. If something is this orange, it is clickable or critical, and its rarity on any given screen is what makes it work.
+  - ⚠️ **It cannot carry small text, in either direction.** `#e84c1e` is **3.83:1** against white, so white text ON it and it AS text on white both fail the 4.5:1 WCAG AA floor. Reserve it for borders, focus rings, icon fills, decorative surfaces, and large text (≥24px, or ≥18.66px at weight ≥700, where the bar is 3:1). This is enforced by the `contrast-aa` check in `npm test`.
+- **Ember Deep** (`#cc3d12`): **4.95:1** against white. The surface color wherever a brand-colored background carries small white text: primary buttons, the CTA box, the mobile sticky Call bar, cost-table headers, numbered badges. Also the primary's hover state, where the shift from Ember signals responsiveness without a dramatic jump.
+  - Corrected 2026-07-31. This line previously read *"Hover state for the primary only. Never used independently"*, which the code had already outgrown (`shared.css` shipped `.btn-primary { background: var(--brand-dark) }`) and which PRs #657/#658 made comprehensively untrue. Leaving it stale is how the next contributor reaches for `#e84c1e` and reintroduces a 3.83:1 failure.
+- **Ember Deeper** (`#aa3210`, `--brand-deeper` / `--brand-text`): **6.62:1** against white. The text color wherever brand orange must appear as small text on a light background: inline-CTA links, badges, tags, breadcrumb hovers.
 
 ### Neutral
 - **Coastal Mist** (`#f7fafc`): Page background and gray-section backgrounds. Slightly blue-shifted — a deliberate echo of the Pacific coast in Orange County. Never pure white; the tint keeps it from feeling like a blank document.

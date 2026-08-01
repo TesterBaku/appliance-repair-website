@@ -804,10 +804,22 @@ if (run('faq-jsonld-parity')) {
 // brand-on-light darkens the TEXT to #aa3210 (6.62:1), which is precisely what
 // --brand-text exists for ("WCAG AA for small text on any light bg").
 //
-// LIMITATION, deliberately visible in the summary line: this sees literal hex
-// only. Rules using var() or rgba() need runtime resolution and are covered by the
-// in-browser probes in test/functional.spec.js instead. The skipped count is
-// printed so the gap is a known number rather than an unknown one.
+// WHAT THIS CANNOT SEE — stated in full, with measured counts, because an
+// incomplete disclosure reads as an exhaustive one. It inspects the ~1,609 rules
+// that declare BOTH properties in the same block. Blind spots:
+//
+//   1. Cross-rule cascade — 5,455 rules declare only one of the two, so the pair
+//      only exists at render time. 203 of them use #e84c1e as a text colour
+//      (.breadcrumb a:hover x71, .nav-dropdown-menu .dropdown-all x69,
+//      .article-toc a x19, .blog-link x8 ...). Tracked as P6-15.
+//   2. Inline style="" — 7,128 attributes, 258 mentioning #e84c1e. Also P6-15.
+//   3. rgba() and colour keywords, which need compositing / runtime resolution.
+//
+// var() IS resolved (see below), so `var(--brand)` is no longer a hiding place.
+// The genuine fix for buckets 1 and 2 is the in-browser probe in
+// test/functional.spec.js, which measures the real painted result. That probe
+// currently covers 6 selectors on 6 pages, NOT the whole site — do not read the
+// deferred count in the summary line as "covered elsewhere".
 if (run('contrast-aa')) {
   checked['contrast-aa'] = { pairs: 0, skippedVar: 0, files: 0 };
   const lin = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
@@ -821,6 +833,25 @@ if (run('contrast-aa')) {
   const HEXRE = /#[0-9a-fA-F]{3,8}\b/;
   const seen = new Map();
 
+  // Resolve var(--token) from the :root table in shared.css before testing, chasing
+  // aliases (--brand-text: var(--brand-deeper)). Without this the check was blind to
+  // exactly the shape holding most of the remaining failures: `.cost-table th` is
+  // white 12.5px/700 on `var(--brand)` on 25 files — the identical root cause, spelled
+  // differently. Found in the PR #658 review.
+  const TOKENS = {};
+  {
+    const css = fs.readFileSync(path.join(root, 'shared.css'), 'utf8');
+    const rootBlock = (css.match(/:root\s*\{([\s\S]*?)\}/) || [, ''])[1];
+    for (const d of rootBlock.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) TOKENS[d[1]] = d[2].trim();
+  }
+  const deref = (v, depth = 0) => {
+    if (depth > 6) return v;                       // cycle guard
+    const m = v.match(/var\(\s*(--[\w-]+)\s*(?:,\s*([^)]+))?\)/);
+    if (!m) return v;
+    const resolved = TOKENS[m[1]] !== undefined ? TOKENS[m[1]] : (m[2] || '');
+    return resolved ? deref(v.replace(m[0], resolved.trim()), depth + 1) : v;
+  };
+
   for (const filePath of allHtml.concat([path.join(root, 'shared.css')])) {
     if (!fs.existsSync(filePath)) continue;
     checked['contrast-aa'].files++;
@@ -830,19 +861,37 @@ if (run('contrast-aa')) {
       const cm = body.match(/(?:^|[;{\s])color\s*:\s*([^;]+)/);
       const bm = body.match(/(?:^|[;{\s])background(?:-color)?\s*:\s*([^;]+)/);
       if (!cm || !bm) continue;
-      const cRaw = cm[1].trim(), bRaw = bm[1].trim();
+      const cRaw = deref(cm[1].trim()), bRaw = deref(bm[1].trim());
       if (!HEXRE.test(cRaw) || !HEXRE.test(bRaw)) {
-        if (/var\(|rgba?\(/.test(cRaw) || /var\(|rgba?\(/.test(bRaw)) checked['contrast-aa'].skippedVar++;
+        checked['contrast-aa'].skippedVar++;       // still unresolvable: rgba(), keywords, image
         continue;
       }
       const cHex = (cRaw.match(HEXRE) || [])[0];
       const bHexes = bRaw.match(/#[0-9a-fA-F]{3,8}\b/g) || [];
+      // 8-digit (#rrggbbaa) and 4-digit hex carry alpha, which this check cannot
+      // composite. h2r() would silently read them as opaque and report a ratio that
+      // is not what renders, so skip and count them instead of guessing.
+      const hasAlpha = (h) => h.replace('#', '').length === 8 || h.replace('#', '').length === 4;
+      if (hasAlpha(cHex) || bHexes.some(hasAlpha)) { checked['contrast-aa'].skippedVar++; continue; }
       if (!cHex || !bHexes.length) continue;
       const size = parseFloat((body.match(/font-size\s*:\s*([\d.]+)px/) || [, '16'])[1]);
       const weight = parseInt((body.match(/font-weight\s*:\s*(\d+)/) || [, '400'])[1], 10);
       const large = size >= 24 || (size >= 18.66 && weight >= 700);
       const need = large ? 3 : 4.5;
-      const sel = m[1].trim().split('\n').pop().trim().slice(0, 60);
+      // Naming the rule accurately matters: a CI failure that says
+      // "@media (max-width:768px)" instead of ".zz-probe" is needlessly hard to find.
+      // For the FIRST rule inside an at-rule, the flat regex captures the at-rule as
+      // the prelude and swallows the real selector into the body, so recover it from
+      // the last `… {` inside the body.
+      const nested = body.match(/([^{};]+)\{[^{}]*$/);
+      const preludeLines = m[1].trim().split('\n').map(x => x.trim()).filter(Boolean);
+      let sel = preludeLines[preludeLines.length - 1] || '';
+      if (/^@/.test(sel)) {
+        const inner = body.match(/([^{};\n]+)\s*\{/);
+        sel = inner ? `${inner[1].trim()}  [in ${sel}]` : `${sel} (first rule in block)`;
+      }
+      if (nested && !/^@/.test(sel)) sel = nested[1].trim() || sel;
+      sel = sel.slice(0, 70);
       for (const bHex of bHexes) {          // a gradient is checked at EVERY stop
         let r;
         try { r = contrast(cHex, bHex); } catch { continue; }
@@ -902,7 +951,7 @@ if (checked['footer-self-contained']) parts.push(`footer self-contained (no var(
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
-if (checked['contrast-aa'])          parts.push(`WCAG AA contrast on ${checked['contrast-aa'].pairs} literal-hex text/background pairs across ${checked['contrast-aa'].files} files (${checked['contrast-aa'].skippedVar} var()/rgba() rules deferred to the in-browser probes)`);
+if (checked['contrast-aa'])          parts.push(`WCAG AA contrast on ${checked['contrast-aa'].pairs} same-rule colour pairs across ${checked['contrast-aa'].files} files, var() resolved (${checked['contrast-aa'].skippedVar} rgba()/keyword rules unresolvable; cross-rule + inline-style pairs NOT covered, see P6-15)`);
 if (checked['faq-jsonld-parity']) {
   const c = checked['faq-jsonld-parity'];
   parts.push(`FAQ/JSON-LD parity ratchet held on ${c.pairs} Q&A pairs across ${c.files} pages (debt measured ${c.measuredFields} fields in ${c.measuredFiles} files, baseline declares ${c.baselineFields}/${c.baselineFiles}, see P6-12)`);
