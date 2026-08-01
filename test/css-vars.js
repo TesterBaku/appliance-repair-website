@@ -18,8 +18,16 @@
  * Such a redefinition is a hard failure.
  *
  * Self-contained pages that do NOT link shared.css (e.g. index.html, articles)
- * are exempt: they legitimately define their own `--brand*` because there is no
- * shared.css to inherit from. shared.css itself is the canonical source.
+ * are exempt from the --brand* re-declaration rule: they legitimately define their
+ * own because there is no shared.css to inherit from. shared.css is canonical.
+ *
+ * KNOWN SCOPE LIMITS of the palette-drift comparison (static scan, by design):
+ *   - a token set at RUNTIME (element.style.setProperty) is invisible here
+ *   - a token shared.css does not declare at all is unguarded, so a page can rename
+ *     its token and paint anything
+ *   - a CSS declaration written inside a JS string literal is still reported, a
+ *     known cry-wolf; <script> blocks and HTML comments are stripped, but a
+ *     declaration reconstructed at runtime cannot be distinguished statically
  */
 
 'use strict';
@@ -66,8 +74,7 @@ const paletteDrift   = [];
 // resolve to Dust — an invariant the highest-traffic page violated.
 // Canonical values from shared.css. Collected from EVERY rule that declares custom
 // properties, not just the first `:root {` substring — see the collector below for why.
-const CANON_RAW = collectVars(fs.readFileSync(path.join(root, 'shared.css'), 'utf8'));
-const CANON = CANON_RAW;
+const CANON = collectVars(fs.readFileSync(path.join(root, 'shared.css'), 'utf8'), null, false);
 
 // Tokens whose value carries an accessibility or brand guarantee. A page may add its own
 // tokens freely; it may not hold a DIFFERENT value for one of these.
@@ -84,31 +91,49 @@ const GUARDED = /^--(text|brand|footer|bg|surface|border)/;
 //   :root, html { … }                 (selector list)
 // Custom properties cascade like any other declaration, so the selector is irrelevant to
 // whether the value drifts. Collect them all.
-function collectVars(css, aliasBase) {
-  const out = {};
-  // strip comments so a commented-out declaration cannot register
-  const clean = css.replace(/\/\*[\s\S]*?\*\//g, '');
-  for (const m of clean.matchAll(/(--[\w-]+)\s*:\s*([^;{}]+)[;}]/g)) {
-    out[m[1]] = m[2].trim();
+function collectVars(css, aliasBase, isHtml) {
+  // Scan the whole file, but first remove the two contexts that are NOT live CSS.
+  // Reading them raw made the guard report drift on an HTML comment holding an old
+  // palette and on a JS string containing a declaration — cry-wolf findings, and a noisy
+  // guard gets suppressed rather than fixed. Inline style="" attributes ARE live and stay.
+  let text = css;
+  if (isHtml) {
+    text = text.replace(/<!--[\s\S]*?-->/g, ' ').replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ');
   }
-  // Resolve alias chains before normalising: shared.css declares
-  // `--brand-text: var(--brand-deeper)`, so a page writing the literal #aa3210 has the
-  // SAME resolved colour and must not be reported as drift. Falls back to the page's own
-  // map first, then the canonical one, so a self-contained page can alias its own tokens.
+  const clean = text.replace(/\/\*[\s\S]*?\*\//g, '');
+
+  // Keep EVERY declared value per token, not just the last one. Last-wins reintroduced a
+  // source-order assumption the cascade does not share: `body { --text-muted }` beats
+  // `:root` for the whole body subtree no matter which appears first, so placing it BEFORE
+  // :root evaded the guard while changing painted pixels. Any distinct value that differs
+  // from canonical is drift, wherever it sits.
+  const raw = {};
+  for (const m of clean.matchAll(/(--[\w-]+)\s*:\s*([^;{}"]+)[;}"]/g)) {
+    (raw[m[1]] = raw[m[1]] || []).push(m[2].trim());
+  }
+  // last-wins is fine for RESOLVING an alias, just not for deciding what is canonical
+  const lastOf = {};
+  for (const k of Object.keys(raw)) lastOf[k] = raw[k][raw[k].length - 1];
+
   const deref = (v, depth = 0) => {
     if (depth > 8) return v;
     const m = String(v).match(/var\(\s*(--[\w-]+)\s*(?:,\s*([^)]+))?\)/);
     if (!m) return v;
-    const src = out[m[1]] !== undefined ? out[m[1]] : (aliasBase && aliasBase[m[1]] !== undefined ? aliasBase[m[1]] : m[2]);
+    const src = lastOf[m[1]] !== undefined ? lastOf[m[1]]
+              : (aliasBase && aliasBase[m[1]] !== undefined ? canonScalar(aliasBase[m[1]]) : m[2]);
     return src === undefined ? v : deref(String(v).replace(m[0], String(src).trim()), depth + 1);
   };
-  for (const k of Object.keys(out)) out[k] = normaliseColour(deref(out[k]));
+
+  const out = {};
+  for (const k of Object.keys(raw)) {
+    out[k] = [...new Set(raw[k].map(v => normaliseColour(deref(v))))];
+  }
   return out;
 }
 
-// #666 and #666666 and rgb(102,102,102) are the same colour. A raw string compare
-// reported all three as drift against each other, which would have made the guard
-// cry wolf and get suppressed.
+// CANON stores arrays; alias resolution wants a single value.
+function canonScalar(v) { return Array.isArray(v) ? v[v.length - 1] : v; }
+
 function normaliseColour(v) {
   const t = v.trim().toLowerCase();
   let m = t.match(/^#([0-9a-f]{3})$/);
@@ -137,11 +162,13 @@ for (const f of files) {
   // guarded token. The previous version applied this only to self-contained pages, which
   // meant exactly one page on the site was checked; a linked page overriding
   // --text-muted is if anything more clearly drift, and it exited 0.
-  const own = collectVars(content, CANON);
-  for (const [name, val] of Object.entries(own)) {
+  const own = collectVars(content, CANON, f.endsWith('.html'));
+  for (const [name, vals] of Object.entries(own)) {
     if (!GUARDED.test(name) || CANON[name] === undefined) continue;
-    if (val !== CANON[name]) {
-      paletteDrift.push(`${relF} — ${name}: ${val} but shared.css says ${CANON[name]} (palette drift; a page must not hold its own value for a guarded token)`);
+    for (const val of vals) {
+      if (!CANON[name].includes(val)) {
+        paletteDrift.push(`${relF} — ${name}: ${val} but shared.css says ${CANON[name].join(' / ')} (palette drift; a page must not hold its own value for a guarded token)`);
+      }
     }
   }
 }

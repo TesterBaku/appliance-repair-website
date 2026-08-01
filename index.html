@@ -267,7 +267,9 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <style>
     /* ── HOMEPAGE-SPECIFIC OVERRIDES ────────────────────── */
-    /* Rules identical to shared.css are removed; shared.css is now linked */
+    /* NOTE: index.html is SELF-CONTAINED and links NO stylesheet. Every token it uses
+       must be declared in the :root above. Keeping guarded tokens in step with
+       shared.css is enforced by the palette-drift check in test/css-vars.js. */
 
     /* Nav height differs on homepage (70px vs 52px on inner pages) */
     .nav-inner { height: 70px; }
