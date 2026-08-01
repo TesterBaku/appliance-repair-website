@@ -943,7 +943,22 @@ if (run('faq-schema-presence')) {
     const n = Math.max(items, qs);
     if (n < 3) continue;
     checked['faq-schema-presence'].pages++;
-    if (!/"@type":\s*"FAQPage"/.test(content)) {
+    // Parse the JSON-LD rather than substring-match: this codebase already ships
+    // "@type": ["CollectionPage", "ImageGallery"], so a future ["FAQPage", ...] would
+    // evade a raw string test. Copilot flagged this on PR #659.
+    let hasFaqPage = false;
+    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; }
+      const walk = (node) => {
+        if (Array.isArray(node)) return node.forEach(walk);
+        if (!node || typeof node !== 'object') return;
+        const t = node['@type'];
+        if (t === 'FAQPage' || (Array.isArray(t) && t.includes('FAQPage'))) hasFaqPage = true;
+        for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v);
+      };
+      walk(parsed);
+    }
+    if (!hasFaqPage) {
       issues.push(`[FAQ-SCHEMA] ${rel(filePath)} — renders ${n} FAQ accordion items but has no FAQPage JSON-LD node, so the rich result is lost. Add one, matching the visible copy verbatim (see the faq-jsonld-parity check).`);
     }
   }

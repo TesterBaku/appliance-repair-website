@@ -535,9 +535,10 @@ const CONTRAST_PROBE = () => {
   //   4. replaced elements — text over a real <img> (.article-hero-img) has no
   //      CSS-knowable backdrop; it must be skipped, not walked past
   // Together those four accounted for ~1,580 of the first run's 1,614 "failures".
+  let sweptScored = 0;
   const sweep = () => {
     const GLYPH = /^[\s\p{Extended_Pictographic}★☆←-⇿✀-➿️‍]+$/u;
-    for (const el of document.querySelectorAll('main *, footer *, nav *')) {
+    for (const el of document.querySelectorAll('body *')) {
       const own = [...el.childNodes].filter(n => n.nodeType === 3 && n.textContent.trim().length > 1);
       if (!own.length) continue;
       const txt = own.map(n => n.textContent).join(' ').trim();
@@ -570,6 +571,7 @@ const CONTRAST_PROBE = () => {
         if (bc.a > 0) acc = flatten(bc, acc);
       }
       if (unknown) continue;
+      sweptScored++;
       const size = parseFloat(cs.fontSize);
       const weight = parseInt(cs.fontWeight, 10) || 400;
       const need = (size >= 24 || (size >= 18.66 && weight >= 700)) ? 3 : 4.5;
@@ -598,15 +600,22 @@ const CONTRAST_PROBE = () => {
     if (!bgs) out.push({ label: '.btn-white-outline border (UNRESOLVED image backdrop)', r: 0, need: 3 });
     else for (const bg of bgs) out.push({ label: '.btn-white-outline border', r: ratio(flatten(border, bg), bg), need: 3 });
   }
-  return out;
+  return { rows: out, sweptScored };
 };
 
 for (const url of CONTRAST_PAGES) {
   test(`WCAG AA contrast: ${url}`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 12000 });  // elementsFromPoint needs elements IN the viewport
     await page.goto(url);
-    const rows = await page.evaluate(CONTRAST_PROBE);
-    expect(rows.length).toBeGreaterThan(0);   // guard: never pass on zero probes
+    const { rows, sweptScored } = await page.evaluate(CONTRAST_PROBE);
+    // Two separate guards, because they fail differently.
+    // rows only ever grows on FAILURE, so it says nothing about whether the sweep ran.
+    // sweptScored counts elements actually measured: if the selector stops matching, or
+    // every element resolves to an unknown backdrop, this floor catches it. Without it
+    // the sweep can silently stop working and the test still passes on the named anchors
+    // alone — proven in the PR #659 review by pointing it at a nonexistent selector.
+    expect(rows.length).toBeGreaterThan(0);         // named anchors resolved
+    expect(sweptScored).toBeGreaterThan(50);        // the sweep genuinely measured elements
     const failures = rows
       .filter(r => r.r < r.need)
       .map(r => `${r.label}: ${r.r.toFixed(2)}:1 (needs ${r.need}:1)`);
