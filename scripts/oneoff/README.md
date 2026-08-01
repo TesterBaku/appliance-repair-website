@@ -53,3 +53,20 @@ never a blanket literal replace, because `#e84c1e` is also used for borders and 
 surfaces that legitimately pass at 3:1. White-on-brand darkens the background to `#cc3d12`;
 brand-on-light darkens the text to `#aa3210`. Superseded by the `contrast-aa` check in
 `npm test`; kept for provenance.
+
+## `fix-wcag-contrast-round3-2026-08-01.js` (PR #659)
+Third WCAG AA pass, P6-15 cross-rule bucket: a `color` in one rule against a `background` in
+another, which no static scanner can resolve. Rewrites TEXT COLOUR ONLY, with a `(?<!-)color:`
+anchor — without it the lazy match lands inside `border-color:` and inverts the fix, which is
+exactly what happened to `.filter-pill:hover` in #658. 306 `#e84c1e`, 204 `#767676`, 26 `#888`,
+8 `#059669`. ⚠️ Its blind spot is the reason two regressions had to be reverted: it cannot know
+what sits BEHIND the text, so it darkened links that live on the dark `.inline-cta` gradient.
+Always re-run `sweep-rendered-contrast` after it.
+
+## `sweep-rendered-contrast-2026-08-01.mjs` (PR #659)
+Investigative sweep behind P6-15. Loads every page in a headless browser and measures the REAL
+painted contrast of every element owning visible text, compositing the actual paint stack via
+`elementsFromPoint`. Requires a running server on :8788 (`node test/serve.js`). Not a gate — the
+gate is the equivalent probe in `test/functional.spec.js`; this is the whole-site version for
+investigation. Handles the four false-positive classes documented in P6-15 (sibling overlays, own
+background, off-viewport, replaced elements); without all four it reports mostly noise.

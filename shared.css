@@ -7,12 +7,12 @@
   --text-primary: #111;
   --text-body:    #000000e6;
   --text-sub:     #666;
-  --text-muted:   #767676;
-  --text-faint:   #767676;
+  --text-muted:   #666666;   /* was #767676: 4.54:1 on white but only 4.33:1 on --bg (#f7fafc), which is where it mostly sits. #666666 is 5.74/5.48:1. */
+  --text-faint:   #666666;
   --text-dim:     #444;
   --text-dark:    #222;
   --text-soft:    #333;
-  --text-inactive:#767676;
+  --text-inactive:#666666;
   --bg:           #f7fafc;
   --surface:      #fff;
   --border:       #eee;

@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Fifteen enforced checks (EXIT 1 on any failure) plus one informational report
+ * Sixteen enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -127,6 +127,14 @@
  *                    probes in test/functional.spec.js; the deferred count is
  *                    printed in the summary so the gap stays a known number.
  *
+ *   faq-schema-presence — any page rendering >=3 FAQ accordion items must carry a
+ *                    FAQPage JSON-LD node. faq-jsonld-parity compares the two when
+ *                    BOTH exist, so deleting the whole schema block passed it clean.
+ *                    Presence is a different assertion from parity, hence a separate
+ *                    check rather than a muddier one. Added 2026-08-01 (P6-13, raised
+ *                    in the PR #656 review). All 137 FAQ pages already comply, so it
+ *                    ships green as a pure regression guard.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -135,7 +143,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all fifteen enforced checks + the report
+ *   node test/content-integrity.js          — run all sixteen enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -144,6 +152,7 @@
  *                                             footer-self-contained, iso8601-timestamps,
  *                                             article-mobile-chrome, non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
+ *                                             faq-schema-presence,
  *                                             title-length)
  */
 
@@ -911,6 +920,35 @@ if (run('contrast-aa')) {
   }
 }
 
+// ── Check 16: faq-schema-presence ─────────────────────────────────────────────
+// Any page rendering a real FAQ accordion (>=3 items) must carry a FAQPage
+// JSON-LD node.
+//
+// P6-13, raised in the PR #656 review. `faq-jsonld-parity` compares the two when
+// BOTH exist, so deleting an entire FAQPage block passes it clean — "did you
+// delete your schema" is a presence assertion, not a parity assertion, and
+// folding it into the parity check would muddy a clean abstraction. All 137 FAQ
+// pages already comply, so this ships green: it is purely a regression guard
+// against a future edit silently dropping the rich result.
+//
+// The >=3 floor is deliberate. A page with one or two collapsible blocks may be
+// using the accordion for something that is not a FAQ, and Google's own guidance
+// is that FAQPage is for genuine question/answer content.
+if (run('faq-schema-presence')) {
+  checked['faq-schema-presence'] = { pages: 0 };
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const items = (content.match(/class="[^"]*\bfaq-item\b/g) || []).length;
+    const qs = (content.match(/class="[^"]*\bfaq-q\b/g) || []).length;
+    const n = Math.max(items, qs);
+    if (n < 3) continue;
+    checked['faq-schema-presence'].pages++;
+    if (!/"@type":\s*"FAQPage"/.test(content)) {
+      issues.push(`[FAQ-SCHEMA] ${rel(filePath)} — renders ${n} FAQ accordion items but has no FAQPage JSON-LD node, so the rich result is lost. Add one, matching the visible copy verbatim (see the faq-jsonld-parity check).`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -954,6 +992,7 @@ if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ o
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
 if (checked['contrast-aa'])          parts.push(`WCAG AA contrast on ${checked['contrast-aa'].pairs} same-rule colour pairs across ${checked['contrast-aa'].files} files, var() resolved (${checked['contrast-aa'].skippedVar} rgba()/keyword rules unresolvable; cross-rule + inline-style pairs NOT covered, see P6-15)`);
+if (checked['faq-schema-presence']) parts.push(`FAQPage schema present on all ${checked['faq-schema-presence'].pages} pages with a real FAQ accordion`);
 if (checked['faq-jsonld-parity']) {
   const c = checked['faq-jsonld-parity'];
   parts.push(`FAQ/JSON-LD parity ratchet held on ${c.pairs} Q&A pairs across ${c.files} pages (debt measured ${c.measuredFields} fields in ${c.measuredFiles} files, baseline declares ${c.baselineFields}/${c.baselineFiles}, see P6-12)`);

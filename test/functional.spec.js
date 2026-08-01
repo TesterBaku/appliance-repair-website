@@ -519,6 +519,68 @@ const CONTRAST_PROBE = () => {
     // the same false-pass shape as the alpha bug this guard was fixed for.
     for (const bg of bgs) out.push({ label, r: ratio(flatten(fg, bg), bg), need });
   };
+  // P6-15: sweep EVERY element that owns visible text, not a hardcoded selector list.
+  // The list below stays as named regression anchors; this catches the rest.
+  //
+  // Backdrop resolution uses elementsFromPoint and composites the real paint stack,
+  // because a DOM-ancestor walk cannot see how this site actually paints. Four
+  // false-positive classes had to be closed before the numbers meant anything:
+  //   1. sibling overlays — the hub hero paints via absolutely-positioned .hub-hero-bg
+  //      / .hub-hero-overlay siblings, so an ancestor walk finds nothing and reports
+  //      white-on-white at 1:1
+  //   2. the element's OWN background — skipping it reported .nav-cta (white on brand)
+  //      as 1.02:1
+  //   3. off-viewport elements — elementsFromPoint needs the element in the viewport,
+  //      hence the tall viewport below
+  //   4. replaced elements — text over a real <img> (.article-hero-img) has no
+  //      CSS-knowable backdrop; it must be skipped, not walked past
+  // Together those four accounted for ~1,580 of the first run's 1,614 "failures".
+  const sweep = () => {
+    const GLYPH = /^[\s\p{Extended_Pictographic}★☆←-⇿✀-➿️‍]+$/u;
+    for (const el of document.querySelectorAll('main *, footer *, nav *')) {
+      const own = [...el.childNodes].filter(n => n.nodeType === 3 && n.textContent.trim().length > 1);
+      if (!own.length) continue;
+      const txt = own.map(n => n.textContent).join(' ').trim();
+      if (GLYPH.test(txt)) continue;
+      const cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden' || cs.display === 'none' || parseFloat(cs.opacity) === 0) continue;
+      const rects = el.getClientRects();
+      if (!rects.length) continue;
+      const r0 = rects[0];
+      if (r0.width < 2 || r0.height < 2) continue;
+      const stack = document.elementsFromPoint(
+        Math.round(r0.left + r0.width / 2), Math.round(r0.top + Math.min(r0.height / 2, 8)));
+      if (!stack.length) continue;
+      const i = stack.indexOf(el);
+      const under = (i >= 0 ? stack.slice(i) : stack).reverse();
+      let acc = [255, 255, 255], unknown = false;
+      for (const n of under) {
+        if (/^(IMG|VIDEO|SVG|CANVAS|PICTURE)$/.test(n.tagName)) { unknown = true; break; }
+        const ncs = getComputedStyle(n), bi = ncs.backgroundImage;
+        if (bi && /url\(/.test(bi)) { unknown = true; break; }
+        if (bi && bi.includes('gradient')) {
+          const st = (bi.match(/rgba?\([^)]+\)/g) || []).map(parse);
+          if (st.length) {           // keep the LIGHTEST stop: worst case for light text
+            let w = null, wl = -1;
+            for (const s of st) { const c = flatten(s, acc); const l = L(c); if (l > wl) { wl = l; w = c; } }
+            acc = w; continue;
+          }
+        }
+        const bc = parse(ncs.backgroundColor);
+        if (bc.a > 0) acc = flatten(bc, acc);
+      }
+      if (unknown) continue;
+      const size = parseFloat(cs.fontSize);
+      const weight = parseInt(cs.fontWeight, 10) || 400;
+      const need = (size >= 24 || (size >= 18.66 && weight >= 700)) ? 3 : 4.5;
+      const r = ratio(flatten(parse(cs.color), acc), acc);
+      if (r < need) {
+        const cls = (el.getAttribute('class') || '').trim().split(/\s+/)[0] || '';
+        out.push({ label: `${el.tagName.toLowerCase()}${cls ? '.' + cls : ''} "${txt.slice(0, 30)}"`, r, need });
+      }
+    }
+  };
+
   text('.cta-box p', 4.5, '.cta-box p');
   text('.cta-box h2', 3, '.cta-box h2 (large text)');
   text('.footer-bottom', 4.5, '.footer-bottom');
@@ -528,6 +590,7 @@ const CONTRAST_PROBE = () => {
   text('.sticky-call', 4.5, '.sticky-call (mobile Call button label)');
   text('.inline-cta p', 4.5, '.inline-cta p');
   text('.inline-cta a', 4.5, '.inline-cta a');
+  sweep();
   const bo = document.querySelector('.btn-white-outline');
   if (bo) {
     const border = parse(getComputedStyle(bo).borderTopColor);
@@ -540,6 +603,7 @@ const CONTRAST_PROBE = () => {
 
 for (const url of CONTRAST_PAGES) {
   test(`WCAG AA contrast: ${url}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 12000 });  // elementsFromPoint needs elements IN the viewport
     await page.goto(url);
     const rows = await page.evaluate(CONTRAST_PROBE);
     expect(rows.length).toBeGreaterThan(0);   // guard: never pass on zero probes
