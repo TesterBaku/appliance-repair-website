@@ -535,7 +535,28 @@ const CONTRAST_PROBE = () => {
   //   4. replaced elements — text over a real <img> (.article-hero-img) has no
   //      CSS-knowable backdrop; it must be skipped, not walked past
   // Together those four accounted for ~1,580 of the first run's 1,614 "failures".
-  let sweptScored = 0, textOwning = 0;
+  let sweptScored = 0;
+  // Denominator computed over body * UNCONDITIONALLY, independent of the sweep's own
+  // scope. Counting it inside the scoped loop made the ratio scope-invariant by
+  // construction — narrowing the scope narrowed both terms, so the ratio could not fall
+  // and the only thing catching an under-scoping regression was the absolute floor on
+  // the denominator. Measured in the PR #659 review: ratio caught 0 of 6 pages.
+  const textOwningTotal = () => {
+    const GLYPH2 = /^[\s\p{Extended_Pictographic}★☆←-⇿✀-➿️‍]+$/u;
+    let n = 0;
+    for (const el of document.querySelectorAll('body *')) {
+      const own = [...el.childNodes].filter(x => x.nodeType === 3 && x.textContent.trim().length > 1);
+      if (!own.length) continue;
+      if (GLYPH2.test(own.map(x => x.textContent).join(' ').trim())) continue;
+      const cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden' || cs.display === 'none' || parseFloat(cs.opacity) === 0) continue;
+      const r = el.getClientRects();
+      if (!r.length || r[0].width < 2 || r[0].height < 2) continue;
+      n++;
+    }
+    return n;
+  };
+  const textOwning = textOwningTotal();
   const sweep = () => {
     const GLYPH = /^[\s\p{Extended_Pictographic}★☆←-⇿✀-➿️‍]+$/u;
     for (const el of document.querySelectorAll('body *')) {
@@ -549,7 +570,6 @@ const CONTRAST_PROBE = () => {
       if (!rects.length) continue;
       const r0 = rects[0];
       if (r0.width < 2 || r0.height < 2) continue;
-      textOwning++;   // visible, laid out, and carrying real text: the honest denominator
       const stack = document.elementsFromPoint(
         Math.round(r0.left + r0.width / 2), Math.round(r0.top + Math.min(r0.height / 2, 8)));
       if (!stack.length) continue;
@@ -619,11 +639,11 @@ for (const url of CONTRAST_PAGES) {
     // `rows` is populated by the named text() anchors on every run, pass or fail, so a
     // non-empty rows array only proves those anchors resolved — it says nothing about
     // whether the sweep ran at all.
-    // `sweptScored` counts elements the sweep actually measured. A RATIO, not an absolute:
-    // an absolute floor caught the `main *` scope bug only by luck, because 5 of the 6
-    // probed pages still scored well over it while an article scored 44 of 227. Comparing
-    // against the page's own text-owning count catches an under-scoping regression on
-    // every page rather than on whichever one happens to be small.
+    // `sweptScored` counts elements the sweep measured; `textOwning` counts every
+    // text-owning element on the page, computed over `body *` regardless of the sweep's
+    // scope. That independence is the whole point: an earlier version counted the
+    // denominator inside the scoped loop, which made the ratio scope-invariant and
+    // therefore blind to exactly the under-scoping bug it was added to catch.
     expect(rows.length).toBeGreaterThan(0);                       // named anchors resolved
     expect(textOwning).toBeGreaterThan(50);                       // the page really has text
     expect(sweptScored / textOwning).toBeGreaterThan(0.75);       // and the sweep saw most of it

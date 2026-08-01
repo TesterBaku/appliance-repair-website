@@ -64,12 +64,59 @@ const paletteDrift   = [];
 // #666666. Nothing noticed, because it links no stylesheet to drift FROM. Found in the
 // PR #659 review, where DESIGN.md had just been rewritten to assert those tokens all
 // resolve to Dust — an invariant the highest-traffic page violated.
-const rootBlock = (fs.readFileSync(path.join(root, 'shared.css'), 'utf8').match(/:root\s*\{([\s\S]*?)\}/) || [, ''])[1];
-const CANON = {};
-for (const d of rootBlock.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) CANON[d[1]] = d[2].trim();
-// Tokens whose value carries an accessibility or brand guarantee. A self-contained page
-// may add its own tokens freely; it may not hold a DIFFERENT value for one of these.
+// Canonical values from shared.css. Collected from EVERY rule that declares custom
+// properties, not just the first `:root {` substring — see the collector below for why.
+const CANON_RAW = collectVars(fs.readFileSync(path.join(root, 'shared.css'), 'utf8'));
+const CANON = CANON_RAW;
+
+// Tokens whose value carries an accessibility or brand guarantee. A page may add its own
+// tokens freely; it may not hold a DIFFERENT value for one of these.
 const GUARDED = /^--(text|brand|footer|bg|surface|border)/;
+
+// Collect custom-property declarations from ALL rules in a stylesheet or <style> block.
+//
+// An earlier version matched only /:root\s*\{([\s\S]*?)\}/ — first match, `{` required
+// immediately after `:root`, everything else ignored. The PR #659 review proved four
+// evasions that each changed the painted colour while the check exited 0:
+//   body { --text-muted: … }          (any selector other than :root)
+//   a SECOND :root block later on
+//   :root inside @media (max-width:768px)
+//   :root, html { … }                 (selector list)
+// Custom properties cascade like any other declaration, so the selector is irrelevant to
+// whether the value drifts. Collect them all.
+function collectVars(css, aliasBase) {
+  const out = {};
+  // strip comments so a commented-out declaration cannot register
+  const clean = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  for (const m of clean.matchAll(/(--[\w-]+)\s*:\s*([^;{}]+)[;}]/g)) {
+    out[m[1]] = m[2].trim();
+  }
+  // Resolve alias chains before normalising: shared.css declares
+  // `--brand-text: var(--brand-deeper)`, so a page writing the literal #aa3210 has the
+  // SAME resolved colour and must not be reported as drift. Falls back to the page's own
+  // map first, then the canonical one, so a self-contained page can alias its own tokens.
+  const deref = (v, depth = 0) => {
+    if (depth > 8) return v;
+    const m = String(v).match(/var\(\s*(--[\w-]+)\s*(?:,\s*([^)]+))?\)/);
+    if (!m) return v;
+    const src = out[m[1]] !== undefined ? out[m[1]] : (aliasBase && aliasBase[m[1]] !== undefined ? aliasBase[m[1]] : m[2]);
+    return src === undefined ? v : deref(String(v).replace(m[0], String(src).trim()), depth + 1);
+  };
+  for (const k of Object.keys(out)) out[k] = normaliseColour(deref(out[k]));
+  return out;
+}
+
+// #666 and #666666 and rgb(102,102,102) are the same colour. A raw string compare
+// reported all three as drift against each other, which would have made the guard
+// cry wolf and get suppressed.
+function normaliseColour(v) {
+  const t = v.trim().toLowerCase();
+  let m = t.match(/^#([0-9a-f]{3})$/);
+  if (m) return '#' + m[1].split('').map(c => c + c).join('');
+  m = t.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*1(?:\.0+)?\s*)?\)$/);
+  if (m) return '#' + [1, 2, 3].map(i => (+m[i]).toString(16).padStart(2, '0')).join('');
+  return t;
+}
 
 for (const f of files) {
   const content = fs.readFileSync(f, 'utf8');
@@ -79,20 +126,22 @@ for (const f of files) {
   const relF = path.relative(root, f).split(path.sep).join('/');
   if (relF === 'shared.css') continue;
 
+  // A page that LINKS shared.css must not re-declare --brand* at all (drift risk).
   if (LINKS_SHARED.test(content)) {
-    // A page that LINKS shared.css must not also re-declare --brand* (drift risk).
     for (const [, v] of content.matchAll(BRAND_DEF_RE)) {
       brandOffenders.push(`${relF} — re-declares ${v} while linking shared.css (drift risk; remove the override and use var(${v}))`);
     }
-  } else {
-    // Self-contained page: its own copy of a guarded token must match shared.css.
-    const own = (content.match(/:root\s*\{([\s\S]*?)\}/) || [, ''])[1];
-    for (const d of own.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) {
-      const [, name, val] = d;
-      if (!GUARDED.test(name) || CANON[name] === undefined) continue;
-      if (val.trim() !== CANON[name]) {
-        paletteDrift.push(`${relF} — ${name}: ${val.trim()} but shared.css says ${CANON[name]} (self-contained page holding a stale palette value)`);
-      }
+  }
+
+  // And EVERY page — linked or self-contained — must not hold a different value for a
+  // guarded token. The previous version applied this only to self-contained pages, which
+  // meant exactly one page on the site was checked; a linked page overriding
+  // --text-muted is if anything more clearly drift, and it exited 0.
+  const own = collectVars(content, CANON);
+  for (const [name, val] of Object.entries(own)) {
+    if (!GUARDED.test(name) || CANON[name] === undefined) continue;
+    if (val !== CANON[name]) {
+      paletteDrift.push(`${relF} — ${name}: ${val} but shared.css says ${CANON[name]} (palette drift; a page must not hold its own value for a guarded token)`);
     }
   }
 }
@@ -116,12 +165,12 @@ if (brandOffenders.length) {
 }
 
 if (paletteDrift.length) {
-  console.error(`css-vars: ${paletteDrift.length} stale palette value(s) on self-contained page(s):`);
+  console.error(`css-vars: ${paletteDrift.length} palette drift(s):`);
   paletteDrift.forEach(v => console.error('  ' + v));
-  console.error('\nA self-contained page copies the palette instead of linking it, so it must be updated whenever shared.css changes a guarded token.');
+  console.error('\nA page must not hold its own value for a guarded token. Self-contained pages copy the palette and must be updated when shared.css changes; linked pages should drop the override and inherit.');
   failed = true;
 }
 
 if (failed) process.exit(1);
 
-console.log(`css-vars: ${used.size} variables used, all defined; no --brand* overrides on shared.css-linked pages; no stale palette values on self-contained pages. OK`);
+console.log(`css-vars: ${used.size} variables used, all defined; no --brand* overrides on shared.css-linked pages; no palette drift on any page. OK`);

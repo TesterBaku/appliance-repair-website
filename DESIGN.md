@@ -133,7 +133,7 @@ A committed palette: one saturated accent on a cool-tinted light field, grounded
 - **Workshop Charcoal** (`#444444`): Long-form quotes (testimonials). Dark enough for authority, softer than Pressed Steel.
 - **Dust** (`#666666`): Secondary body copy and metadata alike: descriptions, section subheads, supporting text, testimonial roles, bylines, timestamps. **5.74:1 on white, 5.48:1 on Coastal Mist.** This is the floor for any text that carries meaning.
   - ⚠️ **Chalk (`#767676`) is NOT a valid text colour.** It measures 4.54:1 on pure white, which reads as passing, but only **4.33:1 on Coastal Mist (`#f7fafc`)** — and Coastal Mist is where most secondary text on this site actually sits. That gap put 204 declarations under the AA floor. Corrected 2026-08-01 (PR #659); `--text-muted`, `--text-faint` and `--text-inactive` all now resolve to Dust. Chalk survives only as a non-text value (borders, decorative fills).
-- **Ghost** (`#aaaaaa`): Inactive UI elements: FAQ accordion icon, dropdown arrows, button outlines in hover. Never for text that carries meaning.
+- **Ghost** (`#aaaaaa`): Inactive UI elements: decorative dividers and disabled states, button outlines in hover. Never for text that carries meaning.
 - **Linen** (`#eeeeee`): Borders and nav separators. Barely-there boundary lines.
 - **Night Workshop** (`#090909`): Footer background. Deep near-black with a faint warm undertone. Paired with footer-mist text for ~9:1 contrast.
 - **Footer Mist** (`#999999`): All footer text on Night Workshop. Light enough to read, muted enough to recede.
@@ -228,7 +228,7 @@ Question buttons use `aria-expanded` (true/false) and `aria-controls` pointing t
 - **Do** drive heading hierarchy with weight contrast (800 vs 700 vs 400) before reaching for size increases. Keep the type scale compact.
 - **Do** keep card shadows ambient and low-opacity. The shadow scale tops out at `rgba(0,0,0,0.08)` for standard surfaces. Reserve the 0.5-opacity Dark Feature shadow for the letter card only.
 - **Do** maintain a `min-height: 44px` on all interactive elements at mobile viewports. Anything smaller fails the stressed-homeowner-on-mobile test.
-- **Do** use Ghost (`#aaaaaa`) for decorative/inactive UI elements (icons, arrows) and **Dust (`#666666`)** minimum for any text that carries meaning. Never let secondary text drop below 4.5:1. Check the ratio against the background it will actually sit on, not against white: Chalk (`#767676`) passes on white and fails on Coastal Mist, which is exactly how 204 declarations slipped under the floor.
+- **Do** use Ghost (`#aaaaaa`) only for genuinely decorative, non-informational marks. Note the FAQ accordion icon and dropdown arrows are driven by `--text-inactive`, which is now Dust `#666666`, not Ghost. Use **Dust (`#666666`)** minimum for any text that carries meaning. Never let secondary text drop below 4.5:1. Check the ratio against the background it will actually sit on, not against white: Chalk (`#767676`) passes on white and fails on Coastal Mist, which is exactly how 204 declarations slipped under the floor.
 - **Do** let the sticky mobile bar be the persistent conversion anchor on mobile. Its presence means the headline CTA doesn't need to over-compete for attention.
 - **Do** include `aria-expanded`, `aria-controls`, and keyboard event handlers on any element with toggled visibility (dropdowns, accordions, drawers).
 - **Do** write `prefers-reduced-motion: reduce` overrides for every CSS `transition` in shared.css. Motion is enhancement, not requirement.
