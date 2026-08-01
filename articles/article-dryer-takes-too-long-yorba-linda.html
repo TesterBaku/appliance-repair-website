@@ -44,7 +44,7 @@
     .nav-cta { background: #cc3d12; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; }
     .article-hero { padding-top: 70px; position: relative; overflow: hidden; }
     .article-hero-img { width: 100%; height: 460px; object-fit: cover; display: block; }
-    .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.72) 100%); }
+    .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%); }
     .article-wrap { max-width: 760px; margin: 0 auto; padding: 56px 24px 80px; }
     .article-intro { font-size: 17px; color: #555; line-height: 1.85; margin-bottom: 40px; background: #fff7f4; border: 1px solid rgba(232,76,30,0.18); border-radius: 12px; padding: 20px 22px; }
     .article-body h2 { font-size: 22px; font-weight: 700; color: #111; letter-spacing: -0.3px; margin: 44px 0 14px; }
@@ -55,16 +55,16 @@
     .callout { background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #9a3412; line-height: 1.75; }
     .callout-blue { background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #1e40af; line-height: 1.75; }
     .inline-cta { background: linear-gradient(135deg, #cc3d12, #9e300a); border-radius: 16px; padding: 32px; margin: 40px 0; color: #fff; text-align: center; }
-    .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
     .inline-cta p { font-size: 13px; color: #fff; margin-bottom: 20px; line-height: 1.6; }
     .inline-cta p a { display: inline; background: transparent; color: #fff; padding: 0; border-radius: 0; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
     .inline-cta a { display: inline-block; background: #fff; color: #aa3210; font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 8px; text-decoration: none; }
     .inline-cta p a { display: inline; background: transparent; color: #fff; padding: 0; border-radius: 0; text-decoration: underline; text-underline-offset: 3px; }
-    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #767676; margin-bottom: 28px; flex-wrap: wrap; }
-    .breadcrumb a { color: #767676; text-decoration: none; }
-    .breadcrumb a:hover { color: #e84c1e; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #666666; margin-bottom: 28px; flex-wrap: wrap; }
+    .breadcrumb a { color: #666666; text-decoration: none; }
+    .breadcrumb a:hover { color: #aa3210; }
     .article-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-    .meta-tag { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; }
+    .meta-tag { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.45); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; }
     .faq-item { border-bottom: 1px solid #eee; padding: 24px 0; }
     .faq-item:last-child { border-bottom: none; }
     .faq-q { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 10px; }
@@ -101,7 +101,7 @@
     .nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 10px); left: -12px; background: #fff; border: 1px solid #eee; border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,0.1); padding: 6px 0; min-width: 190px; z-index: 300; }
     .nav-dropdown-menu a { display: block !important; padding: 9px 18px !important; font-size: 12.5px !important; color: #444 !important; text-decoration: none; white-space: nowrap; font-weight: 400 !important; }
     .nav-dropdown-menu a:hover { background: #f7fafc !important; color: #111 !important; font-weight: 500 !important; }
-    .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: #e84c1e !important; font-weight: 600 !important; }
+    .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: #aa3210 !important; font-weight: 600 !important; }
   
     @media (max-width: 768px) {
       .inline-cta a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
@@ -359,8 +359,8 @@
       <div style="max-width:760px;margin:0 auto;">
         <div class="article-meta" style="margin-bottom:16px;">
           <span class="meta-tag">Dryer Repair</span>
-          <span style="font-size:12px;color:rgba(255,255,255,0.75);">April 28, 2026</span>
-          <span style="font-size:12px;color:rgba(255,255,255,0.75);">6 min read</span>
+          <span style="font-size:12px;color:#fff;">April 28, 2026</span>
+          <span style="font-size:12px;color:#fff;">6 min read</span>
         </div>
         <h1 style="font-size:36px;font-weight:800;letter-spacing:-1px;color:#fff;line-height:1.15;">Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda</h1>
       </div>
@@ -464,7 +464,7 @@
     </div>
 
     <div style="margin-top:60px;">
-      <div style="font-size:11px;font-weight:700;color:#767676;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;">Related Articles</div>
+      <div style="font-size:11px;font-weight:700;color:#666666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;">Related Articles</div>
       <div class="related-grid">
         <a href="article-dryer-not-heating-santa-ana.html" class="related-card">
           <img src="../images/real/business/completed-repair-dryer-lg-not-heating-santa-ana.jpg" alt="Dryer not heating repair Santa Ana CA" width="1200" height="1797" loading="lazy">

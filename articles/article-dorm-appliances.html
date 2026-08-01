@@ -43,7 +43,7 @@
     .nav-cta { background: #cc3d12; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; }
     .article-hero { padding-top: 70px; position: relative; overflow: hidden; }
     .article-hero-img { width: 100%; height: 480px; object-fit: cover; display: block; }
-    .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%); }
+    .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%); }
     .article-wrap { max-width: 760px; margin: 0 auto; padding: 56px 24px 80px; }
     .article-intro { font-size: 17px; color: #444; line-height: 1.85; margin-bottom: 40px; background: #fff7f4; border: 1px solid rgba(232,76,30,0.18); border-radius: 12px; padding: 20px 22px; }
     .article-body h2 { font-size: 22px; font-weight: 700; color: #111; letter-spacing: -0.3px; margin: 44px 0 14px; }
@@ -66,14 +66,14 @@
     .safety-table td { font-size: 13px; color: #444; padding: 12px 16px; border-bottom: 1px solid #f8f8f8; }
     .safety-table tr:last-child td { border-bottom: none; }
     .inline-cta { background: linear-gradient(135deg, #cc3d12, #9e300a); border-radius: 16px; padding: 32px; margin: 40px 0; color: #fff; text-align: center; }
-    .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
     .inline-cta p { font-size: 13px; color: #fff; margin-bottom: 20px; line-height: 1.6; }
     .inline-cta a.cta-btn { display: inline-block; background: #fff; color: #aa3210; font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 8px; text-decoration: none; }
     .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #666; margin-bottom: 28px; flex-wrap: wrap; }
     .breadcrumb a { color: #666; text-decoration: none; }
-    .breadcrumb a:hover { color: #e84c1e; }
+    .breadcrumb a:hover { color: #aa3210; }
     .article-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-    .meta-tag { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; }
+    .meta-tag { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.45); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; }
     .related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 32px; }
     .related-card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); text-decoration: none; }
     .related-card img { width: 100%; height: 140px; object-fit: cover; display: block; }
@@ -113,7 +113,7 @@
     .faq-a { padding: 0 22px 18px; font-size: 14px; color: #444; line-height: 1.8; display: none; text-align: left; }
     .faq-item.open .faq-a { display: block; }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
-    .faq-icon { display: inline-block; transition: transform 0.2s; flex-shrink: 0; font-style: normal; font-size: 20px; color: #e84c1e; line-height: 1; }
+    .faq-icon { display: inline-block; transition: transform 0.2s; flex-shrink: 0; font-style: normal; font-size: 20px; color: #aa3210; line-height: 1; }
     /* HAMBURGER NAV */
     .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0; width: 44px; height: 44px; align-items: center; justify-content: center; flex-direction: column; gap: 5px; flex-shrink: 0; }
     .nav-hamburger span { display: block; width: 22px; height: 2px; background: #111; border-radius: 2px; transition: transform 0.2s, opacity 0.2s; }
@@ -396,7 +396,7 @@
       <div style="max-width:760px;margin:0 auto;">
         <div class="article-meta" style="margin-bottom:16px;">
           <span class="meta-tag">Buying Guide</span>
-          <span style="font-size:12px;color:rgba(255,255,255,0.75);">Originally published April 2, 2025 &middot; Updated May 2026 by the Universal Appliances Repair team</span>
+          <span style="font-size:12px;color:#fff;">Originally published April 2, 2025 &middot; Updated May 2026 by the Universal Appliances Repair team</span>
         </div>
         <h1 style="font-size:36px;font-weight:800;letter-spacing:-0.8px;color:#fff;line-height:1.15;">The 5 Essential Dorm Room Appliances for 2026: From Appliance Repair Technicians</h1>
       </div>
@@ -458,12 +458,12 @@
         <table style="width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);font-size:13px;">
           <thead>
             <tr style="background:#f8f9fa;">
-              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">#</th>
-              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Appliance</th>
-              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Our Pick</th>
-              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Price</th>
-              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Power Draw</th>
-              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Key Rule</th>
+              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#666666;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">#</th>
+              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#666666;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Appliance</th>
+              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#666666;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Our Pick</th>
+              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#666666;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Price</th>
+              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#666666;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Power Draw</th>
+              <th style="padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:#666666;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid #f0f0f0;">Key Rule</th>
             </tr>
           </thead>
           <tbody>
