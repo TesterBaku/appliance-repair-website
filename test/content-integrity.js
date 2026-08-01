@@ -808,11 +808,13 @@ if (run('faq-jsonld-parity')) {
 // incomplete disclosure reads as an exhaustive one. It inspects the ~1,609 rules
 // that declare BOTH properties in the same block. Blind spots:
 //
-//   1. Cross-rule cascade — 5,455 rules declare only one of the two, so the pair
+//   1. Cross-rule cascade — 5,389 rules declare only one of the two, so the pair
 //      only exists at render time. 203 of them use #e84c1e as a text colour
 //      (.breadcrumb a:hover x71, .nav-dropdown-menu .dropdown-all x69,
 //      .article-toc a x19, .blog-link x8 ...). Tracked as P6-15.
-//   2. Inline style="" — 7,128 attributes, 258 mentioning #e84c1e. Also P6-15.
+//   2. Inline style="" — 7,127 attributes; 40 rendered text nodes actually fail
+//      (258 merely mention #e84c1e, so a bulk replace would hit 218 legitimate
+//      uses). Also P6-15.
 //   3. rgba() and colour keywords, which need compositing / runtime resolution.
 //
 // var() IS resolved (see below), so `var(--brand)` is no longer a hiding place.
