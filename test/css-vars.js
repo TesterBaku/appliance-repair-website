@@ -25,9 +25,17 @@
  *   - a token set at RUNTIME (element.style.setProperty) is invisible here
  *   - a token shared.css does not declare at all is unguarded, so a page can rename
  *     its token and paint anything
- *   - a CSS declaration written inside a JS string literal is still reported, a
- *     known cry-wolf; <script> blocks and HTML comments are stripped, but a
- *     declaration reconstructed at runtime cannot be distinguished statically
+ *
+ * <script> blocks and HTML comments ARE stripped before scanning, so a CSS
+ * declaration written inside a JS string literal is correctly ignored.
+ *
+ * That strip was DEAD CODE for one commit: a literal 0x08 backspace byte had been
+ * written where a backslash-b was intended, so the regex required a backspace
+ * immediately after "<script" and could never match. It rendered correctly in
+ * git diff and to the eye, and re-typing the regex to test it in isolation
+ * produced a real word-boundary escape and appeared to work. Only the probe
+ * matrix, which exercises the shipped file, exposed it. If a strip in this file
+ * ever appears to be ignored, check for control characters first.
  */
 
 'use strict';
@@ -98,7 +106,7 @@ function collectVars(css, aliasBase, isHtml) {
   // guard gets suppressed rather than fixed. Inline style="" attributes ARE live and stay.
   let text = css;
   if (isHtml) {
-    text = text.replace(/<!--[\s\S]*?-->/g, ' ').replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ');
+    text = text.replace(/<!--[\s\S]*?-->/g, ' ').replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ');
   }
   const clean = text.replace(/\/\*[\s\S]*?\*\//g, '');
 
