@@ -535,7 +535,7 @@ const CONTRAST_PROBE = () => {
   //   4. replaced elements — text over a real <img> (.article-hero-img) has no
   //      CSS-knowable backdrop; it must be skipped, not walked past
   // Together those four accounted for ~1,580 of the first run's 1,614 "failures".
-  let sweptScored = 0;
+  let sweptScored = 0, textOwning = 0;
   const sweep = () => {
     const GLYPH = /^[\s\p{Extended_Pictographic}★☆←-⇿✀-➿️‍]+$/u;
     for (const el of document.querySelectorAll('body *')) {
@@ -549,6 +549,7 @@ const CONTRAST_PROBE = () => {
       if (!rects.length) continue;
       const r0 = rects[0];
       if (r0.width < 2 || r0.height < 2) continue;
+      textOwning++;   // visible, laid out, and carrying real text: the honest denominator
       const stack = document.elementsFromPoint(
         Math.round(r0.left + r0.width / 2), Math.round(r0.top + Math.min(r0.height / 2, 8)));
       if (!stack.length) continue;
@@ -600,22 +601,32 @@ const CONTRAST_PROBE = () => {
     if (!bgs) out.push({ label: '.btn-white-outline border (UNRESOLVED image backdrop)', r: 0, need: 3 });
     else for (const bg of bgs) out.push({ label: '.btn-white-outline border', r: ratio(flatten(border, bg), bg), need: 3 });
   }
-  return { rows: out, sweptScored };
+  return { rows: out, sweptScored, textOwning };
 };
 
 for (const url of CONTRAST_PAGES) {
   test(`WCAG AA contrast: ${url}`, async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 12000 });  // elementsFromPoint needs elements IN the viewport
+    // elementsFromPoint only resolves elements INSIDE the viewport, so the viewport has to
+    // cover the whole document. Hardcoding 12000 silently under-measured any taller page
+    // (blog.html is 14,394px), and those elements hit `continue` BEFORE sweptScored++, so
+    // the floor would not have noticed. Derive it.
+    await page.setViewportSize({ width: 1440, height: 2000 });
     await page.goto(url);
-    const { rows, sweptScored } = await page.evaluate(CONTRAST_PROBE);
-    // Two separate guards, because they fail differently.
-    // rows only ever grows on FAILURE, so it says nothing about whether the sweep ran.
-    // sweptScored counts elements actually measured: if the selector stops matching, or
-    // every element resolves to an unknown backdrop, this floor catches it. Without it
-    // the sweep can silently stop working and the test still passes on the named anchors
-    // alone — proven in the PR #659 review by pointing it at a nonexistent selector.
-    expect(rows.length).toBeGreaterThan(0);         // named anchors resolved
-    expect(sweptScored).toBeGreaterThan(50);        // the sweep genuinely measured elements
+    const docH = await page.evaluate(() => document.documentElement.scrollHeight);
+    await page.setViewportSize({ width: 1440, height: Math.min(Math.max(docH + 200, 2000), 30000) });
+    const { rows, sweptScored, textOwning } = await page.evaluate(CONTRAST_PROBE);
+    // Two guards, because they prove different things.
+    // `rows` is populated by the named text() anchors on every run, pass or fail, so a
+    // non-empty rows array only proves those anchors resolved — it says nothing about
+    // whether the sweep ran at all.
+    // `sweptScored` counts elements the sweep actually measured. A RATIO, not an absolute:
+    // an absolute floor caught the `main *` scope bug only by luck, because 5 of the 6
+    // probed pages still scored well over it while an article scored 44 of 227. Comparing
+    // against the page's own text-owning count catches an under-scoping regression on
+    // every page rather than on whichever one happens to be small.
+    expect(rows.length).toBeGreaterThan(0);                       // named anchors resolved
+    expect(textOwning).toBeGreaterThan(50);                       // the page really has text
+    expect(sweptScored / textOwning).toBeGreaterThan(0.75);       // and the sweep saw most of it
     const failures = rows
       .filter(r => r.r < r.need)
       .map(r => `${r.label}: ${r.r.toFixed(2)}:1 (needs ${r.need}:1)`);

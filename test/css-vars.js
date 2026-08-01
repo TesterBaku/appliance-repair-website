@@ -53,18 +53,46 @@ const BRAND_DEF_RE = /(--brand[a-z0-9-]*)\s*:/g;
 const LINKS_SHARED = /<link\b[^>]*\brel="stylesheet"[^>]*\bhref="[^"]*shared\.css"|<link\b[^>]*\bhref="[^"]*shared\.css"[^>]*\brel="stylesheet"/i;
 
 const brandOffenders = [];
+const paletteDrift   = [];
+
+// Canonical :root values from shared.css, used to catch the INVERSE of the brand-drift
+// bug above: a SELF-CONTAINED page (one that never links shared.css, so the guard above
+// deliberately exempts it) quietly holding a stale copy of a shared token.
+//
+// index.html is the only such page, and it held --text-muted: #767676 (4.33:1 on --bg),
+// --text-faint: #999 (2.85:1) and --text-inactive: #aaa long after shared.css moved to
+// #666666. Nothing noticed, because it links no stylesheet to drift FROM. Found in the
+// PR #659 review, where DESIGN.md had just been rewritten to assert those tokens all
+// resolve to Dust — an invariant the highest-traffic page violated.
+const rootBlock = (fs.readFileSync(path.join(root, 'shared.css'), 'utf8').match(/:root\s*\{([\s\S]*?)\}/) || [, ''])[1];
+const CANON = {};
+for (const d of rootBlock.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) CANON[d[1]] = d[2].trim();
+// Tokens whose value carries an accessibility or brand guarantee. A self-contained page
+// may add its own tokens freely; it may not hold a DIFFERENT value for one of these.
+const GUARDED = /^--(text|brand|footer|bg|surface|border)/;
 
 for (const f of files) {
   const content = fs.readFileSync(f, 'utf8');
   for (const [, v] of content.matchAll(USE_RE)) used.add(v);
   for (const [, v] of content.matchAll(DEF_RE)) defined.add(v);
 
-  // A page that LINKS shared.css must not also re-declare --brand* (drift risk).
-  // Self-contained pages (no shared.css link) legitimately define their own.
   const relF = path.relative(root, f).split(path.sep).join('/');
-  if (relF !== 'shared.css' && LINKS_SHARED.test(content)) {
+  if (relF === 'shared.css') continue;
+
+  if (LINKS_SHARED.test(content)) {
+    // A page that LINKS shared.css must not also re-declare --brand* (drift risk).
     for (const [, v] of content.matchAll(BRAND_DEF_RE)) {
       brandOffenders.push(`${relF} — re-declares ${v} while linking shared.css (drift risk; remove the override and use var(${v}))`);
+    }
+  } else {
+    // Self-contained page: its own copy of a guarded token must match shared.css.
+    const own = (content.match(/:root\s*\{([\s\S]*?)\}/) || [, ''])[1];
+    for (const d of own.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) {
+      const [, name, val] = d;
+      if (!GUARDED.test(name) || CANON[name] === undefined) continue;
+      if (val.trim() !== CANON[name]) {
+        paletteDrift.push(`${relF} — ${name}: ${val.trim()} but shared.css says ${CANON[name]} (self-contained page holding a stale palette value)`);
+      }
     }
   }
 }
@@ -87,6 +115,13 @@ if (brandOffenders.length) {
   failed = true;
 }
 
+if (paletteDrift.length) {
+  console.error(`css-vars: ${paletteDrift.length} stale palette value(s) on self-contained page(s):`);
+  paletteDrift.forEach(v => console.error('  ' + v));
+  console.error('\nA self-contained page copies the palette instead of linking it, so it must be updated whenever shared.css changes a guarded token.');
+  failed = true;
+}
+
 if (failed) process.exit(1);
 
-console.log(`css-vars: ${used.size} variables used, all defined; no --brand* overrides on shared.css-linked pages. OK`);
+console.log(`css-vars: ${used.size} variables used, all defined; no --brand* overrides on shared.css-linked pages; no stale palette values on self-contained pages. OK`);
