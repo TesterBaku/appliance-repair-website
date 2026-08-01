@@ -44,3 +44,12 @@ in-browser contrast guard in `test/functional.spec.js`; kept for provenance.
 Regenerates `test/faq-parity-baseline.json` for the `faq-jsonld-parity` ratchet. Refuses to
 write if the baseline would GROW (new file or raised count) unless passed `--allow-growth`.
 Re-run after each P6-12 paydown batch, from a clean tree.
+
+## `fix-wcag-contrast-round2-2026-07-31.js` (PR #658)
+Second WCAG AA pass, P6-14. Where round 1 fixed the two selectors the design critique named, a
+systematic scan found 18 failing rule/colour combinations across 86 files, all from `#e84c1e`
+being 3.83:1 against white in both directions. Rewrites **only inside rules that actually fail**,
+never a blanket literal replace, because `#e84c1e` is also used for borders and large-text
+surfaces that legitimately pass at 3:1. White-on-brand darkens the background to `#cc3d12`;
+brand-on-light darkens the text to `#aa3210`. Superseded by the `contrast-aa` check in
+`npm test`; kept for provenance.

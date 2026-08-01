@@ -522,6 +522,12 @@ const CONTRAST_PROBE = () => {
   text('.cta-box p', 4.5, '.cta-box p');
   text('.cta-box h2', 3, '.cta-box h2 (large text)');
   text('.footer-bottom', 4.5, '.footer-bottom');
+  // Round 2 (P6-14): all three ran #e84c1e = 3.83:1 and were unguarded.
+  // .sticky-call is 14px/600 — neither >=24px nor >=18.66px bold, so it is NOT
+  // large text and needs the full 4.5:1, contrary to how it was first filed.
+  text('.sticky-call', 4.5, '.sticky-call (mobile Call button label)');
+  text('.inline-cta p', 4.5, '.inline-cta p');
+  text('.inline-cta a', 4.5, '.inline-cta a');
   const bo = document.querySelector('.btn-white-outline');
   if (bo) {
     const border = parse(getComputedStyle(bo).borderTopColor);
