@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Fourteen enforced checks (EXIT 1 on any failure) plus one informational report
+ * Fifteen enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -110,6 +110,23 @@
  *                    ever compared the two — the first complete run turned up 375 drifted fields
  *                    across 87 of 137 FAQ pages. Paying that down is P6-12.
  *
+ *   contrast-aa    — every CSS rule declaring BOTH a literal-hex color and a
+ *                    literal-hex background must clear WCAG AA: 4.5:1 for body
+ *                    text, 3:1 for large text (>=24px, or >=18.66px at weight
+ *                    >=700). Gradients are checked at EVERY stop, because the
+ *                    original failure was at the light end while the dark end
+ *                    passed. Added 2026-07-31: the #655 critique found .cta-box at
+ *                    3.83:1 and the footer at 4.38:1, and fixing only those two
+ *                    (PR #657) proved to be treating symptoms — a systematic scan
+ *                    then found 18 failing rule/colour combinations across 86
+ *                    files, all one root cause. #e84c1e (craftsmans-ember) is
+ *                    3.83:1 against white in BOTH directions, so it cannot carry
+ *                    small text as a background OR as a foreground, and it was
+ *                    doing both. LIMITATION: literal hex only. var()/rgba() rules
+ *                    need runtime resolution and are covered by the in-browser
+ *                    probes in test/functional.spec.js; the deferred count is
+ *                    printed in the summary so the gap stays a known number.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -118,7 +135,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all fourteen enforced checks + the report
+ *   node test/content-integrity.js          — run all fifteen enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -126,7 +143,7 @@
  *                                             analytics-present, jsonld-valid,
  *                                             footer-self-contained, iso8601-timestamps,
  *                                             article-mobile-chrome, non-person-reviewers,
- *                                             faq-jsonld-parity,
+ *                                             faq-jsonld-parity, contrast-aa,
  *                                             title-length)
  */
 
@@ -770,6 +787,79 @@ if (run('faq-jsonld-parity')) {
   checked['faq-jsonld-parity'].measuredFiles = Object.keys(seenDrift).length;
 }
 
+// ── Check 15: contrast-aa ─────────────────────────────────────────────────────
+// Every CSS rule that declares BOTH a literal-hex color and a literal-hex
+// background must clear the WCAG AA threshold: 4.5:1 for body text, 3:1 for large
+// text (>=24px, or >=18.66px at weight >=700).
+//
+// Added 2026-07-31. The #655 design critique found .cta-box at 3.83:1 and the
+// footer at 4.38:1; fixing only those two (PR #657) turned out to be treating
+// symptoms. A systematic scan then found 18 failing rule/colour combinations
+// across 86 files, all the same root cause: #e84c1e (craftsmans-ember) is 3.83:1
+// against white in BOTH directions, so it cannot carry small text as a background
+// OR as a foreground. It was doing both, on .sticky-call, .inline-cta,
+// .inline-cta a, .tip-num, .tip-badge, .btn-white, .read-more and more.
+//
+// Fix direction: white-on-brand darkens the BACKGROUND to #cc3d12 (4.95:1);
+// brand-on-light darkens the TEXT to #aa3210 (6.62:1), which is precisely what
+// --brand-text exists for ("WCAG AA for small text on any light bg").
+//
+// LIMITATION, deliberately visible in the summary line: this sees literal hex
+// only. Rules using var() or rgba() need runtime resolution and are covered by the
+// in-browser probes in test/functional.spec.js instead. The skipped count is
+// printed so the gap is a known number rather than an unknown one.
+if (run('contrast-aa')) {
+  checked['contrast-aa'] = { pairs: 0, skippedVar: 0, files: 0 };
+  const lin = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+  const h2r = (h) => {
+    h = h.replace('#', '');
+    if (h.length === 3) h = h.split('').map(c => c + c).join('');
+    return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16));
+  };
+  const lum = (r) => 0.2126 * lin(r[0]) + 0.7152 * lin(r[1]) + 0.0722 * lin(r[2]);
+  const contrast = (a, b) => { const [x, y] = [lum(h2r(a)), lum(h2r(b))].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+  const HEXRE = /#[0-9a-fA-F]{3,8}\b/;
+  const seen = new Map();
+
+  for (const filePath of allHtml.concat([path.join(root, 'shared.css')])) {
+    if (!fs.existsSync(filePath)) continue;
+    checked['contrast-aa'].files++;
+    const src = fs.readFileSync(filePath, 'utf8');
+    for (const m of src.matchAll(/([^{}]+)\{([^}]*)\}/g)) {
+      const body = m[2];
+      const cm = body.match(/(?:^|[;{\s])color\s*:\s*([^;]+)/);
+      const bm = body.match(/(?:^|[;{\s])background(?:-color)?\s*:\s*([^;]+)/);
+      if (!cm || !bm) continue;
+      const cRaw = cm[1].trim(), bRaw = bm[1].trim();
+      if (!HEXRE.test(cRaw) || !HEXRE.test(bRaw)) {
+        if (/var\(|rgba?\(/.test(cRaw) || /var\(|rgba?\(/.test(bRaw)) checked['contrast-aa'].skippedVar++;
+        continue;
+      }
+      const cHex = (cRaw.match(HEXRE) || [])[0];
+      const bHexes = bRaw.match(/#[0-9a-fA-F]{3,8}\b/g) || [];
+      if (!cHex || !bHexes.length) continue;
+      const size = parseFloat((body.match(/font-size\s*:\s*([\d.]+)px/) || [, '16'])[1]);
+      const weight = parseInt((body.match(/font-weight\s*:\s*(\d+)/) || [, '400'])[1], 10);
+      const large = size >= 24 || (size >= 18.66 && weight >= 700);
+      const need = large ? 3 : 4.5;
+      const sel = m[1].trim().split('\n').pop().trim().slice(0, 60);
+      for (const bHex of bHexes) {          // a gradient is checked at EVERY stop
+        let r;
+        try { r = contrast(cHex, bHex); } catch { continue; }
+        checked['contrast-aa'].pairs++;
+        if (r >= need) continue;
+        const key = `${sel} :: ${cHex} on ${bHex}`;
+        if (!seen.has(key)) seen.set(key, { r, need, size, weight, files: [] });
+        seen.get(key).files.push(rel(filePath));
+      }
+    }
+  }
+  for (const [key, v] of seen) {
+    const [sel, colors] = key.split(' :: ');
+    issues.push(`[CONTRAST] ${sel} — ${colors} is ${v.r.toFixed(2)}:1, below the ${v.need}:1 AA floor for ${v.size}px/${v.weight} text (${v.files.length} file(s), e.g. ${v.files[0]})`);
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -812,6 +902,7 @@ if (checked['footer-self-contained']) parts.push(`footer self-contained (no var(
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
+if (checked['contrast-aa'])          parts.push(`WCAG AA contrast on ${checked['contrast-aa'].pairs} literal-hex text/background pairs across ${checked['contrast-aa'].files} files (${checked['contrast-aa'].skippedVar} var()/rgba() rules deferred to the in-browser probes)`);
 if (checked['faq-jsonld-parity']) {
   const c = checked['faq-jsonld-parity'];
   parts.push(`FAQ/JSON-LD parity ratchet held on ${c.pairs} Q&A pairs across ${c.files} pages (debt measured ${c.measuredFields} fields in ${c.measuredFiles} files, baseline declares ${c.baselineFields}/${c.baselineFiles}, see P6-12)`);
