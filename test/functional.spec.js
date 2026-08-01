@@ -667,8 +667,10 @@ const PREMIUM_HUBS = [
   'luxury-appliance-repair-pasadena-ca',
 ];
 
-// 'Bosch Benchmark', not bare 'Bosch': only Bosch's premium line is in scope in the
-// LA premium cities, matching the hero/FAQ/AI-answer copy on these pages.
+// 'Bosch Benchmark', not bare 'Bosch': mainstream Bosch is not a premium-tier brand
+// (see .claude/rules/seo-content.md), and only the Bosch premium built-in lines are in
+// scope in the LA premium cities. The pill names the flagship line; the scope-note
+// beneath it states the full scope.
 const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS', 'Bosch Benchmark'];
 
 for (const slug of PREMIUM_HUBS) {
