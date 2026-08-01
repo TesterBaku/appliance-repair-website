@@ -667,7 +667,9 @@ const PREMIUM_HUBS = [
   'luxury-appliance-repair-pasadena-ca',
 ];
 
-const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS', 'Bosch'];
+// 'Bosch Benchmark', not bare 'Bosch': only Bosch's premium line is in scope in the
+// LA premium cities, matching the hero/FAQ/AI-answer copy on these pages.
+const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS', 'Bosch Benchmark'];
 
 for (const slug of PREMIUM_HUBS) {
   test.describe(`Premium hub: ${slug}`, () => {
