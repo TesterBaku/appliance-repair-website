@@ -70,7 +70,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 ```bash
 npm start                  # Serve locally at http://localhost:3000 (via npx serve .)
 npm test                   # Link check + HTML integrity + content integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check
-npm run test:functional    # Playwright functional suite (currently ~585 tests; auto-starts a server on :8788 via test/serve.js)
+npm run test:functional    # Playwright functional suite (auto-starts a server on :8788 via test/serve.js)
 npm run screenshot         # Playwright batch screenshots
 npm run test:all           # All of the above in one shot
 npm run build:sitemap      # Regenerate sitemap.xml from the file tree + git history
@@ -129,6 +129,7 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 - `scripts/` — active automation: `build-sitemap.js`, `add-seo-improvements.js` (quarterly-audit SEO fixer), `sync-testimonials-count.js`, `add-hero-preload.mjs`, `add-nav-link.js`, `add-article-hamburger.js`, image/favicon helpers. Run these explicitly; none are wired to pre-commit hooks.
 - `scripts/build/` — build-time injectors (`inject-partials.js` for footer/nav; `inject-site-js.js` for the interaction-JS extraction).
 - `scripts/oneoff/` — historical, already-run one-off scripts, kept for provenance (see its README). None are npm-wired.
+- `test/` — the four `npm test` checks (`links.js`, `html-integrity.js`, `content-integrity.js`, `css-vars.js`) plus `faq-parity-baseline.json`, the Playwright screenshot runner (`screenshot.js`), the Playwright functional spec (`functional.spec.js`), and the static server (`serve.js`) the functional suite auto-starts on :8788. `npm test` additionally runs the four `scripts/build/*.js --check` drift guards listed above.
 
 ## Critical technical patterns
 
@@ -224,7 +225,7 @@ branch → commit → **all three tests** → PR → review → merge. No except
 ```
 npm test                 # link check (101 pages) + integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check
 npm run screenshot       # Playwright batch screenshots
-npm run test:functional  # Playwright functional suite (currently ~585 tests) — nav, dropdowns, forms, accordions, articles, hubs
+npm run test:functional  # Playwright functional suite — nav, dropdowns, forms, accordions, articles, hubs
 ```
 
 After adding/editing/removing an `.html` page, also regenerate and commit the sitemap:
@@ -289,7 +290,7 @@ Every new `.html` file — article, hub page, or static page — must include th
 - `/seo-audit` — quarterly SEO audit: scan all articles, auto-fix schema/meta gaps, open PR with report
 - `/pr` — generate and create a pull request for the current branch
 - `/review` — review changed files before merging. **Must flag as FAIL if `npm run test:functional` is not confirmed passing. Must run `/impeccable critique` on any changed HTML/CSS page and flag impeccable FAILs as merge blockers.**
-- `/test` — run all three test commands: `npm test` (links + integrity + partial drift) + `npm run screenshot` + `npm run test:functional` (currently ~585 tests). All must exit 0.
+- `/test` — run all three test commands: `npm test` (links + integrity + partial drift) + `npm run screenshot` + `npm run test:functional`. All must exit 0.
 - `/impeccable` — design quality tool. Required before any PR that touches HTML or CSS. Fix all FAIL items before opening the PR. See `.agents/skills/impeccable/` for full documentation.
 - `/visual-review` — Playwright MCP-driven deep visual check at desktop + mobile viewports, scoped to touched pages by default. Use after `/test` for any visual/CSS work; auto-invoked by `/seo-hub` Phase 5.
 - `/new-content` — lightweight scaffolder for a single article, hub page, or static page (no research, no test loop — use when you just need a stub)
@@ -316,25 +317,3 @@ into Claude Code via the root `CLAUDE.md` `@AGENTS.md` import.
 No tool-specific adapter files are required — every supported agent reaches the same committed
 workflow + rule files through `AGENTS.md`. (GitHub Copilot is not currently wired; its stale agent
 port was removed on 2026-07-10.)
-
-## Project Structure
-- `index.html` — homepage
-- `pages/about.html`, `pages/services.html`, `pages/contact.html`, `pages/faq.html`, `pages/testimonials.html`, `pages/blog.html` — main pages
-- `pages/[appliance]-repair-orange-county.html` — per-service hub pages
-- `pages/[brand]-appliance-repair-orange-county.html` — per-brand hub pages
-- `pages/appliance-repair-[city]-ca.html` — per-city landing pages
-- `pages/service-areas.html` — service-areas hub
-- `pages/blog/*.html` — blog category pages
-- `articles/article-*.html` — individual blog articles
-- `partials/footer.html`, `partials/nav-main.html`, `partials/nav-article.html` — single-sourced chrome (injected by the build step)
-- `shared.css` — shared styles used across all pages
-- `site.js` — single-sourced interaction JS (nav drawer, dropdown, FAQ accordion), defer-loaded on every nav page
-- `scripts/` — active node scripts; `scripts/build/` injectors; `scripts/oneoff/` historical one-offs
-- `test/` — link/integrity/css checks, Playwright screenshots (`test/screenshot.js`), Playwright functional spec, static server
-
-## Tech Stack
-- Vanilla static HTML — no framework, no Tailwind
-- `shared.css` + small per-page `<style>` blocks (no CSS compile step); shared interaction JS in `site.js` (no JS build/bundle step)
-- Minimal build steps (run explicitly, output committed): `build:sitemap`, `build:partials`, `build:site-js`, `build:search`
-- Pagefind (`pagefind` devDependency) generates the committed `pagefind/` blog search index; no deploy-time build (GitHub Pages serves the committed tree as-is)
-- Playwright (batch screenshots via `test/screenshot.js` + functional testing, currently ~765 tests in `test/functional.spec.js`)

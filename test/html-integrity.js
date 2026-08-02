@@ -7,7 +7,10 @@
  *              no truncation). EXIT 1 on any failure. Added after PR #294 fixed 32
  *              broken DOCTYPEs that caused quirks-mode rendering.
  *
- *   emdash   — article files must not contain U+2014 `—` in editorial copy.
+ *   emdash   — no authored page may contain U+2014 `—` in editorial copy. Covers
+ *              articles/, pages/, partials/ and the root redirect stubs; verbatim
+ *              customer review text is exempt. Widened from articles-only after the
+ *              LA wave-2 hubs had to be grepped by hand on every commit (2026-08-02).
  *              EXIT 1 on any failure. Added after PR #292 was blocked by 14 em
  *              dashes. Run `npm run test:integrity` to check; violations in files
  *              predating this rule are tracked in tasks/lessons.md.
@@ -48,10 +51,24 @@ function collectHtmlFiles(dir) {
 }
 
 const allHtml    = collectHtmlFiles(root);
-const articleDir = path.join(root, 'articles');
-const articles   = allHtml.filter(
-  f => path.dirname(f) === articleDir && path.basename(f).startsWith('article-')
+// The em-dash ban covers every page we author, not just articles: the wave-2 LA
+// hub pages had to be grepped by hand on every commit because `pages/` was
+// outside this check. `partials/` is in SKIP_DIRS (fragments have no DOCTYPE, so
+// they must stay out of allHtml) and is added back here explicitly.
+const partialsDir  = path.join(root, 'partials');
+const emdashFiles  = allHtml.concat(
+  fs.existsSync(partialsDir)
+    ? fs.readdirSync(partialsDir)
+        .filter(n => n.endsWith('.html'))
+        .map(n => path.join(partialsDir, n))
+    : []
 );
+
+// Customer review body text is quoted VERBATIM and is exempt from the ban (see
+// AGENTS.md "Em dashes"). Reviews reach the page as JSON-LD `reviewBody` /
+// `previousBody` and as rendered `.testimonial-quote` / `.t-quote` paragraphs;
+// editing an em dash out of one would falsify the quote.
+const REVIEW_TEXT = /"(?:reviewBody|previousBody)"|class="(?:testimonial-quote|t-quote)"/;
 
 const issues = [];
 let   doctypeChecked = 0;
@@ -103,9 +120,9 @@ if (mode === 'all' || mode === 'doctype') {
   }
 }
 
-// ── Check 2: No em dashes in article editorial copy ───────────────────────────
+// ── Check 2: No em dashes in authored editorial copy ──────────────────────────
 if (mode === 'all' || mode === 'emdash') {
-  for (const filePath of articles) {
+  for (const filePath of emdashFiles) {
     const rel     = path.relative(root, filePath);
     const content = fs.readFileSync(filePath, 'utf8');
     const lines   = content.split('\n');
@@ -113,6 +130,7 @@ if (mode === 'all' || mode === 'emdash') {
 
     lines.forEach((line, i) => {
       if (!line.includes('—')) return;
+      if (REVIEW_TEXT.test(line)) return;   // verbatim customer review, exempt
       issues.push(`[EM-DASH] ${rel}:${i + 1} — ${line.trim().slice(0, 80)}`);
     });
   }
@@ -154,7 +172,7 @@ if (issues.length) {
 } else {
   const parts = [];
   if (doctypeChecked) parts.push(`${doctypeChecked} files DOCTYPE-clean`);
-  if (emdashChecked)  parts.push(`no em dashes in ${emdashChecked} articles`);
+  if (emdashChecked)  parts.push(`no em dashes in ${emdashChecked} pages (review quotes exempt)`);
   if (gridChecked)    parts.push(`no inline fixed-column grids in ${gridChecked} files`);
   console.log(`html-integrity: ${parts.join(', ')}.`);
 }

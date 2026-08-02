@@ -27,7 +27,7 @@ For any HTML file touched, read the complete `<head>` section and the full page 
 ### Step 3 — Run the tests
 ```bash
 npm test                 # link checker — must exit 0
-npm run test:functional  # 165 functional tests — must exit 0
+npm run test:functional  # functional suite — must exit 0
 ```
 If either test fails, the PR is an automatic **FAIL** — do not proceed with the rest of the review.
 

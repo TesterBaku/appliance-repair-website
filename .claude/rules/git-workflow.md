@@ -60,7 +60,7 @@ feat(about): add team section with cards
 ## Test Checklist
 - [ ] `npm test` — link checker exits 0
 - [ ] `npm run screenshot` — all page screenshots captured
-- [ ] `npm run test:functional` — all 165 functional tests pass (buttons, nav, forms, accordions)
+- [ ] `npm run test:functional` — the functional suite passes (buttons, nav, forms, accordions)
 - [ ] Opened in browser and checked visually
 - [ ] Tested on mobile viewport (375px)
 ```
@@ -88,7 +88,7 @@ When a test (`npm test` or `npm run screenshot`) reports a failure, follow this 
 ```
 npm test                 # link checker — checks all internal .html hrefs
 npm run screenshot       # Playwright — loads each page and captures a screenshot
-npm run test:functional  # functional — verifies buttons, nav, forms, accordions (165 tests)
+npm run test:functional  # functional — verifies buttons, nav, forms, accordions
 npm run test:all         # runs all three above in sequence
 ```
 
@@ -151,7 +151,7 @@ Every request that results in any code or file change — however small — must
 3. Run **all three** test commands — all must exit 0:
    - `npm test` — link checker
    - `npm run screenshot` — page screenshots
-   - `npm run test:functional` — 165 functional tests (buttons, nav, forms, accordions)
+   - `npm run test:functional` — the functional suite (buttons, nav, forms, accordions)
 4. Create a PR
 5. **Run `/review` as an independent subagent** — spawn a fresh Agent with no context from the implementation conversation. The reviewer must not be the same agent that wrote the code.
 6. The `/review` subagent **must verify** that the PR description shows all three tests passing. Flag as **FAIL** if `npm run test:functional` is missing from the checklist or not confirmed passing.
@@ -166,6 +166,14 @@ No direct commits to `master`. No skipping steps for "small" changes. No self-me
 
 **Never push directly to `master` or `main`.** All changes must go through a pull request.
 
-- The `pre-push` git hook enforces this automatically — a direct push will be rejected
+- The `pre-push` git hook enforces this automatically — a direct push is rejected.
+  It is **`.husky/pre-push`**, tracked in the repo and installed by `npm install`
+  (via `"prepare": "husky"` in `package.json`), so it arrives with a clone.
+  ⚠️ Do not look in `.git/hooks` to confirm it: husky sets `core.hooksPath=.husky/_`,
+  so `.git/hooks` holds only `.sample` files and looks empty. Check with
+  `git config --get core.hooksPath` and `cat .husky/pre-push` instead.
+- Deliberate override, when you actually mean it: `git push --no-verify`
+- The hook gates **pushes**, not commits. Nothing stops you committing on `master`
+  locally, so branch before you start work, not after.
 - Always branch off `main`, make your changes, then open a PR
 - Force-pushing to `main` is also prohibited
