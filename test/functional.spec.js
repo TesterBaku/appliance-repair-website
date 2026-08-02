@@ -665,6 +665,9 @@ const PREMIUM_HUBS = [
   'luxury-appliance-repair-los-angeles-ca',
   'luxury-appliance-repair-beverly-hills-ca',
   'luxury-appliance-repair-pasadena-ca',
+  // wave 2, the coastal pair (#662)
+  'luxury-appliance-repair-santa-monica-ca',
+  'luxury-appliance-repair-manhattan-beach-ca',
 ];
 
 // 'Bosch Premium', not bare 'Bosch': mainstream Bosch is not a premium-tier brand (see
