@@ -443,14 +443,15 @@ if (run('analytics-present')) {
 // commented-out tag report as "misplaced" instead of "missing".
 if (run('ga-tag')) {
   checked['ga-tag'] = { files: 0 };
-  const LOADER = /<script[^>]+ src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-TSFHKJ6ZEK"/;
+  const LOADER = /<script[^>]*\ssrc="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-TSFHKJ6ZEK"/;
   for (const filePath of allHtml) {
     const raw = fs.readFileSync(filePath, 'utf8');
     if (!raw.includes('<nav class="nav"')) continue;   // redirect stubs exempt, as above
     checked['ga-tag'].files++;
     const rp = rel(filePath);
-    // Blank comments out rather than deleting them so nothing that was separated by
-    // a comment silently becomes adjacent.
+    // Comments are REMOVED, not blanked, so two things a comment separated can end up
+    // adjacent: `<scr<!--x-->ipt src="...gtag/js?id=...">` collapses into a live loader
+    // and passes. That matches how a browser reads it, and `raw` is never modified.
     const content = raw.replace(/<!--[\s\S]*?-->/g, '');
 
     if (!LOADER.test(content)) {
