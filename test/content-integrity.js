@@ -445,9 +445,23 @@ if (run('ga-tag')) {
       issues.push(`[GA-TAG] ${rp} — loads gtag.js but never calls gtag('config', 'G-TSFHKJ6ZEK')`);
     }
     // "first child of <head>": nothing but comments/whitespace may precede it.
-    const head = content.slice(content.search(/<head\b[^>]*>/i));
-    const afterOpen = head.slice(head.indexOf('>') + 1);
-    const preamble = afterOpen.slice(0, afterOpen.search(loader));
+    // Guard the indices explicitly — a bare .slice(search(...)) silently reads from
+    // the END of the string when the pattern is absent, which would turn a malformed
+    // page into a silent pass.
+    const headOpen = content.search(/<head\b[^>]*>/i);
+    if (headOpen === -1) {
+      issues.push(`[GA-TAG] ${rp} — has a gtag.js loader but no <head> element`);
+      continue;
+    }
+    const head = content.slice(headOpen);
+    const gtOffset = head.indexOf('>');
+    const afterOpen = head.slice(gtOffset + 1);
+    const loaderAt = afterOpen.search(loader);
+    if (loaderAt === -1) {
+      issues.push(`[GA-TAG] ${rp} — gtag.js loader appears before <head>`);
+      continue;
+    }
+    const preamble = afterOpen.slice(0, loaderAt);
     const stripped = preamble.replace(/<!--[\s\S]*?-->/g, '').trim();
     if (stripped) {
       issues.push(`[GA-TAG] ${rp} — gtag.js is not the first child of <head> (preceded by: ${stripped.slice(0, 60).replace(/\s+/g, ' ')})`);
