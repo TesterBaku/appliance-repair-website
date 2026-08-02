@@ -65,3 +65,6 @@ secrets.json
 secrets.yaml
 secrets.yml
 config/secrets.*
+
+# Research downloads: never commit PDFs (a 13.6 MB City doc slipped in via git add -A, PR #662)
+*.pdf
