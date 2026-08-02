@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Sixteen enforced checks (EXIT 1 on any failure) plus one informational report
+ * Seventeen enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -51,6 +51,15 @@
  *                    tracking, and keyboard-accessible dropdown nav all live there).
  *                    Added 2026-05-31 after 6 pages (testimonials + 5 articles)
  *                    shipped without it.
+ *
+ *   ga-tag         — every nav-bearing page must carry the Google tag: the gtag.js
+ *                    loader for G-TSFHKJ6ZEK, a matching `gtag('config', …)` call,
+ *                    positioned as the FIRST child of `<head>`, exactly once.
+ *                    AGENTS.md has made this a FAIL gate on every new page since the
+ *                    rule was written and `/review` is told to flag a missing tag,
+ *                    but nothing verified it until 2026-08-02: `analytics-present`
+ *                    above checks `analytics.js`, our own click-event script, which
+ *                    is a DIFFERENT file. A documented gate enforced only by memory.
  *
  *   jsonld-valid   — every `<script type="application/ld+json">` block on every
  *                    page must be valid JSON. No other test parses JSON-LD, so
@@ -143,12 +152,12 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all sixteen enforced checks + the report
+ *   node test/content-integrity.js          — run all seventeen enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
- *                                             analytics-present, jsonld-valid,
+ *                                             analytics-present, ga-tag, jsonld-valid,
  *                                             footer-self-contained, iso8601-timestamps,
  *                                             article-mobile-chrome, non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
@@ -422,54 +431,59 @@ if (run('analytics-present')) {
   }
 }
 
-// ── Check 7b: the Google tag must be the first thing in <head> ────────────────
+// -- Check 7b: the Google tag must be the first thing in <head> ---------------
 // AGENTS.md makes this a FAIL gate on every new page, and /review is told to flag
 // a missing tag. Until 2026-08-02 nothing checked it: `analytics-present` above
 // looks at analytics.js, which is our own click-event script and a DIFFERENT file
 // from the gtag.js snippet. The gate was documented, reviewed for, and enforced
 // only by memory.
+//
+// Every assertion runs against a COMMENT-STRIPPED copy. Matching raw text made a
+// commented-out old tag count toward the duplicate tally, and made a fully
+// commented-out tag report as "misplaced" instead of "missing".
 if (run('ga-tag')) {
   checked['ga-tag'] = { files: 0 };
+  const LOADER = /<script[^>]+ src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-TSFHKJ6ZEK"/;
   for (const filePath of allHtml) {
-    const content = fs.readFileSync(filePath, 'utf8');
-    if (!content.includes('<nav class="nav"')) continue;   // redirect stubs exempt, as above
+    const raw = fs.readFileSync(filePath, 'utf8');
+    if (!raw.includes('<nav class="nav"')) continue;   // redirect stubs exempt, as above
     checked['ga-tag'].files++;
     const rp = rel(filePath);
+    // Blank comments out rather than deleting them so nothing that was separated by
+    // a comment silently becomes adjacent.
+    const content = raw.replace(/<!--[\s\S]*?-->/g, '');
 
-    const loader = /<script[^>]*\bsrc="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-TSFHKJ6ZEK"/;
-    if (!loader.test(content)) {
-      issues.push(`[GA-TAG] ${rp} — renders the site nav but has no gtag.js loader for G-TSFHKJ6ZEK`);
+    if (!LOADER.test(content)) {
+      issues.push(`[GA-TAG] ${rp} - renders the site nav but has no live gtag.js loader for G-TSFHKJ6ZEK`);
       continue;
     }
-    if (!/gtag\('config',\s*'G-TSFHKJ6ZEK'\)/.test(content)) {
-      issues.push(`[GA-TAG] ${rp} — loads gtag.js but never calls gtag('config', 'G-TSFHKJ6ZEK')`);
+    // Both quote styles are valid GA; AGENTS.md shows the single-quoted snippet.
+    if (!/gtag\(\s*['"]config['"]\s*,\s*['"]G-TSFHKJ6ZEK['"]\s*\)/.test(content)) {
+      issues.push(`[GA-TAG] ${rp} - loads gtag.js but never calls gtag('config', 'G-TSFHKJ6ZEK')`);
     }
-    // "first child of <head>": nothing but comments/whitespace may precede it.
-    // Guard the indices explicitly — a bare .slice(search(...)) silently reads from
-    // the END of the string when the pattern is absent, which would turn a malformed
-    // page into a silent pass.
-    const headOpen = content.search(/<head\b[^>]*>/i);
+    // "first child of <head>": nothing but whitespace may precede it once comments
+    // are gone. Guard both index lookups explicitly - a bare .slice(search(...))
+    // reads from the END of the string when the pattern is absent, which would turn
+    // a malformed page into a silent pass.
+    const headOpen = content.search(/<head(?=[\s>])[^>]*>/i);
     if (headOpen === -1) {
-      issues.push(`[GA-TAG] ${rp} — has a gtag.js loader but no <head> element`);
+      issues.push(`[GA-TAG] ${rp} - has a gtag.js loader but no <head> element`);
       continue;
     }
-    const head = content.slice(headOpen);
-    const gtOffset = head.indexOf('>');
-    const afterOpen = head.slice(gtOffset + 1);
-    const loaderAt = afterOpen.search(loader);
+    const afterOpen = content.slice(headOpen + content.slice(headOpen).indexOf('>') + 1);
+    const loaderAt  = afterOpen.search(LOADER);
     if (loaderAt === -1) {
-      issues.push(`[GA-TAG] ${rp} — gtag.js loader appears before <head>`);
+      issues.push(`[GA-TAG] ${rp} - gtag.js loader appears before <head>`);
       continue;
     }
-    const preamble = afterOpen.slice(0, loaderAt);
-    const stripped = preamble.replace(/<!--[\s\S]*?-->/g, '').trim();
-    if (stripped) {
-      issues.push(`[GA-TAG] ${rp} — gtag.js is not the first child of <head> (preceded by: ${stripped.slice(0, 60).replace(/\s+/g, ' ')})`);
+    const preamble = afterOpen.slice(0, loaderAt).trim();
+    if (preamble) {
+      issues.push(`[GA-TAG] ${rp} - gtag.js is not the first child of <head> (preceded by: ${preamble.slice(0, 60).replace(/\s+/g, ' ')})`);
     }
     // One tag per page: AGENTS.md forbids a second Google tag.
-    const loaders = (content.match(new RegExp(loader.source, 'g')) || []).length;
+    const loaders = (content.match(new RegExp(LOADER.source, 'g')) || []).length;
     if (loaders > 1) {
-      issues.push(`[GA-TAG] ${rp} — ${loaders} gtag.js loaders; exactly one is allowed`);
+      issues.push(`[GA-TAG] ${rp} - ${loaders} live gtag.js loaders; exactly one is allowed`);
     }
   }
 }
