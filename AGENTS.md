@@ -317,3 +317,27 @@ into Claude Code via the root `CLAUDE.md` `@AGENTS.md` import.
 No tool-specific adapter files are required — every supported agent reaches the same committed
 workflow + rule files through `AGENTS.md`. (GitHub Copilot is not currently wired; its stale agent
 port was removed on 2026-07-10.)
+
+#### Agent definitions: `.claude/agents/`
+
+Claude Code agent definitions (subagents with their own frontmatter: `name`, `description`,
+optional `model`) are committed under **`.claude/agents/*.md`**, the same way commands and rules
+are. `.claude/agents/` is already on the `.gitignore` exception list alongside `.claude/commands/`
+and `.claude/rules/` (see the `!.claude/agents/` line in `.gitignore`), so these files are tracked
+and reach the cloud cron runner and every clone, not just a local machine.
+
+Agents committed here:
+- `code-reviewer`: the independent reviewer mandated by `.claude/rules/git-workflow.md` step 5
+  ("PR on Every Change"). It pins `model: sonnet` deliberately: without an explicit pin, a
+  subagent silently inherits whatever model the parent session happens to be running, which let
+  one review run 128 turns on a heavier model than intended purely by inheritance. Pinning the
+  model in the committed definition makes the choice explicit and portable, instead of an accident
+  of which session launched the review.
+
+`scripts/build/check-agents.js` (`npm test`) validates every file in `.claude/agents/`: parseable
+frontmatter, a `name` matching the filename, a non-empty `description`, no duplicate `name` across
+the directory, and (if present) a `model` from the allowed set. It also checks that every agent
+name listed above resolves to a real `.claude/agents/<name>.md` file, the same way it already
+checks that every `/skill` listed in "Skills (slash commands)" resolves to a real file. This is
+the same drift-guard discipline the script already applies to `.claude/commands/` and
+`.claude/rules/`.

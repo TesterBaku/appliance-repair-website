@@ -15,9 +15,22 @@
  *      resolve to a real file, so a renamed/deleted command can't leave a dangling skill.
  *   2. Routine-ID freshness — every `trig_…` inside `.claude/commands/**` must be one of the
  *      ACTIVE routine IDs declared in AGENTS.md's "Routine ID:" markers (kills the stale-ID bug).
- *   3. Email hygiene — the only email allowed in the committed workflow/rule files is the
+ *   3. Email hygiene: the only email allowed in the committed workflow/rule/agent files is the
  *      business address `@fixappliancesfast.com`; anything else (e.g. the owner's personal
  *      Gmail, scrubbed to $OWNER_EMAIL) is a regression and the one genuinely-private leak.
+ *   4. Agent-definition validity: every `.claude/agents/*.md` file must have parseable YAML
+ *      frontmatter with a `name:` that matches its filename, a non-empty `description:`, a
+ *      `name` unique across the directory, and (if present) a `model:` from the allowed set.
+ *      Without this, a malformed or duplicate-named agent file loads inconsistently (unsorted
+ *      readdir order decides which of two same-named files "wins", so it differs per machine)
+ *      or silently falls back to inheriting the session model instead of the one pinned in its
+ *      frontmatter (the exact bug that motivated pinning `code-reviewer` to Sonnet).
+ *   5. Agent-reference resolution: every agent name listed as a `- \`name\`` bullet in AGENTS.md's
+ *      "Agent definitions" subsection must resolve to a real `.claude/agents/<name>.md` file. Without
+ *      this, renaming or deleting an agent file leaves AGENTS.md pointing at a name nothing
+ *      resolves, and a workflow that dispatches by that name (e.g. `/review` dispatching
+ *      `code-reviewer`) silently falls back to a generic agent with no pinned model, which is
+ *      assertion 4's exact bug, reintroduced invisibly.
  *
  * Deliberately NOT checked here: banned brand/old-domain strings. The workflow files
  * legitimately QUOTE them in review checklists and guidance ("Never write 'Fix Appliances
@@ -36,14 +49,16 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..', '..');
 const commandsDir = path.join(repoRoot, '.claude', 'commands');
 const rulesDir = path.join(repoRoot, '.claude', 'rules');
+const agentsDir = path.join(repoRoot, '.claude', 'agents');
 const skillsDir = path.join(repoRoot, '.agents', 'skills');
 const agentsMd = path.join(repoRoot, 'AGENTS.md');
 
 const errors = [];
 const rel = (p) => path.relative(repoRoot, p).replace(/\\/g, '/');
 
-// Recursive so the routine-ID/email scans actually cover `.claude/commands/**` and
-// `.claude/rules/**` (both flat today, but a future subdirectory must not escape the scan).
+// Recursive so the routine-ID/email/agent-definition scans actually cover `.claude/commands/**`,
+// `.claude/rules/**`, and `.claude/agents/**` (all flat today, but a future subdirectory must
+// not escape the scan).
 function listMd(dir) {
   if (!fs.existsSync(dir)) return [];
   const out = [];
@@ -96,17 +111,93 @@ for (const file of listMd(commandsDir)) {
   }
 }
 
-// --- 3. Email hygiene (commands + rules) -------------------------------------
+// --- 3. Email hygiene (commands + rules + agents) ----------------------------
 const emailRe = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
-for (const file of [...listMd(commandsDir), ...listMd(rulesDir)]) {
+for (const file of [...listMd(commandsDir), ...listMd(rulesDir), ...listMd(agentsDir)]) {
   const text = fs.readFileSync(file, 'utf8');
   for (const m of text.matchAll(emailRe)) {
     if (!m[0].toLowerCase().endsWith('@fixappliancesfast.com')) {
       errors.push(
-        `${rel(file)}: non-business email "${m[0]}" in a committed workflow/rule file. ` +
+        `${rel(file)}: non-business email "${m[0]}" in a committed workflow/rule/agent file. ` +
           `Only @fixappliancesfast.com is allowed; route private addresses through $OWNER_EMAIL.`
       );
     }
+  }
+}
+
+// --- 4. Agent-definition validity ---------------------------------------------
+// Every `.claude/agents/*.md` file is a Claude Code agent definition: YAML frontmatter followed
+// by a markdown body. A malformed frontmatter block, a `name` that doesn't match the filename, a
+// missing `description`, a duplicate `name`, or an invalid `model` each cause a real failure
+// (see point 4 in the header docblock above).
+const validModels = new Set(['opus', 'sonnet', 'haiku', 'fable', 'inherit']);
+const seenAgentNames = new Map(); // name -> first file that declared it
+for (const file of listMd(agentsDir)) {
+  const text = fs.readFileSync(file, 'utf8');
+  const base = path.basename(file, '.md');
+  const fmMatch = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!fmMatch) {
+    errors.push(
+      `${rel(file)}: no YAML frontmatter block found (file must start with "---" and have a closing "---").`
+    );
+    continue;
+  }
+  const frontmatter = fmMatch[1];
+  const nameMatch = frontmatter.match(/^name:\s*(.+)$/m);
+  const descMatch = frontmatter.match(/^description:\s*(.+)$/m);
+  const modelMatch = frontmatter.match(/^model:\s*(.+)$/m);
+
+  if (!nameMatch || !nameMatch[1].trim()) {
+    errors.push(`${rel(file)}: frontmatter is missing "name:".`);
+  } else {
+    const name = nameMatch[1].trim();
+    if (name !== base) {
+      errors.push(
+        `${rel(file)}: frontmatter "name: ${name}" does not match filename "${base}.md" ` +
+          `(this repo requires frontmatter name to match the filename so dispatch is predictable).`
+      );
+    }
+    if (seenAgentNames.has(name)) {
+      errors.push(
+        `${rel(file)}: agent name "${name}" collides with ${rel(seenAgentNames.get(name))} ` +
+          `(two agent files must never share a name; unsorted readdir order decides which one loads, so it differs per machine).`
+      );
+    } else {
+      seenAgentNames.set(name, file);
+    }
+  }
+
+  if (!descMatch || !descMatch[1].trim()) {
+    errors.push(`${rel(file)}: frontmatter is missing "description:" (must be present and non-empty).`);
+  }
+
+  if (modelMatch) {
+    const model = modelMatch[1].trim();
+    if (!validModels.has(model)) {
+      errors.push(
+        `${rel(file)}: frontmatter "model: ${model}" is not one of the values this repo allows: ${[...validModels].join(', ')}.`
+      );
+    }
+  }
+}
+
+// --- 5. Agent-reference resolution ---------------------------------------------
+// Parse the "#### Agent definitions: `.claude/agents/`" subsection for `- `name`` bullet lines
+// (same bullet style assertion 1 uses for skills, minus the leading slash) and confirm each
+// resolves to a real `.claude/agents/<name>.md` file.
+const agentsSection = (agents.split(/^####\s+Agent definitions/m)[1] || '').split(/^#{2,4}\s/m)[0];
+const referencedAgentNames = [...agentsSection.matchAll(/^-\s+`([a-z0-9-]+)`/gm)].map((m) => m[1]);
+if (referencedAgentNames.length === 0) {
+  errors.push(
+    'AGENTS.md: could not parse any agent names from the "Agent definitions" subsection.'
+  );
+}
+for (const name of referencedAgentNames) {
+  const asAgent = path.join(agentsDir, `${name}.md`);
+  if (!fs.existsSync(asAgent)) {
+    errors.push(
+      `Agent "${name}" is listed in AGENTS.md but has no definition (expected .claude/agents/${name}.md).`
+    );
   }
 }
 
@@ -119,7 +210,8 @@ if (errors.length) {
 }
 
 console.log(
-  `check-agents: ${skillNames.length} skills resolve; ` +
-    `${listMd(commandsDir).length} command + ${listMd(rulesDir).length} rule files clean ` +
-    `(routine IDs active, no private emails). OK`
+  `check-agents: ${skillNames.length} skills + ${referencedAgentNames.length} agent refs resolve; ` +
+    `${listMd(commandsDir).length} command + ${listMd(rulesDir).length} rule + ` +
+    `${listMd(agentsDir).length} agent files clean ` +
+    `(routine IDs active, no private emails, agent frontmatter valid). OK`
 );
