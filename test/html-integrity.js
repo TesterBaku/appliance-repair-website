@@ -51,11 +51,6 @@ function collectHtmlFiles(dir) {
 }
 
 const allHtml    = collectHtmlFiles(root);
-const articleDir = path.join(root, 'articles');
-const articles   = allHtml.filter(
-  f => path.dirname(f) === articleDir && path.basename(f).startsWith('article-')
-);
-
 // The em-dash ban covers every page we author, not just articles: the wave-2 LA
 // hub pages had to be grepped by hand on every commit because `pages/` was
 // outside this check. `partials/` is in SKIP_DIRS (fragments have no DOCTYPE, so
@@ -125,7 +120,7 @@ if (mode === 'all' || mode === 'doctype') {
   }
 }
 
-// ── Check 2: No em dashes in article editorial copy ───────────────────────────
+// ── Check 2: No em dashes in authored editorial copy ──────────────────────────
 if (mode === 'all' || mode === 'emdash') {
   for (const filePath of emdashFiles) {
     const rel     = path.relative(root, filePath);

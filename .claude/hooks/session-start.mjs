@@ -8,7 +8,7 @@
  * Keep this SHORT. It is paid for on every session. Anything enforceable
  * mechanically belongs in a test or a git hook instead, NOT here:
  *   em dashes, BOM/DOCTYPE, GA tag, FAQ parity, contrast -> npm test
- *   direct pushes to master                              -> .git/hooks/pre-push
+ *   direct pushes to master                              -> .husky/pre-push
  * Only rules with no mechanical check earn a line below.
  *
  * Each line must point at its canonical source or BE it. Never restate a doc in
@@ -22,7 +22,8 @@ process.stdout.write(`Repo non-negotiables (SessionStart hook; canonical text in
 
 1. Every change goes branch -> commit -> ALL THREE tests -> PR -> /review -> merge.
    The three: \`npm test\`, \`npm run screenshot\`, \`npm run test:functional\`. All exit 0
-   BEFORE the PR is opened. No direct commits to master (pre-push hook enforces).
+   BEFORE the PR is opened. Pushing master is blocked by .husky/pre-push; committing
+   on master locally is not, so branch FIRST.
 2. Added, removed or renamed an .html file? Run \`npm run build:sitemap\` and commit it.
    Nothing checks sitemap freshness.
 3. Added, removed or renamed an \`articles/article-*.html\`? Also run \`npm run build:search\`

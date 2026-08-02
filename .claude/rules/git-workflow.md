@@ -167,10 +167,13 @@ No direct commits to `master`. No skipping steps for "small" changes. No self-me
 **Never push directly to `master` or `main`.** All changes must go through a pull request.
 
 - The `pre-push` git hook enforces this automatically — a direct push is rejected.
-  **Run `sh scripts/install-hooks.sh` once per clone**: git does not track `.git/hooks`,
-  so the hook cannot arrive with a clone. Source of truth is `scripts/git-hooks/pre-push`.
-  (Until 2026-08-02 this bullet claimed enforcement that did not exist — `.git/hooks` held
-  nothing but `.sample` files. Verify the hook is installed rather than assuming it.)
+  It is **`.husky/pre-push`**, tracked in the repo and installed by `npm install`
+  (via `"prepare": "husky"` in `package.json`), so it arrives with a clone.
+  ⚠️ Do not look in `.git/hooks` to confirm it: husky sets `core.hooksPath=.husky/_`,
+  so `.git/hooks` holds only `.sample` files and looks empty. Check with
+  `git config --get core.hooksPath` and `cat .husky/pre-push` instead.
 - Deliberate override, when you actually mean it: `git push --no-verify`
+- The hook gates **pushes**, not commits. Nothing stops you committing on `master`
+  locally, so branch before you start work, not after.
 - Always branch off `main`, make your changes, then open a PR
 - Force-pushing to `main` is also prohibited

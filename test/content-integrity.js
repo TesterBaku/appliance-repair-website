@@ -422,6 +422,44 @@ if (run('analytics-present')) {
   }
 }
 
+// ── Check 7b: the Google tag must be the first thing in <head> ────────────────
+// AGENTS.md makes this a FAIL gate on every new page, and /review is told to flag
+// a missing tag. Until 2026-08-02 nothing checked it: `analytics-present` above
+// looks at analytics.js, which is our own click-event script and a DIFFERENT file
+// from the gtag.js snippet. The gate was documented, reviewed for, and enforced
+// only by memory.
+if (run('ga-tag')) {
+  checked['ga-tag'] = { files: 0 };
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (!content.includes('<nav class="nav"')) continue;   // redirect stubs exempt, as above
+    checked['ga-tag'].files++;
+    const rp = rel(filePath);
+
+    const loader = /<script[^>]*\bsrc="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-TSFHKJ6ZEK"/;
+    if (!loader.test(content)) {
+      issues.push(`[GA-TAG] ${rp} — renders the site nav but has no gtag.js loader for G-TSFHKJ6ZEK`);
+      continue;
+    }
+    if (!/gtag\('config',\s*'G-TSFHKJ6ZEK'\)/.test(content)) {
+      issues.push(`[GA-TAG] ${rp} — loads gtag.js but never calls gtag('config', 'G-TSFHKJ6ZEK')`);
+    }
+    // "first child of <head>": nothing but comments/whitespace may precede it.
+    const head = content.slice(content.search(/<head\b[^>]*>/i));
+    const afterOpen = head.slice(head.indexOf('>') + 1);
+    const preamble = afterOpen.slice(0, afterOpen.search(loader));
+    const stripped = preamble.replace(/<!--[\s\S]*?-->/g, '').trim();
+    if (stripped) {
+      issues.push(`[GA-TAG] ${rp} — gtag.js is not the first child of <head> (preceded by: ${stripped.slice(0, 60).replace(/\s+/g, ' ')})`);
+    }
+    // One tag per page: AGENTS.md forbids a second Google tag.
+    const loaders = (content.match(new RegExp(loader.source, 'g')) || []).length;
+    if (loaders > 1) {
+      issues.push(`[GA-TAG] ${rp} — ${loaders} gtag.js loaders; exactly one is allowed`);
+    }
+  }
+}
+
 // ── Check 8: every JSON-LD block must be valid JSON ───────────────────────────
 if (run('jsonld-valid')) {
   checked['jsonld-valid'] = { files: 0, blocks: 0 };
@@ -1001,6 +1039,7 @@ if (checked['og-desc-sync'])         parts.push(`og:description = name="descript
 if (checked['schema-headline-sync']) parts.push(`schema headline = H1 on ${checked['schema-headline-sync'].files} articles`);
 if (checked['modified-time-sync'])   parts.push(`modified_time meta = dateModified JSON-LD on ${checked['modified-time-sync'].files} articles`);
 if (checked['analytics-present'])    parts.push(`analytics.js present on all ${checked['analytics-present'].files} nav pages`);
+if (checked['ga-tag'])               parts.push(`Google tag first in <head> on all ${checked['ga-tag'].files} nav pages`);
 if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].blocks} JSON-LD blocks valid across ${checked['jsonld-valid'].files} files`);
 if (checked['footer-self-contained']) parts.push(`footer self-contained (no var()) across ${checked['footer-self-contained'].files} pages`);
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
