@@ -1,6 +1,9 @@
 {
   "permissions": {
-    "allow": ["WebSearch", "WebFetch"]
+    "allow": [
+      "WebSearch",
+      "WebFetch"
+    ]
   },
   "_permissions_comment": "Read-only web access is pre-authorized so research does not stall on per-site prompts (which subagents often cannot answer, causing silent research gaps). Source QUALITY is governed by judgment per .claude/rules/trusted-sources.md — official/manufacturer + well-established references only, cross-checked. This covers WebSearch + read-only WebFetch (GET) ONLY; anything that writes/logs-in/posts to an external service still requires confirmation. Owner-approved 2026-07-25.",
   "hooks": {
@@ -13,6 +16,18 @@
             "command": "node \".agents/skills/impeccable/scripts/hook.mjs\"",
             "timeout": 5,
             "statusMessage": "Checking UI changes"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \".claude/hooks/session-start.mjs\"",
+            "timeout": 5,
+            "statusMessage": "Loading repo non-negotiables"
           }
         ]
       }

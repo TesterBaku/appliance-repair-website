@@ -9,7 +9,7 @@ Run the three required test commands. **All three must exit 0** before any PR is
 
 2. **`npm run screenshot`** — Playwright batch screenshots; report any page that fails to render.
 
-3. **`npm run test:functional`** — Playwright functional suite (~585 tests: nav, dropdowns, forms,
+3. **`npm run test:functional`** — Playwright functional suite (nav, dropdowns, forms,
    accordions, articles, hubs). Auto-starts a server on :8788.
 
    (`npm run test:all` runs all three in sequence.)

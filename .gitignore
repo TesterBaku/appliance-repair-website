@@ -46,6 +46,7 @@ Thumbs.db
 !.claude/commands/
 !.claude/rules/
 !.claude/agents/
+!.claude/hooks/
 !.claude/CLAUDE.md
 !.claude/settings.json
 
