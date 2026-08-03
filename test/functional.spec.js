@@ -1488,14 +1488,16 @@ for (const { brand, file } of BRAND_HUBS) {
 // broken, on the specific articles that were broken plus the newest template, rather
 // than re-deriving contrast: hero content must start BELOW the fixed nav, and the
 // document must not scroll horizontally.
-const MOBILE_OCCLUSION_PAGES = [
-  '/articles/article-washer-not-spinning-huntington-beach.html', // was the worst H1 (7 lines)
-  '/articles/article-samsung-fridge-not-cooling-irvine.html',    // was the worst meta chip (-51px)
-  '/articles/article-fridge-not-cooling-huntington-beach.html',
-  '/articles/article-dishwasher-cost-orange-county.html',        // was horizontal overflow (drift-table)
-  '/articles/article-repair-replace.html',                       // was horizontal overflow (cost-table)
-  '/articles/article-mini-fridge.html',                          // longest H1 on the site (92 chars)
-];
+// EVERY article, not a sample. A 6-page list was the first attempt; the PR #678
+// reviewer demonstrated the hole by removing the fix from an uncovered article and
+// watching the whole suite report green. A static source-level check was the second
+// attempt and is worse: measured across 71 articles, whether a heading overflows
+// depends on hero height AND heading length together (clean articles run to 84
+// chars; fixed ones start at 41), so no grep-able rule separates them without false
+// positives. The behaviour is what matters, so measure the behaviour, everywhere.
+const MOBILE_OCCLUSION_PAGES = fs.readdirSync(path.join(__dirname, '..', 'articles'))
+  .filter(f => f.startsWith('article-') && f.endsWith('.html'))
+  .map(f => `/articles/${f}`);
 
 for (const url of MOBILE_OCCLUSION_PAGES) {
   test(`mobile 375px: hero clears the fixed nav and nothing overflows sideways: ${url}`, async ({ page }) => {
