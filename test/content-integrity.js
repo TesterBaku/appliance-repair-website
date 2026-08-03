@@ -1189,27 +1189,38 @@ if (run('gallery-parity')) {
 // *product lines*, which is a different claim and is why the scope test below is
 // structural rather than textual.
 //
-// SCOPE, deliberately narrow: only the two machine-checkable shapes are gated —
-// the `.brand-tier.premium` tier card and a `Premium (…)` / `premium brands (…)`
-// parenthetical. Prose like "premium kitchens with Sub-Zero and Thermador,
-// alongside Bosch dishwashers" is correct but not mechanically distinguishable
-// from a tier claim, so it is NOT gated. A checker that pretends to understand
-// English here would produce false failures and get muted, which is worse than a
-// narrow checker that is always right. Prose stays a review-time judgment.
+// SCOPE — three machine-checkable shapes are gated:
+//   1. the `.brand-tier.premium` cost-hub card,
+//   2. a `Premium (…)` / `premium brands (…)` parenthetical,
+//   3. the `.brand-pill.premium` chip inside a "Premium & Luxury Brands" group
+//      on the city hubs. Shape 3 was the one that actually mattered and it was
+//      MISSED by the first version of this check: Bosch shipped as a premium
+//      pill on 31 of 31 city hubs, styled with the accent border beside Sub-Zero
+//      and Wolf, while the first two shapes were being cleaned up. Caught by the
+//      PR #670 reviewer. If you add a fourth way to render a brand tier, add it
+//      here too.
 //
-// Line-scoped references ("the Bosch premium lines", "Benchmark") are legitimate
-// and unaffected: they never appear inside these two structural shapes.
+// Prose is deliberately NOT gated. "Premium kitchens with Sub-Zero and Thermador,
+// alongside Bosch dishwashers" is correct but not mechanically distinguishable
+// from a tier claim. A checker that guesses at English produces false failures
+// and gets muted, which is worse than a narrow checker that is always right.
+//
+// THE TEST IS INVERTED ON PURPOSE. It does not require every listed name to be a
+// known premium brand; it rejects names that are known STANDARD brands. That
+// difference kills three false-positive classes the PR #670 reviewer found by
+// fixture: ordinary prose parentheticals ("premium (fast, reliable) service"),
+// `&`-joined pairs ("Sub-Zero & Wolf") that comma-splitting mangles into one
+// token, and any brand the rules simply do not tier (Speed Queen), which no
+// longer needs a hard-coded exception. An unknown name is not evidence of a
+// mistake; a known standard brand in a premium group is.
+//
+// Line-scoped references stay legal because they are not exact brand names:
+// "Bosch Premium", "Bosch Serie 8" and "Benchmark" never equal "Bosch".
 if (run('brand-tier')) {
-  // The $95–$150 premium fee tier in seo-content.md, plus the two luxury brands
-  // that have their own premium hubs (Dacor, DCS) and are premium by the same
-  // standard even though the fee table does not enumerate them.
-  const PREMIUM = new Set(['Sub-Zero', 'Wolf', 'Viking', 'Thermador', 'Miele', 'Dacor', 'DCS']);
-  // Known deviation, surfaced rather than silently allowed. Speed Queen appears
-  // in the dryer-cost premium tier but is absent from seo-content.md entirely —
-  // it is not in the premium tier NOR in the serviced-brands list. Owner decision
-  // pending; remove this entry once it is made (either add it to seo-content.md
-  // or drop it from the page).
-  const UNTIERED = new Set(['Speed Queen']);
+  // Standard-tier brands per seo-content.md ($75–$100 service-call range). These
+  // may never appear inside a premium enumeration.
+  const STANDARD = new Set(['Whirlpool', 'GE', 'Samsung', 'LG', 'KitchenAid', 'Maytag',
+                            'Frigidaire', 'Kenmore', 'Bosch', 'Electrolux', 'Amana', 'Hotpoint']);
   const FEES = new Set(['99', '120', '49']);   // OC/LA tier, Riverside tier, additional-unit
   checked['brand-tier'] = { pages: 0, lists: 0, fees: 0 };
 
@@ -1220,14 +1231,15 @@ if (run('brand-tier')) {
     const lists = [
       ...content.matchAll(/<div class="brand-tier premium">[\s\S]*?<\/div>\s*<h3>([^<]*)<\/h3>/g),
       ...content.matchAll(/[Pp]remium(?: brands)? \(([^)]{0,120})\)/g),
+      ...content.matchAll(/class="brand-pill premium"[^>]*>([^<]+)</g),
     ];
     for (const m of lists) {
       const brands = m[1].split(',').map(b => b.replace(/&amp;/g, '&').trim()).filter(Boolean);
       if (!brands.length) continue;
       checked['brand-tier'].lists++; touched = true;
       for (const b of brands) {
-        if (PREMIUM.has(b) || UNTIERED.has(b)) continue;
-        issues.push(`[BRAND-TIER] ${rel(filePath)} — "${b}" is listed as a premium brand in "${m[1].trim()}", but .claude/rules/seo-content.md tiers premium as ${[...PREMIUM].join(', ')}. Move it out of the premium group (copy AND the matching FAQ JSON-LD, or faq-jsonld-parity will fail), or change the rule.`);
+        if (!STANDARD.has(b)) continue;
+        issues.push(`[BRAND-TIER] ${rel(filePath)} — "${b}" is a standard-tier brand per .claude/rules/seo-content.md ($75–$100 service call), but it is listed as premium in "${m[1].trim()}". Move it to the standard/mass-market group (visible copy AND the matching FAQ JSON-LD, or faq-jsonld-parity will fail), or change the rule. A premium PRODUCT LINE is a different claim and is written differently: "Bosch Premium", "Bosch Serie 8", "Benchmark".`);
       }
     }
 
