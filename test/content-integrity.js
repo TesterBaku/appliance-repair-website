@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Seventeen enforced checks (EXIT 1 on any failure) plus one informational report
+ * Eighteen enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -144,6 +144,18 @@
  *                    in the PR #656 review). All 137 FAQ pages already comply, so it
  *                    ships green as a pure regression guard.
  *
+ *   gallery-parity — any page with an ImageGallery JSON-LD node must list exactly
+ *                    the photos it renders: same set both ways, no duplicate
+ *                    contentUrl, and every listed file present in the repo. Added
+ *                    2026-08-03 (P6-6) after pages/recent-repairs.html was found
+ *                    rendering 33 repair photos against 29 ImageObject entries —
+ *                    4 repairs absent from the structured data. jsonld-valid only
+ *                    parses the block and the link checker only follows <a href>,
+ *                    so the gap was invisible. Keyed on the schema type and on the
+ *                    image directories the gallery itself references, not on a
+ *                    filename or a card class, so a future gallery page is covered
+ *                    on arrival.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -152,7 +164,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all seventeen enforced checks + the report
+ *   node test/content-integrity.js          — run all eighteen enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -161,7 +173,7 @@
  *                                             footer-self-contained, iso8601-timestamps,
  *                                             article-mobile-chrome, non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
- *                                             faq-schema-presence,
+ *                                             faq-schema-presence, gallery-parity,
  *                                             title-length)
  */
 
@@ -1034,6 +1046,124 @@ if (run('faq-schema-presence')) {
   }
 }
 
+// ── Check 17: gallery-parity ──────────────────────────────────────────────────
+// Any page carrying an ImageGallery JSON-LD node must list EXACTLY the photos it
+// actually renders: same set, no extras, no omissions, no duplicates, and every
+// listed file must exist on disk.
+//
+// P6-6. pages/recent-repairs.html shipped 33 rendered repair photos against 29
+// ImageObject entries — four repairs (both LG compressor shots, the Viking range,
+// the KitchenAid control board) were invisible to Google Images and to anything
+// reading the structured data. Nothing caught it: jsonld-valid only parses the
+// block, and the link checker only follows <a href>. The four entries are the
+// symptom; this check is the fix, because the gap reopens every time a card is
+// added and the schema is not.
+//
+// Deliberately NOT keyed on `.repair-card` or on a filename. The page is
+// discovered by its schema (@type contains "ImageGallery"), and the image
+// directories to compare against are derived from the gallery's own contentUrls,
+// so a second gallery page elsewhere is covered the day it ships. <source
+// srcset> variants (…-480w.webp) are ignored: those are responsive derivatives
+// of the same photo, and schema.org wants one ImageObject per image.
+if (run('gallery-parity')) {
+  checked['gallery-parity'] = { pages: 0, images: 0 };
+  const base = 'https://fixappliancesfast.com/';
+  const dirEntries = new Map();   // dir -> Set of real, case-exact filenames
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (!content.includes('ImageGallery')) continue;
+
+    const listed = [];
+    let declaresGallery = false;
+    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; }
+      // Collect from a gallery node's OWN `image` property only. An earlier version propagated
+      // "we are inside a gallery" to every descendant, which meant a publisher.logo or a
+      // VideoObject.thumbnailUrl hanging off the same node counted as a gallery photo and got
+      // reported as "listed but not rendered". Proved with a real fixture in the PR #668 review.
+      const fromImage = (node) => {
+        if (Array.isArray(node)) return node.forEach(fromImage);
+        if (typeof node === 'string') return listed.push(node);   // image: ["url", …] form
+        if (node && typeof node === 'object' && typeof node.contentUrl === 'string') listed.push(node.contentUrl);
+      };
+      const walk = (node) => {
+        if (Array.isArray(node)) return node.forEach(walk);
+        if (!node || typeof node !== 'object') return;
+        const t = node['@type'];
+        if (t === 'ImageGallery' || (Array.isArray(t) && t.includes('ImageGallery'))) {
+          declaresGallery = true;
+          if (node.image) fromImage(node.image);
+        }
+        for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v);
+      };
+      walk(parsed);
+    }
+    // The substring test above is only a cheap prefilter. A page that merely MENTIONS
+    // "ImageGallery" in prose or an HTML comment declares nothing, and must not be dragged
+    // into this check — that false positive was also found in the PR #668 review.
+    if (!declaresGallery) continue;
+    if (!listed.length) {
+      issues.push(`[GALLERY] ${rel(filePath)} — declares an ImageGallery but the node lists no ImageObject contentUrl at all. Either populate image[] or drop the ImageGallery type.`);
+      continue;
+    }
+    checked['gallery-parity'].pages++;
+    checked['gallery-parity'].images += listed.length;
+
+    // Directories the gallery itself points at, e.g. "images/real/business".
+    const dirs = new Set(listed.map(u => u.replace(base, '').replace(/^\//, '')).map(p => path.posix.dirname(p)));
+    const bn = u => u.split('/').pop();
+    const listedNames = listed.map(bn);
+
+    const dupes = listedNames.filter((n, i) => listedNames.indexOf(n) !== i);
+    for (const d of new Set(dupes)) {
+      issues.push(`[GALLERY] ${rel(filePath)} — ${d} appears ${listedNames.filter(n => n === d).length}× in the gallery's image[]. One ImageObject per photo.`);
+    }
+
+    // KNOWN TRADEOFF (raised in the PR #668 review, kept on purpose): this collects every <img>
+    // sourced from a directory the gallery uses, not every <img> inside a gallery card. So a
+    // future non-gallery photo on this page drawn from images/real/business/ (a hero, a trust
+    // badge) would be demanded as a gallery entry. That is the safe direction to fail: it is
+    // loud, names the file, and is resolved by adding an entry or moving the image. Scoping to a
+    // card container instead would hard-code `.repair-card` and silently miss any card the page
+    // renders through different markup — the exact drift this check exists to catch.
+    const rendered = [...content.matchAll(/<img[^>]+src="([^"]+)"/g)]
+      .map(m => m[1])
+      .filter(src => [...dirs].some(d => src.includes(d + '/')))
+      .map(bn);
+
+    for (const name of new Set(rendered)) {
+      if (!listedNames.includes(name)) {
+        issues.push(`[GALLERY] ${rel(filePath)} — renders ${name} but no ImageObject lists it, so that repair is missing from the structured data. Add an entry with name/description/contentLocation matching the card.`);
+      }
+    }
+    for (const name of new Set(listedNames)) {
+      if (!rendered.includes(name)) {
+        issues.push(`[GALLERY] ${rel(filePath)} — the gallery lists ${name} but the page does not render it. Schema must describe what is on the page.`);
+      }
+    }
+    for (const url of listed) {
+      if (!url.startsWith(base)) {
+        issues.push(`[GALLERY] ${rel(filePath)} — contentUrl "${url}" is not an absolute ${base} URL.`);
+        continue;
+      }
+      const relPath = url.slice(base.length);
+      const onDisk = path.join(root, relPath);
+      if (!fs.existsSync(onDisk)) {
+        issues.push(`[GALLERY] ${rel(filePath)} — contentUrl points at ${relPath}, which does not exist in the repo.`);
+        continue;
+      }
+      // existsSync alone is not enough. This repo is developed on Windows and the deploy target
+      // (GitHub Pages) is case-sensitive, so a wrong-case filename passes locally and 404s in
+      // production. Compare against the real directory entry. Flagged in the PR #668 review.
+      const dirOnDisk = path.dirname(onDisk);
+      if (!dirEntries.has(dirOnDisk)) dirEntries.set(dirOnDisk, new Set(fs.readdirSync(dirOnDisk)));
+      if (!dirEntries.get(dirOnDisk).has(path.basename(onDisk))) {
+        issues.push(`[GALLERY] ${rel(filePath)} — contentUrl points at ${relPath}, which exists on disk only under different capitalisation. GitHub Pages is case-sensitive, so this 404s in production.`);
+      }
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -1083,5 +1213,6 @@ if (checked['faq-jsonld-parity']) {
   const c = checked['faq-jsonld-parity'];
   parts.push(`FAQ/JSON-LD parity ratchet held on ${c.pairs} Q&A pairs across ${c.files} pages (debt measured ${c.measuredFields} fields in ${c.measuredFiles} files, baseline declares ${c.baselineFields}/${c.baselineFiles}, see P6-12)`);
 }
+if (checked['gallery-parity'])       parts.push(`ImageGallery schema matches rendered photos exactly on ${checked['gallery-parity'].pages} page(s) (${checked['gallery-parity'].images} listed images)`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
