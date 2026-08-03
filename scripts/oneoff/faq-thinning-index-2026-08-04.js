@@ -24,7 +24,10 @@
  * wholesale, the whole old text is one removed span and it also scores 100% — and a rewrite
  * is frequently an IMPROVEMENT that must not be reverted.
  *
- * Concrete: article-dishwasher-leaking-dana-point "leaking from the bottom" scores 100%.
+ * Concrete: article-dishwasher-leaking-dana-point "leaking from the bottom" scored 100% under
+ * the ORIGINAL broken diff, which is how it reached the top of the list. Under the corrected
+ * LCS it scores ~8% and is nowhere near the top - the ranking was the artifact, but reading
+ * the two texts still proved the point.
  * The pre-sweep text said the door gasket is "the most common culprit" for a BOTTOM leak.
  * The current text correctly says a door gasket leaks from the FRONT of the door, not the
  * bottom, and distinguishes during-cycle from after-cycle causes. Restoring the old text
@@ -34,11 +37,10 @@
  * full and ask which is more accurate, not which is longer. Batch 7 restored ZERO of its
  * top three candidates for exactly this reason.
  *
- * SELF-TEST is not decoration. The two fixtures are the only two fields whose correct
- * classification is independently known, both established by review:
- *   freezer-repair-orange-county  "loud noise"  -> STYLISTIC   (63 chars over ~7 word trims)
- *   garbage-disposal              "breaker"     -> CONTENT DROP (73 chars, 72 in one sentence)
- * If either fixture misclassifies, the tool is wrong and its output must not be used.
+ * SELF-TEST uses SYNTHETIC pairs, not live fields. An earlier version used two real FAQ
+ * answers and one of them was wrong: its "73 chars, 72 in one sentence" was stale, because
+ * PR #675 had already restored that field, so its real shrink was zero. It passed only
+ * because the diff was broken. Repo state moves under a fixture; a synthetic pair does not.
  */
 'use strict';
 const fs = require('fs');
@@ -197,6 +199,12 @@ if (process.argv.includes('--selftest')) {
     ['identical text is never a candidate', identical],
     ['a cut sentence outranks a rewording', cut > reworded],
     ['a cut sentence scores near-total', cut >= 90],
+    // THE DISCRIMINATING CHECK. The #680 reviewer reinstated the old broken spans() and all
+    // three of my other assertions still passed: that bug inflated BOTH fixtures together, so
+    // relative ordering and a floor on `cut` both survived it (reworded went 56% -> 75.9%).
+    // A self-test that passes on the bug it was rebuilt to catch is the exact failure being
+    // removed here. An absolute CEILING on the reworded fixture is what actually discriminates.
+    ['a rewording stays well under the cut score', reworded < 65],
   ];
   let bad = 0;
   for (const [name, ok] of checks) { if (!ok) bad++; console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}`); }
