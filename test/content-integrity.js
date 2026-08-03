@@ -1068,23 +1068,40 @@ if (run('faq-schema-presence')) {
 if (run('gallery-parity')) {
   checked['gallery-parity'] = { pages: 0, images: 0 };
   const base = 'https://fixappliancesfast.com/';
+  const dirEntries = new Map();   // dir -> Set of real, case-exact filenames
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
     if (!content.includes('ImageGallery')) continue;
 
     const listed = [];
+    let declaresGallery = false;
     for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; }
-      const walk = (node, inGallery) => {
-        if (Array.isArray(node)) return node.forEach(n => walk(n, inGallery));
+      // Collect from a gallery node's OWN `image` property only. An earlier version propagated
+      // "we are inside a gallery" to every descendant, which meant a publisher.logo or a
+      // VideoObject.thumbnailUrl hanging off the same node counted as a gallery photo and got
+      // reported as "listed but not rendered". Proved with a real fixture in the PR #668 review.
+      const fromImage = (node) => {
+        if (Array.isArray(node)) return node.forEach(fromImage);
+        if (typeof node === 'string') return listed.push(node);   // image: ["url", …] form
+        if (node && typeof node === 'object' && typeof node.contentUrl === 'string') listed.push(node.contentUrl);
+      };
+      const walk = (node) => {
+        if (Array.isArray(node)) return node.forEach(walk);
         if (!node || typeof node !== 'object') return;
         const t = node['@type'];
-        const isGallery = t === 'ImageGallery' || (Array.isArray(t) && t.includes('ImageGallery'));
-        if (inGallery && typeof node.contentUrl === 'string') listed.push(node.contentUrl);
-        for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v, inGallery || isGallery);
+        if (t === 'ImageGallery' || (Array.isArray(t) && t.includes('ImageGallery'))) {
+          declaresGallery = true;
+          if (node.image) fromImage(node.image);
+        }
+        for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v);
       };
-      walk(parsed, false);
+      walk(parsed);
     }
+    // The substring test above is only a cheap prefilter. A page that merely MENTIONS
+    // "ImageGallery" in prose or an HTML comment declares nothing, and must not be dragged
+    // into this check — that false positive was also found in the PR #668 review.
+    if (!declaresGallery) continue;
     if (!listed.length) {
       issues.push(`[GALLERY] ${rel(filePath)} — declares an ImageGallery but the node lists no ImageObject contentUrl at all. Either populate image[] or drop the ImageGallery type.`);
       continue;
@@ -1102,6 +1119,13 @@ if (run('gallery-parity')) {
       issues.push(`[GALLERY] ${rel(filePath)} — ${d} appears ${listedNames.filter(n => n === d).length}× in the gallery's image[]. One ImageObject per photo.`);
     }
 
+    // KNOWN TRADEOFF (raised in the PR #668 review, kept on purpose): this collects every <img>
+    // sourced from a directory the gallery uses, not every <img> inside a gallery card. So a
+    // future non-gallery photo on this page drawn from images/real/business/ (a hero, a trust
+    // badge) would be demanded as a gallery entry. That is the safe direction to fail: it is
+    // loud, names the file, and is resolved by adding an entry or moving the image. Scoping to a
+    // card container instead would hard-code `.repair-card` and silently miss any card the page
+    // renders through different markup — the exact drift this check exists to catch.
     const rendered = [...content.matchAll(/<img[^>]+src="([^"]+)"/g)]
       .map(m => m[1])
       .filter(src => [...dirs].some(d => src.includes(d + '/')))
@@ -1122,9 +1146,19 @@ if (run('gallery-parity')) {
         issues.push(`[GALLERY] ${rel(filePath)} — contentUrl "${url}" is not an absolute ${base} URL.`);
         continue;
       }
-      const onDisk = path.join(root, url.slice(base.length));
+      const relPath = url.slice(base.length);
+      const onDisk = path.join(root, relPath);
       if (!fs.existsSync(onDisk)) {
-        issues.push(`[GALLERY] ${rel(filePath)} — contentUrl points at ${url.slice(base.length)}, which does not exist in the repo.`);
+        issues.push(`[GALLERY] ${rel(filePath)} — contentUrl points at ${relPath}, which does not exist in the repo.`);
+        continue;
+      }
+      // existsSync alone is not enough. This repo is developed on Windows and the deploy target
+      // (GitHub Pages) is case-sensitive, so a wrong-case filename passes locally and 404s in
+      // production. Compare against the real directory entry. Flagged in the PR #668 review.
+      const dirOnDisk = path.dirname(onDisk);
+      if (!dirEntries.has(dirOnDisk)) dirEntries.set(dirOnDisk, new Set(fs.readdirSync(dirOnDisk)));
+      if (!dirEntries.get(dirOnDisk).has(path.basename(onDisk))) {
+        issues.push(`[GALLERY] ${rel(filePath)} — contentUrl points at ${relPath}, which exists on disk only under different capitalisation. GitHub Pages is case-sensitive, so this 404s in production.`);
       }
     }
   }
