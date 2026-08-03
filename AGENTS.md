@@ -365,10 +365,11 @@ key decisions and why, test results, and open risks.
 Always surface blockers, failures, skipped steps, or deviations from the plan —
 even in a short status. Never omit bad news for the sake of brevity.
 
-### Scope — chat only, never written artifacts
+### Scope — ad-hoc status only, never a specified deliverable
 
-This governs what you SAY in chat. It does not apply to anything written to disk or to an external
-surface, each of which keeps its own required format:
+This governs the ad-hoc status you volunteer about your own work. It never overrides a format some
+other rule or workflow already specifies. Anything with a required shape keeps that shape in full,
+whether it is written to disk, sent to an external surface, **or printed in chat**:
 
 - PR titles and bodies (the template in `.claude/rules/git-workflow.md`, including the three-test
   checklist)
@@ -376,8 +377,15 @@ surface, each of which keeps its own required format:
 - Commit messages (Conventional Commits)
 - `progress.md`, `logs/*.md`, `tasks/*.md`
 - Site content, schema, and any external-platform copy
+- **Any deliverable a `.claude/commands/*.md` workflow specifies, including the ones delivered in
+  chat** — notably `/seo-hub` Phase 5's one-page demo summary (the block the owner approves a hub
+  merge from, stats + outstanding items) and `/visual-review` Phase 3's per-page PASS/FAIL/WARN
+  report. These are decision inputs, not status: compressing one hides the very facts the owner is
+  being asked to rule on.
 
-Compressing a PR body or a review verdict to two sentences is a rule violation, not brevity.
+Compressing a PR body, a review verdict, or a workflow-specified report to two sentences is a rule
+violation, not brevity. The test is not "chat vs. disk" — it is whether another file dictates the
+format. If one does, that file wins.
 
 ### Examples
 ✅ "Migrated the login suite to Playwright; 2 flaky tests quarantined, fixing next."
