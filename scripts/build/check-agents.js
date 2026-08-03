@@ -24,13 +24,21 @@
  *      Without this, a malformed or duplicate-named agent file loads inconsistently (unsorted
  *      readdir order decides which of two same-named files "wins", so it differs per machine)
  *      or silently falls back to inheriting the session model instead of the one pinned in its
- *      frontmatter (the exact bug that motivated pinning `code-reviewer` to Sonnet).
+ *      frontmatter (the exact bug that motivated pinning `code-reviewer` to Sonnet). This
+ *      assertion also guards its own parser: the frontmatter regex is non-greedy and stops at
+ *      the FIRST bare `---` line, so a body containing its own `---` line truncates the
+ *      captured block early and everything after it — including a `model:`/`name:`/etc. line
+ *      that looks like real frontmatter — would otherwise be silently skipped instead of
+ *      validated. Any `name:`/`description:`/`model:`/`tools:` line found after the captured
+ *      block is flagged as a probable truncation, naming the key and line number.
  *   5. Agent-reference resolution: every agent name listed as a `- \`name\`` bullet in AGENTS.md's
  *      "Agent definitions" subsection must resolve to a real `.claude/agents/<name>.md` file. Without
  *      this, renaming or deleting an agent file leaves AGENTS.md pointing at a name nothing
- *      resolves, and a workflow that dispatches by that name (e.g. `/review` dispatching
- *      `code-reviewer`) silently falls back to a generic agent with no pinned model, which is
- *      assertion 4's exact bug, reintroduced invisibly.
+ *      resolves. Verified by direct observation, not assumed: dispatching an unresolvable agent
+ *      name fails loudly ("Agent type '<name>' not found. Available agents: ...") rather than
+ *      silently falling back to a generic agent. That is still worth catching here: a loud failure
+ *      at dispatch time (e.g. `/review` dispatching `code-reviewer`) is a broken workflow in
+ *      production, whereas this assertion catches the same dangling reference in CI before merge.
  *
  * Deliberately NOT checked here: banned brand/old-domain strings. The workflow files
  * legitimately QUOTE them in review checklists and guidance ("Never write 'Fix Appliances
@@ -143,6 +151,29 @@ for (const file of listMd(agentsDir)) {
     continue;
   }
   const frontmatter = fmMatch[1];
+
+  // The frontmatter regex above is non-greedy and stops at the FIRST bare "---" line, so a
+  // markdown body that happens to contain its own "---" line (e.g. a horizontal rule, or a
+  // fenced/quoted example) truncates the captured block early — everything after that
+  // premature "---" is silently treated as body text and never validated, even if it still
+  // looks like frontmatter (a `model:` line with a bogus value, for example). A markdown body
+  // has no legitimate reason to start a line with `name:`, `description:`, `model:`, or
+  // `tools:`, so flag any such line found in the remainder as a probable truncation instead of
+  // letting it pass unchecked.
+  const remainderStart = fmMatch.index + fmMatch[0].length;
+  const remainder = text.slice(remainderStart);
+  const leakRe = /^(name|description|model|tools):\s/gm;
+  let leakMatch;
+  while ((leakMatch = leakRe.exec(remainder))) {
+    const key = leakMatch[1];
+    const lineNum = text.slice(0, remainderStart + leakMatch.index).split('\n').length;
+    errors.push(
+      `${rel(file)}: frontmatter block appears truncated by an embedded "---" line ` +
+        `(the parser stops at the first bare "---") — "${key}:" at line ${lineNum} sits outside ` +
+        `the parsed frontmatter block and is not being validated.`
+    );
+  }
+
   const nameMatch = frontmatter.match(/^name:\s*(.+)$/m);
   const descMatch = frontmatter.match(/^description:\s*(.+)$/m);
   const modelMatch = frontmatter.match(/^model:\s*(.+)$/m);
