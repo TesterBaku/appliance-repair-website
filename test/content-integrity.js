@@ -1215,7 +1215,7 @@ if (run('gallery-parity')) {
 // mistake; a known standard brand in a premium group is.
 //
 // Line-scoped references stay legal because they are not exact brand names:
-// "Bosch Premium", "Bosch Serie 8" and "Benchmark" never equal "Bosch".
+// "Bosch Premium", "Bosch 800 Series" and "Benchmark" never equal "Bosch".
 if (run('brand-tier')) {
   // Standard-tier brands per seo-content.md ($75–$100 service-call range). These
   // may never appear inside a premium enumeration.
@@ -1234,12 +1234,17 @@ if (run('brand-tier')) {
       ...content.matchAll(/class="brand-pill premium"[^>]*>([^<]+)</g),
     ];
     for (const m of lists) {
-      const brands = m[1].split(',').map(b => b.replace(/&amp;/g, '&').trim()).filter(Boolean);
+      // Split on commas AND ampersands. Comma-only splitting let an `&`-joined pair of
+      // STANDARD brands ("Premium brands (Whirlpool & GE)") survive as one compound token
+      // that matches nothing and passes — the mirror-image false NEGATIVE of the false
+      // positives the inverted test fixed. Found by the PR #670 reviewer. Splitting on `&`
+      // does not reintroduce them: "Sub-Zero" and "Wolf" split apart are both premium.
+      const brands = m[1].split(/,|&amp;|&/).map(b => b.replace(/&amp;/g, '&').trim()).filter(Boolean);
       if (!brands.length) continue;
       checked['brand-tier'].lists++; touched = true;
       for (const b of brands) {
         if (!STANDARD.has(b)) continue;
-        issues.push(`[BRAND-TIER] ${rel(filePath)} — "${b}" is a standard-tier brand per .claude/rules/seo-content.md ($75–$100 service call), but it is listed as premium in "${m[1].trim()}". Move it to the standard/mass-market group (visible copy AND the matching FAQ JSON-LD, or faq-jsonld-parity will fail), or change the rule. A premium PRODUCT LINE is a different claim and is written differently: "Bosch Premium", "Bosch Serie 8", "Benchmark".`);
+        issues.push(`[BRAND-TIER] ${rel(filePath)} — "${b}" is a standard-tier brand per .claude/rules/seo-content.md ($75–$100 service call), but it is listed as premium in "${m[1].trim()}". Move it to the standard/mass-market group (visible copy AND the matching FAQ JSON-LD, or faq-jsonld-parity will fail), or change the rule. A premium PRODUCT LINE is a different claim and is written differently: "Bosch Premium", "Bosch 800 Series", "Benchmark".`);
       }
     }
 
