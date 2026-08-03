@@ -1473,8 +1473,11 @@ for (const { brand, file } of BRAND_HUBS) {
 }
 
 // ── Mobile hero occlusion + horizontal overflow, at 375px ─────────────────────
-// Google indexes mobile-first, and every other gate in this file probes at 1440px
-// only, so this entire class was invisible to CI until 2026-08-03. A measured walk
+// Google indexes mobile-first. This file already had SOME 375px coverage (the
+// no-horizontal-overflow test on the luxury city hubs, above), but nothing checked
+// article hero geometry against the fixed nav, so that class was invisible to CI
+// until 2026-08-03. Claiming the file had no mobile coverage at all was wrong and
+// was corrected in the PR #678 review. A measured walk
 // of all 71 articles at 375x812 then found 15 broken pages: 13 where the <h1> or the
 // meta chips rendered UNDERNEATH the fixed nav (worst case meta.top -51px, i.e. off
 // the top of the screen) and 2 where a wide table pushed the whole document sideways.
@@ -1501,7 +1504,7 @@ const MOBILE_OCCLUSION_PAGES = fs.readdirSync(path.join(__dirname, '..', 'articl
 
 for (const url of MOBILE_OCCLUSION_PAGES) {
   test(`mobile 375px: hero clears the fixed nav and nothing overflows sideways: ${url}`, async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 812 });
+    await page.setViewportSize(MOBILE);
     await page.goto(url);
 
     const r = await page.evaluate(() => {
