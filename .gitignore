@@ -8,6 +8,10 @@ playwright-report/
 # Local task/planning files and run logs — owner's working notes, not part of the site
 tasks/
 logs/
+# Session work logs — orchestrator log + per-subagent detail files (see AGENTS.md
+# "progress.md Contract"). Local working notes like tasks/ and logs/, never committed.
+progress.md
+progress/
 # Hermes Agent per-run plan scratch (like tasks/) — local working notes, not shared config
 .hermes/
 *.png
