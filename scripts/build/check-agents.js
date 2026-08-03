@@ -168,13 +168,15 @@ for (const file of listMd(agentsDir)) {
   // premature "---" is treated as body text and never validated, even if it still looks like
   // frontmatter (a `model:` line with a bogus value, for example). Scan the remainder for such
   // a line, but follow CommonMark so this sees what a markdown READER sees rather than raw
-  // text. Two rules, and they are the same rule Markdown itself uses to tell a directive from
-  // an example:
-  //   - skip fenced code blocks (``` or ~~~), so an agent file that legitimately DOCUMENTS
-  //     frontmatter syntax in a fenced example is not rejected for its own documentation —
-  //     including when a line inside the example merely LOOKS like a closing fence;
-  //   - allow 0-3 leading spaces, so an indented directive is still caught, while 4+ spaces
-  //     (an indented code block, i.e. an example again) correctly is not.
+  // text. Three rules, the same ones Markdown itself uses to tell a directive from an example,
+  // listed in the same order as clauses (a)-(c) in the header docblock so the two cannot drift:
+  //   - a key may carry 0-3 leading spaces, so an indented directive is still caught, while
+  //     4+ spaces (an indented code block, i.e. an example) correctly is not;
+  //   - a fence OPENS on 3+ backticks or tildes and may carry an info string ("```yaml");
+  //   - a fence CLOSES only on the same character, a run at least as long as the opener, and
+  //     nothing but whitespace after it — so a line inside a fenced example that merely LOOKS
+  //     like a closing fence does not end it, and the example is not rejected for its own
+  //     contents.
   // A ">"-quoted example never matches either, since ">" is not a space.
   const remainderStart = fmMatch.index + fmMatch[0].length;
   const remainder = text.slice(remainderStart);
