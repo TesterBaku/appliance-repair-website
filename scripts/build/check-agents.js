@@ -18,9 +18,16 @@
  *   3. Email hygiene: the only email allowed in the committed workflow/rule/agent files is the
  *      business address `@fixappliancesfast.com`; anything else (e.g. the owner's personal
  *      Gmail, scrubbed to $OWNER_EMAIL) is a regression and the one genuinely-private leak.
- *   4. Agent-definition validity: every `.claude/agents/*.md` file must have parseable YAML
- *      frontmatter with a `name:` that matches its filename, a non-empty `description:`, a
+ *   4. Agent-definition validity: every `.claude/agents/*.md` file must carry a `---`-delimited
+ *      frontmatter block with a `name:` that matches its filename, a non-empty `description:`, a
  *      `name` unique across the directory, and (if present) a `model:` from the allowed set.
+ *      This is deliberately NOT a YAML parse, and the wording matters because an earlier draft
+ *      said "parseable YAML" and overstated it: the block is validated by line-based regex
+ *      against the handful of keys this repo cares about, so malformed YAML that still presents
+ *      those keys on their own lines passes. What is enforced is a stricter line-oriented subset
+ *      of YAML, not YAML itself. The delimiters are equally shallow — a closing `---` carrying
+ *      trailing text (`--- # note`) is accepted as a closer. Both limits are recorded here
+ *      rather than left implied.
  *      Exactly one harness behavior here is verified by direct observation, and it is the
  *      DEFAULT path, not a failure path: an agent dispatched with no `model:` pin inherits the
  *      session model (a `/review` subagent ran 128 turns on Opus purely by inheritance — the
