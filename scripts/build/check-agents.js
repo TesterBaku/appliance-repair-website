@@ -32,9 +32,15 @@
  *      Parser self-guard: the frontmatter regex is non-greedy and stops at the FIRST bare
  *      `---` line, so a body containing its own `---` truncates the captured block early and a
  *      `model:`-style line after it would be skipped rather than validated. The remainder is
- *      scanned for one, following CommonMark so the scan sees what a markdown reader sees:
- *      fenced blocks are skipped, and a key may carry 0-3 leading spaces (4+ makes it an
- *      indented code block, i.e. an example). A blockquoted `> model:` is likewise not a match.
+ *      scanned for one, applying the three CommonMark rules that separate a directive from an
+ *      example — and only those three, which is the whole of the fidelity claimed here:
+ *      (a) a key may carry 0-3 leading spaces, since 4+ makes it an indented code block;
+ *      (b) a fence opens on 3+ backticks or tildes and may carry an info string;
+ *      (c) a fence closes ONLY on the same character, at least as long as the opener, followed
+ *      by nothing but whitespace. Clause (c)'s trailing-content requirement is load-bearing, not
+ *      pedantry — dropping it lets an annotated look-alike line close the fence early and turns
+ *      a well-formed documentation example into a CI failure. A blockquoted `> model:` never
+ *      matches either, since `>` is not a space.
  *   5. Agent-reference resolution: every agent name listed as a `- \`name\`` bullet in AGENTS.md's
  *      "Agent definitions" subsection must resolve to a real `.claude/agents/<name>.md` file. Without
  *      this, renaming or deleting an agent file leaves AGENTS.md pointing at a name nothing
@@ -165,25 +171,36 @@ for (const file of listMd(agentsDir)) {
   // text. Two rules, and they are the same rule Markdown itself uses to tell a directive from
   // an example:
   //   - skip fenced code blocks (``` or ~~~), so an agent file that legitimately DOCUMENTS
-  //     frontmatter syntax in a fenced example is not rejected for its own documentation;
+  //     frontmatter syntax in a fenced example is not rejected for its own documentation —
+  //     including when a line inside the example merely LOOKS like a closing fence;
   //   - allow 0-3 leading spaces, so an indented directive is still caught, while 4+ spaces
   //     (an indented code block, i.e. an example again) correctly is not.
   // A ">"-quoted example never matches either, since ">" is not a space.
   const remainderStart = fmMatch.index + fmMatch[0].length;
   const remainder = text.slice(remainderStart);
   const leakRe = /^ {0,3}(name|description|model|tools):\s/;
-  const fenceRe = /^ {0,3}(`{3,}|~{3,})/;
+  const fenceRe = /^ {0,3}(`{3,}|~{3,})(.*)$/;
   let fence = null; // the open fence's delimiter run while inside one, else null
   let offset = 0;
   for (const rawLine of remainder.split('\n')) {
     const line = rawLine.replace(/\r$/, '');
     const fenceMatch = line.match(fenceRe);
     if (fence) {
-      // A fence closes on a run of the SAME character at least as long as the opener.
-      if (fenceMatch && fenceMatch[1][0] === fence[0] && fenceMatch[1].length >= fence.length) {
+      // CommonMark closing fence: the SAME character, a run at least as long as the opener,
+      // and then nothing but whitespace. That last clause is load-bearing — without it a line
+      // like "``` still an example" inside a fenced block reads as a closer, the fence ends
+      // early, and the example's own `model:` line gets reported as a leaked directive on a
+      // perfectly well-formed file. Caught in review with exactly that fixture.
+      if (
+        fenceMatch &&
+        fenceMatch[1][0] === fence[0] &&
+        fenceMatch[1].length >= fence.length &&
+        fenceMatch[2].trim() === ''
+      ) {
         fence = null;
       }
     } else if (fenceMatch) {
+      // An OPENING fence may carry an info string ("```yaml"), so no trailer check here.
       fence = fenceMatch[1];
     } else {
       const leak = line.match(leakRe);
