@@ -201,6 +201,11 @@
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .article-hero-img { height: 300px; }
+      /* Same mobile hero occlusion fix as the 260px variant: inline font sizes on the
+         H1 and meta beat any plain rule, so a long heading overflowed upward behind
+         the fixed nav. Measured at 375px, 2026-08-03. */
+      .article-hero h1 { font-size: 24px !important; line-height: 1.2 !important; }
+      .article-hero .article-meta { margin-bottom: 10px !important; }
       .article-body h2 { font-size: 18px; }
       .related-grid { grid-template-columns: 1fr; }
       .tip-card { flex-direction: column; }

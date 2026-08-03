@@ -130,6 +130,10 @@
     .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: #aa3210 !important; font-weight: 600 !important; }
   
     @media (max-width: 768px) {
+      /* A wide cost-table pushed the whole page sideways at 375px (measured 504px against a
+         375px viewport). Scroll the table inside its own box rather than the document, per
+         the horizontal-overflow rule in .claude/rules/mobile-design.md. Measured 2026-08-03. */
+      .cost-table { display: block; overflow-x: auto; }
       .inline-cta a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
       .decision-grid { grid-template-columns: 1fr; }
       .article-wrap { padding: 40px 16px 60px; }
