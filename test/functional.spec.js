@@ -1508,7 +1508,9 @@ for (const url of MOBILE_OCCLUSION_PAGES) {
     await page.goto(url);
 
     const r = await page.evaluate(() => {
-      const nav = document.querySelector('nav, .nav');
+      // .nav, not 'nav, .nav': three articles carry a second <nav class="article-toc">,
+      // and the broader selector worked only by DOM order. Raised in the #678 review.
+      const nav = document.querySelector('.nav');
       const navFixed = nav && getComputedStyle(nav).position === 'fixed';
       const navBottom = navFixed ? nav.getBoundingClientRect().bottom : 0;
       const out = { navFixed, navBottom, h1Top: null, metaTop: null, scrollW: 0, clientW: 0, widest: null };
@@ -1516,8 +1518,10 @@ for (const url of MOBILE_OCCLUSION_PAGES) {
       out.clientW = document.documentElement.clientWidth;
 
       const h1 = document.querySelector('h1');
+      out.hasH1 = !!h1;
       if (h1) out.h1Top = h1.getBoundingClientRect().top;
       const meta = document.querySelector('.article-meta');
+      out.hasMeta = !!meta;
       if (meta && meta.getBoundingClientRect().height > 0) out.metaTop = meta.getBoundingClientRect().top;
 
       // Name the widest offender so a failure says WHAT is wide, not just that something is.
@@ -1540,6 +1544,14 @@ for (const url of MOBILE_OCCLUSION_PAGES) {
     // being fixed would silently pass every assertion below against navBottom = 0.
     expect(r.navFixed, `${url}: no fixed nav found, so this test proves nothing`).toBe(true);
     expect(r.navBottom).toBeGreaterThan(0);
+
+    // Existence guards, applying the same principle as navFixed above. The #678
+    // reviewer disproved my assumption that "a different check would catch it": it
+    // retagged an <h1> to <h2> and content-integrity's schema-headline-sync reported
+    // clean, because that check silently skips on a missing H1 too. So nothing in
+    // this repo fails when an article loses its heading. Now something does.
+    expect(r.hasH1, `${url}: no <h1> on the page`).toBe(true);
+    expect(r.hasMeta, `${url}: no .article-meta on the page`).toBe(true);
 
     if (r.h1Top !== null) {
       expect(r.h1Top, `${url}: <h1> starts at ${Math.round(r.h1Top)}px, under the ${Math.round(r.navBottom)}px fixed nav`).toBeGreaterThanOrEqual(r.navBottom);
