@@ -1221,7 +1221,14 @@ if (run('brand-tier')) {
   // may never appear inside a premium enumeration.
   const STANDARD = new Set(['Whirlpool', 'GE', 'Samsung', 'LG', 'KitchenAid', 'Maytag',
                             'Frigidaire', 'Kenmore', 'Bosch', 'Electrolux', 'Amana', 'Hotpoint']);
-  const FEES = new Set(['99', '120', '49']);   // OC/LA tier, Riverside tier, additional-unit
+  // seo-content.md defines TWO company fees: $99 (OC + LA County, all brands) and
+  // $120 (Riverside). The $49 additional-unit price is a policy line that lives in
+  // llms.txt, NOT in seo-content.md — it is allowed here so a legitimate page cannot
+  // fail, but the message below must not attribute it to the rules file. Flagged by
+  // Copilot on PR #670. (The regex below keys on the word "fee", so the usual
+  // "each additional unit ... $49" phrasing is not actually reached; this entry is
+  // belt-and-braces for a page that does word it as a fee.)
+  const FEES = new Set(['99', '120', '49']);
   checked['brand-tier'] = { pages: 0, lists: 0, fees: 0 };
 
   for (const filePath of allHtml) {
@@ -1252,7 +1259,7 @@ if (run('brand-tier')) {
       const val = m[1] || m[2];
       checked['brand-tier'].fees++; touched = true;
       if (!FEES.has(val)) {
-        issues.push(`[BRAND-TIER] ${rel(filePath)} — states a $${val} diagnostic fee. seo-content.md defines exactly three: $99 (Orange County + LA County, all brands), $120 (Riverside County), $49 (each additional unit on the same visit).`);
+        issues.push(`[BRAND-TIER] ${rel(filePath)} — states a $${val} diagnostic fee. seo-content.md defines two company fees: $99 (Orange County + LA County, all brands) and $120 (Riverside County). The only other allowed value is $49, the additional-unit price documented in llms.txt.`);
       }
     }
     if (touched) checked['brand-tier'].pages++;
