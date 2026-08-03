@@ -334,10 +334,107 @@ Agents committed here:
   model in the committed definition makes the choice explicit and portable, instead of an accident
   of which session launched the review.
 
-`scripts/build/check-agents.js` (`npm test`) validates every file in `.claude/agents/`: parseable
-frontmatter, a `name` matching the filename, a non-empty `description`, no duplicate `name` across
-the directory, and (if present) a `model` from the allowed set. It also checks that every agent
+`scripts/build/check-agents.js` (`npm test`) validates every file in `.claude/agents/`: a
+`---`-delimited frontmatter block, a `name` matching the filename, a non-empty `description`, no
+duplicate `name` across the directory, and (if present) a `model` from the allowed set. It is not
+a YAML parse — the block is checked by line-based regex against those specific keys, so malformed
+YAML that still presents them on their own lines passes, and a closing `---` carrying trailing
+text is accepted as a closer. Flagged by Copilot on PR #664 and stated here rather than implied.
+It also checks that every agent
 name listed above resolves to a real `.claude/agents/<name>.md` file, the same way it already
 checks that every `/skill` listed in "Skills (slash commands)" resolves to a real file. This is
 the same drift-guard discipline the script already applies to `.claude/commands/` and
 `.claude/rules/`.
+
+## Status Reporting Policy
+
+Brevity applies to **reporting only** — never shorten your internal reasoning,
+planning, or verification steps. Compress what you say, not what you do.
+
+### Default status (always, unless detailed status is requested)
+- Maximum 2 sentences: (1) what was done / current state, (2) next step or blocker.
+- No headers, bullets, file-by-file breakdowns, code snippets, or restating the task.
+- If everything succeeded with nothing pending, one sentence is enough.
+
+### Detailed status (only on explicit request)
+Provide a full report ONLY when the user says **"detailed status"**, **"full report"**,
+or **"walk me through"**. A detailed status includes: changes made, files touched,
+key decisions and why, test results, and open risks.
+
+### Non-negotiable carve-out
+Always surface blockers, failures, skipped steps, or deviations from the plan —
+even in a short status. Never omit bad news for the sake of brevity.
+
+### Scope — chat only, never written artifacts
+
+This governs what you SAY in chat. It does not apply to anything written to disk or to an external
+surface, each of which keeps its own required format:
+
+- PR titles and bodies (the template in `.claude/rules/git-workflow.md`, including the three-test
+  checklist)
+- `/review` output: ranked findings and the explicit verdict line
+- Commit messages (Conventional Commits)
+- `progress.md`, `logs/*.md`, `tasks/*.md`
+- Site content, schema, and any external-platform copy
+
+Compressing a PR body or a review verdict to two sentences is a rule violation, not brevity.
+
+### Examples
+✅ "Migrated the login suite to Playwright; 2 flaky tests quarantined, fixing next."
+✅ "Done — all 14 API tests pass."
+✅ "Blocked: the staging DB credentials are expired, need a refresh before I can continue."
+❌ Any status with headers, bullet lists, or a per-file summary (unless detailed status was requested).
+❌ "I began by analyzing the existing test structure, then I..." (narrating process)
+
+## progress.md Contract
+
+Verbose detail belongs on disk, not in chat.
+
+- Append a full log of each work session to `progress.md` at the repo root:
+  timestamp, task, files touched, decisions, test results, open items.
+- Chat statuses reference it instead of repeating it: "Details in progress.md."
+- When the user requests a "detailed status", summarize from `progress.md` —
+  do not re-derive by re-reading the codebase.
+- Never paste the contents of `progress.md` into chat unless explicitly asked.
+- `progress.md` and `progress/` are **gitignored**, like `tasks/` and `logs/` — local working
+  notes, never part of the deployed artifact and never committed.
+- Section anchor format, so `details_path` actually resolves: `## YYYY-MM-DD HH:MM — <slug>`,
+  referenced as `progress.md#yyyy-mm-dd-hhmm-slug`.
+
+## Multi-Agent Reporting Contract
+
+Applies to orchestrators and all subagents.
+
+- Subagents MUST return results to the orchestrator in this shape, nothing more:
+
+```json
+  {
+    "status": "ok | blocked | failed",
+    "summary": "<max 2 sentences>",
+    "details_path": "progress.md#<section-anchor>"
+  }
+```
+
+- Subagents write their full detail to their OWN file, `progress/<agent-name>-<topic>.md`, and
+  never append to `progress.md` directly. Concurrent subagents appending to one file interleave
+  and silently clobber each other, and two ran concurrently the day this rule was written. Only
+  the orchestrator writes `progress.md`. The summary must still be self-contained — the
+  orchestrator should not need to open the log to know whether to proceed.
+- `blocked` and `failed` statuses must name the cause in the summary.
+- The orchestrator's status to the user follows the same 2-sentence default and
+  MUST NOT concatenate or relay subagent summaries verbatim — synthesize them.
+  **Exception: quote blockers verbatim.** Synthesis is for prose. A blocker, a failure, or a
+  reviewer's finding is reported in the subagent's own words. Paraphrasing bad news is the
+  mechanism by which it gets softened, and the non-negotiable carve-out above outranks brevity.
+  (Owner-approved 2026-08-02.)
+- The orchestrator only reads a `details_path` when a subagent reports
+  `blocked`/`failed`, or when the user asks for a detailed status.
+
+### Carve-out — review and audit agents
+
+A review agent's findings ARE its deliverable, not a status, so it returns them in full: ranked
+findings with file:line and a concrete failure scenario, plus the explicit verdict line
+(`✅ APPROVED` / `🚫 CHANGES REQUESTED`). It does not compress them to a summary plus a path. The
+orchestrator has to be able to act on a blocker without opening a second file, and a gitignored
+file is the wrong home for the thing gating a merge. The JSON shape above applies to
+implementation, research, and mechanical subagents.
