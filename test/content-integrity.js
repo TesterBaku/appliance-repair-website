@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Eighteen enforced checks (EXIT 1 on any failure) plus one informational report
+ * Nineteen enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -156,6 +156,18 @@
  *                    filename or a card class, so a future gallery page is covered
  *                    on arrival.
  *
+ *   brand-tier     — a brand may only appear inside a PREMIUM enumeration if
+ *                    seo-content.md tiers it premium, and every stated company
+ *                    diagnostic fee must be one of the three rule-defined values
+ *                    ($99 OC/LA, $120 Riverside, $49 additional unit). Added
+ *                    2026-08-03 after Bosch was found marketed as premium on 3
+ *                    cost hubs and 6 city hubs, in copy AND FAQPage JSON-LD,
+ *                    while the rule tiers it standard. Gates only the two
+ *                    machine-checkable shapes (.brand-tier.premium card and a
+ *                    "Premium (…)" parenthetical); prose is left to review,
+ *                    because a checker that guesses at English produces false
+ *                    failures and gets muted.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -164,7 +176,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all eighteen enforced checks + the report
+ *   node test/content-integrity.js          — run all nineteen enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -173,7 +185,7 @@
  *                                             footer-self-contained, iso8601-timestamps,
  *                                             article-mobile-chrome, non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
- *                                             faq-schema-presence, gallery-parity,
+ *                                             faq-schema-presence, gallery-parity, brand-tier,
  *                                             title-length)
  */
 
@@ -1164,6 +1176,96 @@ if (run('gallery-parity')) {
   }
 }
 
+// ── Check 18: brand-tier ──────────────────────────────────────────────────────
+// Two rules-defined values that nothing enforced until 2026-08-03:
+//   (a) a brand may only be listed inside a PREMIUM enumeration if it is actually
+//       a premium brand per .claude/rules/seo-content.md;
+//   (b) a stated company diagnostic fee must be one of the rule-defined values.
+//
+// Origin: Bosch was marketed as a premium brand on three cost hubs (washer,
+// dryer, dishwasher) and six city hubs, in visible copy AND in FAQPage JSON-LD,
+// while seo-content.md tiers it as a STANDARD brand at the $75–$100 service-call
+// range. Owner confirmed 2026-08-03 that Bosch is not premium — it has premium
+// *product lines*, which is a different claim and is why the scope test below is
+// structural rather than textual.
+//
+// SCOPE — three machine-checkable shapes are gated:
+//   1. the `.brand-tier.premium` cost-hub card,
+//   2. a `Premium (…)` / `premium brands (…)` parenthetical,
+//   3. the `.brand-pill.premium` chip inside a "Premium & Luxury Brands" group
+//      on the city hubs. Shape 3 was the one that actually mattered and it was
+//      MISSED by the first version of this check: Bosch shipped as a premium
+//      pill on 31 of 31 city hubs, styled with the accent border beside Sub-Zero
+//      and Wolf, while the first two shapes were being cleaned up. Caught by the
+//      PR #670 reviewer. If you add a fourth way to render a brand tier, add it
+//      here too.
+//
+// Prose is deliberately NOT gated. "Premium kitchens with Sub-Zero and Thermador,
+// alongside Bosch dishwashers" is correct but not mechanically distinguishable
+// from a tier claim. A checker that guesses at English produces false failures
+// and gets muted, which is worse than a narrow checker that is always right.
+//
+// THE TEST IS INVERTED ON PURPOSE. It does not require every listed name to be a
+// known premium brand; it rejects names that are known STANDARD brands. That
+// difference kills three false-positive classes the PR #670 reviewer found by
+// fixture: ordinary prose parentheticals ("premium (fast, reliable) service"),
+// `&`-joined pairs ("Sub-Zero & Wolf") that comma-splitting mangles into one
+// token, and any brand the rules simply do not tier (Speed Queen), which no
+// longer needs a hard-coded exception. An unknown name is not evidence of a
+// mistake; a known standard brand in a premium group is.
+//
+// Line-scoped references stay legal because they are not exact brand names:
+// "Bosch Premium", "Bosch 800 Series" and "Benchmark" never equal "Bosch".
+if (run('brand-tier')) {
+  // Standard-tier brands per seo-content.md ($75–$100 service-call range). These
+  // may never appear inside a premium enumeration.
+  const STANDARD = new Set(['Whirlpool', 'GE', 'Samsung', 'LG', 'KitchenAid', 'Maytag',
+                            'Frigidaire', 'Kenmore', 'Bosch', 'Electrolux', 'Amana', 'Hotpoint']);
+  // seo-content.md defines TWO company fees: $99 (OC + LA County, all brands) and
+  // $120 (Riverside). The $49 additional-unit price is a policy line that lives in
+  // llms.txt, NOT in seo-content.md — it is allowed here so a legitimate page cannot
+  // fail, but the message below must not attribute it to the rules file. Flagged by
+  // Copilot on PR #670. (The regex below keys on the word "fee", so the usual
+  // "each additional unit ... $49" phrasing is not actually reached; this entry is
+  // belt-and-braces for a page that does word it as a fee.)
+  const FEES = new Set(['99', '120', '49']);
+  checked['brand-tier'] = { pages: 0, lists: 0, fees: 0 };
+
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    let touched = false;
+
+    const lists = [
+      ...content.matchAll(/<div class="brand-tier premium">[\s\S]*?<\/div>\s*<h3>([^<]*)<\/h3>/g),
+      ...content.matchAll(/[Pp]remium(?: brands)? \(([^)]{0,120})\)/g),
+      ...content.matchAll(/class="brand-pill premium"[^>]*>([^<]+)</g),
+    ];
+    for (const m of lists) {
+      // Split on commas AND ampersands. Comma-only splitting let an `&`-joined pair of
+      // STANDARD brands ("Premium brands (Whirlpool & GE)") survive as one compound token
+      // that matches nothing and passes — the mirror-image false NEGATIVE of the false
+      // positives the inverted test fixed. Found by the PR #670 reviewer. Splitting on `&`
+      // does not reintroduce them: "Sub-Zero" and "Wolf" split apart are both premium.
+      const brands = m[1].split(/,|&amp;|&/).map(b => b.replace(/&amp;/g, '&').trim()).filter(Boolean);
+      if (!brands.length) continue;
+      checked['brand-tier'].lists++; touched = true;
+      for (const b of brands) {
+        if (!STANDARD.has(b)) continue;
+        issues.push(`[BRAND-TIER] ${rel(filePath)} — "${b}" is a standard-tier brand per .claude/rules/seo-content.md ($75–$100 service call), but it is listed as premium in "${m[1].trim()}". Move it to the standard/mass-market group (visible copy AND the matching FAQ JSON-LD, or faq-jsonld-parity will fail), or change the rule. A premium PRODUCT LINE is a different claim and is written differently: "Bosch Premium", "Bosch 800 Series", "Benchmark".`);
+      }
+    }
+
+    for (const m of content.matchAll(/\$(\d{2,4})\b[^.<]{0,30}?\b(?:flat )?(?:diagnostic|service[- ]call) fee|(?:diagnostic|service[- ]call) fee (?:is |of )?\$(\d{2,4})\b/g)) {
+      const val = m[1] || m[2];
+      checked['brand-tier'].fees++; touched = true;
+      if (!FEES.has(val)) {
+        issues.push(`[BRAND-TIER] ${rel(filePath)} — states a $${val} diagnostic fee. seo-content.md defines two company fees: $99 (Orange County + LA County, all brands) and $120 (Riverside County). The only other allowed value is $49, the additional-unit price documented in llms.txt.`);
+      }
+    }
+    if (touched) checked['brand-tier'].pages++;
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -1214,5 +1316,6 @@ if (checked['faq-jsonld-parity']) {
   parts.push(`FAQ/JSON-LD parity ratchet held on ${c.pairs} Q&A pairs across ${c.files} pages (debt measured ${c.measuredFields} fields in ${c.measuredFiles} files, baseline declares ${c.baselineFields}/${c.baselineFiles}, see P6-12)`);
 }
 if (checked['gallery-parity'])       parts.push(`ImageGallery schema matches rendered photos exactly on ${checked['gallery-parity'].pages} page(s) (${checked['gallery-parity'].images} listed images)`);
+if (checked['brand-tier'])           parts.push(`brand tiers + fee values match seo-content.md across ${checked['brand-tier'].pages} pages (${checked['brand-tier'].lists} premium lists, ${checked['brand-tier'].fees} fee statements)`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
