@@ -15,9 +15,47 @@
  *      resolve to a real file, so a renamed/deleted command can't leave a dangling skill.
  *   2. Routine-ID freshness — every `trig_…` inside `.claude/commands/**` must be one of the
  *      ACTIVE routine IDs declared in AGENTS.md's "Routine ID:" markers (kills the stale-ID bug).
- *   3. Email hygiene — the only email allowed in the committed workflow/rule files is the
+ *   3. Email hygiene: the only email allowed in the committed workflow/rule/agent files is the
  *      business address `@fixappliancesfast.com`; anything else (e.g. the owner's personal
  *      Gmail, scrubbed to $OWNER_EMAIL) is a regression and the one genuinely-private leak.
+ *   4. Agent-definition validity: every `.claude/agents/*.md` file must carry a `---`-delimited
+ *      frontmatter block with a `name:` that matches its filename, a non-empty `description:`, a
+ *      `name` unique across the directory, and (if present) a `model:` from the allowed set.
+ *      This is deliberately NOT a YAML parse, and the wording matters because an earlier draft
+ *      said "parseable YAML" and overstated it: the block is validated by line-based regex
+ *      against the handful of keys this repo cares about, so malformed YAML that still presents
+ *      those keys on their own lines passes. What is enforced is a stricter line-oriented subset
+ *      of YAML, not YAML itself. The delimiters are equally shallow — a closing `---` carrying
+ *      trailing text (`--- # note`) is accepted as a closer. Both limits are recorded here
+ *      rather than left implied.
+ *      Exactly one harness behavior here is verified by direct observation, and it is the
+ *      DEFAULT path, not a failure path: an agent dispatched with no `model:` pin inherits the
+ *      session model (a `/review` subagent ran 128 turns on Opus purely by inheritance — the
+ *      reason `code-reviewer` pins Sonnet). What the harness does with a MALFORMED definition
+ *      (invalid `model:` value, missing `description:`, two files sharing a `name`) has NOT
+ *      been tested, and is claimed nowhere in this file. That is the point rather than a gap in
+ *      it: an unvalidated definition is a config whose real effect nobody here has established,
+ *      so the check requires the canonical shape instead of reasoning about the failure mode.
+ *      Parser self-guard: the frontmatter regex is non-greedy and stops at the FIRST bare
+ *      `---` line, so a body containing its own `---` truncates the captured block early and a
+ *      `model:`-style line after it would be skipped rather than validated. The remainder is
+ *      scanned for one, applying the three CommonMark rules that separate a directive from an
+ *      example — and only those three, which is the whole of the fidelity claimed here:
+ *      (a) a key may carry 0-3 leading spaces, since 4+ makes it an indented code block;
+ *      (b) a fence opens on 3+ backticks or tildes and may carry an info string;
+ *      (c) a fence closes ONLY on the same character, at least as long as the opener, followed
+ *      by nothing but whitespace. Clause (c)'s trailing-content requirement is load-bearing, not
+ *      pedantry — dropping it lets an annotated look-alike line close the fence early and turns
+ *      a well-formed documentation example into a CI failure. A blockquoted `> model:` never
+ *      matches either, since `>` is not a space.
+ *   5. Agent-reference resolution: every agent name listed as a `- \`name\`` bullet in AGENTS.md's
+ *      "Agent definitions" subsection must resolve to a real `.claude/agents/<name>.md` file. Without
+ *      this, renaming or deleting an agent file leaves AGENTS.md pointing at a name nothing
+ *      resolves. Verified by direct observation, not assumed: dispatching an unresolvable agent
+ *      name fails loudly ("Agent type '<name>' not found. Available agents: ...") rather than
+ *      silently falling back to a generic agent. That is still worth catching here: a loud failure
+ *      at dispatch time (e.g. `/review` dispatching `code-reviewer`) is a broken workflow in
+ *      production, whereas this assertion catches the same dangling reference in CI before merge.
  *
  * Deliberately NOT checked here: banned brand/old-domain strings. The workflow files
  * legitimately QUOTE them in review checklists and guidance ("Never write 'Fix Appliances
@@ -36,14 +74,16 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..', '..');
 const commandsDir = path.join(repoRoot, '.claude', 'commands');
 const rulesDir = path.join(repoRoot, '.claude', 'rules');
+const agentsDir = path.join(repoRoot, '.claude', 'agents');
 const skillsDir = path.join(repoRoot, '.agents', 'skills');
 const agentsMd = path.join(repoRoot, 'AGENTS.md');
 
 const errors = [];
 const rel = (p) => path.relative(repoRoot, p).replace(/\\/g, '/');
 
-// Recursive so the routine-ID/email scans actually cover `.claude/commands/**` and
-// `.claude/rules/**` (both flat today, but a future subdirectory must not escape the scan).
+// Recursive so the routine-ID/email/agent-definition scans actually cover `.claude/commands/**`,
+// `.claude/rules/**`, and `.claude/agents/**` (all flat today, but a future subdirectory must
+// not escape the scan).
 function listMd(dir) {
   if (!fs.existsSync(dir)) return [];
   const out = [];
@@ -96,17 +136,150 @@ for (const file of listMd(commandsDir)) {
   }
 }
 
-// --- 3. Email hygiene (commands + rules) -------------------------------------
+// --- 3. Email hygiene (commands + rules + agents) ----------------------------
 const emailRe = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
-for (const file of [...listMd(commandsDir), ...listMd(rulesDir)]) {
+for (const file of [...listMd(commandsDir), ...listMd(rulesDir), ...listMd(agentsDir)]) {
   const text = fs.readFileSync(file, 'utf8');
   for (const m of text.matchAll(emailRe)) {
     if (!m[0].toLowerCase().endsWith('@fixappliancesfast.com')) {
       errors.push(
-        `${rel(file)}: non-business email "${m[0]}" in a committed workflow/rule file. ` +
+        `${rel(file)}: non-business email "${m[0]}" in a committed workflow/rule/agent file. ` +
           `Only @fixappliancesfast.com is allowed; route private addresses through $OWNER_EMAIL.`
       );
     }
+  }
+}
+
+// --- 4. Agent-definition validity ---------------------------------------------
+// Every `.claude/agents/*.md` file is a Claude Code agent definition: YAML frontmatter followed
+// by a markdown body. A malformed frontmatter block, a `name` that doesn't match the filename, a
+// missing `description`, a duplicate `name`, or an invalid `model` each is an authoring defect
+// this repo rejects on sight (see point 4 in the header docblock above).
+const validModels = new Set(['opus', 'sonnet', 'haiku', 'fable', 'inherit']);
+const seenAgentNames = new Map(); // name -> first file that declared it
+for (const file of listMd(agentsDir)) {
+  const text = fs.readFileSync(file, 'utf8');
+  const base = path.basename(file, '.md');
+  const fmMatch = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!fmMatch) {
+    errors.push(
+      `${rel(file)}: no YAML frontmatter block found (file must start with "---" and have a closing "---").`
+    );
+    continue;
+  }
+  const frontmatter = fmMatch[1];
+
+  // The frontmatter regex above is non-greedy and stops at the FIRST bare "---" line, so a
+  // markdown body that happens to contain its own "---" line (a horizontal rule, or a second
+  // frontmatter-looking block) truncates the captured block early — everything after that
+  // premature "---" is treated as body text and never validated, even if it still looks like
+  // frontmatter (a `model:` line with a bogus value, for example). Scan the remainder for such
+  // a line, but follow CommonMark so this sees what a markdown READER sees rather than raw
+  // text. Three rules, the same ones Markdown itself uses to tell a directive from an example,
+  // listed in the same order as clauses (a)-(c) in the header docblock so the two cannot drift:
+  //   - a key may carry 0-3 leading spaces, so an indented directive is still caught, while
+  //     4+ spaces (an indented code block, i.e. an example) correctly is not;
+  //   - a fence OPENS on 3+ backticks or tildes and may carry an info string ("```yaml");
+  //   - a fence CLOSES only on the same character, a run at least as long as the opener, and
+  //     nothing but whitespace after it — so a line inside a fenced example that merely LOOKS
+  //     like a closing fence does not end it, and the example is not rejected for its own
+  //     contents.
+  // A ">"-quoted example never matches either, since ">" is not a space.
+  const remainderStart = fmMatch.index + fmMatch[0].length;
+  const remainder = text.slice(remainderStart);
+  const leakRe = /^ {0,3}(name|description|model|tools):\s/;
+  const fenceRe = /^ {0,3}(`{3,}|~{3,})(.*)$/;
+  let fence = null; // the open fence's delimiter run while inside one, else null
+  let offset = 0;
+  for (const rawLine of remainder.split('\n')) {
+    const line = rawLine.replace(/\r$/, '');
+    const fenceMatch = line.match(fenceRe);
+    if (fence) {
+      // CommonMark closing fence: the SAME character, a run at least as long as the opener,
+      // and then nothing but whitespace. That last clause is load-bearing — without it a line
+      // like "``` still an example" inside a fenced block reads as a closer, the fence ends
+      // early, and the example's own `model:` line gets reported as a leaked directive on a
+      // perfectly well-formed file. Caught in review with exactly that fixture.
+      if (
+        fenceMatch &&
+        fenceMatch[1][0] === fence[0] &&
+        fenceMatch[1].length >= fence.length &&
+        fenceMatch[2].trim() === ''
+      ) {
+        fence = null;
+      }
+    } else if (fenceMatch) {
+      // An OPENING fence may carry an info string ("```yaml"), so no trailer check here.
+      fence = fenceMatch[1];
+    } else {
+      const leak = line.match(leakRe);
+      if (leak) {
+        const lineNum = text.slice(0, remainderStart + offset).split('\n').length;
+        errors.push(
+          `${rel(file)}: frontmatter block appears truncated by an embedded "---" line ` +
+            `(the parser stops at the first bare "---") — "${leak[1]}:" at line ${lineNum} sits ` +
+            `outside the parsed frontmatter block and is not being validated.`
+        );
+      }
+    }
+    offset += rawLine.length + 1;
+  }
+
+  const nameMatch = frontmatter.match(/^name:\s*(.+)$/m);
+  const descMatch = frontmatter.match(/^description:\s*(.+)$/m);
+  const modelMatch = frontmatter.match(/^model:\s*(.+)$/m);
+
+  if (!nameMatch || !nameMatch[1].trim()) {
+    errors.push(`${rel(file)}: frontmatter is missing "name:".`);
+  } else {
+    const name = nameMatch[1].trim();
+    if (name !== base) {
+      errors.push(
+        `${rel(file)}: frontmatter "name: ${name}" does not match filename "${base}.md" ` +
+          `(this repo requires frontmatter name to match the filename so dispatch is predictable).`
+      );
+    }
+    if (seenAgentNames.has(name)) {
+      errors.push(
+        `${rel(file)}: agent name "${name}" collides with ${rel(seenAgentNames.get(name))} ` +
+          `(two agent files must never share a name; unsorted readdir order decides which one loads, so it differs per machine).`
+      );
+    } else {
+      seenAgentNames.set(name, file);
+    }
+  }
+
+  if (!descMatch || !descMatch[1].trim()) {
+    errors.push(`${rel(file)}: frontmatter is missing "description:" (must be present and non-empty).`);
+  }
+
+  if (modelMatch) {
+    const model = modelMatch[1].trim();
+    if (!validModels.has(model)) {
+      errors.push(
+        `${rel(file)}: frontmatter "model: ${model}" is not one of the values this repo allows: ${[...validModels].join(', ')}.`
+      );
+    }
+  }
+}
+
+// --- 5. Agent-reference resolution ---------------------------------------------
+// Parse the "#### Agent definitions: `.claude/agents/`" subsection for `- `name`` bullet lines
+// (same bullet style assertion 1 uses for skills, minus the leading slash) and confirm each
+// resolves to a real `.claude/agents/<name>.md` file.
+const agentsSection = (agents.split(/^####\s+Agent definitions/m)[1] || '').split(/^#{2,4}\s/m)[0];
+const referencedAgentNames = [...agentsSection.matchAll(/^-\s+`([a-z0-9-]+)`/gm)].map((m) => m[1]);
+if (referencedAgentNames.length === 0) {
+  errors.push(
+    'AGENTS.md: could not parse any agent names from the "Agent definitions" subsection.'
+  );
+}
+for (const name of referencedAgentNames) {
+  const asAgent = path.join(agentsDir, `${name}.md`);
+  if (!fs.existsSync(asAgent)) {
+    errors.push(
+      `Agent "${name}" is listed in AGENTS.md but has no definition (expected .claude/agents/${name}.md).`
+    );
   }
 }
 
@@ -119,7 +292,8 @@ if (errors.length) {
 }
 
 console.log(
-  `check-agents: ${skillNames.length} skills resolve; ` +
-    `${listMd(commandsDir).length} command + ${listMd(rulesDir).length} rule files clean ` +
-    `(routine IDs active, no private emails). OK`
+  `check-agents: ${skillNames.length} skills + ${referencedAgentNames.length} agent refs resolve; ` +
+    `${listMd(commandsDir).length} command + ${listMd(rulesDir).length} rule + ` +
+    `${listMd(agentsDir).length} agent files clean ` +
+    `(routine IDs active, no private emails, agent frontmatter valid). OK`
 );
