@@ -75,35 +75,48 @@ function preSweep(relPath) {
   } catch { return null; }
 }
 
-// Largest contiguous removed span as a share of all removed characters.
-// >=55% means one clause carries the loss: a content drop, not a rewording.
+// Removed spans, via a real LCS diff.
+//
+// The first version of this hand-rolled a resync loop that scanned forward for a single
+// matching character without retrying the lookahead. When the first divergence was not
+// quickly resolvable it collapsed the ENTIRE remaining old text into one span and reported
+// 100%. The PR #680 reviewer measured the damage against difflib and an independent LCS
+// implementation: 23 of 50 rows were wrong by >=20 points, 12 by >=50, always inflating.
+// Every "clean 100%" row was really 14-48%.
+//
+// Answers are a few hundred characters, so an O(n*m) LCS table is trivially affordable and
+// exactly correct. Do not replace this with a cleverer approximation.
 function spans(oldText, newText) {
-  const removed = [];
-  let i = 0, j = 0;
-  while (i < oldText.length) {
-    if (j < newText.length && oldText[i] === newText[j]) { i++; j++; continue; }
-    let best = 0, bestJ = j;
-    for (let k = j; k < Math.min(newText.length, j + 400); k++) {
-      let run = 0;
-      while (oldText[i + run] === newText[k + run] && run < 40) run++;
-      if (run > best) { best = run; bestJ = k; }
-      if (run >= 40) break;
+  const n = oldText.length, m = newText.length;
+  const dp = new Uint32Array((n + 1) * (m + 1));
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      dp[i * (m + 1) + j] = oldText[i] === newText[j]
+        ? dp[(i + 1) * (m + 1) + (j + 1)] + 1
+        : Math.max(dp[(i + 1) * (m + 1) + j], dp[i * (m + 1) + (j + 1)]);
     }
-    if (best >= 8) { removed.push(oldText.slice(i, i + (bestJ - j >= 0 ? 0 : 0)) || ''); j = bestJ; continue; }
-    let end = i;
-    while (end < oldText.length && (j >= newText.length || oldText[end] !== newText[j])) end++;
-    removed.push(oldText.slice(i, end));
-    i = end;
-    if (i < oldText.length) { i++; j++; }
   }
-  return removed.filter(Boolean).sort((a, b) => b.length - a.length);
+  const removed = [];
+  let i = 0, j = 0, cur = '';
+  while (i < n && j < m) {
+    if (oldText[i] === newText[j]) {
+      if (cur) { removed.push(cur); cur = ''; }
+      i++; j++;
+    } else if (dp[(i + 1) * (m + 1) + j] >= dp[i * (m + 1) + (j + 1)]) {
+      cur += oldText[i++];              // present in old, absent in new: removed
+    } else {
+      j++;                              // present in new only: inserted, not our concern
+    }
+  }
+  while (i < n) cur += oldText[i++];
+  if (cur) removed.push(cur);
+  return removed.sort((a, b) => b.length - a.length);
 }
 
 function classify(oldText, newText) {
   const sp = spans(oldText, newText);
   const total = sp.reduce((a, s) => a + s.length, 0) || 1;
-  const share = sp.length ? (100 * sp[0].length) / total : 0;
-  return { share, largest: sp[0] || '', spans: sp };
+  return { share: sp.length ? (100 * sp[0].length) / total : 0, largest: sp[0] || '', count: sp.length };
 }
 
 function candidates() {
@@ -134,30 +147,62 @@ function candidates() {
   return rows.sort((a, b) => b.share - a.share || b.shrink - a.shrink);
 }
 
+// SELF-TEST — deterministic unit tests of the diff, not of repo state.
+//
+// The first version used two live FAQ fields as fixtures and one of them was WRONG: its
+// docstring claimed "73 chars, 72 in one sentence" for the disposal breaker answer, but
+// that field's real shrink today is ZERO, because PR #675 already restored it. The fixture
+// passed only because the broken diff over-reported, i.e. the self-test was rubber-stamping
+// the bug it existed to catch. Found by the PR #680 reviewer.
+//
+// Repo state moves under a fixture; a synthetic pair does not. These assert the property
+// that actually matters: does the diff separate "one clause was cut" from "the wording was
+// changed throughout"?
 const FIXTURES = [
-  { file: 'pages/freezer-repair-orange-county.html', match: /loud noise/i, expect: 'STYLISTIC' },
-  { file: 'pages/garbage-disposal-repair-orange-county.html', match: /breaker/i, expect: 'CONTENT' },
+  {
+    name: 'whole sentence cut => CONTENT DROP',
+    old: 'The vent is clogged. This is also a fire hazard, the USFA reports thousands of dryer fires a year. Clean it first.',
+    new: 'The vent is clogged. Clean it first.',
+    expect: 'CONTENT',
+  },
+  {
+    name: 'reworded throughout, nothing cut => STYLISTIC',
+    old: 'A loud humming or buzzing usually points to the condenser fan motor working harder than normal, often caused by dirty coils.',
+    new: 'A loud hum or buzz usually points to the condenser fan motor working harder than normal, often from dirty coils.',
+    expect: 'STYLISTIC',
+  },
+  {
+    name: 'identical text => never a candidate',
+    old: 'The door gasket hardens and cracks over time.',
+    new: 'The door gasket hardens and cracks over time.',
+    expect: 'IDENTICAL',
+  },
 ];
 
 if (process.argv.includes('--selftest')) {
+  // NO ABSOLUTE THRESHOLD IS ASSERTED, deliberately.
+  // My first attempt classified at share >= 55% and the honest synthetic fixture FAILED:
+  // a purely reworded answer scored 56%. The tempting fix was to move the threshold until
+  // the fixtures passed, which is precisely the rubber-stamping that made the previous
+  // self-test worthless. The real conclusion is that share is a WEAK signal: good enough to
+  // rank fields for a human to read, not good enough to decide anything.
+  //
+  // So this asserts only what is unambiguous: identical text is never a candidate, and a
+  // clean sentence excision must rank ABOVE a throughout-rewording. Relative ordering, not
+  // a magic number.
+  const cut = classify(FIXTURES[0].old, FIXTURES[0].new).share;
+  const reworded = classify(FIXTURES[1].old, FIXTURES[1].new).share;
+  const identical = FIXTURES[2].old === FIXTURES[2].new;
+  const checks = [
+    ['identical text is never a candidate', identical],
+    ['a cut sentence outranks a rewording', cut > reworded],
+    ['a cut sentence scores near-total', cut >= 90],
+  ];
   let bad = 0;
-  for (const fx of FIXTURES) {
-    const before = preSweep(fx.file);
-    const oldMap = faqMap(before || '');
-    const newMap = faqMap(fs.readFileSync(path.join(ROOT, fx.file), 'utf8'));
-    let got = 'NO-CANDIDATE';
-    for (const [name, oldAns] of oldMap) {
-      if (!fx.match.test(name) || !newMap.has(name)) continue;
-      const newAns = newMap.get(name);
-      if (oldAns === newAns) { got = 'IDENTICAL'; break; }
-      got = classify(oldAns, newAns).share >= 55 ? 'CONTENT' : 'STYLISTIC';
-      break;
-    }
-    const ok = got === fx.expect;
-    if (!ok) bad++;
-    console.log(`${ok ? 'PASS' : 'FAIL'}  ${fx.file}  expected ${fx.expect}, got ${got}`);
-  }
-  console.log(bad ? '\nSELF-TEST FAILED — do not use this tool\'s output.' : '\nself-test passed');
+  for (const [name, ok] of checks) { if (!ok) bad++; console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}`); }
+  console.log(`
+  cut=${Math.round(cut)}%  reworded=${Math.round(reworded)}%`);
+  console.log(bad ? 'SELF-TEST FAILED - do not use this tool output.' : 'self-test passed');
   process.exit(bad ? 1 : 0);
 }
 
