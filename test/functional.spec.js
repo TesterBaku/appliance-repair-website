@@ -1471,3 +1471,77 @@ for (const { brand, file } of BRAND_HUBS) {
     });
   });
 }
+
+// ── Mobile hero occlusion + horizontal overflow, at 375px ─────────────────────
+// Google indexes mobile-first, and every other gate in this file probes at 1440px
+// only, so this entire class was invisible to CI until 2026-08-03. A measured walk
+// of all 71 articles at 375x812 then found 15 broken pages: 13 where the <h1> or the
+// meta chips rendered UNDERNEATH the fixed nav (worst case meta.top -51px, i.e. off
+// the top of the screen) and 2 where a wide table pushed the whole document sideways.
+//
+// Root cause was an INLINE font-size:38px on the article H1 inside a fixed-height
+// hero. Inline styles beat every stylesheet rule, so no media query could scale it,
+// and a long heading grew upward out of the box. Fixed in PR #677 with !important
+// overrides in each article's own @media block.
+//
+// This is the gate that keeps it fixed. It asserts the two things that were actually
+// broken, on the specific articles that were broken plus the newest template, rather
+// than re-deriving contrast: hero content must start BELOW the fixed nav, and the
+// document must not scroll horizontally.
+const MOBILE_OCCLUSION_PAGES = [
+  '/articles/article-washer-not-spinning-huntington-beach.html', // was the worst H1 (7 lines)
+  '/articles/article-samsung-fridge-not-cooling-irvine.html',    // was the worst meta chip (-51px)
+  '/articles/article-fridge-not-cooling-huntington-beach.html',
+  '/articles/article-dishwasher-cost-orange-county.html',        // was horizontal overflow (drift-table)
+  '/articles/article-repair-replace.html',                       // was horizontal overflow (cost-table)
+  '/articles/article-mini-fridge.html',                          // longest H1 on the site (92 chars)
+];
+
+for (const url of MOBILE_OCCLUSION_PAGES) {
+  test(`mobile 375px: hero clears the fixed nav and nothing overflows sideways: ${url}`, async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(url);
+
+    const r = await page.evaluate(() => {
+      const nav = document.querySelector('nav, .nav');
+      const navFixed = nav && getComputedStyle(nav).position === 'fixed';
+      const navBottom = navFixed ? nav.getBoundingClientRect().bottom : 0;
+      const out = { navFixed, navBottom, h1Top: null, metaTop: null, scrollW: 0, clientW: 0, widest: null };
+      out.scrollW = document.documentElement.scrollWidth;
+      out.clientW = document.documentElement.clientWidth;
+
+      const h1 = document.querySelector('h1');
+      if (h1) out.h1Top = h1.getBoundingClientRect().top;
+      const meta = document.querySelector('.article-meta');
+      if (meta && meta.getBoundingClientRect().height > 0) out.metaTop = meta.getBoundingClientRect().top;
+
+      // Name the widest offender so a failure says WHAT is wide, not just that something is.
+      // Diagnosing PR #677's residual overflow by re-reading CSS instead of asking the DOM
+      // cost a whole review round and produced a wrong root cause in the backlog.
+      if (out.scrollW > out.clientW + 1) {
+        let worst = null;
+        for (const el of document.querySelectorAll('*')) {
+          const b = el.getBoundingClientRect();
+          if (b.width > 0 && b.right > out.clientW + 1 && (!worst || b.right > worst.right)) {
+            worst = { right: Math.round(b.right), width: Math.round(b.width), tag: el.tagName, cls: String(el.className).slice(0, 60) };
+          }
+        }
+        out.widest = worst;
+      }
+      return out;
+    });
+
+    // The guard has to prove it actually measured something. A page whose nav stopped
+    // being fixed would silently pass every assertion below against navBottom = 0.
+    expect(r.navFixed, `${url}: no fixed nav found, so this test proves nothing`).toBe(true);
+    expect(r.navBottom).toBeGreaterThan(0);
+
+    if (r.h1Top !== null) {
+      expect(r.h1Top, `${url}: <h1> starts at ${Math.round(r.h1Top)}px, under the ${Math.round(r.navBottom)}px fixed nav`).toBeGreaterThanOrEqual(r.navBottom);
+    }
+    if (r.metaTop !== null) {
+      expect(r.metaTop, `${url}: .article-meta starts at ${Math.round(r.metaTop)}px, under the ${Math.round(r.navBottom)}px fixed nav`).toBeGreaterThanOrEqual(r.navBottom);
+    }
+    expect(r.scrollW, `${url}: document scrolls sideways (${r.scrollW}px vs ${r.clientW}px viewport). Widest offender: ${JSON.stringify(r.widest)}`).toBeLessThanOrEqual(r.clientW + 1);
+  });
+}
