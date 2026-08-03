@@ -214,6 +214,12 @@
     }
     @media (max-width: 480px) {
       .article-hero-img { height: 260px; }
+      .article-hero-img { height: 300px; }
+      /* H1 and meta carry inline font sizes, so a plain rule loses to them. A long
+         heading overflowed the fixed-height hero upward and hid behind the 71px fixed
+         nav: measured top:-24px on the worst article at 375px. Measured, 2026-08-03. */
+      .article-hero h1 { font-size: 24px !important; line-height: 1.2 !important; }
+      .article-hero .article-meta { margin-bottom: 10px !important; }
       h1 { font-size: 26px !important; }
       .article-intro { font-size: 15px; padding: 16px 18px; }
       .nav-cta { display: none; }
