@@ -21,16 +21,20 @@
  *   4. Agent-definition validity: every `.claude/agents/*.md` file must have parseable YAML
  *      frontmatter with a `name:` that matches its filename, a non-empty `description:`, a
  *      `name` unique across the directory, and (if present) a `model:` from the allowed set.
- *      Without this, a malformed or duplicate-named agent file loads inconsistently (unsorted
- *      readdir order decides which of two same-named files "wins", so it differs per machine)
- *      or silently falls back to inheriting the session model instead of the one pinned in its
- *      frontmatter (the exact bug that motivated pinning `code-reviewer` to Sonnet). This
- *      assertion also guards its own parser: the frontmatter regex is non-greedy and stops at
- *      the FIRST bare `---` line, so a body containing its own `---` line truncates the
- *      captured block early and everything after it — including a `model:`/`name:`/etc. line
- *      that looks like real frontmatter — would otherwise be silently skipped instead of
- *      validated. Any `name:`/`description:`/`model:`/`tools:` line found after the captured
- *      block is flagged as a probable truncation, naming the key and line number.
+ *      Exactly one harness behavior here is verified by direct observation, and it is the
+ *      DEFAULT path, not a failure path: an agent dispatched with no `model:` pin inherits the
+ *      session model (a `/review` subagent ran 128 turns on Opus purely by inheritance — the
+ *      reason `code-reviewer` pins Sonnet). What the harness does with a MALFORMED definition
+ *      (invalid `model:` value, missing `description:`, two files sharing a `name`) has NOT
+ *      been tested, and is claimed nowhere in this file. That is the point rather than a gap in
+ *      it: an unvalidated definition is a config whose real effect nobody here has established,
+ *      so the check requires the canonical shape instead of reasoning about the failure mode.
+ *      Parser self-guard: the frontmatter regex is non-greedy and stops at the FIRST bare
+ *      `---` line, so a body containing its own `---` truncates the captured block early and a
+ *      `model:`-style line after it would be skipped rather than validated. The remainder is
+ *      scanned for one, following CommonMark so the scan sees what a markdown reader sees:
+ *      fenced blocks are skipped, and a key may carry 0-3 leading spaces (4+ makes it an
+ *      indented code block, i.e. an example). A blockquoted `> model:` is likewise not a match.
  *   5. Agent-reference resolution: every agent name listed as a `- \`name\`` bullet in AGENTS.md's
  *      "Agent definitions" subsection must resolve to a real `.claude/agents/<name>.md` file. Without
  *      this, renaming or deleting an agent file leaves AGENTS.md pointing at a name nothing
@@ -136,8 +140,8 @@ for (const file of [...listMd(commandsDir), ...listMd(rulesDir), ...listMd(agent
 // --- 4. Agent-definition validity ---------------------------------------------
 // Every `.claude/agents/*.md` file is a Claude Code agent definition: YAML frontmatter followed
 // by a markdown body. A malformed frontmatter block, a `name` that doesn't match the filename, a
-// missing `description`, a duplicate `name`, or an invalid `model` each cause a real failure
-// (see point 4 in the header docblock above).
+// missing `description`, a duplicate `name`, or an invalid `model` each is an authoring defect
+// this repo rejects on sight (see point 4 in the header docblock above).
 const validModels = new Set(['opus', 'sonnet', 'haiku', 'fable', 'inherit']);
 const seenAgentNames = new Map(); // name -> first file that declared it
 for (const file of listMd(agentsDir)) {
@@ -153,25 +157,46 @@ for (const file of listMd(agentsDir)) {
   const frontmatter = fmMatch[1];
 
   // The frontmatter regex above is non-greedy and stops at the FIRST bare "---" line, so a
-  // markdown body that happens to contain its own "---" line (e.g. a horizontal rule, or a
-  // fenced/quoted example) truncates the captured block early — everything after that
-  // premature "---" is silently treated as body text and never validated, even if it still
-  // looks like frontmatter (a `model:` line with a bogus value, for example). A markdown body
-  // has no legitimate reason to start a line with `name:`, `description:`, `model:`, or
-  // `tools:`, so flag any such line found in the remainder as a probable truncation instead of
-  // letting it pass unchecked.
+  // markdown body that happens to contain its own "---" line (a horizontal rule, or a second
+  // frontmatter-looking block) truncates the captured block early — everything after that
+  // premature "---" is treated as body text and never validated, even if it still looks like
+  // frontmatter (a `model:` line with a bogus value, for example). Scan the remainder for such
+  // a line, but follow CommonMark so this sees what a markdown READER sees rather than raw
+  // text. Two rules, and they are the same rule Markdown itself uses to tell a directive from
+  // an example:
+  //   - skip fenced code blocks (``` or ~~~), so an agent file that legitimately DOCUMENTS
+  //     frontmatter syntax in a fenced example is not rejected for its own documentation;
+  //   - allow 0-3 leading spaces, so an indented directive is still caught, while 4+ spaces
+  //     (an indented code block, i.e. an example again) correctly is not.
+  // A ">"-quoted example never matches either, since ">" is not a space.
   const remainderStart = fmMatch.index + fmMatch[0].length;
   const remainder = text.slice(remainderStart);
-  const leakRe = /^(name|description|model|tools):\s/gm;
-  let leakMatch;
-  while ((leakMatch = leakRe.exec(remainder))) {
-    const key = leakMatch[1];
-    const lineNum = text.slice(0, remainderStart + leakMatch.index).split('\n').length;
-    errors.push(
-      `${rel(file)}: frontmatter block appears truncated by an embedded "---" line ` +
-        `(the parser stops at the first bare "---") — "${key}:" at line ${lineNum} sits outside ` +
-        `the parsed frontmatter block and is not being validated.`
-    );
+  const leakRe = /^ {0,3}(name|description|model|tools):\s/;
+  const fenceRe = /^ {0,3}(`{3,}|~{3,})/;
+  let fence = null; // the open fence's delimiter run while inside one, else null
+  let offset = 0;
+  for (const rawLine of remainder.split('\n')) {
+    const line = rawLine.replace(/\r$/, '');
+    const fenceMatch = line.match(fenceRe);
+    if (fence) {
+      // A fence closes on a run of the SAME character at least as long as the opener.
+      if (fenceMatch && fenceMatch[1][0] === fence[0] && fenceMatch[1].length >= fence.length) {
+        fence = null;
+      }
+    } else if (fenceMatch) {
+      fence = fenceMatch[1];
+    } else {
+      const leak = line.match(leakRe);
+      if (leak) {
+        const lineNum = text.slice(0, remainderStart + offset).split('\n').length;
+        errors.push(
+          `${rel(file)}: frontmatter block appears truncated by an embedded "---" line ` +
+            `(the parser stops at the first bare "---") — "${leak[1]}:" at line ${lineNum} sits ` +
+            `outside the parsed frontmatter block and is not being validated.`
+        );
+      }
+    }
+    offset += rawLine.length + 1;
   }
 
   const nameMatch = frontmatter.match(/^name:\s*(.+)$/m);
