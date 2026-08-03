@@ -692,7 +692,10 @@ if (run('non-person-reviewers')) {
 // So: `test/faq-parity-baseline.json` records the known debt, and the check fails on
 // anything NEW, anything that gets WORSE, and anything that has been FIXED but not
 // removed from the baseline. That last rule is the anti-rot mechanism — the baseline
-// can only ever shrink. Paying it down is tracked as P6-12.
+// can only ever shrink. Paying it down was tracked as P6-12.
+// PAID DOWN IN FULL 2026-08-02: the baseline is now empty and the debt is 0, so every
+// page is held to exact parity and any drift fails on the spot. The ratchet machinery
+// below is unchanged and still load-bearing — it is what keeps the floor at zero.
 if (run('faq-jsonld-parity')) {
   checked['faq-jsonld-parity'] = { files: 0, pairs: 0, baselineFields: 0, baselineFiles: 0 };
   const BASELINE = JSON.parse(fs.readFileSync(path.join(root, 'test', 'faq-parity-baseline.json'), 'utf8'));
