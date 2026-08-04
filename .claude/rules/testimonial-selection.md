@@ -100,7 +100,24 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 ## Display rules
 
 - Show reviewer name exactly as it appears in the pool's `name` field. Last-initial abbreviations (e.g., "Jennifer T." for "Jennifer Trette") are acceptable if the page already uses that style — otherwise use the full name.
-- Location label depends on the record's `source` field. **Google records (`source: "google"`):** Google does not expose reviewer city, so use `"Orange County, CA"` unless the reviewer's review text explicitly names an OC city, in which case use that city. **Yelp records (`source: "yelp"`):** Yelp displays the reviewer's city directly — use the Yelp-displayed city verbatim (e.g., `"Dana Point, CA"`, `"Anaheim, CA"`).
+- Location label depends on the record's `source` field. **Google records (`source: "google"`):** Google does not expose reviewer city, so use `"Orange County, CA"` unless one of the two exceptions below applies. **Yelp records (`source: "yelp"`):** Yelp displays the reviewer's city directly — use the Yelp-displayed city verbatim (e.g., `"Dana Point, CA"`, `"Anaheim, CA"`).
+
+  **Exception 1 — the review says so.** The reviewer's own **review text** explicitly names an **Orange County** city: any city on the Target Geography list in `seo-content.md`, plus **Stanton**, the business's own address, which is in Orange County but is absent from that list because the list exists for article city rotation, not for validating labels. Use that city. A city mentioned in passing that is not where the job happened ("we moved here from Riverside", "my sister in Fresno recommended you") does **not** qualify, and neither does anything read off the reviewer's profile.
+
+  **Exception 2 — job-photo corroborated attestation** (owner decision 2026-08-03). A specific city may be used when **both** of these hold:
+
+    1. The business holds its **own job photo** of that repair in `images/real/business/`, and the match to the review is **objectively describable**: the same appliance and the same visible surroundings as the reviewer's photo, stated concretely enough (cabinetry, adjacent appliances, room features, brand plate) that a second person can check it against the two images and agree. A technician saying "that's the same job" is **not** sufficient on its own.
+    2. The **technician or owner confirms the city**, recorded with **who attested and on what date**.
+
+  Record both in the record's `_note`: the corroborating business photo path, the concrete visual match, and the named, dated attestation. A later audit must be able to re-check the claim without asking anyone.
+
+  This is deliberately a two-part bar, and the two parts must come from **different kinds of evidence**: one checkable against an image, one attributable to a named person. If the same person's say-so is doing both jobs, that is one source wearing two hats, and the label falls back to `"Orange County, CA"`.
+
+  **Privacy constraint.** This exception attaches a location the reviewer did **not** publish themselves, unlike Exception 1 or a Yelp-displayed city. So: city level only, never a neighbourhood, street or cross-street; never combine the city with any other detail that would narrow it toward a household; and drop the city back to the default immediately on request from the reviewer. If the reviewer's own review reads as deliberately anonymous, prefer the default.
+
+  **Still never permitted:** inferring a city from the reviewer's display name, surname, profile photo, or a guess about where a brand sells well.
+
+  **Not retroactive.** Existing `"Orange County, CA"` labels stay as they are unless someone establishes both parts of the bar for that specific review. Do not sweep the pool relabelling records from memory.
 - Star rating: always render 5 stars (all transcribed pool reviews are verified 5-star Google reviews).
 - Light typo/grammar editing is allowed for reviews flagged `bodyHasTypos: true`. No paraphrasing or substantive rewording.
 - For Yelp records with a `previousBody` field, display only `body` (the current version). `previousBody` is reference-only.
