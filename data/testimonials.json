@@ -6,27 +6,27 @@
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 105,
-        "capturedCount": 104,
+        "totalReviewsOnListing": 107,
+        "capturedCount": 106,
         "ratingAverage": 5,
-                "captureHistory": [
-                  {
-                    "date": "2026-07-30",
-                    "note": "+2 reviews transcribed from owner-supplied GBP dashboard screenshot (new_reviews_in.png), sorted Newest, both 5-star with the NEW badge: Alexander Battaglia (oven, '6 hours ago', 3 reviews / 1 photo, tag 'Great price', WITH review photo) and Emily Bees (refrigerator, 'Yesterday', 0 reviews / 0 photos, tag 'Great price - $50-100', no photo). Alexander's review photo matches the Tustin KitchenAid double-wall-oven installation from PR #653, which is how appliance and brand were confirmed. The third review visible in the screenshot, David Lindley, was ALREADY captured on 2026-07-28 and is not a new record. GBP listing total bumped 103 to 105 (dashboard panel shows 5.0, 105 reviews). capturedCount 102 to 104. The remaining 105-104=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 103 to 105 = totalReviewsOnListing via a pattern-scoped pass over the four count surfaces across all review-bearing pages. NOTE: npm run sync:testimonials rewrites pages/testimonials.html ONLY; it cannot do the site-wide bump, and earlier captureHistory notes claiming otherwise are wrong. Neither new review was placed on a hub in this pass, so both sit at 0 hubs with a full 2-slot allowance."
-                  },
-                  {
-                    "date": "2026-07-28",
-                    "note": "+2 reviews transcribed from owner-supplied GBP dashboard screenshot (2_new_reviews.png), sorted Newest, both 5-star with the NEW badge, both no-photo: David Lindley (washer + dryer, '1 hour ago', reviewer has 8 reviews / 0 photos, Google service tag 'Great price - $250-300') and Reuben Johnson (Samsung dryer, '6 hours ago', reviewer has 1 review / 0 photos). GBP listing total bumped 101 to 103 (dashboard panel shows 5.0, 103 reviews). capturedCount 100 to 102. Remaining 103-102=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Both quotable per the quality floor (no photo but body >=8 words; Reuben also names appliance and brand). Locations standardized to 'Orange County, CA' per Google source policy (reviewer city not exposed). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 101 to 103 = totalReviewsOnListing across all review-bearing pages. Both surfaced on pages/testimonials.html (All pill 95 to 97). Hub placement: both new reviews replaced Susan Gerakos, whose 8-word body ('A.G. does excellent work. Very professional! Thank you') names no appliance or brand and sat right at the quality floor. Reuben Johnson took her slot on the Samsung brand hub, which previously carried no Samsung-mentioning testimonial (same rationale as the Frank Rokhideh / GE-hub swap in PR #639). David Lindley took her slot on the dryer-repair-cost hub: his body is dryer-specific and his review carries a real price band, apt for a cost hub, and it restores row balance on that hub's centered 2-card pair (Melissa 55 words next to David 44 = 1.25x spread, within the 1.5x guidance in testimonial-selection.md; Susan's 8 words next to Melissa's 55 was a 6.9x mismatch). Card counts on both hubs are unchanged (2 on dryer-repair-cost, 3 on Samsung), so no grid/orphan-centering CSS changed. Susan Gerakos drops from 2 hubs to 0 and stays displayed on pages/testimonials.html; both new reviews sit at 1 hub each, well inside the <=2-hubs rule."
-                  },
-                  {
-                    "date": "2026-07-27",
-                    "note": "+1 review (Frank Rokhideh, GE range) transcribed from owner-supplied GBP dashboard screenshot (ge_range_review.png), shown '4 hours ago', NEW badge, 5-star, reviewer has 3 reviews / 0 photos. Body: 'AG came same day when called and fix my GE range' (verbatim; bodyHasTypos=true, 'fix' to 'fixed' for display only). Customer side of the GE Profile range control-board repair in Irvine (owner job photo completed-repair-range-ge-profile-control-board-irvine). GBP listing total bumped 100 to 101 (dashboard panel shows 5.0, 101 reviews). capturedCount 99 to 100. Remaining 101-100=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Quotable testimonial per the quality floor (no photo but body >=8 words naming appliance and brand). Location standardized to 'Orange County, CA' per Google source policy (reviewer city not exposed; Irvine job city not stated in the review text). Surfaced on pages/testimonials.html and the GE brand-hub testimonial grid. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 100 to 101 = totalReviewsOnListing across all review-bearing pages via npm run sync:testimonials."
-                  },
-                  {
-                    "date": "2026-07-21",
-                    "note": "+3 reviews transcribed from owner-supplied GBP screenshot (3_new_reviews.png), sorted Newest, all 5-star with the NEW badge: Melissa (Speed Queen dryer, '25 mins ago'; no photo), Steph WW (LG refrigerator, '9 hours ago'; 1 photo), Matt Semonza (refrigerator, brand unclear from photo, 'Yesterday'; 1 photo). GBP listing total bumped 97 to 100 (owner screenshot panel shows 5.0, 100 reviews). capturedCount 96 to 99. Remaining 100-99=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Review photos downscaled from 3393x1495 to 125x125 square-crop webp thumbnails, saved to images/real/reviews/ (refrigerator-lg-steph-ww.webp, refrigerator-matt-semonza.webp). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 97 to 100 = totalReviewsOnListing across all review-bearing pages."
-                  },
-                  {
+        "captureHistory": [
+          {
+            "date": "2026-07-30",
+            "note": "+2 reviews transcribed from owner-supplied GBP dashboard screenshot (new_reviews_in.png), sorted Newest, both 5-star with the NEW badge: Alexander Battaglia (oven, '6 hours ago', 3 reviews / 1 photo, tag 'Great price', WITH review photo) and Emily Bees (refrigerator, 'Yesterday', 0 reviews / 0 photos, tag 'Great price - $50-100', no photo). Alexander's review photo matches the Tustin KitchenAid double-wall-oven installation from PR #653, which is how appliance and brand were confirmed. The third review visible in the screenshot, David Lindley, was ALREADY captured on 2026-07-28 and is not a new record. GBP listing total bumped 103 to 105 (dashboard panel shows 5.0, 105 reviews). capturedCount 102 to 104. The remaining 105-104=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 103 to 105 = totalReviewsOnListing via a pattern-scoped pass over the four count surfaces across all review-bearing pages. NOTE: npm run sync:testimonials rewrites pages/testimonials.html ONLY; it cannot do the site-wide bump, and earlier captureHistory notes claiming otherwise are wrong. Neither new review was placed on a hub in this pass, so both sit at 0 hubs with a full 2-slot allowance."
+          },
+          {
+            "date": "2026-07-28",
+            "note": "+2 reviews transcribed from owner-supplied GBP dashboard screenshot (2_new_reviews.png), sorted Newest, both 5-star with the NEW badge, both no-photo: David Lindley (washer + dryer, '1 hour ago', reviewer has 8 reviews / 0 photos, Google service tag 'Great price - $250-300') and Reuben Johnson (Samsung dryer, '6 hours ago', reviewer has 1 review / 0 photos). GBP listing total bumped 101 to 103 (dashboard panel shows 5.0, 103 reviews). capturedCount 100 to 102. Remaining 103-102=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Both quotable per the quality floor (no photo but body >=8 words; Reuben also names appliance and brand). Locations standardized to 'Orange County, CA' per Google source policy (reviewer city not exposed). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 101 to 103 = totalReviewsOnListing across all review-bearing pages. Both surfaced on pages/testimonials.html (All pill 95 to 97). Hub placement: both new reviews replaced Susan Gerakos, whose 8-word body ('A.G. does excellent work. Very professional! Thank you') names no appliance or brand and sat right at the quality floor. Reuben Johnson took her slot on the Samsung brand hub, which previously carried no Samsung-mentioning testimonial (same rationale as the Frank Rokhideh / GE-hub swap in PR #639). David Lindley took her slot on the dryer-repair-cost hub: his body is dryer-specific and his review carries a real price band, apt for a cost hub, and it restores row balance on that hub's centered 2-card pair (Melissa 55 words next to David 44 = 1.25x spread, within the 1.5x guidance in testimonial-selection.md; Susan's 8 words next to Melissa's 55 was a 6.9x mismatch). Card counts on both hubs are unchanged (2 on dryer-repair-cost, 3 on Samsung), so no grid/orphan-centering CSS changed. Susan Gerakos drops from 2 hubs to 0 and stays displayed on pages/testimonials.html; both new reviews sit at 1 hub each, well inside the <=2-hubs rule."
+          },
+          {
+            "date": "2026-07-27",
+            "note": "+1 review (Frank Rokhideh, GE range) transcribed from owner-supplied GBP dashboard screenshot (ge_range_review.png), shown '4 hours ago', NEW badge, 5-star, reviewer has 3 reviews / 0 photos. Body: 'AG came same day when called and fix my GE range' (verbatim; bodyHasTypos=true, 'fix' to 'fixed' for display only). Customer side of the GE Profile range control-board repair in Irvine (owner job photo completed-repair-range-ge-profile-control-board-irvine). GBP listing total bumped 100 to 101 (dashboard panel shows 5.0, 101 reviews). capturedCount 99 to 100. Remaining 101-100=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Quotable testimonial per the quality floor (no photo but body >=8 words naming appliance and brand). Location standardized to 'Orange County, CA' per Google source policy (reviewer city not exposed; Irvine job city not stated in the review text). Surfaced on pages/testimonials.html and the GE brand-hub testimonial grid. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 100 to 101 = totalReviewsOnListing across all review-bearing pages via npm run sync:testimonials."
+          },
+          {
+            "date": "2026-07-21",
+            "note": "+3 reviews transcribed from owner-supplied GBP screenshot (3_new_reviews.png), sorted Newest, all 5-star with the NEW badge: Melissa (Speed Queen dryer, '25 mins ago'; no photo), Steph WW (LG refrigerator, '9 hours ago'; 1 photo), Matt Semonza (refrigerator, brand unclear from photo, 'Yesterday'; 1 photo). GBP listing total bumped 97 to 100 (owner screenshot panel shows 5.0, 100 reviews). capturedCount 96 to 99. Remaining 100-99=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Review photos downscaled from 3393x1495 to 125x125 square-crop webp thumbnails, saved to images/real/reviews/ (refrigerator-lg-steph-ww.webp, refrigerator-matt-semonza.webp). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 97 to 100 = totalReviewsOnListing across all review-bearing pages."
+          },
+          {
             "date": "2026-05-06",
             "note": "56 reviews captured from user-supplied screenshots and full-review images."
           },
@@ -89,6 +89,10 @@
           {
             "date": "2026-07-15",
             "note": "+2 reviews transcribed from owner-supplied GBP screenshot (new_reviews.png), sorted Newest, both 5-star with the NEW badge: Olga Garcia (stove-top + freezer repair; no photo; '2 hours ago'; 'Great price · $500+' service tag) and Marie Bennett (oven repair; 1 photo of a black 5-burner gas cooktop; '22 hours ago'). GBP listing total bumped 95 to 97 (owner screenshot panel shows 5.0, 97 reviews). capturedCount 94 to 96. Remaining 97-96=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Marie Bennett's review photo downscaled 2540x1119 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-marie-bennett.webp (brand unconfirmed, so no brand slug). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 95 to 97 = totalReviewsOnListing across all review-bearing pages. Both surfaced on pages/testimonials.html (Olga photo-less, Marie with photo); All pill 89 to 91. Both remain OUT of the hub testimonial grids (grandfathered)."
+          },
+          {
+            "date": "2026-08-03",
+            "note": "+2 reviews transcribed from owner-supplied GBP dashboard screenshot, sorted Newest, both 5-star with the NEW badge and a photo: Donna Barnett Corwin (freezer, KitchenAid per owner attestation, '5 hours ago', 1 review / 1 photo) and Muhammed Nusratli (oven install, Samsung confirmed via the wordmark visible in his photo, '2 days ago', 1 review / 1 photo). GBP listing total bumped 105 to 107 (dashboard panel shows 5.0, 107 reviews). capturedCount 104 to 106. Remaining 107-106=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Donna Barnett Corwin is labeled 'Aliso Viejo, CA' under the newly-added location exception 2 (job-photo corroborated attestation, owner decision 2026-08-03): her review photo objectively matches the existing job photo images/real/business/completed-repair-refrigerator-kitchenaid-temp-sensor-aliso-viejo.jpg (same French-door refrigerator, same kitchen cabinetry, wall oven to the left, white door to the right, beige textured wall), and the owner separately attested the city on 2026-08-03; both parts recorded in her record's _note. Muhammed Nusratli stays at the 'Orange County, CA' default: his job is suspected to be the Samsung double wall oven install documented at images/real/business/completed-repair-oven-samsung-double-wall-install-newport-beach.jpg, but the owner gave no named city attestation for this job, so exception 2 is not met. Review photos resized proportionally (no crop) from 3393x1495 to 768x338 webp, saved to images/real/reviews/ (freezer-donna-barnett-corwin.webp, oven-samsung-muhammed-nusratli.webp). Neither review placed on a hub in this pass, so both sit at 0 hubs with a full 2-slot allowance. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 105 to 107 across all 61 review-bearing pages."
           }
         ]
       },
@@ -127,6 +131,42 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-donna-barnett-corwin-2026-08-03",
+      "source": "google",
+      "name": "Donna Barnett Corwin",
+      "location": "Aliso Viejo, CA",
+      "appliance": "freezer",
+      "brand": "KitchenAid",
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "5 hours ago",
+      "isNew": true,
+      "body": "AG did a great job in quickly repairing our freezer.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/freezer-donna-barnett-corwin.webp",
+      "_note": "Source: owner-supplied GBP dashboard screenshot, captured 2026-08-03, shown '5 hours ago', NEW badge, reviewer has 1 review / 1 photo. Brand=KitchenAid is the owner's attestation, not visible or confirmable in the reviewer's own photo (a close crop of the refrigerator door and handles) -- do not treat it as photographically confirmed anywhere. Location exception 2 (job-photo corroborated attestation, testimonial-selection.md, owner decision 2026-08-03): (1) the business's own job photo images/real/business/completed-repair-refrigerator-kitchenaid-temp-sensor-aliso-viejo.jpg (on master as of commit 35e6f18) is an objectively describable match to her review photo -- both show the same stainless French-door built-in refrigerator in the same kitchen: dark wood cabinetry surround, a stainless wall oven immediately to the left, a white six-panel door to the right, same beige textured wall; (2) the owner attested the city as Aliso Viejo, supplied 2026-08-03. Both parts recorded here per the rule; they are different kinds of evidence (image match, named dated attestation), so the exception is met. Note the reviewer's own wording says 'freezer' while the corroborating job photo is captioned as a refrigerator temp-sensor repair; the unit is a French-door refrigerator/freezer combo, so 'freezer' plausibly refers to that unit's freezer side, but this specific detail has not been separately confirmed -- flagged for a later editor. Quotable testimonial per the quality floor (has photo + body over 3 words). Part of the 105 to 107 GBP listing bump."
+    },
+    {
+      "id": "google-muhammed-nusratli-2026-08-03",
+      "source": "google",
+      "name": "Muhammed Nusratli",
+      "location": "Orange County, CA",
+      "appliance": "oven",
+      "brand": "Samsung",
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "2 days ago",
+      "isNew": true,
+      "body": "New oven instal.Grate price. Thanks",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/oven-samsung-muhammed-nusratli.webp",
+      "_note": "Source: owner-supplied GBP dashboard screenshot, captured 2026-08-03, shown '2 days ago', NEW badge, reviewer has 1 review / 1 photo. Body stored verbatim including the original typos ('instal.Grate' for 'install. Great'); display may lightly correct to 'New oven install. Great price. Thanks' per the bodyHasTypos display rule -- no paraphrasing beyond that. This is an installation, not a repair -- do not describe it as a repair anywhere. Brand=Samsung is photographically confirmed: the SAMSUNG wordmark is legible on the oven door in the reviewer's photo. Location left at the 'Orange County, CA' default: the job is very likely the Samsung double wall oven install already documented at images/real/business/completed-repair-oven-samsung-double-wall-install-newport-beach.jpg (the reviewer's photo is a close-up of what appears to be the same unit -- matching black cabinetry surround and a brick-look backsplash reflected in the door glass), but the owner has not given a named, dated attestation of the city for this specific job, so location exception 2's second prong is unmet and the default applies per testimonial-selection.md. A later editor can upgrade this to Newport Beach if the owner confirms the city. Quotable testimonial per the quality floor (has photo + body over 3 words). Part of the 105 to 107 GBP listing bump."
+    },
     {
       "id": "google-alexander-battaglia-2026-07-30",
       "source": "google",
@@ -263,16 +303,16 @@
       "location": "Orange County, CA",
       "appliance": "refrigerator",
       "brand": "Frigidaire",
-            "rating": 5,
-            "approxDate": "2026-07",
-            "dateText": "Yesterday",
-            "isNew": true,
-            "body": "AJ was professional, fast, and honest!!",
-            "bodyStatus": "complete",
-            "bodyHasTypos": false,
-            "profilePhoto": null,
-            "reviewPhoto": "images/real/reviews/refrigerator-matt-semonza.webp",
-            "_note": "Source: owner-supplied GBP screenshot 2026-07-21 (3_new_reviews.png), shown 'Yesterday', NEW badge. Frigidaire refrigerator repair by tech AJ in Westminster. Service tags 'Great price \u00b7 $50\u2013100'. Review photo shows a Frigidaire refrigerator; downscaled from 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-matt-semonza.webp. Body stored verbatim. Quotable testimonial (has photo + body over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 97 to 100 GBP listing bump."
+      "rating": 5,
+      "approxDate": "2026-07",
+      "dateText": "Yesterday",
+      "isNew": true,
+      "body": "AJ was professional, fast, and honest!!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/refrigerator-matt-semonza.webp",
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-21 (3_new_reviews.png), shown 'Yesterday', NEW badge. Frigidaire refrigerator repair by tech AJ in Westminster. Service tags 'Great price · $50–100'. Review photo shows a Frigidaire refrigerator; downscaled from 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-matt-semonza.webp. Body stored verbatim. Quotable testimonial (has photo + body over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 97 to 100 GBP listing bump."
     },
     {
       "id": "google-olga-garcia-2026-07-15",
