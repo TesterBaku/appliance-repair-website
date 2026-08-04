@@ -63,6 +63,13 @@
     .repair-card { background: var(--surface); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); transition: transform 0.18s, box-shadow 0.18s; }
     .repair-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.11); }
     .repair-card[hidden] { display: none; }
+    /* Orphan centering: the grid is 3-col at desktop and the visible count changes with the
+       filter chips, so a static nth-child rule can't target "last visible card". The filter
+       script below computes it and toggles this class on whichever card is currently alone on
+       the final row. grid-column:2 centers it in the middle track, same technique used for
+       testimonials-grid (see .claude/rules/testimonial-selection.md). Reset at narrower widths
+       where the grid is 2-col or 1-col and the class no longer applies. */
+    .repair-card.grid-orphan { grid-column: 2; }
     .card-photo { width: 100%; height: 240px; object-fit: cover; display: block; }
     .card-body { padding: 18px 20px 22px; }
     .card-pill { display: inline-block; font-size: 10px; font-weight: 700; color: var(--brand-text); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
@@ -82,6 +89,7 @@
 
     @media (max-width: 900px) {
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .repair-card.grid-orphan { grid-column: auto; }
     }
     @media (max-width: 768px) {
       .rr-hero h1 { font-size: 30px; }
@@ -334,6 +342,13 @@
         "name": "Whirlpool Dishwasher Water Leak Repair: San Clemente, CA",
         "description": "Whirlpool stainless-steel built-in dishwasher that leaked water onto the floor, pulled from the cabinet to trace and repair the leak during a San Clemente service call.",
         "contentLocation": "San Clemente, CA"
+      },
+      {
+        "@type": "ImageObject",
+        "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-refrigerator-kitchenaid-temp-sensor-aliso-viejo.jpg",
+        "name": "KitchenAid Refrigerator Temperature Sensor Replacement: Aliso Viejo, CA",
+        "description": "KitchenAid built-in French-door refrigerator in an Aliso Viejo kitchen, back in service after a temperature sensor replacement during an Aliso Viejo service call.",
+        "contentLocation": "Aliso Viejo, CA"
       }
     ]
   }
@@ -1109,6 +1124,20 @@
           </div>
         </div>
 
+        <!-- Card 14: KitchenAid refrigerator temperature sensor replacement (Aliso Viejo) -->
+        <div class="repair-card" data-appliance="refrigerator" data-brand="kitchenaid" data-city="aliso-viejo">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-temp-sensor-aliso-viejo-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-temp-sensor-aliso-viejo.webp 768w" type="image/webp" sizes="(max-width:480px) 100vw, (max-width:900px) 50vw, 360px">
+            <img class="card-photo" src="../images/real/business/completed-repair-refrigerator-kitchenaid-temp-sensor-aliso-viejo.jpg" alt="Stainless KitchenAid French-door refrigerator built into dark wood cabinetry beside a stainless wall oven in an Aliso Viejo kitchen" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="card-body">
+            <div class="card-pill">KitchenAid · Refrigerator</div>
+            <div class="card-title">Temperature Sensor Replacement</div>
+            <div class="card-location">Aliso Viejo, CA</div>
+            <p class="card-caption">KitchenAid built-in French-door refrigerator in an Aliso Viejo kitchen, back in service after a temperature sensor replacement so it reads and holds the set temperature correctly again.</p>
+          </div>
+        </div>
+
       </div>
       <div class="gallery-empty" id="gallery-empty" role="status" aria-live="polite">No repairs match the selected filters.</div>
     </section>
@@ -1189,14 +1218,21 @@
 
       function apply() {
         let visible = 0;
+        let lastVisible = null;
         cards.forEach(function (card) {
           const show = (active.appliance === 'all' || card.dataset.appliance === active.appliance)
                     && (active.brand === 'all' || card.dataset.brand === active.brand);
           card.toggleAttribute('hidden', !show);
-          if (show) visible++;
+          card.classList.remove('grid-orphan');
+          if (show) { visible++; lastVisible = card; }
         });
+        // 3-col desktop grid: a visible count that leaves exactly 1 card alone on the final row
+        // (visible % 3 === 1) gets centered instead of stranded left. Recomputed on every filter
+        // change since the visible set (and therefore the remainder) changes with it.
+        if (lastVisible && visible % 3 === 1) lastVisible.classList.add('grid-orphan');
         if (empty) empty.classList.toggle('visible', visible === 0);
       }
+      apply();
 
       chips.forEach(function (chip) {
         const group = chip.dataset.filter;

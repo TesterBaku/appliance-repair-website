@@ -112,6 +112,18 @@
     .landmarks-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.8; }
     .landmarks-block a { color: var(--brand-text); font-weight: 600; text-decoration: none; }
 
+    /* Recent-repair job-photo grid: fixed 3-col at desktop, 1-col on mobile. A 4th card
+       (added alongside the existing 3-card washer story) would otherwise land alone on a
+       second row, left-aligned under column 1. Center it in the middle track instead, using
+       the same :has() technique already used for .testimonials-grid orphan rows (see
+       .claude/rules/testimonial-selection.md). */
+    .recent-repair-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .recent-repair-grid:has(> div:nth-child(4):last-child) > div:nth-child(4) { grid-column: 2; }
+    @media (max-width: 768px) {
+      .recent-repair-grid { grid-template-columns: 1fr; }
+      .recent-repair-grid:has(> div:nth-child(4):last-child) > div:nth-child(4) { grid-column: 1; }
+    }
+
     @media (max-width: 900px) {
       .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
       .neighborhoods-grid { grid-template-columns: repeat(2, 1fr); }
@@ -811,9 +823,9 @@
   <!-- RECENT REPAIR -->
   <section class="section section-gray" style="padding-top:0;">
     <div class="container">
-      <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Recent Repair in Aliso Viejo</h2>
-      <p style="text-align:center;font-size:13.5px;color:#666;margin-bottom:32px;">A Whirlpool Duet front-load washer leaking from the door, fixed on site with a new door boot gasket.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
+      <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Recent Repairs in Aliso Viejo</h2>
+      <p style="text-align:center;font-size:13.5px;color:#666;margin-bottom:32px;">A Whirlpool Duet front-load washer leaking from the door, fixed on site with a new door boot gasket, and a KitchenAid refrigerator serviced for a temperature sensor replacement.</p>
+      <div class="recent-repair-grid">
 
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <img src="../images/real/business/completed-repair-washer-whirlpool-drum-access-aliso-viejo.jpg" alt="Whirlpool front-load washer opened up with the cabinet removed to reach the drum and door boot during an Aliso Viejo repair" width="768" height="1024" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
@@ -838,6 +850,15 @@
           <div style="padding:16px 18px 20px;">
             <div style="font-size:10px;font-weight:700;color:var(--brand-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Whirlpool &middot; Washer</div>
             <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Step 3: Sealed &amp; Tested</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">Aliso Viejo, CA</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+          <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-temp-sensor-aliso-viejo.jpg" alt="Stainless KitchenAid French-door refrigerator built into dark wood cabinetry beside a stainless wall oven in an Aliso Viejo kitchen" width="768" height="1024" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
+          <div style="padding:16px 18px 20px;">
+            <div style="font-size:10px;font-weight:700;color:var(--brand-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">KitchenAid &middot; Refrigerator</div>
+            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Temperature Sensor Replacement</div>
             <div style="font-size:12px;color:#666;margin-top:4px;">Aliso Viejo, CA</div>
           </div>
         </div>
