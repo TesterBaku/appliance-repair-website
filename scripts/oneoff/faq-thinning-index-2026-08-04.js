@@ -118,7 +118,7 @@ function spans(oldText, newText) {
 function classify(oldText, newText) {
   const sp = spans(oldText, newText);
   const total = sp.reduce((a, s) => a + s.length, 0) || 1;
-  return { share: sp.length ? (100 * sp[0].length) / total : 0, largest: sp[0] || '', count: sp.length };
+  return { share: sp.length ? (100 * sp[0].length) / total : 0, largest: sp[0] || '', count: sp.length, spans: sp };
 }
 
 function candidates() {
@@ -142,7 +142,7 @@ function candidates() {
         const shrink = oldAns.length - newAns.length;
         if (shrink < SHRINK_MIN) continue;
         const c = classify(oldAns, newAns);
-        rows.push({ file: rel, question: name, shrink, share: Math.round(c.share), largest: c.largest.trim() });
+        rows.push({ file: rel, question: name, shrink, share: Math.round(c.share), largest: c.largest.trim(), pre: before, spans: c.spans });
       }
     }
   }
@@ -214,10 +214,54 @@ if (process.argv.includes('--selftest')) {
   process.exit(bad ? 1 : 0);
 }
 
+// PROVENANCE. The single most important question per candidate, and the one the whole
+// workstream got wrong until the PR #682 review: was this text EVER visible to a reader?
+//
+// #666 conformed JSON-LD down to the visible copy. If the visible answer already lacked the
+// text at #666's parent, then #666 deleted the last copy of something readers never saw -
+// it was authored into the schema and shipped only to crawlers. Publishing it is a CONTENT
+// DECISION, not a restoration, and it carries a risk restoration does not: nobody has ever
+// read it against the page around it. Two of the first three checked contradicted their own
+// page (P6-30).
+//
+// Cheap to answer: strip tags from the pre-sweep file and look for the removed span in the
+// rendered text. Present => readers lost it. Absent => they never had it.
+function everVisible(preSweepHtml, spansList) {
+  const rendered = preSweepHtml
+    .replace(/<script[\s\S]*?<\/script>/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&#(\d+);/g, (_, d) => String.fromCharCode(+d))
+    .replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&quot;/gi, '"')
+    .replace(/&rsquo;|&#8217;/gi, "'").replace(/&[a-z]+;/gi, ' ')
+    .replace(/\s+/g, ' ');
+  // Check EVERY removed span >= 20 chars, not just the largest.
+  //
+  // The first version tested only `largest`, and the PR #683 reviewer proved that is wrong in
+  // the worst possible way: on a heavily-reworded answer the LCS fragments into dozens of
+  // pieces, and the largest was a 41-char run cut off MID-WORD ("...the most comm") that
+  // happened to prefix a DIFFERENT, shorter visible sentence. It matched, so the tool called
+  // the field a genuine reader loss - and I restored crawler-only text to a live page on the
+  // strength of it. Same outcome as the #679 fabrication, reached by a different bug.
+  // A heavily fragmented diff cannot be answered by substring matching AT ALL, and this is
+  // the correction that matters. The PR #683 reviewer showed the dishwasher field fragments
+  // into 37 spans; testing only the long ones still says WAS-VISIBLE, because the clause that
+  // was genuinely crawler-only ("so same-day completion is common") breaks into pieces under
+  // the 20-char floor and drops out of the test entirely. Fragments being visible says nothing
+  // about whether the REMOVED SENTENCE was. Above this threshold the honest answer is "read it".
+  if (spansList.length > 5) return 'INDETERMINATE';
+  const checked = spansList.map(sp => sp.trim().replace(/\s+/g, ' ')).filter(sp => sp.length >= 20);
+  if (!checked.length) return 'INDETERMINATE';        // nothing long enough to test honestly
+  const visible = checked.filter(sp => rendered.includes(sp)).length;
+  if (visible === 0) return 'NEVER-VISIBLE';
+  if (visible === checked.length) return 'WAS-VISIBLE';
+  return 'PARTIAL';                                    // some spans visible, some not - read it
+}
+
 const rows = candidates();
 console.log(`${rows.length} genuine candidates (question matched by name, removal confirmed, shrink >= ${SHRINK_MIN})\n`);
-for (const r of rows.slice(0, 25)) {
+for (const r of rows) {
   console.log(`  ${String(r.share).padStart(3)}%  -${String(r.shrink).padStart(3)}c  ${r.file}`);
   console.log(`        Q: ${r.question.slice(0, 88)}`);
   console.log(`        removed: ${JSON.stringify(r.largest.slice(0, 92))}`);
+  console.log(`        provenance: ${everVisible(r.pre, r.spans)}`);
 }
