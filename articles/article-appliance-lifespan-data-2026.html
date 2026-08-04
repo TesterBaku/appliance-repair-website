@@ -24,8 +24,10 @@
     body { background: #f7fafc; color: #000000e6; font-family: 'Inter', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
     .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #eee; }
     .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: #111; text-decoration: none; }
-    .nav-links { display: flex; gap: 22px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; color: #111; text-decoration: none; }
+    /* gap was 22px until the Brands dropdown made 8 top-level items: at 22px the row
+       overflows the 1100px container and the labels wrap to two lines. */
+    .nav-links { display: flex; gap: 16px; }
     .nav-links a { font-size: 12px; color: #666; text-decoration: none; }
     .nav-links a:hover { color: #111; font-weight: 600; }
     .nav-cta { background: #cc3d12; color: #fff; font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; }
@@ -167,6 +169,21 @@
     .sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #cc3d12; color: #fff; gap: 6px; }
     .sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #111; color: #fff; }
     @media (max-width: 768px) { body { padding-bottom: 64px; } .sticky-mobile-bar { display: flex; } }
+    /* COMPACT NAV: 769px to 1099px. Below 1100px the row (~1016px of content) no
+       longer fits, so the wordmark gives way first and spacing tightens, which keeps
+       every nav link visible down to the mobile breakpoint instead of hiding them all
+       behind the hamburger. Must stay last: `.logo`, `.nav-links` and `.nav-cta` are
+       declared above and a media query adds no specificity, so an earlier copy of this
+       block would lose to them. */
+    @media (min-width: 769px) and (max-width: 1099px) {
+      .nav-inner { padding: 0 16px; }
+      .logo span { display: none; }
+      .nav-links { gap: 8px; }
+      .nav-links a, .nav-dropdown-toggle { font-size: 11px; }
+      .nav-cta { padding: 7px 12px; }
+      /* the logo carries an inline height to avoid layout shift, so this needs the override */
+      .logo img { height: 42px !important; }
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -311,7 +328,7 @@
 
   <nav class="nav">
     <div class="nav-inner">
-      <div style="display:flex; align-items:center; gap:32px;">
+      <div style="display:flex; align-items:center; gap:24px;">
         <a href="../" class="logo">
           <img src="../logo.png" alt="Universal Appliances Repair logo" width="128" height="128" style="height:52px;width:auto;">
           <span>Universal Appliances Repair</span>
@@ -331,6 +348,35 @@
               <a href="../pages/garbage-disposal-repair-orange-county.html">Garbage Disposal Repair</a>
               <a href="../pages/appliance-repair-cost-orange-county.html">Pricing Guide</a>
               <a href="../pages/services.html" class="dropdown-all">All Services &rarr;</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <a href="../pages/services.html#brands" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">Brands <span class="nav-dropdown-arrow" aria-hidden="true">&#9660;</span></a>
+            <div class="nav-dropdown-menu nav-dropdown-menu--brands" style="width:max-content;max-width:calc(100vw - 32px);padding:14px 16px 6px;left:-16px;">
+              <div style="display:flex;gap:0;align-items:flex-start;">
+                <div>
+                  <span style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:4px 18px 6px;">Premium &amp; Luxury</span>
+                  <a href="../pages/sub-zero-appliance-repair-orange-county.html">Sub-Zero</a>
+                  <a href="../pages/wolf-appliance-repair-orange-county.html">Wolf</a>
+                  <a href="../pages/viking-appliance-repair-orange-county.html">Viking</a>
+                  <a href="../pages/thermador-appliance-repair-orange-county.html">Thermador</a>
+                  <a href="../pages/miele-appliance-repair-orange-county.html">Miele</a>
+                  <a href="../pages/dacor-appliance-repair-orange-county.html">Dacor</a>
+                  <a href="../pages/dcs-appliance-repair-orange-county.html">DCS</a>
+                </div>
+                <div>
+                  <span style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:4px 18px 6px;">Household</span>
+                  <a href="../pages/whirlpool-appliance-repair-orange-county.html">Whirlpool</a>
+                  <a href="../pages/ge-appliance-repair-orange-county.html">GE</a>
+                  <a href="../pages/samsung-appliance-repair-orange-county.html">Samsung</a>
+                  <a href="../pages/lg-appliance-repair-orange-county.html">LG</a>
+                  <a href="../pages/bosch-appliance-repair-orange-county.html">Bosch</a>
+                  <a href="../pages/kitchenaid-appliance-repair-orange-county.html">KitchenAid</a>
+                  <a href="../pages/maytag-appliance-repair-orange-county.html">Maytag</a>
+                  <a href="../pages/frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
+                </div>
+              </div>
+              <a href="../pages/services.html#brands" class="dropdown-all">All Brands &rarr;</a>
             </div>
           </div>
           <div class="nav-dropdown">
@@ -410,6 +456,7 @@
   <div class="nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
     <a href="../pages/about.html">About</a>
     <a href="../pages/services.html">Services</a>
+    <a href="../pages/services.html#brands">Brands</a>
     <a href="../pages/service-areas.html">Service Areas</a>
     <a href="../pages/faq.html">FAQ</a>
     <a href="../pages/testimonials.html">Testimonials</a>

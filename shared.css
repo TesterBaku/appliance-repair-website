@@ -35,7 +35,9 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
 .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; color: var(--text-primary); text-decoration: none; }
 .logo-icon { width: 28px; height: 28px; background: var(--brand); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.nav-links { display: flex; gap: 22px; }
+/* gap was 22px until the Brands dropdown made 8 top-level items: at 22px the row
+   needed ~1114px inside a 1100px container, so labels wrapped to two lines. */
+.nav-links { display: flex; gap: 16px; }
 .nav-links a { font-size: 12px; color: var(--text-sub); text-decoration: none; }
 .nav-links a:hover, .nav-links a.active { color: var(--text-primary); font-weight: 600; }
 .nav-actions { display: flex; align-items: center; gap: 14px; }
@@ -204,6 +206,26 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .sticky-mobile-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; height: 56px; }
 .sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--brand-dark); color: var(--surface); gap: 6px; }
 .sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--text-primary); color: var(--surface); }
+
+/* ── COMPACT NAV: 769px to 1099px ───────────────────────────
+   With the Brands dropdown the row is 8 top-level items plus the wordmark,
+   phone and Book button: about 1016px of content, which clears the 1100px
+   container and nothing narrower. Tightening the spacing alone does not buy
+   enough, so the wordmark gives way first: the logo mark still carries the
+   brand, and every wayfinding link stays visible down to the mobile
+   breakpoint. Hiding the row behind a hamburger here instead would take FAQ
+   and Testimonials, this brand's trust signals, off a half-screen laptop
+   window. The 768px block below still governs phones. */
+@media (min-width: 769px) and (max-width: 1099px) {
+  .nav-inner { padding: 0 16px; }
+  .logo span { display: none; }
+  .nav-links { gap: 8px; }
+  .nav-links a, .nav-dropdown-toggle { font-size: 11px; }
+  .nav-actions { gap: 10px; }
+  .nav-cta { padding: 7px 12px; }
+  /* the logo carries an inline height to avoid layout shift, so this needs the override */
+  .logo img { height: 42px !important; }
+}
 
 /* ── MOBILE: 768px ─────────────────────────────────────── */
 @media (max-width: 768px) {

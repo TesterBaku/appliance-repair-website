@@ -29,13 +29,24 @@ for (const filePath of htmlFiles) {
   const fromFile = path.relative(root, filePath);
   const fromDir = path.dirname(filePath);
 
-  // Check internal HTML hrefs (strip query params before resolving)
+  // Check internal HTML hrefs (strip query params and #fragment before resolving)
   for (const [, href] of content.matchAll(/href="([^"#][^"]*\.html[^"]*)"/g)) {
     if (href.startsWith('http://') || href.startsWith('https://')) continue;
-    const cleanHref = href.split('?')[0]; // strip ?city= and other query params
+    const [pathPart, fragment] = href.split('#'); // e.g. services.html#brands
+    const cleanHref = pathPart.split('?')[0]; // strip ?city= and other query params
     const target = path.resolve(fromDir, cleanHref);
     if (!fs.existsSync(target)) {
       issues.push(`${fromFile} → broken link: ${href}`);
+      continue;
+    }
+    // A cross-page #fragment that lands nowhere silently drops the reader at the top
+    // of the page, so verify the anchor exists rather than only the file.
+    if (fragment) {
+      const targetHtml = fs.readFileSync(target, 'utf8');
+      const anchored = new RegExp(`\\b(?:id|name)="${fragment.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`);
+      if (!anchored.test(targetHtml)) {
+        issues.push(`${fromFile} → link to missing anchor: ${href}`);
+      }
     }
   }
 
