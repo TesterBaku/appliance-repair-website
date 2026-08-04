@@ -153,7 +153,7 @@
       "id": "google-muhammed-nusratli-2026-08-03",
       "source": "google",
       "name": "Muhammed Nusratli",
-      "location": "Orange County, CA",
+      "location": "Newport Beach, CA",
       "appliance": "oven",
       "brand": "Samsung",
       "rating": 5,
@@ -165,7 +165,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/oven-samsung-muhammed-nusratli.webp",
-      "_note": "Source: owner-supplied GBP dashboard screenshot, captured 2026-08-03, shown '2 days ago', NEW badge, reviewer has 1 review / 1 photo. Body stored verbatim including the original typos ('instal.Grate' for 'install. Great'); display may lightly correct to 'New oven install. Great price. Thanks' per the bodyHasTypos display rule -- no paraphrasing beyond that. This is an installation, not a repair -- do not describe it as a repair anywhere. Brand=Samsung is photographically confirmed: the SAMSUNG wordmark is legible on the oven door in the reviewer's photo. Location left at the 'Orange County, CA' default: the job is very likely the Samsung double wall oven install already documented at images/real/business/completed-repair-oven-samsung-double-wall-install-newport-beach.jpg (the reviewer's photo is a close-up of what appears to be the same unit -- matching black cabinetry surround and a brick-look backsplash reflected in the door glass), but the owner has not given a named, dated attestation of the city for this specific job, so location exception 2's second prong is unmet and the default applies per testimonial-selection.md. A later editor can upgrade this to Newport Beach if the owner confirms the city. Quotable testimonial per the quality floor (has photo + body over 3 words). Part of the 105 to 107 GBP listing bump."
+      "_note": "Source: owner-supplied GBP dashboard screenshot, captured 2026-08-03, shown '2 days ago', NEW badge, reviewer has 1 review / 1 photo. Body stored verbatim including the typos ('instal', 'Grate'); bodyHasTypos is set so display may correct them. This is an oven INSTALLATION, not a repair. Brand=Samsung is photographically confirmed: the SAMSUNG wordmark is legible on the oven door in his own photo. Location exception 2 (job-photo corroborated attestation, testimonial-selection.md): (1) the business's own job photo images/real/business/completed-repair-oven-samsung-double-wall-install-newport-beach.jpg is an objectively describable match to his review photo. Checkable in HIS crop, left to right: a tan brick-look backsplash with visible mortar lines, then a black vertical cabinet stile, then the stainless oven frame, in that same order in both photos, and both show a sliding-glass-door reflection in the oven glass. His crop shows only the upper door, so the fact that the business photo is of a DOUBLE wall oven is deliberately not cited as a correspondence. (2) The owner attested the city as Newport Beach on 2026-08-04, upgrading this record from the 'Orange County, CA' default it shipped with in PR #688, where the city was suspected but unattested. Both parts are different kinds of evidence, per the rule. Quotable testimonial per the quality floor (photo + body over 3 words)."
     },
     {
       "id": "google-alexander-battaglia-2026-07-30",
