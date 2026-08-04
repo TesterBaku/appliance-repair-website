@@ -100,7 +100,21 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 ## Display rules
 
 - Show reviewer name exactly as it appears in the pool's `name` field. Last-initial abbreviations (e.g., "Jennifer T." for "Jennifer Trette") are acceptable if the page already uses that style — otherwise use the full name.
-- Location label depends on the record's `source` field. **Google records (`source: "google"`):** Google does not expose reviewer city, so use `"Orange County, CA"` unless the reviewer's review text explicitly names an OC city, in which case use that city. **Yelp records (`source: "yelp"`):** Yelp displays the reviewer's city directly — use the Yelp-displayed city verbatim (e.g., `"Dana Point, CA"`, `"Anaheim, CA"`).
+- Location label depends on the record's `source` field. **Google records (`source: "google"`):** Google does not expose reviewer city, so use `"Orange County, CA"` unless one of the two exceptions below applies. **Yelp records (`source: "yelp"`):** Yelp displays the reviewer's city directly — use the Yelp-displayed city verbatim (e.g., `"Dana Point, CA"`, `"Anaheim, CA"`).
+
+  **Exception 1 — the review says so.** The reviewer's own review text explicitly names a city. Use that city.
+
+  **Exception 2 — job-photo corroborated attestation** (added 2026-08-03). A specific city may be used when **both** of these hold:
+  1. The business holds its **own job photo** of that repair in `images/real/business/`, and it is identifiably the same job as the review (same appliance and same visible surroundings as the reviewer's photo, or otherwise identified by the technician who attended); **and**
+  2. The **technician or owner confirms the city** the job was performed in.
+
+  Record the basis in the record's `_note`: which business photo corroborates it, and that the city is technician-attested. A reader or a later audit must be able to see *why* the city is claimed.
+
+  This is deliberately a two-part bar. One part alone is not enough: a matching photo without an attested city tells you nothing about location, and an attested city with no job photo is unverifiable after the fact. If either is missing, fall back to `"Orange County, CA"`.
+
+  **Still never permitted:** inferring a city from the reviewer's display name, profile photo, surname, or a guess about where a brand is popular. The point of the default label was never secrecy, it was to stop invention.
+
+  **Not retroactive.** Existing `"Orange County, CA"` labels stay as they are unless someone establishes both parts of the bar for that specific review. Do not sweep the pool relabelling records from memory.
 - Star rating: always render 5 stars (all transcribed pool reviews are verified 5-star Google reviews).
 - Light typo/grammar editing is allowed for reviews flagged `bodyHasTypos: true`. No paraphrasing or substantive rewording.
 - For Yelp records with a `previousBody` field, display only `body` (the current version). `previousBody` is reference-only.
