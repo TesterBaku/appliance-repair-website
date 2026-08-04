@@ -6,6 +6,16 @@ const htmlFiles = [];
 
 const SKIP_DIRS = new Set(['node_modules', '.git', '.claude', '.agents', '.audits', '.playwright-mcp', 'partials']);
 
+// Anchor targets are read for fragment checks. A nav link like services.html#brands is
+// referenced from every page, so cache per path: each target is read once per run.
+const anchorSourceCache = new Map();
+function readAnchorSource(filePath) {
+  if (!anchorSourceCache.has(filePath)) {
+    anchorSourceCache.set(filePath, fs.readFileSync(filePath, 'utf8'));
+  }
+  return anchorSourceCache.get(filePath);
+}
+
 function collectHtmlFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
@@ -42,9 +52,10 @@ for (const filePath of htmlFiles) {
     // A cross-page #fragment that lands nowhere silently drops the reader at the top
     // of the page, so verify the anchor exists rather than only the file.
     if (fragment) {
-      const targetHtml = fs.readFileSync(target, 'utf8');
-      const anchored = new RegExp(`\\b(?:id|name)="${fragment.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`);
-      if (!anchored.test(targetHtml)) {
+      // Require whitespace before the attribute, not \b: \b also matches inside
+      // data-id="brands", which is not something a browser scrolls to.
+      const anchored = new RegExp(`\\s(?:id|name)="${fragment.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`);
+      if (!anchored.test(readAnchorSource(target))) {
         issues.push(`${fromFile} → link to missing anchor: ${href}`);
       }
     }
