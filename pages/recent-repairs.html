@@ -70,6 +70,15 @@
        testimonials-grid (see .claude/rules/testimonial-selection.md). Reset at narrower widths
        where the grid is 2-col or 1-col and the class no longer applies. */
     .repair-card.grid-orphan { grid-column: 2; }
+    /* A trailing PAIR (visible % 3 === 2) cannot be centred in a 3-track grid, so the script
+       switches the grid to 6 tracks and spans every card across two of them; the pair then
+       lands on tracks 2-3 and 4-5, centred. Same technique as the 5-card testimonial grid in
+       .claude/rules/testimonial-selection.md. Every card must be placed, not just the pair,
+       or the untouched cards auto-flow into single tracks and row 1 renders half-width. */
+    .gallery-grid.pair-row { grid-template-columns: repeat(6, 1fr); }
+    .gallery-grid.pair-row .repair-card { grid-column: span 2; }
+    .gallery-grid.pair-row .repair-card.pair-a { grid-column: 2 / span 2; }
+    .gallery-grid.pair-row .repair-card.pair-b { grid-column: 4 / span 2; }
     .card-photo { width: 100%; height: 240px; object-fit: cover; display: block; }
     .card-body { padding: 18px 20px 22px; }
     .card-pill { display: inline-block; font-size: 10px; font-weight: 700; color: var(--brand-text); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
@@ -90,8 +99,16 @@
     @media (max-width: 900px) {
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
       .repair-card.grid-orphan { grid-column: auto; }
+      /* These resets must repeat the full desktop selectors. A bare `.repair-card { grid-column:
+         auto }` is LOWER specificity than `.gallery-grid.pair-row .repair-card.pair-a` and would
+         silently lose, leaving the 6-track placement live on phones. */
+      .gallery-grid.pair-row { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid.pair-row .repair-card,
+      .gallery-grid.pair-row .repair-card.pair-a,
+      .gallery-grid.pair-row .repair-card.pair-b { grid-column: auto; }
     }
     @media (max-width: 768px) {
+      .gallery-grid.pair-row { grid-template-columns: 1fr; }
       .rr-hero h1 { font-size: 30px; }
       .rr-hero { padding: 88px 16px 40px; }
       .gallery-section { padding: 32px 16px 64px; }
@@ -1233,6 +1250,7 @@
   <script>
     (function () {
       const chips = document.querySelectorAll('.filters-bar .chip');
+      const grid = document.getElementById('gallery-grid');
       const cards = document.querySelectorAll('#gallery-grid .repair-card');
       const empty = document.getElementById('gallery-empty');
       const active = { appliance: 'all', brand: 'all' };
@@ -1240,17 +1258,26 @@
       function apply() {
         let visible = 0;
         let lastVisible = null;
+        let secondLastVisible = null;
         cards.forEach(function (card) {
           const show = (active.appliance === 'all' || card.dataset.appliance === active.appliance)
                     && (active.brand === 'all' || card.dataset.brand === active.brand);
           card.toggleAttribute('hidden', !show);
-          card.classList.remove('grid-orphan');
-          if (show) { visible++; lastVisible = card; }
+          card.classList.remove('grid-orphan', 'pair-a', 'pair-b');
+          if (show) { visible++; secondLastVisible = lastVisible; lastVisible = card; }
         });
+        grid.classList.remove('pair-row');
         // 3-col desktop grid: a visible count that leaves exactly 1 card alone on the final row
         // (visible % 3 === 1) gets centered instead of stranded left. Recomputed on every filter
         // change since the visible set (and therefore the remainder) changes with it.
         if (lastVisible && visible % 3 === 1) lastVisible.classList.add('grid-orphan');
+        // A remainder of 2 leaves a PAIR stranded left, which grid-column:2 cannot fix in a
+        // 3-track grid. Switch the grid to 6 tracks and place the pair on 2-3 and 4-5.
+        if (secondLastVisible && visible % 3 === 2) {
+          grid.classList.add('pair-row');
+          secondLastVisible.classList.add('pair-a');
+          lastVisible.classList.add('pair-b');
+        }
         if (empty) empty.classList.toggle('visible', visible === 0);
       }
       apply();
