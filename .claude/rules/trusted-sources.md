@@ -54,10 +54,16 @@ Quality is necessary and not sufficient. An authoritative source can still be to
 
 - **Date-stamp every figure before you use it.** If you cannot establish a source's vintage, treat it
   as unverified.
-- **Owner instruction: do not build content on outdated sources.** Prefer sources revised within the
-  last few years, and for anything that changes over time (lifespans, costs, failure rates,
-  demographics) prefer a source on a regular revision cycle — government rulemakings, Census releases,
-  annually-updated buyer guides — over a one-off study, however widely cited.
+- **Owner instruction: do not build content on outdated sources.** **Prefer sources revised within the
+  last 5 years.** Named exceptions, where the nominal edition is the right thing to cite: Census/ACS
+  products, published safety or engineering standards, and OEM specification and warranty
+  documentation. For anything that changes over time (lifespans, costs, failure rates, demographics)
+  prefer a source on a regular revision cycle, such as government rulemakings, Census releases or
+  annually-updated buyer guides, over a one-off study however widely cited.
+  (A concrete number rather than "a few years" is deliberate: this file is read by Codex, Cursor,
+  Aider and Hermes as well as Claude Code, and an unquantified boundary gets interpreted differently
+  by each. The repo's habit is to write a number and revise it explicitly, as with the 3-step plan
+  threshold, the 2-hub testimonial cap and the $99/$120 fee tiers.)
 - **State the vintage in the copy, not just in your notes.** A live page on this site states 2019/2020
   Housing Element figures in the present tense and is now ~3 points off ACS 2024. Writing "as of
   <year>" costs one clause and stops the page silently rotting.
