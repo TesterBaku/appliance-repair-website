@@ -36,8 +36,9 @@ If either test fails, the PR is an automatic **FAIL** — do not proceed with th
 
 **First, check the author ran the right tool and named it honestly.** `/impeccable critique` and `node .agents/skills/impeccable/scripts/detect.mjs` are different: critique is the LLM-driven gate that emits the `??/40` score and runs the detector internally as its Assessment B; the detector alone is the mechanical scanner. Per `.claude/rules/git-workflow.md`, the full critique is required for any diff touching CSS, markup structure, layout, colour or typography, while the detector alone is permitted for a copy-only diff inside existing markup.
 
-Flag as **FAIL**:
-- a PR description claiming a critique score when only the detector was run, or naming a tool the author did not run;
+You cannot observe what the author ran, only whether their evidence matches their claim. Judge the evidence, and flag as **FAIL**:
+- a PR claiming a critique (or quoting a `??/40` score) whose evidence is a detector findings list or a bare "exit 0" — a real critique reports a heuristics table, cognitive-load and anti-pattern verdicts, and priority issues, so a score with none of that behind it is unevidenced;
+- a PR naming no tool at all, since the rule requires the tool be named;
 - a diff that changes CSS or markup structure but reports the detector only.
 
 A copy-only diff reporting "detector only, copy-only diff" is **compliant** — do not demand a critique for a price or wording change.
