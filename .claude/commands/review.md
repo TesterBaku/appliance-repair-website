@@ -88,7 +88,7 @@ These checks apply when the diff includes any city hub page. Run `/visual-review
 
 ### 🎨 Design quality — blockers for any PR touching HTML or CSS
 
-These checks apply whenever the diff includes `.html` or `.css` files. Run `/impeccable critique` on each changed page and enforce the findings.
+These checks apply whenever the diff includes `.html` or `.css` files. Run whichever impeccable tool Step 3b's scoping rule calls for on each changed page (full `/impeccable critique`, or `detect.mjs` alone on a copy-only diff) and enforce the findings.
 
 **Impeccable blockers (FAIL = do not merge):**
 - [ ] No side-stripe accent borders (`border-left` or `border-right` > 1px as a colored stripe on cards, callouts, or list items)
@@ -100,10 +100,11 @@ These checks apply whenever the diff includes `.html` or `.css` files. Run `/imp
 - [ ] No `color: #888` or dimmer for meaningful text on white/light backgrounds (minimum `#666` per DESIGN.md)
 - [ ] No `#000` or `#fff` as pure values — neutrals must be tinted toward the brand hue
 - [ ] No "Book" or "Schedule" CTA button linking to `services.html` instead of `contact.html`
-- [ ] Impeccable critique returns no FAIL items on any changed page
+- [ ] The impeccable tool required by Step 3b (critique, or detector-only on a copy-only diff) returns no FAIL items on any changed page, and the PR names which one was run
+- [ ] On a detector-only PR: the author confirms they grepped for em dashes, since `detect.mjs` only flags 5+ per file and this project bans them outright
 
 **Impeccable warnings (flag but do not block):**
-- [ ] Note any WARN items from the impeccable critique in the review output
+- [ ] Note any WARN items from the impeccable run in the review output
 
 ---
 
@@ -203,7 +204,7 @@ Reviewer: Senior Engineer (independent)
 --- DESIGN BLOCKERS (impeccable — HTML/CSS PRs only) ---
 ❌ [file:line] <impeccable FAIL item>
   OR
-✅ Impeccable critique: no FAIL items (score: ??/40)
+✅ Impeccable: no FAIL items — name the tool run, either `critique` with its `??/40` score or `detect.mjs` alone on a copy-only diff
 
 --- WARNINGS (should fix, does not block) ---
 ⚠️  [file:line] <what to improve>
@@ -215,7 +216,7 @@ Reviewer: Senior Engineer (independent)
 --- TEST RESULTS ---
 npm test:                PASS / FAIL
 npm run test:functional: PASS / FAIL  (N tests)
-/impeccable critique:    PASS / WARN / FAIL  (HTML/CSS PRs only)
+impeccable (name it):    PASS / WARN / FAIL  (HTML/CSS PRs only; critique, or detector-only on a copy-only diff)
 /visual-review:          PASS / WARN / FAIL  (hub pages only — pages/appliance-repair-*-ca.html)
 
 --- VERDICT ---
@@ -232,7 +233,7 @@ Always end with one of those two verdicts. No "mostly fine, up to you" — make 
 
 - Never rubber-stamp a PR. If you did not read every changed line, you did not review it.
 - Passing `npm test` and `npm run test:functional` are necessary but not sufficient for approval.
-- If the PR touches any `.html` or `.css` file, running `/impeccable critique` on changed pages is **required** — not optional.
+- If the PR touches any `.html` or `.css` file, running the impeccable tool Step 3b's scoping rule requires is **required** — not optional. Full `/impeccable critique` for anything touching CSS, markup structure, layout, colour or typography; `detect.mjs` alone only for a copy-only diff, and only when the PR says so.
 - An impeccable FAIL is a blocker with the same weight as a broken link. Do not approve until it is fixed.
 - If you find a blocker, stop and report it — do not keep looking for more issues as if one is enough.
 - If the PR description says "no visual changes" but CSS was modified, verify that claim.
