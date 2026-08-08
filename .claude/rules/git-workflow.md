@@ -25,7 +25,11 @@ Follow Conventional Commits format:
 <type>(<scope>): <short description>
 ```
 
-Types: `feat`, `fix`, `chore`, `content`, `style`, `refactor`
+Types: `feat`, `fix`, `chore`, `content`, `style`, `refactor`, `docs`
+
+(`docs` for changes to `AGENTS.md`, `.claude/rules/`, `.claude/commands/` and similar. It was in use
+before it was listed here — precedent `9a23446 docs(agents): add reporting contracts` — so this
+records existing practice rather than introducing a type.)
 
 Examples:
 - `feat(services): add services page layout`

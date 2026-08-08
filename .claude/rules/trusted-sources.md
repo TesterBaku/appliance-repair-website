@@ -48,6 +48,34 @@ finding what people actually ask, or spotting a candidate error code to then ver
 as the **sole** source for a fact published on the site. Anything found only in these must be
 confirmed against an official or well-established source before it is used.
 
+## Sources must be CURRENT, not merely authoritative (owner, 2026-08-08)
+
+Quality is necessary and not sufficient. An authoritative source can still be too old to publish.
+
+- **Date-stamp every figure before you use it.** If you cannot establish a source's vintage, treat it
+  as unverified.
+- **Owner instruction: do not build content on outdated sources.** **Prefer sources revised within the
+  last 5 years.** Named exceptions, where the nominal edition is the right thing to cite: Census/ACS
+  products, published safety or engineering standards, and OEM specification and warranty
+  documentation. For anything that changes over time (lifespans, costs, failure rates, demographics)
+  prefer a source on a regular revision cycle, such as government rulemakings, Census releases or
+  annually-updated buyer guides, over a one-off study however widely cited.
+  (A concrete number rather than "a few years" is deliberate: this file is read by Codex, Cursor,
+  Aider and Hermes as well as Claude Code, and an unquantified boundary gets interpreted differently
+  by each. The repo's habit is to write a number and revise it explicitly, as with the 3-step plan
+  threshold, the 2-hub testimonial cap and the $99/$120 fee tiers.)
+- **State the vintage in the copy, not just in your notes.** A live page on this site states 2019/2020
+  Housing Element figures in the present tense and is now ~3 points off ACS 2024. Writing "as of
+  <year>" costs one clause and stops the page silently rotting.
+- **Two sources of the same lineage are one source.** Check whether your "second source" collected its
+  own data or is republishing the first. Worked example: the NAHB Study of Life Expectancy of Home
+  Components (Feb 2007, from a Summer 2006 survey) and InterNACHI's chart are the **same lineage**, so
+  citing both does not clear the two-source bar, and both are too old to use here regardless.
+- ⚠️ **Beware circular citation, especially in appliance content.** Our own articles rank for these
+  queries, so a search engine may hand back our own claim as if independently corroborated, and
+  content farms recycle single datasets endlessly. If every hit traces to one original, you have one
+  source. See `tasks/backlog.md` P6-37 for a live instance where this nearly propagated.
+
 ## Accuracy over completeness
 
 If a fact cannot be confirmed against a trusted source, leave it out rather than publish it. A
