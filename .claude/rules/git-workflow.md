@@ -61,6 +61,7 @@ feat(about): add team section with cards
 - [ ] `npm test` — link checker exits 0
 - [ ] `npm run screenshot` — all page screenshots captured
 - [ ] `npm run test:functional` — the functional suite passes (buttons, nav, forms, accordions)
+- [ ] Impeccable — name the tool actually run: `/impeccable critique` with its `??/40` score, or `detect.mjs` alone plus the reason it sufficed (copy-only diff). Never report one under the other's name.
 - [ ] Opened in browser and checked visually
 - [ ] Tested on mobile viewport (375px)
 ```
@@ -107,12 +108,31 @@ npm run test:all         # runs all three above in sequence
 
 ## UI/UX Development Requirement
 
-Any PR that touches `.html` or `.css` files **must** use the impeccable skill before creating the PR:
+Any PR that touches `.html` or `.css` files **must** use the impeccable skill before creating the PR.
 
-1. **Run `/impeccable critique` on every changed page.** Read the full FAIL / WARN / PASS report.
-2. **Fix all FAIL items.** Do not open the PR until impeccable returns zero FAILs on all changed pages.
-3. **Include the impeccable score** in the PR description (e.g. "Impeccable: 35/40, 0 FAILs").
-4. **WARN items** are advisory — list them in the PR description so the reviewer can decide whether to address them.
+### Two tools, and they are not interchangeable
+
+Confusing these produced 15 PRs that claimed compliance with a gate nobody had run (P6-31). Name the one you actually ran, always.
+
+| | `/impeccable critique` | `node .agents/skills/impeccable/scripts/detect.mjs` |
+|---|---|---|
+| What it is | The **gate**. An LLM-driven design review: two isolated assessments, Nielsen heuristics, cognitive load, persona red flags | A deterministic anti-pattern scanner. The same engine behind the per-edit hook |
+| Output | A `??/40` score (10 heuristics × 4 points) plus FAIL / WARN / PASS findings | A findings list; exit 0 = clean, exit 2 = findings |
+| Relationship | Runs the detector itself, as its **Assessment B** | **A component of critique, never a substitute for it** |
+
+Reporting detector output under the word "critique" is under-running the gate, not satisfying it.
+
+### Which one this PR needs
+
+- **Full `/impeccable critique`, with the `/40` score in the PR description — required** when the diff adds or changes CSS, markup structure, layout, spacing, colour, typography, or adds/redesigns a page or section. This is the default for anything visual.
+- **`detect.mjs` alone is sufficient** when the diff changes only text inside existing markup: copy edits, price/figure corrections, alt text, meta descriptions. No new elements, classes, or style declarations. Critique's browser and heuristics passes have no new surface to assess, and running it anyway burns budget for no signal.
+- **State which you ran and why** in the PR description. "Impeccable: detector only, copy-only diff" is a complete and honest answer. "Impeccable: 35/40, 0 FAILs" means you ran the critique and must be able to show the report.
+- When in doubt, run the critique. The cost of a needless critique is tokens; the cost of a skipped one is a design regression shipped behind a compliance claim.
+
+Then, whichever you ran:
+
+1. **Fix all FAIL items.** Do not open the PR until zero FAILs remain on all changed pages.
+2. **WARN items** are advisory — list them in the PR description so the reviewer can decide whether to address them.
 
 **What impeccable flags as FAIL (design blockers):**
 - Side-stripe accent borders (`border-left` / `border-right` > 1px as colored decoration)

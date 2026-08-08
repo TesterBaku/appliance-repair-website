@@ -31,10 +31,18 @@ npm run test:functional  # functional suite — must exit 0
 ```
 If either test fails, the PR is an automatic **FAIL** — do not proceed with the rest of the review.
 
-### Step 3b — Run impeccable critique (UI/UX PRs only)
+### Step 3b — Run the impeccable gate (UI/UX PRs only)
 **Trigger:** the diff touches any `.html` or `.css` file.
 
-Spawn `/impeccable critique` on every HTML page changed in this PR. Collect the structured PASS / WARN / FAIL report. Any FAIL item from impeccable is a **blocker** — the PR cannot merge until it is fixed.
+**First, check the author ran the right tool and named it honestly.** `/impeccable critique` and `node .agents/skills/impeccable/scripts/detect.mjs` are different: critique is the LLM-driven gate that emits the `??/40` score and runs the detector internally as its Assessment B; the detector alone is the mechanical scanner. Per `.claude/rules/git-workflow.md`, the full critique is required for any diff touching CSS, markup structure, layout, colour or typography, while the detector alone is permitted for a copy-only diff inside existing markup.
+
+Flag as **FAIL**:
+- a PR description claiming a critique score when only the detector was run, or naming a tool the author did not run;
+- a diff that changes CSS or markup structure but reports the detector only.
+
+A copy-only diff reporting "detector only, copy-only diff" is **compliant** — do not demand a critique for a price or wording change.
+
+Then run whichever the diff warrants on every HTML page changed. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
 
 Key impeccable checks to enforce as blockers:
 - No `border-left` or `border-right` > 1px used as a colored accent (side-stripe ban)
