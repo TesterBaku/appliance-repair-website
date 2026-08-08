@@ -101,7 +101,7 @@ These checks apply whenever the diff includes `.html` or `.css` files. Run which
 - [ ] No `#000` or `#fff` as pure values — neutrals must be tinted toward the brand hue
 - [ ] No "Book" or "Schedule" CTA button linking to `services.html` instead of `contact.html`
 - [ ] The impeccable tool required by Step 3b (critique, or detector-only on a copy-only diff) returns no FAIL items on any changed page, and the PR names which one was run
-- [ ] On a detector-only PR: the author confirms they grepped for em dashes, since `detect.mjs` only flags 5+ per file and this project bans them outright
+- [ ] On a detector-only PR: **you re-ran the em-dash grep yourself** (`grep -n '—' <changed-files>`) — do not accept the author's confirmation. `detect.mjs` only flags 5+ per file and this project bans them outright, so this is the one fact the tooling cannot settle. Trusting a stated grep instead of running it is the P6-31 failure shape at a smaller scale, and the command costs one line
 
 **Impeccable warnings (flag but do not block):**
 - [ ] Note any WARN items from the impeccable run in the review output
