@@ -4,7 +4,7 @@
  * convention (.jpg + .webp at source resolution, plus a 480w.webp), matching
  * the pattern of images/real/business/completed-repair-oven-kitchenaid-double-wall-install-tustin.*
  *
- * Run once, then delete/ignore. Not npm-wired.
+ * Already run; kept for provenance per scripts/oneoff/README.md. Not npm-wired.
  *
  * Usage:
  *   node convert-ladera-newport-job-photos.js <ladera-washer-src> <bosch-door-open-src> <bosch-door-closed-src>
@@ -54,13 +54,17 @@ async function run() {
     const jpgPath = path.join(outDir, job.base + '.jpg');
     const webpPath = path.join(outDir, job.base + '.webp');
     const webp480Path = path.join(outDir, job.base + '-480w.webp');
-    const height480 = Math.round((480 / width) * height);
 
     await sharp(job.src).rotate().jpeg({ quality: 82, mozjpeg: true, progressive: true }).toFile(jpgPath);
     await sharp(job.src).rotate().webp({ quality: 80 }).toFile(webpPath);
-    await sharp(job.src).rotate().resize(480, height480).webp({ quality: 80 }).toFile(webp480Path);
+    // Width-only resize: sharp derives the height from the source aspect ratio, so there is no
+    // rounding drift between a precomputed height and the real one (a mismatch would crop under
+    // sharp's default fit: 'cover'). withoutEnlargement leaves an already-narrow source alone.
+    const info480 = await sharp(job.src).rotate()
+      .resize({ width: 480, withoutEnlargement: true })
+      .webp({ quality: 80 }).toFile(webp480Path);
 
-    console.log(job.base, width + 'x' + height, '-> 480w height', height480);
+    console.log(job.base, width + 'x' + height, '-> 480w', info480.width + 'x' + info480.height);
   }
 }
 
