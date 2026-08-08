@@ -5,23 +5,41 @@
  * the pattern of images/real/business/completed-repair-oven-kitchenaid-double-wall-install-tustin.*
  *
  * Run once, then delete/ignore. Not npm-wired.
+ *
+ * Usage:
+ *   node convert-ladera-newport-job-photos.js <ladera-washer-src> <bosch-door-open-src> <bosch-door-closed-src>
+ *
+ * Source paths are passed as CLI args, not hardcoded, so this script never commits a
+ * machine-local path (they previously pointed at a real Windows username + a session
+ * temp dir). Example invocation (paths illustrative only):
+ *   node convert-ladera-newport-job-photos.js \
+ *     "C:/Users/<you>/Downloads/ladera_ranch_lg_washer_drain_pump_replaced.jpeg" \
+ *     "C:/path/to/bosch-door-open.jpeg" \
+ *     "C:/path/to/bosch-door-closed.jpeg"
  */
 const sharp = require('sharp');
 const path = require('path');
 
 const outDir = path.resolve(__dirname, '..', '..', 'images', 'real', 'business');
 
+const [laderaWasherSrc, boschDoorOpenSrc, boschDoorClosedSrc] = process.argv.slice(2);
+
+if (!laderaWasherSrc || !boschDoorOpenSrc || !boschDoorClosedSrc) {
+  console.error('Usage: node convert-ladera-newport-job-photos.js <ladera-washer-src> <bosch-door-open-src> <bosch-door-closed-src>');
+  process.exit(1);
+}
+
 const jobs = [
   {
-    src: "C:/Users/Rufat's/Downloads/ladera_ranch_lg_washer_drain_pump_replaced.jpeg",
+    src: laderaWasherSrc,
     base: 'completed-repair-washer-lg-drain-pump-ladera-ranch',
   },
   {
-    src: "C:/Users/Rufat's/AppData/Local/Temp/claude/C--Rufat-docs-Projects-Applience-site-appliance-repair-website/2340f88e-7b6b-4b95-82ba-93af7c9af41c/scratchpad/bosch_zip/WhatsApp Image 2026-08-06 at 8.48.47 AM.jpeg",
+    src: boschDoorOpenSrc,
     base: 'completed-repair-dishwasher-bosch-not-draining-newport-beach',
   },
   {
-    src: "C:/Users/Rufat's/AppData/Local/Temp/claude/C--Rufat-docs-Projects-Applience-site-appliance-repair-website/2340f88e-7b6b-4b95-82ba-93af7c9af41c/scratchpad/bosch_zip/WhatsApp Image 2026-08-06 at 8.48.47 AM (1).jpeg",
+    src: boschDoorClosedSrc,
     base: 'completed-repair-dishwasher-bosch-not-draining-newport-beach-front',
   },
 ];
