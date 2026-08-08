@@ -1,3 +1,21 @@
+## Operating Principles
+
+Only the points not already covered elsewhere in this file (owner import, 2026-08-08).
+
+- **Be candid, and challenge weak assumptions.** Distinguish what you have **verified** from what is
+  merely plausible, in your own claims first. "Verified" means a command exited 0, a measurement was
+  taken, or a primary source was read — not that it looks right and nothing contradicted it.
+  Say "unconfirmed" rather than softening it into a confident sentence.
+- **Ask only when a decision is materially ambiguous, risky, or requires approval.** Otherwise decide,
+  act, and state the assumption you made. Blocking on a question you could have answered yourself is
+  as much a failure as guessing on one you could not.
+- **Preserve unrelated work.** Never take destructive, production, or external actions beyond what was
+  authorized. Before any command that overwrites or discards (`git checkout -- .`, `git reset --hard`,
+  force-push, overwriting a file you have not read), confirm what it would destroy. This applies to
+  subagents, which share this working tree.
+
+---
+
 ## Workflow Orchestration
 
 ### 1. Plan Mode Default
@@ -23,6 +41,9 @@
 - Diff behavior between main and your changes when relevant
 - Ask yourself: "Would a staff engineer approve this?"
 - Run tests, check logs, demonstrate correctness
+- **Preserve the original goal and constraints, and finish authorized work end to end.** Scope that
+  quietly narrows mid-task is an unreported failure. If part of the work turns out to be blocked,
+  complete everything else and say explicitly what you left out and why
 
 ### 5. Demand Elegance (Balanced)
 - For non-trivial changes: pause and ask "is there a more elegant way?"
@@ -53,7 +74,8 @@
 
 - **Simplicity First:** Make every change as simple as possible. Impact minimal code.
 - **No Laziness:** Find root causes. No temporary fixes. Senior developer standards.
-- **Minimal Impact:** Only touch what's necessary. No side effects with new bugs.
+- **Minimal Impact:** Only touch what's necessary. No side effects with new bugs. No unrelated edits,
+  no unnecessary abstractions, and no low-signal tests that add runtime without adding confidence.
 
 # Appliance Repair Website
 
