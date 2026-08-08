@@ -61,6 +61,7 @@ feat(about): add team section with cards
 - [ ] `npm test` — link checker exits 0
 - [ ] `npm run screenshot` — all page screenshots captured
 - [ ] `npm run test:functional` — the functional suite passes (buttons, nav, forms, accordions)
+- [ ] Impeccable — name the tool actually run: `/impeccable critique` with its `??/40` score, or `detect.mjs` alone plus the reason it sufficed (copy-only diff). Never report one under the other's name.
 - [ ] Opened in browser and checked visually
 - [ ] Tested on mobile viewport (375px)
 ```
@@ -107,12 +108,35 @@ npm run test:all         # runs all three above in sequence
 
 ## UI/UX Development Requirement
 
-Any PR that touches `.html` or `.css` files **must** use the impeccable skill before creating the PR:
+Any PR that touches `.html` or `.css` files **must** use the impeccable skill before creating the PR.
 
-1. **Run `/impeccable critique` on every changed page.** Read the full FAIL / WARN / PASS report.
-2. **Fix all FAIL items.** Do not open the PR until impeccable returns zero FAILs on all changed pages.
-3. **Include the impeccable score** in the PR description (e.g. "Impeccable: 35/40, 0 FAILs").
-4. **WARN items** are advisory — list them in the PR description so the reviewer can decide whether to address them.
+### Two tools, and they are not interchangeable
+
+Confusing these produced 15 PRs that claimed compliance with a gate nobody had run (P6-31). Name the one you actually ran, always.
+
+| | `/impeccable critique` | `node .agents/skills/impeccable/scripts/detect.mjs` |
+|---|---|---|
+| What it is | The **gate**. An LLM-driven design review: two isolated assessments, Nielsen heuristics, cognitive load, persona red flags | A deterministic anti-pattern scanner. The same engine behind the per-edit hook |
+| Output | A `??/40` score (10 heuristics × 4 points) plus FAIL / WARN / PASS findings | A findings list; exit 0 = clean, exit 2 = findings |
+| Relationship | Runs the detector itself, as its **Assessment B** | **A component of critique, never a substitute for it** |
+
+Reporting detector output under the word "critique" is under-running the gate, not satisfying it.
+
+### Which one this PR needs
+
+- **Full `/impeccable critique`, with the `/40` score in the PR description — required** when the diff adds or changes CSS, markup structure, layout, spacing, colour, typography, or adds/redesigns a page or section. This is the default for anything visual.
+- **`detect.mjs` alone is sufficient** when the diff changes only text or attribute values inside existing markup: copy edits, price/figure corrections, alt text, meta descriptions, `href` swaps, JSON-LD field values, `dateModified` bumps. No new elements, no new classes, no new style declarations.
+  - **Two duties this tier does not discharge, because the detector cannot:**
+    1. **Grep for em dashes yourself.** The detector's rule is `em-dash-overuse` and fires only at **5 or more** in a file; this project bans them outright, so 1–4 pass clean while violating the rule. Run `grep -n '—' <changed-files>` and state in the PR that you did. `/review` re-runs this grep independently rather than taking your word for it, so a false claim here surfaces immediately.
+    2. **Read the copy you changed.** `critique`'s Assessment A explicitly judges **copy** among its dimensions, so a copy-only diff is not a diff with "no surface to assess" — it is one where the surface is prose, and the honest reason to skip the full critique is cost, not absence of anything to look at. Read your own wording for tone and clarity before opening the PR.
+  - **Grey zone, resolved:** duplicating an existing repeated block (one more testimonial card, one more FAQ entry, one more job-photo card from the established pattern) counts as **new markup** and takes the full critique, even though you wrote no new classes. Layout regressions on this site have come from exactly that (an added card orphaning a grid row, PR #687).
+- **State which you ran and why** in the PR description. "Impeccable: detector only, copy-only diff" is a complete and honest answer. "Impeccable: 35/40, 0 FAILs" means you ran the critique and must be able to show the report.
+- When in doubt, run the critique. The cost of a needless critique is tokens; the cost of a skipped one is a design regression shipped behind a compliance claim.
+
+Then, whichever you ran:
+
+1. **Fix all FAIL items.** Do not open the PR until zero FAILs remain on all changed pages.
+2. **WARN items** are advisory — list them in the PR description so the reviewer can decide whether to address them.
 
 **What impeccable flags as FAIL (design blockers):**
 - Side-stripe accent borders (`border-left` / `border-right` > 1px as colored decoration)
@@ -134,7 +158,7 @@ This applies to: new pages, redesigned sections, copy changes, CSS refactors, an
 - No hardcoded colors outside of `DESIGN.md` palette
 - No unused CSS or dead code
 - Mobile layout works at 375px width
-- **Impeccable critique shows 0 FAILs on all changed HTML/CSS pages**
+- **The impeccable tool required by the scoping rule above shows 0 FAILs on all changed HTML/CSS pages**, and the PR names which tool that was
 
 ### Review rules
 - At least one approval required before merging
