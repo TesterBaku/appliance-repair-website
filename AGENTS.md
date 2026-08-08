@@ -9,6 +9,9 @@ Only the points not already covered elsewhere in this file (owner import, 2026-0
 - **Ask only when a decision is materially ambiguous, risky, or requires approval.** Otherwise decide,
   act, and state the assumption you made. Blocking on a question you could have answered yourself is
   as much a failure as guessing on one you could not.
+  This governs **execution-level** decisions, not the plan itself: "Plan Mode Default" and Task
+  Management step 2 still require a check-in on the plan before implementing a non-trivial task.
+  Agree the shape of the work once; do not then ask about every step inside it.
 - **Preserve unrelated work.** Never take destructive, production, or external actions beyond what was
   authorized. Before any command that overwrites or discards (`git checkout -- .`, `git reset --hard`,
   force-push, overwriting a file you have not read), confirm what it would destroy. This applies to
