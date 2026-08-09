@@ -257,7 +257,7 @@ branch → commit → **all three tests** → PR → review → merge. No except
 
 **Three required tests — all must exit 0 before opening a PR:**
 ```
-npm test                 # link check (101 pages) + integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check
+npm test                 # link check (every page) + integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check
 npm run screenshot       # Playwright batch screenshots
 npm run test:functional  # Playwright functional suite — nav, dropdowns, forms, accordions, articles, hubs
 ```

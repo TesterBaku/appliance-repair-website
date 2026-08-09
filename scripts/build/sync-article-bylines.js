@@ -119,7 +119,15 @@ function visibleBylineMatches(html) {
  * the live file: 74 card containers, 74 dates, 74 card links, 1:1:1.
  */
 function cardDatesByArticle() {
-  const blog = fs.readFileSync(blogPath, 'utf8');
+  /*
+   * Blank out script blocks and comments before segmenting, symmetric with
+   * visibleBylineMatches(). Nothing in blog.html triggers this today (0 of its 7 script
+   * blocks contain card markup), but a future client-side feature embedding a literal card
+   * template would otherwise register as a real card. Replacing with same-length padding
+   * rather than deleting keeps every offset valid.
+   */
+  const blog = fs.readFileSync(blogPath, 'utf8')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>|<!--[\s\S]*?-->/gi, (m) => ' '.repeat(m.length));
   const map = new Map();
 
   const starts = [...blog.matchAll(/class="(?:blog-card|featured)"/g)].map((m) => m.index);
