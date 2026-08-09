@@ -82,12 +82,15 @@ const BYLINE_G = new RegExp(BYLINE.source, 'g');
  * on one source of truth. Do not reintroduce a stripped copy for one of the three.
  */
 function visibleBylineMatches(html) {
-  const scriptRanges = [];
-  for (const s of html.matchAll(/<script[^>]*>[\s\S]*?<\/script>/gi)) {
-    scriptRanges.push([s.index, s.index + s[0].length]);
+  // Comments as well as scripts, matching the test/css-vars.js precedent. Commenting out old
+  // markup during a template edit is normal, and a commented byline is not a visible one; the
+  // previous version counted it and failed with a spurious "2 bylines found".
+  const hiddenRanges = [];
+  for (const h of html.matchAll(/<script[^>]*>[\s\S]*?<\/script>|<!--[\s\S]*?-->/gi)) {
+    hiddenRanges.push([h.index, h.index + h[0].length]);
   }
-  const insideScript = (i) => scriptRanges.some(([a, b]) => i >= a && i < b);
-  return [...html.matchAll(BYLINE_G)].filter((m) => !insideScript(m.index));
+  const hidden = (i) => hiddenRanges.some(([a, b]) => i >= a && i < b);
+  return [...html.matchAll(BYLINE_G)].filter((m) => !hidden(m.index));
 }
 
 /*
@@ -96,33 +99,49 @@ function visibleBylineMatches(html) {
  * nearest preceding .blog-date / .featured-date. An article can legitimately appear more
  * than once (repair-replace has a featured block AND a grid card); they must agree.
  */
+/*
+ * Associate each card's date with that card's own article, SCOPED TO THE CARD CONTAINER.
+ *
+ * ⚠️ Do not replace this with "nearest date above the link". Two earlier versions did, and
+ * text proximity produced a fresh misattribution bug each time it was patched:
+ *   1. a card missing its own date element silently inherited the card above it;
+ *   2. with a guard added for that, an article mentioned only by an inline cross-link inside
+ *      another card's excerpt inherited that card's date, while the card legitimately owning
+ *      the date was falsely flagged as orphaned.
+ * Both were found by review with constructed fixtures. The root cause was the same each time:
+ * linear proximity standing in for DOM structure. Container scoping removes the whole class
+ * rather than the latest instance of it.
+ *
+ * The page is segmented at each card container (`class="blog-card"` / `class="featured"`), and
+ * within one segment we pair the card's own date element with the card's own link. A card's
+ * link is specifically `class="blog-link"` or `class="read-more"` — an incidental article link
+ * inside an excerpt is neither, so it can never be mistaken for a card's subject. Measured on
+ * the live file: 74 card containers, 74 dates, 74 card links, 1:1:1.
+ */
 function cardDatesByArticle() {
   const blog = fs.readFileSync(blogPath, 'utf8');
   const map = new Map();
-  const linkRe = /<a\s+href="\.\.\/articles\/(article-[^"]+\.html)"/g;
-  const dateRe = /class="(?:blog-date|featured-date)"[^>]*>([^<]+)</g;
 
-  const dates = [...blog.matchAll(dateRe)].map((m) => ({ index: m.index, text: m[1] }));
-  const links = [...blog.matchAll(linkRe)].map((m) => ({ index: m.index, file: m[1] }));
+  const starts = [...blog.matchAll(/class="(?:blog-card|featured)"/g)].map((m) => m.index);
+  if (!starts.length) return map;
 
-  for (const link of links) {
-    const preceding = dates.filter((d) => d.index < link.index).pop();
-    /*
-     * "Nearest date above" is page-wide proximity, not DOM scoping, so a card that lost its
-     * own date element would silently inherit the previous card's. Guard structurally: if
-     * ANOTHER article link sits between that date and this one, the date belongs to that
-     * earlier card, not this one. Flagged in review with a fixture that reproduced it.
-     */
-    const orphaned = preceding && links.some((l) => l.index > preceding.index && l.index < link.index);
-    if (!preceding || orphaned) {
-      if (!map.has(link.file)) map.set(link.file, []);
-      map.get(link.file).push({ value: undefined, raw: null }); // no date element of its own
+  for (let i = 0; i < starts.length; i++) {
+    const segment = blog.slice(starts[i], i + 1 < starts.length ? starts[i + 1] : blog.length);
+
+    const link = segment.match(/<a\s+href="\.\.\/articles\/(article-[^"]+\.html)"\s+class="(?:blog-link|read-more)"/);
+    if (!link) continue; // a container with no card link of its own is not our concern
+
+    const date = segment.match(/class="(?:blog-date|featured-date)"[^>]*>([^<]+)</);
+    const file = link[1];
+    if (!map.has(file)) map.set(file, []);
+
+    if (!date) {
+      map.get(file).push({ value: undefined, raw: null }); // card carries no date element
       continue;
     }
-    const updated = preceding.text.match(/Updated\s+([A-Z][a-z]+)\s+(\d{4})/);
-    const value = updated ? `${updated[1]} ${updated[2]}` : null; // null = card shows a plain publish date
-    if (!map.has(link.file)) map.set(link.file, []);
-    map.get(link.file).push({ value, raw: preceding.text.trim() });
+    const updated = date[1].match(/Updated\s+([A-Z][a-z]+)\s+(\d{4})/);
+    const value = updated ? `${updated[1]} ${updated[2]}` : null; // null = plain publication date
+    map.get(file).push({ value, raw: date[1].trim() });
   }
   return map;
 }
@@ -157,7 +176,7 @@ for (const entry of fs.readdirSync(articlesDir)) {
     continue;
   }
   if (found.some((f) => f.value === undefined)) {
-    errors.push(`${entry}: one of its cards on pages/blog.html has no date element of its own (it would otherwise inherit the card above it); give that card a .blog-date`);
+    errors.push(`${entry}: one of its cards on pages/blog.html has no .blog-date / .featured-date element inside the card container, so there is nothing to derive the byline from; add one to that card`);
     continue;
   }
   const distinct = [...new Set(found.map((f) => f.value))];
