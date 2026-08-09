@@ -94,7 +94,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 
 ```bash
 npm start                  # Serve locally at http://localhost:3000 (via npx serve .)
-npm test                   # Link check + HTML integrity + content integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check
+npm test                   # Link check + HTML integrity + content integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check
 npm run test:functional    # Playwright functional suite (auto-starts a server on :8788 via test/serve.js)
 npm run screenshot         # Playwright batch screenshots
 npm run test:all           # All of the above in one shot
@@ -103,6 +103,7 @@ npm run build:partials     # Re-stamp the shared footer + nav partials into ever
 npm run build:site-js      # Re-run the interaction-JS extraction (run after editing site.js or the inline-JS rollout)
 npm run build:search       # Regenerate the Pagefind blog search index (run after adding/removing/renaming an article)
 npm run build:blog-counts  # Sync blog article-count surfaces (search placeholder, category pills, "N <Cat> Articles" headers) to the live card counts
+npm run build:article-bylines # Sync each article's visible "Originally published … Updated <Month Year>" hero byline to its own JSON-LD dates
 npm run sync:testimonials  # Sync the GBP review-count surfaces from data/testimonials.json
 ```
 
@@ -152,7 +153,7 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 ### Scripts
 
 - `scripts/` — active automation: `build-sitemap.js`, `add-seo-improvements.js` (quarterly-audit SEO fixer), `sync-testimonials-count.js`, `add-hero-preload.mjs`, `add-nav-link.js`, `add-article-hamburger.js`, image/favicon helpers. Run these explicitly; none are wired to pre-commit hooks.
-- `scripts/build/` — build-time injectors (`inject-partials.js` for footer/nav; `inject-site-js.js` for the interaction-JS extraction).
+- `scripts/build/` — build-time injectors and derived-surface syncers (`inject-partials.js` for footer/nav; `inject-site-js.js` for the interaction-JS extraction; `sync-blog-counts.js` for blog counts; `sync-article-bylines.js` for article hero bylines).
 - `scripts/oneoff/` — historical, already-run one-off scripts, kept for provenance (see its README). None are npm-wired.
 - `test/` — the four `npm test` checks (`links.js`, `html-integrity.js`, `content-integrity.js`, `css-vars.js`) plus `faq-parity-baseline.json`, the Playwright screenshot runner (`screenshot.js`), the Playwright functional spec (`functional.spec.js`), and the static server (`serve.js`) the functional suite auto-starts on :8788. `npm test` additionally runs the four `scripts/build/*.js --check` drift guards listed above.
 
@@ -256,7 +257,7 @@ branch → commit → **all three tests** → PR → review → merge. No except
 
 **Three required tests — all must exit 0 before opening a PR:**
 ```
-npm test                 # link check (101 pages) + integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check
+npm test                 # link check (every page) + integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check
 npm run screenshot       # Playwright batch screenshots
 npm run test:functional  # Playwright functional suite — nav, dropdowns, forms, accordions, articles, hubs
 ```
@@ -279,6 +280,12 @@ Whenever any file in `articles/` is edited — content, meta tags, images, links
 Both must match exactly, including the `T00:00:00+00:00` UTC offset. Applies to every edit, even one-liners. Do NOT change `article:published_time` or `datePublished`.
 
 When the content change is substantive (not just metadata), also update the matching blog card date in `pages/blog.html` to `Updated [Month YYYY]`.
+
+**The article's visible hero byline is derived from its BLOG CARD, not from `dateModified`.** Six articles carry an `Originally published … · Updated [Month Year] by the Universal Appliances Repair Team` line in the hero. Do NOT edit it by hand: run `npm run build:article-bylines`, which sets the "Updated" half from that article's `.blog-date` / `.featured-date` on `pages/blog.html` (and the "Originally published" half from JSON-LD `datePublished`, which never moves). `npm test` runs `sync-article-bylines --check` and fails on drift. This closes **P6-23**.
+
+⚠️ **Do not "simplify" the syncer to read `dateModified`.** That is the obvious-looking design and it is wrong: `dateModified` bumps on schema, meta and chrome-only edits, whereas the byline and the card both mean *when the content last changed*, so the two are deliberately allowed to differ. P6-23 states it outright. The first draft of the syncer made exactly this mistake and rewrote two articles from "May 2026" to "August 2026" whose `dateModified` had moved only for a `<title>`/meta rewrite (#669) and a FAQPage schema pass (#666) — introducing the very card-vs-byline contradiction #673 had fixed by hand. Caught in review before merge.
+
+The card on `pages/blog.html` remains the hand-maintained source of truth, per the line above; the byline follows it. **This is a proxy, not a proof.** Nothing verifies the card itself against an article's real edit history, so freshness still rests on a human judging "substantive" correctly at edit time. The syncer closes the byline-vs-card gap; it does not make freshness self-verifying.
 
 **Exception — cosmetic href-target changes.** A change that swaps only the target of an `<a href="…">` to an equivalent canonical URL (e.g., `/index.html` → `/`) and does not alter any rendered DOM, text, image, or schema field is exempt. Such PRs MUST state the exemption in the description. Precedent: the internal-link-canonicalization PR, 2026-05-25.
 
