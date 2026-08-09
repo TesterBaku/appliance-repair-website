@@ -285,7 +285,7 @@ When the content change is substantive (not just metadata), also update the matc
 
 ⚠️ **Do not "simplify" the syncer to read `dateModified`.** That is the obvious-looking design and it is wrong: `dateModified` bumps on schema, meta and chrome-only edits, whereas the byline and the card both mean *when the content last changed*, so the two are deliberately allowed to differ. P6-23 states it outright. The first draft of the syncer made exactly this mistake and rewrote two articles from "May 2026" to "August 2026" whose `dateModified` had moved only for a `<title>`/meta rewrite (#669) and a FAQPage schema pass (#666) — introducing the very card-vs-byline contradiction #673 had fixed by hand. Caught in review before merge.
 
-The card on `pages/blog.html` remains the hand-maintained source of truth, per the line above; the byline follows it.
+The card on `pages/blog.html` remains the hand-maintained source of truth, per the line above; the byline follows it. **This is a proxy, not a proof.** Nothing verifies the card itself against an article's real edit history, so freshness still rests on a human judging "substantive" correctly at edit time. The syncer closes the byline-vs-card gap; it does not make freshness self-verifying.
 
 **Exception — cosmetic href-target changes.** A change that swaps only the target of an `<a href="…">` to an equivalent canonical URL (e.g., `/index.html` → `/`) and does not alter any rendered DOM, text, image, or schema field is exempt. Such PRs MUST state the exemption in the description. Precedent: the internal-link-canonicalization PR, 2026-05-25.
 

@@ -25,9 +25,16 @@
  * card-vs-byline contradiction #673 had fixed by hand. Caught in review before merge.
  *
  * DELIBERATELY NARROW. Only articles that ALREADY carry the byline are touched; ~6 of 73
- * do, and adding one to the rest is an editorial decision, not a drift fix. Nothing is
- * ever guessed: a missing card, disagreeing cards, a card with no "Updated" signal, or a
- * second byline in one file are all reported as errors rather than resolved by assumption.
+ * do, and adding one to the rest is an editorial decision, not a drift fix. Nothing is ever
+ * guessed: a missing card, a card with no date element of its own, disagreeing cards, a card
+ * with no "Updated" signal, or a second byline in one file each exit non-zero rather than
+ * being resolved by assumption. All five are errors; none is a silent skip.
+ *
+ * WHAT THIS DOES NOT GUARANTEE. The card is the best available proxy for "when did the
+ * content last change", not a verified one. Nothing checks the card itself against the
+ * article's real edit history, so it still rests on a human judging "substantive" correctly
+ * at edit time under the standing rule in AGENTS.md. This closes the byline-vs-card gap;
+ * it does not make freshness self-verifying.
  *
  *   node scripts/build/sync-article-bylines.js           # rewrite (apply)
  *   node scripts/build/sync-article-bylines.js --check   # verify only (exit 1 on drift) — used by `npm test`
@@ -56,11 +63,32 @@ const publishedDate = (html) => {
   return m ? `${MONTHS[Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}` : null;
 };
 
-// Strip script blocks so JSON-LD text can never be mistaken for the visible byline.
-const visibleOnly = (html) => html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-
 const BYLINE = /(Originally published )([A-Z][a-z]+ \d{1,2}, \d{4})(\s*(?:&middot;|·)\s*Updated )([A-Z][a-z]+ \d{4})/;
 const BYLINE_G = new RegExp(BYLINE.source, 'g');
+
+/*
+ * Byline matches that are NOT inside a <script> block.
+ *
+ * ⚠️ Counting visible matches while replacing on the raw string is a trap, and this script
+ * fell into it once: an earlier version stripped <script> only for the occurrence COUNT and
+ * still ran .replace() against the raw text, so a JSON-LD field containing byline-shaped
+ * text (which sits in <head>, i.e. BEFORE the real byline) was mutated instead of the byline.
+ * Reproduced in review: it rewrote a `description` field and left the real, unverified byline
+ * untouched while reporting "1 byline(s) updated". Worse, once the script block had been
+ * converged to the right value it stopped registering as a change, so a genuinely stale
+ * byline would never be reached again and --check would report clean forever.
+ *
+ * Returning real offsets into the ORIGINAL string keeps counting, replacement and reporting
+ * on one source of truth. Do not reintroduce a stripped copy for one of the three.
+ */
+function visibleBylineMatches(html) {
+  const scriptRanges = [];
+  for (const s of html.matchAll(/<script[^>]*>[\s\S]*?<\/script>/gi)) {
+    scriptRanges.push([s.index, s.index + s[0].length]);
+  }
+  const insideScript = (i) => scriptRanges.some(([a, b]) => i >= a && i < b);
+  return [...html.matchAll(BYLINE_G)].filter((m) => !insideScript(m.index));
+}
 
 /*
  * Map each article file to the "Month Year" shown on its pages/blog.html card(s).
@@ -75,14 +103,26 @@ function cardDatesByArticle() {
   const dateRe = /class="(?:blog-date|featured-date)"[^>]*>([^<]+)</g;
 
   const dates = [...blog.matchAll(dateRe)].map((m) => ({ index: m.index, text: m[1] }));
+  const links = [...blog.matchAll(linkRe)].map((m) => ({ index: m.index, file: m[1] }));
 
-  for (const link of blog.matchAll(linkRe)) {
+  for (const link of links) {
     const preceding = dates.filter((d) => d.index < link.index).pop();
-    if (!preceding) continue;
+    /*
+     * "Nearest date above" is page-wide proximity, not DOM scoping, so a card that lost its
+     * own date element would silently inherit the previous card's. Guard structurally: if
+     * ANOTHER article link sits between that date and this one, the date belongs to that
+     * earlier card, not this one. Flagged in review with a fixture that reproduced it.
+     */
+    const orphaned = preceding && links.some((l) => l.index > preceding.index && l.index < link.index);
+    if (!preceding || orphaned) {
+      if (!map.has(link.file)) map.set(link.file, []);
+      map.get(link.file).push({ value: undefined, raw: null }); // no date element of its own
+      continue;
+    }
     const updated = preceding.text.match(/Updated\s+([A-Z][a-z]+)\s+(\d{4})/);
     const value = updated ? `${updated[1]} ${updated[2]}` : null; // null = card shows a plain publish date
-    if (!map.has(link[1])) map.set(link[1], []);
-    map.get(link[1]).push({ value, raw: preceding.text.trim() });
+    if (!map.has(link.file)) map.set(link.file, []);
+    map.get(link.file).push({ value, raw: preceding.text.trim() });
   }
   return map;
 }
@@ -90,21 +130,20 @@ function cardDatesByArticle() {
 const cards = cardDatesByArticle();
 const drift = [];
 const errors = [];
-const skipped = [];
 let applied = 0;
 
 for (const entry of fs.readdirSync(articlesDir)) {
   if (!/^article-.*\.html$/.test(entry)) continue;
   const filePath = path.join(articlesDir, entry);
   const orig = fs.readFileSync(filePath, 'utf8');
-  const visible = visibleOnly(orig);
 
-  const occurrences = visible.match(BYLINE_G) || [];
+  const occurrences = visibleBylineMatches(orig);
   if (occurrences.length === 0) continue;      // no visible byline; not this script's business
   if (occurrences.length > 1) {
     errors.push(`${entry}: ${occurrences.length} visible bylines found; expected exactly one. Refusing to guess which is authoritative.`);
     continue;
   }
+  const byline = occurrences[0];
 
   const published = publishedDate(orig);
   if (!published) {
@@ -117,22 +156,33 @@ for (const entry of fs.readdirSync(articlesDir)) {
     errors.push(`${entry}: has a visible byline but no card on pages/blog.html to derive "Updated" from`);
     continue;
   }
+  if (found.some((f) => f.value === undefined)) {
+    errors.push(`${entry}: one of its cards on pages/blog.html has no date element of its own (it would otherwise inherit the card above it); give that card a .blog-date`);
+    continue;
+  }
   const distinct = [...new Set(found.map((f) => f.value))];
   if (distinct.length > 1) {
     errors.push(`${entry}: its ${found.length} cards on pages/blog.html disagree (${found.map((f) => `"${f.raw}"`).join(' vs ')}); fix the cards first`);
     continue;
   }
+  /*
+   * A card showing a plain publication date carries no "Updated" signal, so the byline's
+   * Updated half cannot be derived. This is an error, not a skip: a soft skip would mean CI
+   * silently stops verifying that article the moment its card loses the "Updated" prefix,
+   * which is the same quiet-rot failure this script exists to prevent.
+   */
   if (distinct[0] === null) {
-    skipped.push(`${entry}: card reads "${found[0].raw}" (a publication date, no "Updated" signal), so the byline's Updated half cannot be derived`);
+    errors.push(`${entry}: its card reads "${found[0].raw}" (a publication date, no "Updated" signal), so the byline's Updated half cannot be derived. Either give the card an "Updated <Month> <Year>" date or remove the byline from the article.`);
     continue;
   }
 
-  const next = orig.replace(BYLINE, (_m, pre, _oldPub, mid) => pre + published + mid + distinct[0]);
+  // Splice at the matched offset rather than .replace(), which would re-scan from the start.
+  const rebuilt = byline[1] + published + byline[3] + distinct[0];
+  const next = orig.slice(0, byline.index) + rebuilt + orig.slice(byline.index + byline[0].length);
 
   if (next !== orig) {
     if (CHECK) {
-      const was = orig.match(BYLINE);
-      drift.push(`articles/${entry}: byline reads "${was[2]} … Updated ${was[4]}" but should be "${published} … ${distinct[0]}" (card: "${found[0].raw}")`);
+      drift.push(`articles/${entry}: byline reads "${byline[2]} … Updated ${byline[4]}" but should be "${published} … ${distinct[0]}" (card: "${found[0].raw}")`);
     } else {
       fs.writeFileSync(filePath, next, 'utf8');
       applied++;
@@ -145,8 +195,6 @@ if (errors.length) {
   errors.forEach((e) => console.error('  - ' + e));
   process.exit(1);
 }
-
-skipped.forEach((s) => console.log('sync-article-bylines: skipped ' + s));
 
 if (CHECK) {
   if (drift.length) {
