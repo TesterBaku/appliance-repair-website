@@ -1307,10 +1307,16 @@ if (run('tel-target')) {
 
   for (const filePath of [...allHtml, ...partialFiles]) {
     const content = fs.readFileSync(filePath, 'utf8');
-    for (const m of content.matchAll(/href\s*=\s*["'](tel:[^"']*)["']/g)) {
+    // Case-insensitive: URI schemes are case-insensitive per RFC 3966, so `TEL:`
+    // dials exactly like `tel:`. Matching only lowercase would let a mixed-case
+    // scheme carrying a broken number pass invisibly — not counted as malformed,
+    // not grouped for the equality test, absent from the totals entirely.
+    // The scheme is normalised so `TEL:+1…` and `tel:+1…` group as one target.
+    for (const m of content.matchAll(/href\s*=\s*["'](tel:[^"']*)["']/gi)) {
+      const target = m[1].replace(/^tel:/i, 'tel:');
       total++;
-      if (!byTarget.has(m[1])) byTarget.set(m[1], []);
-      byTarget.get(m[1]).push(rel(filePath));
+      if (!byTarget.has(target)) byTarget.set(target, []);
+      byTarget.get(target).push(rel(filePath));
     }
   }
 

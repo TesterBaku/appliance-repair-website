@@ -383,6 +383,11 @@ const CITY_HUBS = [
   'appliance-repair-fountain-valley-ca',
   'appliance-repair-westminster-ca',
   'appliance-repair-buena-park-ca',
+  // LA County. Uses the same template as the OC city hubs, so it takes the same
+  // assertions. Added 2026-08-09 with the tel-link fix (#708): this page shipped
+  // 2026-07-08 with 7 dead `tel:` links partly because it was never in this list,
+  // so the suite's own phone-consistency test never ran against it.
+  'appliance-repair-long-beach-ca',
 ];
 
 for (const slug of CITY_HUBS) {
@@ -1108,6 +1113,14 @@ const BRAND_HUBS = [
   { brand: 'Thermador',file: 'thermador-appliance-repair-orange-county.html' },
   { brand: 'DCS',      file: 'dcs-appliance-repair-orange-county.html' },
 ];
+// NOT in this list, deliberately: the 7 MAINSTREAM brand hubs (Whirlpool, GE, Samsung,
+// LG, Maytag, Frigidaire, KitchenAid). Adding Frigidaire here was tried during #708 and
+// failed 5 assertions, correctly — this list encodes LUXURY-hub design decisions that the
+// mainstream hubs intentionally do not follow: they are built article-style with no
+// testimonials (so no `.testimonial-card` and no AggregateRating) and carry an 8-card
+// luxury cross-link grid rather than 6. Covering them needs its own list with its own
+// assertions, the same way PREMIUM_HUBS above needed one. Until then these 7 hubs have no
+// functional coverage — which is how Frigidaire shipped 4 dead `tel:` links.
 
 for (const { brand, file } of BRAND_HUBS) {
   test.describe(`Brand hub: ${brand}`, () => {
