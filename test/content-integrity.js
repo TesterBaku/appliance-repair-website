@@ -237,7 +237,7 @@ const articles   = allHtml.filter(
 
 const pagesDir = path.join(root, 'pages');
 // Every .html under pages/, recursively — this includes the 7 pages/blog/ category landers.
-const pages    = allHtml.filter(f => f === pagesDir || f.startsWith(pagesDir + path.sep));
+const pages    = allHtml.filter(f => f.startsWith(pagesDir + path.sep));
 
 // meta-desc-len and og-desc-sync were articles-only until 2026-08-09; see the docblock above.
 const descChecked = [...articles, ...pages];
