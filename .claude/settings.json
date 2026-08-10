@@ -5,7 +5,6 @@
       "WebFetch"
     ]
   },
-  "_permissions_comment": "Read-only web access is pre-authorized so research does not stall on per-site prompts (which subagents often cannot answer, causing silent research gaps). Source QUALITY is governed by judgment per .claude/rules/trusted-sources.md — official/manufacturer + well-established references only, cross-checked. This covers WebSearch + read-only WebFetch (GET) ONLY; anything that writes/logs-in/posts to an external service still requires confirmation. Owner-approved 2026-07-25.",
   "hooks": {
     "PostToolUse": [
       {
@@ -33,5 +32,10 @@
       }
     ]
   },
-  "_comment": "Shared, committed. Impeccable per-edit design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as advisory reminders (non-blocking). Uses the repo's committed skill via relative path so it is portable across machines. Scoped rules live in .impeccable/config.json. This is IN ADDITION to the required /impeccable critique PR gate (AGENTS.md). Machine-local overrides go in the gitignored .claude/settings.local.json."
+  "_permissions_comment": "Read-only web access is pre-authorized so research does not stall on per-site prompts (which subagents often cannot answer, causing silent research gaps). Source QUALITY is governed by judgment per .claude/rules/trusted-sources.md — official/manufacturer + well-established references only, cross-checked. This covers WebSearch + read-only WebFetch (GET) ONLY; anything that writes/logs-in/posts to an external service still requires confirmation. Owner-approved 2026-07-25.",
+  "_comment": "Shared, committed. Impeccable per-edit design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as advisory reminders (non-blocking). Uses the repo's committed skill via relative path so it is portable across machines. Scoped rules live in .impeccable/config.json. This is IN ADDITION to the required /impeccable critique PR gate (AGENTS.md). Machine-local overrides go in the gitignored .claude/settings.local.json.",
+  "_plugins_comment": "Shared, committed, so this enables the plugin for every clone and for the cloud runner, not just one machine. Owner-approved 2026-08-09. superpowers adds a skills library (brainstorming, systematic-debugging and similar) plus a SessionStart injection; it does NOT change any repo rule. AGENTS.md and .claude/rules/ still win over any skill, per the plugin's own precedence note. To turn it off on one machine only, set it false in the gitignored .claude/settings.local.json.",
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
+  }
 }
