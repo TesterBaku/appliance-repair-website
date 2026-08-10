@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Nineteen enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *

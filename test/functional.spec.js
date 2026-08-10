@@ -385,8 +385,9 @@ const CITY_HUBS = [
   'appliance-repair-buena-park-ca',
   // LA County. Uses the same template as the OC city hubs, so it takes the same
   // assertions. Added 2026-08-09 with the tel-link fix (#708): this page shipped
-  // 2026-07-08 with 7 dead `tel:` links partly because it was never in this list,
-  // so the suite's own phone-consistency test never ran against it.
+  // 2026-07-08 with 3 dead `tel:` links (of 7 across both pages in that PR) partly
+  // because it was never in this list, so the suite's own phone-consistency test
+  // never ran against it.
   'appliance-repair-long-beach-ca',
 ];
 
