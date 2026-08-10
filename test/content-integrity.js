@@ -29,13 +29,21 @@
  *                    (Appliance-age "8 years old" patterns are NOT flagged.)
  *                    Added 2026-05-21 after PR #374.
  *
- *   meta-desc-len  — every article's `<meta name="description">` must be ≤ 160 chars
- *                    so Google SERPs render it without truncation.
- *                    Added 2026-05-21 after PR #359 trimmed 26 articles.
+ *   meta-desc-len  — every article's AND every pages/ file's `<meta name="description">`
+ *                    must be ≤ 160 chars so Google SERPs render it without truncation.
+ *                    Added 2026-05-21 after PR #359 trimmed 26 articles. Widened from
+ *                    articles-only to include pages/ on 2026-08-09: 18 of 80 files in
+ *                    pages/ were over the limit and invisible to this check, worst at
+ *                    186 chars. An articles-only guard on a site whose commercial
+ *                    landing pages all live in pages/ was guarding the wrong half.
  *
- *   og-desc-sync   — every article's `og:description` must equal its
- *                    `name="description"`. Divergence was the bug in PR #359 review.
- *                    Added 2026-05-21.
+ *   og-desc-sync   — every article's and every pages/ file's `og:description` must equal
+ *                    its `name="description"`. Divergence was the bug in PR #359 review.
+ *                    Added 2026-05-21; widened to pages/ 2026-08-09 alongside
+ *                    meta-desc-len, which immediately found one stale og:description
+ *                    (dryer-repair-orange-county). NOTE: `twitter:description` is
+ *                    deliberately NOT checked — 9 files currently diverge and
+ *                    reconciling them is out of scope here. See tasks/backlog.md.
  *
  *   schema-headline-sync — every article's JSON-LD `headline` must equal the H1 text.
  *                    Catches the schema-drift bug fixed in PR #363.
@@ -227,6 +235,13 @@ const articles   = allHtml.filter(
   f => path.dirname(f) === articleDir && path.basename(f).startsWith('article-')
 );
 
+const pagesDir = path.join(root, 'pages');
+// Every .html under pages/, recursively — this includes the 7 pages/blog/ category landers.
+const pages    = allHtml.filter(f => f === pagesDir || f.startsWith(pagesDir + path.sep));
+
+// meta-desc-len and og-desc-sync were articles-only until 2026-08-09; see the docblock above.
+const descChecked = [...articles, ...pages];
+
 const issues = [];
 const checked = {};
 
@@ -389,7 +404,7 @@ if (run('business-tenure')) {
 // ── Check 3: meta-desc-len ────────────────────────────────────────────────────
 if (run('meta-desc-len')) {
   checked['meta-desc-len'] = { files: 0, limit: 160 };
-  for (const filePath of articles) {
+  for (const filePath of descChecked) {
     const content = fs.readFileSync(filePath, 'utf8');
     checked['meta-desc-len'].files++;
     const m = content.match(/<meta\s+name="description"\s+content="([^"]*)"/);
@@ -406,7 +421,7 @@ if (run('meta-desc-len')) {
 // ── Check 4: og-desc-sync ─────────────────────────────────────────────────────
 if (run('og-desc-sync')) {
   checked['og-desc-sync'] = { files: 0 };
-  for (const filePath of articles) {
+  for (const filePath of descChecked) {
     const content = fs.readFileSync(filePath, 'utf8');
     checked['og-desc-sync'].files++;
     const meta = content.match(/<meta\s+name="description"\s+content="([^"]*)"/);
@@ -1381,8 +1396,8 @@ if (checked['review-count'])         parts.push(`review-count matches JSON (${ch
 if (checked['testimonial-pill-count']) parts.push(`testimonials All pill (${checked['testimonial-pill-count'].pill}) matches ${checked['testimonial-pill-count'].cards} rendered cards`);
 if (checked['testimonial-review-schema']) parts.push(`all ${checked['testimonial-review-schema'].quotedCards} quoted testimonial cards have a Review JSON-LD node`);
 if (checked['business-tenure'])      parts.push(`no stale "8+ years" tenure claims in ${checked['business-tenure'].files} files`);
-if (checked['meta-desc-len'])        parts.push(`meta descriptions ≤ ${checked['meta-desc-len'].limit} chars on ${checked['meta-desc-len'].files} articles`);
-if (checked['og-desc-sync'])         parts.push(`og:description = name="description" on ${checked['og-desc-sync'].files} articles`);
+if (checked['meta-desc-len'])        parts.push(`meta descriptions ≤ ${checked['meta-desc-len'].limit} chars on ${checked['meta-desc-len'].files} articles + pages`);
+if (checked['og-desc-sync'])         parts.push(`og:description = name="description" on ${checked['og-desc-sync'].files} articles + pages`);
 if (checked['schema-headline-sync']) parts.push(`schema headline = H1 on ${checked['schema-headline-sync'].files} articles`);
 if (checked['modified-time-sync'])   parts.push(`modified_time meta = dateModified JSON-LD on ${checked['modified-time-sync'].files} articles`);
 if (checked['analytics-present'])    parts.push(`analytics.js present on all ${checked['analytics-present'].files} nav pages`);
