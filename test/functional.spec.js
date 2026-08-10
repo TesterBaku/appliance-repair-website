@@ -1115,12 +1115,21 @@ const BRAND_HUBS = [
 ];
 // NOT in this list, deliberately: the 7 MAINSTREAM brand hubs (Whirlpool, GE, Samsung,
 // LG, Maytag, Frigidaire, KitchenAid). Adding Frigidaire here was tried during #708 and
-// failed 5 assertions, correctly — this list encodes LUXURY-hub design decisions that the
-// mainstream hubs intentionally do not follow: they are built article-style with no
-// testimonials (so no `.testimonial-card` and no AggregateRating) and carry an 8-card
-// luxury cross-link grid rather than 6. Covering them needs its own list with its own
-// assertions, the same way PREMIUM_HUBS above needed one. Until then these 7 hubs have no
-// functional coverage — which is how Frigidaire shipped 4 dead `tel:` links.
+// failed 5 assertions. FOUR of those are correct-by-design: this list encodes LUXURY-hub
+// decisions the mainstream hubs intentionally do not follow — built article-style with no
+// testimonials (so both testimonial assertions fail, and AggregateRating is absent with
+// them) and carrying an 8-card luxury cross-link grid rather than 6.
+//
+// The FIFTH is not a design difference and should not be read as one: Frigidaire's meta
+// description is 186 chars against this suite's 140-165 assertion. That is a real
+// pre-existing bug, unrelated to the luxury/mainstream split, and it is invisible today
+// because content-integrity.js's `meta-desc-len` check only scans articles/, not pages/.
+// #708 did not fix it (out of scope — that PR changed href values only); it is recorded
+// in tasks/action-plan-2026-08-09-analytics.md as M-7.
+//
+// Covering these 7 hubs needs its own list with its own assertions, the same way
+// PREMIUM_HUBS above needed one. Until then they have no functional coverage — which is
+// how Frigidaire shipped 4 dead `tel:` links.
 
 for (const { brand, file } of BRAND_HUBS) {
   test.describe(`Brand hub: ${brand}`, () => {
