@@ -168,6 +168,18 @@
  *                    because a checker that guesses at English produces false
  *                    failures and gets muted.
  *
+ *   tel-target     — every `tel:` href must be a dialable E.164 US number
+ *                    (tel:+1 then 10 digits) AND the whole site must agree on one
+ *                    number. Added 2026-08-09 after a scan found 7
+ *                    `tel:+194****5365` links live on two hub pages, including the
+ *                    Long Beach hub's sticky mobile call bar — the primary mobile
+ *                    booking CTA. A masked number does not dial. Nothing caught it:
+ *                    links.js only resolves internal .html hrefs, and analytics.js
+ *                    fires `phone_click` on the click regardless of whether the
+ *                    target is dialable, so GA4 looked normal while taps went
+ *                    nowhere. The equality half matters as much as the format half:
+ *                    a transposed digit is well-formed and still wrong.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -176,7 +188,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all nineteen enforced checks + the report
+ *   node test/content-integrity.js          — run all twenty enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -186,7 +198,7 @@
  *                                             article-mobile-chrome, non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
  *                                             faq-schema-presence, gallery-parity, brand-tier,
- *                                             title-length)
+ *                                             tel-target, title-length)
  */
 
 'use strict';
@@ -1266,6 +1278,71 @@ if (run('brand-tier')) {
   }
 }
 
+// ── Check 19: tel-target ──────────────────────────────────────────────────────
+// Every `tel:` href must be a dialable E.164 US number, and the whole site must
+// agree on ONE number. This was an unguarded assumption until 2026-08-09, when a
+// scan found 7 `tel:+194****5365` links live on two hub pages — including the
+// sticky mobile call bar on the Long Beach hub, which is the primary mobile
+// booking CTA. A masked number does not dial, so every one of those taps was dead.
+// Nothing caught it: test/links.js only resolves internal .html hrefs, and the
+// `phone_click` handler in analytics.js fires on the click regardless of whether
+// the target can be dialed, so the GA4 event count looked normal while the calls
+// went nowhere.
+//
+// Format alone is not enough — a transposed digit is well-formed and still wrong —
+// so this also requires every tel: target on the site to be identical.
+if (run('tel-target')) {
+  const E164_US = /^tel:\+1[0-9]{10}$/;
+  const byTarget = new Map();   // target href -> [file, ...]
+  let total = 0;
+
+  // Scan the served pages PLUS partials/. collectHtmlFiles skips partials because
+  // they are stamped into pages rather than served, but they are the *source* of 4
+  // of these links (footer + nav). Catching a break in the partial beats catching it
+  // after build:partials has copied it into every page on the site.
+  const partialsDir = path.join(root, 'partials');
+  const partialFiles = fs.existsSync(partialsDir)
+    ? fs.readdirSync(partialsDir).filter(f => f.endsWith('.html')).map(f => path.join(partialsDir, f))
+    : [];
+
+  for (const filePath of [...allHtml, ...partialFiles]) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    for (const m of content.matchAll(/href\s*=\s*["'](tel:[^"']*)["']/g)) {
+      total++;
+      if (!byTarget.has(m[1])) byTarget.set(m[1], []);
+      byTarget.get(m[1]).push(rel(filePath));
+    }
+  }
+
+  // (a) Malformed targets — these cannot dial at all.
+  for (const [target, files] of byTarget) {
+    if (E164_US.test(target)) continue;
+    const where = [...new Set(files)];
+    issues.push(`[TEL-TARGET] "${target}" is not a dialable E.164 US number (expected tel:+1 then 10 digits) — ${files.length} link(s) across ${where.join(', ')}`);
+  }
+
+  // (b) More than one well-formed number means the site disagrees with itself.
+  //     The most-used value is treated as canonical purely to make the message
+  //     actionable; both sides are reported.
+  const wellFormed = [...byTarget.entries()]
+    .filter(([t]) => E164_US.test(t))
+    .sort((a, b) => b[1].length - a[1].length);
+
+  if (wellFormed.length > 1) {
+    const canonical = wellFormed[0][0];
+    for (const [target, files] of wellFormed.slice(1)) {
+      const where = [...new Set(files)];
+      issues.push(`[TEL-TARGET] "${target}" disagrees with the site-wide number "${canonical}" — ${files.length} link(s) across ${where.join(', ')}. If the business genuinely has a second number, update this check.`);
+    }
+  }
+
+  checked['tel-target'] = {
+    links: total,
+    distinct: byTarget.size,
+    canonical: wellFormed.length ? wellFormed[0][0] : null
+  };
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -1317,5 +1394,6 @@ if (checked['faq-jsonld-parity']) {
 }
 if (checked['gallery-parity'])       parts.push(`ImageGallery schema matches rendered photos exactly on ${checked['gallery-parity'].pages} page(s) (${checked['gallery-parity'].images} listed images)`);
 if (checked['brand-tier'])           parts.push(`brand tiers + fee values match seo-content.md across ${checked['brand-tier'].pages} pages (${checked['brand-tier'].lists} premium lists, ${checked['brand-tier'].fees} fee statements)`);
+if (checked['tel-target'])           parts.push(`all ${checked['tel-target'].links} tel: links dial ${checked['tel-target'].canonical} (${checked['tel-target'].distinct} distinct target${checked['tel-target'].distinct === 1 ? '' : 's'})`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
