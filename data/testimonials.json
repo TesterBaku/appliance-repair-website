@@ -127,7 +127,7 @@
     },
     "policyNotes": [
       "Location policy is source-specific. Google records: city not exposed by Google, all standardized to 'Orange County, CA'. Yelp records: use the city displayed on the reviewer's Yelp profile (real OC cities like Dana Point, Anaheim, Irvine).",
-      "Rating filter is enforced by display rule, not by capture. All Google records (108) are 5-star; Yelp has 3 \u00d7 5-star + 1 \u00d7 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA \u2014 outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
+      "Rating filter is enforced by display rule, not by capture. All Google records (108) are 5-star; Yelp has 3 \u00d7 5-star + 1 \u00d7 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA, outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
       "Bodies preserved verbatim including spelling/grammar issues. Use _bodyHasTypos flag to decide if light correction is acceptable for display.",
       "All review bodies that have text are now complete (Kathy Calderon, Dave Brisbin, andrea hall full bodies sourced from missing_data/ folder).",
       "Two reviews have no body text (Theresa Robinson is photo-only with stove image; Luci LaBue has only 'Reasonable price' + 'Washing machine repair' service tags). Useful for photo display only.",
