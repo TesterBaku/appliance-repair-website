@@ -1,15 +1,19 @@
 {
   "_meta": {
-    "lastUpdated": "2026-08-07",
+    "lastUpdated": "2026-08-11",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 108,
-        "capturedCount": 107,
+        "totalReviewsOnListing": 109,
+        "capturedCount": 108,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-08-11",
+            "note": "+1 review transcribed from owner-supplied GBP dashboard screenshot (Screenshot 2026-08-11 080638_new_review.png), sorted Newest, 5-star with the NEW badge: James Wehrman ('17 hours ago', 0 reviews / 0 photos, Google tag '$250–300', no photo). GBP listing total bumped 108 to 109 (dashboard panel shows 5.0, 109 reviews). capturedCount 107 to 108. Remaining 109-108=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. The body names no appliance and no brand, so appliance and brand are null and the testimonials-page card uses data-category 'general' with the role label 'Verified Customer', the fallback 26 of the 28 general-category cards already use (an earlier draft said 'Appliance Repair', which appeared nowhere else on the page; caught by the impeccable critique gate before merge). Quotable per quality floor clause (b) (no photo, body 16 words >= 8). Location standardized to 'Orange County, CA' per Google source policy (reviewer city not exposed; no OC city in the body and no job-photo corroborated attestation, so neither location exception applies). Surfaced on pages/testimonials.html (All pill 105 to 106). Not placed on any hub in this pass, so it sits at 0 hubs with a full 2-slot allowance, and tasks/testimonial-usage.md (which tracks only reviews on >=1 hub) is unchanged. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 108 to 109 = totalReviewsOnListing across all 70 review-bearing pages. Note npm run sync:testimonials covers pages/testimonials.html only; the other 69 files were done by a pattern-scoped pass over those same surfaces."
+          },
           {
             "date": "2026-08-07",
             "note": "+1 review transcribed from owner-supplied GBP screenshot (new_review 2026-08-06 155245.png): Jayson Hawley (washer, '18 hours ago', no photo, tag 'Great price \u00b7 $300\u2013350'). GBP listing total bumped 107 to 108. capturedCount 106 to 107. Remaining 108-107=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Quotable per quality floor (no photo, body \u22658 words, names appliance 'washer'). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 107 to 108 = totalReviewsOnListing across all review-bearing pages."
@@ -123,7 +127,7 @@
     },
     "policyNotes": [
       "Location policy is source-specific. Google records: city not exposed by Google, all standardized to 'Orange County, CA'. Yelp records: use the city displayed on the reviewer's Yelp profile (real OC cities like Dana Point, Anaheim, Irvine).",
-      "Rating filter is enforced by display rule, not by capture. All Google records (107) are 5-star; Yelp has 3 \u00d7 5-star + 1 \u00d7 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA \u2014 outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
+      "Rating filter is enforced by display rule, not by capture. All Google records (108) are 5-star; Yelp has 3 \u00d7 5-star + 1 \u00d7 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA \u2014 outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
       "Bodies preserved verbatim including spelling/grammar issues. Use _bodyHasTypos flag to decide if light correction is acceptable for display.",
       "All review bodies that have text are now complete (Kathy Calderon, Dave Brisbin, andrea hall full bodies sourced from missing_data/ folder).",
       "Two reviews have no body text (Theresa Robinson is photo-only with stove image; Luci LaBue has only 'Reasonable price' + 'Washing machine repair' service tags). Useful for photo display only.",
@@ -131,10 +135,28 @@
       "Review photos: 7 captured as Google CDN URLs from initial browser scrape (may need re-download to local before they expire); 13 previously embedded in screenshots have been extracted and saved locally at images/real/reviews/ (2026-05-12).",
       "Display rule for testimonials (mirrors .claude/rules/testimonial-selection.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body \u22653 words; (b) no reviewPhoto and body \u22658 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and \u22642-overlap rules in the same rules file also apply.",
       "Schema: every record has a 'source' field ('google' | 'yelp'). Yelp records may have a 'previousBody' field for updated reviews. Records linked across sources have a '_crossSourceMatch' field pointing to the corresponding record's id.",
-      "AggregateRating in HTML schema markup is Google-only (5.0 \u00d7 108). reviewCount mirrors the public GBP listing total (_meta.sources.google.totalReviewsOnListing = 108), NOT capturedCount (107 transcribed records). The content-integrity 'review-count' check validates pages against totalReviewsOnListing. The two diverge by 1 because a single long-standing review is counted on GBP but not yet transcribed into this pool (see captureHistory 2026-07-06). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
+      "AggregateRating in HTML schema markup is Google-only (5.0 \u00d7 109). reviewCount mirrors the public GBP listing total (_meta.sources.google.totalReviewsOnListing = 109), NOT capturedCount (108 transcribed records). The content-integrity 'review-count' check validates pages against totalReviewsOnListing. The two diverge by 1 because a single long-standing review is counted on GBP but not yet transcribed into this pool (see captureHistory 2026-07-06). Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
     ]
   },
   "reviews": [
+    {
+      "id": "google-james-wehrman-2026-08-10",
+      "source": "google",
+      "name": "James Wehrman",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "17 hours ago",
+      "isNew": true,
+      "body": "Professional, Fast, and fair priced. AG is great. Visited and fixed the problem on short notice.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-08-11 (Screenshot 2026-08-11 080638_new_review.png), sorted Newest, NEW badge, 5-star, reviewer has 0 reviews / 0 photos. Google tag: '$250–300' (price band only, no 'Great price' prefix shown). No review photo. Names no appliance and no brand, so appliance and brand stay null and the testimonials-page card takes data-category 'general' with the sanctioned no-appliance role label 'Verified Customer' (26 of the 28 general-category cards use it). Quotable testimonial per quality floor clause (b) (no photo, body 16 words ≥ 8). Body kept verbatim: the mid-sentence capital 'Fast' is the reviewer's own styling, not a typo to correct, so bodyHasTypos is false. Location is the 'Orange County, CA' Google default (city not exposed, no OC city in the body, no job-photo corroborated attestation). Part of the 108 to 109 GBP listing bump. Not placed on any hub in this pass, so it sits at 0 hubs with a full 2-slot allowance."
+    },
     {
       "id": "google-jayson-hawley-2026-08-07",
       "source": "google",
