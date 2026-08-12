@@ -5,6 +5,8 @@ p0_count: 0
 p1_count: 0
 timestamp: 2026-08-12T19-46-48Z
 slug: pages-recent-repairs-html
+scope: pre-fix
+scope_note: "total_score 39 is the PRE-FIX score. Four text-only edits landed after this run and it was not regenerated. See the dated addendum at the end of this file."
 ---
 Method: dual-agent (A: general-purpose sub-agent acac9c183848805b4 · B: general-purpose sub-agent a19f21275360c8d6b)
 
