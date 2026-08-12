@@ -549,9 +549,9 @@ const CONTRAST_PROBE = () => {
   //      header (#fff on #1a0a02, really ~19:1) read as white-on-white, 1.00:1, and
   //      seven data cells read as dark-on-white and FALSELY PASSED. Found by the
   //      375px viewport added below; count at 1440px is 0, which is why it stayed
-  //      invisible while the gate was desktop-only. Handled by SAMPLE_STACK.
+  //      invisible while the gate was desktop-only. Handled by sampleStack() below.
   //
-  // SAMPLE_STACK: return the first hit-test stack that actually contains `el`,
+  // sampleStack(): return the first hit-test stack that actually contains `el`,
   // trying the centre first (so every already-resolving element is bit-identical)
   // then points walking in from the element's own edges, each clamped inside the
   // viewport. Null means no sample point paints this element — the caller skips it
