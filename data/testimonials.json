@@ -1,15 +1,19 @@
 {
   "_meta": {
-    "lastUpdated": "2026-08-11",
+    "lastUpdated": "2026-08-12",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 109,
-        "capturedCount": 108,
+        "totalReviewsOnListing": 112,
+        "capturedCount": 111,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-08-12",
+            "note": "+3 reviews transcribed from two owner-supplied GBP dashboard screenshots (Screenshot 2026-08-12 102124.png, which shows the listing header at 5.0 / 111 reviews, and new_corinna_review.png). All three 5-star with the NEW badge: Rachel Padilla ('17 hours ago', 1 review / 1 photo, review photo of the serviced range), Lorie Buchanan ('Yesterday', 3 reviews / 0 photos, tag 'Great price, $300-350'), Corinna Vickers ('8 mins ago', 5 reviews / 1 photo, tag 'Great price', no photo on this review). GBP listing total 109 to 112, owner-confirmed 2026-08-12 (the 111 in the header predates Corinna, who posted after that screenshot). capturedCount 108 to 111. Remaining 112-111=1 gap is the long-standing uncaptured review flagged 2026-05-31, not a new one. ratingValue unchanged at 5.0. Two of the three are displayed on pages/testimonials.html (All pill 106 to 108): Rachel with her review photo, Corinna quoted. Lorie is pool-only and intentionally cardless, being under the quality floor. Rachel required a rule change: clause (a) of the quality floor went from 'photo + body 3 words or more' to '2 or more', owner decision 2026-08-12, recorded in testimonial-selection.md. Across the pool it reclassified her record and nothing else. Her location is 'Orange, CA' under location Exception 2, with the corroborating business job photo added in PR #717; the full evidence chain is in her record's _note. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating and its aria-label, testimonials stat, and the testimonials meta/og/twitter descriptions) updated 109 to 112 = totalReviewsOnListing across all 70 review-bearing pages. Note npm run sync:testimonials covers pages/testimonials.html only; the other 69 files were done by a pattern-scoped pass over those same surfaces."
+          },
           {
             "date": "2026-08-11",
             "note": "+1 review transcribed from owner-supplied GBP dashboard screenshot (Screenshot 2026-08-11 080638_new_review.png), sorted Newest, 5-star with the NEW badge: James Wehrman ('17 hours ago', 0 reviews / 0 photos, Google tag '$250–300', no photo). GBP listing total bumped 108 to 109 (dashboard panel shows 5.0, 109 reviews). capturedCount 107 to 108. Remaining 109-108=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. The body names no appliance and no brand, so appliance and brand are null and the testimonials-page card uses data-category 'general' with the role label 'Verified Customer', the fallback 27 of the 28 pre-existing general-category cards already use (the 28th is an appliance-specific 'Microwave Repair'). An earlier draft of this card said 'Appliance Repair', which appeared nowhere else among the 105 cards; caught by the impeccable critique gate before merge. Quotable per quality floor clause (b) (no photo, body 16 words >= 8). Location standardized to 'Orange County, CA' per Google source policy (reviewer city not exposed; no OC city in the body and no job-photo corroborated attestation, so neither location exception applies). Surfaced on pages/testimonials.html (All pill 105 to 106). Not placed on any hub in this pass, so it sits at 0 hubs with a full 2-slot allowance, and tasks/testimonial-usage.md (which tracks only reviews on >=1 hub) is unchanged. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 108 to 109 = totalReviewsOnListing across all 70 review-bearing pages. Note npm run sync:testimonials covers pages/testimonials.html only; the other 69 files were done by a pattern-scoped pass over those same surfaces."
@@ -139,6 +143,60 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-corinna-vickers-2026-08-12",
+      "source": "google",
+      "name": "Corinna Vickers",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "8 mins ago",
+      "isNew": true,
+      "body": "Great fast & friendly service!!! Will definitely be my go to guy for any service or repairs!!!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-08-12 (new_corinna_review.png), sorted Newest, NEW badge, 5-star, shown '8 mins ago', reviewer has 5 reviews / 1 photo. Google tag: 'Great price' (band only, no dollar range shown). The reviewer's 1 photo is not attached to THIS review, so reviewPhoto is null; do not go looking for it. Names no appliance and no brand, so appliance and brand stay null and the testimonials-page card takes data-category 'general' with the 'Verified Customer' role label. Quotable per quality floor clause (b) (no photo, body 17 words, at or above 8). Body kept verbatim including the triple exclamation marks and 'go to guy' unhyphenated: that is the reviewer's own voice, not a typo, so bodyHasTypos is false. Location is the 'Orange County, CA' Google default (city not exposed, no OC city in the body, no job-photo corroborated attestation). Part of the 109 to 112 GBP listing bump. Not placed on any hub in this pass, so it sits at 0 hubs with a full 2-slot allowance."
+    },
+    {
+      "id": "google-rachel-padilla-2026-08-11",
+      "source": "google",
+      "name": "Rachel Padilla",
+      "location": "Orange, CA",
+      "appliance": "range",
+      "brand": "Thermador",
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "17 hours ago",
+      "isNew": true,
+      "body": "Excellent service.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/range-thermador-rachel-padilla.webp",
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-08-12 (Screenshot 2026-08-12 102124.png), sorted Newest, NEW badge, 5-star, shown '17 hours ago', reviewer has 1 review / 1 photo. No Google price tag on this one. QUALITY FLOOR: the body is 2 words, which sat one word under the old clause (a) threshold of 3. The owner lowered clause (a) to 2 words on 2026-08-12 rather than discard a usable photo-bearing review; see testimonial-selection.md, where the change and its reasoning are recorded. This record is the only one in the 112-record pool that the change reclassified. LOCATION: 'Orange, CA' via Exception 2 (job-photo corroborated attestation, testimonial-selection.md, owner decision 2026-08-03). Both parts, from two different kinds of evidence: (1) the business's own job photo images/real/business/completed-repair-range-thermador-burner-ignition-orange.jpg (on master as of commit 95d2ff8) is an objectively describable match to her review photo. Both show the same pro-style stainless gas range mid-service in the same kitchen: the stainless backguard/riser lifted up at an angle behind the burners, a strip of blue painter's tape running along the beige wall with a band of unpainted wall below it, the same speckled tan granite counter and backsplash, the same warm oak cabinetry, and the same star-shaped cast-iron grates with a vertical stainless divider between the left and right burner pairs. Two things are deliberately NOT claimed as matches: her shot is warm tungsten-lit against the job photo's daylight, and the dark reddish upper cabinet at the top right of her frame is simply out of frame in the job photo, not a contradiction but not corroboration either. (2) the owner attested the city as Orange, supplied 2026-08-12 with the photos, in the folder name orange_city_2jobs_at_the_same_address_Rachel. Two jobs were done at that address; the second is the GE Monogram refrigerator service, also added in PR #717. BRAND: Thermador is legible as a wordmark on the control panel in the BUSINESS job photo, not in the reviewer's own crop, which does not include the control panel. So the brand reaches this record through the photo match plus the owner's filename, not from anything visible in her image; do not describe it anywhere as confirmed by the reviewer's photo. APPLIANCE: 'range', not 'cooktop'. Her crop shows only the cooking surface, but the job photo shows the same unit is a full range with an oven below. Part of the 109 to 112 GBP listing bump. Not placed on any hub in this pass, so it sits at 0 hubs with a full 2-slot allowance."
+    },
+    {
+      "id": "google-lorie-buchanan-2026-08-11",
+      "source": "google",
+      "name": "Lorie Buchanan",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "Yesterday",
+      "isNew": true,
+      "body": "Expertly done! Very professional! Great communication!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-08-12 (Screenshot 2026-08-12 102124.png), sorted Newest, NEW badge, 5-star, shown 'Yesterday', reviewer has 3 reviews / 0 photos. Google tag: 'Great price, $300-350'. NOT QUOTABLE, and deliberately carries no card on pages/testimonials.html: no photo, body is 6 words (under clause (b)'s 8), and it names no appliance and no brand, so clause (c) does not rescue it either. This is the same treatment as the 13 other sub-floor complete-body records already in the pool (Katherine Bosboom, D Light, Andrea Walter and so on) and is not an oversight. It is captured here so the pool stays a complete record and the listing count stays honest. Location is the 'Orange County, CA' Google default. Part of the 109 to 112 GBP listing bump."
+    },
     {
       "id": "google-james-wehrman-2026-08-10",
       "source": "google",

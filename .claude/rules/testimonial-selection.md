@@ -26,7 +26,15 @@ All testimonials come from `data/testimonials.json`. Never invent reviewer names
 
 6. **Apply the quality floor.** A review is displayable as a quoted testimonial if it satisfies one of the following. Otherwise it stays in the pool as an image source only.
 
-   a. **Photo + body ≥3 words** — the photo carries the specificity, so the body can be brief.
+   a. **Photo + body ≥2 words** — the photo carries the specificity, so the body can be brief.
+      (Lowered from ≥3 to ≥2 by owner decision, 2026-08-12, prompted by a 5-star review whose body
+      was "Excellent service." and whose photo was a clear shot of the serviced appliance. The
+      threshold's job is to keep a card from being nothing but a bare interjection when there is no
+      photo doing the work; where a photo IS doing the work, 2 words versus 3 was an arbitrary line
+      that would have discarded a usable review. Blast radius was checked before the change: across
+      the 112-record pool, this reclassified exactly one review, because no other sub-floor
+      complete-body record carries a photo. Photo-only and no-body records are still never quotable,
+      per the closing paragraph of this section.)
 
    b. **No photo + body ≥8 words** — without a photo the body has to do the credibility work alone. The pool's median body is 14 words; 8 admits genre-normal short praise (e.g., "Friendly, on time, efficient, and successful repair.") while excluding pure single-thought reviews ("AG was awesome!").
 
