@@ -541,6 +541,30 @@ const CONTRAST_PROBE = () => {
   //   4. replaced elements — text over a real <img> (.article-hero-img) has no
   //      CSS-knowable backdrop; it must be skipped, not walked past
   // Together those four accounted for ~1,580 of the first run's 1,614 "failures".
+  //   5. horizontally clipped elements — an element inside an `overflow-x:auto`
+  //      container can have its centre point outside the container's clip, so
+  //      elementsFromPoint returns what is painted BEHIND the scroller and the
+  //      element is absent from its own stack. Scoring against that stack is not a
+  //      near-miss, it is a different backdrop: on the cost hub at 375px the table
+  //      header (#fff on #1a0a02, really ~19:1) read as white-on-white, 1.00:1, and
+  //      seven data cells read as dark-on-white and FALSELY PASSED. Found by the
+  //      375px viewport added below; count at 1440px is 0, which is why it stayed
+  //      invisible while the gate was desktop-only. Handled by sampleStack() below.
+  //
+  // sampleStack(): return the first hit-test stack that actually contains `el`,
+  // trying the centre first (so every already-resolving element is bit-identical)
+  // then points walking in from the element's own edges, each clamped inside the
+  // viewport. Null means no sample point paints this element — the caller skips it
+  // rather than scoring it against a stranger's backdrop.
+  const SAMPLE_FRACTIONS = [0.5, 0.02, 0.1, 0.25, 0.75, 0.98];
+  const sampleStack = (el, r0, y) => {
+    for (const f of SAMPLE_FRACTIONS) {
+      const x = Math.round(Math.min(Math.max(r0.left + r0.width * f, 1), window.innerWidth - 2));
+      const s = document.elementsFromPoint(x, y);
+      if (s.indexOf(el) >= 0) return s;
+    }
+    return null;
+  };
   let sweptScored = 0;
   // Denominator computed over body * UNCONDITIONALLY, independent of the sweep's own
   // scope. Counting it inside the scoped loop made the ratio scope-invariant by
@@ -576,11 +600,15 @@ const CONTRAST_PROBE = () => {
       if (!rects.length) continue;
       const r0 = rects[0];
       if (r0.width < 2 || r0.height < 2) continue;
-      const stack = document.elementsFromPoint(
-        Math.round(r0.left + r0.width / 2), Math.round(r0.top + Math.min(r0.height / 2, 8)));
-      if (!stack.length) continue;
-      const i = stack.indexOf(el);
-      const under = (i >= 0 ? stack.slice(i) : stack).reverse();
+      const y = Math.round(r0.top + Math.min(r0.height / 2, 8));
+      const stack = sampleStack(el, r0, y);
+      // Null = no sample point paints this element (class 5 above). Skip it: an
+      // element absent from the stack it is scored against is measured against a
+      // backdrop it does not sit on, which reports both false failures and false
+      // passes. sweptScored is incremented below, so a regression that starts
+      // dropping elements shows up in the coverage-ratio guard.
+      if (!stack || !stack.length) continue;
+      const under = stack.slice(stack.indexOf(el)).reverse();
       let acc = [255, 255, 255], unknown = false;
       for (const n of under) {
         if (/^(IMG|VIDEO|SVG|CANVAS|PICTURE)$/.test(n.tagName)) { unknown = true; break; }
@@ -630,16 +658,27 @@ const CONTRAST_PROBE = () => {
   return { rows: out, sweptScored, textOwning };
 };
 
+// Both widths, because Google indexes mobile-first and every contrast gate in this repo
+// probed at 1440 only. The mobile column is not a formality: the site paints DIFFERENT
+// elements at 375 (.sticky-mobile-bar appears, .nav-cta and .nav-links go display:none),
+// reflows every grid to one column, and pushes tables into overflow-x scrollers. The
+// desktop entry keeps its exact previous behaviour — same width, same derived height —
+// so this is additive, not a rewrite of the passing gate.
+const CONTRAST_VIEWPORTS = [1440, 375];
+
+for (const width of CONTRAST_VIEWPORTS) {
 for (const url of CONTRAST_PAGES) {
-  test(`WCAG AA contrast: ${url}`, async ({ page }) => {
+  test(`WCAG AA contrast @${width}px: ${url}`, async ({ page }) => {
     // elementsFromPoint only resolves elements INSIDE the viewport, so the viewport has to
     // cover the whole document. Hardcoding 12000 silently under-measured any taller page
     // (blog.html is 14,394px), and those elements hit `continue` BEFORE sweptScored++, so
-    // the floor would not have noticed. Derive it.
-    await page.setViewportSize({ width: 1440, height: 2000 });
+    // the floor would not have noticed. Derive it — and derive it per WIDTH, since a
+    // narrow viewport reflows the page taller: measured 2026-08-11, these six run
+    // 6,382–9,105px at 1440 and 10,452–14,021px at 375, all under the 30,000 cap.
+    await page.setViewportSize({ width, height: 2000 });
     await page.goto(url);
     const docH = await page.evaluate(() => document.documentElement.scrollHeight);
-    await page.setViewportSize({ width: 1440, height: Math.min(Math.max(docH + 200, 2000), 30000) });
+    await page.setViewportSize({ width, height: Math.min(Math.max(docH + 200, 2000), 30000) });
     const { rows, sweptScored, textOwning } = await page.evaluate(CONTRAST_PROBE);
     // Two guards, because they prove different things.
     // `rows` is populated by the named text() anchors on every run, pass or fail, so a
@@ -659,6 +698,38 @@ for (const url of CONTRAST_PAGES) {
     expect(failures).toEqual([]);
   });
 }
+}
+
+// The gate above is only worth its runtime if it can still go red. Nothing on the site
+// currently fails at 375px, so a passing suite proves nothing on its own — exactly the
+// shape of gate that rots into decoration. This injects a mobile-only contrast failure
+// and asserts the probe reports it, at the same width and against the same page the
+// gate uses. #3a3a3a on the footer's near-black is 1.75:1, well under 4.5:1; the @media
+// wrapper means a desktop-only probe would NOT see it.
+//
+// The width comes from CONTRAST_VIEWPORTS rather than a literal, and the array is
+// asserted to contain it. An earlier draft hardcoded 375 here, which the PR #714
+// reviewer showed would let someone revert CONTRAST_VIEWPORTS to [1440] with this test
+// still green: it would go on proving the probe works at a width the gate no longer
+// visits. A self-test that survives the deletion of the thing it certifies is not a
+// self-test.
+const MOBILE_CONTRAST_WIDTH = 375;
+test('mobile contrast gate can actually fail', async ({ page }) => {
+  expect(CONTRAST_VIEWPORTS).toContain(MOBILE_CONTRAST_WIDTH);
+  await page.setViewportSize({ width: MOBILE_CONTRAST_WIDTH, height: 2000 });
+  await page.goto('/index.html');
+  const docH = await page.evaluate(() => document.documentElement.scrollHeight);
+  await page.setViewportSize({ width: MOBILE_CONTRAST_WIDTH, height: Math.min(Math.max(docH + 200, 2000), 30000) });
+
+  const clean = await page.evaluate(CONTRAST_PROBE);
+  expect(clean.rows.filter(r => r.r < r.need)).toEqual([]);   // baseline: page is green
+
+  await page.addStyleTag({ content: '@media (max-width: 768px) { .footer-bottom, .footer-bottom * { color: #3a3a3a !important; } }' });
+  const dirty = await page.evaluate(CONTRAST_PROBE);
+  const caught = dirty.rows.filter(r => r.r < r.need);
+  expect(caught.length).toBeGreaterThan(0);
+  expect(caught.some(r => /footer-bottom/.test(r.label))).toBe(true);
+});
 
 // ─── Premium (luxury-brand) hubs ──────────────────────────────────────────────
 // The LA Premium layer uses a DIFFERENT template from CITY_HUBS above and cannot
