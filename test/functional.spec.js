@@ -704,14 +704,22 @@ for (const url of CONTRAST_PAGES) {
 // currently fails at 375px, so a passing suite proves nothing on its own — exactly the
 // shape of gate that rots into decoration. This injects a mobile-only contrast failure
 // and asserts the probe reports it, at the same width and against the same page the
-// gate uses. #f0f0f0 body text on the footer's near-black is well under 4.5:1; the
-// @media wrapper means a desktop-only probe would NOT see it, so this also pins the
-// mobile column itself, not just the probe.
+// gate uses. #3a3a3a on the footer's near-black is 1.75:1, well under 4.5:1; the @media
+// wrapper means a desktop-only probe would NOT see it.
+//
+// The width comes from CONTRAST_VIEWPORTS rather than a literal, and the array is
+// asserted to contain it. An earlier draft hardcoded 375 here, which the PR #714
+// reviewer showed would let someone revert CONTRAST_VIEWPORTS to [1440] with this test
+// still green: it would go on proving the probe works at a width the gate no longer
+// visits. A self-test that survives the deletion of the thing it certifies is not a
+// self-test.
+const MOBILE_CONTRAST_WIDTH = 375;
 test('mobile contrast gate can actually fail', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 2000 });
+  expect(CONTRAST_VIEWPORTS).toContain(MOBILE_CONTRAST_WIDTH);
+  await page.setViewportSize({ width: MOBILE_CONTRAST_WIDTH, height: 2000 });
   await page.goto('/index.html');
   const docH = await page.evaluate(() => document.documentElement.scrollHeight);
-  await page.setViewportSize({ width: 375, height: Math.min(Math.max(docH + 200, 2000), 30000) });
+  await page.setViewportSize({ width: MOBILE_CONTRAST_WIDTH, height: Math.min(Math.max(docH + 200, 2000), 30000) });
 
   const clean = await page.evaluate(CONTRAST_PROBE);
   expect(clean.rows.filter(r => r.r < r.need)).toEqual([]);   // baseline: page is green
