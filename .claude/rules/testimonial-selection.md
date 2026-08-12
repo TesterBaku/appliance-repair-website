@@ -107,14 +107,28 @@ three new reviews clear the quality floor, add three. If two do, prefer adding a
 existing pool that has not been carded yet.
 
 **The quality floor still wins.** Never card a sub-floor review just to round the count out, and never
-invent, pad or re-word one. If the pool cannot supply a qualifying third, **stop at two and ship the
-orphan**: a single card left-aligned on the final row is explicitly acceptable, per the same owner
-decision and the earlier one recorded in backlog item P6-43 (2026-08-11).
+invent, pad or re-word one. If the pool cannot supply enough qualifying reviews, **ship the short row**
+rather than padding it. A trailing row that is not full is explicitly acceptable, whether it holds one
+card or two: from a base that is already a multiple of 3, adding two leaves a remainder of 2, which is
+a left-aligned **pair**, and adding one leaves a remainder of 1, a single left-aligned card. Both are
+fine. Do not read "orphan" here as meaning only the one-card case.
 
-**Do not "fix" the orphan.** Both candidate fixes, a flexbox conversion and a JS orphan class on the
-grid, were presented and declined, twice. A fresh `/impeccable critique` will keep flagging the
-stranded card on any future testimonials PR; cite this rule and P6-43 rather than re-litigating it.
-Filtered views (clicking a pill changes the visible count) are covered by the same decision.
+**Batches larger than 3 follow the same rule:** card everything that clears the floor, then top up
+toward the next multiple of 3 if the pool allows. Never hold a qualifying review back to make the
+arithmetic tidy. A stranded card costs less than a missing real review.
+
+**Do not "fix" the trailing row.** Both candidate fixes, a flexbox conversion and a JS orphan class on
+the grid, were presented and declined, twice: 2026-08-11 (recorded as backlog item P6-43) and again
+2026-08-12. A fresh `/impeccable critique` will keep flagging the stranded card on any future
+testimonials PR; cite this rule and P6-43 rather than re-litigating it.
+
+**This covers the filtered views too, and that is explicit, not inferred.** The 2026-08-12 decision was
+given in direct answer to a question about the *filtered* case, worded as: when a filter leaves a count
+that does not divide by 3, such as Washer's 19, the last card sits alone on the left. The answer was to
+leave it. So `washer`, `refrigerator`, `dishwasher` at the 2-col breakpoint, and `wine-cooler` are all
+in scope, not just the unfiltered view P6-43 originally described.
+
+### Row word-count balance
 Reviews placed in the same row must be similar in length. A 25-word review next to a 50-word review on the same row makes the shorter card look thin and reads as low-quality.
 
 When picking N reviews, sort the candidate pool by word count and group:
