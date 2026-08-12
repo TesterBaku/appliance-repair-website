@@ -92,3 +92,27 @@ No P0s or P1s found by either assessment or by this synthesis.
 - Independent parent verification: re-ran `grep` for the em dash character directly against the changed file (0 matches) and re-read the GE Profile precedent line myself before accepting Assessment A's P2 finding.
 - Live server cleanup: Assessment B's `npx serve` instance (port 5757, PID 22080) force-killed and confirmed unreachable; browser closed.
 - Temp-file cleanup: none created by this synthesis outside the critique body temp file (deleted after persistence).
+
+---
+
+## Addendum, 2026-08-12, added after the run
+
+**This snapshot records the PRE-FIX state of the page. It was not regenerated after the fixes below.**
+It is left unedited above so the record of what the run actually saw stays intact. Four text-only
+changes landed after it, on the same branch (`content/orange-thermador-monogram-job-photos`):
+
+1. `card-pill` "GE Monogram &middot; Refrigerator" to "GE &middot; Refrigerator" (the P2 finding).
+2. `card-title` "Maintenance Service" to "Water Filter and Coil Service" (the first P3), with the
+   matching JSON-LD `ImageObject.name` updated in step with it.
+3. Thermador `alt` trimmed from ~208 to ~163 characters (the second P3).
+4. Thermador `alt` "cast-iron star burners" to "star-shaped cast-iron burner grates", raised in the
+   independent PR review of #717: "star burner" is Thermador's own product term for a burner-cap
+   geometry that this photo's resolution does not actually resolve, whereas the star-shaped grates
+   are plainly visible. The narrower wording describes only what is in frame.
+
+All four are attribute or text-node edits inside existing markup, with no new elements, classes or
+style declarations, which is the `detect.mjs`-only tier in `.claude/rules/git-workflow.md`. The
+detector was re-run against the final file and the em-dash grep repeated; both clean. The 39/40 score
+above is therefore the score of the pre-fix page, and the changes since are strictly the ones its own
+findings asked for plus the reviewer's narrowing of one claim. It is not a post-fix score, and PR #717
+does not claim it as one.
