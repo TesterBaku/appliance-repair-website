@@ -791,11 +791,14 @@
   </section>
 
   <!-- RECENT JOB PHOTO -->
+  <!-- container-lg, not container: three 340px cards plus two 20px gaps need 1060px, which cannot
+       fit inside .container's 900px, so the row could never show three across at any width. Every
+       other section on this page already uses container-lg. -->
   <section class="section section-gray" style="padding-top:0;">
-    <div class="container">
+    <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;padding-top:64px;">Recent Frigidaire Repairs</h2>
       <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Photos from two recent Frigidaire jobs. A refrigerator in Westminster that stopped cooling, where our technician AJ diagnosed the evaporator fan system and confirmed proper temperatures before leaving. Then a side-by-side in Mission Viejo that had quit making ice: the ice maker and the water inlet valve feeding it were both replaced on the same visit, which is why that job appears twice below.</p>
-      <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:720px;margin:0 auto;">
+      <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:1060px;margin:0 auto;">
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
           <img src="../images/real/reviews/refrigerator-matt-semonza.webp" alt="Frigidaire refrigerator repair by technician AJ at a Westminster home, Orange County" width="125" height="125" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           <div style="padding:16px 18px 20px;">
@@ -815,7 +818,10 @@
           </div>
         </div>
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
-          <img src="../images/real/business/completed-repair-refrigerator-frigidaire-water-inlet-valve-mission-viejo-480w.webp" alt="Black Frigidaire side-by-side refrigerator with a through-door ice and water dispenser, standing closed in a Mission Viejo kitchen after repair" width="480" height="853" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
+          <!-- object-position biased upward: a centred crop of this tall frame lands on the door
+               edge and wall and reads as nothing in particular. 18% puts the dispenser panel and
+               the FRIGIDAIRE badge, the only brand-identifying detail in the shot, inside the box. -->
+          <img src="../images/real/business/completed-repair-refrigerator-frigidaire-water-inlet-valve-mission-viejo-480w.webp" alt="Black Frigidaire side-by-side refrigerator with a through-door ice and water dispenser, standing closed in a Mission Viejo kitchen after repair" width="480" height="853" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:50% 18%;display:block;">
           <div style="padding:16px 18px 20px;">
             <div style="font-size:10px;font-weight:700;color:var(--brand-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Frigidaire · Refrigerator</div>
             <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Water Inlet Valve Replacement</div>

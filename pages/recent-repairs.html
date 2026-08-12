@@ -1335,7 +1335,10 @@
         <div class="repair-card" data-appliance="refrigerator" data-brand="frigidaire" data-city="mission-viejo">
           <picture>
             <source srcset="../images/real/business/completed-repair-refrigerator-frigidaire-water-inlet-valve-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-frigidaire-water-inlet-valve-mission-viejo.webp 576w" type="image/webp" sizes="(max-width:480px) 100vw, (max-width:900px) 50vw, 360px">
-            <img class="card-photo" src="../images/real/business/completed-repair-refrigerator-frigidaire-water-inlet-valve-mission-viejo.jpg" alt="Black Frigidaire side-by-side refrigerator with a through-door ice and water dispenser, standing closed in a Mission Viejo kitchen after repair" width="576" height="1024" loading="lazy">
+            <!-- object-position biased upward: .card-photo crops to 240px, and a centred crop of
+                 this tall frame lands on the door edge and wall. 18% keeps the dispenser panel and
+                 the FRIGIDAIRE badge in the box. Same adjustment as on the Frigidaire hub. -->
+            <img class="card-photo" style="object-position:50% 18%;" src="../images/real/business/completed-repair-refrigerator-frigidaire-water-inlet-valve-mission-viejo.jpg" alt="Black Frigidaire side-by-side refrigerator with a through-door ice and water dispenser, standing closed in a Mission Viejo kitchen after repair" width="576" height="1024" loading="lazy">
           </picture>
           <div class="card-body">
             <div class="card-pill">Frigidaire · Refrigerator</div>
