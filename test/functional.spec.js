@@ -179,6 +179,107 @@ test.describe('Contact page', () => {
   test('pricing callout present above form', async ({ page }) => {
     await expect(page.locator('.contact-pricing-callout')).toBeAttached();
   });
+
+  // The success/error blocks shipped as dead code: nothing intercepted the submit,
+  // so the browser did a native POST and navigated the customer off to Formspree's
+  // own page at the moment of conversion. These three lock the AJAX flow in.
+  // Formspree is always route-intercepted here; no real submission ever leaves.
+  async function fillContactForm(page) {
+    await page.fill('#firstName', 'Test');
+    await page.fill('#lastName', 'Harness');
+    await page.fill('#phone', '(949) 000-0000');
+    await page.selectOption('#city', 'Irvine');
+    await page.selectOption('#appliance', 'Refrigerator');
+  }
+
+  test('successful submit shows the success state without leaving the page', async ({ page }) => {
+    await page.route('**formspree.io/**', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    );
+    await fillContactForm(page);
+    await page.click('#form-submit');
+
+    await expect(page.locator('#form-success')).toBeVisible();
+    await expect(page.locator('#contact-form')).toBeHidden();
+    // Copy that only makes sense while the form exists must go with it.
+    await expect(page.locator('#form-intro')).toBeHidden();
+    await expect(page.locator('.contact-pricing-callout')).toBeHidden();
+    expect(page.url()).toContain('contact.html');
+  });
+
+  test('a rejected submit shows the error state and keeps the form filled', async ({ page }) => {
+    await page.route('**formspree.io/**', (route) =>
+      route.fulfill({
+        status: 400,
+        contentType: 'application/json',
+        body: '{"errors":[{"message":"Phone is invalid"}]}',
+      })
+    );
+    await fillContactForm(page);
+    await page.click('#form-submit');
+
+    await expect(page.locator('#form-error')).toBeVisible();
+    await expect(page.locator('#contact-form')).toBeVisible();
+    await expect(page.locator('#firstName')).toHaveValue('Test');
+    expect(page.url()).toContain('contact.html');
+  });
+
+  test('the rejection reason from Formspree is shown, not swallowed', async ({ page }) => {
+    await page.route('**formspree.io/**', (route) =>
+      route.fulfill({
+        status: 400,
+        contentType: 'application/json',
+        body: '{"errors":[{"message":"Phone is invalid"}]}',
+      })
+    );
+    await fillContactForm(page);
+    await page.click('#form-submit');
+
+    // "Phone is invalid" is actionable; a bare apology just looks broken.
+    await expect(page.locator('#form-error')).toContainText('Phone is invalid');
+    // The phone-number fallback must survive alongside the specific reason.
+    await expect(page.locator('#form-error')).toContainText('(949) 629-5365');
+  });
+
+  test('focus lands on the status block so keyboard users are not stranded', async ({ page }) => {
+    await page.route('**formspree.io/**', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    );
+    await fillContactForm(page);
+    await page.click('#form-submit');
+
+    await expect(page.locator('#form-success')).toBeFocused();
+  });
+
+  test('"Send another request" restores an empty form without a reload', async ({ page }) => {
+    await page.route('**formspree.io/**', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    );
+    await fillContactForm(page);
+    await page.click('#form-submit');
+    await expect(page.locator('#form-success')).toBeVisible();
+
+    await page.click('#form-again');
+
+    await expect(page.locator('#contact-form')).toBeVisible();
+    await expect(page.locator('#form-success')).toBeHidden();
+    await expect(page.locator('#form-intro')).toBeVisible();
+    await expect(page.locator('.contact-pricing-callout')).toBeVisible();
+    // Reset, not just re-shown: the previous answers must not be resubmitted.
+    await expect(page.locator('#firstName')).toHaveValue('');
+    await expect(page.locator('#city')).toHaveValue('');
+    expect(page.url()).toContain('contact.html');
+  });
+
+  test('a network failure shows the error state rather than a dead button', async ({ page }) => {
+    await page.route('**formspree.io/**', (route) => route.abort('failed'));
+    await fillContactForm(page);
+    await page.click('#form-submit');
+
+    await expect(page.locator('#form-error')).toBeVisible();
+    await expect(page.locator('#form-submit')).toBeEnabled();
+    expect(page.url()).toContain('contact.html');
+  });
 });
 
 // ─── FAQ page ─────────────────────────────────────────────────────────────────
