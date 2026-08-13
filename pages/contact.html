@@ -470,12 +470,14 @@
             <div style="font-size:48px;margin-bottom:16px;">✅</div>
             <h3 style="font-size:20px;font-weight:700;color:#111;margin-bottom:8px;">Message sent!</h3>
             <p style="font-size:14px;color:#555;line-height:1.6;">We'll call you back shortly to schedule your repair. For same-day service, call <a href="tel:+19496295365" style="color:var(--brand-text);font-weight:600;">(949) 629-5365</a>.</p>
-            <button type="button" id="form-again" style="margin-top:20px;background:none;border:none;padding:8px 12px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--brand-text);text-decoration:underline;cursor:pointer;">Send another request</button>
+            <button type="button" id="form-again" style="margin-top:16px;background:none;border:none;padding:14px 16px;min-height:44px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--brand-text);text-decoration:underline;cursor:pointer;">Send another request</button>
           </div>
 
           <!-- Error state (hidden until failure) -->
           <div id="form-error" role="alert" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:14px 16px;margin-top:12px;font-size:13px;color:#b91c1c;">
-            Something went wrong. Please try again or call us at <a href="tel:+19496295365" style="color:#b91c1c;font-weight:600;">(949) 629-5365</a>.
+            <strong id="form-error-reason" style="display:none;"></strong>
+            <span id="form-error-generic">Something went wrong.</span>
+            <span>Please try again or call us at <a href="tel:+19496295365" style="color:#b91c1c;font-weight:600;">(949) 629-5365</a>.</span>
           </div>
         </div>
 
@@ -609,7 +611,17 @@
       if (!form || !success || !error || !button || !window.fetch) return;
 
       var idleLabel = button.textContent;
-      var genericError = error.innerHTML;
+      var reasonEl = document.getElementById('form-error-reason');
+      var genericEl = document.getElementById('form-error-generic');
+
+      // Restore the button to its resting state. Called from BOTH the failure
+      // path and the reset link: the success path leaves it disabled and reading
+      // "Sending...", so without this the form comes back permanently unusable.
+      function resetButton() {
+        button.disabled = false;
+        button.textContent = idleLabel;
+        button.style.cursor = 'pointer';
+      }
 
       // Reveal a status block, move focus to it, and bring it on screen. Focus
       // matters: without it a keyboard user is dropped back to <body> and has to
@@ -670,14 +682,18 @@
 
       function fail(reason) {
         // Keep the phone-number fallback in every case; prepend the specific
-        // reason only when Formspree gave us one.
-        error.innerHTML = reason
-          ? '<strong>' + reason + '</strong> ' + genericError
-          : genericError;
+        // reason only when Formspree gave us one. textContent, never innerHTML:
+        // the reason is a remote string that echoes back submitted values, so
+        // parsing it as HTML would be an injection sink for no benefit.
+        if (reasonEl) {
+          reasonEl.textContent = reason || '';
+          reasonEl.style.display = reason ? 'inline' : 'none';
+        }
+        // "Phone is invalid. Something went wrong." reads as two competing
+        // diagnoses, so the vague sentence only appears when it is all we have.
+        if (genericEl) genericEl.style.display = reason ? 'none' : 'inline';
         reveal(error);
-        button.disabled = false;
-        button.textContent = idleLabel;
-        button.style.cursor = 'pointer';
+        resetButton();
       }
 
       // A household can have two broken appliances, and a visitor who mistypes
@@ -687,6 +703,7 @@
       if (again) {
         again.addEventListener('click', function () {
           form.reset();
+          resetButton();
           success.style.display = 'none';
           error.style.display = 'none';
           form.style.display = '';
