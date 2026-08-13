@@ -750,10 +750,9 @@
     /* NO RESULTS */
     .no-results { display: none; text-align: center; padding: 48px 24px; color: #666666; font-size: 14px; grid-column: 1 / -1; }
 
-    @media (max-width: 1024px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 1024px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } .testimonials-grid:has(.t-card:last-of-type:nth-child(3n+1)) .t-card:last-of-type { grid-column: auto; } }
     @media (max-width: 640px) {
       .testimonials-grid { grid-template-columns: 1fr; }
-      .testimonials-grid:has(.t-card:last-of-type:nth-child(3n+1)) .t-card:last-of-type { grid-column: auto; }
       .filter-pill { font-size: 12px; padding: 7px 14px; }
     }
   </style>
