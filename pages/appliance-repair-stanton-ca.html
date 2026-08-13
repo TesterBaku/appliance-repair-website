@@ -56,7 +56,7 @@
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
     .neighborhood-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
-    .neighborhood-zip { font-size: 12px; color: var(--text-sub); }
+    .neighborhood-anchor { font-size: 12px; color: var(--text-sub); }
     .neighborhood-note { font-size: 12px; color: var(--text-sub); margin-top: 6px; line-height: 1.5; }
 
     .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; }
@@ -112,7 +112,9 @@
     .landmarks-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.8; }
     .landmarks-block a { color: var(--brand-text); font-weight: 600; text-decoration: none; }
 
-    .fit-block { max-width: 760px; margin: 28px auto 0; }
+    /* 620px, not the 760px the card sections use: at 13.5px Inter that is ~73ch,
+       inside the 65-75ch reading-measure band. 760px measured ~89ch. */
+    .fit-block { max-width: 620px; margin: 28px auto 0; }
     .fit-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.8; }
     .fit-list { margin: 18px 0 0; padding-left: 20px; }
     .fit-list li { font-size: 13.5px; color: var(--text-sub); line-height: 1.85; margin-bottom: 10px; }
@@ -126,7 +128,7 @@
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 768px) {
-      .btn-white, .btn-white-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+      .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
@@ -629,32 +631,32 @@
       <div class="neighborhoods-grid">
         <div class="neighborhood-card">
           <div class="neighborhood-name">Beach Boulevard Corridor</div>
-          <div class="neighborhood-zip">ZIP 90680 &middot; State Route 39</div>
+          <div class="neighborhood-anchor">State Route 39</div>
           <div class="neighborhood-note">The city's main north-south route, running past Rodeo 39 Public Market. Apartments, condos, and older single-family homes with a mix of full-size and compact kitchens.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Katella Avenue</div>
-          <div class="neighborhood-zip">ZIP 90680 &middot; Stanton Civic Center</div>
+          <div class="neighborhood-anchor">Stanton Civic Center</div>
           <div class="neighborhood-note">Runs east to west past the Civic Center at 7800 Katella. Storefronts, apartments, and the residential streets behind them.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Cerritos Avenue</div>
-          <div class="neighborhood-zip">ZIP 90680 &middot; Hollenbeck Park</div>
+          <div class="neighborhood-anchor">Hollenbeck Park</div>
           <div class="neighborhood-note">Northern residential streets around Hollenbeck Park. Established single-family homes, many still on original kitchen and laundry appliances.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Western Avenue</div>
-          <div class="neighborhood-zip">ZIP 90680 &middot; Stanton Central Park</div>
+          <div class="neighborhood-anchor">Stanton Central Park</div>
           <div class="neighborhood-note">The Cypress side of the city, anchored by Stanton Central Park and the Norm Ross Sports Complex.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Dale Street &amp; Magnolia Avenue</div>
-          <div class="neighborhood-zip">ZIP 90680 &middot; Harry M. Dotson Park</div>
+          <div class="neighborhood-anchor">Harry M. Dotson Park</div>
           <div class="neighborhood-note">The central residential grid near Dotson Park and Veterans Memorial Park. Houses, duplexes, and mobile home communities side by side.</div>
         </div>
         <div class="neighborhood-card">
           <div class="neighborhood-name">Chapman, Orangewood &amp; Lampson</div>
-          <div class="neighborhood-zip">ZIP 90680 &middot; Garden Grove border</div>
+          <div class="neighborhood-anchor">Garden Grove border</div>
           <div class="neighborhood-note">The southern end of the city, where Stanton meets Garden Grove. Older tract homes and multi-family buildings.</div>
         </div>
       </div>
