@@ -94,6 +94,8 @@
 
     /* TESTIMONIALS */
     .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; align-items: stretch; }
+    /* 4 reviews: center the 4th card in the middle column so a 3-col grid does not strand it left-aligned */
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: 2; }
     .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
     .hub-page .stars { color: var(--amber); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
@@ -168,6 +170,7 @@
       .issues-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: auto; }
       .luxury-brands-grid { grid-template-columns: repeat(2, 1fr); }
       .job-grid { grid-template-columns: 1fr; max-width: 360px; }
       .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: auto; }
@@ -246,7 +249,7 @@
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "112",
+      "reviewCount": "113",
       "bestRating": "5"
     }
   }
@@ -277,6 +280,13 @@
         "author": { "@type": "Person", "name": "Reuben Johnson" },
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
         "reviewBody": "AG fixed my Samsung dryer with no problem at all! Very efficient and friendly!",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Raymond Olinger" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG cleaned condenser on my Samsung refrigerator.Good price!!!",
         "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
       }
     ]
@@ -609,9 +619,9 @@
       <h1>Samsung Refrigerator, Washer, Dryer &amp; Range Repair in Orange County</h1>
       <p>Ice makers that freeze up, refrigerators that stop cooling, washers throwing 4C and 5C codes, and dryers that won't heat. We know Samsung's French-door fridges and its laundry inside out. Same-day service available.</p>
       <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 112 Google reviews">
+        <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 113 Google reviews">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 112 Google reviews</span>
+          <span>5.0 &middot; 113 Google reviews</span>
         </a>
       </div>
       <div class="hub-cta-row">
@@ -1039,7 +1049,7 @@
   <section class="section section-gray" style="text-align:center;">
     <div class="container">
       <h2 class="h2-standard">What Our Customers Say</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 112 verified 5-star Google reviews</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 113 verified 5-star Google reviews</p>
       <div class="testimonials-grid">
 
         <div class="testimonial-card">
@@ -1061,6 +1071,13 @@
           <p class="testimonial-quote">"AG fixed my Samsung dryer with no problem at all! Very efficient and friendly!"</p>
           <div class="t-initial" aria-hidden="true" style="background:#444444;">RJ</div>
           <div class="testimonial-name">Reuben Johnson, Orange County, CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG cleaned condenser on my Samsung refrigerator. Good price!!!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">RO</div>
+          <div class="testimonial-name">Raymond Olinger, Garden Grove, CA</div>
         </div>
 
       </div>
