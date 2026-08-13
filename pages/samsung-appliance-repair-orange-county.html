@@ -115,6 +115,9 @@
        must stay ABOVE the @media block below: media queries add no specificity, so a later
        .job-grid declaration would override the mobile 1-up rule. */
     .job-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
+    /* 4 cards: center the trailing card in the middle column so a fixed 3-up grid does not
+       strand it left-aligned. Mirrors the testimonials 4-card orphan pattern. */
+    .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: 2; }
     .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
     .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
     .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
@@ -167,6 +170,7 @@
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
       .luxury-brands-grid { grid-template-columns: repeat(2, 1fr); }
       .job-grid { grid-template-columns: 1fr; max-width: 360px; }
+      .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: auto; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
@@ -924,7 +928,7 @@
   <section class="section section-gray" style="padding-top:0;">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;padding-top:64px;">Recent Samsung Repairs</h2>
-      <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Three Samsung jobs our technicians recently finished: a washer in Buena Park that stopped mid-cycle with water in the drum and a 5C drain code, a built-in double wall oven installed in Newport Beach, and a dryer in Pico Rivera that had stopped turning its drum.</p>
+      <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Four Samsung jobs our technicians recently finished: a washer in Buena Park that stopped mid-cycle with water in the drum and a 5C drain code, a built-in double wall oven installed in Newport Beach, a dryer in Pico Rivera that had stopped turning its drum, and a refrigerator in Garden Grove whose condenser coils we cleaned to restore steady cooling.</p>
       <div class="job-grid">
         <div class="job-card">
           <picture>
@@ -960,6 +964,18 @@
             <div class="job-card-title">Dryer Not Spinning</div>
             <div class="job-card-loc">Pico Rivera, CA</div>
             <a href="dryer-repair-orange-county.html" class="job-card-link">See our dryer repair service <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+        <div class="job-card">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-samsung-condenser-coil-garden-grove-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-samsung-condenser-coil-garden-grove.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
+            <img src="../images/real/business/completed-repair-refrigerator-samsung-condenser-coil-garden-grove.jpg" alt="Stainless Samsung French-door refrigerator standing slightly forward of its cabinet alcove in a Garden Grove kitchen after a condenser coil cleaning" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">Samsung · Refrigerator</div>
+            <div class="job-card-title">Condenser Coil Cleaning</div>
+            <div class="job-card-loc">Garden Grove, CA</div>
+            <a href="refrigerator-repair-orange-county.html" class="job-card-link">See our refrigerator repair service <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
       </div>
