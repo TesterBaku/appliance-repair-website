@@ -96,6 +96,49 @@ reach for this block when the pool genuinely yields 5.
 ### Prefer counts of 3, 4, or 6 over 5
 Five reviews has the messiest layout (a row of three followed by an off-balance row of two). Pick 5 only when the candidate pool genuinely yields 5 strong-and-similar reviews **and not a 6th**. Default order of preference: **6 ≈ 4 > 3 > 5**.
 
+### `pages/testimonials.html`: add cards in multiples of 3, and accept the orphan when you cannot
+
+Owner decision, 2026-08-12. This section's other layout rules are for **curated hub grids** with a
+fixed 3/4/5/6 count. The testimonials page is different: it is still hand-maintained and still a
+curated subset of the pool (see AGENTS.md, "Data"), but unlike a hub it is a **near-complete** one,
+carrying every review that clears the quality floor rather than a hand-picked 3 to 6. So its count
+grows with almost every capture and lands off a multiple of 3 about two-thirds of the time. It is
+**not** equal to the pool size: on 2026-08-12 the pool held 115 records against 108 cards, the
+difference being the sub-floor and photo-only records that are deliberately never carded.
+
+The rule is: **when adding cards, top the batch up so the visible count stays a multiple of 3.** If
+three new reviews clear the quality floor, add three. If two do, prefer adding a third from the
+existing pool that has not been carded yet.
+
+**The quality floor still wins.** Never card a sub-floor review just to round the count out, and never
+invent, pad or re-word one. If the pool cannot supply enough qualifying reviews, **ship the short row**
+rather than padding it. A trailing row that is not full is explicitly acceptable, whether it holds one
+card or two: from a base that is already a multiple of 3, adding two leaves a remainder of 2, which is
+a left-aligned **pair**, and adding one leaves a remainder of 1, a single left-aligned card. Both are
+fine. Do not read "orphan" here as meaning only the one-card case.
+
+**Batches larger than 3 follow the same rule:** card everything that clears the floor, then top up
+toward the next multiple of 3 if the pool allows. Never hold a qualifying review back to make the
+arithmetic tidy. A stranded card costs less than a missing real review.
+
+**Do not "fix" the trailing row.** Both candidate fixes, a flexbox conversion and a JS orphan class on
+the grid, were presented to the owner and declined, twice: on 2026-08-11 and again on 2026-08-12. A
+fresh `/impeccable critique` will keep flagging the stranded card as a P1 or P2 on any future
+testimonials PR, because the tool is stateless and cannot know it was already ruled on. **Cite this
+rule, by name and heading, and move on.** Do not re-propose either fix, and do not present the finding
+to the owner as a new recommendation.
+
+(The 2026-08-11 half is also recorded as `P6-43` in `tasks/backlog.md`, with the measurements and the
+reasons the obvious CSS one-liner does not work. That file is **gitignored**, so most agents and every
+CI or cloud run cannot read it. Treat the backlog ID as local-only colour: this rule is the citable
+record and must stand on its own without it. That gap is exactly why the decision was moved here.)
+
+**This covers the filtered views too, and that is explicit, not inferred.** The 2026-08-12 decision was
+given in direct answer to a question about the *filtered* case, worded as: when a filter leaves a count
+that does not divide by 3, such as Washer's 19, the last card sits alone on the left. The answer was to
+leave it. So `washer`, `refrigerator`, `dishwasher` at the 2-col breakpoint, and `wine-cooler` are all
+in scope, not just the unfiltered view the 2026-08-11 decision originally described.
+
 ### Row word-count balance
 Reviews placed in the same row must be similar in length. A 25-word review next to a 50-word review on the same row makes the shorter card look thin and reads as low-quality.
 
