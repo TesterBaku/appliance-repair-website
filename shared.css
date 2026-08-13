@@ -260,10 +260,16 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
      the page (scrollY 11764) did not move it.
      overscroll-behavior stops the scroll chaining to the page behind the drawer. */
   .nav-drawer[data-open] {
-    max-height: calc(100vh - 70px);
+    max-height: calc(100vh - 52px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    /* Clear the 56px .sticky-mobile-bar (fixed, bottom, z-index 200). Without this
+       the drawer's own "Book a Repair" row scrolls to a position underneath the bar
+       and cannot be tapped: measured 18px occluded here and 36px on the homepage,
+       where elementFromPoint at the link's centre returned .sticky-book instead of
+       the link. 20px is the drawer's existing bottom padding, 56px is the bar. */
+    padding-bottom: 76px;
   }
 }
 
@@ -271,7 +277,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
    re-open the same gap at the bottom of the list. dvh tracks the real height. */
 @supports (height: 100dvh) {
   @media (max-width: 768px) {
-    .nav-drawer[data-open] { max-height: calc(100dvh - 70px); }
+    .nav-drawer[data-open] { max-height: calc(100dvh - 52px); }
   }
 }
 

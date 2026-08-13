@@ -235,10 +235,16 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
      carrying the drawer that does not link shared.css (it keeps a full inline copy
      of the nav CSS), so the shared fix does not reach it and has to be repeated. */
   .nav-drawer[data-open] {
+    /* 70px here, not the 52px in shared.css: the homepage nav is taller, and its own
+       inline CSS sets .nav-inner { height: 70px } at this breakpoint. Both measured. */
     max-height: calc(100vh - 70px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    /* Clear the 56px .sticky-mobile-bar. See the matching note in shared.css: without
+       this the drawer's own "Book a Repair" row was 36px behind the bar here and
+       elementFromPoint at its centre returned .sticky-book, so the CTA was dead. */
+    padding-bottom: 76px;
   }
 }
 

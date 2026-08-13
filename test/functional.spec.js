@@ -1353,7 +1353,7 @@ test.describe('Regression: article hamburger nav', () => {
 
 // ─── Regression: every mobile drawer link must be REACHABLE, not merely present ──
 // P6-52. The drawer sits inside a position:fixed nav, so page scrolling can never
-// reveal content below the fold — the drawer has to scroll itself. Measured before
+// reveal content below the fold, so the drawer has to scroll itself. Measured before
 // the fix at 375x812: the drawer rendered 2213px tall (3408px with all <details>
 // open) with overflow-y:visible and scrollHeight === clientHeight, leaving 35 of
 // 69 links permanently unreachable. Scrolling to the bottom of the page (scrollY
@@ -1395,7 +1395,15 @@ test.describe('Regression: mobile nav drawer reachability (P6-52)', () => {
         for (const a of links) {
           a.scrollIntoView({ block: 'center' });
           const b = a.getBoundingClientRect();
-          if (!(b.top >= 0 && b.bottom <= window.innerHeight)) bad.push(a.textContent.trim());
+          const inViewport = b.top >= 0 && b.bottom <= window.innerHeight;
+          // Geometry alone is not reachability. The sticky Call/Book bar is fixed at
+          // the bottom with z-index 200, so a link can sit inside the viewport and
+          // still be untappable because the bar is painted over it. Hit-test the
+          // centre point and require it to actually resolve to this link.
+          const hit = document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2);
+          const tappable = hit && (hit === a || a.contains(hit) || hit.contains(a));
+          if (!inViewport) bad.push(`${a.textContent.trim()} (off-viewport)`);
+          else if (!tappable) bad.push(`${a.textContent.trim()} (occluded by .${hit ? hit.className || hit.tagName : 'nothing'})`);
         }
         return bad;
       }, drawer);
