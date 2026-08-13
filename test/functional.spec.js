@@ -1390,11 +1390,35 @@ test.describe('Regression: mobile nav drawer reachability (P6-52)', () => {
 
       const unreachable = await page.evaluate((sel) => {
         const d = document.querySelector(sel);
-        const links = [...d.querySelectorAll('a')].filter(a => a.getBoundingClientRect().height > 0);
         const bad = [];
+        // Do NOT filter on height here. An earlier version of this test skipped any
+        // link with height 0, which meant a link collapsed to nothing was silently
+        // dropped from the check instead of failing it: a genuinely untappable link
+        // reported clean. Only links that are deliberately hidden (display:none or
+        // visibility:hidden, on the link or any ancestor) are out of scope; anything
+        // rendered must be reachable. All <details> are forced open above, so a
+        // collapsed disclosure is not a legitimate reason to be hidden here.
+        const isDeliberatelyHidden = (el) => {
+          for (let n = el; n && n !== document.documentElement; n = n.parentElement) {
+            const cs = getComputedStyle(n);
+            if (cs.display === 'none' || cs.visibility === 'hidden') return true;
+          }
+          return false;
+        };
+        const links = [...d.querySelectorAll('a')].filter(a => !isDeliberatelyHidden(a));
         for (const a of links) {
+          const box = a.getBoundingClientRect();
+          if (box.width === 0 || box.height === 0) {
+            bad.push(`${a.textContent.trim()} (rendered but zero-size ${box.width}x${box.height})`);
+            continue;
+          }
           a.scrollIntoView({ block: 'center' });
           const b = a.getBoundingClientRect();
+          // Vertical only, deliberately. Checking left/right straight after
+          // scrollIntoView is circular: scrollIntoView scrolls whatever container it
+          // must to satisfy the check, so it can never fail. Horizontal reach is
+          // asserted properly in the sibling test below, which requires the drawer
+          // not to scroll sideways at all.
           const inViewport = b.top >= 0 && b.bottom <= window.innerHeight;
           // Geometry alone is not reachability. The sticky Call/Book bar is fixed at
           // the bottom with z-index 200, so a link can sit inside the viewport and
@@ -1427,6 +1451,25 @@ test.describe('Regression: mobile nav drawer reachability (P6-52)', () => {
     // The content is far taller than any phone, so the container must clip and scroll.
     expect(box.scrollHeight).toBeGreaterThan(box.clientHeight);
     expect(['auto', 'scroll']).toContain(box.overflowY);
+  });
+
+  test('the drawer never scrolls sideways', async ({ page }) => {
+    // Setting overflow-y also makes overflow-x computed non-visible, so the drawer
+    // becomes a horizontal scroll container as a side effect. If anything inside it
+    // ever overflows horizontally the drawer will silently scroll sideways to reach
+    // it, which is both a layout bug and a hole in the reachability test above (that
+    // check uses scrollIntoView, which would happily scroll sideways to pass).
+    await page.setViewportSize(MOBILE);
+    await page.goto('/index.html');
+    await page.locator('.nav-hamburger').click();
+    await page.evaluate(() => {
+      for (const el of document.querySelectorAll('.nav-drawer details')) el.open = true;
+    });
+    const h = await page.locator('.nav-drawer').evaluate(el => ({
+      scrollWidth: el.scrollWidth,
+      clientWidth: el.clientWidth,
+    }));
+    expect(h.scrollWidth).toBeLessThanOrEqual(h.clientWidth);
   });
 
   test('the drawer stays hidden on desktop and the fix does not leak there', async ({ page }) => {
