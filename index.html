@@ -231,6 +231,21 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   .btn-primary, .btn-dark, .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
   .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
   .nav-drawer a { min-height: 44px; display: flex; align-items: center; }
+  /* P6-52: mirrors the rule in shared.css. The homepage is the ONE page of 82
+     carrying the drawer that does not link shared.css (it keeps a full inline copy
+     of the nav CSS), so the shared fix does not reach it and has to be repeated. */
+  .nav-drawer[data-open] {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
+@supports (height: 100dvh) {
+  @media (max-width: 768px) {
+    .nav-drawer[data-open] { max-height: calc(100dvh - 70px); }
+  }
 }
 
 /* ── MOBILE: 480px ─────────────────────────────────────── */

@@ -1351,6 +1351,88 @@ test.describe('Regression: article hamburger nav', () => {
   });
 });
 
+// ─── Regression: every mobile drawer link must be REACHABLE, not merely present ──
+// P6-52. The drawer sits inside a position:fixed nav, so page scrolling can never
+// reveal content below the fold — the drawer has to scroll itself. Measured before
+// the fix at 375x812: the drawer rendered 2213px tall (3408px with all <details>
+// open) with overflow-y:visible and scrollHeight === clientHeight, leaving 35 of
+// 69 links permanently unreachable. Scrolling to the bottom of the page (scrollY
+// 11764) did not move it.
+//
+// Why a new test rather than tightening the existing one: 'nav drawer links are
+// reachable after scroll-and-open' above is named for reachability but only counts
+// links (>= 7). The whole suite passed 1112 tests with this bug live. Counting a
+// link proves it exists in the DOM; it says nothing about whether a thumb can get
+// to it.
+//
+// Both drawer families are covered on purpose. They are different markup with
+// different CSS (main: .nav-drawer via shared.css, except index.html which inlines
+// its own copy; article: #mobile-nav-drawer with per-file inline CSS), so passing
+// on one proves nothing about the other.
+test.describe('Regression: mobile nav drawer reachability (P6-52)', () => {
+  const DRAWER_PAGES = [
+    { url: '/index.html', drawer: '.nav-drawer', note: 'inlines its own nav CSS, does not link shared.css' },
+    { url: '/pages/appliance-repair-irvine-ca.html', drawer: '.nav-drawer', note: 'hub page via shared.css' },
+    { url: '/pages/service-areas.html', drawer: '.nav-drawer', note: 'static page via shared.css' },
+    { url: '/articles/article-fridge-repair-garden-grove.html', drawer: '#mobile-nav-drawer', note: 'article family' },
+  ];
+
+  for (const { url, drawer, note } of DRAWER_PAGES) {
+    test(`every drawer link is reachable at 375px: ${url} (${note})`, async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(url);
+      await page.locator('.nav-hamburger').click();
+      // Expand every disclosure, which is the worst case and the state that broke.
+      await page.evaluate((sel) => {
+        const d = document.querySelector(sel);
+        if (d) for (const el of d.querySelectorAll('details')) el.open = true;
+      }, drawer);
+
+      const unreachable = await page.evaluate((sel) => {
+        const d = document.querySelector(sel);
+        const links = [...d.querySelectorAll('a')].filter(a => a.getBoundingClientRect().height > 0);
+        const bad = [];
+        for (const a of links) {
+          a.scrollIntoView({ block: 'center' });
+          const b = a.getBoundingClientRect();
+          if (!(b.top >= 0 && b.bottom <= window.innerHeight)) bad.push(a.textContent.trim());
+        }
+        return bad;
+      }, drawer);
+
+      expect(unreachable, `unreachable drawer links: ${unreachable.join(', ')}`).toEqual([]);
+    });
+  }
+
+  test('drawer scrolls itself when its content exceeds the viewport', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/index.html');
+    await page.locator('.nav-hamburger').click();
+    await page.evaluate(() => {
+      for (const el of document.querySelectorAll('.nav-drawer details')) el.open = true;
+    });
+    const box = await page.locator('.nav-drawer').evaluate(el => ({
+      clientHeight: el.clientHeight,
+      scrollHeight: el.scrollHeight,
+      overflowY: window.getComputedStyle(el).overflowY,
+    }));
+    // The content is far taller than any phone, so the container must clip and scroll.
+    expect(box.scrollHeight).toBeGreaterThan(box.clientHeight);
+    expect(['auto', 'scroll']).toContain(box.overflowY);
+  });
+
+  test('the drawer stays hidden on desktop and the fix does not leak there', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/index.html');
+    const css = await page.locator('.nav-drawer').evaluate(el => {
+      const s = window.getComputedStyle(el);
+      return { display: s.display, maxHeight: s.maxHeight };
+    });
+    expect(css.display).toBe('none');
+    expect(css.maxHeight).toBe('none');
+  });
+});
+
 // ─── Regression: price disclaimer on cost articles ────────────────────────────
 test.describe('Price disclaimer on cost articles', () => {
   const DISCLAIMER = /Estimates vary by brand, part availability, and diagnosis/i;

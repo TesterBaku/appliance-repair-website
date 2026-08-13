@@ -251,6 +251,28 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   .btn-primary, .btn-dark, .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
   .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
   .nav-drawer a { min-height: 44px; display: flex; align-items: center; }
+  /* P6-52: the drawer must scroll itself, not rely on the page.
+     .nav-drawer lives inside a position:fixed nav, so page scrolling can never
+     reveal it. Measured at 375x812 before this rule: the drawer rendered 2213px
+     tall (3408px with all three <details> open) with overflow-y:visible and
+     scrollHeight === clientHeight, leaving 35 of its 69 links permanently
+     unreachable, everything from "KitchenAid" down. Scrolling to the bottom of
+     the page (scrollY 11764) did not move it.
+     overscroll-behavior stops the scroll chaining to the page behind the drawer. */
+  .nav-drawer[data-open] {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Mobile browser chrome makes 100vh taller than the visible viewport, which would
+   re-open the same gap at the bottom of the list. dvh tracks the real height. */
+@supports (height: 100dvh) {
+  @media (max-width: 768px) {
+    .nav-drawer[data-open] { max-height: calc(100dvh - 70px); }
+  }
 }
 
 /* ── MOBILE: 480px ─────────────────────────────────────── */
