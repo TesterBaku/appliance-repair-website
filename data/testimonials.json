@@ -1,15 +1,19 @@
 {
   "_meta": {
-    "lastUpdated": "2026-08-12",
+    "lastUpdated": "2026-08-13",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 112,
-        "capturedCount": 111,
+        "totalReviewsOnListing": 113,
+        "capturedCount": 112,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-08-13",
+            "note": "+1 review transcribed from owner-supplied GBP dashboard screenshot (new_review.jpeg, 2026-08-13), sorted Newest, 5-star with the NEW badge, shown '1 hour ago': Raymond Olinger (Samsung refrigerator, reviewer has 3 reviews / 6 photos on profile, no photo attached to this review). GBP listing total bumped 112 to 113 (screenshot header shows 5.0 / 113 reviews). capturedCount 111 to 112. Remaining 113-112=1 gap is the long-standing uncaptured review flagged 2026-05-31, not a new one. ratingValue unchanged at 5.0. Body verbatim 'AG cleaned condenser on my Samsung refrigerator.Good price!!!' (bodyHasTypos=true: the missing space in 'refrigerator.Good' is lightly corrected to 'refrigerator. Good' for display only). Quotable per quality floor twice over: clause (b) (no photo, body 9 words >= 8) and clause (c) (names appliance 'refrigerator' and brand 'Samsung'). Location 'Garden Grove, CA' under Exception 2 (owner decision 2026-08-13): technician AG confirmed to the owner on 2026-08-13 that this review is from this job (the Samsung refrigerator condenser coil cleaning in Garden Grove, whose job photo completed-repair-refrigerator-samsung-condenser-coil-garden-grove.jpg shipped in PR #725), and the review body independently names the brand, the appliance, the job and the technician, posted the same day. The reviewer attached no photo, so the photo-to-photo comparison Exception 2 literally describes was not possible; the match was made against the review text instead (recorded in the record's _note). Surfaced on pages/testimonials.html (All pill 108 to 109) and placed on the Garden Grove city hub and the Samsung brand hub (each 3 to 4 cards, 4th card centered). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating and aria-label, testimonials stat, testimonials meta/og/twitter descriptions) updated 112 to 113 = totalReviewsOnListing across all 62 review-bearing pages. Note npm run sync:testimonials covers pages/testimonials.html only; the other 61 files were done by a pattern-scoped pass over the same surfaces."
+          },
           {
             "date": "2026-08-12",
             "note": "+3 reviews transcribed from two owner-supplied GBP dashboard screenshots (Screenshot 2026-08-12 102124.png, which shows the listing header at 5.0 / 111 reviews, and new_corinna_review.png). All three 5-star with the NEW badge: Rachel Padilla ('17 hours ago', 1 review / 1 photo, review photo of the serviced range), Lorie Buchanan ('Yesterday', 3 reviews / 0 photos, tag 'Great price, $300-350'), Corinna Vickers ('8 mins ago', 5 reviews / 1 photo, tag 'Great price', no photo on this review). GBP listing total 109 to 112, owner-confirmed 2026-08-12 (the 111 in the header predates Corinna, who posted after that screenshot). capturedCount 108 to 111. Remaining 112-111=1 gap is the long-standing uncaptured review flagged 2026-05-31, not a new one. ratingValue unchanged at 5.0. Two of the three are displayed on pages/testimonials.html (All pill 106 to 108): Rachel with her review photo, Corinna quoted. Lorie is pool-only and intentionally cardless, being under the quality floor. Rachel required a rule change: clause (a) of the quality floor went from 'photo + body 3 words or more' to '2 or more', owner decision 2026-08-12, recorded in testimonial-selection.md. Across the pool it reclassified her record and nothing else. Her location is 'Orange, CA' under location Exception 2, with the corroborating business job photo added in PR #717; the full evidence chain is in her record's _note. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating and its aria-label, testimonials stat, and the testimonials meta/og/twitter descriptions) updated 109 to 112 = totalReviewsOnListing across all 70 review-bearing pages. Note npm run sync:testimonials covers pages/testimonials.html only; the other 69 files were done by a pattern-scoped pass over those same surfaces."
@@ -143,6 +147,24 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-raymond-olinger-2026-08-13",
+      "source": "google",
+      "name": "Raymond Olinger",
+      "location": "Garden Grove, CA",
+      "appliance": "refrigerator",
+      "brand": "Samsung",
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "1 hour ago",
+      "isNew": true,
+      "body": "AG cleaned condenser on my Samsung refrigerator.Good price!!!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot, 2026-08-13. City label 'Garden Grove, CA' under Exception 2 of testimonial-selection.md, owner decision 2026-08-13. Attestation: technician AG confirmed to the owner on 2026-08-13 that this review is from the Samsung refrigerator condenser coil cleaning in Garden Grove. Image-checkable corroboration: our job photo images/real/business/completed-repair-refrigerator-samsung-condenser-coil-garden-grove.jpg shows a stainless Samsung french-door refrigerator, and the review body independently names the brand ('Samsung'), the appliance ('refrigerator'), the job ('cleaned condenser') and the technician ('AG'), posted the same day ('1 hour ago', marked NEW). LIMITATION, recorded deliberately: the reviewer attached no photo, so the photo-to-photo comparison Exception 2 literally describes was not possible; the match was made against the review text instead. The brand/appliance/job facts are not distinguishing on their own, so the specificity rests on the reviewer naming AG plus the same-day timing. Drop back to 'Orange County, CA' on request."
+    },
     {
       "id": "google-corinna-vickers-2026-08-12",
       "source": "google",

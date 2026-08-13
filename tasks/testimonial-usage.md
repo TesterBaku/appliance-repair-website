@@ -15,9 +15,9 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 99 |
+| Distinct reviews currently on >=1 hub | 100 |
 | On exactly 1 hub (1 free slot each) | 8 |
-| On exactly 2 hubs (at cap) | 87 |
+| On exactly 2 hubs (at cap) | 88 |
 | On 3 hubs (grandfathered exceptions) | 4 |
 | **Free hub-slots available now** | **8** |
 | Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
@@ -117,6 +117,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Pat Sepulveda-Garcia | corona, dcs-hub |
 | Patricio Jr Villanueva | la-habra, washer-repair-hub |
 | Pawan Deepak | fountain-valley, placentia |
+| Raymond Olinger | garden-grove, samsung-hub |
 | Robert Clemmons | mission-viejo, dishwasher-repair-hub |
 | Roger Antonie | la-habra, oven-stove-repair-hub |
 | Russell Kadota | laguna-beach, washer-repair-hub |
