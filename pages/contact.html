@@ -354,7 +354,7 @@
         <!-- FORM -->
         <div class="card" style="padding:36px 40px;">
           <h2 class="h2-xs" style="margin-bottom:6px;">Request a Repair</h2>
-          <p style="font-size:13px;color:#666;margin-bottom:28px;line-height:1.6;">Fill out the form below and one of our technicians will reach out to schedule your repair.</p>
+          <p id="form-intro" style="font-size:13px;color:#666;margin-bottom:28px;line-height:1.6;">Fill out the form below and one of our technicians will reach out to schedule your repair.</p>
 
           <div class="contact-pricing-callout">
             <span class="callout-pill">$99 diagnostic, applied toward your repair</span>
@@ -466,15 +466,18 @@
           </form>
 
           <!-- Success state (hidden until submission) -->
-          <div id="form-success" style="display:none;text-align:center;padding:40px 20px;">
+          <div id="form-success" role="status" aria-live="polite" style="display:none;text-align:center;padding:40px 20px;">
             <div style="font-size:48px;margin-bottom:16px;">✅</div>
             <h3 style="font-size:20px;font-weight:700;color:#111;margin-bottom:8px;">Message sent!</h3>
             <p style="font-size:14px;color:#555;line-height:1.6;">We'll call you back shortly to schedule your repair. For same-day service, call <a href="tel:+19496295365" style="color:var(--brand-text);font-weight:600;">(949) 629-5365</a>.</p>
+            <button type="button" id="form-again" style="margin-top:16px;background:none;border:none;padding:14px 16px;min-height:44px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--brand-text);text-decoration:underline;cursor:pointer;">Send another request</button>
           </div>
 
           <!-- Error state (hidden until failure) -->
-          <div id="form-error" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:14px 16px;margin-top:12px;font-size:13px;color:#b91c1c;">
-            Something went wrong. Please try again or call us at <a href="tel:+19496295365" style="color:#b91c1c;font-weight:600;">(949) 629-5365</a>.
+          <div id="form-error" role="alert" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:14px 16px;margin-top:12px;font-size:13px;color:#b91c1c;">
+            <strong id="form-error-reason" style="display:none;"></strong>
+            <span id="form-error-generic">Something went wrong.</span>
+            <span>Please try again or call us at <a href="tel:+19496295365" style="color:#b91c1c;font-weight:600;">(949) 629-5365</a>.</span>
           </div>
         </div>
 
@@ -587,5 +590,132 @@
   </div>
   <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
+  <script>
+    // Contact form submit. Page-specific singleton, so it stays inline here rather
+    // than in site.js, matching the blog-search and testimonials-filter precedent.
+    //
+    // Progressive enhancement: the form keeps its action/method, and preventDefault
+    // only runs inside this handler. If this script fails to parse or fetch is
+    // missing, the browser falls back to the native POST it did before.
+    //
+    // Formspree AJAX contract: POST the form's own action with a FormData body and
+    // Accept: application/json; response.ok means accepted, otherwise the JSON
+    // carries an errors[] array. https://formspree.io/guides/framer/
+    (function () {
+      var form = document.getElementById('contact-form');
+      var success = document.getElementById('form-success');
+      var error = document.getElementById('form-error');
+      var button = document.getElementById('form-submit');
+      var intro = document.getElementById('form-intro');
+      var callout = document.querySelector('.contact-pricing-callout');
+      if (!form || !success || !error || !button || !window.fetch) return;
+
+      var idleLabel = button.textContent;
+      var reasonEl = document.getElementById('form-error-reason');
+      var genericEl = document.getElementById('form-error-generic');
+
+      // Restore the button to its resting state. Called from BOTH the failure
+      // path and the reset link: the success path leaves it disabled and reading
+      // "Sending...", so without this the form comes back permanently unusable.
+      function resetButton() {
+        button.disabled = false;
+        button.textContent = idleLabel;
+        button.style.cursor = 'pointer';
+      }
+
+      // Reveal a status block, move focus to it, and bring it on screen. Focus
+      // matters: without it a keyboard user is dropped back to <body> and has to
+      // re-tab the whole page. tabindex="-1" makes the block programmatically
+      // focusable without adding it to the tab order.
+      function reveal(el) {
+        el.style.display = 'block';
+        el.setAttribute('tabindex', '-1');
+        el.focus({ preventScroll: true });
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) return; // let the browser show its own prompts
+        event.preventDefault();
+
+        error.style.display = 'none';
+        button.disabled = true;
+        button.textContent = 'Sending...';
+        // The button carries an inline cursor:pointer, which would otherwise keep
+        // claiming to be clickable while disabled. Set it directly so it wins.
+        button.style.cursor = 'progress';
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        })
+          .then(function (response) {
+            if (response.ok) {
+              // Hide the form AND the copy that only makes sense while it exists:
+              // "Fill out the form below" and the diagnostic-fee callout both read
+              // as stale once the form is gone.
+              form.style.display = 'none';
+              [intro, callout].forEach(function (el) {
+                if (el) el.style.display = 'none';
+              });
+              reveal(success);
+              return;
+            }
+            // Formspree explains WHY it refused in an errors[] array. Show that
+            // reason: "Phone is invalid" is something the visitor can act on,
+            // where a generic apology just makes the site look broken.
+            return response
+              .json()
+              .then(function (data) {
+                var reasons = (data && data.errors ? data.errors : [])
+                  .map(function (e) { return e.message; })
+                  .filter(Boolean);
+                fail(reasons.length ? reasons.join('. ') + '.' : null);
+              })
+              .catch(function () { fail(null); });
+          })
+          .catch(function () {
+            fail(null); // outright network failure: no response to read
+          });
+      });
+
+      function fail(reason) {
+        // Keep the phone-number fallback in every case; prepend the specific
+        // reason only when Formspree gave us one. textContent, never innerHTML:
+        // the reason is a remote string that echoes back submitted values, so
+        // parsing it as HTML would be an injection sink for no benefit.
+        if (reasonEl) {
+          reasonEl.textContent = reason || '';
+          reasonEl.style.display = reason ? 'inline' : 'none';
+        }
+        // "Phone is invalid. Something went wrong." reads as two competing
+        // diagnoses, so the vague sentence only appears when it is all we have.
+        if (genericEl) genericEl.style.display = reason ? 'none' : 'inline';
+        reveal(error);
+        resetButton();
+      }
+
+      // A household can have two broken appliances, and a visitor who mistypes
+      // their number needs a way back. Without this, the only route to the form
+      // is a full page reload.
+      var again = document.getElementById('form-again');
+      if (again) {
+        again.addEventListener('click', function () {
+          form.reset();
+          resetButton();
+          success.style.display = 'none';
+          error.style.display = 'none';
+          form.style.display = '';
+          [intro, callout].forEach(function (el) {
+            if (el) el.style.display = '';
+          });
+          form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          var first = document.getElementById('firstName');
+          if (first) first.focus({ preventScroll: true });
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
