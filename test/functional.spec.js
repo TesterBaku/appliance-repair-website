@@ -576,6 +576,9 @@ const CITY_HUBS = [
   'appliance-repair-fountain-valley-ca',
   'appliance-repair-westminster-ca',
   'appliance-repair-buena-park-ca',
+  // Stanton, the company's own address city, added with the hub itself (P6-44) rather
+  // than after a bug, which is the lesson of the Long Beach note below.
+  'appliance-repair-stanton-ca',
   // LA County. Uses the same template as the OC city hubs, so it takes the same
   // assertions. Added 2026-08-09 with the tel-link fix (#708): this page shipped
   // 2026-07-08 with 3 dead `tel:` links (of 7 across both pages in that PR) partly
