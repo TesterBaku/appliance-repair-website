@@ -363,6 +363,37 @@ test.describe('Contact page', () => {
     await expect(page.locator('#form-submit')).toBeEnabled();
     expect(page.url()).toContain('contact.html');
   });
+
+  // contact_form_submit (analytics.js) fires on the submit event and counts attempts,
+  // before Formspree responds. contact_form_delivered must fire ONLY when Formspree
+  // accepts (response.ok), so the two events are never conflated.
+  test('a confirmed Formspree acceptance fires contact_form_delivered', async ({ page }) => {
+    await page.route('**formspree.io/**', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' })
+    );
+    await fillContactForm(page);
+    await page.click('#form-submit');
+    await expect(page.locator('#form-success')).toBeVisible();
+
+    const delivered = await page.evaluate(() =>
+      (window.dataLayer || []).some((e) => e && e[0] === 'event' && e[1] === 'contact_form_delivered')
+    );
+    expect(delivered).toBe(true);
+  });
+
+  test('a rejected submit does NOT fire contact_form_delivered', async ({ page }) => {
+    await page.route('**formspree.io/**', (route) =>
+      route.fulfill({ status: 400, contentType: 'application/json', body: '{"errors":[{"message":"Phone is invalid"}]}' })
+    );
+    await fillContactForm(page);
+    await page.click('#form-submit');
+    await expect(page.locator('#form-error')).toBeVisible();
+
+    const delivered = await page.evaluate(() =>
+      (window.dataLayer || []).some((e) => e && e[0] === 'event' && e[1] === 'contact_form_delivered')
+    );
+    expect(delivered).toBe(false);
+  });
 });
 
 // ─── FAQ page ─────────────────────────────────────────────────────────────────

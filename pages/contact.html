@@ -654,6 +654,14 @@
         })
           .then(function (response) {
             if (response.ok) {
+              // Confirmed delivery: Formspree accepted the submission. Distinct from
+              // contact_form_submit in analytics.js, which fires on the submit event
+              // and therefore counts attempts, not arrivals.
+              if (typeof gtag === 'function') {
+                gtag('event', 'contact_form_delivered', {
+                  page_location: window.location.href
+                });
+              }
               // Hide the form AND the copy that only makes sense while it exists:
               // "Fill out the form below" and the diagnostic-fee callout both read
               // as stale once the form is gone.
