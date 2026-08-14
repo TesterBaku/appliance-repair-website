@@ -144,6 +144,31 @@ test.describe('Homepage (index.html)', () => {
       await expect(faqItem).toHaveClass(/\bopen\b/);
     }
   });
+
+  // The homepage hero "Book a Repair" points at an in-page #contact anchor, so it
+  // only fires book_repair_click if the tracker keys on link text, not destination.
+  test('the "#contact" hero CTA fires book_repair_click', async ({ page }) => {
+    await page.locator('a[href="#contact"]').first().click();
+    const fired = await page.evaluate(() =>
+      (window.dataLayer || []).some((e) => e && e[0] === 'event' && e[1] === 'book_repair_click')
+    );
+    expect(fired).toBe(true);
+  });
+
+  // "repair" must not fire book_repair_click, or every "Refrigerator Repair"
+  // service link would be mis-counted as a booking. A synthetic (non-navigating)
+  // click drives the delegated listener without leaving the page.
+  test('a "Refrigerator Repair" service link does NOT fire book_repair_click', async ({ page }) => {
+    const fired = await page.evaluate(() => {
+      const link = Array.from(document.querySelectorAll('a')).find((a) =>
+        /refrigerator repair/i.test(a.textContent) && !/book/i.test(a.textContent)
+      );
+      if (!link) return 'no-link';
+      link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      return (window.dataLayer || []).some((e) => e && e[0] === 'event' && e[1] === 'book_repair_click');
+    });
+    expect(fired).toBe(false);
+  });
 });
 
 // ─── Contact page ─────────────────────────────────────────────────────────────

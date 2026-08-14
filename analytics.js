@@ -14,7 +14,12 @@
       });
     }
 
-    if (/book|schedule|repair/i.test(text) && href.endsWith('contact.html')) {
+    // Booking intent is signalled by link text, not destination: the homepage
+    // hero "Book a Repair" points at an in-page #contact anchor, and a future
+    // booking route must not silently fall out of tracking. The word-boundary
+    // pattern excludes "Facebook", and dropping the weak "repair" alternative
+    // excludes every "Refrigerator Repair" service link.
+    if (/\b(book|schedule|quote|estimate|request)\b/i.test(text)) {
       gtag('event', 'book_repair_click', {
         link_text: text,
         page_location: window.location.href
