@@ -1,4 +1,4 @@
-# impeccable critique — `pages/kenmore-appliance-repair-orange-county.html`
+# impeccable critique: `pages/kenmore-appliance-repair-orange-county.html`
 
 Method: full gate, dual isolated assessments. A: judgment-driven design review, no access to B.
 B: deterministic detector plus Playwright browser measurement, no access to A. Synthesis below.
