@@ -173,6 +173,40 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 - Light typo/grammar editing is allowed for reviews flagged `bodyHasTypos: true`. No paraphrasing or substantive rewording.
 - For Yelp records with a `previousBody` field, display only `body` (the current version). `previousBody` is reference-only.
 
+### Non-OC hubs omit the location label (owner decision, 2026-08-15)
+
+On hub pages outside Orange County — currently Long Beach and Pico Rivera (LA County) and Corona
+(Riverside County) — testimonial cards drop the location segment entirely. Render
+`Name · Job type` and stop. Do not write `Orange County, CA`, and do not substitute the hub's own
+city.
+
+**Why.** The review pool is overwhelmingly OC-sourced. Labelling honestly on a Long Beach page tells
+a Long Beach reader that nobody local has reviewed us, which defeats the purpose of the section;
+labelling with the hub's city would be a fabrication and is banned outright above. Dropping the
+segment is the only option that is neither misleading nor self-defeating: the reviews are real, they
+are about this company's work, and nothing on the card claims where the job happened. The owner
+judged the conversion value of showing real proof to outweigh the cost of omitting provenance.
+
+**Two conditions attach, and neither is optional:**
+
+1. **The section heading must not localize the proof either.** A heading reading "What Orange County
+   & LA County Customers Say" re-asserts exactly the claim the card just dropped. Non-OC hubs use
+   the neutral "What Our Customers Say".
+2. **Speed claims stay off Riverside hubs.** Riverside County is next-available-only, having no
+   local technician, so a review whose text promises same-day or faster must not be carded there.
+   Omitting the location does not make an implied service promise true. As of 2026-08-15 that
+   excludes Eleonora Abukova, Frank Rokhideh, Marie Bennett, Daniel Rojas, Steve D, Julie L. and
+   Brian Brassil from Corona and from any future Riverside hub.
+
+**Scope: hub pages outside Orange County only.** OC hubs, `index.html` and `pages/testimonials.html`
+keep the `Orange County, CA` label. `Review` JSON-LD is unaffected; it never carried a location
+field.
+
+**Supersede when real local reviews arrive.** If a review is later confirmed to come from an LA
+County or Riverside County job under the job-photo corroborated attestation bar above, label that
+one card with its city on that hub. This subsection is a fallback for an OC-only pool, not a
+preference for anonymity.
+
 ## Schema requirements
 
 Every page that displays testimonials must also include:
