@@ -361,7 +361,7 @@ These three files must exist at the root and return 200:
 
      **History:** a `$150` LA-premium tier was specified on 2026-07-30 and reversed by the owner the same day, before it ever shipped to production. Do not reintroduce it.
 
-     **History:** until 2026-08-15 this rule said Riverside County was next-available-only "because it has no local technician". The owner corrected that on 2026-08-15: there are local technicians in both LA County and Riverside County, and a job is either dispatched to one of them or covered by our own technician. The old claim shipped on the Corona hub, the Service Areas page and llms.txt and was removed in the same pass. Do not reintroduce it.
+     **History:** until 2026-08-15 this rule said Riverside County was next-available-only "because it has no local technician". The owner corrected that on 2026-08-15: there are local technicians in both LA County and Riverside County, and a job is either dispatched to one of them or covered by our own technician. The old claim shipped on the homepage FAQ, the Corona hub (body copy, hero and CTA headlines, and its `description`/`og:description`/`twitter:description` meta tags), the Service Areas page and llms.txt, and was removed from all of them in the same pass. Note the meta tags specifically: they are what a search snippet renders, they are not checked for content accuracy by anything in `npm test`, and they were the last surface found. Do not reintroduce it.
 
   Never state our fee as a *range* (it is flat within each geography tier). Never put a company-fee value into a cost-table row (that row stays the brand-tiered *range* above). These contexts must stay separate.
 
