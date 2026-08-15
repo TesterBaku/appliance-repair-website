@@ -208,15 +208,35 @@
   }
   </script>
 
-  <!-- SCHEMA: Reviews -->
+  <!-- SCHEMA: Reviews (ItemList, matching all 14 sibling brand hubs) -->
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "James Wehrman" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Professional, Fast, and fair priced. AG is great. Visited and fixed the problem on short notice.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
-  </script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Corinna Vickers" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Great fast & friendly service!!! Will definitely be my go to guy for any service or repairs!!!", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
-  </script>
-  <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Emily Bees" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG had a lot of insight into what was wrong with my fridge. He fixed it and also fixed my front door.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "James Wehrman" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Professional, Fast, and fair priced. AG is great. Visited and fixed the problem on short notice.",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Corinna Vickers" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Great fast & friendly service!!! Will definitely be my go to guy for any service or repairs!!!",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Emily Bees" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG had a lot of insight into what was wrong with my fridge. He fixed it and also fixed my front door.",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      }
+    ]
+  }
   </script>
 
   <!-- SCHEMA: FAQPage -->
