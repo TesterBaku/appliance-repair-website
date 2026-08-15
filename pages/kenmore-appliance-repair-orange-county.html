@@ -61,6 +61,12 @@
     .model-name { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 5px; }
     .model-desc { font-size: 12.5px; color: var(--text-sub); line-height: 1.6; }
 
+    /* ISSUES GRID */
+    .issues-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 32px; }
+    .issue-item { background: var(--surface); border-radius: 10px; padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
+    .issue-text { font-size: 13px; color: var(--text-soft); line-height: 1.55; }
+    .issue-text strong { color: var(--text-primary); display: block; margin-bottom: 2px; font-size: 13px; }
+
     /* PROCESS */
     .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
     .process-step { text-align: center; }
@@ -124,6 +130,7 @@
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
       .models-grid { grid-template-columns: 1fr; }
+      .issues-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .luxury-brands-grid { grid-template-columns: repeat(2, 1fr); }
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
@@ -627,8 +634,61 @@
     </div>
   </section>
 
-  <!-- WHO ACTUALLY MAKES YOUR KENMORE (approved explainer copy, verbatim) -->
+  <!-- WHAT ACTUALLY BREAKS ON A KENMORE -->
   <section class="section section-gray">
+    <div class="container-lg">
+      <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">What Actually Breaks on a Kenmore, and Why the Parts Differ</h2>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">The symptom is ordinary. What differs is which parts the repair needs, because that depends on who actually built the unit behind the Kenmore badge. These are the calls we get most often on Orange County Kenmores.</p>
+      <div class="issues-grid">
+
+        <div class="issue-item">
+          <span class="issue-text">
+            <strong>Refrigerator Not Cooling</strong>
+            A Kenmore fridge that runs but will not hold temperature usually comes down to a failed evaporator fan, a defrost system that has let the coils ice over, or a sealed-system fault. The symptom is the same whoever built it; the parts are not. We read the model prefix off the plate before we order anything, so the part that arrives is the one your unit actually takes.
+          </span>
+        </div>
+
+        <div class="issue-item">
+          <span class="issue-text">
+            <strong>Washer Will Not Drain or Spin</strong>
+            Clothes sitting in standing water at the end of a cycle points at a blocked drain pump, a failed lid switch or door lock, or a control fault that never advances the cycle. We clear and test the pump, confirm the lid or door circuit, and run a full cycle before we call it done rather than stopping at the first thing we find.
+          </span>
+        </div>
+
+        <div class="issue-item">
+          <span class="issue-text">
+            <strong>Dryer Not Heating</strong>
+            A Kenmore dryer that tumbles but blows cold has usually lost its heating element, thermal fuse, or thermostat, and a blocked vent is what killed the fuse in a good share of the cases we see. We check the vent run as part of the job, because replacing the fuse without clearing the restriction just books you a second visit.
+          </span>
+        </div>
+
+        <div class="issue-item">
+          <span class="issue-text">
+            <strong>Dishwasher Will Not Drain</strong>
+            Standing water in the bottom is normally a clogged drain pump, a blocked filter or sump, or a kinked drain hose behind the unit. We clear the blockage, confirm the pump moves water under load, and check the air gap and disposer connection under the sink, which is where the actual obstruction sits more often than people expect.
+          </span>
+        </div>
+
+        <div class="issue-item">
+          <span class="issue-text">
+            <strong>Oven Not Heating or Heating Unevenly</strong>
+            On a gas Kenmore this is usually a worn igniter that no longer draws enough current to open the gas valve. On an electric one it is more often a broken bake or broil element or a temperature sensor that has drifted. We meter the part rather than swapping it on a guess, so you are not paying for a component that was fine.
+          </span>
+        </div>
+
+        <div class="issue-item">
+          <span class="issue-text">
+            <strong>Ice Maker Not Producing</strong>
+            No ice, or a slow trickle, generally traces to a frozen fill tube, a failed water inlet valve, a clogged filter, or the ice maker module itself. We test the valve and the fill line before condemning the module, because the module is the expensive part and it is frequently not the one at fault.
+          </span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO ACTUALLY MAKES YOUR KENMORE (approved explainer copy, verbatim) -->
+  <section class="section section-white">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:16px;">Who Actually Makes Your Kenmore?</h2>
       <div class="explainer-wrap">
@@ -663,7 +723,7 @@
   </section>
 
   <!-- REPAIR PROCESS -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">From Call to Fixed: How a Kenmore Repair Works</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7;">Here is exactly what happens from your first call to a fully working Kenmore appliance.</p>
@@ -693,7 +753,7 @@
   </section>
 
   <!-- COST RANGES -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">Kenmore Repair Costs: What to Expect in Orange County</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7;">Because Kenmore appliances are built on mainstream manufacturer platforms, the parts are the same widely available ones those manufacturers stock for their own branded models. These are typical Orange County ranges, not quotes.</p>
@@ -743,7 +803,7 @@
   </section>
 
   <!-- FAQ -->
-  <section class="section section-white" id="faq">
+  <section class="section section-gray" id="faq">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">What Orange County Kenmore Owners Ask Us</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;line-height:1.7;">The most common questions from Kenmore owners across Irvine, Anaheim, Santa Ana, Huntington Beach, Costa Mesa, and surrounding Orange County cities.</p>
@@ -826,7 +886,7 @@
   </section>
 
   <!-- RELATED SERVICES -->
-    <section class="section section-gray">
+    <section class="section section-white">
       <div class="container-lg">
         <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">One Kenmore Home, Every Appliance Covered</h2>
         <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7;">A Kenmore kitchen or laundry room usually has more than one Kenmore appliance. One call handles your whole lineup, and we identify the real manufacturer behind each one before we quote.</p>
@@ -880,7 +940,7 @@
        NOTE ON BRAND MATCH: no review in the pool names Kenmore, so these three are
        deliberately the brand-neutral ones, pre-selected per testimonial-selection.md
        (photo-backed, within the 2-hub cap, balanced word count). -->
-  <section class="section section-white" style="text-align:center;">
+  <section class="section section-gray" style="text-align:center;">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">What Orange County Customers Say</h2>
       <p style="font-size:13.5px;color:var(--text-sub);margin-top:8px;">From our 115 verified 5-star Google reviews</p>
@@ -890,21 +950,21 @@
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Water leak problem. AG fixed. Thank you!"</p>
           <div class="t-initial" aria-hidden="true" style="background:#444444;">AE</div>
-          <div class="testimonial-name">Ahmed El Korashy &middot; Washer repair &middot; Orange County, CA</div>
+          <div class="testimonial-name">Ahmed El Korashy, Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"He fixed the washing machine 👍"</p>
           <div class="t-initial" aria-hidden="true" style="background:#444444;">G</div>
-          <div class="testimonial-name">George &middot; Appliance repair &middot; Orange County, CA</div>
+          <div class="testimonial-name">George, Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"New oven install. Great price. Thanks"</p>
           <div class="t-initial" aria-hidden="true" style="background:#444444;">MN</div>
-          <div class="testimonial-name">Muhammed Nusratli &middot; Oven installation &middot; Orange County, CA</div>
+          <div class="testimonial-name">Muhammed Nusratli, Orange County, CA</div>
         </div>
 
       </div>
@@ -915,7 +975,7 @@
   </section>
 
     <!-- CTA BOX -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container">
       <div class="cta-box">
         <h2>Need Kenmore Repair in Orange County?</h2>
