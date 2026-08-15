@@ -38,8 +38,10 @@ service is available in these cities when that schedule is open. The diagnostic 
 same $99 that applies across Los Angeles County.
 
 We also serve select Riverside County areas (Corona, Norco, Eastvale) and neighboring
-Chino and Chino Hills, on a next-available basis (not same-day). The Riverside diagnostic
-fee is $120 per visit, credited toward the repair if the customer proceeds.
+Chino and Chino Hills. We have a technician based in Riverside County, so same-day is
+available when that schedule is open, with next-available usually within a day or two.
+The Riverside diagnostic fee is $120 per visit, credited toward the repair if the customer
+proceeds.
 
 ## Repair Cost Guide
 
