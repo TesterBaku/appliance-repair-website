@@ -94,8 +94,25 @@
       "Pasadena, CA","Manhattan Beach, CA","Los Angeles County, CA",
       "Corona, CA","Norco, CA","Eastvale, CA","Chino, CA","Chino Hills, CA",
       "Riverside County, CA"
-    ]
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "115",
+      "bestRating": "5"
+    }
   }
+  </script>
+
+  <!-- SCHEMA: Reviews -->
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Frank Rokhideh" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG came same day when called and fixed my GE range.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Alexander Battaglia" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG was great. Incredible installation", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Muhammed Nusratli" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "New oven install. Great price. Thanks", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
   </script>
 
   <!-- SCHEMA: BreadcrumbList -->
@@ -870,7 +887,40 @@
     </div>
   </section>
 
-  <!-- Customer reviews omitted: the review pool is at capacity for this appliance category under the 2-hubs-per-review rule. Add 3 testimonials + AggregateRating when new oven/stove reviews are transcribed. See tasks/backlog.md L-1. -->
+  <!-- TESTIMONIALS -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Customers Say About Our Oven &amp; Stove Work</h2>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 115 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG came same day when called and fixed my GE range."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#1a0a02;">FR</div>
+          <div class="testimonial-name">Frank Rokhideh, GE Range Repair</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG was great. Incredible installation"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#3d1a08;">AB</div>
+          <div class="testimonial-name">Alexander Battaglia, KitchenAid Oven Installation</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"New oven install. Great price. Thanks"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MN</div>
+          <div class="testimonial-name">Muhammed Nusratli, Samsung Oven Installation</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:var(--brand-text);font-weight:500;text-decoration:none;">Read all 115 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="section section-white">

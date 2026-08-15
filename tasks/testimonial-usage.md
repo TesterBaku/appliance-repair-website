@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 100 |
-| On exactly 1 hub (1 free slot each) | 8 |
-| On exactly 2 hubs (at cap) | 88 |
+| Distinct reviews currently on >=1 hub | 104 |
+| On exactly 1 hub (1 free slot each) | 7 |
+| On exactly 2 hubs (at cap) | 93 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **8** |
+| **Free hub-slots available now** | **7** |
 | Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 8 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 7 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -41,13 +41,12 @@ not as violations to fix. No other review may exceed 2 hubs.
 
 | Review | On hub |
 |---|---|
-| Corinna Vickers | stanton |
-| Emily Bees | stanton |
-| Frank Rokhideh | ge-hub |
+| Alexander Battaglia | oven-repair-cost-hub |
+| Donna Barnett Corwin | dishwasher-repair-cost-hub |
+| Eleonora Abukova | dishwasher-repair-cost-hub |
 | George | miele-hub |
-| James Wehrman | stanton |
 | Laurie Summers | wolf-hub |
-| Reuben Johnson | samsung-hub |
+| Muhammed Nusratli | oven-repair-cost-hub |
 | Satara Armstrong Charlson | viking-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
@@ -64,6 +63,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Christian Dorn | los-alamitos, pico-rivera |
 | Cindy Montefu | santa-ana, dryer-repair-hub |
 | Clifford Wright | thermador-hub, wolf-hub |
+| Corinna Vickers | stanton, frigidaire-hub |
 | Craig Tudor | garden-grove, washer-repair-hub |
 | D Light | cost-hub, thermador-hub |
 | Dana McNeill | fountain-valley, rancho-santa-margarita |
@@ -75,13 +75,16 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Dena Fisher | buena-park, dryer-repair-hub |
 | Elizabeth Lovejoy | laguna-beach, oven-stove-repair-hub |
 | Elvin Mammadov | long-beach, wolf-hub |
+| Emily Bees | stanton, frigidaire-hub |
 | Emily Palmer | laguna-beach, freezer-repair-hub |
 | Erin Ponchak | laguna-niguel, yorba-linda |
 | Ernesto Ruiz | placentia, dryer-repair-hub |
+| Frank Rokhideh | ge-hub, oven-repair-cost-hub |
 | George Mendoza | garden-grove, oven-stove-repair-hub |
 | Gina Kim | los-alamitos, san-clemente |
 | Greg Schnabel | costa-mesa, miele-hub |
 | J. Feria | dana-point, rancho-santa-margarita |
+| James Wehrman | stanton, frigidaire-hub |
 | Jeff C | refrigerator-repair-cost-hub, sub-zero-hub |
 | Jeff Lane Songs | kitchenaid-hub, samsung-hub |
 | Jennifer Trette | costa-mesa, cypress |
@@ -118,6 +121,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Patricio Jr Villanueva | la-habra, washer-repair-hub |
 | Pawan Deepak | fountain-valley, placentia |
 | Raymond Olinger | garden-grove, samsung-hub |
+| Reuben Johnson | dishwasher-repair-cost-hub, samsung-hub |
 | Robert Clemmons | mission-viejo, dishwasher-repair-hub |
 | Roger Antonie | la-habra, oven-stove-repair-hub |
 | Russell Kadota | laguna-beach, washer-repair-hub |
