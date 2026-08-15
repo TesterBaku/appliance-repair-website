@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 104 |
-| On exactly 1 hub (1 free slot each) | 7 |
-| On exactly 2 hubs (at cap) | 93 |
+| Distinct reviews currently on >=1 hub | 105 |
+| On exactly 1 hub (1 free slot each) | 6 |
+| On exactly 2 hubs (at cap) | 95 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **7** |
+| **Free hub-slots available now** | **6** |
 | Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 7 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 6 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -41,12 +41,11 @@ not as violations to fix. No other review may exceed 2 hubs.
 
 | Review | On hub |
 |---|---|
+| Ahmed El Korashy | kenmore-hub |
 | Alexander Battaglia | oven-repair-cost-hub |
 | Donna Barnett Corwin | dishwasher-repair-cost-hub |
 | Eleonora Abukova | dishwasher-repair-cost-hub |
-| George | miele-hub |
 | Laurie Summers | wolf-hub |
-| Muhammed Nusratli | oven-repair-cost-hub |
 | Satara Armstrong Charlson | viking-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
@@ -80,6 +79,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Erin Ponchak | laguna-niguel, yorba-linda |
 | Ernesto Ruiz | placentia, dryer-repair-hub |
 | Frank Rokhideh | ge-hub, oven-repair-cost-hub |
+| George | kenmore-hub, miele-hub |
 | George Mendoza | garden-grove, oven-stove-repair-hub |
 | Gina Kim | los-alamitos, san-clemente |
 | Greg Schnabel | costa-mesa, miele-hub |
@@ -114,6 +114,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
 | Melissa | dryer-repair-cost-hub, whirlpool-hub |
 | Michele Ohanian | ge-hub, refrigerator-repair-cost-hub |
+| Muhammed Nusratli | kenmore-hub, oven-repair-cost-hub |
 | Naoki MacInnes | long-beach, wine-cooler-repair-hub |
 | Noelle B | san-clemente, yorba-linda |
 | Olga Garcia | lg-hub, maytag-hub |
