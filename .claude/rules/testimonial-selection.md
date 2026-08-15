@@ -151,7 +151,7 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 ## Display rules
 
 - Show reviewer name exactly as it appears in the pool's `name` field. Last-initial abbreviations (e.g., "Jennifer T." for "Jennifer Trette") are acceptable if the page already uses that style — otherwise use the full name.
-- Location label depends on the record's `source` field. **Google records (`source: "google"`):** Google does not expose reviewer city, so use `"Orange County, CA"` unless one of the two exceptions below applies. **Yelp records (`source: "yelp"`):** Yelp displays the reviewer's city directly — use the Yelp-displayed city verbatim (e.g., `"Dana Point, CA"`, `"Anaheim, CA"`).
+- Location label depends on the record's `source` field. **Google records (`source: "google"`):** Google does not expose reviewer city, so use `"Orange County, CA"` unless one of the two exceptions below applies, or unless the page is a hub outside Orange County, in which case the label is dropped entirely (see "Non-OC hubs omit the location label" at the end of this section). **Yelp records (`source: "yelp"`):** Yelp displays the reviewer's city directly — use the Yelp-displayed city verbatim (e.g., `"Dana Point, CA"`, `"Anaheim, CA"`).
 
   **Exception 1 — the review says so.** The reviewer's own **review text** explicitly names an **Orange County** city: any city on the Target Geography list in `seo-content.md`, plus **Stanton**, the business's own address, which is in Orange County but is absent from that list because the list exists for article city rotation, not for validating labels. Use that city. A city mentioned in passing that is not where the job happened ("we moved here from Riverside", "my sister in Fresno recommended you") does **not** qualify, and neither does anything read off the reviewer's profile.
 
@@ -172,6 +172,57 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 - Star rating: always render 5 stars (all transcribed pool reviews are verified 5-star Google reviews).
 - Light typo/grammar editing is allowed for reviews flagged `bodyHasTypos: true`. No paraphrasing or substantive rewording.
 - For Yelp records with a `previousBody` field, display only `body` (the current version). `previousBody` is reference-only.
+
+### Non-OC hubs omit the location label (owner decision, 2026-08-15)
+
+On hub pages outside Orange County — currently Long Beach and Pico Rivera (LA County) and Corona
+(Riverside County) — testimonial cards drop the location segment entirely. Render
+`Name · Job type` and stop. Do not write `Orange County, CA`, and do not substitute the hub's own
+city.
+
+**Why.** The review pool is overwhelmingly OC-sourced. Labelling honestly on a Long Beach page tells
+a Long Beach reader that nobody local has reviewed us, which defeats the purpose of the section;
+labelling with the hub's city would be a fabrication and is banned outright above. Dropping the
+segment is the only option that is neither misleading nor self-defeating: the reviews are real, they
+are about this company's work, and nothing on the card claims where the job happened. The owner
+judged the conversion value of showing real proof to outweigh the cost of omitting provenance.
+
+**One condition attaches, and it is not optional:**
+
+1. **The section heading must not localize the proof either.** A heading reading "What Orange County
+   & LA County Customers Say" re-asserts exactly the claim the card just dropped. Non-OC hubs use
+   the neutral "What Our Customers Say".
+
+**No speed-claim filter applies, and the reason is worth recording.** A draft of this rule carried a
+second condition barring reviews that mention how fast we arrived from Riverside hubs, on the premise
+that Riverside was next-available-only for want of a local technician. **The owner corrected that
+premise on 2026-08-15: there are local technicians in both LA County and Riverside County, and a
+call is either dispatched to one of them or covered by our own technician, so same-day is not
+off the table in either county.** The condition was removed rather than reworded, because with the
+premise gone there is nothing left for it to protect against. Do not reintroduce it, and do not
+"restore" it from the older wording still sitting in the gitignored plan files.
+
+**Scope: hub pages outside Orange County only.** OC hubs, `index.html` and `pages/testimonials.html`
+keep the `Orange County, CA` label. `Review` JSON-LD is unaffected; it never carried a location
+field.
+
+**The heading and any subtext under it are in scope too.** This rule governs everything the *page*
+asserts about where the proof comes from, not just the one line under the reviewer's name. When the
+labels came off the three non-OC hubs, the section heading and the small print directly beneath it
+both still read "Orange County", which re-made the claim the cards had just dropped. Check the whole
+section, not the card.
+
+**A reviewer's own words are never edited to comply with this.** Bodies are verbatim, and that rule
+outranks this one. Elvin Mammadov's quote on the Long Beach hub reads "The best company in Orange
+County", and it stays exactly as he wrote it. The distinction is real rather than convenient: this
+rule constrains what *we* assert about a reviewer's location, and says nothing about what the
+reviewer chose to say. If a verbatim quote naming a county is genuinely unwanted on a page, the
+remedy is to pick a different review, never to trim the quote.
+
+**Supersede when real local reviews arrive.** If a review is later confirmed to come from an LA
+County or Riverside County job under the job-photo corroborated attestation bar above, label that
+one card with its city on that hub. This subsection is a fallback for an OC-only pool, not a
+preference for anonymity.
 
 ## Schema requirements
 
