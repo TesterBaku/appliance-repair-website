@@ -355,11 +355,13 @@ These three files must exist at the root and return 200:
 
      **The fee is flat within each tier and never varies by brand.** LA County is a **single `$99` tier: one fee for every city and every brand in the county** (owner decision 2026-07-30). ❌ Never write a per-brand or per-LA-city fee split. A Sub-Zero in Beverly Hills, a Wolf range in Santa Monica, and a Whirlpool washer in Long Beach are all **`$99`**.
 
-     Note this is separate from **service scope**: the four premium cities are marketed for premium brands only (`pages/luxury-appliance-repair-los-angeles-ca.html`). **Scheduling does NOT differ** — a technician is based in LA, so same-day is available there when that schedule is open, with next-available (usually within a day or two) as the honest fallback. Brand scope is the only thing that makes those four cities different: not the fee, not the scheduling. **Only Riverside County is next-available-only**, because it has no local technician.
+     Note this is separate from **service scope**: the four premium cities are marketed for premium brands only (`pages/luxury-appliance-repair-los-angeles-ca.html`). **Scheduling does NOT differ** — a technician is based in LA, so same-day is available there when that schedule is open, with next-available (usually within a day or two) as the honest fallback. Brand scope is the only thing that makes those four cities different: not the fee, not the scheduling. **No county is next-available-only.** Technicians are based in Los Angeles County and in Riverside County as well as Orange County, so same-day is available in all three whenever that technician's schedule is still open, with next-available (usually within a day or two) as the honest fallback. Never write that Riverside cannot do same-day, and never justify a scheduling limit by the length of the drive.
 
      The `$120` Riverside tier is **intentional** (do NOT reconcile it down to `$99`): it (a) makes the longer Riverside drive economically worthwhile / funds a dedicated Riverside technician, and (b) filters out low-budget jobs that aren't profitable at that distance.
 
      **History:** a `$150` LA-premium tier was specified on 2026-07-30 and reversed by the owner the same day, before it ever shipped to production. Do not reintroduce it.
+
+     **History:** until 2026-08-15 this rule said Riverside County was next-available-only "because it has no local technician". The owner corrected that on 2026-08-15: there are local technicians in both LA County and Riverside County, and a job is either dispatched to one of them or covered by our own technician. The old claim shipped on the Corona hub, the Service Areas page and llms.txt and was removed in the same pass. Do not reintroduce it.
 
   Never state our fee as a *range* (it is flat within each geography tier). Never put a company-fee value into a cost-table row (that row stays the brand-tiered *range* above). These contexts must stay separate.
 
