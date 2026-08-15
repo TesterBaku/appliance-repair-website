@@ -13,7 +13,7 @@ counts, free slots, and any review on >2 hubs.
 
 Usage: python audit-testimonial-hub-usage-2026-06-10.py [--emit-tracker]
 """
-import glob, re, json, sys, os
+import glob, re, json, sys, os, datetime
 
 ROOT = os.getcwd()
 
@@ -136,7 +136,7 @@ if "--emit-tracker" in sys.argv:
     L = []
     L.append("# Testimonial Hub-Usage Tracker")
     L.append("")
-    L.append("> **Auto-generated from live HTML on 2026-06-10** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`")
+    L.append("> **Auto-generated from live HTML on %s** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`" % datetime.date.today().isoformat())
     L.append("> (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —")
     L.append("> re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)")
     L.append("> after any hub testimonial change so this stays ground-truth, not a drifted hand-log.")
