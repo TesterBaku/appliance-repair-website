@@ -94,8 +94,25 @@
       "Pasadena, CA","Manhattan Beach, CA","Los Angeles County, CA",
       "Corona, CA","Norco, CA","Eastvale, CA","Chino, CA","Chino Hills, CA",
       "Riverside County, CA"
-    ]
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "115",
+      "bestRating": "5"
+    }
   }
+  </script>
+
+  <!-- SCHEMA: Reviews -->
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Donna Barnett Corwin" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG did a great job in quickly repairing our freezer.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Eleonora Abukova" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Our refrigerator KitchenAid ice maker not working. AG fixed same day. Recommend+++++", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
+  </script>
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "Review", "author": { "@type": "Person", "name": "Reuben Johnson" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG fixed my Samsung dryer with no problem at all! Very efficient and friendly!", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
   </script>
 
   <!-- SCHEMA: BreadcrumbList -->
@@ -870,7 +887,48 @@
     </div>
   </section>
 
-  <!-- Customer reviews omitted: the review pool is at capacity for this appliance category under the 2-hubs-per-review rule. Add 3 testimonials + AggregateRating when new dishwasher reviews are transcribed. See tasks/backlog.md L-1. -->
+  <!-- TESTIMONIALS.
+       NOTE ON APPLIANCE MATCH: none of these three is a dishwasher review, and that is
+       deliberate rather than careless. As of 2026-08-15 the pool holds exactly one free
+       dishwasher-tagged record (George), and its visible body reads "He fixed the washing
+       machine" - the dishwasher tag comes only from its attached photo, which hub cards do
+       not display. Showing that quote here would put the words "washing machine" on a
+       dishwasher page with nothing on screen to explain it. Per testimonial-selection.md
+       ("If the pool cannot supply enough reviews"), the appliance filter is relaxed instead.
+       Swap in real dishwasher reviews when they are transcribed. -->
+  <section class="section section-gray" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Customers Say About Our Service</h2>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 115 verified 5-star Google reviews</p>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG did a great job in quickly repairing our freezer."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#1a0a02;">DC</div>
+          <div class="testimonial-name">Donna Barnett Corwin, KitchenAid Freezer Repair</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Our refrigerator KitchenAid ice maker not working. AG fixed same day. Recommend+++++"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#3d1a08;">EA</div>
+          <div class="testimonial-name">Eleonora Abukova, KitchenAid Refrigerator Repair</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG fixed my Samsung dryer with no problem at all! Very efficient and friendly!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#90500c;">RJ</div>
+          <div class="testimonial-name">Reuben Johnson, Samsung Dryer Repair</div>
+        </div>
+
+      </div>
+      <div style="margin-top:24px;">
+        <a href="testimonials.html" style="font-size:13px;color:var(--brand-text);font-weight:500;text-decoration:none;">Read all 115 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="section section-white">
