@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * sync-review-counts.js — derive every site-wide Google-review COUNT surface from
+ * sync-review-counts.js: derive every site-wide Google-review COUNT surface from
  * data/testimonials.json so they can never drift the way they did for ~65 files at a
  * time before this existed (see the "why" section of
  * tasks/plan-2026-08-15-weekly-review-batch-cadence.md).
@@ -10,13 +10,13 @@
  * counters under `_meta.sources.google`, added by the weekly review-batch cadence plan
  * so daily capture and weekly publishing can move independently:
  *
- *   - `totalReviewsOnListing` — the live GBP listing total. Free to move daily as
+ *   - `totalReviewsOnListing`: the live GBP listing total. Free to move daily as
  *     reviews are captured. May move DOWN if Google filters a review.
- *   - `publishedCount`        — what the website currently claims. Moves ONLY during a
+ *   - `publishedCount`: what the website currently claims. Moves ONLY during a
  *     weekly publish batch (via `--publish`, below). This is the number every surface
  *     in this file must equal, and what `test/content-integrity.js`'s `review-count`
  *     check validates against.
- *   - `capturedCount`         — how many reviews are transcribed into the pool.
+ *   - `capturedCount`: how many reviews are transcribed into the pool.
  *     Internal only, never rendered on any page.
  *
  * Using `capturedCount` here would write a value that fails `review-count` whenever it
@@ -40,11 +40,11 @@
  * counts DISPLAYED CARDS on the curated page, not the GBP total, and is enforced
  * separately by the `testimonial-pill-count` check in test/content-integrity.js. This
  * script asserts on every run (see assertPillsUnchanged below) that no "All (N)" pill
- * substring anywhere in the site was touched — a hard failure, not just a lint warning,
+ * substring anywhere in the site was touched: a hard failure, not just a lint warning,
  * because a syncer silently touching the wrong count is exactly the failure mode this
  * whole script exists to prevent.
  *
- * IMPORTANT — pages/testimonials.html is otherwise hand-maintained (see AGENTS.md
+ * IMPORTANT: pages/testimonials.html is otherwise hand-maintained (see AGENTS.md
  * "Data" and the retirement note below): the displayed review CARDS are a hand-curated
  * subset (the JSON pool is a superset of what is shown), with per-card review photos,
  * ordering, and copy that are not derivable from the JSON alone; the nav (including the
@@ -53,22 +53,22 @@
  * rendered an outdated design and silently dropped the dropdown JS and the
  * review-photo images on quote cards, so it was retired (2026-05-31) in favor of this
  * surgical count-syncer, which was itself extended site-wide (2026-08-15) as part of
- * the weekly review-batch cadence plan — previously it rewrote only
+ * the weekly review-batch cadence plan. Previously it rewrote only
  * pages/testimonials.html, leaving ~65 other pages carrying the same surfaces to be
  * updated by hand or ad-hoc sed on every pass.
  *
  * Usage:
- *   node scripts/build/sync-review-counts.js            # rewrite (apply) — idempotent
- *   node scripts/build/sync-review-counts.js --check     # verify only (exit 1 on drift)
- *                                                          — used by `npm test`
+ *   node scripts/build/sync-review-counts.js            # rewrite (apply), idempotent
+ *   node scripts/build/sync-review-counts.js --check     # verify only (exit 1 on drift),
+ *                                                          used by `npm test`
  *   node scripts/build/sync-review-counts.js --publish   # weekly Track B promotion step:
  *                                                          sets publishedCount =
  *                                                          totalReviewsOnListing (warns
  *                                                          loudly on a decrease, but
- *                                                          allows it — Google can filter
- *                                                          reviews and the site must
- *                                                          follow the listing down), then
- *                                                          performs the full sync.
+ *                                                          allows it, since Google can
+ *                                                          filter reviews and the site
+ *                                                          must follow the listing down),
+ *                                                          then performs the full sync.
  */
 'use strict';
 
@@ -120,7 +120,7 @@ const SURFACES = [
   },
 ];
 
-// The "All (N)" pill counts DISPLAYED CARDS, not the GBP total — it must never move as
+// The "All (N)" pill counts DISPLAYED CARDS, not the GBP total: it must never move as
 // a side effect of this script. This is the regression guard called out in the plan.
 const PILL_REGEX = /All \(\d+\)/g;
 
@@ -133,7 +133,7 @@ function assertPillsUnchanged(filePath, before, after) {
   const afterPills = extractPills(after);
   if (JSON.stringify(beforePills) !== JSON.stringify(afterPills)) {
     throw new Error(
-      `sync-review-counts: REGRESSION — the "All (N)" filter pill in ${path.relative(repoRoot, filePath)} ` +
+      `sync-review-counts: REGRESSION - the "All (N)" filter pill in ${path.relative(repoRoot, filePath)} ` +
       `changed from ${JSON.stringify(beforePills)} to ${JSON.stringify(afterPills)}. That pill counts displayed ` +
       `cards, not the GBP total, and must never be touched by this script. Aborting without writing anything.`
     );
@@ -230,7 +230,7 @@ function main() {
       console.error(`sync-review-counts --check: stale review counts on ${driftByFile.length} file(s) (expected publishedCount=${N}):`);
       for (const { file, drift } of driftByFile) {
         for (const d of drift) {
-          console.error(`  - ${file} — ${d.surface}: found "${d.found}", expected "${N}"`);
+          console.error(`  - ${file}: ${d.surface} - found "${d.found}", expected "${N}"`);
         }
       }
       console.error('Run `npm run build:review-counts` and commit the result.');

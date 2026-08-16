@@ -94,7 +94,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 
 ```bash
 npm start                  # Serve locally at http://localhost:3000 (via npx serve .)
-npm test                   # Link check + HTML integrity + content integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check
+npm test                   # Link check + HTML integrity + content integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check + review-count drift check
 npm run test:functional    # Playwright functional suite (auto-starts a server on :8788 via test/serve.js)
 npm run screenshot         # Playwright batch screenshots
 npm run test:all           # All of the above in one shot
@@ -104,7 +104,8 @@ npm run build:site-js      # Re-run the interaction-JS extraction (run after edi
 npm run build:search       # Regenerate the Pagefind blog search index (run after adding/removing/renaming an article)
 npm run build:blog-counts  # Sync blog article-count surfaces (search placeholder, category pills, "N <Cat> Articles" headers) to the live card counts
 npm run build:article-bylines # Sync each article's visible "Originally published … Updated <Month Year>" hero byline to its own JSON-LD dates
-npm run sync:testimonials  # Sync the GBP review-count surfaces from data/testimonials.json
+npm run build:review-counts # Sync every site-wide Google review-count surface (AggregateRating, hero-rating copy + aria-label, "N verified 5-star" prose, "Read all N reviews", the testimonials-page stat) to data/testimonials.json's publishedCount
+npm run sync:testimonials  # Alias for build:review-counts, kept for backward compatibility (this is the command documented historically for this purpose)
 ```
 
 `npm test` runs against the static files and does NOT spin up a server. `npm run test:functional` auto-starts a server on port 8788. To run a single Playwright spec or a filtered subset:
@@ -136,7 +137,9 @@ Hub pages share the same section structure: hero → trust bar → services → 
 
 ### Data
 
-`data/testimonials.json` is the canonical source for all customer review TEXT. Never write review body text from scratch in HTML; always copy it verbatim from this file. `pages/testimonials.html` is **hand-maintained, not generated**: the displayed review cards are a curated subset of the JSON pool (with per-card review photos and ordering not derivable from the JSON), so add or edit cards directly. Run `npm run sync:testimonials` (`scripts/sync-testimonials-count.js`) to sync only the GBP review-count surfaces (AggregateRating + count copy + stat) from the JSON. (The former `build-testimonials-html.js` generator was retired on 2026-05-31: it rendered an outdated page design and silently dropped the dropdown-nav JS and the review-photo images on quote cards.)
+`data/testimonials.json` is the canonical source for all customer review TEXT. Never write review body text from scratch in HTML; always copy it verbatim from this file. `pages/testimonials.html` is **hand-maintained, not generated**: the displayed review cards are a curated subset of the JSON pool (with per-card review photos and ordering not derivable from the JSON), so add or edit cards directly. Run `npm run build:review-counts` (`scripts/build/sync-review-counts.js`; `npm run sync:testimonials` is an alias) to sync every site-wide GBP review-count surface (AggregateRating, hero-rating copy + aria-label, "N verified 5-star" prose including the testimonials-page meta/OG/Twitter descriptions, "Read all N reviews", and the testimonials-page stat) from `data/testimonials.json`'s `_meta.sources.google.publishedCount`. (The former `build-testimonials-html.js` generator was retired on 2026-05-31: it rendered an outdated page design and silently dropped the dropdown-nav JS and the review-photo images on quote cards.)
+
+`_meta.sources.google` on that file carries three distinct review counters, split 2026-08-15 by the weekly review-batch cadence (`tasks/plan-2026-08-15-weekly-review-batch-cadence.md`, gitignored): `totalReviewsOnListing` is the live GBP listing total, free to move daily as new reviews are captured, and may move DOWN if Google filters one; `publishedCount` is what the site currently claims, and moves only during a weekly publish batch (`npm run build:review-counts -- --publish` sets it to `totalReviewsOnListing`, warning loudly on any decrease); `capturedCount` is how many reviews are transcribed into the pool, internal only, never rendered. The `review-count` check in `test/content-integrity.js` validates every page's `reviewCount` against `publishedCount` and asserts `publishedCount <= totalReviewsOnListing`, so the site can never claim more reviews than the live listing shows. This closes the gap several `captureHistory` notes flagged: before this split, the sync script only rewrote `pages/testimonials.html`, leaving roughly 65 other pages carrying the same surfaces to be updated by hand or ad-hoc `sed` on every pass.
 
 ### Shared chrome (partials)
 
@@ -152,10 +155,10 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 
 ### Scripts
 
-- `scripts/` — active automation: `build-sitemap.js`, `add-seo-improvements.js` (quarterly-audit SEO fixer), `sync-testimonials-count.js`, `add-hero-preload.mjs`, `add-nav-link.js`, `add-article-hamburger.js`, image/favicon helpers. Run these explicitly; none are wired to pre-commit hooks.
-- `scripts/build/` — build-time injectors and derived-surface syncers (`inject-partials.js` for footer/nav; `inject-site-js.js` for the interaction-JS extraction; `sync-blog-counts.js` for blog counts; `sync-article-bylines.js` for article hero bylines).
+- `scripts/` — active automation: `build-sitemap.js`, `add-seo-improvements.js` (quarterly-audit SEO fixer), `add-hero-preload.mjs`, `add-nav-link.js`, `add-article-hamburger.js`, image/favicon helpers. Run these explicitly; none are wired to pre-commit hooks. (`sync-testimonials-count.js` moved to `scripts/build/sync-review-counts.js` 2026-08-15, alongside the other derived-surface syncers, when it was extended site-wide.)
+- `scripts/build/` — build-time injectors and derived-surface syncers (`inject-partials.js` for footer/nav; `inject-site-js.js` for the interaction-JS extraction; `sync-blog-counts.js` for blog counts; `sync-article-bylines.js` for article hero bylines; `sync-review-counts.js` for every site-wide Google review-count surface, with `--check` and `--publish` modes).
 - `scripts/oneoff/` — historical, already-run one-off scripts, kept for provenance (see its README). None are npm-wired.
-- `test/` — the four `npm test` checks (`links.js`, `html-integrity.js`, `content-integrity.js`, `css-vars.js`) plus `faq-parity-baseline.json`, the Playwright screenshot runner (`screenshot.js`), the Playwright functional spec (`functional.spec.js`), and the static server (`serve.js`) the functional suite auto-starts on :8788. `npm test` additionally runs the four `scripts/build/*.js --check` drift guards listed above.
+- `test/` — the four `npm test` checks (`links.js`, `html-integrity.js`, `content-integrity.js`, `css-vars.js`) plus `faq-parity-baseline.json`, the Playwright screenshot runner (`screenshot.js`), the Playwright functional spec (`functional.spec.js`), and the static server (`serve.js`) the functional suite auto-starts on :8788. `npm test` additionally runs the five `scripts/build/*.js --check` drift guards listed above (`inject-partials`, `inject-site-js`, `sync-blog-counts`, `sync-article-bylines`, `sync-review-counts`), plus `check-agents.js --check` (documented separately below).
 
 ## Critical technical patterns
 
