@@ -14,12 +14,14 @@ const path = require('path');
 const DESKTOP = { width: 1440, height: 900 };
 const MOBILE  = { width: 375,  height: 812 };
 
-// Canonical AggregateRating.reviewCount — mirrors the public GBP listing total.
-// Read from the data file so this never goes stale on a review-count bump
-// (matches the content-integrity "review-count" check).
+// Canonical AggregateRating.reviewCount — mirrors what the site currently claims
+// (publishedCount), NOT the live GBP listing total (totalReviewsOnListing), which
+// can move ahead of it between weekly publish batches. Read from the data file so
+// this never goes stale on a review-count bump (matches the content-integrity
+// "review-count" check).
 const EXPECTED_REVIEW_COUNT = String(
   JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'testimonials.json'), 'utf8'))
-    ._meta.sources.google.totalReviewsOnListing
+    ._meta.sources.google.publishedCount
 );
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
