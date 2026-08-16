@@ -208,7 +208,7 @@ Use the schema templates in `rules/seo-content.md` as the source of truth — co
    - Apply the ≤2-overlap rule against `tasks/testimonial-usage.md` before picking
    - Prefer reviews that mention specific brands
    - Render visible HTML cards + individual `Review` JSON-LD entries for each
-   - Add `AggregateRating` JSON-LD (`ratingValue: 5.0`, `reviewCount: 82`)
+   - Add `AggregateRating` JSON-LD (`ratingValue: 5.0`, `reviewCount` = the live value of `data/testimonials.json` `_meta.sources.google.publishedCount` — read the field, never copy a number out of this file). `publishedCount` is what the site currently claims; it is promoted from the GBP listing total (`totalReviewsOnListing`) only during a weekly publish batch. The `content-integrity` "review-count" check validates every page against `publishedCount`, so a hardcoded number will fail `npm test`.
    - After the hub ships, update `tasks/testimonial-usage.md` with the reviews used
    - **Never** fabricate testimonials. If the pool can't supply 3 qualifying reviews, render fewer and note the shortfall in the PR description.
    - **Standard count is 3.** This is the canonical supply-sustainable default across all secondary city hubs.
