@@ -6,15 +6,30 @@
  * shipped before it was added:
  *
  *   review-count   — every page with `AggregateRating.reviewCount` must match
- *                    `data/testimonials.json` `_meta.sources.google.totalReviewsOnListing`
- *                    (the public GBP listing total the schema mirrors). This is
- *                    distinct from `capturedCount`, which tracks how many reviews
- *                    we've transcribed into the pool; the two diverge whenever the
- *                    listing gains a review we haven't captured yet (currently 84
- *                    on the listing vs 83 transcribed). AggregateRating is a public
- *                    claim about the listing, so it tracks the listing total.
- *                    Added 2026-05-21 after PRs #374–377 spent 4 commits
- *                    reconciling 5 different count values across 32 files.
+ *                    `data/testimonials.json` `_meta.sources.google.publishedCount`
+ *                    (what the site currently claims). There are three counters
+ *                    under `_meta.sources.google`, split 2026-08-15 by the weekly
+ *                    review-batch cadence plan so daily capture and weekly
+ *                    publishing can move independently:
+ *                      - `totalReviewsOnListing` — the live GBP listing total,
+ *                        free to move daily as reviews are captured, and may move
+ *                        DOWN if Google filters a review.
+ *                      - `publishedCount` — what the website currently claims.
+ *                        Moves only during a weekly publish batch. This is what
+ *                        `AggregateRating.reviewCount` and every visible count
+ *                        surface must equal, and what this check validates against.
+ *                      - `capturedCount` — how many reviews are transcribed into
+ *                        the pool. Internal only, never rendered on any page.
+ *                    This check also asserts `publishedCount <= totalReviewsOnListing`
+ *                    (the site must never claim more reviews than the live listing
+ *                    shows) and that `publishedCount` is present and a positive
+ *                    integer (a missing field fails loudly, not silently).
+ *                    Before the split, this check compared against
+ *                    `totalReviewsOnListing` directly, which meant a daily capture
+ *                    bump (before that week's publish batch ran) would fail CI on
+ *                    every branch for up to six days. Added 2026-05-21 after PRs
+ *                    #374–377 spent 4 commits reconciling 5 different count values
+ *                    across 32 files; split into `publishedCount` 2026-08-15.
  *
  *   testimonial-pill-count — the "All (N)" filter pill on pages/testimonials.html must equal
  *                    the number of `.t-card` elements rendered in #reviews-grid. This is a
@@ -251,7 +266,25 @@ function run(check) { return mode === 'all' || mode === check; }
 // ── Check 1: review-count ─────────────────────────────────────────────────────
 if (run('review-count')) {
   const json = JSON.parse(fs.readFileSync(path.join(root, 'data', 'testimonials.json'), 'utf8'));
-  const expectedCount = String(json._meta.sources.google.totalReviewsOnListing);
+  const google = json._meta.sources.google;
+  const publishedCount = google.publishedCount;
+  const totalReviewsOnListing = google.totalReviewsOnListing;
+
+  // Guard: publishedCount must be present and a positive integer. A missing field
+  // must fail loudly — silently falling back to undefined/NaN would let every page
+  // pass with "reviewCount": "NaN" style corruption unnoticed.
+  if (!Number.isInteger(publishedCount) || publishedCount <= 0) {
+    issues.push(`[REVIEW-COUNT] data/testimonials.json _meta.sources.google.publishedCount is missing or not a positive integer (got: ${JSON.stringify(publishedCount)}). This field drives every visible review-count surface site-wide and must be set explicitly.`);
+  }
+
+  // Guard: the site must never claim more reviews than the live GBP listing shows.
+  // Publishing ahead of the listing is the one failure mode this whole cadence
+  // exists to prevent (see the May 2026 GBP content-policy flag).
+  if (Number.isInteger(publishedCount) && Number.isInteger(totalReviewsOnListing) && publishedCount > totalReviewsOnListing) {
+    issues.push(`[REVIEW-COUNT] data/testimonials.json publishedCount (${publishedCount}) exceeds totalReviewsOnListing (${totalReviewsOnListing}) — the site would be claiming more reviews than the live GBP listing shows.`);
+  }
+
+  const expectedCount = String(publishedCount);
   checked['review-count'] = { expected: expectedCount, files: 0 };
 
   for (const filePath of allHtml) {
@@ -262,7 +295,7 @@ if (run('review-count')) {
     checked['review-count'].files++;
     for (const m of matches) {
       if (m[1] !== expectedCount) {
-        issues.push(`[REVIEW-COUNT] ${rel(filePath)} — has "reviewCount": "${m[1]}" but data/testimonials.json says ${expectedCount}`);
+        issues.push(`[REVIEW-COUNT] ${rel(filePath)} — has "reviewCount": "${m[1]}" but data/testimonials.json publishedCount says ${expectedCount}`);
       }
     }
   }
