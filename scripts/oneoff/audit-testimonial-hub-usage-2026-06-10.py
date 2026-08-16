@@ -71,6 +71,7 @@ pages = glob.glob("index.html") + glob.glob("pages/*.html")
 hub_usage = {}      # review-name -> set of hub files
 nonhub_pages = {}   # for context
 unmapped = set()
+case_variants = set()
 for f in pages:
     html = open(f, encoding="utf-8").read()
     names = review_names_in(html)
@@ -78,8 +79,16 @@ for f in pages:
         continue
     hub = is_hub(f)
     for nm in names:
-        if nm not in name_to_ids:
+        # Compare against the canonical (case-folded) map, not the raw pool key.
+        # Comparing raw made every Title-Cased display name whose pool record was
+        # captured lowercase ("Andrea Hall" vs "andrea hall") look like a missing
+        # source record, which is a false alarm: canonical() already folds them to
+        # one person for hub counting. Only a name absent from the pool entirely is
+        # a real finding; case differences are reported separately as data hygiene.
+        if nm.lower() not in canon:
             unmapped.add((nm, f.replace(os.sep, "/")))
+        elif nm not in name_to_ids:
+            case_variants.add((nm, canon[nm.lower()]))
         if hub:
             hub_usage.setdefault(canonical(nm), set()).add(f.replace(os.sep, "/"))
 
@@ -115,9 +124,13 @@ print("OVER CAP (>2 hubs) — should be exactly the 4 grandfathered exceptions:"
 for nm, c, hubs in over:
     print("  %-22s %d hubs: %s" % (nm, c, ", ".join(h.split("/")[-1] for h in hubs)))
 if unmapped:
-    print("\nUNMAPPED displayed names (not found in pool by exact name):")
+    print("\nUNMAPPED displayed names (no pool record under any casing) — REAL finding:")
     for nm, f in sorted(unmapped):
         print("  %r on %s" % (nm, f.split("/")[-1]))
+if case_variants:
+    print("\nCase variants (matched and counted correctly; pool casing differs) — informational:")
+    for shown, pooled in sorted(case_variants):
+        print("  displayed %r -> pool %r" % (shown, pooled))
 
 if "--list" in sys.argv:
     print("\n=== Per-review hub usage ===")
