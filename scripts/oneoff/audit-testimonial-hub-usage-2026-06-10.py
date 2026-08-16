@@ -85,6 +85,11 @@ for f in pages:
         # source record, which is a false alarm: canonical() already folds them to
         # one person for hub counting. Only a name absent from the pool entirely is
         # a real finding; case differences are reported separately as data hygiene.
+        # Known limit (pre-existing, inherited from how canon is built): canon keeps
+        # only the LAST pool record per lowercased name, so two genuinely different
+        # reviewers colliding on case would let a fabricated one be classed a case
+        # variant. Zero such collisions in the pool today; this check matches on the
+        # name only and never on review body, before or after this change.
         if nm.lower() not in canon:
             unmapped.add((nm, f.replace(os.sep, "/")))
         elif nm not in name_to_ids:
@@ -124,11 +129,11 @@ print("OVER CAP (>2 hubs) — should be exactly the 4 grandfathered exceptions:"
 for nm, c, hubs in over:
     print("  %-22s %d hubs: %s" % (nm, c, ", ".join(h.split("/")[-1] for h in hubs)))
 if unmapped:
-    print("\nUNMAPPED displayed names (no pool record under any casing) — REAL finding:")
+    print("\nREAL FINDING. Displayed names with no pool record under any casing:")
     for nm, f in sorted(unmapped):
         print("  %r on %s" % (nm, f.split("/")[-1]))
 if case_variants:
-    print("\nCase variants (matched and counted correctly; pool casing differs) — informational:")
+    print("\nInformational. Case variants (matched and counted correctly; pool casing differs):")
     for shown, pooled in sorted(case_variants):
         print("  displayed %r -> pool %r" % (shown, pooled))
 
