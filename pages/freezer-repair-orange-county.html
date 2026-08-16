@@ -85,9 +85,13 @@
        The arrow glyph is decorative only: the "/ ''" alt-text syntax below strips it from the
        link's accessible name so screen readers announce just the brand name, not "Sub-Zero,
        right arrow" (an <a> is already announced as a link by role, so the glyph adds noise, not
-       information, for assistive tech). Verified via Playwright accessibility snapshot, PR #741. */
+       information, for assistive tech). Verified via Playwright accessibility snapshot, PR #741.
+       The plain content declaration above it is a fallback: a browser that rejects the "/" alt-text
+       grammar drops that whole declaration and falls through to the plain one, so the arrow still
+       renders (announced, the lesser evil) instead of vanishing outright; a supporting browser
+       applies both and the second (decorative) declaration wins. */
     a.brand-pill { cursor: pointer; }
-    a.brand-pill::after { content: "\2192" / ""; margin-left: 6px; color: var(--brand-text); font-weight: 700; }
+    a.brand-pill::after { content: "\2192"; content: "\2192" / ""; margin-left: 6px; color: var(--brand-text); font-weight: 700; }
     a.brand-pill:hover { background: #f7fafc; }
     a.brand-pill.premium:hover { background: #fff5f2; }
     span.brand-pill { cursor: default; }
@@ -674,7 +678,7 @@
   <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Freezer Brands We Service</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:600px;text-align:center;margin-left:auto;margin-right:auto;">All major brands serviced. We make no claim of factory authorization unless stated. If your unit is under manufacturer warranty, verify with the manufacturer before booking. Brand names with an arrow link to a dedicated page. The rest don't yet, but we service them too, so call if yours isn't linked.</p>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:600px;text-align:center;margin-left:auto;margin-right:auto;">All major brands serviced. We make no claim of factory authorization unless stated. If your unit is under manufacturer warranty, verify with the manufacturer before booking. Some brand names below link to a dedicated page. The rest don't yet, but we service them too, so call if yours isn't linked.</p>
       <div class="brands-group">
         <div class="brands-group-label">Premium &amp; Built-In</div>
         <div class="brands-list">
