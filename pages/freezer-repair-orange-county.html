@@ -69,8 +69,8 @@
     .brand-pill { background: var(--surface); border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: var(--text-soft); text-decoration: none; display: inline-block; }
     .brand-pill.premium { border: 1.5px solid #c03a14; color: var(--text-primary); }
     /* Linked chips (real hub page exists) carry a trailing arrow, this site's established
-       "leads somewhere" affordance (matches the "Read all 116 reviews (arrow)" link and the
-       cost-guide list arrows elsewhere on this page, both var(--brand-text) on a light bg).
+       "leads somewhere" affordance (matches the "Read all N reviews" link and the cost-guide
+       list arrows elsewhere on this page, both var(--brand-text) on a light bg).
        Unlinked chips (no hub page yet) deliberately stay at the SAME resting brightness/text
        color as linked ones (both tiers, including .premium here applying identically to a and
        span so there's no specificity fight to override) instead of being muted/grayed: an
@@ -81,9 +81,13 @@
        Adding the affordance to the links instead of subtracting it from the non-links avoids
        that risk while still being distinguishable at rest (no hover dependency). Premium border
        stays identical across both link states on purpose: it signals "premium brand tier", a
-       fact independent of whether a hub page exists, not "clickable". */
+       fact independent of whether a hub page exists, not "clickable".
+       The arrow glyph is decorative only: the "/ ''" alt-text syntax below strips it from the
+       link's accessible name so screen readers announce just the brand name, not "Sub-Zero,
+       right arrow" (an <a> is already announced as a link by role, so the glyph adds noise, not
+       information, for assistive tech). Verified via Playwright accessibility snapshot, PR #741. */
     a.brand-pill { cursor: pointer; }
-    a.brand-pill::after { content: "\2192"; margin-left: 6px; color: var(--brand-text); font-weight: 700; }
+    a.brand-pill::after { content: "\2192" / ""; margin-left: 6px; color: var(--brand-text); font-weight: 700; }
     a.brand-pill:hover { background: #f7fafc; }
     a.brand-pill.premium:hover { background: #fff5f2; }
     span.brand-pill { cursor: default; }
