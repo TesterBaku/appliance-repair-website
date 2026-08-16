@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-one enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -210,6 +210,54 @@
  *                    nowhere. The equality half matters as much as the format half:
  *                    a transposed digit is well-formed and still wrong.
  *
+ *   umbrella-range : inside a single FAQ answer or a single AI-answer-block
+ *                    paragraph, a "governing" summary range ("Most washer repairs
+ *                    run between $120 and $450") must actually bound the CEILING of
+ *                    every other dollar range itemized in that same block. A
+ *                    sub-item range whose top exceeds the stated umbrella ("a
+ *                    control board reaches $230 to $490 ... and a transmission job
+ *                    runs $400 to $800") gives the reader two different answers
+ *                    from one paragraph. Added 2026-08-16 (branch
+ *                    fix/cost-hub-price-contradictions) after this exact
+ *                    contradiction was found live on 11 cost-hub FAQ/AI-answer
+ *                    blocks and hand-fixed.
+ *                    SCOPE, deliberately narrow: only FAQPage JSON-LD answer text
+ *                    and `.ai-block p` prose are scanned (matching the defect
+ *                    class, not every dollar figure on the page). The governing
+ *                    range must be the first dollar range in the block, verb-
+ *                    anchored (run/runs/land/lands/fall/falls/cost/costs, optional
+ *                    "between", then a range), the ONLY range in its own sentence
+ *                    (not a "$A for X, $B for Y" parallel list), and its subject
+ *                    must name "repair(s)" within the first 40 characters (the
+ *                    true grammatical subject, not a trailing aside on one named
+ *                    part). Only the upper bound is enforced: a sub-item priced
+ *                    below the governing floor is a typical/median statement
+ *                    admitting a cheaper outlier, not the "reader gets two
+ *                    ceilings" contradiction this check targets. A known,
+ *                    documented gap remains on 2 files this branch did not touch;
+ *                    see the check's own comment block for the exact strings and
+ *                    reasoning.
+ *
+ *                    Second known gap, found in review of #744 and NOT closed
+ *                    here: the AI-answer scan matches class="ai-block" only, but
+ *                    69 files carry that content in a class="callout-blue"
+ *                    callout instead, so those blocks are not scanned at all.
+ *                    That is how a "$150 to $600" claim survived on
+ *                    article-gas-vs-electric-range-repair-cost-orange-county.html
+ *                    while the FAQ three sections down said "$100 to $600".
+ *                    Widening the selector needs its own false-positive sweep
+ *                    across those 69 files, so it is logged in tasks/backlog.md
+ *                    under P6-24 Slice A-2 rather than bolted on here.
+ *                    Two exemptions are structural, not textual: the sanctioned
+ *                    "The one exception above that range is X, which runs $A-$B"
+ *                    clause (PR #696) is carved out before governing detection so
+ *                    it can never be mistaken for the umbrella or flagged against
+ *                    it; a range whose 80 characters of leading context name a
+ *                    premium brand (Sub-Zero, Wolf, Viking, Thermador, Miele) is
+ *                    treated as deliberate brand segmentation, not a violation.
+ *                    Bare single figures ($99 diagnostic fee) never match the
+ *                    two-number range pattern, so they are excluded automatically.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -218,7 +266,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          — run all twenty enforced checks + the report
+ *   node test/content-integrity.js          : run all twenty-one enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -228,7 +276,7 @@
  *                                             article-mobile-chrome, non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
  *                                             faq-schema-presence, gallery-parity, brand-tier,
- *                                             tel-target, title-length)
+ *                                             tel-target, umbrella-range, title-length)
  */
 
 'use strict';
@@ -1413,6 +1461,237 @@ if (run('tel-target')) {
   };
 }
 
+// ── Check 20: umbrella-range ──────────────────────────────────────────────────
+// Inside a single FAQ answer (or a single .ai-block <p> of AI-answer-block
+// prose), a "governing" summary range must actually bound every other dollar
+// range itemized in the same block. Found live on 11 cost-hub FAQ/AI-answer
+// blocks (branch fix/cost-hub-price-contradictions, 2026-08-16): e.g. "Most
+// washing machine repairs in Orange County run between $120 and $450 all-in ...
+// The big two, a drive motor or a control board, reach $230 to $490" told the
+// reader two different ceilings in one paragraph.
+//
+// SCOPE, deliberately narrow: only FAQPage JSON-LD answer text and `.ai-block p`
+// prose are scanned. FAQ answers are read from JSON-LD (already plain text, and
+// kept in sync with the visible accordion by faq-jsonld-parity), so no
+// tag-stripping is needed there.
+//
+// GOVERNING-RANGE DETECTION was tightened across three rounds against real
+// corpus false positives (see below); a naive "first verb-shaped range wins"
+// implementation produced 53 flags across 25 files this branch never touched,
+// almost all genuinely not the same defect:
+//
+// ROUND 1 finding: a governing range must be BOTH the first dollar range in the
+// block AND verb-shaped (run/runs/land/lands/fall/falls/cost/costs, optional
+// "between", range immediately after). Two real blocks (gas-vs-electric-range's
+// gas FAQ, sub-zero-repair-cost's compressor FAQ) itemize per-part prices FIRST
+// and only add a "most jobs run/fall $X-$Y" sentence near the end: a trailing
+// "typical total", not a bounding claim on what came before it. When the first
+// range in a block is not verb-shaped, the block is skipped.
+//
+// ROUND 2 finding: verb-shaped plus first-range still was not enough. The
+// dominant false-positive shape sitewide is a single compound sentence that
+// distributes ONE verb across a comma-joined list of named parts, each with its
+// own price ("Typical GE repairs run $250 to $480 FOR a refrigerator control
+// board, $180 to $360 FOR an ice-maker..."), where the first range prices only
+// the first named part, not "typical GE repairs" as a whole, despite matching
+// the verb-shape test. A second, unrelated shape stacks two independent topics
+// in one JSON-LD answer (a combined "washer + dryer" FAQ, or a 7-appliance
+// AI-answer-block paragraph), where the second topic's own umbrella statement
+// gets wrongly checked against the first topic's ceiling. Two structural
+// (non-hardcoded) rules close both:
+//   (a) the governing candidate's OWN sentence (bounded by the nearest '.' on
+//       either side) must contain exactly that ONE range. A parallel "for X, for
+//       Y" list or a combined multi-topic sentence always has more than one
+//       range in the same sentence and is rejected.
+//   (b) the governing candidate's subject (the text between the sentence start
+//       and the verb) must name "repair(s)" within its first 40 characters: the
+//       true grammatical subject, not a trailing appositive. This is what every
+//       confirmed umbrella statement in this corpus shares ("Most X repairs...",
+//       "[Appliance] repair in [City]..."), and what disqualifies "A bake
+//       igniter replacement, the most common Wolf oven no-heat repair, runs
+//       $250 to $450" (the word "repair" is there, but 65 characters in, as an
+//       aside on a SPECIFIC part, not the sentence's subject).
+//   (c) once a valid governing range is found, a LATER sentence whose own
+//       subject also names "repair(s)" near its start marks a new topic (e.g. a
+//       combined washer+dryer answer). Checking stops at that boundary; ranges
+//       from that point on are this rule's blind spot, not a violation. Side
+//       effect, noted rather than hidden: an ordinary itemized clause that
+//       happens to reuse the word "repairs" ("Mid-range repairs like a heating
+//       element... run $130 to $250") also trips this boundary, so a couple of
+//       genuine same-shape violations on untouched files
+//       (article-dryer-repair-cost-orange-county.html,
+//       article-washer-repair-irvine.html) stop being checked past that point.
+//       This is an accepted, documented coverage loss, not a deliberate
+//       exemption for those two files.
+//
+// ROUND 3 finding: only the UPPER bound is enforced (see the check body). A
+// sub-item priced below the governing floor is not the "reader gets two
+// ceilings" contradiction this check targets, it is a typical/median statement
+// legitimately admitting a cheaper outlier. Flagging lower-bound undershoots
+// produced a false positive on pages/washer-repair-cost-orange-county.html, a
+// file this branch DID fix, on a $100-$220 sub-range that was never touched by
+// the fix (present, unchanged, in both the pre-fix and current text). The same
+// round widened the premium/brand-scope exemption to match the word "premium"
+// itself, not just the five named brands, and to look both before AND after the
+// range: this closed the one remaining flag on article-repair-replace.html
+// ("Refrigerators tend to be more expensive ($200 to $700, higher for premium
+// brands)"), a genuine premium-tier segmentation per seo-content.md's own
+// brand-tier system.
+//
+// Net result: zero flags across the full corpus today. The (b)/(c) coverage
+// loss noted above still stands as a real, documented gap on the two named
+// files; a future pass that finds a sharper distinguishing signal (or fixes
+// those files outright) can restore full coverage there without weakening
+// anything this check currently enforces.
+//
+// Two exemptions are structural, not textual, matching .claude/rules/seo-content.md
+// and the PR #696 precedent:
+//   1. The sanctioned escape hatch: "The one exception above that range is
+//      [item], which runs $X-$Y." is stripped out BEFORE governing-range
+//      detection, so its own range can never be mistaken for the umbrella, and
+//      it is never checked against one.
+//   2. Premium/brand-scoped segmentation: a range whose 80 characters of leading
+//      context name a premium brand (Sub-Zero, Wolf, Viking, Thermador, Miele)
+//      is deliberate segmentation, not a violation.
+// Bare single figures ($99 diagnostic fee, the $49 additional-unit line) never
+// match the two-number range pattern below, so they are excluded automatically
+// without a dedicated rule for them.
+if (run('umbrella-range')) {
+  checked['umbrella-range'] = { files: 0, blocks: 0, governingRanges: 0, rangesChecked: 0 };
+
+  const num = (s) => parseInt(s.replace(/,/g, ''), 10);
+  const CONNECT = '(?:to|and|–|-)';
+  // Any two-number dollar range, e.g. "$100 to $350", "$120-$450", "$230 to $490+".
+  const RANGE_SRC = `\\$([\\d,]+)\\s*${CONNECT}\\s*\\$([\\d,]+)\\+?`;
+  const RANGE_RE = new RegExp(RANGE_SRC, 'g');
+  // Verb-anchored "governing" shape: the range must sit immediately after the verb
+  // (an optional "between" is the only filler allowed).
+  const GOVERN_RE = new RegExp(`\\b(?:run|runs|land|lands|fall|falls|cost|costs)\\s+(?:between\\s+)?${RANGE_SRC}`, 'gi');
+  // Sanctioned escape hatch, PR #696: "The one exception above that range is X, which runs $A-$B."
+  const EXCEPTION_RE = new RegExp(`The one exception above that range is[^.]*?${RANGE_SRC}`, 'g');
+  // ROUND 3 finding: seo-content.md's own brand-tier system treats "premium" as a
+  // defined tier, not just the 5 brand names spelled out. One remaining block
+  // (article-repair-replace.html) scopes a higher refrigerator range with
+  // "...higher for premium brands)" rather than naming a specific brand, and a
+  // LATER sentence in the same block ("Premium appliances like Sub-Zero or Viking
+  // usually run higher...") confirms the same segmentation. Matching "premium" as
+  // a word, in a window that looks BOTH before and after the range (not only
+  // before), closes this without a file-specific carve-out.
+  const SCOPE_RE = /\b(Sub-Zero|Wolf|Viking|Thermador|Miele|premium)\b/i;
+  const REPAIR_WORD = /\brepairs?\b/i;
+  const SUBJECT_WINDOW = 40; // "repair(s)" must appear this close to the sentence start to count as the true subject, not a trailing aside
+
+  function extractBlocks(content) {
+    const blocks = [];
+    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; } // jsonld-valid reports parse errors
+      const walk = (node) => {
+        if (Array.isArray(node)) return node.forEach(walk);
+        if (!node || typeof node !== 'object') return;
+        if (node['@type'] === 'FAQPage' && Array.isArray(node.mainEntity)) {
+          for (const q of node.mainEntity) {
+            const a = q && q.acceptedAnswer;
+            if (a && typeof a.text === 'string') blocks.push({ label: 'FAQ answer', text: a.text });
+          }
+        }
+        for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v);
+      };
+      walk(parsed);
+    }
+    for (const m of content.matchAll(/<div\b[^>]*\bclass="[^"]*\bai-block\b[^"]*"[^>]*>([\s\S]*?)<\/div>/g)) {
+      for (const p of m[1].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)) {
+        const text = p[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
+        blocks.push({ label: 'AI answer block', text });
+      }
+    }
+    return blocks;
+  }
+
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const blocks = extractBlocks(content);
+    if (!blocks.length) continue;
+    checked['umbrella-range'].files++;
+
+    for (const { label, text } of blocks) {
+      checked['umbrella-range'].blocks++;
+
+      // Carve the sanctioned exception clause(s) out first, both so their range
+      // is never picked up as the governing range and so they are never checked
+      // against one.
+      const clean = text.replace(EXCEPTION_RE, ' ');
+
+      RANGE_RE.lastIndex = 0;
+      const firstRange = RANGE_RE.exec(clean);
+      if (!firstRange) continue; // no dollar range in this block at all
+
+      // Collect every verb-anchored ("governing-shaped") match in the block, each
+      // annotated with whether its OWN sentence carries just that one range (not
+      // a parallel "for X, for Y" list or a second stacked topic) and whether its
+      // subject names "repair(s)" near the start (the true grammatical subject,
+      // not a trailing aside on one named part). See the ROUND 2 note above.
+      GOVERN_RE.lastIndex = 0;
+      const candidates = [];
+      let gm;
+      while ((gm = GOVERN_RE.exec(clean))) {
+        const dollarIndex = gm.index + gm[0].indexOf('$');
+        const sentenceStart = clean.lastIndexOf('.', dollarIndex) + 1;
+        const periodAfter = clean.indexOf('.', dollarIndex);
+        const sentenceEnd = periodAfter === -1 ? clean.length : periodAfter;
+        const subject = clean.slice(sentenceStart, dollarIndex);
+        const ownSentenceRangeCount = (clean.slice(sentenceStart, sentenceEnd).match(new RegExp(RANGE_SRC, 'g')) || []).length;
+        candidates.push({
+          dollarIndex,
+          A: num(gm[1]), B: num(gm[2]),
+          hasSubjectRepair: REPAIR_WORD.test(subject.slice(0, SUBJECT_WINDOW)),
+          singleRangeSentence: ownSentenceRangeCount === 1,
+        });
+      }
+
+      const gov = candidates.find(c => c.dollarIndex === firstRange.index && c.hasSubjectRepair && c.singleRangeSentence);
+      if (!gov) continue; // no reliable umbrella in this block; see docblock
+
+      const { B, dollarIndex: govDollarIndex } = gov; // only the ceiling (B) is enforced; see below
+      checked['umbrella-range'].governingRanges++;
+
+      // A later governing-shaped statement whose subject ALSO names "repair(s)"
+      // marks a new topic (e.g. a combined washer+dryer FAQ answer, or an
+      // AI-block that walks appliance after appliance). Stop checking there.
+      const boundary = candidates.find(c => c.dollarIndex > govDollarIndex && c.hasSubjectRepair);
+      const limit = boundary ? boundary.dollarIndex : clean.length;
+
+      RANGE_RE.lastIndex = 0;
+      let m;
+      while ((m = RANGE_RE.exec(clean))) {
+        if (m.index === govDollarIndex) continue; // the governing range itself
+        if (m.index >= limit) break; // past the topic boundary, not this rule's to check
+        // Looks both before AND after the range: a scoping cue sometimes trails
+        // the figure ("$200 to $700, higher for premium brands") rather than
+        // leading it, and a naive "before only" window misses that.
+        const context = clean.slice(Math.max(0, m.index - 100), Math.min(clean.length, m.index + m[0].length + 80));
+        if (SCOPE_RE.test(context)) continue; // premium/brand-scoped segmentation
+        checked['umbrella-range'].rangesChecked++;
+        // Only the UPPER bound matters: the defect this check exists for is a
+        // reader being quoted a ceiling and then handed a bigger number later in
+        // the same paragraph ("$490 exceeds the $450 umbrella"). A sub-item
+        // priced BELOW the governing floor is not that contradiction, it is a
+        // typical/median statement legitimately admitting a cheaper outlier
+        // (found live on pages/washer-repair-cost-orange-county.html, a file
+        // this branch DID touch: "typically costs $120-$450 ... straightforward
+        // fixes ... fall in the $100-$220 range": $100 undercuts the $120 floor
+        // in both the pre-fix and current text, and was never part of what this
+        // branch changed. Flagging lower-bound undershoots produced that false
+        // positive on a file this check must be clean on).
+        const y = num(m[2]);
+        if (y > B) {
+          const snippet = clean.slice(Math.max(0, m.index - 40), m.index + 40).replace(/\s+/g, ' ').trim();
+          issues.push(`[UMBRELLA-RANGE] ${rel(filePath)} (${label}): $${m[1]} to $${m[2]} exceeds the governing $${gov.A} to $${gov.B} ceiling stated in the same block ("...${snippet}...")`);
+        }
+      }
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -1465,5 +1744,6 @@ if (checked['faq-jsonld-parity']) {
 if (checked['gallery-parity'])       parts.push(`ImageGallery schema matches rendered photos exactly on ${checked['gallery-parity'].pages} page(s) (${checked['gallery-parity'].images} listed images)`);
 if (checked['brand-tier'])           parts.push(`brand tiers + fee values match seo-content.md across ${checked['brand-tier'].pages} pages (${checked['brand-tier'].lists} premium lists, ${checked['brand-tier'].fees} fee statements)`);
 if (checked['tel-target'])           parts.push(`all ${checked['tel-target'].links} tel: links dial ${checked['tel-target'].canonical} (${checked['tel-target'].distinct} distinct target${checked['tel-target'].distinct === 1 ? '' : 's'})`);
+if (checked['umbrella-range'])       parts.push(`umbrella price ranges hold on ${checked['umbrella-range'].rangesChecked} itemized range(s) against ${checked['umbrella-range'].governingRanges} governing range(s) across ${checked['umbrella-range'].blocks} FAQ/AI-answer blocks in ${checked['umbrella-range'].files} files`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
