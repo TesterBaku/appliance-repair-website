@@ -5,9 +5,15 @@
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
- *   review-count   — every page with `AggregateRating.reviewCount` must match
+ *   review-count   — every page with a JSON-LD `AggregateRating.reviewCount` must match
  *                    `data/testimonials.json` `_meta.sources.google.publishedCount`
- *                    (what the site currently claims). There are three counters
+ *                    (what the site currently claims). This check parses only that one
+ *                    JSON-LD field; it does NOT touch the prose count surfaces (the
+ *                    "N verified 5-star Google reviews" copy, "Read all N reviews",
+ *                    hero-rating text/aria-label, the testimonials stat, or the
+ *                    meta/og/twitter descriptions) — those are enforced separately by
+ *                    `scripts/build/sync-review-counts.js --check`, which rewrites them
+ *                    from the same `publishedCount` field. There are three counters
  *                    under `_meta.sources.google`, split 2026-08-15 by the weekly
  *                    review-batch cadence plan so daily capture and weekly
  *                    publishing can move independently:
@@ -22,8 +28,9 @@
  *                        the pool. Internal only, never rendered on any page.
  *                    This check also asserts `publishedCount <= totalReviewsOnListing`
  *                    (the site must never claim more reviews than the live listing
- *                    shows) and that `publishedCount` is present and a positive
- *                    integer (a missing field fails loudly, not silently).
+ *                    shows) and that both `publishedCount` and `totalReviewsOnListing`
+ *                    are present and positive integers (a missing or garbled field on
+ *                    either side fails loudly, not silently — see the guard code).
  *                    Before the split, this check compared against
  *                    `totalReviewsOnListing` directly, which meant a daily capture
  *                    bump (before that week's publish batch ran) would fail CI on
@@ -275,6 +282,15 @@ if (run('review-count')) {
   // pass with "reviewCount": "NaN" style corruption unnoticed.
   if (!Number.isInteger(publishedCount) || publishedCount <= 0) {
     issues.push(`[REVIEW-COUNT] data/testimonials.json _meta.sources.google.publishedCount is missing or not a positive integer (got: ${JSON.stringify(publishedCount)}). This field drives every visible review-count surface site-wide and must be set explicitly.`);
+  }
+
+  // Guard: totalReviewsOnListing must be present and a positive integer, mirroring the
+  // publishedCount guard above. Without this, deleting or garbling the field would silently
+  // skip the publishedCount <= totalReviewsOnListing comparison below instead of failing it —
+  // and that comparison is the only thing preventing the site from publicly claiming more
+  // reviews than the live GBP listing shows.
+  if (!Number.isInteger(totalReviewsOnListing) || totalReviewsOnListing <= 0) {
+    issues.push(`[REVIEW-COUNT] data/testimonials.json _meta.sources.google.totalReviewsOnListing is missing or not a positive integer (got: ${JSON.stringify(totalReviewsOnListing)}). This field is the ceiling the publishedCount <= totalReviewsOnListing guard depends on and must be set explicitly.`);
   }
 
   // Guard: the site must never claim more reviews than the live GBP listing shows.
