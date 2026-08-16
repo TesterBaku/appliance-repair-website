@@ -234,9 +234,20 @@
  *                    below the governing floor is a typical/median statement
  *                    admitting a cheaper outlier, not the "reader gets two
  *                    ceilings" contradiction this check targets. A known,
- *                    documented gap remains on 3 files this branch did not touch;
+ *                    documented gap remains on 2 files this branch did not touch;
  *                    see the check's own comment block for the exact strings and
  *                    reasoning.
+ *
+ *                    Second known gap, found in review of #744 and NOT closed
+ *                    here: the AI-answer scan matches class="ai-block" only, but
+ *                    69 files carry that content in a class="callout-blue"
+ *                    callout instead, so those blocks are not scanned at all.
+ *                    That is how a "$150 to $600" claim survived on
+ *                    article-gas-vs-electric-range-repair-cost-orange-county.html
+ *                    while the FAQ three sections down said "$100 to $600".
+ *                    Widening the selector needs its own false-positive sweep
+ *                    across those 69 files, so it is logged in tasks/backlog.md
+ *                    under P6-24 Slice A-2 rather than bolted on here.
  *                    Two exemptions are structural, not textual: the sanctioned
  *                    "The one exception above that range is X, which runs $A-$B"
  *                    clause (PR #696) is carved out before governing detection so
