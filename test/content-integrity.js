@@ -271,7 +271,7 @@ if (run('review-count')) {
   const totalReviewsOnListing = google.totalReviewsOnListing;
 
   // Guard: publishedCount must be present and a positive integer. A missing field
-  // must fail loudly — silently falling back to undefined/NaN would let every page
+  // must fail loudly: silently falling back to undefined/NaN would let every page
   // pass with "reviewCount": "NaN" style corruption unnoticed.
   if (!Number.isInteger(publishedCount) || publishedCount <= 0) {
     issues.push(`[REVIEW-COUNT] data/testimonials.json _meta.sources.google.publishedCount is missing or not a positive integer (got: ${JSON.stringify(publishedCount)}). This field drives every visible review-count surface site-wide and must be set explicitly.`);
@@ -281,7 +281,7 @@ if (run('review-count')) {
   // Publishing ahead of the listing is the one failure mode this whole cadence
   // exists to prevent (see the May 2026 GBP content-policy flag).
   if (Number.isInteger(publishedCount) && Number.isInteger(totalReviewsOnListing) && publishedCount > totalReviewsOnListing) {
-    issues.push(`[REVIEW-COUNT] data/testimonials.json publishedCount (${publishedCount}) exceeds totalReviewsOnListing (${totalReviewsOnListing}) — the site would be claiming more reviews than the live GBP listing shows.`);
+    issues.push(`[REVIEW-COUNT] data/testimonials.json publishedCount (${publishedCount}) exceeds totalReviewsOnListing (${totalReviewsOnListing}): the site would be claiming more reviews than the live GBP listing shows.`);
   }
 
   const expectedCount = String(publishedCount);
