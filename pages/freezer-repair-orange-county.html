@@ -68,14 +68,25 @@
     .brands-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #666666; margin-bottom: 10px; text-align: center; }
     .brand-pill { background: var(--surface); border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: var(--text-soft); text-decoration: none; display: inline-block; }
     .brand-pill.premium { border: 1.5px solid #c03a14; color: var(--text-primary); }
-    /* Unlinked chips (no hub page yet): recessive resting state so touch users can tell
-       them apart from real links without relying on hover. Premium border color is left
-       untouched on purpose, it signals "premium brand" not "clickable". */
-    span.brand-pill { background: #eeeeee; color: #666666; cursor: default; }
-    span.brand-pill.premium { color: #666666; }
+    /* Linked chips (real hub page exists) carry a trailing arrow, this site's established
+       "leads somewhere" affordance (matches the "Read all 116 reviews (arrow)" link and the
+       cost-guide list arrows elsewhere on this page, both var(--brand-text) on a light bg).
+       Unlinked chips (no hub page yet) deliberately stay at the SAME resting brightness/text
+       color as linked ones (both tiers, including .premium here applying identically to a and
+       span so there's no specificity fight to override) instead of being muted/grayed: an
+       earlier version of this fix (PR #741) gave unlinked spans a gray/disabled-style resting
+       state, and two independent impeccable critique reviews of that version flagged it as
+       risking a false "we don't service this brand" read on a section literally headed "Brands
+       We Service" -- a worse defect than the pixel-identical-at-rest problem it was fixing.
+       Adding the affordance to the links instead of subtracting it from the non-links avoids
+       that risk while still being distinguishable at rest (no hover dependency). Premium border
+       stays identical across both link states on purpose: it signals "premium brand tier", a
+       fact independent of whether a hub page exists, not "clickable". */
     a.brand-pill { cursor: pointer; }
+    a.brand-pill::after { content: "\2192"; margin-left: 6px; color: var(--brand-text); font-weight: 700; }
     a.brand-pill:hover { background: #f7fafc; }
     a.brand-pill.premium:hover { background: #fff5f2; }
+    span.brand-pill { cursor: default; }
 
     .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
     .process-step { text-align: center; }
@@ -659,7 +670,7 @@
   <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Freezer Brands We Service</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:600px;text-align:center;margin-left:auto;margin-right:auto;">All major brands serviced. We make no claim of factory authorization unless stated. If your unit is under manufacturer warranty, verify with the manufacturer before booking. Not every brand name below links to its own page. We still repair all of them, so call if yours isn't linked.</p>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:600px;text-align:center;margin-left:auto;margin-right:auto;">All major brands serviced. We make no claim of factory authorization unless stated. If your unit is under manufacturer warranty, verify with the manufacturer before booking. Brand names with an arrow link to a dedicated page. The rest don't yet, but we service them too, so call if yours isn't linked.</p>
       <div class="brands-group">
         <div class="brands-group-label">Premium &amp; Built-In</div>
         <div class="brands-list">
