@@ -94,7 +94,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 
 ```bash
 npm start                  # Serve locally at http://localhost:3000 (via npx serve .)
-npm test                   # Link check + HTML integrity + content integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check + review-count drift check
+npm test                   # Link check + HTML integrity + content integrity + CSS vars + repo hygiene (large-file guard) + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check + review-count drift check
 npm run test:functional    # Playwright functional suite (auto-starts a server on :8788 via test/serve.js)
 npm run screenshot         # Playwright batch screenshots
 npm run test:all           # All of the above in one shot
@@ -158,7 +158,7 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 - `scripts/` — active automation: `build-sitemap.js`, `add-seo-improvements.js` (quarterly-audit SEO fixer), `add-hero-preload.mjs`, `add-nav-link.js`, `add-article-hamburger.js`, image/favicon helpers. Run these explicitly; none are wired to pre-commit hooks. (`sync-testimonials-count.js` moved to `scripts/build/sync-review-counts.js` 2026-08-15, alongside the other derived-surface syncers, when it was extended site-wide.)
 - `scripts/build/` — build-time injectors and derived-surface syncers (`inject-partials.js` for footer/nav; `inject-site-js.js` for the interaction-JS extraction; `sync-blog-counts.js` for blog counts; `sync-article-bylines.js` for article hero bylines; `sync-review-counts.js` for every site-wide Google review-count surface, with `--check` and `--publish` modes).
 - `scripts/oneoff/` — historical, already-run one-off scripts, kept for provenance (see its README). None are npm-wired.
-- `test/` — the four `npm test` checks (`links.js`, `html-integrity.js`, `content-integrity.js`, `css-vars.js`) plus `faq-parity-baseline.json`, the Playwright screenshot runner (`screenshot.js`), the Playwright functional spec (`functional.spec.js`), and the static server (`serve.js`) the functional suite auto-starts on :8788. `npm test` additionally runs the five `scripts/build/*.js --check` drift guards listed above (`inject-partials`, `inject-site-js`, `sync-blog-counts`, `sync-article-bylines`, `sync-review-counts`), plus `check-agents.js --check` (documented separately below).
+- `test/` — the five `npm test` checks (`links.js`, `html-integrity.js`, `content-integrity.js`, `css-vars.js`, `repo-hygiene.js`) plus `faq-parity-baseline.json`, the Playwright screenshot runner (`screenshot.js`), the Playwright functional spec (`functional.spec.js`), and the static server (`serve.js`) the functional suite auto-starts on :8788. `repo-hygiene.js` enumerates git-tracked files only (`git ls-files`) and fails on any tracked file over 5 MB (with a narrow, path-specific allowlist for legitimate large assets) or carrying a banned extension (`.pdf`, `.zip`, and other archive/installer formats); it was added after a 13.6 MB research PDF was swept into a commit by `git add -A` on 2026-08-02. `npm test` additionally runs the five `scripts/build/*.js --check` drift guards listed above (`inject-partials`, `inject-site-js`, `sync-blog-counts`, `sync-article-bylines`, `sync-review-counts`), plus `check-agents.js --check` (documented separately below).
 
 ## Critical technical patterns
 
@@ -260,7 +260,7 @@ branch → commit → **all three tests** → PR → review → merge. No except
 
 **Three required tests — all must exit 0 before opening a PR:**
 ```
-npm test                 # link check (every page) + integrity + CSS vars + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check
+npm test                 # link check (every page) + integrity + CSS vars + repo hygiene (large-file guard) + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check
 npm run screenshot       # Playwright batch screenshots
 npm run test:functional  # Playwright functional suite — nav, dropdowns, forms, accordions, articles, hubs
 ```
