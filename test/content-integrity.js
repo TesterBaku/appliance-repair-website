@@ -1787,16 +1787,31 @@ if (run('srcset-width')) {
       let offset = 2;
       while (offset < buf.length - 1) {
         if (buf[offset] !== 0xff) { offset++; continue; }
-        const marker = buf[offset + 1];
-        if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd9)) { offset += 2; continue; }
-        if (offset + 3 >= buf.length) break;
-        const segLen = buf.readUInt16BE(offset + 2);
+        // A marker may legally be preceded by a RUN of 0xFF fill bytes (some
+        // encoders emit them), so the marker is the first non-0xFF byte after
+        // the run — not unconditionally buf[offset + 1]. Reading that byte
+        // blind mistakes 0xFF for the marker and then reads a segment length
+        // out of unrelated data, which walks the parser into garbage and can
+        // return a plausible-looking WRONG width instead of null. That is the
+        // one failure shape this whole check exists to rule out, so it is
+        // handled even though the site ships no JPEG in a srcset today.
+        // 0xFF00 is a stuffed byte inside entropy data, never a marker.
+        let m = offset + 1;
+        while (m < buf.length && buf[m] === 0xff) m++;
+        if (m >= buf.length) break;
+        const marker = buf[m];
+        if (marker === 0x00) { offset = m + 1; continue; }
+        // Standalone markers: no length field follows.
+        if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd9)) { offset = m + 1; continue; }
+        if (m + 2 >= buf.length) break;
+        const segLen = buf.readUInt16BE(m + 1);
         const isSOF = marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
         if (isSOF) {
-          if (offset + 8 >= buf.length) return null;
-          return buf.readUInt16BE(offset + 7);
+          if (m + 7 >= buf.length) return null;
+          return buf.readUInt16BE(m + 6);
         }
-        offset += 2 + segLen;
+        if (segLen < 2) return null;   // malformed: a length field counts itself
+        offset = m + 1 + segLen;
       }
       return null;
     }
