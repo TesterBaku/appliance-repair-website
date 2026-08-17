@@ -278,13 +278,16 @@
  *                    than being skipped — a silent skip is how this class of bug
  *                    survived three audits. Added 2026-08-16.
  *
- *   area-served-parity — on any page that renders a city-card grid (at least one
- *                    `class="city-card…"` anchor with a `<div class="city-name">`
- *                    inside), every rendered `.city-name` must have a matching
+ *   area-served-parity — on any page that renders at least one
+ *                    `<div class="city-name">…</div>` (a rendered city card —
+ *                    anchor-wrapped hub link or plain info-only card, either
+ *                    counts), every rendered `.city-name` must have a matching
  *                    `"City, CA"` entry in that page's LocalBusiness JSON-LD
  *                    `areaServed` array, and vice versa (except entries ending in
  *                    `County, CA`, which are region-level and card-less by
- *                    design). Parses the JSON-LD with JSON.parse rather than
+ *                    design). A qualifying page with zero `areaServed` entries
+ *                    at all fails with a single summary line rather than one
+ *                    per card. Parses the JSON-LD with JSON.parse rather than
  *                    regexing the array out of raw HTML, so a hand-wrapped
  *                    multi-line array or reordered field never confuses it.
  *                    Added 2026-08-17 after pages/service-areas.html was found
@@ -292,6 +295,14 @@
  *                    its lede, its FAQ JSON-LD, and its own city-card grid, while
  *                    omitting all four from `areaServed` — the machine-readable
  *                    half of the page contradicted the human-readable half.
+ *                    Originally gated qualification on an anchor-wrapped
+ *                    `.city-card…` element; that gate had a silent no-op
+ *                    (converting every anchor card to a plain info-only div
+ *                    left all city names rendered but made zero pages qualify,
+ *                    so the check passed on the page it exists to protect).
+ *                    Widened to qualify on `.city-name` alone the same day —
+ *                    a silent skip is how this class of bug survived three
+ *                    audits.
  *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
@@ -1948,21 +1959,24 @@ if (run('area-served-parity')) {
   checked['area-served-parity'] = { pages: 0, cities: 0 };
 
   const CITY_NAME_RE = /<div class="city-name">([^<]+)<\/div>/g;
-  // Qualification: at least one `.city-card…` anchor with a `.city-name` div
-  // inside it. This is deliberately looser than "every card is an anchor" —
-  // some cards on service-areas.html are info-only `<div class="city-card
-  // city-card--info">` (no dedicated hub page yet), but the page still
-  // qualifies as a city-card grid once ANY anchor card exists.
-  const QUALIFY_RE = /<a\b[^>]*class="[^"]*\bcity-card\b[^"]*"[^>]*>[\s\S]{0,400}?<div class="city-name">/;
 
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
-    if (!QUALIFY_RE.test(content)) continue;
 
-    // Rendered city names: every `.city-name` div on the page, including the
-    // non-anchor `city-card--info` cards (e.g. Whittier, Norco) — those are
-    // still shown to the reader as served areas and still need a matching
-    // areaServed entry.
+    // Qualification: at least one rendered `<div class="city-name">…</div>`
+    // on the page — deliberately NOT gated on an anchor wrapper. An earlier
+    // version required a `.city-card…` anchor around the div, on the theory
+    // that plain `.city-card--info` cards (Whittier, Norco: no dedicated hub
+    // page yet) were the only non-anchor case to worry about. That gate had
+    // a silent no-op: converting every anchor card to a plain
+    // `<div class="city-card city-card--info">` (all 45 `.city-name` divs
+    // still rendered) made zero pages qualify, so the check exited 0 on a
+    // page it exists to protect. Qualifying on `.city-name` alone is
+    // strictly broader and removes that false-negative path; the
+    // `cardNames.length` guard below still no-ops on any page with zero
+    // city-name divs. Verified 2026-08-17: `class="city-name"` appears
+    // nowhere else in the repo, so this cannot pull unrelated pages into
+    // scope today.
     const cardNames = [...content.matchAll(CITY_NAME_RE)].map(m => m[1].trim());
     if (!cardNames.length) continue;
 
@@ -1988,6 +2002,16 @@ if (run('area-served-parity')) {
 
     checked['area-served-parity'].pages++;
     checked['area-served-parity'].cities += cardNames.length;
+
+    // A qualifying page that renders city cards but declares no
+    // LocalBusiness areaServed at all: report ONE clear failure instead of
+    // one near-identical [AREA-SERVED] line per card (45 lines of noise for
+    // service-areas.html). This is the failure path the widened
+    // qualification above newly exposes — it must not pass silently either.
+    if (areaServed.length === 0) {
+      issues.push(`[AREA-SERVED] ${rel(filePath)} — renders ${cardNames.length} city card(s) but declares no LocalBusiness areaServed array.`);
+      continue;
+    }
 
     const norm = s => s.trim().toLowerCase();
     const areaServedNorm = areaServed.map(norm);
