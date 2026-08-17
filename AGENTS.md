@@ -189,7 +189,10 @@ All rule files live in `.claude/rules/` (**committed** since the cross-LLM-porta
 - `.claude/rules/trusted-sources.md` — read-only web access (WebSearch + WebFetch) is pre-authorized in `.claude/settings.json`; source quality is governed by judgment (official/manufacturer + well-established references only, cross-checked against ≥2 sources). Writes/logins to external services still require confirmation.
 
 ## Active plans (tasks/ — gitignored, local)
-- `tasks/backlog.md` — single source of truth for all open work (includes the Months 2–3 themes; the May 11–Jun 7 4-week schedule completed and was retired 2026-06-08)
+- `tasks/backlog.md` — single source of truth for all open work: exhaustive, so nothing is lost, but
+  not prioritized and not re-verified. For *what to do next*, read `tasks/top_3_tasks_priority.md`
+  below, which is a re-measured subset of this file. (Includes the Months 2–3 themes; the May 11–Jun 7
+  4-week schedule completed and was retired 2026-06-08.)
 - `tasks/lessons.md` — patterns learned from corrections; review at session start
 - `tasks/top_3_tasks_priority.md` — where the current round of top priorities is picked, with each
   figure re-measured against a named master commit. Supersedes the backlog for "what to do next".
