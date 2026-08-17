@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-two enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-three enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -278,6 +278,21 @@
  *                    than being skipped — a silent skip is how this class of bug
  *                    survived three audits. Added 2026-08-16.
  *
+ *   area-served-parity — on any page that renders a city-card grid (at least one
+ *                    `class="city-card…"` anchor with a `<div class="city-name">`
+ *                    inside), every rendered `.city-name` must have a matching
+ *                    `"City, CA"` entry in that page's LocalBusiness JSON-LD
+ *                    `areaServed` array, and vice versa (except entries ending in
+ *                    `County, CA`, which are region-level and card-less by
+ *                    design). Parses the JSON-LD with JSON.parse rather than
+ *                    regexing the array out of raw HTML, so a hand-wrapped
+ *                    multi-line array or reordered field never confuses it.
+ *                    Added 2026-08-17 after pages/service-areas.html was found
+ *                    naming San Clemente, Aliso Viejo, Cypress, and Placentia in
+ *                    its lede, its FAQ JSON-LD, and its own city-card grid, while
+ *                    omitting all four from `areaServed` — the machine-readable
+ *                    half of the page contradicted the human-readable half.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -286,7 +301,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all twenty-two enforced checks + the report
+ *   node test/content-integrity.js          : run all twenty-three enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -297,7 +312,7 @@
  *                                             faq-jsonld-parity, contrast-aa,
  *                                             faq-schema-presence, gallery-parity, brand-tier,
  *                                             tel-target, umbrella-range, srcset-width,
- *                                             title-length)
+ *                                             area-served-parity, title-length)
  */
 
 'use strict';
@@ -1913,6 +1928,89 @@ if (run('srcset-width')) {
   }
 }
 
+// ── Check 22: area-served-parity ────────────────────────────────────────────
+// Any page that renders a city-card grid (a `class="city-card…"` anchor with a
+// `.city-name` div inside) must agree with itself: every rendered city needs a
+// matching `"City, CA"` entry in that same page's LocalBusiness `areaServed`
+// JSON-LD, and every `areaServed` entry needs a matching card, EXCEPT entries
+// ending in `County, CA` — those are region-level and card-less by design.
+// Added 2026-08-17 after pages/service-areas.html was found naming San
+// Clemente, Aliso Viejo, Cypress, and Placentia in its visible lede, its FAQ
+// JSON-LD, AND its own city-card grid, while omitting all four from
+// `areaServed` — the page told human readers it serves them and told
+// Google/LLMs it does not. `areaServed` is parsed with JSON.parse over the
+// page's `<script type="application/ld+json">` blocks (not regexed out of raw
+// HTML), matching the gallery-parity idiom above, so a hand-wrapped multi-line
+// array or a reordered field never confuses this check. Auto-detects target
+// pages rather than hardcoding a path, so a future page that grows a
+// city-card grid is covered on arrival.
+if (run('area-served-parity')) {
+  checked['area-served-parity'] = { pages: 0, cities: 0 };
+
+  const CITY_NAME_RE = /<div class="city-name">([^<]+)<\/div>/g;
+  // Qualification: at least one `.city-card…` anchor with a `.city-name` div
+  // inside it. This is deliberately looser than "every card is an anchor" —
+  // some cards on service-areas.html are info-only `<div class="city-card
+  // city-card--info">` (no dedicated hub page yet), but the page still
+  // qualifies as a city-card grid once ANY anchor card exists.
+  const QUALIFY_RE = /<a\b[^>]*class="[^"]*\bcity-card\b[^"]*"[^>]*>[\s\S]{0,400}?<div class="city-name">/;
+
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (!QUALIFY_RE.test(content)) continue;
+
+    // Rendered city names: every `.city-name` div on the page, including the
+    // non-anchor `city-card--info` cards (e.g. Whittier, Norco) — those are
+    // still shown to the reader as served areas and still need a matching
+    // areaServed entry.
+    const cardNames = [...content.matchAll(CITY_NAME_RE)].map(m => m[1].trim());
+    if (!cardNames.length) continue;
+
+    const areaServed = [];
+    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; }
+      const walk = (node) => {
+        if (Array.isArray(node)) return node.forEach(walk);
+        if (!node || typeof node !== 'object') return;
+        const t = node['@type'];
+        const isLocalBusiness = t === 'LocalBusiness' || (Array.isArray(t) && t.includes('LocalBusiness'));
+        if (isLocalBusiness && node.areaServed) {
+          const entries = Array.isArray(node.areaServed) ? node.areaServed : [node.areaServed];
+          for (const e of entries) {
+            if (typeof e === 'string') areaServed.push(e);
+            else if (e && typeof e === 'object' && typeof e.name === 'string') areaServed.push(e.name);
+          }
+        }
+        for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v);
+      };
+      walk(parsed);
+    }
+
+    checked['area-served-parity'].pages++;
+    checked['area-served-parity'].cities += cardNames.length;
+
+    const norm = s => s.trim().toLowerCase();
+    const areaServedNorm = areaServed.map(norm);
+
+    for (const name of new Set(cardNames)) {
+      const expected = norm(`${name}, CA`);
+      if (!areaServedNorm.includes(expected)) {
+        issues.push(`[AREA-SERVED] ${rel(filePath)} — renders a "${name}" city card but "${name}, CA" is missing from the LocalBusiness areaServed JSON-LD.`);
+      }
+    }
+
+    const cardNamesNorm = new Set(cardNames.map(norm));
+    for (const entry of new Set(areaServed)) {
+      const trimmed = entry.trim();
+      if (/county,\s*ca$/i.test(trimmed)) continue;   // region-level, card-less by design
+      const cityPart = (trimmed.match(/^(.*),\s*CA$/i) || [null, trimmed])[1];
+      if (!cardNamesNorm.has(norm(cityPart))) {
+        issues.push(`[AREA-SERVED] ${rel(filePath)} — areaServed lists "${entry}" but no matching city card is rendered on the page.`);
+      }
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -1967,5 +2065,6 @@ if (checked['brand-tier'])           parts.push(`brand tiers + fee values match 
 if (checked['tel-target'])           parts.push(`all ${checked['tel-target'].links} tel: links dial ${checked['tel-target'].canonical} (${checked['tel-target'].distinct} distinct target${checked['tel-target'].distinct === 1 ? '' : 's'})`);
 if (checked['umbrella-range'])       parts.push(`umbrella price ranges hold on ${checked['umbrella-range'].rangesChecked} itemized range(s) against ${checked['umbrella-range'].governingRanges} governing range(s) across ${checked['umbrella-range'].blocks} FAQ/AI-answer blocks in ${checked['umbrella-range'].files} files`);
 if (checked['srcset-width'])         parts.push(`srcset width descriptors match decoded pixel width on ${checked['srcset-width'].checkedEntries} entries across ${checked['srcset-width'].files} files (${checked['srcset-width'].skippedDensity} x-density + ${checked['srcset-width'].skippedImplicit1x} implicit-1x + ${checked['srcset-width'].skippedSvg} svg + ${checked['srcset-width'].skippedRemote} remote/data skipped)`);
+if (checked['area-served-parity'])   parts.push(`areaServed JSON-LD matches ${checked['area-served-parity'].cities} rendered city cards across ${checked['area-served-parity'].pages} city-card grid page(s) (County, CA region entries exempt)`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
