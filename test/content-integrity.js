@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-one enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-two enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -258,6 +258,26 @@
  *                    Bare single figures ($99 diagnostic fee) never match the
  *                    two-number range pattern, so they are excluded automatically.
  *
+ *   srcset-width   — every `srcset="…"` / `imagesrcset="…"` candidate of the form
+ *                    "<url> <N>w" must declare the image's REAL intrinsic pixel
+ *                    width, decoded from the file's own WebP/PNG/JPEG header, not
+ *                    copied from a filename or eyeballed. This exact defect class
+ *                    was found, half-fixed, and re-found at 5x scale across THREE
+ *                    separate audits before this check existed, because every
+ *                    pass fixed the instances in front of it and none added a
+ *                    gate: 2026-08-11 recorded 4 files; a 2026-08-16 full-site
+ *                    scan (branch fix/srcset-width-descriptors) found 22 files
+ *                    across 42 occurrences, several of them files whose own NAME
+ *                    claims a width ("-800w.webp") the header disagrees with. An
+ *                    overstated descriptor makes the browser pick a too-small
+ *                    file for a slot it cannot fill, so job-photo galleries
+ *                    render soft on retina; an understated one wastes bytes
+ *                    already paid for. `x` density descriptors and SVG sources
+ *                    are skipped (counted in the summary, not silently dropped).
+ *                    A missing file or an undecodable header fails LOUDLY rather
+ *                    than being skipped — a silent skip is how this class of bug
+ *                    survived three audits. Added 2026-08-16.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -266,7 +286,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all twenty-one enforced checks + the report
+ *   node test/content-integrity.js          : run all twenty-two enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -276,7 +296,8 @@
  *                                             article-mobile-chrome, non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
  *                                             faq-schema-presence, gallery-parity, brand-tier,
- *                                             tel-target, umbrella-range, title-length)
+ *                                             tel-target, umbrella-range, srcset-width,
+ *                                             title-length)
  */
 
 'use strict';
@@ -1692,6 +1713,206 @@ if (run('umbrella-range')) {
   }
 }
 
+// ── Check 21: srcset-width ──────────────────────────────────────────────────
+// Every `srcset="…"` (and `imagesrcset="…"`, the same attribute on
+// `<link rel="preload" as="image">`) candidate of the form "<url> <N>w" must
+// declare the image's REAL intrinsic pixel width — decoded from the file's own
+// header, not copied from a filename and not eyeballed. An overstated
+// descriptor (a file honestly 600px wide labeled "-800w") tells the browser a
+// too-small file can fill a larger slot, so it gets picked for a retina
+// display and the job-photo galleries this site leans on for trust render
+// soft; an understated descriptor wastes bytes the page already paid to
+// download.
+//
+// This exact defect class was found, half-fixed, and re-found at 5x scale
+// across THREE separate audits before this check existed, because every pass
+// fixed the instances in front of it and none of them added a gate:
+// 2026-08-11 recorded 4 files; a 2026-08-16 full-site scan (branch
+// fix/srcset-width-descriptors) found 22 files across 42 occurrences —
+// several of them files whose own NAME claims a width ("-800w.webp") the
+// header disagrees with, e.g. completed-repair-range-viking-mission-viejo-
+// 800w.webp is actually 600px wide. A lying filename is a distinct problem
+// from a lying descriptor (the fix is a rename + re-export, not a text edit),
+// and is called out separately wherever this check finds one.
+//
+// Decodes WebP (all three sub-formats: lossy `VP8 `, lossless `VP8L`,
+// extended `VP8X`), PNG (IHDR) and JPEG (SOF0/1/2/9/10/11) headers directly —
+// pure Node, no new dependency, no shelling out to a binary. `x` density
+// descriptors and SVG sources carry no pixel-width claim to check, so they are
+// skipped — but COUNTED in the summary rather than silently dropped, per the
+// same "no silent skip" discipline as the rest of this file. A referenced file
+// that does not exist, an unrecognized srcset candidate shape, or a header
+// this decoder cannot parse all fail LOUDLY as issues: a silent skip is
+// exactly how this defect class survived three prior audits.
+if (run('srcset-width')) {
+  checked['srcset-width'] = {
+    files: 0, entries: 0, checkedEntries: 0, mismatches: 0,
+    skippedDensity: 0, skippedSvg: 0, skippedRemote: 0, skippedImplicit1x: 0,
+  };
+
+  // Pure-Node intrinsic-width decoder. Returns a pixel width, or null if the
+  // header is not one of the three formats this site ships (WebP/PNG/JPEG) or
+  // is too short/malformed to read.
+  function decodeIntrinsicWidth(buf) {
+    // WebP: "RIFF"....'WEBP' container, then one of three sub-formats.
+    if (buf.length >= 30 && buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP') {
+      const fourcc = buf.toString('ascii', 12, 16);
+      if (fourcc === 'VP8 ') {
+        // Lossy: chunk payload starts at offset 20 (3-byte frame tag + 3-byte
+        // start code 0x9d 0x01 0x2a), then a 14-bit little-endian width at 26.
+        return buf.readUInt16LE(26) & 0x3fff;
+      }
+      if (fourcc === 'VP8L') {
+        // Lossless: 1-byte signature (0x2f) at 20, then a bit-packed 14-bit
+        // width across the low bits of bytes 21-22, stored as (real width - 1).
+        return 1 + (((buf[22] & 0x3f) << 8) | buf[21]);
+      }
+      if (fourcc === 'VP8X') {
+        // Extended: 1-byte flags + 3 reserved bytes at 20-23, then a 24-bit
+        // little-endian canvas width at 24-26, stored as (real width - 1).
+        return 1 + (buf[24] | (buf[25] << 8) | (buf[26] << 16));
+      }
+      return null;
+    }
+    // PNG: 8-byte signature, then the IHDR chunk (4-byte length + 4-byte type
+    // + 4-byte big-endian width, starting at offset 16).
+    if (buf.length >= 24 && buf.toString('hex', 0, 8) === '89504e470d0a1a0a') {
+      return buf.readUInt32BE(16);
+    }
+    // JPEG: walk markers to the first Start-Of-Frame segment. SOF0/1/2/9/10/11
+    // (baseline, extended/progressive, arithmetic-coded) all share the same
+    // width offset; 0xC4 (DHT), 0xC8 (JPG reserved) and 0xCC (DAC) fall inside
+    // the 0xC0-0xCF range but are NOT SOF markers and must be excluded.
+    if (buf.length >= 4 && buf[0] === 0xff && buf[1] === 0xd8) {
+      let offset = 2;
+      while (offset < buf.length - 1) {
+        if (buf[offset] !== 0xff) { offset++; continue; }
+        // A marker may legally be preceded by a RUN of 0xFF fill bytes (some
+        // encoders emit them), so the marker is the first non-0xFF byte after
+        // the run — not unconditionally buf[offset + 1]. Reading that byte
+        // blind mistakes 0xFF for the marker and then reads a segment length
+        // out of unrelated data, which walks the parser into garbage and can
+        // return a plausible-looking WRONG width instead of null. That is the
+        // one failure shape this whole check exists to rule out, so it is
+        // handled even though the site ships no JPEG in a srcset today.
+        // 0xFF00 is a stuffed byte inside entropy data, never a marker.
+        let m = offset + 1;
+        while (m < buf.length && buf[m] === 0xff) m++;
+        if (m >= buf.length) break;
+        const marker = buf[m];
+        if (marker === 0x00) { offset = m + 1; continue; }
+        // Standalone markers: no length field follows.
+        if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd9)) { offset = m + 1; continue; }
+        if (m + 2 >= buf.length) break;
+        const segLen = buf.readUInt16BE(m + 1);
+        const isSOF = marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
+        if (isSOF) {
+          if (m + 7 >= buf.length) return null;
+          return buf.readUInt16BE(m + 6);
+        }
+        if (segLen < 2) return null;   // malformed: a length field counts itself
+        offset = m + 1 + segLen;
+      }
+      return null;
+    }
+    return null; // not a recognized WebP/PNG/JPEG header
+  }
+
+  // resolved absolute path -> decoded width (or null) — decode each file once
+  // even though the same image is referenced from many pages.
+  const widthCache = new Map();
+  const DENSITY_RE = /^\d*\.?\d+x$/i;
+  const WIDTH_RE = /^(\d+)w$/;
+
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const fileDir = path.dirname(filePath);
+    let fileHasAttr = false;
+
+    // Both quote styles. The site writes double quotes throughout today, but a
+    // double-quote-only pattern would skip a single-quoted srcset in SILENCE,
+    // which is the one failure mode this check exists to rule out.
+    for (const m of content.matchAll(/\b(?:srcset|imagesrcset)\s*=\s*(["'])([\s\S]*?)\1/g)) {
+      fileHasAttr = true;
+      const lineNo = content.slice(0, m.index).split('\n').length;
+      const candidates = m[2].split(',').map(s => s.trim()).filter(Boolean);
+
+      for (const cand of candidates) {
+        checked['srcset-width'].entries++;
+        const parts = cand.split(/\s+/);
+        const url = parts[0];
+        const descriptor = parts[1];
+
+        // A candidate is a URL plus AT MOST one descriptor. A URL cannot contain
+        // an unescaped space, so a third token means the attribute is malformed
+        // (usually a missing comma, which silently merges two candidates into
+        // one and drops a real image from the set). Reading only parts[0..1]
+        // would let that pass unseen, which contradicts this check's own
+        // fail-loudly rule. Raised by Copilot in review of #745.
+        if (parts.length > 2) {
+          issues.push(`[SRCSET-WIDTH] ${rel(filePath)}:${lineNo} — "${cand}" has ${parts.length} whitespace-separated tokens; a candidate is "<url>" or "<url> <descriptor>". Check for a missing comma between candidates.`);
+          continue;
+        }
+
+        if (/^(?:https?:)?\/\//.test(url) || url.startsWith('data:')) {
+          checked['srcset-width'].skippedRemote++;
+          continue;
+        }
+        // A bare URL with no descriptor at all is valid srcset syntax — an
+        // implicit "1x" (HTML spec: a candidate with no descriptor is treated
+        // as 1x). It carries no pixel-width claim to check, same as an
+        // explicit x-descriptor, so it is skipped and counted, not treated as
+        // malformed.
+        if (parts.length === 1) {
+          checked['srcset-width'].skippedImplicit1x++;
+          continue;
+        }
+        if (descriptor && DENSITY_RE.test(descriptor)) {
+          checked['srcset-width'].skippedDensity++;
+          continue;
+        }
+        if (/\.svg$/i.test(url)) {
+          checked['srcset-width'].skippedSvg++;
+          continue;
+        }
+        const widthMatch = descriptor && descriptor.match(WIDTH_RE);
+        if (!widthMatch) {
+          issues.push(`[SRCSET-WIDTH] ${rel(filePath)}:${lineNo} — "${cand}" is not a recognized srcset candidate (expected "<url> <N>w" or "<url> <N>x"); failing loudly instead of silently skipping.`);
+          continue;
+        }
+        const declared = parseInt(widthMatch[1], 10);
+
+        // Site-absolute ("/images/…") resolves from the repo root; everything
+        // else resolves relative to the HTML file's OWN directory, matching how
+        // the browser resolves it.
+        const resolved = url.startsWith('/') ? path.join(root, url.slice(1)) : path.resolve(fileDir, url);
+
+        if (!fs.existsSync(resolved)) {
+          issues.push(`[SRCSET-WIDTH] ${rel(filePath)}:${lineNo} — ${url} does not exist on disk (resolved to ${rel(resolved)}).`);
+          continue;
+        }
+
+        let decoded = widthCache.get(resolved);
+        if (decoded === undefined) {
+          decoded = decodeIntrinsicWidth(fs.readFileSync(resolved));
+          widthCache.set(resolved, decoded);
+        }
+        if (decoded === null) {
+          issues.push(`[SRCSET-WIDTH] ${rel(filePath)}:${lineNo} — ${url} could not be decoded (unrecognized or malformed WebP/PNG/JPEG header at ${rel(resolved)}).`);
+          continue;
+        }
+
+        checked['srcset-width'].checkedEntries++;
+        if (decoded !== declared) {
+          checked['srcset-width'].mismatches++;
+          issues.push(`[SRCSET-WIDTH] ${rel(filePath)}:${lineNo} — ${url} declares ${declared}w but the file is actually ${decoded}px wide.`);
+        }
+      }
+    }
+    if (fileHasAttr) checked['srcset-width'].files++;
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -1745,5 +1966,6 @@ if (checked['gallery-parity'])       parts.push(`ImageGallery schema matches ren
 if (checked['brand-tier'])           parts.push(`brand tiers + fee values match seo-content.md across ${checked['brand-tier'].pages} pages (${checked['brand-tier'].lists} premium lists, ${checked['brand-tier'].fees} fee statements)`);
 if (checked['tel-target'])           parts.push(`all ${checked['tel-target'].links} tel: links dial ${checked['tel-target'].canonical} (${checked['tel-target'].distinct} distinct target${checked['tel-target'].distinct === 1 ? '' : 's'})`);
 if (checked['umbrella-range'])       parts.push(`umbrella price ranges hold on ${checked['umbrella-range'].rangesChecked} itemized range(s) against ${checked['umbrella-range'].governingRanges} governing range(s) across ${checked['umbrella-range'].blocks} FAQ/AI-answer blocks in ${checked['umbrella-range'].files} files`);
+if (checked['srcset-width'])         parts.push(`srcset width descriptors match decoded pixel width on ${checked['srcset-width'].checkedEntries} entries across ${checked['srcset-width'].files} files (${checked['srcset-width'].skippedDensity} x-density + ${checked['srcset-width'].skippedImplicit1x} implicit-1x + ${checked['srcset-width'].skippedSvg} svg + ${checked['srcset-width'].skippedRemote} remote/data skipped)`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
