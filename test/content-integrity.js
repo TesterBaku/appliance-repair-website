@@ -1843,6 +1843,17 @@ if (run('srcset-width')) {
         const url = parts[0];
         const descriptor = parts[1];
 
+        // A candidate is a URL plus AT MOST one descriptor. A URL cannot contain
+        // an unescaped space, so a third token means the attribute is malformed
+        // (usually a missing comma, which silently merges two candidates into
+        // one and drops a real image from the set). Reading only parts[0..1]
+        // would let that pass unseen, which contradicts this check's own
+        // fail-loudly rule. Raised by Copilot in review of #745.
+        if (parts.length > 2) {
+          issues.push(`[SRCSET-WIDTH] ${rel(filePath)}:${lineNo} — "${cand}" has ${parts.length} whitespace-separated tokens; a candidate is "<url>" or "<url> <descriptor>". Check for a missing comma between candidates.`);
+          continue;
+        }
+
         if (/^(?:https?:)?\/\//.test(url) || url.startsWith('data:')) {
           checked['srcset-width'].skippedRemote++;
           continue;
