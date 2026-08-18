@@ -1409,6 +1409,37 @@ test.describe('Regression: article hamburger nav', () => {
   });
 });
 
+// ─── Regression: hamburger cascade order on LA maintenance-family articles (P6-56) ──
+// Bug found 2026-08-18 during review of PR #752: these two articles declared an
+// unconditional ".nav-hamburger { display: none; ... }" rule AFTER the
+// "@media (max-width: 768px) { .nav-hamburger { display: flex; } }" rule meant to
+// show it on mobile. Equal specificity + later source order meant the unconditional
+// rule always won, so the hamburger was display:none at every viewport and the
+// mobile nav drawer could never be opened. The existing 375px mobile sweep (the
+// hero-clears-nav / no-horizontal-overflow loop below) already ran on both these
+// files and passed clean the whole time: it only ever asserted nothing overflowed
+// sideways, never that the hamburger was visible or operable. Both pages' markup
+// carries id="mobile-nav-drawer" AND class="nav-drawer" on the same element (site.js
+// sets both aria-hidden and data-open for the #mobile-nav-drawer branch), and these
+// two pages' CSS toggles visibility off .nav-drawer[data-open], so asserting against
+// .nav-drawer is what the real cascade depends on here.
+test.describe('Regression: hamburger cascade order on LA articles (P6-56)', () => {
+  const PAGES = [
+    '/articles/article-appliance-lifespan-los-angeles-county.html',
+    '/articles/article-rental-appliance-law-los-angeles-county.html',
+  ];
+
+  for (const url of PAGES) {
+    test(`hamburger is visible and opens the drawer at 375px: ${url}`, async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(url);
+      await expect(page.locator('.nav-hamburger')).toBeVisible();
+      await page.locator('.nav-hamburger').click();
+      await expect(page.locator('.nav-drawer')).toBeVisible();
+    });
+  }
+});
+
 // ─── Regression: every mobile drawer link must be REACHABLE, not merely present ──
 // P6-52. The drawer sits inside a position:fixed nav, so page scrolling can never
 // reveal content below the fold, so the drawer has to scroll itself. Measured before
