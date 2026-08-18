@@ -890,6 +890,9 @@ if (run('article-mobile-chrome')) {
 // order, so `display: flex; display: none` is correctly read as hidden.
 if (run('hamburger-cascade')) {
   checked['hamburger-cascade'] = { files: 0 };
+  // Counted per FILE, not per <style> block: a page with two style blocks
+  // carrying .nav-hamburger rules must not inflate the summary count.
+  const hamburgerFiles = new Set();
   const STYLE_RE = /<style[^>]*>([\s\S]*?)<\/style>/g;
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
@@ -927,7 +930,10 @@ if (run('hamburger-cascade')) {
         } else if (ch === '}') {
           const top = stack.pop();
           if (top && top.type === 'rule') {
-            rules.push({ selector: top.selector, mediaCondition: top.mediaCondition, body: css.slice(top.bodyStart, i), end: i });
+            // Slice the body from the comment-blanked copy, not the original:
+            // a commented-out "display: flex" inside a rule is not a
+            // declaration, and reading it as one would flip the verdict.
+            rules.push({ selector: top.selector, mediaCondition: top.mediaCondition, body: cssNoComments.slice(top.bodyStart, i), end: i });
           }
           buf = '';
         } else {
@@ -941,7 +947,7 @@ if (run('hamburger-cascade')) {
       const targetsHamburger = (sel) => sel.split(',').some(part => part.trim() === '.nav-hamburger');
       const hamburgerRules = rules.filter(r => targetsHamburger(r.selector) && /display\s*:/i.test(r.body));
       if (!hamburgerRules.length) continue; // no inline .nav-hamburger rule here (shared.css page): skip cleanly
-      checked['hamburger-cascade'].files++;
+      hamburgerFiles.add(rel(filePath));
 
       // Any media-query rule that REVEALS the button counts as the override,
       // whatever display value it uses and however its condition is written.
@@ -968,6 +974,7 @@ if (run('hamburger-cascade')) {
       }
     }
   }
+  checked['hamburger-cascade'].files = hamburgerFiles.size;
 }
 
 // ── Check 12: non-person-reviewers ────────────────────────────────────────────

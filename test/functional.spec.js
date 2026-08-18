@@ -1421,8 +1421,10 @@ test.describe('Regression: article hamburger nav', () => {
 // sideways, never that the hamburger was visible or operable. Both pages' markup
 // carries id="mobile-nav-drawer" AND class="nav-drawer" on the same element (site.js
 // sets both aria-hidden and data-open for the #mobile-nav-drawer branch), and these
-// two pages' CSS toggles visibility off .nav-drawer[data-open], so asserting against
-// .nav-drawer is what the real cascade depends on here.
+// two pages' CSS toggles visibility off .nav-drawer[data-open]. The assertion targets
+// the unique id rather than the class, so it stays strict-mode safe if shared chrome
+// ever puts a second .nav-drawer on the page; visibility is still decided by the
+// class-keyed CSS either way, since both sit on the same element.
 test.describe('Regression: hamburger cascade order on LA articles (P6-56)', () => {
   const PAGES = [
     '/articles/article-appliance-lifespan-los-angeles-county.html',
@@ -1435,7 +1437,7 @@ test.describe('Regression: hamburger cascade order on LA articles (P6-56)', () =
       await page.goto(url);
       await expect(page.locator('.nav-hamburger')).toBeVisible();
       await page.locator('.nav-hamburger').click();
-      await expect(page.locator('.nav-drawer')).toBeVisible();
+      await expect(page.locator('#mobile-nav-drawer')).toBeVisible();
     });
   }
 });
