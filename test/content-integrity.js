@@ -884,7 +884,10 @@ if (run('article-mobile-chrome')) {
 // and a `max-width` substring gate on the media condition) were closed here:
 // selectors are matched per comma-separated part, and ANY media-query rule
 // giving `.nav-hamburger` a display other than `none` counts as the override,
-// whatever its condition text.
+// whatever its condition text. A third, narrower one found on the re-check is
+// closed too: a rule body carrying more than one `display` declaration is read
+// by its LAST one, since duplicates inside a block also resolve by source
+// order, so `display: flex; display: none` is correctly read as hidden.
 if (run('hamburger-cascade')) {
   checked['hamburger-cascade'] = { files: 0 };
   const STYLE_RE = /<style[^>]*>([\s\S]*?)<\/style>/g;
@@ -944,7 +947,15 @@ if (run('hamburger-cascade')) {
       // whatever display value it uses and however its condition is written.
       // Gating on the literal substring "max-width" and on "flex" would miss
       // the same bug behind `@media not (min-width: 769px)` or `display: block`.
-      const mediaShowRules = hamburgerRules.filter(r => r.mediaCondition && /display\s*:\s*(?!none\b)[a-z-]+/i.test(r.body));
+      // Read the LAST display declaration in the body, not the first: within one
+      // rule block CSS also resolves duplicates by source order, so a body of
+      // "display: flex; display: none" is hidden, and testing the first match
+      // would call it a reveal.
+      const effectiveDisplay = (body) => {
+        const decls = body.match(/display\s*:\s*[a-z-]+/gi) || [];
+        return decls.length ? decls[decls.length - 1].split(':')[1].trim().toLowerCase() : null;
+      };
+      const mediaShowRules = hamburgerRules.filter(r => r.mediaCondition && effectiveDisplay(r.body) && effectiveDisplay(r.body) !== 'none');
       const unconditionalRules = hamburgerRules.filter(r => !r.mediaCondition);
 
       for (const flexRule of mediaShowRules) {
