@@ -149,7 +149,12 @@
  *                    comments first so a comment sitting between two rules
  *                    can never glue onto the next selector's text, so
  *                    whether a rule sits inside `@media` is judged
- *                    structurally rather than by position alone.
+ *                    structurally rather than by position alone. It reasons
+ *                    only about inline `<style>` rules selecting exactly
+ *                    `.nav-hamburger` (comma-separated groups included), so
+ *                    external sheets, higher-specificity compound selectors,
+ *                    `!important` and inline `style=` are outside its reach:
+ *                    the full boundary is written out above the check itself.
  *
  *   non-person-reviewers — no page may display a `Review` (in JSON-LD) whose
  *                    `author.name` matches a data/testimonials.json record
@@ -866,6 +871,20 @@ if (run('article-mobile-chrome')) {
 // enumerates that inlines its OWN ".nav-hamburger" display rule; hub/static
 // pages that get the hamburger from shared.css declare no inline rule and
 // are skipped cleanly, the same widening precedent as meta-desc-len.
+//
+// KNOWN COVERAGE BOUNDARY, stated so nobody trusts this further than it goes.
+// It reasons over ONE inline `<style>` block per file at a time and only about
+// rules whose selector, split on commas, contains exactly `.nav-hamburger`. It
+// does NOT resolve: a descendant or compound selector (`.nav .nav-hamburger`,
+// `button.nav-hamburger`), which carries higher specificity and so is not the
+// equal-specificity race this checks; a rule in shared.css or any other
+// external sheet; `!important`; or an inline `style=` attribute. A page can
+// therefore still break its hamburger in a way this check calls clean. The two
+// gaps a reviewer found on the PR that added it (exact-string selector match,
+// and a `max-width` substring gate on the media condition) were closed here:
+// selectors are matched per comma-separated part, and ANY media-query rule
+// giving `.nav-hamburger` a display other than `none` counts as the override,
+// whatever its condition text.
 if (run('hamburger-cascade')) {
   checked['hamburger-cascade'] = { files: 0 };
   const STYLE_RE = /<style[^>]*>([\s\S]*?)<\/style>/g;
@@ -913,18 +932,26 @@ if (run('hamburger-cascade')) {
         }
       }
 
-      const hamburgerRules = rules.filter(r => r.selector === '.nav-hamburger' && /display\s*:/i.test(r.body));
+      // Match the selector per comma-separated part, not as a whole string: a
+      // grouped selector like ".nav, .nav-hamburger" reproduces this bug exactly
+      // and an equality test would walk straight past it.
+      const targetsHamburger = (sel) => sel.split(',').some(part => part.trim() === '.nav-hamburger');
+      const hamburgerRules = rules.filter(r => targetsHamburger(r.selector) && /display\s*:/i.test(r.body));
       if (!hamburgerRules.length) continue; // no inline .nav-hamburger rule here (shared.css page): skip cleanly
       checked['hamburger-cascade'].files++;
 
-      const mediaFlexRules = hamburgerRules.filter(r => r.mediaCondition && /max-width/i.test(r.mediaCondition) && /display\s*:\s*flex/i.test(r.body));
+      // Any media-query rule that REVEALS the button counts as the override,
+      // whatever display value it uses and however its condition is written.
+      // Gating on the literal substring "max-width" and on "flex" would miss
+      // the same bug behind `@media not (min-width: 769px)` or `display: block`.
+      const mediaShowRules = hamburgerRules.filter(r => r.mediaCondition && /display\s*:\s*(?!none\b)[a-z-]+/i.test(r.body));
       const unconditionalRules = hamburgerRules.filter(r => !r.mediaCondition);
 
-      for (const flexRule of mediaFlexRules) {
+      for (const flexRule of mediaShowRules) {
         for (const uncond of unconditionalRules) {
           if (uncond.end > flexRule.end) {
             const lineNo = content.slice(0, cssStart + uncond.end).split('\n').length;
-            issues.push(`[HAMBURGER-CASCADE] ${rel(filePath)}:${lineNo}: unconditional ".nav-hamburger { display: ... }" appears AFTER the "@media (max-width: 768px) { .nav-hamburger { display: flex } }" override. Equal specificity + later source position means the unconditional rule always wins, so the hamburger is display:none at every viewport. Move the unconditional ".nav-hamburger" block (and its span/aria-expanded/.nav-drawer siblings) BEFORE the @media block, as in articles/article-maintenance-skip-cost-los-angeles-county.html.`);
+            issues.push(`[HAMBURGER-CASCADE] ${rel(filePath)}:${lineNo}: unconditional ".nav-hamburger { display: ... }" appears AFTER the "${flexRule.mediaCondition} { ${flexRule.selector} { display: ... } }" override that reveals it. Equal specificity + later source position means the unconditional rule always wins, so the hamburger is display:none at every viewport. Move the unconditional ".nav-hamburger" block (and its span/aria-expanded/.nav-drawer siblings) BEFORE the @media block, as in articles/article-maintenance-skip-cost-los-angeles-county.html.`);
           }
         }
       }
