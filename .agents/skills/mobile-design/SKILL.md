@@ -1,3 +1,12 @@
+---
+name: mobile-design
+description: Use whenever writing, editing, or reviewing any HTML or CSS on any page of this site, including the homepage, a hub page, a static page, or an article, and no matter how small the change looks (a spacing tweak, a new section, a form field, a nav change). Applies even when the request never mentions mobile, phones, or responsive design and only describes a desktop-looking change.
+---
+
+**When NOT to use this skill:** this skill governs layout, breakpoints, and mobile chrome only.
+For what the page should say, use `seo-content`; for whether a piece of content (a testimonial
+card, a price) belongs on the page at all, use the matching content skill instead.
+
 # Mobile Design Rules
 
 The site must work on a real phone first, not just a desktop browser shrunk down. Every page Claude touches must satisfy these rules before the PR can merge.

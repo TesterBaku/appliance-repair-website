@@ -1,3 +1,12 @@
+---
+name: gbp-platform-policy
+description: Use before writing, editing, or approving any copy, caption, post, comment reply, or message meant for an external platform, such as Google Business Profile, Yelp, Instagram, Facebook, TikTok, or YouTube. Also use before drafting any request for a customer to leave feedback or a review, in any channel (email, SMS, in person script), even if no platform is named. Applies even when the request just says something like "write a post for our page" or "reply to this review" and never names a policy.
+---
+
+**When NOT to use this skill:** this skill governs copy that leaves the site for a third-party
+platform. It does not cover on-site content (articles, hub pages, schema); use `seo-content` for
+that instead.
+
 # Standing Rule — Verify Platform Policies Before Suggesting External Actions
 
 **Before writing any copy, captions, posts, or instructions for any external platform (Google Business Profile, Instagram, Facebook, TikTok, YouTube, Yelp, or any other third-party service), Claude MUST first verify the platform's current content policies, restrictions, and penalties.**

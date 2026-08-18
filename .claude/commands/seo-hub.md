@@ -21,7 +21,7 @@ If arguments are missing, ask the user:
 - **Type**: `service` or `city`
 - **Target**:
   - For `service`: which appliance? (refrigerator, washer, dryer, dishwasher, oven-stove)
-  - For `city`: which city? (must be from the Primary or Secondary list in `rules/seo-content.md`)
+  - For `city`: which city? (must be from the Primary or Secondary list in `.agents/skills/seo-content/SKILL.md`)
 
 ---
 
@@ -32,8 +32,8 @@ If arguments are missing, ask the user:
 ### Steps
 
 1. **Read the rules first.** Open and read:
-   - `rules/seo-content.md` — brand canonicalization, AI answer block template, FAQ count requirements, schema templates
-   - `rules/mobile-design.md` — mobile breakpoints, hamburger, sticky CTA bar
+   - `.agents/skills/seo-content/SKILL.md` — brand canonicalization, AI answer block template, FAQ count requirements, schema templates
+   - `.agents/skills/mobile-design/SKILL.md` — mobile breakpoints, hamburger, sticky CTA bar
    - `tasks/backlog.md` — confirm which hub pages are already in flight (P3 section)
 
 2. **Confirm no duplicate.** Check `pages/` for an existing file with the target slug:
@@ -57,7 +57,7 @@ If arguments are missing, ask the user:
    - `"[appliance] repair [city|Orange County] site:reddit.com OR people also ask"`
    - Extract 8–12 candidate FAQ questions. We'll trim later.
 
-5. **Brand intel** (service hub only) — list which brands the top competitors prominently service. Cross-reference with our supported list in `rules/seo-content.md` (Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor). Pick **6–10 brands to feature on the page**, with a short note on common issues for the top 3 (e.g., "Sub-Zero compressor sealed-system repairs", "Samsung ice-maker recall").
+5. **Brand intel** (service hub only) — list which brands the top competitors prominently service. Cross-reference with our supported list in `.agents/skills/seo-content/SKILL.md` (Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor). Pick **6–10 brands to feature on the page**, with a short note on common issues for the top 3 (e.g., "Sub-Zero compressor sealed-system repairs", "Samsung ice-maker recall").
 
 6. **Neighborhood / ZIP intel** (city hub only) — pull the city's neighborhoods, key ZIP codes, and 2–3 recognizable landmarks. Source these from a quick `WebSearch` like `"[city] CA neighborhoods ZIP codes"`. We need real names, not generic filler.
 
@@ -186,23 +186,23 @@ All hub pages: `LocalBusiness` + `BreadcrumbList` + `FAQPage`.
 
 If 6+ verifiable reviews exist for the page's target, also add `AggregateRating`.
 
-Use the schema templates in `rules/seo-content.md` as the source of truth — copy them, fill in the variables, do not invent fields.
+Use the schema templates in `.agents/skills/seo-content/SKILL.md` as the source of truth — copy them, fill in the variables, do not invent fields.
 
 ### Required content sections (in order)
 
 1. **Hero** — full-width image, H1 (primary keyword), sub-line, primary CTA (Call) + secondary CTA (Book online)
-2. **AI answer block** — plain prose, 60–110 words, names entity / services / area / phone / booking. Use the template in `rules/seo-content.md`, adapted:
+2. **AI answer block** — plain prose, 60–110 words, names entity / services / area / phone / booking. Use the template in `.agents/skills/seo-content/SKILL.md`, adapted:
    - **Service hub:** lead with the appliance ("Universal Appliances Repair Group Inc. provides [appliance] repair across Orange County…")
    - **City hub:** lead with the city ("Universal Appliances Repair Group Inc. serves [city], CA, including [neighborhoods]…")
 3. **[Service hub]** Common symptoms (8+ bulleted symptoms) → **[City hub]** Neighborhoods served (list with ZIPs)
 4. **Brands serviced** (service hub) OR **Services we offer** (city hub) — plain text list, not images
 5. **Repair process** — 3–5 numbered steps from booking to done
-6. **What this typically costs** — *only if cost content is approved for this run* (default: skip per `rules/seo-content.md`)
+6. **What this typically costs** — *only if cost content is approved for this run* (default: skip per `.agents/skills/seo-content/SKILL.md`)
 7. **FAQ section** — minimum count per type:
    - Service hub: **8+** FAQs
    - City hub: **5+** FAQs
    - Each Q&A becomes a `mainEntity` in FAQPage schema
-8. **Testimonials** — **3 real reviews** pulled from `data/testimonials.json`. Follow the full selection algorithm in `rules/testimonial-selection.md`:
+8. **Testimonials** — **3 real reviews** pulled from `data/testimonials.json`. Follow the full selection algorithm in `.agents/skills/testimonial-selection/SKILL.md`:
    - Filter to `bodyStatus: "complete"` entries only
    - Prefer reviews whose `appliance` field matches the hub type (service hub); any appliance is fine for city hubs
    - Apply the ≤2-overlap rule against `tasks/testimonial-usage.md` before picking
@@ -215,7 +215,7 @@ Use the schema templates in `rules/seo-content.md` as the source of truth — co
 9. **CTA box** — same pattern as articles: "Need [appliance] repair in [Orange County | city]? Call (949) 629-5365 or book online."
 
 ### Mobile compliance (required)
-Apply `rules/mobile-design.md` in full:
+Apply `.agents/skills/mobile-design/SKILL.md` in full:
 - `@media (max-width: 768px)` and `@media (max-width: 480px)` blocks present
 - Sticky bottom Call/Book bar enabled (hub pages use it — see the rule)
 - All grids stack to 1 column on mobile
@@ -245,10 +245,10 @@ git commit -m "feat(hub): wire internal links to [slug]"
 
 ```bash
 npm test            # link checker
-npm run screenshot  # puppeteer screenshots
+npm run screenshot  # Playwright screenshots
 ```
 
-Apply the Bug Fix Workflow from `rules/git-workflow.md`. Do not proceed until both commands exit 0.
+Apply the Bug Fix Workflow from `.agents/skills/git-workflow/SKILL.md`. Do not proceed until both commands exit 0.
 
 Additional checks specific to hubs:
 - Run the new page through Google's [Rich Results Test](https://search.google.com/test/rich-results) (paste URL or HTML) — `Service`, `LocalBusiness`, `BreadcrumbList`, `FAQPage` should all be eligible.
@@ -388,7 +388,7 @@ git checkout master && git pull origin master
 - Never push directly to `master` (pre-push hook will block it)
 - Never auto-merge a hub PR — always stop at Phase 9
 - Never fabricate testimonials, ratings, or licenses — pull from `data/testimonials.json` (74 complete-body reviews available); if the pool has no suitable match, leave the section short and call it out in the PR description
-- Never write "Fix Appliances Fast" as a brand name (it's a URL only — see `rules/seo-content.md`)
+- Never write "Fix Appliances Fast" as a brand name (it's a URL only — see `.agents/skills/seo-content/SKILL.md`)
 - Always include the AI answer block — it's the highest-leverage section for AI-engine recommendations
 - One hub page per PR. If the user wants 5 hub pages, run the workflow 5 times sequentially
 - Always wire the internal links in Phase 3 — a hub page that nothing links to is useless

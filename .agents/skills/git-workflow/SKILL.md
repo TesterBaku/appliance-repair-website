@@ -1,3 +1,14 @@
+---
+name: git-workflow
+description: Use whenever a task in this repository is about to produce a git branch, a commit, or a pull request, or whenever deciding whether a code/design review is needed before a change can merge. Applies even when the request never says "PR" or "git" and only says something like "fix this bug", "make the tests pass", "ship this", or "commit that". Also use when a test is failing and needs to be driven to green.
+---
+
+**When NOT to use this skill:** this skill governs process only (branch, commit, PR, review, and
+which design check a PR needs), never the content of the change itself. For what to write or
+build, use the matching domain skill instead: `seo-content` for site copy/schema, `mobile-design`
+for HTML/CSS layout, `testimonial-selection` for review cards, `gbp-platform-policy` for
+external-platform copy, `trusted-sources` for web research.
+
 # Git Workflow
 
 ## Branch Naming
@@ -27,7 +38,7 @@ Follow Conventional Commits format:
 
 Types: `feat`, `fix`, `chore`, `content`, `style`, `refactor`, `docs`
 
-(`docs` for changes to `AGENTS.md`, `.claude/rules/`, `.claude/commands/` and similar. It was in use
+(`docs` for changes to `AGENTS.md`, `.agents/skills/*/SKILL.md`, `.claude/commands/` and similar. It was in use
 before it was listed here — precedent `9a23446 docs(agents): add reporting contracts` — so this
 records existing practice rather than introducing a type.)
 

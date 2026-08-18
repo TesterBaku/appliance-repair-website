@@ -161,7 +161,7 @@ Service-fee phrasing (`$99 diagnostic`) matches the project's standing rule and 
 | Facebook       | Auto-cross-post is fine. Drop the "link in bio" line and use an actual URL: https://fixappliancesfast.com/    |
 | TikTok         | Tighten captions to ~150 chars. Keep top 5 hashtags only. Add `#fyp #foryou`.                                  |
 | YouTube Shorts | Only if you have a short video clip. Use the Reel caption as the description, first line as the title.        |
-| GBP            | **Do NOT cross-post these captions as written.** Per project policy, GBP needs descriptive-only copy. See `/rules/gbp-platform-policy.md` for the approved formula. |
+| GBP            | **Do NOT cross-post these captions as written.** Per project policy, GBP needs descriptive-only copy. See `.agents/skills/gbp-platform-policy/SKILL.md` for the approved formula. |
 
 ## Engagement plan (first hour after posting)
 

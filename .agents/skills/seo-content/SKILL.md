@@ -1,4 +1,13 @@
 ---
+name: seo-content
+description: Use when writing, editing, or reviewing an article, a service/brand/city hub page, the Service Areas hub, or the homepage, on this site. Also use when writing or editing any <title>, meta tag, JSON-LD schema block, brand name mention, or any price, cost, service-fee, or company-fee text anywhere on the site, even if the request only says something like "update the price on this page", "add a new city hub", or "fix this meta description" and never mentions SEO, content rules, or schema by name.
+---
+
+**When NOT to use this skill:** this skill governs on-site written content and schema only. For
+review/testimonial cards use `testimonial-selection`; for layout, breakpoints, or CSS use
+`mobile-design`; for copy leaving the site to an external platform use `gbp-platform-policy`.
+
+---
 # SEO Content Rules
 ---
 
@@ -147,137 +156,13 @@ Include at least 2 question-format phrases that map to FAQ schema sections.
 
 ## Required SEO Elements in Every Article
 
-### `<head>` tags (required — production URLs only)
-
-**`<link rel="canonical">` is mandatory on every new HTML page.** Missing it caused a GSC "Duplicate without user-selected canonical" flag on 4 articles. The `/review` skill treats a missing canonical as a FAIL — same gate as the GA tag. Place it immediately after `<title>`.
-
-```html
-<title>[Primary Keyword] | Universal Appliances Repair</title>
-<link rel="canonical" href="https://fixappliancesfast.com/[path]" />
-<meta name="description" content="[150–160 chars, includes primary keyword and city]" />
-<meta name="keywords" content="[5–8 comma-separated keywords]" />
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="Universal Appliances Repair" />
-<meta property="og:title" content="[Same as <title>]" />
-<meta property="og:description" content="[Same as meta description]" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://fixappliancesfast.com/[path]" />
-<meta property="og:image" content="https://fixappliancesfast.com/[1200x630 image]" />
-<meta property="article:published_time" content="[ISO date]" />
-<meta property="article:modified_time" content="[ISO date]" />
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="[Same as <title>]" />
-<meta name="twitter:description" content="[Same as meta description]" />
-<meta name="twitter:image" content="https://fixappliancesfast.com/[1200x630 image]" />
-```
-
-### Schema markup (required — inline `<script type="application/ld+json">`)
-Every article must include all four schemas:
-
-**1. Article schema**
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "[Article title]",
-  "description": "[Meta description]",
-  "author": { "@type": "Organization", "name": "Universal Appliances Repair" },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Universal Appliances Repair",
-    "logo": { "@type": "ImageObject", "url": "https://fixappliancesfast.com/logo.png" }
-  },
-  "datePublished": "[ISO date]",
-  "dateModified": "[ISO date]"
-}
-```
-
-**2. LocalBusiness schema**
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Universal Appliances Repair",
-  "legalName": "Universal Appliances Repair Group Inc.",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "10832 Asbury Avenue",
-    "addressLocality": "Stanton",
-    "addressRegion": "CA",
-    "postalCode": "90680",
-    "addressCountry": "US"
-  },
-  "telephone": "+1-949-629-5365",
-  "email": "info@fixappliancesfast.com",
-  "areaServed": [
-    "Orange County CA", "Stanton CA", "Irvine CA", "Anaheim CA", "Santa Ana CA",
-    "Huntington Beach CA", "Costa Mesa CA", "Fullerton CA", "Garden Grove CA",
-    "Tustin CA", "Orange CA", "Lake Forest CA", "Mission Viejo CA", "Newport Beach CA"
-  ],
-  "url": "https://fixappliancesfast.com/"
-}
-```
-
-**LocalBusiness consistency policy (decided 2026-06-09, resolves audit P3-7).** Every page's `LocalBusiness` node MUST use the shared `"@id": "https://fixappliancesfast.com/#business"` (this is what lets Google merge all pages into one entity) and the canonical NAP — `name`, `legalName`, `address`, `telephone`, `email`, `url` (always the **homepage** `https://fixappliancesfast.com/`, never the page's own URL), `geo`, `areaServed`, `priceRange: "$$"`. Field-placement rules by page type:
-- **`openingHoursSpecification`** — use the structured form (not the bare `openingHours` string). It lives authoritatively on the **homepage** and **contact** pages; the shared `@id` propagates it to the merged entity, so org/hub pages don't need to repeat it (they may). Hours are **Mon–Sat 08:00–19:00**; "Sunday by appointment" is visible copy only (not expressible in `OpeningHoursSpecification`).
-- **`aggregateRating`** — ONLY on review-bearing pages (homepage, service/brand/city hubs, cost hub, about, testimonials). **Never add it to articles** — Google flags `AggregateRating` without on-page review markup ("Review snippet should have reviews"). Articles carry a lightweight `LocalBusiness` (NAP + geo + priceRange) with no `aggregateRating` and no hours. This split is intentional, not drift.
-- **`hasMap`** — optional; points to the GBP listing (`https://www.google.com/maps?cid=6142328803939874574`). Present on the thin-tier city hubs; may be added to other hubs for uniformity.
-- **One `LocalBusiness` node per page.** Attach reviews either inline via `LocalBusiness.review[]` or as a separate `ItemList` of `Review` with `itemReviewed: {"@id": ".../#business"}` — never a second `LocalBusiness` block (that was the Lake Forest bug fixed 2026-06-09).
-
-**3. FAQPage schema** (required — every article must have a FAQ section)
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "[Question]",
-      "acceptedAnswer": { "@type": "Answer", "text": "[Answer]" }
-    }
-  ]
-}
-```
-
-**4. BreadcrumbList schema** (required)
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fixappliancesfast.com/" },
-    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://fixappliancesfast.com/pages/blog.html" },
-    { "@type": "ListItem", "position": 3, "name": "[Article title]", "item": "https://fixappliancesfast.com/articles/[slug].html" }
-  ]
-}
-```
-
-Hub pages additionally include `Service` schema; pages with 6+ verifiable reviews also include `AggregateRating`.
-
-**5. VideoObject schema** (optional — only when a real video is embedded on the page)
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "VideoObject",
-  "name": "[Video title]",
-  "description": "[One sentence describing what the video shows]",
-  "thumbnailUrl": "https://fixappliancesfast.com/videos/posters/[slug]-poster.jpg",
-  "contentUrl": "https://fixappliancesfast.com/videos/[slug].mp4",
-  "uploadDate": "[YYYY-MM-DDT00:00:00+00:00]",
-  "duration": "PT[N]S",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Universal Appliances Repair",
-    "logo": { "@type": "ImageObject", "url": "https://fixappliancesfast.com/logo.png" }
-  }
-}
-```
-
-**`uploadDate` rule (mandatory):** Always use the full ISO 8601 format with timezone: `"2026-05-14T00:00:00+00:00"`. A date-only value like `"2026-05-14"` fails GSC validation with "missing timezone" and "invalid datetime value". Never omit the `T00:00:00+00:00` suffix.
+The full `<head>` tag block and all five JSON-LD schema templates (Article, LocalBusiness,
+FAQPage, BreadcrumbList, VideoObject) moved to a sibling reference file so they only load
+when actually needed: read `.agents/skills/seo-content/references/schema-templates.md`
+before writing or checking any page's `<head>` tags or JSON-LD schema. The LocalBusiness
+consistency policy paragraph is kept together with its templates in that file, on purpose:
+it is what prevents a repeat of the Lake Forest bug (a second `LocalBusiness` block on one
+page), so do not quote the templates from memory without also reading that paragraph.
 
 ---
 
@@ -313,13 +198,13 @@ These three files must exist at the root and return 200:
 - **City landing pages:** 5+ FAQs specific to that city (response time, neighborhoods, ZIP codes covered)
 - **Homepage:** 10–15 FAQs covering same-day, brand-specific (Samsung/LG/Whirlpool), pricing, warranty, online booking, built-in vs freestanding
 
-### Mobile layout (required — see `rules/mobile-design.md`)
+### Mobile layout (required — see `.agents/skills/mobile-design/SKILL.md`)
 - Every article must be fully responsive at 375px width
 - Hero text must be readable without horizontal scrolling
 - Cards and grid sections must stack vertically on mobile
 - Nav must collapse on mobile (hamburger or hidden links); the article's own inline `@media (max-width: 768px)` block must hide BOTH `.nav-links` and `.nav-cta` (the header Book button) so the mobile header does not cram
 - CTA box must be full-width on mobile
-- Sticky bottom Call/Book bar on mobile — **required on articles too** (standard since 2026-07-19), not just hubs; it is the primary mobile booking CTA once the header Book button is hidden. Both this and the `.nav-cta` hide are enforced by the `article-mobile-chrome` check in `npm test`. See `rules/mobile-design.md`.
+- Sticky bottom Call/Book bar on mobile — **required on articles too** (standard since 2026-07-19), not just hubs; it is the primary mobile booking CTA once the header Book button is hidden. Both this and the `.nav-cta` hide are enforced by the `article-mobile-chrome` check in `npm test`. See `.agents/skills/mobile-design/SKILL.md`.
 - Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or `@media` queries in the embedded `<style>` tag
 
 ### Writing rules
@@ -379,7 +264,7 @@ These three files must exist at the root and return 200:
 ## Trust signals (required on homepage and all hub pages)
 
 - **Real testimonials only.** Each testimonial must include first name (with last initial as the reviewer displays it on Google — e.g., "Jennifer T." or full "Jennifer Trette" if that's how they appear), location, appliance type where mentioned, and approximate date. No invented names. Pull from Google or Yelp. The canonical pool lives at `data/testimonials.json` and is sourced from the Google Business Profile listing.
-- **Location label: "Orange County, CA" by default.** Google Business Profile reviews don't expose the reviewer's city. Use "Orange County, CA" as the location label on every testimonial unless (a) the reviewer's own **review text** names a specific OC city, or (b) the job-photo corroborated attestation exception applies (owner decision 2026-08-03): the business holds its own photo of that job in `images/real/business/` with an **objectively describable** visual match, AND a **named, dated** technician or owner attestation of the city, both recorded in the record's `_note`. Both parts are required and must be different kinds of evidence; one person's say-so covering both falls back to the default. City level only, never narrower, and drop back to the default on request. Never invent a city for a reviewer, and never infer one from a name, a profile, or a profile photo. Full wording in `testimonial-selection.md`. Source-of-truth for review data is `data/testimonials.json`, which now spans Google and Yelp; the location-label rule is source-specific (see `testimonial-selection.md`).
+- **Location label: "Orange County, CA" by default.** Google Business Profile reviews don't expose the reviewer's city. Use "Orange County, CA" as the location label on every testimonial unless (a) the reviewer's own **review text** names a specific OC city, or (b) the job-photo corroborated attestation exception applies (owner decision 2026-08-03): the business holds its own photo of that job in `images/real/business/` with an **objectively describable** visual match, AND a **named, dated** technician or owner attestation of the city, both recorded in the record's `_note`. Both parts are required and must be different kinds of evidence; one person's say-so covering both falls back to the default. City level only, never narrower, and drop back to the default on request. Never invent a city for a reviewer, and never infer one from a name, a profile, or a profile photo. Full wording in `.agents/skills/testimonial-selection/SKILL.md`. Source-of-truth for review data is `data/testimonials.json`, which now spans Google and Yelp; the location-label rule is source-specific (see `.agents/skills/testimonial-selection/SKILL.md`).
 - **Testimonial reuse across pages.** Each hub page should display 3 testimonials drawn from `data/testimonials.json` (new hubs); existing hubs built with 4–6 are grandfathered. The same testimonial may appear on multiple hub pages (this is normal for a small business with a finite review pool), but no two hubs should share more than 2 testimonials with each other. Prefer testimonials that mention the hub's primary appliance type when available.
 - **Bodies verbatim — light editing allowed for clear typos.** Reviews flagged with `bodyHasTypos: true` in `data/testimonials.json` may receive light grammar/spelling correction for display. No paraphrasing or substantive rewording.
 - **Photo-only / no-body reviews are not testimonials.** Records with `bodyStatus: "photo-only"` or `"no-body"` in the pool may be used as image sources but never as quoted testimonials.

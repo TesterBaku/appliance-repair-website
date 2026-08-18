@@ -119,7 +119,7 @@
  *                    sticky bottom Call/Book bar (`class="sticky-mobile-bar"`), the
  *                    primary mobile booking CTA. Articles carry their own inline nav
  *                    CSS (no shared.css), so this drifts silently. See
- *                    .claude/rules/mobile-design.md. Added 2026-07-19 after 46
+ *                    .agents/skills/mobile-design/SKILL.md. Added 2026-07-19 after 46
  *                    articles shipped a cramming mobile header (PR #610) and 44
  *                    lacked the sticky bar (PR #611).
  *
@@ -463,7 +463,7 @@ if (run('testimonial-pill-count')) {
 
   // ── testimonial-review-schema ───────────────────────────────────────────────
   // Every QUOTED testimonial card must have a matching Review node in the page's
-  // JSON-LD, per .claude/rules/testimonial-selection.md ("Individual Review JSON-LD
+  // JSON-LD, per .agents/skills/testimonial-selection/SKILL.md ("Individual Review JSON-LD
   // entries for each displayed testimonial, with author.name matching the pool's
   // name field exactly"). Nothing enforced this, so it drifted: a 2026-07-30 review
   // caught 2 new cards shipped without nodes while AggregateRating.reviewCount was
@@ -804,7 +804,7 @@ if (run('iso8601-timestamps')) {
 // <=768px so the mobile header does not cram, and (b) include the sticky bottom
 // Call/Book bar — the primary mobile booking CTA once the header button is hidden.
 // Articles carry their OWN inline nav CSS (no shared.css), so this drifts silently
-// on new or legacy files. See .claude/rules/mobile-design.md. Established site-wide
+// on new or legacy files. See .agents/skills/mobile-design/SKILL.md. Established site-wide
 // 2026-07-19 (PR #610 hid .nav-cta on 46 legacy articles; PR #611 added the sticky
 // bar to the 44 that lacked it).
 if (run('article-mobile-chrome')) {
@@ -813,10 +813,10 @@ if (run('article-mobile-chrome')) {
     const content = fs.readFileSync(filePath, 'utf8');
     checked['article-mobile-chrome'].files++;
     if (!/\.nav-cta\s*\{\s*display:\s*none/.test(content)) {
-      issues.push(`[MOBILE-CHROME] ${rel(filePath)} — missing ".nav-cta { display: none }" at ≤768px (header Book button not hidden on mobile; header crams). See rules/mobile-design.md.`);
+      issues.push(`[MOBILE-CHROME] ${rel(filePath)} — missing ".nav-cta { display: none }" at ≤768px (header Book button not hidden on mobile; header crams). See .agents/skills/mobile-design/SKILL.md.`);
     }
     if (!/class="sticky-mobile-bar"/.test(content)) {
-      issues.push(`[MOBILE-CHROME] ${rel(filePath)} — missing the sticky-mobile-bar (mobile Call/Book CTA). See rules/mobile-design.md.`);
+      issues.push(`[MOBILE-CHROME] ${rel(filePath)} — missing the sticky-mobile-bar (mobile Call/Book CTA). See .agents/skills/mobile-design/SKILL.md.`);
     }
   }
 }
@@ -1350,7 +1350,7 @@ if (run('gallery-parity')) {
 // ── Check 18: brand-tier ──────────────────────────────────────────────────────
 // Two rules-defined values that nothing enforced until 2026-08-03:
 //   (a) a brand may only be listed inside a PREMIUM enumeration if it is actually
-//       a premium brand per .claude/rules/seo-content.md;
+//       a premium brand per .agents/skills/seo-content/SKILL.md;
 //   (b) a stated company diagnostic fee must be one of the rule-defined values.
 //
 // Origin: Bosch was marketed as a premium brand on three cost hubs (washer,
@@ -1422,7 +1422,7 @@ if (run('brand-tier')) {
       checked['brand-tier'].lists++; touched = true;
       for (const b of brands) {
         if (!STANDARD.has(b)) continue;
-        issues.push(`[BRAND-TIER] ${rel(filePath)} — "${b}" is a standard-tier brand per .claude/rules/seo-content.md ($75–$100 service call), but it is listed as premium in "${m[1].trim()}". Move it to the standard/mass-market group (visible copy AND the matching FAQ JSON-LD, or faq-jsonld-parity will fail), or change the rule. A premium PRODUCT LINE is a different claim and is written differently: "Bosch Premium", "Bosch 800 Series", "Benchmark".`);
+        issues.push(`[BRAND-TIER] ${rel(filePath)} — "${b}" is a standard-tier brand per .agents/skills/seo-content/SKILL.md ($75–$100 service call), but it is listed as premium in "${m[1].trim()}". Move it to the standard/mass-market group (visible copy AND the matching FAQ JSON-LD, or faq-jsonld-parity will fail), or change the rule. A premium PRODUCT LINE is a different claim and is written differently: "Bosch Premium", "Bosch 800 Series", "Benchmark".`);
       }
     }
 
@@ -1591,7 +1591,7 @@ if (run('tel-target')) {
 // those files outright) can restore full coverage there without weakening
 // anything this check currently enforces.
 //
-// Two exemptions are structural, not textual, matching .claude/rules/seo-content.md
+// Two exemptions are structural, not textual, matching .agents/skills/seo-content/SKILL.md
 // and the PR #696 precedent:
 //   1. The sanctioned escape hatch: "The one exception above that range is
 //      [item], which runs $X-$Y." is stripped out BEFORE governing-range

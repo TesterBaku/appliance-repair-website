@@ -2,8 +2,9 @@
 /*
  * check-agents.js — drift guard for the committed cross-agent workflow library.
  *
- * The workflow definitions (`.claude/commands/*.md`) and rule files (`.claude/rules/*.md`)
- * were gitignored until 2026-07-10, which let them silently rot against the canonical
+ * The workflow definitions (`.claude/commands/*.md`) and rule files (originally
+ * `.claude/rules/*.md`, migrated 2026-08-18 to `.agents/skills/<name>/SKILL.md`, see check 1b
+ * below) were gitignored until 2026-07-10, which let them silently rot against the canonical
  * AGENTS.md: `test.md` still cited `node test/screenshot.js`, and `seo-blog.md` carried a
  * DEAD routine ID (`trig_01ApQ…`) long after the live routine was recreated. Once the files
  * became the committed single source of truth for every agent (Claude Code, Codex, Cursor,
@@ -13,6 +14,16 @@
  * Each assertion below maps to a concrete failure it prevents:
  *   1. Skill resolution — every `/name` listed in AGENTS.md "Skills (slash commands)" must
  *      resolve to a real file, so a renamed/deleted command can't leave a dangling skill.
+ *   1b. Rule Skill resolution: every `` `name` `` in the first table column of AGENTS.md's
+ *      "Rule Skills" subsection (under "Workflow Library", cross-agent portability) must
+ *      resolve to a real `.agents/skills/<name>/SKILL.md` file. These are NOT slash commands
+ *      (there is no `/name` invocation; they are reference skills the Skill tool auto-invokes
+ *      by description match, and that non-Claude agents must open manually per that same
+ *      table), so they get their own heading and their own small parser rather than being
+ *      forced into the "Skills (slash commands)" bullet syntax check 1 already validates. Added
+ *      2026-08-18 when the six former `.claude/rules/*.md` files moved to `.agents/skills/`:
+ *      without this, an entry in that table validated by nothing would recreate exactly the
+ *      drift class this whole file exists to catch.
  *   2. Routine-ID freshness — every `trig_…` inside `.claude/commands/**` must be one of the
  *      ACTIVE routine IDs declared in AGENTS.md's "Routine ID:" markers (kills the stale-ID bug).
  *   3. Email hygiene: the only email allowed in the committed workflow/rule/agent files is the
@@ -73,7 +84,6 @@ const path = require('path');
 
 const repoRoot = path.resolve(__dirname, '..', '..');
 const commandsDir = path.join(repoRoot, '.claude', 'commands');
-const rulesDir = path.join(repoRoot, '.claude', 'rules');
 const agentsDir = path.join(repoRoot, '.claude', 'agents');
 const skillsDir = path.join(repoRoot, '.agents', 'skills');
 const agentsMd = path.join(repoRoot, 'AGENTS.md');
@@ -81,9 +91,12 @@ const agentsMd = path.join(repoRoot, 'AGENTS.md');
 const errors = [];
 const rel = (p) => path.relative(repoRoot, p).replace(/\\/g, '/');
 
-// Recursive so the routine-ID/email/agent-definition scans actually cover `.claude/commands/**`,
-// `.claude/rules/**`, and `.claude/agents/**` (all flat today, but a future subdirectory must
-// not escape the scan).
+// Recursive so the routine-ID/email/agent-definition scans actually cover `.claude/commands/**`
+// and `.claude/agents/**` (both flat today, but a future subdirectory must not escape the scan).
+// NOT used against the whole `.agents/skills/**` tree: that also holds the third-party
+// `impeccable` package (with its own reference docs, e.g. a `name@example.com` placeholder in
+// `reference/clarify.md`), which would false-positive the email-hygiene check below. The six
+// migrated Rule Skill files are targeted individually instead; see check 1b / check 3.
 function listMd(dir) {
   if (!fs.existsSync(dir)) return [];
   const out = [];
@@ -115,6 +128,29 @@ for (const name of skillNames) {
   }
 }
 
+// --- 1b. Rule Skill resolution -------------------------------------------------
+// Parse the "#### Rule Skills" subsection (under "### Workflow Library", cross-agent
+// portability) for `| `name` | ... |` table rows and confirm each resolves to a real
+// `.agents/skills/<name>/SKILL.md` file. Not a slash-command bullet list; these are reference
+// skills, so they get their own heading and their own small parser (see docblock point 1b).
+const ruleSkillsSection = (agents.split(/^####\s+Rule Skills/m)[1] || '').split(/^#{2,4}\s/m)[0];
+const ruleSkillNames = [...ruleSkillsSection.matchAll(/^\|\s*`([a-z0-9-]+)`\s*\|/gm)].map((m) => m[1]);
+if (ruleSkillNames.length === 0) {
+  errors.push('AGENTS.md: could not parse any skill names from the "Rule Skills" table.');
+}
+const ruleSkillFiles = [];
+for (const name of ruleSkillNames) {
+  const asSkill = path.join(skillsDir, name, 'SKILL.md');
+  if (!fs.existsSync(asSkill)) {
+    errors.push(
+      `Rule Skill "${name}" is listed in AGENTS.md's "Rule Skills" table but has no definition ` +
+        `(expected .agents/skills/${name}/SKILL.md).`
+    );
+  } else {
+    ruleSkillFiles.push(asSkill);
+  }
+}
+
 // --- 2. Routine-ID freshness -------------------------------------------------
 // ACTIVE ids = those declared after a "Routine ID:" marker in AGENTS.md. The dead id that
 // appears only in prose provenance notes ("the prior `trig_…` was found deleted") is excluded.
@@ -136,9 +172,9 @@ for (const file of listMd(commandsDir)) {
   }
 }
 
-// --- 3. Email hygiene (commands + rules + agents) ----------------------------
+// --- 3. Email hygiene (commands + rule skills + agents) ----------------------
 const emailRe = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
-for (const file of [...listMd(commandsDir), ...listMd(rulesDir), ...listMd(agentsDir)]) {
+for (const file of [...listMd(commandsDir), ...ruleSkillFiles, ...listMd(agentsDir)]) {
   const text = fs.readFileSync(file, 'utf8');
   for (const m of text.matchAll(emailRe)) {
     if (!m[0].toLowerCase().endsWith('@fixappliancesfast.com')) {
@@ -292,8 +328,9 @@ if (errors.length) {
 }
 
 console.log(
-  `check-agents: ${skillNames.length} skills + ${referencedAgentNames.length} agent refs resolve; ` +
-    `${listMd(commandsDir).length} command + ${listMd(rulesDir).length} rule + ` +
+  `check-agents: ${skillNames.length} skills + ${ruleSkillNames.length} rule skills + ` +
+    `${referencedAgentNames.length} agent refs resolve; ` +
+    `${listMd(commandsDir).length} command + ${ruleSkillFiles.length} rule-skill + ` +
     `${listMd(agentsDir).length} agent files clean ` +
     `(routine IDs active, no private emails, agent frontmatter valid). OK`
 );

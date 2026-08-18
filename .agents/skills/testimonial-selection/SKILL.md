@@ -1,3 +1,13 @@
+---
+name: testimonial-selection
+description: Use whenever testimonial or review content is being added, edited, chosen, reordered, removed, or audited on any page, including the homepage and pages/testimonials.html. Covers building a testimonials section from scratch, checking whether existing cards are still correct (reviewer name, quote wording, star rating, location label, hub-reuse count, or schema), and fixing a typo in a review body. Applies even if the request only says something like "add a review card", "check the location label on this hub", "how many hubs already use this review", "swap out this review", or "fix this typo in the testimonial" and never mentions testimonial rules by name. Not for authoring new review text (bodies are always copied verbatim from data/testimonials.json).
+---
+
+**When NOT to use this skill:** this skill never authors new review text; review bodies are
+always copied verbatim from `data/testimonials.json`. For drafting a request asking a customer
+for a review, see `gbp-platform-policy` instead (soliciting reviews has platform-specific rules,
+sharpest on Yelp).
+
 # Testimonial Selection Rules
 
 Single source of truth for picking testimonials from the canonical pool. Apply these rules in `/seo-hub`, the scheduled city-hub routine, and any other workflow that renders testimonials.
@@ -153,7 +163,7 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 - Show reviewer name exactly as it appears in the pool's `name` field. Last-initial abbreviations (e.g., "Jennifer T." for "Jennifer Trette") are acceptable if the page already uses that style — otherwise use the full name.
 - Location label depends on the record's `source` field. **Google records (`source: "google"`):** Google does not expose reviewer city, so use `"Orange County, CA"` unless one of the two exceptions below applies, or unless the page is a hub outside Orange County, in which case the label is dropped entirely (see "Non-OC hubs omit the location label" at the end of this section). **Yelp records (`source: "yelp"`):** Yelp displays the reviewer's city directly — use the Yelp-displayed city verbatim (e.g., `"Dana Point, CA"`, `"Anaheim, CA"`).
 
-  **Exception 1 — the review says so.** The reviewer's own **review text** explicitly names an **Orange County** city: any city on the Target Geography list in `seo-content.md`, plus **Stanton**, the business's own address, which is in Orange County but is absent from that list because the list exists for article city rotation, not for validating labels. Use that city. A city mentioned in passing that is not where the job happened ("we moved here from Riverside", "my sister in Fresno recommended you") does **not** qualify, and neither does anything read off the reviewer's profile.
+  **Exception 1 — the review says so.** The reviewer's own **review text** explicitly names an **Orange County** city: any city on the Target Geography list in `.agents/skills/seo-content/SKILL.md`, plus **Stanton**, the business's own address, which is in Orange County but is absent from that list because the list exists for article city rotation, not for validating labels. Use that city. A city mentioned in passing that is not where the job happened ("we moved here from Riverside", "my sister in Fresno recommended you") does **not** qualify, and neither does anything read off the reviewer's profile.
 
   **Exception 2 — job-photo corroborated attestation** (owner decision 2026-08-03). A specific city may be used when **both** of these hold:
 

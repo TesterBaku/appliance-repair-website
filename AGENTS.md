@@ -88,7 +88,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 **Public business name:** Universal Appliances Repair
 **Legal name:** Universal Appliances Repair Group Inc.
 
-> Brand canonicalization is enforced in `.claude/rules/seo-content.md`. Never write "Fix Appliances Fast" as a brand — it is only a URL.
+> Brand canonicalization is enforced in `.agents/skills/seo-content/SKILL.md` (the flat "never write it as a brand" prohibition is also mirrored in `.claude/hooks/session-start.mjs`, item 6). Never write "Fix Appliances Fast" as a brand — it is only a URL.
 
 ## Commands
 
@@ -180,14 +180,25 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 
 **Inline CTA paragraph links** — any `.inline-cta` block must define `.inline-cta p a` before `.inline-cta a` to prevent paragraph links from inheriting button styles.
 
-## Rules
-All rule files live in `.claude/rules/` (**committed** since the cross-LLM-portability PR, 2026-07-10 — see the "Workflow Library" note below; they were gitignored before that, which made them invisible to non-local tools and the cloud cron).
-- `.claude/rules/git-workflow.md` — branch naming, commits, PRs, code review
-- `.claude/rules/seo-content.md` — SEO guidelines, brand canonicalization, hub-page architecture, AI answer block, llms.txt requirement, schema templates
-- `.claude/rules/mobile-design.md` — required `@media` breakpoints, hamburger nav, sticky bottom Call/Book bar, tap-target sizes, form behavior on mobile
-- `.claude/rules/testimonial-selection.md` — which captured reviews are quotable as testimonials (display/quotability rules referenced by `data/testimonials.json`)
-- `.claude/rules/gbp-platform-policy.md` — verify platform content policies before writing any external-platform copy (GBP posts must be purely descriptive)
-- `.claude/rules/trusted-sources.md` — read-only web access (WebSearch + WebFetch) is pre-authorized in `.claude/settings.json`; source quality is governed by judgment (official/manufacturer + well-established references only, cross-checked against ≥2 sources). Writes/logins to external services still require confirmation.
+## Rules (converted to on-demand Skills, 2026-08-18)
+
+The six former `.claude/rules/*.md` files (git-workflow, seo-content, mobile-design,
+testimonial-selection, gbp-platform-policy, trusted-sources) were converted to
+`.agents/skills/<name>/SKILL.md` so they load on demand for Claude Code instead of always
+loading. **Why, precisely:** in one live Claude Code session, all six appeared in the opening
+context block as project instructions before any tool call (roughly 82,000 chars combined).
+That is a direct observation, re-checkable by opening a fresh Claude Code session in this
+repo and inspecting whether the six appear before any tool call; it is not a proven harness
+mechanism, and it is not established to hold for every agent, harness, or configuration.
+`progress/agents-md-trim-audit.md` §1 searched the repo for a forcing mechanism (an `@`
+import, a hook, a settings entry) and correctly found none; that finding stands for what it
+examined, since a repo-level search cannot see a harness-level runtime behavior, so the two
+accounts do not actually conflict. Nothing was deleted; every word moved. **Full discovery
+table, per-skill trigger conditions, and the mandatory manual-read requirement for
+non-Claude agents live in the "Workflow Library" section below (see its "Rule Skills"
+subsection); read that section, not just this pointer.** A handful of the flat, highest-risk
+prohibitions from these files were additionally promoted into `.claude/hooks/session-start.mjs`,
+which loads automatically on every Claude Code session.
 
 ## Active plans (tasks/ — gitignored, local)
 - `tasks/backlog.md` — single source of truth for all open work: exhaustive, so nothing is lost, but
@@ -244,7 +255,7 @@ Any PR touching `.html` or `.css` files **must** run the impeccable gate on ever
 
 **`/impeccable critique` and `detect.mjs` are not the same thing and must never be reported as if they were.** `critique` is the gate: an LLM-driven review that emits the `??/40` score (10 Nielsen heuristics × 4 points) the PR template asks for, and which runs `detect.mjs` internally as its Assessment B. `detect.mjs` is that deterministic scanner alone — the same engine behind the per-edit hook. The detector is a *component* of the gate, not a substitute for it.
 
-Which one a PR needs, and the exact wording to use, is specified in `.claude/rules/git-workflow.md` ("UI/UX Development Requirement"). In short: full `critique` + score for anything that touches CSS, markup structure, layout, colour or typography; `detect.mjs` alone is enough for a copy-only diff inside existing markup, and the PR must say so explicitly.
+Which one a PR needs, and the exact wording to use, is specified in `.agents/skills/git-workflow/SKILL.md` ("UI/UX Development Requirement"). In short: full `critique` + score for anything that touches CSS, markup structure, layout, colour or typography; `detect.mjs` alone is enough for a copy-only diff inside existing markup, and the PR must say so explicitly.
 
 > **Why this is spelled out.** 15 PRs reported `detect.mjs` output under the name `/impeccable critique`, so the gate the rule requires was never actually run on any of them while every description claimed it had been (P6-31). No design regression shipped — the detector returned 0 FAILs each time — but the compliance claim was false. A gate trusted beyond what it asserts is worse than no gate.
 
@@ -353,11 +364,12 @@ Every new `.html` file — article, hub page, or static page — must include th
 ### Workflow Library — cross-agent portability
 
 The workflow definitions live as committed markdown in **`.claude/commands/*.md`**, and the detailed
-rules they follow live in **`.claude/rules/*.md`** (both committed since the cross-LLM-portability PR,
-2026-07-10 — they were previously gitignored, which made them invisible to every non-local tool and
-broke the cloud cron, since the runner clones only committed files). This file (`AGENTS.md`) is the
-tool-neutral hub; it is read natively by Codex, GitHub Copilot, Cursor, and Hermes, and is bridged
-into Claude Code via the root `CLAUDE.md` `@AGENTS.md` import.
+rule content they follow lives in **`.agents/skills/*/SKILL.md`** (moved there from
+`.claude/rules/*.md` on 2026-08-18, see "Rule Skills" below; both trees are committed since the
+cross-LLM-portability PR, 2026-07-10 — they were previously gitignored, which made them invisible to
+every non-local tool and broke the cloud cron, since the runner clones only committed files). This
+file (`AGENTS.md`) is the tool-neutral hub; it is read natively by Codex, GitHub Copilot, Cursor, and
+Hermes, and is bridged into Claude Code via the root `CLAUDE.md` `@AGENTS.md` import.
 
 **How each agent runs a workflow (e.g. the SEO blog workflow in `.claude/commands/seo-blog.md`):**
 
@@ -373,16 +385,57 @@ No tool-specific adapter files are required — every supported agent reaches th
 workflow + rule files through `AGENTS.md`. (GitHub Copilot is not currently wired; its stale agent
 port was removed on 2026-07-10.)
 
+#### Rule Skills (`.agents/skills/`): mandatory manual read for non-Claude agents
+
+The six former `.claude/rules/*.md` files (git-workflow, seo-content, mobile-design,
+testimonial-selection, gbp-platform-policy, trusted-sources) were converted to
+`.agents/skills/<name>/SKILL.md` on 2026-08-18 so Claude Code's Skill tool loads each one on
+demand, matching its `description:` frontmatter against the current task, instead of always
+loading (see the "## Rules" section above for exactly what was observed versus confirmed
+about the prior always-loading behavior). Nothing was deleted; every word moved verbatim. **`.agents/skills/` was deliberately kept as the home rather than moving this
+content under `.claude/`, precisely because it is already tool-neutral** (no vendor prefix), so
+every agent in the table above can open a path under it directly, the same way this repo already
+keeps `.claude/commands/*.md` and `.agents/skills/impeccable/` both reachable.
+
+**For Claude Code:** no action needed beyond trusting the mechanism; the Skill tool auto-invokes
+the matching skill when its description matches the task, the same mechanism already carrying
+`/impeccable`. A handful of the flat, highest-risk prohibitions from these six files (the brand
+ban, the AC/HVAC scope ban, the flat fee-tier values, the never-invent-a-testimonial rule, the
+Yelp review-solicitation ban, and the source cross-check bar) are ALSO promoted into
+`.claude/hooks/session-start.mjs`, which loads automatically on every session as a backstop for
+tasks that don't obviously match any one skill's description.
+
+**For every other agent (Codex, Cursor, Aider, Hermes): reading the matching file below is a
+MANDATORY MANUAL STEP, not something that happens for you.** None of these tools has a
+Skill-matching mechanism; they read `AGENTS.md` natively and follow plain file paths, and they do
+NOT receive the `session-start.mjs` injection either (that hook is Claude-Code-specific). This
+table is their only path to all six rule domains; treat "read when" as a requirement to open the
+file before starting matching work, not a topic label to skim past:
+
+| Skill | Path | Read when |
+|---|---|---|
+| `seo-content` | `.agents/skills/seo-content/SKILL.md` (schema templates split into `references/schema-templates.md`, read on demand) | Writing, editing, or reviewing an article, a service/brand/city hub, or the homepage; writing or editing a `<title>`, meta tag, schema block, brand mention, or any price/cost/fee text anywhere on the site, even for a small edit that never mentions SEO by name. |
+| `testimonial-selection` | `.agents/skills/testimonial-selection/SKILL.md` | Adding, editing, choosing, reordering, removing, or auditing review/testimonial content on any page, including building a section from scratch, checking whether existing cards (name, quote, rating, location label, hub-reuse count) are still correct, or fixing a typo in a review body, even a request that only says "add a review card" or "check the location label on this hub". |
+| `git-workflow` | `.agents/skills/git-workflow/SKILL.md` | Before any branch, commit, or PR for any change to this repo, and when deciding whether a review is needed before merge, even a request that only says "fix this" or "ship this". |
+| `gbp-platform-policy` | `.agents/skills/gbp-platform-policy/SKILL.md` | Before any copy, caption, post, or reply meant for GBP, Yelp, Instagram, or another external platform, and before any request for a customer to leave feedback or a review in any channel, even one that never names a platform. |
+| `mobile-design` | `.agents/skills/mobile-design/SKILL.md` | Writing, editing, or reviewing any HTML or CSS on any page, no matter how small the change looks, even a request that never mentions mobile or responsive design. |
+| `trusted-sources` | `.agents/skills/trusted-sources/SKILL.md` | Before and during any web search or fetch made to find a fact for site content, and when judging whether a found source is trustworthy enough to cite, even a request that only asks to "look up" something. |
+
+`scripts/build/check-agents.js` (`npm test`) validates every row above resolves to a real
+`.agents/skills/<name>/SKILL.md` file, the same drift-guard discipline it already applies to the
+"Skills (slash commands)" list and the "Agent definitions" list below.
+
 #### Agent definitions: `.claude/agents/`
 
 Claude Code agent definitions (subagents with their own frontmatter: `name`, `description`,
-optional `model`) are committed under **`.claude/agents/*.md`**, the same way commands and rules
-are. `.claude/agents/` is already on the `.gitignore` exception list alongside `.claude/commands/`
-and `.claude/rules/` (see the `!.claude/agents/` line in `.gitignore`), so these files are tracked
-and reach the cloud cron runner and every clone, not just a local machine.
+optional `model`) are committed under **`.claude/agents/*.md`**, the same way commands are.
+`.claude/agents/` is already on the `.gitignore` exception list alongside `.claude/commands/`
+(see the `!.claude/agents/` line in `.gitignore`), so these files are tracked and reach the cloud
+cron runner and every clone, not just a local machine. (`.agents/skills/` is a separate tree, not
+gitignored at all; see "Rule Skills" above.)
 
 Agents committed here:
-- `code-reviewer`: the independent reviewer mandated by `.claude/rules/git-workflow.md` step 5
+- `code-reviewer`: the independent reviewer mandated by `.agents/skills/git-workflow/SKILL.md` step 5
   ("PR on Every Change"). It pins `model: sonnet` deliberately: without an explicit pin, a
   subagent silently inherits whatever model the parent session happens to be running, which let
   one review run 128 turns on a heavier model than intended purely by inheritance. Pinning the
@@ -398,8 +451,8 @@ text is accepted as a closer. Flagged by Copilot on PR #664 and stated here rath
 It also checks that every agent
 name listed above resolves to a real `.claude/agents/<name>.md` file, the same way it already
 checks that every `/skill` listed in "Skills (slash commands)" resolves to a real file. This is
-the same drift-guard discipline the script already applies to `.claude/commands/` and
-`.claude/rules/`.
+the same drift-guard discipline the script already applies to `.claude/commands/` and to the
+`.agents/skills/*/SKILL.md` Rule Skills table above.
 
 ## Status Reporting Policy
 
@@ -426,7 +479,7 @@ This governs the ad-hoc status you volunteer about your own work. It never overr
 other rule or workflow already specifies. Anything with a required shape keeps that shape in full,
 whether it is written to disk, sent to an external surface, **or printed in chat**:
 
-- PR titles and bodies (the template in `.claude/rules/git-workflow.md`, including the three-test
+- PR titles and bodies (the template in `.agents/skills/git-workflow/SKILL.md`, including the three-test
   checklist)
 - `/review` output: ranked findings and the explicit verdict line
 - Commit messages (Conventional Commits)
