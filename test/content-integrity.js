@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-three enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-four enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -122,6 +122,39 @@
  *                    .agents/skills/mobile-design/SKILL.md. Added 2026-07-19 after 46
  *                    articles shipped a cramming mobile header (PR #610) and 44
  *                    lacked the sticky bar (PR #611).
+ *
+ *   hamburger-cascade: a real production bug, found 2026-08-18 during review of
+ *                    PR #752 (backlog P6-56): two articles declared an
+ *                    unconditional `.nav-hamburger { display: none; ... }` rule
+ *                    AFTER the `@media (max-width: 768px) { .nav-hamburger {
+ *                    display: flex; } }` rule meant to show it on mobile. CSS
+ *                    resolves two equal-specificity rules by SOURCE ORDER, not
+ *                    by which one sits inside a media query, so the later
+ *                    unconditional rule always won and the hamburger was
+ *                    display:none at every viewport, on any screen size, so the
+ *                    mobile nav drawer could never be opened. The correct
+ *                    order (unconditional rule FIRST, media-query override
+ *                    LAST) is proven in-repo by
+ *                    articles/article-maintenance-skip-cost-los-angeles-county.html,
+ *                    whose "HAMBURGER NAV (mobile)" block carries the same
+ *                    explanatory comment this check exists to enforce. Scoped
+ *                    to every HTML file this script already enumerates that
+ *                    inlines its OWN `.nav-hamburger` display rule (articles
+ *                    carry their own nav CSS; see article-mobile-chrome above);
+ *                    hub/static pages that get the hamburger from
+ *                    shared.css declare no inline rule and are skipped
+ *                    cleanly, the same widening precedent as meta-desc-len.
+ *                    Parses the `<style>` block with a brace-depth walk (not
+ *                    a raw line-number comparison of two greps), stripping
+ *                    comments first so a comment sitting between two rules
+ *                    can never glue onto the next selector's text, so
+ *                    whether a rule sits inside `@media` is judged
+ *                    structurally rather than by position alone. It reasons
+ *                    only about inline `<style>` rules selecting exactly
+ *                    `.nav-hamburger` (comma-separated groups included), so
+ *                    external sheets, higher-specificity compound selectors,
+ *                    `!important` and inline `style=` are outside its reach:
+ *                    the full boundary is written out above the check itself.
  *
  *   non-person-reviewers — no page may display a `Review` (in JSON-LD) whose
  *                    `author.name` matches a data/testimonials.json record
@@ -312,14 +345,15 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all twenty-three enforced checks + the report
+ *   node test/content-integrity.js          : run all twenty-four enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
  *                                             schema-headline-sync, modified-time-sync,
  *                                             analytics-present, ga-tag, jsonld-valid,
  *                                             footer-self-contained, iso8601-timestamps,
- *                                             article-mobile-chrome, non-person-reviewers,
+ *                                             article-mobile-chrome, hamburger-cascade,
+ *                                             non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
  *                                             faq-schema-presence, gallery-parity, brand-tier,
  *                                             tel-target, umbrella-range, srcset-width,
@@ -819,6 +853,128 @@ if (run('article-mobile-chrome')) {
       issues.push(`[MOBILE-CHROME] ${rel(filePath)} — missing the sticky-mobile-bar (mobile Call/Book CTA). See .agents/skills/mobile-design/SKILL.md.`);
     }
   }
+}
+
+// ── Check 11a: hamburger-cascade ────────────────────────────────────────────
+// A real production bug, found 2026-08-18 during review of PR #752 (backlog
+// P6-56): two articles declared an unconditional ".nav-hamburger { display:
+// none; ... }" rule AFTER the "@media (max-width: 768px) { .nav-hamburger {
+// display: flex; } }" rule meant to show it on mobile. CSS resolves two
+// equal-specificity rules by SOURCE ORDER, not by which one sits inside a
+// media query, so the later unconditional rule always won and the hamburger
+// was display:none at every viewport, so the mobile nav drawer could never be
+// opened. The correct order (unconditional rule FIRST, media-query override
+// LAST) is proven in-repo by
+// articles/article-maintenance-skip-cost-los-angeles-county.html, whose
+// "HAMBURGER NAV (mobile)" block carries the same explanatory comment this
+// check exists to enforce. Scoped to every HTML file this script already
+// enumerates that inlines its OWN ".nav-hamburger" display rule; hub/static
+// pages that get the hamburger from shared.css declare no inline rule and
+// are skipped cleanly, the same widening precedent as meta-desc-len.
+//
+// KNOWN COVERAGE BOUNDARY, stated so nobody trusts this further than it goes.
+// It reasons over ONE inline `<style>` block per file at a time and only about
+// rules whose selector, split on commas, contains exactly `.nav-hamburger`. It
+// does NOT resolve: a descendant or compound selector (`.nav .nav-hamburger`,
+// `button.nav-hamburger`), which carries higher specificity and so is not the
+// equal-specificity race this checks; a rule in shared.css or any other
+// external sheet; `!important`; or an inline `style=` attribute. A page can
+// therefore still break its hamburger in a way this check calls clean. The two
+// gaps a reviewer found on the PR that added it (exact-string selector match,
+// and a `max-width` substring gate on the media condition) were closed here:
+// selectors are matched per comma-separated part, and ANY media-query rule
+// giving `.nav-hamburger` a display other than `none` counts as the override,
+// whatever its condition text. A third, narrower one found on the re-check is
+// closed too: a rule body carrying more than one `display` declaration is read
+// by its LAST one, since duplicates inside a block also resolve by source
+// order, so `display: flex; display: none` is correctly read as hidden.
+if (run('hamburger-cascade')) {
+  checked['hamburger-cascade'] = { files: 0 };
+  // Counted per FILE, not per <style> block: a page with two style blocks
+  // carrying .nav-hamburger rules must not inflate the summary count.
+  const hamburgerFiles = new Set();
+  const STYLE_RE = /<style[^>]*>([\s\S]*?)<\/style>/g;
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    STYLE_RE.lastIndex = 0;
+    let styleMatch;
+    while ((styleMatch = STYLE_RE.exec(content))) {
+      const css = styleMatch[1];
+      const cssStart = styleMatch.index + styleMatch[0].indexOf(css);
+      // Strip comments before brace-walking (same length, newlines kept) so a
+      // comment sitting between two rules never glues onto the next
+      // selector's text, and computed line numbers stay accurate.
+      const cssNoComments = css.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
+
+      // Track a stack of open blocks so a plain rule can be told apart from
+      // an @media wrapper, and so each rule knows which @media (if any)
+      // contains it. Plain CSS has no nested rules, so brace-matching alone
+      // recovers this structure, with no raw line-number comparison needed.
+      const stack = [];
+      const rules = [];
+      let buf = '';
+      for (let i = 0; i < cssNoComments.length; i++) {
+        const ch = cssNoComments[i];
+        if (ch === '{') {
+          const prelude = buf.trim();
+          buf = '';
+          if (/^@media/i.test(prelude)) {
+            stack.push({ type: 'media', condition: prelude });
+          } else {
+            let mediaCondition = null;
+            for (let s = stack.length - 1; s >= 0; s--) {
+              if (stack[s].type === 'media') { mediaCondition = stack[s].condition; break; }
+            }
+            stack.push({ type: 'rule', selector: prelude, bodyStart: i + 1, mediaCondition });
+          }
+        } else if (ch === '}') {
+          const top = stack.pop();
+          if (top && top.type === 'rule') {
+            // Slice the body from the comment-blanked copy, not the original:
+            // a commented-out "display: flex" inside a rule is not a
+            // declaration, and reading it as one would flip the verdict.
+            rules.push({ selector: top.selector, mediaCondition: top.mediaCondition, body: cssNoComments.slice(top.bodyStart, i), end: i });
+          }
+          buf = '';
+        } else {
+          buf += ch;
+        }
+      }
+
+      // Match the selector per comma-separated part, not as a whole string: a
+      // grouped selector like ".nav, .nav-hamburger" reproduces this bug exactly
+      // and an equality test would walk straight past it.
+      const targetsHamburger = (sel) => sel.split(',').some(part => part.trim() === '.nav-hamburger');
+      const hamburgerRules = rules.filter(r => targetsHamburger(r.selector) && /display\s*:/i.test(r.body));
+      if (!hamburgerRules.length) continue; // no inline .nav-hamburger rule here (shared.css page): skip cleanly
+      hamburgerFiles.add(rel(filePath));
+
+      // Any media-query rule that REVEALS the button counts as the override,
+      // whatever display value it uses and however its condition is written.
+      // Gating on the literal substring "max-width" and on "flex" would miss
+      // the same bug behind `@media not (min-width: 769px)` or `display: block`.
+      // Read the LAST display declaration in the body, not the first: within one
+      // rule block CSS also resolves duplicates by source order, so a body of
+      // "display: flex; display: none" is hidden, and testing the first match
+      // would call it a reveal.
+      const effectiveDisplay = (body) => {
+        const decls = body.match(/display\s*:\s*[a-z-]+/gi) || [];
+        return decls.length ? decls[decls.length - 1].split(':')[1].trim().toLowerCase() : null;
+      };
+      const mediaShowRules = hamburgerRules.filter(r => r.mediaCondition && effectiveDisplay(r.body) && effectiveDisplay(r.body) !== 'none');
+      const unconditionalRules = hamburgerRules.filter(r => !r.mediaCondition);
+
+      for (const flexRule of mediaShowRules) {
+        for (const uncond of unconditionalRules) {
+          if (uncond.end > flexRule.end) {
+            const lineNo = content.slice(0, cssStart + uncond.end).split('\n').length;
+            issues.push(`[HAMBURGER-CASCADE] ${rel(filePath)}:${lineNo}: unconditional ".nav-hamburger { display: ... }" appears AFTER the "${flexRule.mediaCondition} { ${flexRule.selector} { display: ... } }" override that reveals it. Equal specificity + later source position means the unconditional rule always wins, so the hamburger is display:none at every viewport. Move the unconditional ".nav-hamburger" block (and its span/aria-expanded/.nav-drawer siblings) BEFORE the @media block, as in articles/article-maintenance-skip-cost-los-angeles-county.html.`);
+          }
+        }
+      }
+    }
+  }
+  checked['hamburger-cascade'].files = hamburgerFiles.size;
 }
 
 // ── Check 12: non-person-reviewers ────────────────────────────────────────────
@@ -2077,6 +2233,7 @@ if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].block
 if (checked['footer-self-contained']) parts.push(`footer self-contained (no var()) across ${checked['footer-self-contained'].files} pages`);
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
+if (checked['hamburger-cascade'])    parts.push(`hamburger nav cascade order (unconditional rule before @media override) held on ${checked['hamburger-cascade'].files} files with an inline .nav-hamburger rule`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
 if (checked['contrast-aa'])          parts.push(`WCAG AA contrast on ${checked['contrast-aa'].pairs} same-rule colour pairs across ${checked['contrast-aa'].files} files, var() resolved (${checked['contrast-aa'].skippedVar} rgba()/keyword rules unresolvable; cross-rule + inline-style pairs NOT covered, see P6-15)`);
 if (checked['faq-schema-presence']) parts.push(`FAQPage schema present on all ${checked['faq-schema-presence'].pages} pages with a real FAQ accordion`);
