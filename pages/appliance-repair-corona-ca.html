@@ -120,6 +120,10 @@
     }
     @media (max-width: 480px) {
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
+      /* Repeat the :has() selector verbatim. A shorter reset (e.g. plain
+         .testimonial-card) has LOWER specificity than the desktop rule above,
+         silently loses, and leaves desktop grid placement active on phones,
+         causing horizontal overflow. Measured precedent in testimonial-selection.md. */
       .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: auto; }
     }
     @media (max-width: 768px) {
