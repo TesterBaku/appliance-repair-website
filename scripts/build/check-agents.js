@@ -2,8 +2,9 @@
 /*
  * check-agents.js — drift guard for the committed cross-agent workflow library.
  *
- * The workflow definitions (`.claude/commands/*.md`) and rule files (`.claude/rules/*.md`)
- * were gitignored until 2026-07-10, which let them silently rot against the canonical
+ * The workflow definitions (`.claude/commands/*.md`) and rule files (originally
+ * `.claude/rules/*.md`, migrated 2026-08-18 to `.agents/skills/<name>/SKILL.md`, see check 1b
+ * below) were gitignored until 2026-07-10, which let them silently rot against the canonical
  * AGENTS.md: `test.md` still cited `node test/screenshot.js`, and `seo-blog.md` carried a
  * DEAD routine ID (`trig_01ApQ…`) long after the live routine was recreated. Once the files
  * became the committed single source of truth for every agent (Claude Code, Codex, Cursor,

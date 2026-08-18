@@ -127,7 +127,7 @@ Write real, helpful content — not placeholder text. Include:
 
 ### Mobile layout (required — see `.agents/skills/mobile-design/SKILL.md`)
 - All layouts must be responsive at 375px width
-- Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or CSS media queries in the embedded `<style>` tag
+- Use CSS `@media` queries (`max-width: 768px`, `max-width: 480px`) in the embedded `<style>` tag; there is no Tailwind on this site (removed 2026-05, see AGENTS.md)
 - Test mentally: hero text readable, cards stack vertically, nav collapses, CTA box full-width on mobile
 
 ### Sticky mobile bar (required on every article)
@@ -223,7 +223,7 @@ Run both test suites and fix any failures before continuing.
 
 ```bash
 npm test          # link checker
-npm run screenshot  # puppeteer screenshots
+npm run screenshot  # Playwright screenshots
 ```
 
 Apply the Bug Fix Workflow from `.agents/skills/git-workflow/SKILL.md`:

@@ -245,7 +245,7 @@ git commit -m "feat(hub): wire internal links to [slug]"
 
 ```bash
 npm test            # link checker
-npm run screenshot  # puppeteer screenshots
+npm run screenshot  # Playwright screenshots
 ```
 
 Apply the Bug Fix Workflow from `.agents/skills/git-workflow/SKILL.md`. Do not proceed until both commands exit 0.

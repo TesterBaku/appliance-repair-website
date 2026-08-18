@@ -1,7 +1,8 @@
-// One-off migration script — 2026-08-18. Converts the six `.claude/rules/*.md` files into
+// One-off migration script (2026-08-18). Converted the six `.claude/rules/*.md` files into
 // `.agents/skills/<name>/SKILL.md` bodies, verbatim (no reformatting of the copied body).
-// Run once: `node scripts/oneoff/migrate-rules-to-skills-2026-08-18.mjs`. Kept for provenance
-// per the scripts/oneoff/ convention (see its README); not npm-wired.
+// Already run; kept for provenance per scripts/oneoff/README.md. Not npm-wired.
+// Cannot be re-run: this same PR deletes its `.claude/rules/*.md` sources, so a re-run now
+// fails with ENOENT reading `rulesDir`.
 import fs from 'fs';
 import path from 'path';
 
