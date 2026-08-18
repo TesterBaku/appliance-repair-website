@@ -20,6 +20,7 @@
     "build:review-counts": "node scripts/build/sync-review-counts.js",
     "sync:testimonials": "node scripts/build/sync-review-counts.js",
     "clean:images": "node scripts/clean-images.js",
+    "clean:screenshots": "node scripts/clean-screenshots.js",
     "optimize:logo": "node scripts/optimize-logo.js",
     "build:favicons": "node scripts/build-favicons.js",
     "apply:favicon-metadata": "node scripts/apply-favicon-metadata.js",

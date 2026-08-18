@@ -106,6 +106,7 @@ npm run build:blog-counts  # Sync blog article-count surfaces (search placeholde
 npm run build:article-bylines # Sync each article's visible "Originally published … Updated <Month Year>" hero byline to its own JSON-LD dates
 npm run build:review-counts # Sync every site-wide Google review-count surface (AggregateRating, hero-rating copy + aria-label, "N verified 5-star" prose, "Read all N reviews", the testimonials-page stat) to data/testimonials.json's publishedCount
 npm run sync:testimonials  # Alias for build:review-counts, kept for backward compatibility (this is the command documented historically for this purpose)
+npm run clean:screenshots  # Report stray Playwright screenshots in the repo root (--delete to remove)
 ```
 
 `npm test` runs against the static files and does NOT spin up a server. `npm run test:functional` auto-starts a server on port 8788. To run a single Playwright spec or a filtered subset:
