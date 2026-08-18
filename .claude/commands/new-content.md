@@ -2,10 +2,10 @@
 
 Scaffold a new article, hub page, or city/service landing page based on user input.
 
-## Step 0 — Read the rules first
+## Step 0 — Read the rule skills first
 Before writing anything, read:
-- `.claude/rules/seo-content.md` (brand canonicalization, AI answer block, schema templates, FAQ counts)
-- `.claude/rules/mobile-design.md` (breakpoints, hamburger, sticky bar, tap-target sizes)
+- `.agents/skills/seo-content/SKILL.md` (brand canonicalization, AI answer block, schema templates, FAQ counts)
+- `.agents/skills/mobile-design/SKILL.md` (breakpoints, hamburger, sticky bar, tap-target sizes)
 
 ## Ask the user for (if not already provided):
 - **Type**: `article`, `service-hub`, `city-page`, or `page`
@@ -22,8 +22,8 @@ Before writing anything, read:
 
 ### 1. Pick the right template
 - **Article**: copy structure from `articles/article-fridge-maintenance.html`
-- **Service hub** (e.g., refrigerator-repair-orange-county): copy from an existing hub page once one exists; otherwise build from `rules/seo-content.md` schema templates
-- **City page**: copy from an existing city page once one exists; otherwise build from rules
+- **Service hub** (e.g., refrigerator-repair-orange-county): copy from an existing hub page once one exists; otherwise build from `.agents/skills/seo-content/SKILL.md` schema templates
+- **City page**: copy from an existing city page once one exists; otherwise build from the seo-content skill
 - **Page**: copy from the most similar existing `pages/*.html`
 
 ### 2. Required content blocks
@@ -41,7 +41,7 @@ Every new file must include:
 - Real testimonials only (no stock-photo placeholders)
 - Brand mentions (Whirlpool, GE, Samsung, LG, Sub-Zero, etc.) where contextually relevant
 - CTA box and 3 related-article links
-- Mobile breakpoints from `rules/mobile-design.md`
+- Mobile breakpoints from `.agents/skills/mobile-design/SKILL.md`
 
 ### 3. Update related files
 - **Article**: add a card to `pages/blog.html`

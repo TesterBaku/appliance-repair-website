@@ -35,7 +35,7 @@ Manage at: https://claude.ai/code/routines/trig_015WszAyFWDSSsyfP9GF7F2u
 
 ### Steps
 
-1. Read all existing `article-*.html` filenames and `rules/seo-content.md` to identify the top 5 uncovered city × appliance combinations that look most promising.
+1. Read all existing `article-*.html` filenames and `.agents/skills/seo-content/SKILL.md` to identify the top 5 uncovered city × appliance combinations that look most promising.
 
 2. For each of 3 candidate keyword combinations, run a `WebSearch` to assess the competitive landscape:
    - Search query: `"[appliance] repair [city] CA"`
@@ -117,7 +117,7 @@ Write real, helpful content — not placeholder text. Include:
 - **FAQ section** (3–5 Q&As drawn from "people also ask" patterns for the keyword)
 - **CTA box**: "Serving [City] and all of Orange County — call or book online"
 
-### SEO elements (required — see `rules/seo-content.md`)
+### SEO elements (required — see `.agents/skills/seo-content/SKILL.md`)
 - `<title>`, `<meta name="description">`, `<meta name="keywords">`, `<link rel="canonical">`
 - Open Graph tags including `og:url`, `article:published_time`, `article:modified_time`
 - All four schema blocks: Article, LocalBusiness, FAQPage, BreadcrumbList
@@ -125,7 +125,7 @@ Write real, helpful content — not placeholder text. Include:
 - City name used 3–5 times naturally in body text
 - **Use the FAQ seeds from Phase 0 research** as the basis for the FAQ section — these are real questions people search, which maximises FAQPage rich result eligibility
 
-### Mobile layout (required — see `rules/mobile-design.md`)
+### Mobile layout (required — see `.agents/skills/mobile-design/SKILL.md`)
 - All layouts must be responsive at 375px width
 - Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or CSS media queries in the embedded `<style>` tag
 - Test mentally: hero text readable, cards stack vertically, nav collapses, CTA box full-width on mobile
@@ -226,7 +226,7 @@ npm test          # link checker
 npm run screenshot  # puppeteer screenshots
 ```
 
-Apply the Bug Fix Workflow from `rules/git-workflow.md`:
+Apply the Bug Fix Workflow from `.agents/skills/git-workflow/SKILL.md`:
 - Fix one issue at a time
 - Re-run the failing test after each fix
 - Commit each fix separately: `fix([scope]): [description]`

@@ -34,7 +34,7 @@ If either test fails, the PR is an automatic **FAIL** — do not proceed with th
 ### Step 3b — Run the impeccable gate (UI/UX PRs only)
 **Trigger:** the diff touches any `.html` or `.css` file.
 
-**First, check the author ran the right tool and named it honestly.** `/impeccable critique` and `node .agents/skills/impeccable/scripts/detect.mjs` are different: critique is the LLM-driven gate that emits the `??/40` score and runs the detector internally as its Assessment B; the detector alone is the mechanical scanner. Per `.claude/rules/git-workflow.md`, the full critique is required for any diff touching CSS, markup structure, layout, colour or typography, while the detector alone is permitted for a copy-only diff inside existing markup.
+**First, check the author ran the right tool and named it honestly.** `/impeccable critique` and `node .agents/skills/impeccable/scripts/detect.mjs` are different: critique is the LLM-driven gate that emits the `??/40` score and runs the detector internally as its Assessment B; the detector alone is the mechanical scanner. Per `.agents/skills/git-workflow/SKILL.md`, the full critique is required for any diff touching CSS, markup structure, layout, colour or typography, while the detector alone is permitted for a copy-only diff inside existing markup.
 
 You cannot observe what the author ran, only whether their evidence matches their claim. Judge the evidence, and flag as **FAIL**:
 - a PR claiming a critique (or quoting a `??/40` score) whose evidence is a detector findings list or a bare "exit 0" — a real critique reports a heuristics table, cognitive-load and anti-pattern verdicts, and priority issues, so a score with none of that behind it is unevidenced;

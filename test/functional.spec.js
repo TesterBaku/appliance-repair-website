@@ -1002,7 +1002,7 @@ const PREMIUM_HUBS = [
 ];
 
 // 'Bosch Premium', not bare 'Bosch': mainstream Bosch is not a premium-tier brand (see
-// .claude/rules/seo-content.md), and only the Bosch premium built-in lines are in scope
+// .agents/skills/seo-content/SKILL.md), and only the Bosch premium built-in lines are in scope
 // in the LA premium cities. The label deliberately covers the whole premium tier, not
 // just Benchmark, so a panel-ready 800-series owner does not self-select out.
 const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS', 'Bosch Premium'];
