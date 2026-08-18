@@ -1,11 +1,11 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-08-15** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-08-18** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
 
-## The rule (canonical: `.claude/rules/testimonial-selection.md`)
+## The rule (canonical: `.agents/skills/testimonial-selection/SKILL.md`)
 
 **A review may appear on at most 2 HUBS.** A hub is a city hub
 (`pages/appliance-repair-*-ca.html`) or a service/brand/cost hub (`pages/*-orange-county.html`).
@@ -20,7 +20,7 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 | On exactly 2 hubs (at cap) | 96 |
 | On 3 hubs (grandfathered exceptions) | 4 |
 | **Free hub-slots available now** | **5** |
-| Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
+| Approx. new city hubs supportable @ 3/hub | **~1** (before appliance-match / brand-variety / row-balance filters) |
 
 The pool is **not** exhausted: the 5 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
@@ -71,7 +71,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Dave Brisbin | irvine, refrigerator-repair-hub |
 | David Lindley | bosch-hub, dryer-repair-cost-hub |
 | Dena Fisher | buena-park, dryer-repair-hub |
-| Donna Barnett Corwin | dishwasher-repair-cost-hub, corona |
+| Donna Barnett Corwin | corona, dishwasher-repair-cost-hub |
 | Elizabeth Lovejoy | laguna-beach, oven-stove-repair-hub |
 | Elvin Mammadov | long-beach, wolf-hub |
 | Emily Bees | stanton, frigidaire-hub |
