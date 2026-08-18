@@ -92,6 +92,8 @@
 
     /* Testimonials */
     .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    /* 4 reviews: center the 4th card in the middle column so a 3-col grid does not strand it left-aligned */
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: 2; }
     .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
     .hub-page .stars { color: var(--amber); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-sub); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
@@ -118,6 +120,7 @@
     }
     @media (max-width: 480px) {
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: auto; }
     }
     @media (max-width: 768px) {
       .btn-white, .btn-white-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
@@ -329,6 +332,13 @@
         "author": { "@type": "Person", "name": "Pat Sepulveda-Garcia" },
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
         "reviewBody": "Incredible service!! My oven is my emotional lifeline and this tech has saved me a few times!! Excellent service, reasonably priced and very respectful! He is my 100% go to for all things appliances.",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Donna Barnett Corwin" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AG did a great job in quickly repairing our freezer.",
         "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
       }
     ]
@@ -778,6 +788,13 @@
           <p class="testimonial-quote">"Incredible service!! My oven is my emotional lifeline and this tech has saved me a few times!! Excellent service, reasonably priced and very respectful! He is my 100% go to for all things appliances."</p>
           <div class="t-initial" style="background:#444444;">PS</div>
           <div class="testimonial-name">Pat Sepulveda-Garcia &middot; Oven repair</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">"AG did a great job in quickly repairing our freezer."</p>
+          <div class="t-initial" style="background:#444444;">DB</div>
+          <div class="testimonial-name">Donna Barnett Corwin &middot; Freezer repair</div>
         </div>
 
       </div>
