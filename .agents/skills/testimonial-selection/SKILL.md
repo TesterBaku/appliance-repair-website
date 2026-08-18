@@ -1,6 +1,6 @@
 ---
 name: testimonial-selection
-description: Use whenever review or testimonial content is being added, edited, chosen, reordered, or removed on any page, including the homepage and pages/testimonials.html. Applies even if the request only mentions "add a review card", "update the testimonials section", "pick some quotes for this page", or "swap out this review" and never mentions testimonial rules by name.
+description: Use whenever testimonial or review content is being added, edited, chosen, reordered, removed, or audited on any page, including the homepage and pages/testimonials.html. Covers building a testimonials section from scratch, checking whether existing cards are still correct (reviewer name, quote wording, star rating, location label, hub-reuse count, or schema), and fixing a typo in a review body. Applies even if the request only says something like "add a review card", "check the location label on this hub", "how many hubs already use this review", "swap out this review", or "fix this typo in the testimonial" and never mentions testimonial rules by name. Not for authoring new review text (bodies are always copied verbatim from data/testimonials.json).
 ---
 
 **When NOT to use this skill:** this skill never authors new review text; review bodies are

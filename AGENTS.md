@@ -184,15 +184,21 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 
 The six former `.claude/rules/*.md` files (git-workflow, seo-content, mobile-design,
 testimonial-selection, gbp-platform-policy, trusted-sources) were converted to
-`.agents/skills/<name>/SKILL.md` so they load on demand for Claude Code instead of being
-read into every session (the harness was auto-loading all six as project instructions on
-every session, roughly 82,000 chars, regardless of whether the task touched any of their
-domains). Nothing was deleted; every word moved. **Full discovery table, per-skill trigger
-conditions, and the mandatory manual-read requirement for non-Claude agents live in the
-"Workflow Library" section below (see its "Rule Skills" subsection); read that section,
-not just this pointer.** A handful of the flat, highest-risk prohibitions from these files
-were additionally promoted into `.claude/hooks/session-start.mjs`, which loads automatically
-on every Claude Code session.
+`.agents/skills/<name>/SKILL.md` so they load on demand for Claude Code instead of always
+loading. **Why, precisely:** in one live Claude Code session, all six appeared in the opening
+context block as project instructions before any tool call (roughly 82,000 chars combined).
+That is a direct observation, re-checkable by opening a fresh Claude Code session in this
+repo and inspecting whether the six appear before any tool call; it is not a proven harness
+mechanism, and it is not established to hold for every agent, harness, or configuration.
+`progress/agents-md-trim-audit.md` §1 searched the repo for a forcing mechanism (an `@`
+import, a hook, a settings entry) and correctly found none; that finding stands for what it
+examined, since a repo-level search cannot see a harness-level runtime behavior, so the two
+accounts do not actually conflict. Nothing was deleted; every word moved. **Full discovery
+table, per-skill trigger conditions, and the mandatory manual-read requirement for
+non-Claude agents live in the "Workflow Library" section below (see its "Rule Skills"
+subsection); read that section, not just this pointer.** A handful of the flat, highest-risk
+prohibitions from these files were additionally promoted into `.claude/hooks/session-start.mjs`,
+which loads automatically on every Claude Code session.
 
 ## Active plans (tasks/ — gitignored, local)
 - `tasks/backlog.md` — single source of truth for all open work: exhaustive, so nothing is lost, but
@@ -384,9 +390,9 @@ port was removed on 2026-07-10.)
 The six former `.claude/rules/*.md` files (git-workflow, seo-content, mobile-design,
 testimonial-selection, gbp-platform-policy, trusted-sources) were converted to
 `.agents/skills/<name>/SKILL.md` on 2026-08-18 so Claude Code's Skill tool loads each one on
-demand, matching its `description:` frontmatter against the current task, instead of the
-harness reading all six into every session regardless of task. Nothing was deleted; every word
-moved verbatim. **`.agents/skills/` was deliberately kept as the home rather than moving this
+demand, matching its `description:` frontmatter against the current task, instead of always
+loading (see the "## Rules" section above for exactly what was observed versus confirmed
+about the prior always-loading behavior). Nothing was deleted; every word moved verbatim. **`.agents/skills/` was deliberately kept as the home rather than moving this
 content under `.claude/`, precisely because it is already tool-neutral** (no vendor prefix), so
 every agent in the table above can open a path under it directly, the same way this repo already
 keeps `.claude/commands/*.md` and `.agents/skills/impeccable/` both reachable.
@@ -409,7 +415,7 @@ file before starting matching work, not a topic label to skim past:
 | Skill | Path | Read when |
 |---|---|---|
 | `seo-content` | `.agents/skills/seo-content/SKILL.md` (schema templates split into `references/schema-templates.md`, read on demand) | Writing, editing, or reviewing an article, a service/brand/city hub, or the homepage; writing or editing a `<title>`, meta tag, schema block, brand mention, or any price/cost/fee text anywhere on the site, even for a small edit that never mentions SEO by name. |
-| `testimonial-selection` | `.agents/skills/testimonial-selection/SKILL.md` | Adding, editing, choosing, reordering, or removing review/testimonial content on any page, even a request that only says "add a review card" or "update the testimonials section". |
+| `testimonial-selection` | `.agents/skills/testimonial-selection/SKILL.md` | Adding, editing, choosing, reordering, removing, or auditing review/testimonial content on any page, including building a section from scratch, checking whether existing cards (name, quote, rating, location label, hub-reuse count) are still correct, or fixing a typo in a review body, even a request that only says "add a review card" or "check the location label on this hub". |
 | `git-workflow` | `.agents/skills/git-workflow/SKILL.md` | Before any branch, commit, or PR for any change to this repo, and when deciding whether a review is needed before merge, even a request that only says "fix this" or "ship this". |
 | `gbp-platform-policy` | `.agents/skills/gbp-platform-policy/SKILL.md` | Before any copy, caption, post, or reply meant for GBP, Yelp, Instagram, or another external platform, and before any request for a customer to leave feedback or a review in any channel, even one that never names a platform. |
 | `mobile-design` | `.agents/skills/mobile-design/SKILL.md` | Writing, editing, or reviewing any HTML or CSS on any page, no matter how small the change looks, even a request that never mentions mobile or responsive design. |
