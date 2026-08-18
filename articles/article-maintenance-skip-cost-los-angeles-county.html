@@ -187,6 +187,16 @@
     .callout { background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #9a3412; line-height: 1.75; }
     .callout-blue { background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #1e40af; line-height: 1.75; }
     .callout-green { background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #166534; line-height: 1.75; }
+
+    /* COST TABLE */
+    .cost-table-wrap { overflow-x: auto; margin: 20px 0 8px; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
+    .cost-table { width: 100%; border-collapse: collapse; background: #fff; min-width: 560px; }
+    .cost-table th { background: #f8f9fa; font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.06em; padding: 12px 16px; text-align: left; border-bottom: 1px solid #f0f0f0; white-space: nowrap; }
+    .cost-table td { font-size: 13px; color: #444; padding: 12px 16px; border-bottom: 1px solid #f8f8f8; vertical-align: top; }
+    .cost-table tr:last-child td { border-bottom: none; }
+    .cost-table td:first-child { font-weight: 600; color: #111; white-space: nowrap; }
+    .price-disclaimer { font-size: 12px; color: #6b7280; font-style: italic; margin: 8px 0 28px; padding: 10px 14px; background: #f9fafb; border-left: 3px solid #d1d5db; border-radius: 4px; }
+
     .inline-cta { background: linear-gradient(135deg, #cc3d12, #9e300a); border-radius: 16px; padding: 32px; margin: 40px 0; color: #fff; text-align: center; }
     .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
     .inline-cta p { font-size: 13px; color: #fff; margin-bottom: 20px; line-height: 1.6; }
@@ -486,6 +496,7 @@
           <li><a href="#coils">What Energy Star actually recommends for refrigerator coils</a></li>
           <li><a href="#reliability">What Consumer Reports' data says about refrigerator reliability</a></li>
           <li><a href="#cant-prevent">What maintenance can't prevent</a></li>
+          <li><a href="#cost-table">What repairs actually cost, by appliance</a></li>
           <li><a href="#service">Getting a maintenance-related repair done in LA County</a></li>
           <li><a href="#faq">Frequently asked questions</a></li>
           <li><a href="#references">References</a></li>
@@ -553,8 +564,59 @@
       <p>What routine maintenance actually buys is a lower chance of the preventable failures: the dryer-vent fire, the compressor that burns out early because it's been fighting dirty coils for years, the fill hose that finally bursts because nobody replaced it on schedule. On a rental where AB 628 now applies, it also buys the landlord a cleaner record if a habitability question ever comes up, though maintenance alone isn't a substitute for actually fixing something once it breaks.</p>
 
       <div class="callout-blue">
-        <strong>The practical takeaway:</strong> cleaning condenser coils costs a vacuum, a coil brush, and about fifteen minutes twice a year. A sealed-system repair once that neglect catches up (compressor, refrigerant leak, filter drier, evaporator coil) runs <strong>$350 to $650</strong> in the ranges published on our <a href="../pages/refrigerator-repair-cost-orange-county.html">Orange County refrigerator repair cost guide</a>, and our diagnostic fee across Los Angeles County is a flat $99, credited toward the repair if you proceed. That is the whole economic case in one line: the preventive task is close to free, and the failure it makes less likely is not. <em>Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</em>
+        <strong>The practical takeaway:</strong> cleaning condenser coils costs a vacuum, a coil brush, and about fifteen minutes twice a year. A sealed-system repair once that neglect catches up (compressor, refrigerant leak, filter drier, evaporator coil) runs <strong>$350 to $650</strong> in the ranges published on our <a href="../pages/refrigerator-repair-cost-orange-county.html">Orange County refrigerator repair cost guide</a> (see the full repair-cost table below for the other appliance types), and our diagnostic fee across Los Angeles County is a flat $99, credited toward the repair if you proceed. That is the whole economic case in one line: the preventive task is close to free, and the failure it makes less likely is not. <em>Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</em>
       </div>
+
+      <h2 id="cost-table">What Repairs Actually Cost, By Appliance</h2>
+
+      <p>We keep detailed, per-appliance cost breakdowns on our Orange County repair-cost guides, since that is where our published pricing pages live; we do not yet have a separate Los Angeles County cost page. The ranges below are pulled straight from those Orange County guides, not adjusted or averaged. The diagnostic fee is the one figure that is specific to Los Angeles County itself: a flat $99 in every city we serve, credited toward the repair if you move forward.</p>
+
+      <div class="cost-table-wrap">
+        <table class="cost-table">
+          <thead>
+            <tr>
+              <th>Appliance</th>
+              <th>Common Repair</th>
+              <th>Typical Cost Range</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dryer</td>
+              <td>Heating element (electric)</td>
+              <td>$150&ndash;$350</td>
+            </tr>
+            <tr>
+              <td>Washer</td>
+              <td>Drum bearing (grinding noise)</td>
+              <td>$150&ndash;$350</td>
+            </tr>
+            <tr>
+              <td>Dishwasher</td>
+              <td>Drain pump</td>
+              <td>$130&ndash;$280</td>
+            </tr>
+            <tr>
+              <td>Oven / range</td>
+              <td>Bake element (electric oven)</td>
+              <td>$150&ndash;$320</td>
+            </tr>
+            <tr>
+              <td>Refrigerator</td>
+              <td>Compressor / sealed system</td>
+              <td>$350&ndash;$650</td>
+            </tr>
+            <tr>
+              <td>Diagnostic visit (LA County)</td>
+              <td>Flat fee, credited toward the repair</td>
+              <td>$99</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="price-disclaimer">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</p>
+
+      <p>Five of these rows come from ranges published on our Orange County cost guides for <a href="../pages/dryer-repair-cost-orange-county.html">dryers</a>, <a href="../pages/washer-repair-cost-orange-county.html">washers</a>, <a href="../pages/dishwasher-repair-cost-orange-county.html">dishwashers</a>, <a href="../pages/oven-repair-cost-orange-county.html">ovens and ranges</a>, and <a href="../pages/refrigerator-repair-cost-orange-county.html">refrigerators</a>. Those are Orange County guides, not an LA County-specific price list; we're citing them here because that is where our real, published repair numbers live. The diagnostic row is different: it applies directly to Los Angeles County, at a flat $99 regardless of appliance or city, credited toward the repair if you proceed.</p>
 
       <h2 id="service">Getting a Maintenance-Related Repair Done in LA County</h2>
 
