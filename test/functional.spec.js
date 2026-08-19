@@ -1484,6 +1484,22 @@ test.describe('Regression: mobile header phone + hamburger sizing (P6-57b)', () 
         const stickyBar = page.locator('.sticky-mobile-bar');
         await expect(stickyBar).toBeVisible();
         await expect(stickyBar.locator('a[href^="tel:"]')).toBeAttached();
+
+        // The logo must never touch the hamburger. `.nav-inner` is
+        // justify-content: space-between with no gap, so removing the phone
+        // handed its width straight to the logo: measured before the gap was
+        // added, the two sat flush at 320px (gap 57px to 0px, and 77px to 30px
+        // at 375px). Two adjacent tap targets with no separation is a mis-tap
+        // risk, and it reads as a layout bug. Nothing else in the suite
+        // measures the space BETWEEN header items, which is why hiding an
+        // element could quietly break the ones left behind.
+        const spacing = await page.evaluate(() => {
+          const nav = document.querySelector('nav');
+          const logo = nav.querySelector('a');
+          const ham = nav.querySelector('.nav-hamburger');
+          return Math.round(ham.getBoundingClientRect().left - logo.getBoundingClientRect().right);
+        });
+        expect(spacing, `logo sits ${spacing}px from the hamburger at ${width}px`).toBeGreaterThanOrEqual(12);
       });
     }
   }
