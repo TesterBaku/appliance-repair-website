@@ -1588,19 +1588,47 @@ test.describe('Regression: mobile nav drawer reachability (P6-52)', () => {
 // The main family never returned focus to the hamburger on any close path,
 // including Escape (defect 3).
 //
-// Honest red-state note: 10 of these 12 failed before the fix. The 2 that did
-// not are the article family's own close paths. Its Escape handler already
-// called hamburger.focus(), and its outside-click test passed only by accident,
-// because removing data-open sets display:none on the focused link and the
-// browser blurs it to <body> as a side effect, not because the app released
-// focus. Both are kept: they pin behaviour that must not regress, and the
-// outside-click one now passes for the right reason.
+// Honest red-state note, re-measured against origin/master's site.js (the code
+// before this PR's fix) with --retries=0, batched: 11 of these 12 failed. The
+// only deterministic passer is the article family's own Escape path, whose
+// handler already called hamburger.focus() before this PR existed.
+//
+// The article family's outside-click test is NOT a second deterministic
+// passer, despite an earlier version of this comment claiming it was (it read
+// as passing "by accident" in a batch run, which is itself just one sample of
+// flaky behaviour, not a fixed outcome). Measured in isolation, 15 runs of
+// just that one test against master's site.js: 9 passed, 6 failed (roughly
+// 3 in 5, not the ~1-in-5 figure an earlier review pass here reported before
+// this comment was corrected). It is timing-sensitive against the PRE-FIX
+// code: removing data-open sets display:none on the focused link and the
+// dispatched MouseEvent races the browser's resulting blur-to-<body>, so
+// whether the assertion observes focus already outside the drawer depends on
+// event-loop timing, not on the app deliberately releasing focus. With the
+// fix applied, this same test is deterministic: releaseFocus() explicitly
+// moves focus to the hamburger before aria-hidden is set, so there is no race
+// left to win or lose. All 4 tests are kept as regression pins regardless of
+// which passed before the fix; the point of this note is to describe the
+// red state honestly, not to justify which tests earn a place in the suite.
 //
 // Both drawer families are covered on purpose, same reasoning as P6-52: they are
 // different markup with different close paths, so passing on one proves nothing
 // about the other. Representatives reused from the established lists above: an
 // article page (#mobile-nav-drawer), a shared.css hub page (.nav-drawer), and
 // /index.html, which inlines its own nav CSS (.nav-drawer).
+//
+// Test-gap note (5th test per page, added after the original 12): the 4 tests
+// above only probe the BOUNDARIES of the Tab cycle (last link -> wrap, hamburger
+// -> Shift+Tab wrap, outside-click, Escape). None of them walked the MIDDLE,
+// which is exactly where a real regression shipped and passed this suite clean:
+// focusablesIn()'s original hand-maintained CSS selector list omitted <summary>,
+// which is natively tabbable. The main-family drawer's Services/Brands/Service
+// Areas sections are <details><summary>, so landing on one mid-Tab made
+// cycle.indexOf(activeElement) === -1, and trapTab's forward branch treated that
+// as "focus escaped", forcing focus back to the hamburger and permanently
+// looping the first 2 items on ~150 pages, worse than the trap this PR set out
+// to fix. See the "Tab walks every focusable drawer item" test below, which
+// presses real Tab from the hamburger and asserts the full cycle is walked
+// exactly once before wrapping back.
 test.describe('Regression: mobile nav drawer focus trap (P6-57)', () => {
   const PAGES = [
     { url: '/articles/article-fridge-repair-garden-grove.html', drawer: '#mobile-nav-drawer', note: 'article family' },
@@ -1687,6 +1715,89 @@ test.describe('Regression: mobile nav drawer focus trap (P6-57)', () => {
         }), drawer);
         expect(result.drawerOpen, 'drawer did not close on Escape').toBe(false);
         expect(result.isHamburger, `focus after Escape was on ${result.tag}, not the hamburger`).toBe(true);
+      });
+
+      // Closes the middle-of-cycle test gap explained in the describe-block
+      // comment above. Presses real Tab from the hamburger repeatedly and
+      // asserts every visible, natively-tabbable drawer element is reached
+      // exactly once, in order, before the walk wraps back to the hamburger.
+      test('Tab walks every focusable drawer item exactly once before wrapping to the hamburger', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto(url);
+        await page.locator('.nav-hamburger').click();
+
+        // Tag each native-tabbability match (same rule the fix uses: tabIndex >=
+        // 0, not disabled, has layout) with its walk order so each Tab press can
+        // be matched back to a specific expected item, not just a tag name.
+        //
+        // One extra exclusion beyond the fix's own rule, discovered while
+        // measuring this test's red state: the main-family drawer's
+        // .nav-drawer details a { display: block } rule (shared.css, next to
+        // the P6-52 note) keeps closed-<details> content laid out and painted,
+        // so it still passes tabIndex >= 0 && getClientRects().length even
+        // though Chromium treats it as inert to real keyboard focus while its
+        // <details> ancestor is closed (confirmed directly: node.focus() on
+        // such a link while closed is a no-op, activeElement stays put). Since
+        // this test presses only Tab and never Enter/Space, no <details> ever
+        // opens during the walk, so that content is correctly never reachable
+        // here and must not be counted as expected. <summary> itself is exempt
+        // from the exclusion: it is always reachable regardless of open state.
+        const expectedCount = await page.evaluate((sel) => {
+          const d = document.querySelector(sel);
+          const focusables = [...d.querySelectorAll('*')].filter((el) => {
+            if (!(el.tabIndex >= 0 && !el.disabled && el.getClientRects().length > 0)) return false;
+            const closedAncestor = el.closest('details:not([open])');
+            return !closedAncestor || el.tagName === 'SUMMARY';
+          });
+          focusables.forEach((el, i) => el.setAttribute('data-p657-idx', String(i)));
+          return focusables.length;
+        }, drawer);
+
+        await page.locator('.nav-hamburger').focus();
+
+        const seen = [];
+        const maxSteps = expectedCount + 30; // generous guard; drawers run ~70 items
+        let loopedBackAt = null;
+
+        for (let i = 1; i <= maxSteps; i++) {
+          await page.keyboard.press('Tab');
+          const info = await page.evaluate(() => {
+            const active = document.activeElement;
+            return {
+              isHamburger: active.classList.contains('nav-hamburger'),
+              idx: active.getAttribute('data-p657-idx'),
+              desc:
+                active.tagName +
+                (active.id ? '#' + active.id : '') +
+                (active.textContent ? ':' + active.textContent.trim().slice(0, 30) : ''),
+            };
+          });
+          if (info.isHamburger) {
+            loopedBackAt = i;
+            break;
+          }
+          if (info.idx === null) {
+            throw new Error(
+              `Tab press #${i} landed outside the drawer's tracked focusables and is not the hamburger: ${info.desc}`
+            );
+          }
+          if (seen.includes(info.idx)) {
+            throw new Error(
+              `Tab walk looped back to an already-visited item (${info.desc}, walk-index ${info.idx}) at ` +
+              `press #${i} without reaching the hamburger; visited ${seen.length} of ${expectedCount} expected items first`
+            );
+          }
+          seen.push(info.idx);
+        }
+
+        expect(
+          loopedBackAt,
+          `Tab walk did not return to the hamburger within ${maxSteps} presses; visited ${seen.length} of ${expectedCount} expected items`
+        ).not.toBeNull();
+        expect(
+          seen.length,
+          `wrapped back to the hamburger after visiting only ${seen.length} of ${expectedCount} expected drawer items`
+        ).toBe(expectedCount);
       });
     });
   }

@@ -67,11 +67,19 @@
   }
 
   // Focus-trap helpers shared by both drawer families (P6-57).
+  // Native tabbability check, not a hand-maintained selector list: the selector
+  // list this function shipped with in this very PR omitted <summary>, which is
+  // natively tabbable (tabIndex === 0) but matched none of the selector's
+  // clauses, and the main-family drawer's Services/Brands/Service Areas
+  // sections are <details><summary>. That silently trapped keyboard users in a
+  // 3-item loop on every main-family page (~150 pages) whenever focus landed on
+  // a <summary> mid-cycle. tabIndex >= 0 gets <summary>, <a href>, buttons, and
+  // [tabindex="0"] right without a list to maintain, and correctly excludes the
+  // <details> element itself (tabIndex === -1) and disabled controls.
   function focusablesIn(el) {
-    var sel = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
     var result = [];
-    el.querySelectorAll(sel).forEach(function (node) {
-      if (node.getClientRects().length) result.push(node);
+    el.querySelectorAll('*').forEach(function (node) {
+      if (node.tabIndex >= 0 && !node.disabled && node.getClientRects().length) result.push(node);
     });
     return result;
   }
