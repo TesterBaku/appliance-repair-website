@@ -133,7 +133,12 @@ const report = [];
   if (lastClose === -1) {
     console.warn(`  WARNING: no </style> found in ${path.relative(ROOT, filePath)}`);
   } else {
-    const withRule = appendHideRule(content, lastClose, '');
+    // index.html's inline CSS is indented 4 spaces like the articles', so the
+    // appended block must be too. This argument was '' on the original run,
+    // which is why the shipped block had to be re-indented by hand afterwards
+    // (Copilot caught it); leaving it at '' would silently regenerate the
+    // inconsistency on any re-run.
+    const withRule = appendHideRule(content, lastClose, '    ');
     if (withRule !== content) {
       content = withRule;
       changed = true;
