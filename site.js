@@ -66,6 +66,70 @@
     });
   }
 
+  // Focus-trap helpers shared by both drawer families (P6-57).
+  // Native tabbability check, not a hand-maintained selector list: the selector
+  // list this function shipped with in this very PR omitted <summary>, which is
+  // natively tabbable (tabIndex === 0) but matched none of the selector's
+  // clauses, and the main-family drawer's Services/Brands/Service Areas
+  // sections are <details><summary>. That silently trapped keyboard users in a
+  // 3-item loop on every main-family page (~150 pages) whenever focus landed on
+  // a <summary> mid-cycle. tabIndex >= 0 gets <summary>, <a href>, buttons, and
+  // [tabindex="0"] right without a list to maintain, and correctly excludes the
+  // <details> element itself (tabIndex === -1) and disabled controls.
+  // Ancestor walk used by focusablesIn to exclude phantom entries: nodes
+  // inside a CLOSED <details> pass the native-tabbability check above
+  // (shared.css keeps `.nav-drawer details a { display: block }`, so they
+  // are painted and getClientRects() succeeds, and tabIndex on an <a href>
+  // is 0 regardless of ancestor state) but browsers make closed-<details>
+  // content genuinely inert to real Tab presses, so document.activeElement
+  // can never land on one. That mismatch is harmless today only by markup
+  // accident: the drawer's last child is a plain <a> CTA outside any
+  // <details>, so cycle[cycle.length - 1] in trapTab happens to be reachable.
+  // If a future edit made a <details> region the drawer's last child, the
+  // true last reachable item would never satisfy `idx === cycle.length - 1`,
+  // trapTab would stop intercepting Tab there, and focus would leak out of
+  // the drawer, a narrower rerun of the exact bug this file already fixed
+  // once (see the comment above focusablesIn). Must be an ancestor walk, not
+  // a single closest('details') check, so a summary nested inside a closed
+  // outer <details> is correctly excluded too. Keeps a details element's own
+  // <summary> reachable, since that is the control that opens it.
+  function isReachable(node, root) {
+    var current = node;
+    while (current && current !== root) {
+      var parent = current.parentElement;
+      if (!parent) break;
+      if (parent.tagName === 'DETAILS' && !parent.open) {
+        var firstSummary = null;
+        for (var i = 0; i < parent.children.length; i++) {
+          if (parent.children[i].tagName === 'SUMMARY') { firstSummary = parent.children[i]; break; }
+        }
+        if (current !== firstSummary) return false;
+      }
+      current = parent;
+    }
+    return true;
+  }
+  function focusablesIn(el) {
+    var result = [];
+    el.querySelectorAll('*').forEach(function (node) {
+      if (node.tabIndex >= 0 && !node.disabled && node.getClientRects().length && isReachable(node, el)) result.push(node);
+    });
+    return result;
+  }
+  function releaseFocus(drawer, hamburger) {
+    if (drawer.contains(document.activeElement)) hamburger.focus();
+  }
+  function trapTab(e, drawer, hamburger) {
+    if (e.key !== 'Tab' || hamburger.getAttribute('aria-expanded') !== 'true') return;
+    var cycle = [hamburger].concat(focusablesIn(drawer));
+    var idx = cycle.indexOf(document.activeElement);
+    if (e.shiftKey) {
+      if (idx <= 0) { e.preventDefault(); cycle[cycle.length - 1].focus(); }
+    } else {
+      if (idx === -1 || idx === cycle.length - 1) { e.preventDefault(); cycle[0].focus(); }
+    }
+  }
+
   // 2. Mobile nav drawer — family detected by element.
   function initDrawer() {
     var hamburger = document.querySelector('.nav-hamburger');
@@ -74,6 +138,7 @@
     var articleDrawer = document.getElementById('mobile-nav-drawer');
     if (articleDrawer) {
       var setNavOpen = function (open) {
+        if (!open) releaseFocus(articleDrawer, hamburger);
         hamburger.setAttribute('aria-expanded', String(open));
         hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         articleDrawer.setAttribute('aria-hidden', String(!open));
@@ -84,6 +149,7 @@
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') { setNavOpen(false); hamburger.focus(); }
       });
+      document.addEventListener('keydown', function (e) { trapTab(e, articleDrawer, hamburger); });
       articleDrawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setNavOpen(false); }); });
       document.addEventListener('click', function (e) {
         if (hamburger.getAttribute('aria-expanded') === 'true' && !e.target.closest('.nav')) setNavOpen(false);
@@ -94,9 +160,16 @@
     var drawer = document.querySelector('.nav-drawer');
     if (!drawer) return;
     function openDrawer() { drawer.setAttribute('data-open', ''); hamburger.setAttribute('aria-expanded', 'true'); }
-    function closeDrawer() { drawer.removeAttribute('data-open'); hamburger.setAttribute('aria-expanded', 'false'); }
+    function closeDrawer() {
+      releaseFocus(drawer, hamburger);
+      drawer.removeAttribute('data-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
     hamburger.addEventListener('click', function () { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDrawer(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') closeDrawer();
+    });
+    document.addEventListener('keydown', function (e) { trapTab(e, drawer, hamburger); });
     drawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeDrawer); });
     document.addEventListener('click', function (e) { if (!e.target.closest('.nav')) closeDrawer(); });
   }

@@ -1575,6 +1575,304 @@ test.describe('Regression: mobile nav drawer reachability (P6-52)', () => {
   });
 });
 
+// ─── Regression: mobile nav drawer focus trap (P6-57) ─────────────────────────
+// initDrawer() in site.js drove the mobile nav drawer with no Tab focus trap, so
+// Tab from the last drawer link moved focus onto page content sitting behind the
+// still-open, opaque drawer with no visible focus indicator (defect 1). The
+// article family also called articleDrawer.setAttribute('aria-hidden', 'true')
+// on close without first moving focus out of the drawer (defect 2): a WAI-ARIA
+// violation, since aria-hidden must never cover the focused element, even
+// transiently. The critique that found this reported Chrome console-warning it;
+// that did NOT reproduce when probed directly (0 warnings either way), so the
+// defect is stated here on the spec, not on a console message nobody observed.
+// The main family never returned focus to the hamburger on any close path,
+// including Escape (defect 3).
+//
+// Honest red-state note, re-measured against origin/master's site.js (the code
+// before this PR's fix) with --retries=0, batched: 11 of these 12 failed. The
+// only deterministic passer is the article family's own Escape path, whose
+// handler already called hamburger.focus() before this PR existed.
+//
+// The article family's outside-click test is NOT a second deterministic
+// passer, despite an earlier version of this comment claiming it was (it read
+// as passing "by accident" in a batch run, which is itself just one sample of
+// flaky behaviour, not a fixed outcome). Measured in isolation, 15 runs of
+// just that one test against master's site.js: 9 passed, 6 failed (roughly
+// 3 in 5, not the ~1-in-5 figure an earlier review pass here reported before
+// this comment was corrected). It is timing-sensitive against the PRE-FIX
+// code: removing data-open sets display:none on the focused link and the
+// dispatched MouseEvent races the browser's resulting blur-to-<body>, so
+// whether the assertion observes focus already outside the drawer depends on
+// event-loop timing, not on the app deliberately releasing focus. With the
+// fix applied, this same test is deterministic: releaseFocus() explicitly
+// moves focus to the hamburger before aria-hidden is set, so there is no race
+// left to win or lose. All 4 tests are kept as regression pins regardless of
+// which passed before the fix; the point of this note is to describe the
+// red state honestly, not to justify which tests earn a place in the suite.
+//
+// Both drawer families are covered on purpose, same reasoning as P6-52: they are
+// different markup with different close paths, so passing on one proves nothing
+// about the other. Representatives reused from the established lists above: an
+// article page (#mobile-nav-drawer), a shared.css hub page (.nav-drawer), and
+// /index.html, which inlines its own nav CSS (.nav-drawer).
+//
+// Test-gap note (5th test per page, added after the original 12): the 4 tests
+// above only probe the BOUNDARIES of the Tab cycle (last link -> wrap, hamburger
+// -> Shift+Tab wrap, outside-click, Escape). None of them walked the MIDDLE,
+// which is exactly where a real regression shipped and passed this suite clean:
+// focusablesIn()'s original hand-maintained CSS selector list omitted <summary>,
+// which is natively tabbable. The main-family drawer's Services/Brands/Service
+// Areas sections are <details><summary>, so landing on one mid-Tab made
+// cycle.indexOf(activeElement) === -1, and trapTab's forward branch treated that
+// as "focus escaped", forcing focus back to the hamburger and permanently
+// looping the first 2 items on ~150 pages, worse than the trap this PR set out
+// to fix. See the "Tab walks every focusable drawer item" test below, which
+// presses real Tab from the hamburger and asserts the full cycle is walked
+// exactly once before wrapping back.
+test.describe('Regression: mobile nav drawer focus trap (P6-57)', () => {
+  const PAGES = [
+    { url: '/articles/article-fridge-repair-garden-grove.html', drawer: '#mobile-nav-drawer', note: 'article family' },
+    { url: '/pages/appliance-repair-irvine-ca.html', drawer: '.nav-drawer', note: 'hub page via shared.css' },
+    { url: '/index.html', drawer: '.nav-drawer', note: 'inlines its own nav CSS' },
+  ];
+
+  // Same visible-focusable definition the fix uses: getClientRects().length,
+  // not offsetParent, because the drawer is position:fixed and offsetParent
+  // reasoning is a trap there.
+  const FOCUSABLE_SEL = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  for (const { url, drawer, note } of PAGES) {
+    test.describe(`${url} (${note})`, () => {
+      test('Tab from the last drawer link stays inside the trap', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto(url);
+        await page.locator('.nav-hamburger').click();
+        await page.evaluate(({ sel, focusableSel }) => {
+          const d = document.querySelector(sel);
+          const focusables = [...d.querySelectorAll(focusableSel)].filter(el => el.getClientRects().length > 0);
+          focusables[focusables.length - 1].focus();
+        }, { sel: drawer, focusableSel: FOCUSABLE_SEL });
+        await page.keyboard.press('Tab');
+        const result = await page.evaluate((sel) => {
+          const d = document.querySelector(sel);
+          const active = document.activeElement;
+          return {
+            insideDrawer: d.contains(active),
+            isHamburger: active.classList.contains('nav-hamburger'),
+          };
+        }, drawer);
+        expect(result.insideDrawer || result.isHamburger, 'focus escaped the drawer/hamburger cycle').toBe(true);
+      });
+
+      test('Shift+Tab from the hamburger wraps to the last drawer link', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto(url);
+        await page.locator('.nav-hamburger').click();
+        await page.locator('.nav-hamburger').focus();
+        await page.keyboard.press('Shift+Tab');
+        const result = await page.evaluate(({ sel, focusableSel }) => {
+          const d = document.querySelector(sel);
+          const focusables = [...d.querySelectorAll(focusableSel)].filter(el => el.getClientRects().length > 0);
+          const last = focusables[focusables.length - 1];
+          return {
+            matchesLast: document.activeElement === last,
+            insideDrawer: d.contains(document.activeElement),
+            tag: document.activeElement.tagName,
+          };
+        }, { sel: drawer, focusableSel: FOCUSABLE_SEL });
+        expect(result.matchesLast, `Shift+Tab from hamburger landed on ${result.tag}, insideDrawer=${result.insideDrawer}`).toBe(true);
+      });
+
+      test('focus leaves the drawer on outside-click close (aria-hidden safe)', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto(url);
+        await page.locator('.nav-hamburger').click();
+        await page.evaluate((sel) => {
+          document.querySelector(sel).querySelector('a[href]').focus();
+        }, drawer);
+        // Dispatch a click on document.body, which is never a descendant of .nav
+        // for either family, matching the exact `!e.target.closest('.nav')`
+        // condition the outside-click handler checks.
+        await page.evaluate(() => {
+          document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        });
+        const insideDrawer = await page.evaluate((sel) => document.querySelector(sel).contains(document.activeElement), drawer);
+        expect(insideDrawer, 'focus was still inside the drawer after outside-click close').toBe(false);
+      });
+
+      test('Escape closes the drawer and returns focus to the hamburger', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto(url);
+        await page.locator('.nav-hamburger').click();
+        await page.evaluate((sel) => {
+          document.querySelector(sel).querySelector('a[href]').focus();
+        }, drawer);
+        await page.keyboard.press('Escape');
+        const result = await page.evaluate((sel) => ({
+          drawerOpen: document.querySelector(sel).hasAttribute('data-open'),
+          isHamburger: document.activeElement.classList.contains('nav-hamburger'),
+          tag: document.activeElement.tagName,
+        }), drawer);
+        expect(result.drawerOpen, 'drawer did not close on Escape').toBe(false);
+        expect(result.isHamburger, `focus after Escape was on ${result.tag}, not the hamburger`).toBe(true);
+      });
+
+      // Closes the middle-of-cycle test gap explained in the describe-block
+      // comment above. Presses real Tab from the hamburger repeatedly and
+      // asserts every visible, natively-tabbable drawer element is reached
+      // exactly once, in order, before the walk wraps back to the hamburger.
+      test('Tab walks every focusable drawer item exactly once before wrapping to the hamburger', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto(url);
+        await page.locator('.nav-hamburger').click();
+
+        // Tag each native-tabbability match (same rule the fix uses: tabIndex >=
+        // 0, not disabled, has layout) with its walk order so each Tab press can
+        // be matched back to a specific expected item, not just a tag name.
+        //
+        // One extra exclusion beyond the fix's own rule, discovered while
+        // measuring this test's red state: the main-family drawer's
+        // .nav-drawer details a { display: block } rule (shared.css, next to
+        // the P6-52 note) keeps closed-<details> content laid out and painted,
+        // so it still passes tabIndex >= 0 && getClientRects().length even
+        // though Chromium treats it as inert to real keyboard focus while its
+        // <details> ancestor is closed (confirmed directly: node.focus() on
+        // such a link while closed is a no-op, activeElement stays put). Since
+        // this test presses only Tab and never Enter/Space, no <details> ever
+        // opens during the walk, so that content is correctly never reachable
+        // here and must not be counted as expected. <summary> itself is exempt
+        // from the exclusion: it is always reachable regardless of open state.
+        const expectedCount = await page.evaluate((sel) => {
+          const d = document.querySelector(sel);
+          const focusables = [...d.querySelectorAll('*')].filter((el) => {
+            if (!(el.tabIndex >= 0 && !el.disabled && el.getClientRects().length > 0)) return false;
+            const closedAncestor = el.closest('details:not([open])');
+            return !closedAncestor || el.tagName === 'SUMMARY';
+          });
+          focusables.forEach((el, i) => el.setAttribute('data-p657-idx', String(i)));
+          return focusables.length;
+        }, drawer);
+
+        await page.locator('.nav-hamburger').focus();
+
+        const seen = [];
+        const maxSteps = expectedCount + 30; // generous guard; drawers run ~70 items
+        let loopedBackAt = null;
+
+        for (let i = 1; i <= maxSteps; i++) {
+          await page.keyboard.press('Tab');
+          const info = await page.evaluate(() => {
+            const active = document.activeElement;
+            return {
+              isHamburger: active.classList.contains('nav-hamburger'),
+              idx: active.getAttribute('data-p657-idx'),
+              desc:
+                active.tagName +
+                (active.id ? '#' + active.id : '') +
+                (active.textContent ? ':' + active.textContent.trim().slice(0, 30) : ''),
+            };
+          });
+          if (info.isHamburger) {
+            loopedBackAt = i;
+            break;
+          }
+          if (info.idx === null) {
+            throw new Error(
+              `Tab press #${i} landed outside the drawer's tracked focusables and is not the hamburger: ${info.desc}`
+            );
+          }
+          if (seen.includes(info.idx)) {
+            throw new Error(
+              `Tab walk looped back to an already-visited item (${info.desc}, walk-index ${info.idx}) at ` +
+              `press #${i} without reaching the hamburger; visited ${seen.length} of ${expectedCount} expected items first`
+            );
+          }
+          seen.push(info.idx);
+        }
+
+        expect(
+          loopedBackAt,
+          `Tab walk did not return to the hamburger within ${maxSteps} presses; visited ${seen.length} of ${expectedCount} expected items`
+        ).not.toBeNull();
+        expect(
+          seen.length,
+          `wrapped back to the hamburger after visiting only ${seen.length} of ${expectedCount} expected drawer items`
+        ).toBe(expectedCount);
+      });
+
+      // Pins the fragility fixed in focusablesIn() (site.js): the FIRST and
+      // LAST members of the production cycle must both be genuinely
+      // focusable, not merely present in the array. Before the fix, a
+      // closed-<details> phantom could sit at either boundary depending on
+      // markup order alone and pass every assertion above while being a
+      // no-op to .focus() in real Chromium: cycle[0] is always the
+      // hamburger, and cycle[cycle.length - 1] happened to be the drawer's
+      // final plain <a> CTA only because no <details> region is the
+      // drawer's last child today. This test would have caught that
+      // fragility directly, instead of relying on markup order staying
+      // lucky, by deriving the cycle in-page with the same ancestor-walk
+      // reachability rule focusablesIn() now uses and probing both ends
+      // with a real .focus() call.
+      test('first and last members of the focus cycle are genuinely focusable', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto(url);
+        await page.locator('.nav-hamburger').click();
+
+        const result = await page.evaluate((sel) => {
+          function isReachable(node, root) {
+            let current = node;
+            while (current && current !== root) {
+              const parent = current.parentElement;
+              if (!parent) break;
+              if (parent.tagName === 'DETAILS' && !parent.open) {
+                let firstSummary = null;
+                for (const child of parent.children) {
+                  if (child.tagName === 'SUMMARY') { firstSummary = child; break; }
+                }
+                if (current !== firstSummary) return false;
+              }
+              current = parent;
+            }
+            return true;
+          }
+
+          const drawer = document.querySelector(sel);
+          const hamburger = document.querySelector('.nav-hamburger');
+          const focusables = [...drawer.querySelectorAll('*')].filter((node) =>
+            node.tabIndex >= 0 && !node.disabled && node.getClientRects().length > 0 && isReachable(node, drawer)
+          );
+          const cycle = [hamburger, ...focusables];
+
+          function probe(el) {
+            el.focus();
+            return {
+              ok: document.activeElement === el,
+              tag: el.tagName,
+              id: el.id || null,
+              text: el.textContent ? el.textContent.trim().slice(0, 30) : null,
+            };
+          }
+
+          return {
+            cycleLength: cycle.length,
+            first: probe(cycle[0]),
+            last: probe(cycle[cycle.length - 1]),
+          };
+        }, drawer);
+
+        expect(
+          result.first.ok,
+          `first cycle member (${result.first.tag}${result.first.id ? '#' + result.first.id : ''}: ${result.first.text}) could not take focus`
+        ).toBe(true);
+        expect(
+          result.last.ok,
+          `last cycle member (${result.last.tag}${result.last.id ? '#' + result.last.id : ''}: ${result.last.text}) could not take focus`
+        ).toBe(true);
+      });
+    });
+  }
+});
+
 // ─── Regression: price disclaimer on cost articles ────────────────────────────
 test.describe('Price disclaimer on cost articles', () => {
   const DISCLAIMER = /Estimates vary by brand, part availability, and diagnosis/i;
