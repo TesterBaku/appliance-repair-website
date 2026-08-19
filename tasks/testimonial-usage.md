@@ -5,7 +5,7 @@
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
 
-## The rule (canonical: `.agents/skills/testimonial-selection/SKILL.md`)
+## The rule (canonical: `.claude/skills/testimonial-selection/SKILL.md`)
 
 **A review may appear on at most 2 HUBS.** A hub is a city hub
 (`pages/appliance-repair-*-ca.html`) or a service/brand/cost hub (`pages/*-orange-county.html`).
