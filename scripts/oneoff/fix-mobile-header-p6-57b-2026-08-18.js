@@ -39,9 +39,14 @@ function hideRuleBlock(indent) {
     `${pad}/* Mobile header (P6-57b): the header phone wrapped to 2 lines at 375px and 3 at\n` +
     `${pad}   320px in a 63px box. The sticky Call/Book bar carries the call path below this\n` +
     `${pad}   breakpoint, so hide the wrapping copy rather than shrinking it further. */\n` +
-    `${pad}@media (max-width: 480px) { .nav-phone { display: none; } }\n`
+    `${pad}@media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }\n`
   );
 }
+// The `.nav-inner { gap: 16px }` half was added after the first run: `.nav-inner`
+// is justify-content: space-between with no gap, so hiding the phone handed its
+// width to the logo and left it flush against the hamburger at 320px (measured:
+// 57px of separation before, 0px after). Kept in the same rule rather than a
+// second block so a re-run reproduces the shipped state exactly.
 
 function readUtf8NoBom(filePath) {
   const raw = fs.readFileSync(filePath);
