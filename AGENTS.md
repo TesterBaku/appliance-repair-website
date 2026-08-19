@@ -434,8 +434,13 @@ by skill discovery, so the scanned-directory rule does not apply to it.
 **For Claude Code:** no action needed beyond trusting the mechanism; the Skill tool auto-invokes
 the matching skill when its description matches the task. **Verify it rather than trusting it
 after any change to where these files live**, because the 2026-08-18 conversion looked correct,
-passed CI, and loaded nothing: type `/gbp-platform-policy` (or any of the six) and confirm it
-resolves instead of returning `Unknown skill`. A handful of the flat, highest-risk prohibitions from these six files (the brand
+passed CI, and loaded nothing. Two equivalent ways to check, and either resolving is the proof:
+a human types `/gbp-platform-policy` (the directory name becomes the slash command, per
+`code.claude.com/docs/en/skills`), and an agent calls `Skill(gbp-platform-policy)`. Confirm it
+loads instead of returning `Unknown skill`. Note that these six are also *auto*-invoked by
+description match without anyone typing anything, which is the mode that actually matters day to
+day and the one that was silently dead from 2026-08-18 to 2026-08-19; the explicit invocation is
+just the cheapest way to prove the wiring is live. A handful of the flat, highest-risk prohibitions from these six files (the brand
 ban, the AC/HVAC scope ban, the flat fee-tier values, the never-invent-a-testimonial rule, the
 Yelp review-solicitation ban, and the source cross-check bar) are ALSO promoted into
 `.claude/hooks/session-start.mjs`, which loads automatically on every session as a backstop for
