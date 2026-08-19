@@ -1799,6 +1799,76 @@ test.describe('Regression: mobile nav drawer focus trap (P6-57)', () => {
           `wrapped back to the hamburger after visiting only ${seen.length} of ${expectedCount} expected drawer items`
         ).toBe(expectedCount);
       });
+
+      // Pins the fragility fixed in focusablesIn() (site.js): the FIRST and
+      // LAST members of the production cycle must both be genuinely
+      // focusable, not merely present in the array. Before the fix, a
+      // closed-<details> phantom could sit at either boundary depending on
+      // markup order alone and pass every assertion above while being a
+      // no-op to .focus() in real Chromium: cycle[0] is always the
+      // hamburger, and cycle[cycle.length - 1] happened to be the drawer's
+      // final plain <a> CTA only because no <details> region is the
+      // drawer's last child today. This test would have caught that
+      // fragility directly, instead of relying on markup order staying
+      // lucky, by deriving the cycle in-page with the same ancestor-walk
+      // reachability rule focusablesIn() now uses and probing both ends
+      // with a real .focus() call.
+      test('first and last members of the focus cycle are genuinely focusable', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto(url);
+        await page.locator('.nav-hamburger').click();
+
+        const result = await page.evaluate((sel) => {
+          function isReachable(node, root) {
+            let current = node;
+            while (current && current !== root) {
+              const parent = current.parentElement;
+              if (!parent) break;
+              if (parent.tagName === 'DETAILS' && !parent.open) {
+                let firstSummary = null;
+                for (const child of parent.children) {
+                  if (child.tagName === 'SUMMARY') { firstSummary = child; break; }
+                }
+                if (current !== firstSummary) return false;
+              }
+              current = parent;
+            }
+            return true;
+          }
+
+          const drawer = document.querySelector(sel);
+          const hamburger = document.querySelector('.nav-hamburger');
+          const focusables = [...drawer.querySelectorAll('*')].filter((node) =>
+            node.tabIndex >= 0 && !node.disabled && node.getClientRects().length > 0 && isReachable(node, drawer)
+          );
+          const cycle = [hamburger, ...focusables];
+
+          function probe(el) {
+            el.focus();
+            return {
+              ok: document.activeElement === el,
+              tag: el.tagName,
+              id: el.id || null,
+              text: el.textContent ? el.textContent.trim().slice(0, 30) : null,
+            };
+          }
+
+          return {
+            cycleLength: cycle.length,
+            first: probe(cycle[0]),
+            last: probe(cycle[cycle.length - 1]),
+          };
+        }, drawer);
+
+        expect(
+          result.first.ok,
+          `first cycle member (${result.first.tag}${result.first.id ? '#' + result.first.id : ''}: ${result.first.text}) could not take focus`
+        ).toBe(true);
+        expect(
+          result.last.ok,
+          `last cycle member (${result.last.tag}${result.last.id ? '#' + result.last.id : ''}: ${result.last.text}) could not take focus`
+        ).toBe(true);
+      });
     });
   }
 });

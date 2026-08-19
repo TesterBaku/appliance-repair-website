@@ -76,10 +76,43 @@
   // a <summary> mid-cycle. tabIndex >= 0 gets <summary>, <a href>, buttons, and
   // [tabindex="0"] right without a list to maintain, and correctly excludes the
   // <details> element itself (tabIndex === -1) and disabled controls.
+  // Ancestor walk used by focusablesIn to exclude phantom entries: nodes
+  // inside a CLOSED <details> pass the native-tabbability check above
+  // (shared.css keeps `.nav-drawer details a { display: block }`, so they
+  // are painted and getClientRects() succeeds, and tabIndex on an <a href>
+  // is 0 regardless of ancestor state) but browsers make closed-<details>
+  // content genuinely inert to real Tab presses, so document.activeElement
+  // can never land on one. That mismatch is harmless today only by markup
+  // accident: the drawer's last child is a plain <a> CTA outside any
+  // <details>, so cycle[cycle.length - 1] in trapTab happens to be reachable.
+  // If a future edit made a <details> region the drawer's last child, the
+  // true last reachable item would never satisfy `idx === cycle.length - 1`,
+  // trapTab would stop intercepting Tab there, and focus would leak out of
+  // the drawer, a narrower rerun of the exact bug this file already fixed
+  // once (see the comment above focusablesIn). Must be an ancestor walk, not
+  // a single closest('details') check, so a summary nested inside a closed
+  // outer <details> is correctly excluded too. Keeps a details element's own
+  // <summary> reachable, since that is the control that opens it.
+  function isReachable(node, root) {
+    var current = node;
+    while (current && current !== root) {
+      var parent = current.parentElement;
+      if (!parent) break;
+      if (parent.tagName === 'DETAILS' && !parent.open) {
+        var firstSummary = null;
+        for (var i = 0; i < parent.children.length; i++) {
+          if (parent.children[i].tagName === 'SUMMARY') { firstSummary = parent.children[i]; break; }
+        }
+        if (current !== firstSummary) return false;
+      }
+      current = parent;
+    }
+    return true;
+  }
   function focusablesIn(el) {
     var result = [];
     el.querySelectorAll('*').forEach(function (node) {
-      if (node.tabIndex >= 0 && !node.disabled && node.getClientRects().length) result.push(node);
+      if (node.tabIndex >= 0 && !node.disabled && node.getClientRects().length && isReachable(node, el)) result.push(node);
     });
     return result;
   }
