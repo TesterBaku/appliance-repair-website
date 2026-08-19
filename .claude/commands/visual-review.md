@@ -147,7 +147,7 @@ PASS  no console errors
 
 [1/N] index.html — mobile (375×812)
 [screenshot inline]
-FAIL  hero h1 = 50px (limit 34px) — see .agents/skills/mobile-design/SKILL.md
+FAIL  hero h1 = 50px (limit 34px) — see .claude/skills/mobile-design/SKILL.md
 FAIL  hamburger button not found in DOM
 FAIL  sticky-mobile-bar not in DOM (required on homepage)
 WARN  3 tap targets under 44px:

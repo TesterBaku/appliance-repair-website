@@ -45,13 +45,21 @@ Thumbs.db
 # Claude Code config. The shareable workflow library is COMMITTED — it is the single source of
 # truth for every agent (Claude Code, Codex, Copilot, Hermes; see the "Workflow Library" section
 # of AGENTS.md) and must be in the repo so cloud cron runners, which clone the default branch,
-# can find it. Only user-local state stays ignored. (The former `.claude/rules/` tree moved to
-# `.agents/skills/*/SKILL.md` on 2026-08-18; that tree is not under `.claude/` at all, so it
-# needs no negation line here; see AGENTS.md "Rule Skills".)
+# can find it. Only user-local state stays ignored.
+#
+# `!.claude/skills/` is LOAD-BEARING, not tidiness. The six rule skills live there because
+# `.claude/skills/` is one of the only directories Claude Code actually scans for skills, and
+# because cloud/routine runs load project skills from the CLONED repo. Drop this negation and the
+# files stop being committed, which reproduces the July 2026 failure exactly: the workflow library
+# was gitignored, the cloud runner cloned a repo without it, and autonomous publishing silently
+# produced nothing for weeks. (These files sat in `.agents/skills/` from 2026-08-18 until
+# 2026-08-19; that path is not scanned by anything, so the Skill tool could never load them. See
+# AGENTS.md "Rule Skills".)
 .claude/*
 !.claude/commands/
 !.claude/agents/
 !.claude/hooks/
+!.claude/skills/
 !.claude/CLAUDE.md
 !.claude/settings.json
 

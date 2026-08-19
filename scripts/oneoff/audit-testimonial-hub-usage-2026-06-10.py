@@ -159,7 +159,7 @@ if "--emit-tracker" in sys.argv:
     L.append("> re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)")
     L.append("> after any hub testimonial change so this stays ground-truth, not a drifted hand-log.")
     L.append("")
-    L.append("## The rule (canonical: `.agents/skills/testimonial-selection/SKILL.md`)")
+    L.append("## The rule (canonical: `.claude/skills/testimonial-selection/SKILL.md`)")
     L.append("")
     L.append("**A review may appear on at most 2 HUBS.** A hub is a city hub")
     L.append("(`pages/appliance-repair-*-ca.html`) or a service/brand/cost hub (`pages/*-orange-county.html`).")

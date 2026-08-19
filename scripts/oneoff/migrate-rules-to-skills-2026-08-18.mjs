@@ -3,6 +3,14 @@
 // Already run; kept for provenance per scripts/oneoff/README.md. Not npm-wired.
 // Cannot be re-run: this same PR deletes its `.claude/rules/*.md` sources, so a re-run now
 // fails with ENOENT reading `rulesDir`.
+//
+// ⚠️ THE DESTINATION BELOW WAS WRONG, and the path in this header is left as-written only
+// because this file is a provenance record of what actually ran. `.agents/skills/` is not a
+// directory Claude Code scans, so the six skills this script produced could never be loaded by
+// the Skill tool: `Skill(gbp-platform-policy)` returned "Unknown skill" and none of the six
+// appeared in any session's skill listing. They were moved to `.claude/skills/<name>/SKILL.md`
+// on 2026-08-19, which is the project skills location per code.claude.com/docs/en/skills. Do NOT
+// copy this script's `skillsDir` as a template for a future migration. See AGENTS.md "Rules".
 import fs from 'fs';
 import path from 'path';
 

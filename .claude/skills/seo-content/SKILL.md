@@ -158,7 +158,7 @@ Include at least 2 question-format phrases that map to FAQ schema sections.
 
 The full `<head>` tag block and all five JSON-LD schema templates (Article, LocalBusiness,
 FAQPage, BreadcrumbList, VideoObject) moved to a sibling reference file so they only load
-when actually needed: read `.agents/skills/seo-content/references/schema-templates.md`
+when actually needed: read `.claude/skills/seo-content/references/schema-templates.md`
 before writing or checking any page's `<head>` tags or JSON-LD schema. The LocalBusiness
 consistency policy paragraph is kept together with its templates in that file, on purpose:
 it is what prevents a repeat of the Lake Forest bug (a second `LocalBusiness` block on one
@@ -198,13 +198,13 @@ These three files must exist at the root and return 200:
 - **City landing pages:** 5+ FAQs specific to that city (response time, neighborhoods, ZIP codes covered)
 - **Homepage:** 10–15 FAQs covering same-day, brand-specific (Samsung/LG/Whirlpool), pricing, warranty, online booking, built-in vs freestanding
 
-### Mobile layout (required — see `.agents/skills/mobile-design/SKILL.md`)
+### Mobile layout (required — see `.claude/skills/mobile-design/SKILL.md`)
 - Every article must be fully responsive at 375px width
 - Hero text must be readable without horizontal scrolling
 - Cards and grid sections must stack vertically on mobile
 - Nav must collapse on mobile (hamburger or hidden links); the article's own inline `@media (max-width: 768px)` block must hide BOTH `.nav-links` and `.nav-cta` (the header Book button) so the mobile header does not cram
 - CTA box must be full-width on mobile
-- Sticky bottom Call/Book bar on mobile — **required on articles too** (standard since 2026-07-19), not just hubs; it is the primary mobile booking CTA once the header Book button is hidden. Both this and the `.nav-cta` hide are enforced by the `article-mobile-chrome` check in `npm test`. See `.agents/skills/mobile-design/SKILL.md`.
+- Sticky bottom Call/Book bar on mobile — **required on articles too** (standard since 2026-07-19), not just hubs; it is the primary mobile booking CTA once the header Book button is hidden. Both this and the `.nav-cta` hide are enforced by the `article-mobile-chrome` check in `npm test`. See `.claude/skills/mobile-design/SKILL.md`.
 - Use responsive Tailwind prefixes (`sm:`, `md:`, `lg:`) or `@media` queries in the embedded `<style>` tag
 
 ### Writing rules
@@ -264,7 +264,7 @@ These three files must exist at the root and return 200:
 ## Trust signals (required on homepage and all hub pages)
 
 - **Real testimonials only.** Each testimonial must include first name (with last initial as the reviewer displays it on Google — e.g., "Jennifer T." or full "Jennifer Trette" if that's how they appear), location, appliance type where mentioned, and approximate date. No invented names. Pull from Google or Yelp. The canonical pool lives at `data/testimonials.json` and is sourced from the Google Business Profile listing.
-- **Location label: "Orange County, CA" by default.** Google Business Profile reviews don't expose the reviewer's city. Use "Orange County, CA" as the location label on every testimonial unless (a) the reviewer's own **review text** names a specific OC city, or (b) the job-photo corroborated attestation exception applies (owner decision 2026-08-03): the business holds its own photo of that job in `images/real/business/` with an **objectively describable** visual match, AND a **named, dated** technician or owner attestation of the city, both recorded in the record's `_note`. Both parts are required and must be different kinds of evidence; one person's say-so covering both falls back to the default. City level only, never narrower, and drop back to the default on request. Never invent a city for a reviewer, and never infer one from a name, a profile, or a profile photo. Full wording in `.agents/skills/testimonial-selection/SKILL.md`. Source-of-truth for review data is `data/testimonials.json`, which now spans Google and Yelp; the location-label rule is source-specific (see `.agents/skills/testimonial-selection/SKILL.md`).
+- **Location label: "Orange County, CA" by default.** Google Business Profile reviews don't expose the reviewer's city. Use "Orange County, CA" as the location label on every testimonial unless (a) the reviewer's own **review text** names a specific OC city, or (b) the job-photo corroborated attestation exception applies (owner decision 2026-08-03): the business holds its own photo of that job in `images/real/business/` with an **objectively describable** visual match, AND a **named, dated** technician or owner attestation of the city, both recorded in the record's `_note`. Both parts are required and must be different kinds of evidence; one person's say-so covering both falls back to the default. City level only, never narrower, and drop back to the default on request. Never invent a city for a reviewer, and never infer one from a name, a profile, or a profile photo. Full wording in `.claude/skills/testimonial-selection/SKILL.md`. Source-of-truth for review data is `data/testimonials.json`, which now spans Google and Yelp; the location-label rule is source-specific (see `.claude/skills/testimonial-selection/SKILL.md`).
 - **Testimonial reuse across pages.** Each hub page should display 3 testimonials drawn from `data/testimonials.json` (new hubs); existing hubs built with 4–6 are grandfathered. The same testimonial may appear on multiple hub pages (this is normal for a small business with a finite review pool), but no two hubs should share more than 2 testimonials with each other. Prefer testimonials that mention the hub's primary appliance type when available.
 - **Bodies verbatim — light editing allowed for clear typos.** Reviews flagged with `bodyHasTypos: true` in `data/testimonials.json` may receive light grammar/spelling correction for display. No paraphrasing or substantive rewording.
 - **Photo-only / no-body reviews are not testimonials.** Records with `bodyStatus: "photo-only"` or `"no-body"` in the pool may be used as image sources but never as quoted testimonials.
