@@ -1442,6 +1442,53 @@ test.describe('Regression: hamburger cascade order on LA articles (P6-56)', () =
   }
 });
 
+// ─── Regression: mobile header phone hidden below 480px, hamburger >=48px (P6-57b) ──
+// Measured before this fix, identically on all 151 pages carrying the header phone:
+// at 375px the header `tel:` link rendered 63x30 across 2 wrapped lines; at 320px,
+// 43x45 across 3 lines. `.nav-hamburger` was exactly 44x44 (the WCAG 2.5.5 floor,
+// with zero margin). Fixed by giving the header phone link `class="nav-phone"`
+// (single-sourced in partials/nav-main.html and partials/nav-article.html), hiding
+// it below 480px in favor of the sticky bottom Call/Book bar, and widening the
+// hamburger to 48x48. One page per family is covered: an article (own inline CSS),
+// a pages/ hub (shared.css), the homepage (its own self-contained inline CSS, the
+// one page with no external stylesheet), and pages/testimonials.html, which is
+// hand-maintained and had NO sticky call bar at all until this same fix added one
+// (see AGENTS.md's testimonials.html note); without it, hiding its header phone
+// would have left it with zero mobile call path.
+test.describe('Regression: mobile header phone + hamburger sizing (P6-57b)', () => {
+  const PAGES = [
+    { label: 'article', url: '/articles/article-whirlpool-dryer-repair-los-alamitos.html' },
+    { label: 'pages/ hub', url: '/pages/refrigerator-repair-orange-county.html' },
+    { label: 'homepage', url: '/index.html' },
+    { label: 'testimonials (newly gained sticky bar)', url: '/pages/testimonials.html' },
+  ];
+
+  for (const { label, url } of PAGES) {
+    for (const width of [375, 320]) {
+      test(`${label} at ${width}px: header phone hidden, hamburger >=48px, sticky call bar visible (${url})`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 812 });
+        await page.goto(url);
+
+        // "Not rendered" (zero client rects, i.e. display:none) rather than
+        // "absent from the DOM": the element still exists, CSS hides it.
+        const navPhoneRectCounts = await page.locator('.nav-phone').evaluateAll(
+          (els) => els.map((el) => el.getClientRects().length)
+        );
+        expect(navPhoneRectCounts.every((n) => n === 0)).toBe(true);
+
+        const hamburgerBox = await page.locator('.nav-hamburger').boundingBox();
+        expect(hamburgerBox).not.toBeNull();
+        expect(hamburgerBox.width).toBeGreaterThanOrEqual(48);
+        expect(hamburgerBox.height).toBeGreaterThanOrEqual(48);
+
+        const stickyBar = page.locator('.sticky-mobile-bar');
+        await expect(stickyBar).toBeVisible();
+        await expect(stickyBar.locator('a[href^="tel:"]')).toBeAttached();
+      });
+    }
+  }
+});
+
 // ─── Regression: every mobile drawer link must be REACHABLE, not merely present ──
 // P6-52. The drawer sits inside a position:fixed nav, so page scrolling can never
 // reveal content below the fold, so the drawer has to scroll itself. Measured before

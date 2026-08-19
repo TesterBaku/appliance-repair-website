@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-four enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-five enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -155,6 +155,28 @@
  *                    external sheets, higher-specificity compound selectors,
  *                    `!important` and inline `style=` are outside its reach:
  *                    the full boundary is written out above the check itself.
+ *
+ *   nav-phone-mobile (P6-57b): the header `tel:` link had no width constraint
+ *                    and no rule hiding it at any breakpoint, so it wrapped
+ *                    inside the header rather than shrinking to fit: measured
+ *                    at 63x30 across 2 lines at 375px, and 43x45 across 3 lines
+ *                    at 320px, identically on all 151 pages that carry it.
+ *                    Fixed with (a) a stable `class="nav-phone"` hook on the
+ *                    header phone link (single-sourced in
+ *                    partials/nav-main.html and partials/nav-article.html) and
+ *                    (b) a `@media (max-width: 480px) { .nav-phone { display:
+ *                    none; } }` rule, since the sticky bottom Call/Book bar
+ *                    already carries the call path below that width. This
+ *                    check asserts both halves hold on every page whose
+ *                    `<nav class="nav">` carries a `tel:` link (the separate
+ *                    drawer CTA and sticky-bar `tel:` links, both outside
+ *                    `<nav>`, are deliberately out of scope). LIMITATION: it
+ *                    can only see whether the hiding rule's TEXT exists in a
+ *                    stylesheet the page loads; it does not resolve the CSS
+ *                    cascade, so a later or higher-specificity rule that
+ *                    re-shows `.nav-phone` in the same stylesheet is invisible
+ *                    to it, the same class of gap hamburger-cascade exists to
+ *                    close for a different selector. Added 2026-08-18.
  *
  *   non-person-reviewers — no page may display a `Review` (in JSON-LD) whose
  *                    `author.name` matches a data/testimonials.json record
@@ -345,7 +367,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all twenty-four enforced checks + the report
+ *   node test/content-integrity.js          : run all twenty-five enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -353,6 +375,7 @@
  *                                             analytics-present, ga-tag, jsonld-valid,
  *                                             footer-self-contained, iso8601-timestamps,
  *                                             article-mobile-chrome, hamburger-cascade,
+ *                                             nav-phone-mobile,
  *                                             non-person-reviewers,
  *                                             faq-jsonld-parity, contrast-aa,
  *                                             faq-schema-presence, gallery-parity, brand-tier,
@@ -975,6 +998,64 @@ if (run('hamburger-cascade')) {
     }
   }
   checked['hamburger-cascade'].files = hamburgerFiles.size;
+}
+
+// ── Check 11b: nav-phone-mobile ───────────────────────────────────────────────
+// P6-57b: the header `tel:` link had no width constraint and no rule hiding it
+// at any breakpoint, so it wrapped inside the header instead of shrinking to
+// fit: measured at 63x30 across 2 lines at 375px, and 43x45 across 3 lines at
+// 320px, identically on all 151 pages that carry it. The fix has two halves:
+// (a) the header phone link (single-sourced in partials/nav-main.html and
+// partials/nav-article.html) got a stable `class="nav-phone"` hook, and (b) a
+// `@media (max-width: 480px) { .nav-phone { display: none; } }` rule hides it
+// below that width, where the sticky bottom Call/Book bar already carries the
+// call path. This check guards both halves so neither can silently regress.
+//
+// The header tel: link is identified structurally as the tel: href inside
+// `<nav class="nav">...</nav>`, NOT the separate drawer CTA
+// (`.nav-drawer-cta`, outside `<nav>` in partials/nav-article.html) or the
+// sticky-mobile-bar `tel:` link (also outside `<nav>`), both of which must
+// keep working and are deliberately left unexamined here.
+//
+// COVERAGE BOUNDARY, stated so nobody trusts this further than it goes: this
+// check can only see whether the hiding rule's TEXT is present in a
+// stylesheet the page loads (its own inline <style>, or shared.css if linked).
+// It does NOT resolve the CSS cascade the way a browser would, so it cannot
+// tell whether some LATER, more specific, or `!important` rule in that same
+// stylesheet (or in a second linked stylesheet) re-shows `.nav-phone` after
+// this rule hides it, the exact shape of the source-order bug the
+// hamburger-cascade check above exists for. A page can still break in a way
+// this check calls clean.
+if (run('nav-phone-mobile')) {
+  checked['nav-phone-mobile'] = { files: 0 };
+  const sharedCssPath = path.join(root, 'shared.css');
+  const sharedCss = fs.existsSync(sharedCssPath) ? fs.readFileSync(sharedCssPath, 'utf8') : '';
+  const HIDE_RULE_RE = /@media\s*\([^)]*max-width:\s*480px[^)]*\)\s*\{\s*\.nav-phone\s*\{\s*display:\s*none/;
+  const sharedCssHasRule = HIDE_RULE_RE.test(sharedCss);
+
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    if (!content.includes('<nav class="nav"')) continue;   // no site nav, nothing to check
+
+    const navMatch = content.match(/<nav class="nav"[^>]*>([\s\S]*?)<\/nav>/);
+    const navBlock = navMatch ? navMatch[1] : '';
+    const telMatch = navBlock.match(/<a\s+href="tel:[^"]*"[^>]*>/);
+    if (!telMatch) continue;   // this page's header carries no tel: link, nothing to guard
+
+    checked['nav-phone-mobile'].files++;
+    const rp = rel(filePath);
+
+    if (!/class="[^"]*\bnav-phone\b[^"]*"/.test(telMatch[0])) {
+      issues.push(`[NAV-PHONE] ${rp}: the header tel: link is missing class="nav-phone" (P6-57b, wraps to 2-3 lines at 375px/320px with nothing to hide it below 480px).`);
+    }
+
+    const linksSharedCss = /href="[^"]*shared\.css"/.test(content);
+    const inlineHasRule = HIDE_RULE_RE.test(content);
+    const covered = inlineHasRule || (linksSharedCss && sharedCssHasRule);
+    if (!covered) {
+      issues.push(`[NAV-PHONE] ${rp}: no stylesheet this page loads defines "@media (max-width: 480px) { .nav-phone { display: none; } }" (checked its own inline <style> and shared.css if linked).`);
+    }
+  }
 }
 
 // ── Check 12: non-person-reviewers ────────────────────────────────────────────
@@ -2234,6 +2315,7 @@ if (checked['footer-self-contained']) parts.push(`footer self-contained (no var(
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
 if (checked['hamburger-cascade'])    parts.push(`hamburger nav cascade order (unconditional rule before @media override) held on ${checked['hamburger-cascade'].files} files with an inline .nav-hamburger rule`);
+if (checked['nav-phone-mobile'])     parts.push(`header .nav-phone class + hide-below-480px rule held on ${checked['nav-phone-mobile'].files} pages with a header tel: link`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
 if (checked['contrast-aa'])          parts.push(`WCAG AA contrast on ${checked['contrast-aa'].pairs} same-rule colour pairs across ${checked['contrast-aa'].files} files, var() resolved (${checked['contrast-aa'].skippedVar} rgba()/keyword rules unresolvable; cross-rule + inline-style pairs NOT covered, see P6-15)`);
 if (checked['faq-schema-presence']) parts.push(`FAQPage schema present on all ${checked['faq-schema-presence'].pages} pages with a real FAQ accordion`);

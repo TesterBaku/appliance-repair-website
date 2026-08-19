@@ -190,7 +190,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .nav-drawer details .drawer-all { color: var(--brand-text); font-weight: 600; }
 
 /* HAMBURGER BUTTON (hidden on desktop) */
-.nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0; width: 44px; height: 44px; align-items: center; justify-content: center; flex-direction: column; gap: 5px; flex-shrink: 0; }
+.nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0; width: 48px; height: 48px; align-items: center; justify-content: center; flex-direction: column; gap: 5px; flex-shrink: 0; }
 .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.2s, opacity 0.2s; }
 .nav-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
@@ -298,3 +298,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
     scroll-behavior: auto !important;
   }
 }
+
+/* Mobile header (P6-57b): the header phone wrapped to 2 lines at 375px and 3 at
+   320px in a 63px box. The sticky Call/Book bar carries the call path below this
+   breakpoint, so hide the wrapping copy rather than shrinking it further. */
+@media (max-width: 480px) { .nav-phone { display: none; } }
