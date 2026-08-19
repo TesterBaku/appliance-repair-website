@@ -3,7 +3,7 @@
  * check-agents.js — drift guard for the committed cross-agent workflow library.
  *
  * The workflow definitions (`.claude/commands/*.md`) and rule files (originally
- * `.claude/rules/*.md`, migrated 2026-08-18 to `.agents/skills/<name>/SKILL.md`, see check 1b
+ * `.claude/rules/*.md`, migrated 2026-08-18 to skills, see check 1b
  * below) were gitignored until 2026-07-10, which let them silently rot against the canonical
  * AGENTS.md: `test.md` still cited `node test/screenshot.js`, and `seo-blog.md` carried a
  * DEAD routine ID (`trig_01ApQ…`) long after the live routine was recreated. Once the files
@@ -16,12 +16,12 @@
  *      resolve to a real file, so a renamed/deleted command can't leave a dangling skill.
  *   1b. Rule Skill resolution: every `` `name` `` in the first table column of AGENTS.md's
  *      "Rule Skills" subsection (under "Workflow Library", cross-agent portability) must
- *      resolve to a real `.agents/skills/<name>/SKILL.md` file. These are NOT slash commands
- *      (there is no `/name` invocation; they are reference skills the Skill tool auto-invokes
+ *      resolve to a real `.claude/skills/<name>/SKILL.md` file. These are NOT slash commands
+ *      (they are reference skills the Skill tool auto-invokes
  *      by description match, and that non-Claude agents must open manually per that same
  *      table), so they get their own heading and their own small parser rather than being
  *      forced into the "Skills (slash commands)" bullet syntax check 1 already validates. Added
- *      2026-08-18 when the six former `.claude/rules/*.md` files moved to `.agents/skills/`:
+ *      2026-08-18 when the six former `.claude/rules/*.md` files became skills:
  *      without this, an entry in that table validated by nothing would recreate exactly the
  *      drift class this whole file exists to catch.
  *   2. Routine-ID freshness — every `trig_…` inside `.claude/commands/**` must be one of the
@@ -85,7 +85,13 @@ const path = require('path');
 const repoRoot = path.resolve(__dirname, '..', '..');
 const commandsDir = path.join(repoRoot, '.claude', 'commands');
 const agentsDir = path.join(repoRoot, '.claude', 'agents');
-const skillsDir = path.join(repoRoot, '.agents', 'skills');
+// `.claude/skills`, NOT `.agents/skills`, and the exact directory is the assertion. Claude Code
+// scans `~/.claude/skills/`, the project `.claude/skills/` (plus parents and `--add-dir` dirs),
+// plugin skills and enterprise skills; nothing else. The 2026-08-18 conversion pointed this at
+// `.agents/skills/` and every check below passed for a day while the Skill tool could load none
+// of the six (`Skill(gbp-platform-policy)` -> "Unknown skill"). Existence at an arbitrary path is
+// not the property worth testing; existence where the harness looks is. See AGENTS.md "Rules".
+const skillsDir = path.join(repoRoot, '.claude', 'skills');
 const agentsMd = path.join(repoRoot, 'AGENTS.md');
 
 const errors = [];
@@ -93,7 +99,7 @@ const rel = (p) => path.relative(repoRoot, p).replace(/\\/g, '/');
 
 // Recursive so the routine-ID/email/agent-definition scans actually cover `.claude/commands/**`
 // and `.claude/agents/**` (both flat today, but a future subdirectory must not escape the scan).
-// NOT used against the whole `.agents/skills/**` tree: that also holds the third-party
+// NOT used against the whole `.agents/skills/**` tree: that still holds the third-party
 // `impeccable` package (with its own reference docs, e.g. a `name@example.com` placeholder in
 // `reference/clarify.md`), which would false-positive the email-hygiene check below. The six
 // migrated Rule Skill files are targeted individually instead; see check 1b / check 3.
@@ -117,13 +123,25 @@ const skillNames = [...skillsSection.matchAll(/^-\s+`\/([a-z0-9-]+)`/gm)].map((m
 if (skillNames.length === 0) {
   errors.push('AGENTS.md: could not parse any skills from the "Skills (slash commands)" section.');
 }
+// `impeccable` is the one entry that legitimately lives outside both directories, and it is
+// worth being precise about why rather than quietly widening the check. It is a third-party npm
+// package committed at `.agents/skills/impeccable/` for two consumers that do not use skill
+// discovery at all: the `settings.json` PostToolUse hook, which runs it by relative path, and the
+// `node .agents/skills/impeccable/scripts/*.mjs` invocations in the PR gate. What actually makes
+// `/impeccable` resolve as a slash command on a developer machine is a SEPARATE user-global
+// install at `~/.claude/skills/impeccable/`, which this repo does not and cannot commit.
+// Consequence worth knowing: on a fresh clone or in a cloud run with no global install, the
+// scripts still work and the slash command does not exist. See AGENTS.md "Keeping impeccable
+// current".
+const EXTERNAL_SKILL_DIRS = { impeccable: path.join(repoRoot, '.agents', 'skills') };
 for (const name of skillNames) {
+  const dir = EXTERNAL_SKILL_DIRS[name] || skillsDir;
   const asCommand = path.join(commandsDir, `${name}.md`);
-  const asSkill = path.join(skillsDir, name, 'SKILL.md');
+  const asSkill = path.join(dir, name, 'SKILL.md');
   if (!fs.existsSync(asCommand) && !fs.existsSync(asSkill)) {
     errors.push(
       `Skill "/${name}" is listed in AGENTS.md but has no definition ` +
-        `(expected .claude/commands/${name}.md or .agents/skills/${name}/SKILL.md).`
+        `(expected .claude/commands/${name}.md or ${rel(asSkill)}).`
     );
   }
 }
@@ -131,7 +149,7 @@ for (const name of skillNames) {
 // --- 1b. Rule Skill resolution -------------------------------------------------
 // Parse the "#### Rule Skills" subsection (under "### Workflow Library", cross-agent
 // portability) for `| `name` | ... |` table rows and confirm each resolves to a real
-// `.agents/skills/<name>/SKILL.md` file. Not a slash-command bullet list; these are reference
+// `.claude/skills/<name>/SKILL.md` file. Not a slash-command bullet list; these are reference
 // skills, so they get their own heading and their own small parser (see docblock point 1b).
 const ruleSkillsSection = (agents.split(/^####\s+Rule Skills/m)[1] || '').split(/^#{2,4}\s/m)[0];
 const ruleSkillNames = [...ruleSkillsSection.matchAll(/^\|\s*`([a-z0-9-]+)`\s*\|/gm)].map((m) => m[1]);
@@ -144,7 +162,7 @@ for (const name of ruleSkillNames) {
   if (!fs.existsSync(asSkill)) {
     errors.push(
       `Rule Skill "${name}" is listed in AGENTS.md's "Rule Skills" table but has no definition ` +
-        `(expected .agents/skills/${name}/SKILL.md).`
+        `(expected ${rel(asSkill)}).`
     );
   } else {
     ruleSkillFiles.push(asSkill);

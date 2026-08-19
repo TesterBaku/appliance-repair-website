@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: Independent PR reviewer mandated by .agents/skills/git-workflow/SKILL.md step 5 ("PR on Every Change"); must never be the same agent that wrote the code under review.
+description: Independent PR reviewer mandated by .claude/skills/git-workflow/SKILL.md step 5 ("PR on Every Change"); must never be the same agent that wrote the code under review.
 model: sonnet
 ---
 
@@ -39,7 +39,7 @@ that sit on top of it.
 Confirm the PR description shows all three required tests passing: `npm test`,
 `npm run screenshot`, `npm run test:functional`. If `npm run test:functional` is missing from
 the description or not confirmed passing, that alone is an automatic FAIL, per the git-workflow
-skill (`.agents/skills/git-workflow/SKILL.md`) step 6 and step 8 (merge only after `/review`
+skill (`.claude/skills/git-workflow/SKILL.md`) step 6 and step 8 (merge only after `/review`
 outputs an approval).
 
 ## Squash-merge consequence

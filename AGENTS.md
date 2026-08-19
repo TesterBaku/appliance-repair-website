@@ -88,7 +88,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 **Public business name:** Universal Appliances Repair
 **Legal name:** Universal Appliances Repair Group Inc.
 
-> Brand canonicalization is enforced in `.agents/skills/seo-content/SKILL.md` (the flat "never write it as a brand" prohibition is also mirrored in `.claude/hooks/session-start.mjs`, item 6). Never write "Fix Appliances Fast" as a brand — it is only a URL.
+> Brand canonicalization is enforced in `.claude/skills/seo-content/SKILL.md` (the flat "never write it as a brand" prohibition is also mirrored in `.claude/hooks/session-start.mjs`, item 6). Never write "Fix Appliances Fast" as a brand — it is only a URL.
 
 ## Commands
 
@@ -180,11 +180,11 @@ The shared **interaction JS** (nav drawer, nav dropdown, FAQ accordion) is singl
 
 **Inline CTA paragraph links** — any `.inline-cta` block must define `.inline-cta p a` before `.inline-cta a` to prevent paragraph links from inheriting button styles.
 
-## Rules (converted to on-demand Skills, 2026-08-18)
+## Rules (converted to on-demand Skills, 2026-08-18; moved to a directory that actually works, 2026-08-19)
 
 The six former `.claude/rules/*.md` files (git-workflow, seo-content, mobile-design,
-testimonial-selection, gbp-platform-policy, trusted-sources) were converted to
-`.agents/skills/<name>/SKILL.md` so they load on demand for Claude Code instead of always
+testimonial-selection, gbp-platform-policy, trusted-sources) live at
+`.claude/skills/<name>/SKILL.md` and load on demand for Claude Code instead of always
 loading. **Why, precisely:** in one live Claude Code session, all six appeared in the opening
 context block as project instructions before any tool call (roughly 82,000 chars combined).
 That is a direct observation, re-checkable by opening a fresh Claude Code session in this
@@ -193,7 +193,29 @@ mechanism, and it is not established to hold for every agent, harness, or config
 `progress/agents-md-trim-audit.md` §1 searched the repo for a forcing mechanism (an `@`
 import, a hook, a settings entry) and correctly found none; that finding stands for what it
 examined, since a repo-level search cannot see a harness-level runtime behavior, so the two
-accounts do not actually conflict. Nothing was deleted; every word moved. **Full discovery
+accounts do not actually conflict. Nothing was deleted; every word moved.
+
+> ⚠️ **The 2026-08-18 conversion shipped to the wrong directory and was inert for a day.** It put
+> the six in `.agents/skills/`, which **Claude Code does not scan**, so the Skill tool could not
+> load them at all. Not on demand; never. `Skill(gbp-platform-policy)` returned `Unknown skill`,
+> and none of the six appeared in any session's skill listing. The net effect was the opposite of
+> the intent: they went from always-loading to never-loading, leaving only the flattened
+> prohibitions in `session-start.mjs` covering anything automatically. Fixed 2026-08-19 by moving
+> them to `.claude/skills/`, which `code.claude.com/docs/en/skills` names as the project skills
+> location (alongside `~/.claude/skills/`, `--add-dir` directories, plugins, and enterprise;
+> `.agents/skills/` appears in none of them). Verified by invoking `Skill(gbp-platform-policy)`
+> straight after the move and watching it load from `.claude/skills/gbp-platform-policy`, the
+> identical call that had failed an hour earlier. No restart was needed: Claude Code picked the
+> new directory up mid-session.
+>
+> **The lesson is not "we picked the wrong folder".** It is that the conversion's success was
+> never tested. `check-agents.js` check 1b was added by that same change and passed the entire
+> time, because it asserts a file *exists* at a path, which is not the same as the harness
+> *reading* it. A gate that cannot fail when the mechanism is dead is not a gate. Check 1b now
+> pins the discoverable location specifically, and the cheapest real test remains the one that
+> was skipped: invoke one skill by name once and see whether it resolves.
+
+**Full discovery
 table, per-skill trigger conditions, and the mandatory manual-read requirement for
 non-Claude agents live in the "Workflow Library" section below (see its "Rule Skills"
 subsection); read that section, not just this pointer.** A handful of the flat, highest-risk
@@ -255,7 +277,7 @@ Any PR touching `.html` or `.css` files **must** run the impeccable gate on ever
 
 **`/impeccable critique` and `detect.mjs` are not the same thing and must never be reported as if they were.** `critique` is the gate: an LLM-driven review that emits the `??/40` score (10 Nielsen heuristics × 4 points) the PR template asks for, and which runs `detect.mjs` internally as its Assessment B. `detect.mjs` is that deterministic scanner alone — the same engine behind the per-edit hook. The detector is a *component* of the gate, not a substitute for it.
 
-Which one a PR needs, and the exact wording to use, is specified in `.agents/skills/git-workflow/SKILL.md` ("UI/UX Development Requirement"). In short: full `critique` + score for anything that touches CSS, markup structure, layout, colour or typography; `detect.mjs` alone is enough for a copy-only diff inside existing markup, and the PR must say so explicitly.
+Which one a PR needs, and the exact wording to use, is specified in `.claude/skills/git-workflow/SKILL.md` ("UI/UX Development Requirement"). In short: full `critique` + score for anything that touches CSS, markup structure, layout, colour or typography; `detect.mjs` alone is enough for a copy-only diff inside existing markup, and the PR must say so explicitly.
 
 > **Why this is spelled out.** 15 PRs reported `detect.mjs` output under the name `/impeccable critique`, so the gate the rule requires was never actually run on any of them while every description claimed it had been (P6-31). No design regression shipped — the detector returned 0 FAILs each time — but the compliance claim was false. A gate trusted beyond what it asserts is worse than no gate.
 
@@ -275,7 +297,10 @@ The impeccable design system is in `.agents/skills/impeccable/`. Context (brand,
 **Keeping impeccable current (check periodically, ~monthly).** The skill is committed here (a clone-based runner / CI / a fresh machine has no access to a machine-global `~/.claude/skills/` copy, so committing it is deliberate — same portability reasoning as the `.claude/commands` library). It is a published package that ships new versions, so it drifts. To check + update:
 - **Check for updates:** `npx impeccable check` — but run it from a **neutral directory** (e.g. your home folder), NOT inside this repo. The `check`/`update`/`install` commands scan for and prefer an existing project copy, so run inside the repo they target `.agents/skills/impeccable/` (which is fine for `update`, wrong for a global install).
 - **Update the committed copy:** run `npx impeccable update` **inside the repo** (it bumps `.agents/skills/impeccable/`), then commit the skill dir. Note: `update` may rewrite the committed per-edit hook configs (`.codex/hooks.json`, `.claude/settings.json`) — keep OUR versions, which invoke the hook via the relative path `.agents/skills/impeccable/scripts/hook.mjs` (portable). If `update` swaps in a machine-global absolute path, restore the relative one. Land it as its own PR. Last bumped to v3.9.1 on 2026-07-10.
-- A machine-global install (`npx impeccable install --global --providers=.claude`, run from a neutral dir) is for auditing **other** projects; this repo always uses its own committed copy (project skills take precedence over global).
+- A machine-global install (`npx impeccable install --global --providers=.claude`, run from a neutral dir) is for auditing **other** projects.
+- ⚠️ **This bullet used to claim "this repo always uses its own committed copy (project skills take precedence over global)". Both halves were wrong**, corrected 2026-08-19. (a) The committed copy is at `.agents/skills/impeccable/`, which Claude Code does not scan, so it is not a project *skill* at all: it is reachable only by explicit file path, from the `settings.json` PostToolUse hook and from the `node .agents/skills/impeccable/scripts/*.mjs` calls in the PR gate. What makes `/impeccable` resolve as a slash command is a **separate user-global install** at `~/.claude/skills/impeccable/`. (b) The precedence is backwards: `code.claude.com/docs/en/skills` states enterprise overrides personal and **personal overrides project**, so even a properly-placed project copy would lose to the global one.
+  - **Consequences to plan around.** On a fresh clone or a cloud/routine run with no global install, the impeccable *scripts* still work and the *slash command does not exist*. And the two copies on this machine are **different provider builds at the same version 3.9.1**: the committed one is the Codex/GPT variant (it reads "GPT is capable of extraordinary work" and uses the `$impeccable` prefix), the global one is the Claude variant, and every SKILL.md, reference and script file differs between them. A `/impeccable critique` run on this machine therefore reads Claude reference files while executing Codex scripts.
+  - **Unresolved:** whether to commit the Claude variant, move it under `.claude/skills/`, or accept the split. Decide before relying on `/impeccable` in a cloud run.
 
 ## Standing Rule — PR on Every Change
 Any request that results in a code or file change must go through the full workflow:
@@ -364,8 +389,9 @@ Every new `.html` file — article, hub page, or static page — must include th
 ### Workflow Library — cross-agent portability
 
 The workflow definitions live as committed markdown in **`.claude/commands/*.md`**, and the detailed
-rule content they follow lives in **`.agents/skills/*/SKILL.md`** (moved there from
-`.claude/rules/*.md` on 2026-08-18, see "Rule Skills" below; both trees are committed since the
+rule content they follow lives in **`.claude/skills/*/SKILL.md`** (moved from
+`.claude/rules/*.md` on 2026-08-18, then out of the unscanned `.agents/skills/` on 2026-08-19, see
+"Rule Skills" below; both trees are committed since the
 cross-LLM-portability PR, 2026-07-10 — they were previously gitignored, which made them invisible to
 every non-local tool and broke the cloud cron, since the runner clones only committed files). This
 file (`AGENTS.md`) is the tool-neutral hub; it is read natively by Codex, GitHub Copilot, Cursor, and
@@ -385,21 +411,36 @@ No tool-specific adapter files are required — every supported agent reaches th
 workflow + rule files through `AGENTS.md`. (GitHub Copilot is not currently wired; its stale agent
 port was removed on 2026-07-10.)
 
-#### Rule Skills (`.agents/skills/`): mandatory manual read for non-Claude agents
+#### Rule Skills (`.claude/skills/`): mandatory manual read for non-Claude agents
 
 The six former `.claude/rules/*.md` files (git-workflow, seo-content, mobile-design,
-testimonial-selection, gbp-platform-policy, trusted-sources) were converted to
-`.agents/skills/<name>/SKILL.md` on 2026-08-18 so Claude Code's Skill tool loads each one on
+testimonial-selection, gbp-platform-policy, trusted-sources) were converted to skills on
+2026-08-18 so Claude Code's Skill tool loads each one on
 demand, matching its `description:` frontmatter against the current task, instead of always
 loading (see the "## Rules" section above for exactly what was observed versus confirmed
-about the prior always-loading behavior). Nothing was deleted; every word moved verbatim. **`.agents/skills/` was deliberately kept as the home rather than moving this
-content under `.claude/`, precisely because it is already tool-neutral** (no vendor prefix), so
-every agent in the table above can open a path under it directly, the same way this repo already
-keeps `.claude/commands/*.md` and `.agents/skills/impeccable/` both reachable.
+about the prior always-loading behavior). Nothing was deleted; every word moved verbatim.
+
+**They live under `.claude/skills/` because that is one of the few directories Claude Code
+actually scans**, per `code.claude.com/docs/en/skills`. The 2026-08-18 conversion put them in
+`.agents/skills/` on the reasoning that a vendor-neutral directory is friendlier to Codex, Cursor,
+Aider and Hermes. That reasoning does not survive contact with what this repo already does: those
+same agents are already instructed, in the table above, to open `.claude/commands/seo-blog.md` and
+friends. A vendor-prefixed path was already the established cross-agent pattern here, non-Claude
+agents follow whatever path this file names either way, and the aesthetic win cost Claude Code the
+entire mechanism. `.agents/skills/impeccable/` stays where it is: it is a third-party package
+invoked by explicit file path from the `settings.json` hook and from `node …/scripts/*.mjs`, never
+by skill discovery, so the scanned-directory rule does not apply to it.
 
 **For Claude Code:** no action needed beyond trusting the mechanism; the Skill tool auto-invokes
-the matching skill when its description matches the task, the same mechanism already carrying
-`/impeccable`. A handful of the flat, highest-risk prohibitions from these six files (the brand
+the matching skill when its description matches the task. **Verify it rather than trusting it
+after any change to where these files live**, because the 2026-08-18 conversion looked correct,
+passed CI, and loaded nothing. Two equivalent ways to check, and either resolving is the proof:
+a human types `/gbp-platform-policy` (the directory name becomes the slash command, per
+`code.claude.com/docs/en/skills`), and an agent calls `Skill(gbp-platform-policy)`. Confirm it
+loads instead of returning `Unknown skill`. Note that these six are also *auto*-invoked by
+description match without anyone typing anything, which is the mode that actually matters day to
+day and the one that was silently dead from 2026-08-18 to 2026-08-19; the explicit invocation is
+just the cheapest way to prove the wiring is live. A handful of the flat, highest-risk prohibitions from these six files (the brand
 ban, the AC/HVAC scope ban, the flat fee-tier values, the never-invent-a-testimonial rule, the
 Yelp review-solicitation ban, and the source cross-check bar) are ALSO promoted into
 `.claude/hooks/session-start.mjs`, which loads automatically on every session as a backstop for
@@ -414,16 +455,19 @@ file before starting matching work, not a topic label to skim past:
 
 | Skill | Path | Read when |
 |---|---|---|
-| `seo-content` | `.agents/skills/seo-content/SKILL.md` (schema templates split into `references/schema-templates.md`, read on demand) | Writing, editing, or reviewing an article, a service/brand/city hub, or the homepage; writing or editing a `<title>`, meta tag, schema block, brand mention, or any price/cost/fee text anywhere on the site, even for a small edit that never mentions SEO by name. |
-| `testimonial-selection` | `.agents/skills/testimonial-selection/SKILL.md` | Adding, editing, choosing, reordering, removing, or auditing review/testimonial content on any page, including building a section from scratch, checking whether existing cards (name, quote, rating, location label, hub-reuse count) are still correct, or fixing a typo in a review body, even a request that only says "add a review card" or "check the location label on this hub". |
-| `git-workflow` | `.agents/skills/git-workflow/SKILL.md` | Before any branch, commit, or PR for any change to this repo, and when deciding whether a review is needed before merge, even a request that only says "fix this" or "ship this". |
-| `gbp-platform-policy` | `.agents/skills/gbp-platform-policy/SKILL.md` | Before any copy, caption, post, or reply meant for GBP, Yelp, Instagram, or another external platform, and before any request for a customer to leave feedback or a review in any channel, even one that never names a platform. |
-| `mobile-design` | `.agents/skills/mobile-design/SKILL.md` | Writing, editing, or reviewing any HTML or CSS on any page, no matter how small the change looks, even a request that never mentions mobile or responsive design. |
-| `trusted-sources` | `.agents/skills/trusted-sources/SKILL.md` | Before and during any web search or fetch made to find a fact for site content, and when judging whether a found source is trustworthy enough to cite, even a request that only asks to "look up" something. |
+| `seo-content` | `.claude/skills/seo-content/SKILL.md` (schema templates split into `references/schema-templates.md`, read on demand) | Writing, editing, or reviewing an article, a service/brand/city hub, or the homepage; writing or editing a `<title>`, meta tag, schema block, brand mention, or any price/cost/fee text anywhere on the site, even for a small edit that never mentions SEO by name. |
+| `testimonial-selection` | `.claude/skills/testimonial-selection/SKILL.md` | Adding, editing, choosing, reordering, removing, or auditing review/testimonial content on any page, including building a section from scratch, checking whether existing cards (name, quote, rating, location label, hub-reuse count) are still correct, or fixing a typo in a review body, even a request that only says "add a review card" or "check the location label on this hub". |
+| `git-workflow` | `.claude/skills/git-workflow/SKILL.md` | Before any branch, commit, or PR for any change to this repo, and when deciding whether a review is needed before merge, even a request that only says "fix this" or "ship this". |
+| `gbp-platform-policy` | `.claude/skills/gbp-platform-policy/SKILL.md` | Before any copy, caption, post, or reply meant for GBP, Yelp, Instagram, or another external platform, and before any request for a customer to leave feedback or a review in any channel, even one that never names a platform. |
+| `mobile-design` | `.claude/skills/mobile-design/SKILL.md` | Writing, editing, or reviewing any HTML or CSS on any page, no matter how small the change looks, even a request that never mentions mobile or responsive design. |
+| `trusted-sources` | `.claude/skills/trusted-sources/SKILL.md` | Before and during any web search or fetch made to find a fact for site content, and when judging whether a found source is trustworthy enough to cite, even a request that only asks to "look up" something. |
 
 `scripts/build/check-agents.js` (`npm test`) validates every row above resolves to a real
-`.agents/skills/<name>/SKILL.md` file, the same drift-guard discipline it already applies to the
-"Skills (slash commands)" list and the "Agent definitions" list below.
+`.claude/skills/<name>/SKILL.md` file **in the directory Claude Code actually scans**, the same
+drift-guard discipline it already applies to the "Skills (slash commands)" list and the "Agent
+definitions" list below. Pinning the directory is the point: the previous version accepted any
+path the table happened to name, which is why it passed for a full day while the Skill tool could
+load none of them.
 
 #### Agent definitions: `.claude/agents/`
 
@@ -431,11 +475,14 @@ Claude Code agent definitions (subagents with their own frontmatter: `name`, `de
 optional `model`) are committed under **`.claude/agents/*.md`**, the same way commands are.
 `.claude/agents/` is already on the `.gitignore` exception list alongside `.claude/commands/`
 (see the `!.claude/agents/` line in `.gitignore`), so these files are tracked and reach the cloud
-cron runner and every clone, not just a local machine. (`.agents/skills/` is a separate tree, not
-gitignored at all; see "Rule Skills" above.)
+cron runner and every clone, not just a local machine. `.claude/skills/` needs the same treatment
+and has it: `!.claude/skills/` is on that exception list too, and dropping it would un-commit the
+six rule skills and hide them from the cloud runner, which loads project skills from the cloned
+repo. The only skill tree still outside `.claude/` is `.agents/skills/impeccable/`, which is not
+gitignored at all; see "Rule Skills" above.
 
 Agents committed here:
-- `code-reviewer`: the independent reviewer mandated by `.agents/skills/git-workflow/SKILL.md` step 5
+- `code-reviewer`: the independent reviewer mandated by `.claude/skills/git-workflow/SKILL.md` step 5
   ("PR on Every Change"). It pins `model: sonnet` deliberately: without an explicit pin, a
   subagent silently inherits whatever model the parent session happens to be running, which let
   one review run 128 turns on a heavier model than intended purely by inheritance. Pinning the
@@ -452,7 +499,7 @@ It also checks that every agent
 name listed above resolves to a real `.claude/agents/<name>.md` file, the same way it already
 checks that every `/skill` listed in "Skills (slash commands)" resolves to a real file. This is
 the same drift-guard discipline the script already applies to `.claude/commands/` and to the
-`.agents/skills/*/SKILL.md` Rule Skills table above.
+`.claude/skills/*/SKILL.md` Rule Skills table above.
 
 ## Status Reporting Policy
 
@@ -479,7 +526,7 @@ This governs the ad-hoc status you volunteer about your own work. It never overr
 other rule or workflow already specifies. Anything with a required shape keeps that shape in full,
 whether it is written to disk, sent to an external surface, **or printed in chat**:
 
-- PR titles and bodies (the template in `.agents/skills/git-workflow/SKILL.md`, including the three-test
+- PR titles and bodies (the template in `.claude/skills/git-workflow/SKILL.md`, including the three-test
   checklist)
 - `/review` output: ranked findings and the explicit verdict line
 - Commit messages (Conventional Commits)
