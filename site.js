@@ -66,6 +66,29 @@
     });
   }
 
+  // Focus-trap helpers shared by both drawer families (P6-57).
+  function focusablesIn(el) {
+    var sel = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    var result = [];
+    el.querySelectorAll(sel).forEach(function (node) {
+      if (node.getClientRects().length) result.push(node);
+    });
+    return result;
+  }
+  function releaseFocus(drawer, hamburger) {
+    if (drawer.contains(document.activeElement)) hamburger.focus();
+  }
+  function trapTab(e, drawer, hamburger) {
+    if (e.key !== 'Tab' || hamburger.getAttribute('aria-expanded') !== 'true') return;
+    var cycle = [hamburger].concat(focusablesIn(drawer));
+    var idx = cycle.indexOf(document.activeElement);
+    if (e.shiftKey) {
+      if (idx <= 0) { e.preventDefault(); cycle[cycle.length - 1].focus(); }
+    } else {
+      if (idx === -1 || idx === cycle.length - 1) { e.preventDefault(); cycle[0].focus(); }
+    }
+  }
+
   // 2. Mobile nav drawer — family detected by element.
   function initDrawer() {
     var hamburger = document.querySelector('.nav-hamburger');
@@ -74,6 +97,7 @@
     var articleDrawer = document.getElementById('mobile-nav-drawer');
     if (articleDrawer) {
       var setNavOpen = function (open) {
+        if (!open) releaseFocus(articleDrawer, hamburger);
         hamburger.setAttribute('aria-expanded', String(open));
         hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         articleDrawer.setAttribute('aria-hidden', String(!open));
@@ -84,6 +108,7 @@
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') { setNavOpen(false); hamburger.focus(); }
       });
+      document.addEventListener('keydown', function (e) { trapTab(e, articleDrawer, hamburger); });
       articleDrawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setNavOpen(false); }); });
       document.addEventListener('click', function (e) {
         if (hamburger.getAttribute('aria-expanded') === 'true' && !e.target.closest('.nav')) setNavOpen(false);
@@ -94,9 +119,16 @@
     var drawer = document.querySelector('.nav-drawer');
     if (!drawer) return;
     function openDrawer() { drawer.setAttribute('data-open', ''); hamburger.setAttribute('aria-expanded', 'true'); }
-    function closeDrawer() { drawer.removeAttribute('data-open'); hamburger.setAttribute('aria-expanded', 'false'); }
+    function closeDrawer() {
+      releaseFocus(drawer, hamburger);
+      drawer.removeAttribute('data-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
     hamburger.addEventListener('click', function () { drawer.hasAttribute('data-open') ? closeDrawer() : openDrawer(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDrawer(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') closeDrawer();
+    });
+    document.addEventListener('keydown', function (e) { trapTab(e, drawer, hamburger); });
     drawer.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeDrawer); });
     document.addEventListener('click', function (e) { if (!e.target.closest('.nav')) closeDrawer(); });
   }
