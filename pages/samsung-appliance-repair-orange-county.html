@@ -116,11 +116,19 @@
        2-column stage and leave the third card orphaned and left-aligned. These base rules
        must stay ABOVE the @media block below: media queries add no specificity, so a later
        .job-grid declaration would override the mobile 1-up rule. */
-    .job-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
-    /* 4 cards: center the trailing card in the middle column so a fixed 3-up grid does not
-       strand it left-aligned. Mirrors the testimonials 4-card orphan pattern. */
-    .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: 2; }
-    .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
+    /* Six half-tracks, each card spanning two, so the rendered geometry is identical to a
+       3-up grid ((860 - 5*20) / 6 * 2 + 20 = 273.33px per card) while a trailing row of TWO
+       can also be centred, which three whole tracks cannot express. Mirrors the .pair-row
+       trick on recent-repairs.html. */
+    .job-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
+    /* Centre whatever the last row holds instead of stranding it left. Keyed on the count
+       remainder, not a hard-coded 4th child, so adding a card never reopens this:
+         N mod 3 == 1 -> one trailing card,  centred across tracks 3-4
+         N mod 3 == 2 -> two trailing cards, centred across tracks 2-3 and 4-5 */
+    .job-grid:has(.job-card:nth-child(3n+1):last-child) .job-card:last-child { grid-column: 3 / span 2; }
+    .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:nth-last-child(2) { grid-column: 2 / span 2; }
+    .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:last-child { grid-column: 4 / span 2; }
+    .job-card { grid-column: span 2; position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
     .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
     .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
     .job-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
@@ -172,8 +180,14 @@
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
       .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: auto; }
       .luxury-brands-grid { grid-template-columns: repeat(2, 1fr); }
+      /* These resets must repeat the full desktop selectors. A bare `.job-card { grid-column:
+         auto }` is LOWER specificity than `.job-grid:has(...) .job-card:last-child` and would
+         silently lose, leaving the 6-track placement live on phones. */
       .job-grid { grid-template-columns: 1fr; max-width: 360px; }
-      .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: auto; }
+      .job-grid .job-card,
+      .job-grid:has(.job-card:nth-child(3n+1):last-child) .job-card:last-child,
+      .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:nth-last-child(2),
+      .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:last-child { grid-column: auto; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
@@ -940,7 +954,7 @@
   <section class="section section-gray" style="padding-top:0;">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;padding-top:64px;">Recent Samsung Repairs</h2>
-      <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Four Samsung jobs our technicians recently finished: a washer in Buena Park that stopped mid-cycle with water in the drum and a 5C drain code, a built-in double wall oven installed in Newport Beach, a dryer in Pico Rivera that had stopped turning its drum, and a refrigerator in Garden Grove whose condenser coils we cleaned to restore steady cooling.</p>
+      <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Five Samsung jobs our technicians recently finished: a washer in Buena Park that stopped mid-cycle with water in the drum and a 5C drain code, a built-in double wall oven installed in Newport Beach, a dryer in Pico Rivera that had stopped turning its drum, a refrigerator in Garden Grove whose condenser coils we cleaned to restore steady cooling, and a dishwasher in Lake Forest that needed a new drain pump.</p>
       <div class="job-grid">
         <div class="job-card">
           <picture>
@@ -988,6 +1002,18 @@
             <div class="job-card-title">Condenser Coil Cleaning</div>
             <div class="job-card-loc">Garden Grove, CA</div>
             <a href="refrigerator-repair-orange-county.html" class="job-card-link">See our refrigerator repair service <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+        <div class="job-card">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-dishwasher-samsung-drain-pump-lake-forest-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-samsung-drain-pump-lake-forest.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
+            <img src="../images/real/business/completed-repair-dishwasher-samsung-drain-pump-lake-forest.jpg" alt="Stainless Samsung built-in dishwasher installed under a Lake Forest kitchen counter with its status light lit after a drain pump replacement" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">Samsung · Dishwasher</div>
+            <div class="job-card-title">Drain Pump Replacement</div>
+            <div class="job-card-loc">Lake Forest, CA</div>
+            <a href="dishwasher-repair-orange-county.html" class="job-card-link">See our dishwasher repair service <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
       </div>
