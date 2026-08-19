@@ -1451,16 +1451,22 @@ test.describe('Regression: hamburger cascade order on LA articles (P6-56)', () =
 // it below 480px in favor of the sticky bottom Call/Book bar, and widening the
 // hamburger to 48x48. One page per family is covered: an article (own inline CSS),
 // a pages/ hub (shared.css), the homepage (its own self-contained inline CSS, the
-// one page with no external stylesheet), and pages/testimonials.html, which is
+// one page with no external stylesheet), pages/testimonials.html, which is
 // hand-maintained and had NO sticky call bar at all until this same fix added one
 // (see AGENTS.md's testimonials.html note); without it, hiding its header phone
-// would have left it with zero mobile call path.
+// would have left it with zero mobile call path, and a pages/blog/ category
+// lander, added after independent review of this PR found the same gap on all 7
+// pages/blog/*.html pages (dishwasher, dryer, freezer, other, oven-stove,
+// refrigerator, washer): the original 4-page sample never touched the
+// pages/blog/ subdirectory, so nothing here would have caught those 7 shipping
+// with the header phone hidden and no sticky bar to replace it.
 test.describe('Regression: mobile header phone + hamburger sizing (P6-57b)', () => {
   const PAGES = [
     { label: 'article', url: '/articles/article-whirlpool-dryer-repair-los-alamitos.html' },
     { label: 'pages/ hub', url: '/pages/refrigerator-repair-orange-county.html' },
     { label: 'homepage', url: '/index.html' },
     { label: 'testimonials (newly gained sticky bar)', url: '/pages/testimonials.html' },
+    { label: 'pages/blog/ category lander (newly gained sticky bar)', url: '/pages/blog/washer.html' },
   ];
 
   for (const { label, url } of PAGES) {

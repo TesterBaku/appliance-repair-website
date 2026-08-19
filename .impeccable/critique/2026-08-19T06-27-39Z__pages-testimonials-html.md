@@ -102,3 +102,19 @@ The retrofit is executed cleanly. The single riskiest part of this PR for this p
 - If the sticky bar is the mobile conversion anchor per brand principle, does the header need a phone number at all below 768px, or could `.nav-phone` hide for the whole mobile range for a simpler, more consistent header?
 - Given ~36,000px of unpaginated content at 320px, would a lightweight "jump to top" affordance meaningfully help Casey re-orient after an interruption?
 - Is the 0px logo/hamburger gap worth fixing site-wide now that this page was freshly touched, or does it stay parked as a separate, pre-existing item?
+
+---
+
+## Addendum, added 2026-08-19 after this snapshot was persisted
+
+**The P1 in this report is wrong, and is retracted here so nobody reads the snapshot alone and
+believes it.** This report concluded the 0px logo-to-hamburger gap at 320px was pre-existing and
+"NOT caused by this PR", on a causation test that reverted the hamburger to 44x44 but never
+reverted the header-phone hide, which is the change that actually caused it.
+
+Measured against master's versions of the same files: gap was 57px at 320px before the PR, 0px
+after the hide, and 16px after the fix in commit `f24d2e8`. `.nav-inner` is
+`justify-content: space-between` with no `gap`, so hiding the phone handed its width to the logo.
+
+Kept rather than rewritten, because the reasoning error is the useful part: an incomplete causation
+test reads exactly like a complete one in the write-up.

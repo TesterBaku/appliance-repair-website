@@ -177,6 +177,23 @@
  *                    re-shows `.nav-phone` in the same stylesheet is invisible
  *                    to it, the same class of gap hamburger-cascade exists to
  *                    close for a different selector. Added 2026-08-18.
+ *                    WIDENED 2026-08-19 (PR #755 follow-up): the hide rule's
+ *                    entire justification is that the sticky bottom Call/Book
+ *                    bar carries the call path below 480px, but nothing
+ *                    actually verified that bar existed. The measurement that
+ *                    justified the site-wide hide enumerated articles/ +
+ *                    pages/ + index.html (151 pages) and never descended into
+ *                    the pages/blog/ subdirectory, while the CSS sweep itself
+ *                    correctly hid the header phone on all 159 pages
+ *                    including those 7 category landers, which carry no
+ *                    sticky-mobile-bar at all, leaving them with zero call
+ *                    path in the viewport below 480px. Now, on any page where
+ *                    the hide rule is `covered` (in scope of a stylesheet the
+ *                    page loads), the check additionally requires a
+ *                    `class="sticky-mobile-bar"` element containing a `tel:`
+ *                    link, the same invariant article-mobile-chrome enforces
+ *                    for articles, applied here to every page in scope of
+ *                    this check.
  *
  *   non-person-reviewers — no page may display a `Review` (in JSON-LD) whose
  *                    `author.name` matches a data/testimonials.json record
@@ -1026,6 +1043,21 @@ if (run('hamburger-cascade')) {
 // this rule hides it, the exact shape of the source-order bug the
 // hamburger-cascade check above exists for. A page can still break in a way
 // this check calls clean.
+//
+// WIDENED 2026-08-19: PR #755 hid the header phone below 480px site-wide on
+// the basis that the sticky bottom Call/Book bar carries the call path at
+// those widths, but shipped past review on 7 pages/blog/*.html category
+// landers (dishwasher, dryer, freezer, other, oven-stove, refrigerator,
+// washer) that carry the hide but have zero sticky-mobile-bar, leaving no
+// call path in the viewport at all below 480px. Root cause: the measurement
+// that justified the change enumerated articles/ + pages/ + index.html (151
+// pages) and never descended into pages/blog/, while the CSS sweep itself
+// correctly hit all 159 pages. Found by independent review, not by this
+// check (this check didn't exist yet). Below, whenever the hide rule is in
+// scope for a page (`covered`), the check now also requires a
+// `class="sticky-mobile-bar"` element containing a `tel:` link, so the
+// invariant the hide rule's whole justification rests on can never again
+// silently not hold.
 if (run('nav-phone-mobile')) {
   checked['nav-phone-mobile'] = { files: 0 };
   const sharedCssPath = path.join(root, 'shared.css');
@@ -1054,6 +1086,19 @@ if (run('nav-phone-mobile')) {
     const covered = inlineHasRule || (linksSharedCss && sharedCssHasRule);
     if (!covered) {
       issues.push(`[NAV-PHONE] ${rp}: no stylesheet this page loads defines "@media (max-width: 480px) { .nav-phone { display: none; } }" (checked its own inline <style> and shared.css if linked).`);
+    }
+
+    // The hide rule's whole justification is that the sticky bottom Call/Book
+    // bar carries the call path below 480px. If the rule is in scope for this
+    // page, that bar must actually exist here and must actually contain a
+    // tel: link, the exact gap that shipped past review on PR #755 (see the
+    // WIDENED 2026-08-19 note above).
+    if (covered) {
+      const stickyMatch = content.match(/class="sticky-mobile-bar"[\s\S]*?<\/div>/);
+      const stickyHasTel = stickyMatch && /href="tel:[^"]*"/.test(stickyMatch[0]);
+      if (!stickyHasTel) {
+        issues.push(`[NAV-PHONE] ${rp}: header phone is hidden below 480px but this page has no sticky-mobile-bar tel: link to replace it as the mobile call path (P6-57b follow-up).`);
+      }
     }
   }
 }
