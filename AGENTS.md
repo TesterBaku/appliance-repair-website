@@ -273,7 +273,7 @@ When enabled, runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Au
 
 ## Standing Rule — Impeccable for UI/UX Work
 
-Any PR touching `.html` or `.css` files **must** run the impeccable gate on every changed page before the PR is created. Fix all FAIL items. Name the tool you ran in the PR description.
+Any PR touching `.html` or `.css` files **must** run the impeccable gate — the full `/impeccable critique` — on every changed page before the PR is created. Fix all FAIL items. State the critique's `??/40` score in the PR description, and say so if the run was degraded.
 
 **`/impeccable critique` and `detect.mjs` are not the same thing and must never be reported as if they were.** `critique` is the gate: an LLM-driven review that emits the `??/40` score (10 Nielsen heuristics × 4 points) the PR template asks for, and which runs `detect.mjs` internally as its Assessment B. `detect.mjs` is that deterministic scanner alone — the same engine behind the per-edit hook. The detector is a *component* of the gate, not a substitute for it.
 

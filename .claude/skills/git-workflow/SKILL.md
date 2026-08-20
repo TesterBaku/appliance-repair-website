@@ -183,7 +183,7 @@ and which of the two legitimate triggers actually applied.
 produce the report. A PR that names a tool the author did not run is a `/review` FAIL, and so is a
 PR that reports a degraded score as though it were a clean one.
 
-Then, whichever you ran:
+Then, on the critique's report:
 
 1. **Fix all FAIL items.** Do not open the PR until zero FAILs remain on all changed pages.
 2. **WARN items** are advisory — list them in the PR description so the reviewer can decide whether to address them.
