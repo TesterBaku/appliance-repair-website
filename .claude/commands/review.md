@@ -34,16 +34,17 @@ If either test fails, the PR is an automatic **FAIL** — do not proceed with th
 ### Step 3b — Run the impeccable gate (UI/UX PRs only)
 **Trigger:** the diff touches any `.html` or `.css` file.
 
-**First, check the author ran the right tool and named it honestly.** `/impeccable critique` and `node .agents/skills/impeccable/scripts/detect.mjs` are different: critique is the LLM-driven gate that emits the `??/40` score and runs the detector internally as its Assessment B; the detector alone is the mechanical scanner. Per `.claude/skills/git-workflow/SKILL.md`, the full critique is required for any diff touching CSS, markup structure, layout, colour or typography, while the detector alone is permitted for a copy-only diff inside existing markup.
+**First, check the author actually ran the critique and reported it honestly.** `/impeccable critique` and `node .agents/skills/impeccable/scripts/detect.mjs` are different: critique is the LLM-driven gate that emits the `??/40` score and runs the detector internally as its Assessment B; the detector alone is the mechanical scanner. Per `.claude/skills/git-workflow/SKILL.md`, the **full critique is required on every PR touching `.html` or `.css`**, with no exceptions and no lighter tier — the copy-only detector exemption was retired 2026-08-20 by owner decision. A degraded critique (a report carrying a `⚠️ DEGRADED: single-context` banner) does not satisfy the gate either.
 
 You cannot observe what the author ran, only whether their evidence matches their claim. Judge the evidence, and flag as **FAIL**:
 - a PR claiming a critique (or quoting a `??/40` score) whose evidence is a detector findings list or a bare "exit 0" — a real critique reports a heuristics table, cognitive-load and anti-pattern verdicts, and priority issues, so a score with none of that behind it is unevidenced;
 - a PR naming no tool at all, since the rule requires the tool be named;
-- a diff that changes CSS or markup structure but reports the detector only.
+- a diff touching any `.html` or `.css` file that reports the detector only, whatever its size.
+- a PR reporting a `⚠️ DEGRADED: single-context` critique score as though it were a clean run.
 
-A copy-only diff reporting "detector only, copy-only diff" is **compliant** — do not demand a critique for a price or wording change.
+"Detector only, copy-only diff" is **no longer compliant** on any HTML/CSS PR, including a price or wording change. If you see it, FAIL the PR and ask for the critique.
 
-Then run whichever the diff warrants on every HTML page changed. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
+Then run the full `/impeccable critique` on every HTML page changed — always; there is nothing to choose between. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
 
 Key impeccable checks to enforce as blockers:
 - No `border-left` or `border-right` > 1px used as a colored accent (side-stripe ban)
@@ -89,7 +90,7 @@ These checks apply when the diff includes any city hub page. Run `/visual-review
 
 ### 🎨 Design quality — blockers for any PR touching HTML or CSS
 
-These checks apply whenever the diff includes `.html` or `.css` files. Run whichever impeccable tool Step 3b's scoping rule calls for on each changed page (full `/impeccable critique`, or `detect.mjs` alone on a copy-only diff) and enforce the findings.
+These checks apply whenever the diff includes `.html` or `.css` files. Run the full `/impeccable critique` on each changed page — always, per Step 3b — and enforce the findings. When you dispatch it to a sub-agent, do NOT tell that agent to avoid sub-agents: the critique needs two isolated assessments, and suppressing them manufactures a degraded run.
 
 **Impeccable blockers (FAIL = do not merge):**
 - [ ] No side-stripe accent borders (`border-left` or `border-right` > 1px as a colored stripe on cards, callouts, or list items)
@@ -101,8 +102,8 @@ These checks apply whenever the diff includes `.html` or `.css` files. Run which
 - [ ] No `color: #888` or dimmer for meaningful text on white/light backgrounds (minimum `#666` per DESIGN.md)
 - [ ] No `#000` or `#fff` as pure values — neutrals must be tinted toward the brand hue
 - [ ] No "Book" or "Schedule" CTA button linking to `services.html` instead of `contact.html`
-- [ ] The impeccable tool required by Step 3b (critique, or detector-only on a copy-only diff) returns no FAIL items on any changed page, and the PR names which one was run
-- [ ] On a detector-only PR: **you re-ran the em-dash grep yourself** (`grep -n '—' <changed-files>`) — do not accept the author's confirmation. `detect.mjs` only flags 5+ per file and this project bans them outright, so this is the one fact the tooling cannot settle. Trusting a stated grep instead of running it is the P6-31 failure shape at a smaller scale, and the command costs one line
+- [ ] The full `/impeccable critique` returns no FAIL items on any changed page, the PR states its `??/40` score, and the run was not degraded
+- [ ] On EVERY PR: **you re-ran the em-dash grep yourself** (`grep -n '—' <changed-files>`) — do not accept the author's confirmation. This used to be scoped to detector-only PRs; that category no longer exists, and the duty is not tier-dependent, so it now applies to every PR you review. `detect.mjs` only flags 5+ per file and this project bans them outright, so this is the one fact the tooling cannot settle. Trusting a stated grep instead of running it is the P6-31 failure shape at a smaller scale, and the command costs one line
 
 **Impeccable warnings (flag but do not block):**
 - [ ] Note any WARN items from the impeccable run in the review output
@@ -205,7 +206,7 @@ Reviewer: Senior Engineer (independent)
 --- DESIGN BLOCKERS (impeccable — HTML/CSS PRs only) ---
 ❌ [file:line] <impeccable FAIL item>
   OR
-✅ Impeccable: no FAIL items — name the tool run, either `critique` with its `??/40` score or `detect.mjs` alone on a copy-only diff
+✅ Impeccable: no FAIL items — `critique` with its `??/40` score, undegraded
 
 --- WARNINGS (should fix, does not block) ---
 ⚠️  [file:line] <what to improve>
@@ -217,7 +218,7 @@ Reviewer: Senior Engineer (independent)
 --- TEST RESULTS ---
 npm test:                PASS / FAIL
 npm run test:functional: PASS / FAIL  (N tests)
-impeccable (name it):    PASS / WARN / FAIL  (HTML/CSS PRs only; critique, or detector-only on a copy-only diff)
+impeccable critique:     PASS / WARN / FAIL  (HTML/CSS PRs only; full critique + score, always)
 /visual-review:          PASS / WARN / FAIL  (hub pages only — pages/appliance-repair-*-ca.html)
 
 --- VERDICT ---
@@ -234,7 +235,7 @@ Always end with one of those two verdicts. No "mostly fine, up to you" — make 
 
 - Never rubber-stamp a PR. If you did not read every changed line, you did not review it.
 - Passing `npm test` and `npm run test:functional` are necessary but not sufficient for approval.
-- If the PR touches any `.html` or `.css` file, running the impeccable tool Step 3b's scoping rule requires is **required** — not optional. Full `/impeccable critique` for anything touching CSS, markup structure, layout, colour or typography; `detect.mjs` alone only for a copy-only diff, and only when the PR says so.
+- If the PR touches any `.html` or `.css` file, the full `/impeccable critique` is **required** — not optional, and not substitutable by `detect.mjs` however small the diff looks.
 - An impeccable FAIL is a blocker with the same weight as a broken link. Do not approve until it is fixed.
 - If you find a blocker, stop and report it — do not keep looking for more issues as if one is enough.
 - If the PR description says "no visual changes" but CSS was modified, verify that claim.

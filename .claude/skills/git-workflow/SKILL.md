@@ -76,7 +76,7 @@ feat(about): add team section with cards
 - [ ] `npm test` — link checker exits 0
 - [ ] `npm run screenshot` — all page screenshots captured
 - [ ] `npm run test:functional` — the functional suite passes (buttons, nav, forms, accordions)
-- [ ] Impeccable — name the tool actually run: `/impeccable critique` with its `??/40` score, or `detect.mjs` alone plus the reason it sufficed (copy-only diff). Never report one under the other's name.
+- [ ] Impeccable — full `/impeccable critique` with its `??/40` score. Required on every HTML/CSS PR; there is no detector-only tier. Never report `detect.mjs` output under the critique's name, and never report a `⚠️ DEGRADED: single-context` score as a clean one.
 - [ ] Opened in browser and checked visually
 - [ ] Tested on mobile viewport (375px)
 ```
@@ -139,16 +139,51 @@ Reporting detector output under the word "critique" is under-running the gate, n
 
 ### Which one this PR needs
 
-- **Full `/impeccable critique`, with the `/40` score in the PR description — required** when the diff adds or changes CSS, markup structure, layout, spacing, colour, typography, or adds/redesigns a page or section. This is the default for anything visual.
-- **`detect.mjs` alone is sufficient** when the diff changes only text or attribute values inside existing markup: copy edits, price/figure corrections, alt text, meta descriptions, `href` swaps, JSON-LD field values, `dateModified` bumps. No new elements, no new classes, no new style declarations.
-  - **Two duties this tier does not discharge, because the detector cannot:**
-    1. **Grep for em dashes yourself.** The detector's rule is `em-dash-overuse` and fires only at **5 or more** in a file; this project bans them outright, so 1–4 pass clean while violating the rule. Run `grep -n '—' <changed-files>` and state in the PR that you did. `/review` re-runs this grep independently rather than taking your word for it, so a false claim here surfaces immediately.
-    2. **Read the copy you changed.** `critique`'s Assessment A explicitly judges **copy** among its dimensions, so a copy-only diff is not a diff with "no surface to assess" — it is one where the surface is prose, and the honest reason to skip the full critique is cost, not absence of anything to look at. Read your own wording for tone and clarity before opening the PR.
-  - **Grey zone, resolved:** duplicating an existing repeated block (one more testimonial card, one more FAQ entry, one more job-photo card from the established pattern) counts as **new markup** and takes the full critique, even though you wrote no new classes. Layout regressions on this site have come from exactly that (an added card orphaning a grid row, PR #687).
-- **State which you ran and why** in the PR description. "Impeccable: detector only, copy-only diff" is a complete and honest answer. "Impeccable: 35/40, 0 FAILs" means you ran the critique and must be able to show the report.
-- When in doubt, run the critique. The cost of a needless critique is tokens; the cost of a skipped one is a design regression shipped behind a compliance claim.
+**The full `/impeccable critique`, with its `/40` score in the PR description. Always.** Every PR
+that touches an `.html` or `.css` file, with no exceptions and no size threshold. `detect.mjs` on
+its own is never a substitute, however small or invisible the diff looks.
 
-Then, whichever you ran:
+**The detector-only tier was removed on 2026-08-20 by owner decision**, after PR #759 tried to claim
+it for a one-line `<link rel="preload">` added to `<head>`, arguing the tag has no rendered surface.
+The reviewer blocked it, correctly: the old rule's bright line was "no new elements", and a `<link>`
+is a new element. **The instructive part is not that the call was wrong, it is how it was wrong.**
+The tool was named honestly; what got argued down was the *scope*, by quietly substituting a
+plausible-sounding test ("does it render?") for the written one ("is it a new element?"). That lands
+in the same place as P6-31's 15 mislabelled PRs — the required gate does not run — but behind a
+sentence that reads as reasonable. A tier whose boundary has to be argued will be argued, and the
+arguing reliably runs one direction: toward the cheaper tool. So the boundary is gone. There is one
+tool, and you run it.
+
+**Two duties the critique does not discharge for you either. Both still apply, every time:**
+
+1. **Grep for em dashes yourself.** The detector's rule is `em-dash-overuse` and fires only at
+   **5 or more** in a file; this project bans them outright, so 1–4 pass clean while violating the
+   rule. Run `grep -n '—' <changed-files>` and state in the PR that you did. `/review` re-runs this
+   grep independently rather than taking your word for it, so a false claim surfaces immediately.
+2. **Read the copy you changed.** Assessment A judges copy, but it judges what is on the page, not
+   whether you meant it. Read your own wording for tone and clarity before opening the PR.
+
+**Never suppress the critique's sub-agents.** `.agents/skills/impeccable/reference/critique.md:8`
+requires Assessment A and Assessment B to run as **two isolated sub-agents whenever a sub-agent/Task
+tool is exposed**; running them inline is a **degraded** run and the report must carry a
+`⚠️ DEGRADED: single-context` banner. (Cite the **committed** copy at `.agents/skills/…`, not the user-local `~/.claude/…` install: only the former reaches a clone or a cloud run. The two are different provider builds, but lines 8 and 35 are byte-identical in both, verified.) That file also defines the legitimate triggers, and there
+are exactly two: no sub-agent/Task tool is exposed in the session, or — on harnesses that ask — the
+user declined. Neither is a controller deciding not to spawn them. It says so in as many words:
+*"It does not mean inconvenient."*
+
+If you dispatch the critique to a sub-agent, **do not paste a no-subagents instruction into its
+prompt.** That contract belongs to *implementer* agents (it exists to stop a worker buying a
+duplicate review seat); pasted into a critique agent it forces a degraded run and the degradation is
+yours, not the environment's. This happened on PR #759 and produced a degraded 32/40 on record.
+**A degraded critique does not satisfy this gate.** If a report comes back with that banner, the
+gate has not been run — re-run it undegraded, or say plainly in the PR that the score is degraded
+and which of the two legitimate triggers actually applied.
+
+**State the score in the PR description**, e.g. `Impeccable: 34/40, 0 FAILs`. You must be able to
+produce the report. A PR that names a tool the author did not run is a `/review` FAIL, and so is a
+PR that reports a degraded score as though it were a clean one.
+
+Then, on the critique's report:
 
 1. **Fix all FAIL items.** Do not open the PR until zero FAILs remain on all changed pages.
 2. **WARN items** are advisory — list them in the PR description so the reviewer can decide whether to address them.
@@ -173,7 +208,7 @@ This applies to: new pages, redesigned sections, copy changes, CSS refactors, an
 - No hardcoded colors outside of `DESIGN.md` palette
 - No unused CSS or dead code
 - Mobile layout works at 375px width
-- **The impeccable tool required by the scoping rule above shows 0 FAILs on all changed HTML/CSS pages**, and the PR names which tool that was
+- **The full `/impeccable critique` shows 0 FAILs on all changed HTML/CSS pages**, and the PR states its `??/40` score. There is no tool choice to name: the detector-only tier was retired 2026-08-20.
 
 ### Review rules
 - At least one approval required before merging
