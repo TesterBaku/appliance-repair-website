@@ -166,9 +166,10 @@ tool, and you run it.
 **Never suppress the critique's sub-agents.** `~/.claude/skills/impeccable/reference/critique.md:8`
 requires Assessment A and Assessment B to run as **two isolated sub-agents whenever a sub-agent/Task
 tool is exposed**; running them inline is a **degraded** run and the report must carry a
-`⚠️ DEGRADED: single-context` banner. That file also defines the only legitimate trigger: no
-sub-agent tool exists in the session. It says so in as many words — *"It does not mean
-inconvenient."*
+`⚠️ DEGRADED: single-context` banner. That file also defines the legitimate triggers, and there
+are exactly two: no sub-agent/Task tool is exposed in the session, or — on harnesses that ask — the
+user declined. Neither is a controller deciding not to spawn them. It says so in as many words:
+*"It does not mean inconvenient."*
 
 If you dispatch the critique to a sub-agent, **do not paste a no-subagents instruction into its
 prompt.** That contract belongs to *implementer* agents (it exists to stop a worker buying a
@@ -176,7 +177,7 @@ duplicate review seat); pasted into a critique agent it forces a degraded run an
 yours, not the environment's. This happened on PR #759 and produced a degraded 32/40 on record.
 **A degraded critique does not satisfy this gate.** If a report comes back with that banner, the
 gate has not been run — re-run it undegraded, or say plainly in the PR that the score is degraded
-and why the session genuinely had no sub-agent tool.
+and which of the two legitimate triggers actually applied.
 
 **State the score in the PR description**, e.g. `Impeccable: 34/40, 0 FAILs`. You must be able to
 produce the report. A PR that names a tool the author did not run is a `/review` FAIL, and so is a
