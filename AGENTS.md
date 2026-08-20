@@ -256,10 +256,26 @@ to it was removed from the plans on 2026-08-20. The same applies to any other ke
 backlink tool: none is licensed here.
 
 **Consequences to plan around, all previously learned the hard way:**
-- Any task needing search data is **owner-gated on a manual GSC UI pull**, saved to
+- Any task needing search data is read from the **GSC UI in a browser** and saved to
   `tasks/evidence/<pull-date>-<topic>.csv` (gitignored). Budget for that; it is not an API call.
-- **GSC URL parameters for page filtering do not work.** `page=*substring*` silently matches
-  nothing, which returns an empty report that reads like a zero-traffic finding. Filter in the UI.
+- **GSC URL parameters: the exact page filter works, the substring one does not.** Corrected
+  2026-08-20 by running two full diagnosis pulls (D-1, D-2) entirely from URLs. These work:
+  `page=!https://fixappliancesfast.com/...` (the `!` prefix means exact match), `country=usa`,
+  `num_of_days=28`, `metrics=CLICKS,IMPRESSIONS,CTR,POSITION`, `breakdown=country`,
+  `breakdown=device`. Two traps: `page=*substring*` silently matches nothing, returning an empty
+  report that reads like a zero-traffic finding; and `breakdown=searchAppearance` is not accepted
+  and silently falls back to the query table, so confirm which tab you actually landed on before
+  reading numbers off it.
+- **Always apply `country=usa` before drawing a conclusion.** The business serves Orange County, LA
+  County and Riverside County only, so non-US impressions can never become a lead, and the split is
+  not a rounding error: `article-appliance-lifespan-data-2026` measured 8,440 impressions
+  all-countries against **607** in the US on the same 28-day window. An unfiltered figure will
+  overstate a page's value by an order of magnitude and has already done so in this repo's records.
+- **A page-filtered summary card can disagree with its own breakdown tables.** On that same page and
+  filter state, the card read 8,440 impressions / 37 clicks while the sum of every dimension table
+  (queries, countries, devices) was 991 / 7. Adding `country=usa` made the two agree exactly. Cause
+  unknown, recorded as observed. Prefer the breakdown sum, or a country-filtered figure, when the
+  two disagree, and say which one you used.
 - Keyword validation for new content falls back to the `/seo-blog` Phase 0 WebSearch method (SERP
   composition and competitor reading), not to a volume figure. Say so when you use it.
 - Never write a volume, difficulty, or Domain Rating number into a plan. There is no source for one.
