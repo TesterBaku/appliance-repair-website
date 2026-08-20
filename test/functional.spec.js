@@ -976,8 +976,11 @@ test('mobile contrast gate can actually fail', async ({ page }) => {
 // The LA Premium layer uses a DIFFERENT template from CITY_HUBS above and cannot
 // simply be appended to that list: it has 6 service links not 8, no brand-tier
 // labels, and deliberately no testimonials. Until 2026-07-31 no test touched any
-// of these pages at all — CITY_HUBS is a hardcoded `appliance-repair-*` list, so
-// the county hub (#652) and both city hubs (#655) shipped with zero coverage.
+// of these pages at all — CITY_HUBS was then a hardcoded `appliance-repair-*` list,
+// so the county hub (#652) and both city hubs (#655) shipped with zero coverage.
+// CITY_HUBS is now derived from the filesystem (see above), and its anchored
+// pattern keeps these luxury pages out of it on purpose; PREMIUM_HUBS stays an
+// explicit list because these pages take different assertions.
 // Flagged in the #655 review; tracked as P6-9.
 const PREMIUM_HUBS = [
   'luxury-appliance-repair-los-angeles-ca',
