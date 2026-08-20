@@ -238,6 +238,32 @@ which loads automatically on every Claude Code session.
   so a stale one never shadows the next task.
 - Completed plans live in `tasks/archive/` (see its README) — e.g. the P0–P3 architecture/refactor roadmap and the GSC deep-dive action plan, both fully shipped and archived 2026-07-05.
 
+## Search and analytics data sources
+
+**This project uses no third-party SEO tool.** There are exactly two sources of truth for search and
+traffic data, and both are read by a human from a browser UI:
+
+| Data | Source |
+|---|---|
+| Impressions, clicks, CTR, position, queries, pages, device split, indexing status | **Google Search Console UI** |
+| Sessions, events (`phone_click`, `contact_form_submit`, `book_repair_click`, ...), traffic sources | **Google Analytics 4 UI** |
+
+Owner decision, 2026-08-20: **do not use Ahrefs**, and do not call any Ahrefs MCP tool, even though
+the connector may be attached to the session. The free tier returns no data this project can act on
+(`Insufficient plan` on every GSC, Keywords Explorer and Site Explorer endpoint that was tried), so
+a "result" from it is either empty or an error dressed up as a finding. Every historical reference
+to it was removed from the plans on 2026-08-20. The same applies to any other keyword-volume or
+backlink tool: none is licensed here.
+
+**Consequences to plan around, all previously learned the hard way:**
+- Any task needing search data is **owner-gated on a manual GSC UI pull**, saved to
+  `tasks/evidence/<pull-date>-<topic>.csv` (gitignored). Budget for that; it is not an API call.
+- **GSC URL parameters for page filtering do not work.** `page=*substring*` silently matches
+  nothing, which returns an empty report that reads like a zero-traffic finding. Filter in the UI.
+- Keyword validation for new content falls back to the `/seo-blog` Phase 0 WebSearch method (SERP
+  composition and competitor reading), not to a volume figure. Say so when you use it.
+- Never write a volume, difficulty, or Domain Rating number into a plan. There is no source for one.
+
 ## Logs
 - `logs/CONTENT_LOG.md` — running log of every `/seo-blog` run: articles created, PRs, commits, workflow changes
 - `logs/HUB_LOG.md` — running log of every `/seo-hub` run: hub pages created, PRs (open for owner review), outstanding placeholder items
