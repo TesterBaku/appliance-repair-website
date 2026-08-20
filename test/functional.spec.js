@@ -614,36 +614,23 @@ for (const { slug } of SERVICE_HUBS) {
 }
 
 // ─── City hubs ────────────────────────────────────────────────────────────────
-const CITY_HUBS = [
-  'appliance-repair-irvine-ca',
-  'appliance-repair-anaheim-ca',
-  'appliance-repair-santa-ana-ca',
-  'appliance-repair-huntington-beach-ca',
-  'appliance-repair-costa-mesa-ca',
-  'appliance-repair-fullerton-ca',
-  'appliance-repair-garden-grove-ca',
-  'appliance-repair-orange-ca',
-  'appliance-repair-laguna-beach-ca',
-  'appliance-repair-newport-beach-ca',
-  'appliance-repair-mission-viejo-ca',
-  'appliance-repair-lake-forest-ca',
-  'appliance-repair-yorba-linda-ca',
-  'appliance-repair-brea-ca',
-  'appliance-repair-laguna-niguel-ca',
-  'appliance-repair-tustin-ca',
-  'appliance-repair-fountain-valley-ca',
-  'appliance-repair-westminster-ca',
-  'appliance-repair-buena-park-ca',
-  // Stanton, the company's own address city, added with the hub itself (P6-44) rather
-  // than after a bug, which is the lesson of the Long Beach note below.
-  'appliance-repair-stanton-ca',
-  // LA County. Uses the same template as the OC city hubs, so it takes the same
-  // assertions. Added 2026-08-09 with the tel-link fix (#708): this page shipped
-  // 2026-07-08 with 3 dead `tel:` links (of 7 across both pages in that PR) partly
-  // because it was never in this list, so the suite's own phone-consistency test
-  // never ran against it.
-  'appliance-repair-long-beach-ca',
-];
+// Derived from the filesystem rather than hand-maintained: a hardcoded list drifts, and
+// drift is not hypothetical here. `appliance-repair-long-beach-ca` shipped 2026-07-08 with
+// 3 dead `tel:` links (of 7 across both pages in that PR) partly because it was never added
+// to this list, so the suite's own phone-consistency test never ran against it — fixed
+// 2026-08-09 alongside the tel-link fix (#708). Stanton, the company's own address city, was
+// added with the hub itself (P6-44) rather than after a bug, which is the lesson of the Long
+// Beach case: don't wait for a missing-coverage bug to add a hub, and better still, don't
+// require anyone to remember to add it at all.
+//
+// The pattern is ANCHORED (`^...$`) deliberately: an unanchored pattern would also match the
+// 5 `luxury-appliance-repair-*-ca.html` pages, which use a different template (different
+// service-link count, no brand-tier labels) and would fail these assertions.
+const CITY_HUBS = fs
+  .readdirSync(path.join(__dirname, '..', 'pages'))
+  .filter(name => /^appliance-repair-.*-ca\.html$/.test(name))
+  .map(name => name.replace(/\.html$/, ''))
+  .sort();
 
 for (const slug of CITY_HUBS) {
   test.describe(`City hub: ${slug}`, () => {
@@ -989,8 +976,11 @@ test('mobile contrast gate can actually fail', async ({ page }) => {
 // The LA Premium layer uses a DIFFERENT template from CITY_HUBS above and cannot
 // simply be appended to that list: it has 6 service links not 8, no brand-tier
 // labels, and deliberately no testimonials. Until 2026-07-31 no test touched any
-// of these pages at all — CITY_HUBS is a hardcoded `appliance-repair-*` list, so
-// the county hub (#652) and both city hubs (#655) shipped with zero coverage.
+// of these pages at all — CITY_HUBS was then a hardcoded `appliance-repair-*` list,
+// so the county hub (#652) and both city hubs (#655) shipped with zero coverage.
+// CITY_HUBS is now derived from the filesystem (see above), and its anchored
+// pattern keeps these luxury pages out of it on purpose; PREMIUM_HUBS stays an
+// explicit list because these pages take different assertions.
 // Flagged in the #655 review; tracked as P6-9.
 const PREMIUM_HUBS = [
   'luxury-appliance-repair-los-angeles-ca',
