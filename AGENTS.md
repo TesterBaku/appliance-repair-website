@@ -266,7 +266,10 @@ backlink tool: none is licensed here.
   report that reads like a zero-traffic finding; and `breakdown=searchAppearance` is not accepted
   and silently falls back to the query table, so confirm which tab you actually landed on before
   reading numbers off it.
-- **Always apply `country=usa` before drawing a conclusion.** The business serves Orange County, LA
+- **Always apply `country=usa` before drawing a conclusion about a page's value.** This bans
+  *concluding* from unfiltered numbers, not *pulling* them: an all-countries view is still the right
+  first step for diagnosis and is how the discrepancy in the next bullet was spotted at all. Pull
+  both, conclude from the filtered one. The business serves Orange County, LA
   County and Riverside County only, so non-US impressions can never become a lead, and the split is
   not a rounding error: `article-appliance-lifespan-data-2026` measured 8,440 impressions
   all-countries against **607** in the US on the same 28-day window. An unfiltered figure will
