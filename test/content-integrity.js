@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-five enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-six enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -376,6 +376,23 @@
  *                    a silent skip is how this class of bug survived three
  *                    audits.
  *
+ *   hero-preload   — every page whose inline CSS declares a `background-image:
+ *                    url(...)` on `.hub-hero-bg` must carry a matching
+ *                    `<link rel="preload" as="image">` in `<head>`, resolved
+ *                    against the page's own directory (not a raw string
+ *                    compare) so two different relative paths to the same
+ *                    file count as a match. The browser's preload scanner
+ *                    cannot discover an image referenced only from CSS, so a
+ *                    missing hint is a live LCP regression. AGENTS.md ("CSS
+ *                    background-image heroes") has required this since the
+ *                    hub-hero-bg pattern shipped; only the manual
+ *                    scripts/add-hero-preload.mjs backfill enforced it, and
+ *                    nothing verified the rule held going forward. Added
+ *                    2026-08-19 after pages/services.html was found
+ *                    regressed: its .hub-hero-bg rule loads
+ *                    ../images/hero-homepage.webp but its only preload is
+ *                    for shared.css.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -384,7 +401,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all twenty-five enforced checks + the report
+ *   node test/content-integrity.js          : run all twenty-six enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -397,7 +414,7 @@
  *                                             faq-jsonld-parity, contrast-aa,
  *                                             faq-schema-presence, gallery-parity, brand-tier,
  *                                             tel-target, umbrella-range, srcset-width,
- *                                             area-served-parity, title-length)
+ *                                             area-served-parity, hero-preload, title-length)
  */
 
 'use strict';
@@ -2317,6 +2334,60 @@ if (run('area-served-parity')) {
   }
 }
 
+// ── Check 23: hero-preload ───────────────────────────────────────────────────
+// Every page whose inline CSS declares a `background-image: url(...)` on
+// `.hub-hero-bg` must carry a matching `<link rel="preload" as="image">` in
+// `<head>` — the browser's preload scanner cannot discover an image
+// referenced only from CSS, so without an explicit hint the hero image loads
+// late and hurts LCP. AGENTS.md ("CSS background-image heroes") has required
+// this since the hub-hero-bg pattern shipped; only the manual
+// scripts/add-hero-preload.mjs backfill enforced it, and nothing in test/
+// verified the rule held going forward. Added 2026-08-19 after
+// pages/services.html was found regressed: its `.hub-hero-bg` rule loads
+// ../images/hero-homepage.webp, but its only `rel="preload"` is for
+// shared.css. Resolves both the CSS `url()` and the preload `href` against
+// the page's OWN directory (matching how the browser resolves each), so two
+// different relative paths that point at the same file compare equal, and
+// two different files that merely share a filename do not.
+if (run('hero-preload')) {
+  checked['hero-preload'] = { files: 0 };
+
+  const HERO_RULE_RE = /\.hub-hero-bg\s*\{[^}]*\}/;
+  const BG_URL_RE = /background-image:\s*url\(\s*['"]?([^'")]+)['"]?\s*\)/;
+  const PRELOAD_LINK_RE = /<link\b[^>]*>/g;
+
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const ruleMatch = content.match(HERO_RULE_RE);
+    if (!ruleMatch) continue;
+    const bgMatch = ruleMatch[0].match(BG_URL_RE);
+    if (!bgMatch) continue;
+
+    checked['hero-preload'].files++;
+    const fileDir = path.dirname(filePath);
+    const heroResolved = path.resolve(fileDir, bgMatch[1]);
+
+    // Only <head> counts — a preload hint elsewhere on the page (there isn't
+    // one today) shouldn't satisfy this check.
+    const headMatch = content.match(/<head\b[^>]*>([\s\S]*?)<\/head>/);
+    const headContent = headMatch ? headMatch[1] : content;
+
+    let found = false;
+    for (const linkTag of headContent.matchAll(PRELOAD_LINK_RE)) {
+      const tag = linkTag[0];
+      if (!/\brel="preload"/.test(tag) || !/\bas="image"/.test(tag)) continue;
+      const hrefMatch = tag.match(/\bhref="([^"]+)"/);
+      if (!hrefMatch) continue;
+      const linkResolved = path.resolve(fileDir, hrefMatch[1]);
+      if (linkResolved === heroResolved) { found = true; break; }
+    }
+
+    if (!found) {
+      issues.push(`[HERO-PRELOAD] ${rel(filePath)} — .hub-hero-bg loads ${bgMatch[1]} but <head> has no <link rel="preload" as="image"> resolving to that same file.`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -2374,5 +2445,6 @@ if (checked['tel-target'])           parts.push(`all ${checked['tel-target'].lin
 if (checked['umbrella-range'])       parts.push(`umbrella price ranges hold on ${checked['umbrella-range'].rangesChecked} itemized range(s) against ${checked['umbrella-range'].governingRanges} governing range(s) across ${checked['umbrella-range'].blocks} FAQ/AI-answer blocks in ${checked['umbrella-range'].files} files`);
 if (checked['srcset-width'])         parts.push(`srcset width descriptors match decoded pixel width on ${checked['srcset-width'].checkedEntries} entries across ${checked['srcset-width'].files} files (${checked['srcset-width'].skippedDensity} x-density + ${checked['srcset-width'].skippedImplicit1x} implicit-1x + ${checked['srcset-width'].skippedSvg} svg + ${checked['srcset-width'].skippedRemote} remote/data skipped)`);
 if (checked['area-served-parity'])   parts.push(`areaServed JSON-LD matches ${checked['area-served-parity'].cities} rendered city cards across ${checked['area-served-parity'].pages} city-card grid page(s) (County, CA region entries exempt)`);
+if (checked['hero-preload'])         parts.push(`.hub-hero-bg preload <link> present + resolves to the CSS image on all ${checked['hero-preload'].files} pages with a hero background-image`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
