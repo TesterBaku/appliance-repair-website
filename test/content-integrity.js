@@ -376,8 +376,12 @@
  *                    a silent skip is how this class of bug survived three
  *                    audits.
  *
- *   hero-preload   — every page whose inline CSS declares a `background-image:
- *                    url(...)` on `.hub-hero-bg` must carry a matching
+ *   hero-preload   — every image URL declared on ANY `.hub-hero-bg { ... }`
+ *                    rule block on a page (the `background-image: url(...)`
+ *                    longhand or the `background: ... url(...)` shorthand,
+ *                    every block scanned, not just the first — so a base
+ *                    rule plus a `@media` override with a different mobile
+ *                    hero are both covered) must carry a matching
  *                    `<link rel="preload" as="image">` in `<head>`, resolved
  *                    against the page's own directory (not a raw string
  *                    compare) so two different relative paths to the same
@@ -2335,8 +2339,9 @@ if (run('area-served-parity')) {
 }
 
 // ── Check 23: hero-preload ───────────────────────────────────────────────────
-// Every page whose inline CSS declares a `background-image: url(...)` on
-// `.hub-hero-bg` must carry a matching `<link rel="preload" as="image">` in
+// Every page whose inline CSS declares a hero image on `.hub-hero-bg` (either
+// the `background-image: url(...)` longhand or the `background: ... url(...)`
+// shorthand) must carry a matching `<link rel="preload" as="image">` in
 // `<head>` — the browser's preload scanner cannot discover an image
 // referenced only from CSS, so without an explicit hint the hero image loads
 // late and hurts LCP. AGENTS.md ("CSS background-image heroes") has required
@@ -2349,41 +2354,68 @@ if (run('area-served-parity')) {
 // the page's OWN directory (matching how the browser resolves each), so two
 // different relative paths that point at the same file compare equal, and
 // two different files that merely share a filename do not.
+//
+// WIDENED 2026-08-20 (fix-round-1 review, two silent-false-negative gaps,
+// both latent — zero live pages hit either today):
+//   - Scans EVERY `.hub-hero-bg { ... }` block on the page, not just the
+//     first. A page is free to declare it twice (a base rule plus a
+//     `@media` override carrying a different mobile image), and the old
+//     single `content.match` silently never looked at the second block, so
+//     a missing preload for a media-query hero image would have reported
+//     clean.
+//   - Matches the `background: ... url(...)` shorthand as well as the
+//     `background-image:` longhand. The old regex required the longhand
+//     property literally, so a shorthand-written rule produced no match at
+//     all and was `continue`d past: not flagged AND not even counted in
+//     `checked['hero-preload'].files`, silently understating coverage in
+//     the summary line while claiming a clean run.
+// Every distinct image URL found across all of a page's `.hub-hero-bg`
+// blocks must resolve to its own preload `<link>`. A page is counted in
+// `checked['hero-preload'].files` only when at least one image URL was
+// found; a `.hub-hero-bg` block that only repositions/resizes an
+// already-declared background (no url() of its own) contributes nothing
+// and is not an error — that is legitimate CSS, not a missing hero image.
 if (run('hero-preload')) {
   checked['hero-preload'] = { files: 0 };
 
-  const HERO_RULE_RE = /\.hub-hero-bg\s*\{[^}]*\}/;
-  const BG_URL_RE = /background-image:\s*url\(\s*['"]?([^'")]+)['"]?\s*\)/;
+  const HERO_RULE_RE = /\.hub-hero-bg\s*\{[^}]*\}/g;
+  const BG_URL_RE = /background(?:-image)?:\s*[^;]*?url\(\s*['"]?([^'")]+)['"]?\s*\)/g;
   const PRELOAD_LINK_RE = /<link\b[^>]*>/g;
 
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const ruleMatch = content.match(HERO_RULE_RE);
-    if (!ruleMatch) continue;
-    const bgMatch = ruleMatch[0].match(BG_URL_RE);
-    if (!bgMatch) continue;
+    const ruleBlocks = [...content.matchAll(HERO_RULE_RE)].map(m => m[0]);
+    if (!ruleBlocks.length) continue;
+
+    // Every distinct image URL across every .hub-hero-bg block on this page.
+    const imageUrls = new Set();
+    for (const block of ruleBlocks) {
+      for (const m of block.matchAll(BG_URL_RE)) imageUrls.add(m[1]);
+    }
+    if (!imageUrls.size) continue;
 
     checked['hero-preload'].files++;
     const fileDir = path.dirname(filePath);
-    const heroResolved = path.resolve(fileDir, bgMatch[1]);
 
     // Only <head> counts — a preload hint elsewhere on the page (there isn't
     // one today) shouldn't satisfy this check.
     const headMatch = content.match(/<head\b[^>]*>([\s\S]*?)<\/head>/);
     const headContent = headMatch ? headMatch[1] : content;
 
-    let found = false;
+    const preloadTargets = [];
     for (const linkTag of headContent.matchAll(PRELOAD_LINK_RE)) {
       const tag = linkTag[0];
       if (!/\brel="preload"/.test(tag) || !/\bas="image"/.test(tag)) continue;
       const hrefMatch = tag.match(/\bhref="([^"]+)"/);
       if (!hrefMatch) continue;
-      const linkResolved = path.resolve(fileDir, hrefMatch[1]);
-      if (linkResolved === heroResolved) { found = true; break; }
+      preloadTargets.push(path.resolve(fileDir, hrefMatch[1]));
     }
 
-    if (!found) {
-      issues.push(`[HERO-PRELOAD] ${rel(filePath)} — .hub-hero-bg loads ${bgMatch[1]} but <head> has no <link rel="preload" as="image"> resolving to that same file.`);
+    for (const imgUrl of imageUrls) {
+      const heroResolved = path.resolve(fileDir, imgUrl);
+      if (!preloadTargets.includes(heroResolved)) {
+        issues.push(`[HERO-PRELOAD] ${rel(filePath)} — .hub-hero-bg loads ${imgUrl} but <head> has no <link rel="preload" as="image"> resolving to that same file.`);
+      }
     }
   }
 }
