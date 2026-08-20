@@ -376,26 +376,37 @@
  *                    a silent skip is how this class of bug survived three
  *                    audits.
  *
- *   hero-preload   — every image URL declared on ANY `.hub-hero-bg { ... }`
- *                    rule block on a page (the `background-image: url(...)`
- *                    longhand or the `background: ... url(...)` shorthand,
- *                    every block scanned, not just the first — so a base
- *                    rule plus a `@media` override with a different mobile
- *                    hero are both covered) must carry a matching
- *                    `<link rel="preload" as="image">` in `<head>`, resolved
- *                    against the page's own directory (not a raw string
- *                    compare) so two different relative paths to the same
- *                    file count as a match. The browser's preload scanner
- *                    cannot discover an image referenced only from CSS, so a
- *                    missing hint is a live LCP regression. AGENTS.md ("CSS
- *                    background-image heroes") has required this since the
- *                    hub-hero-bg pattern shipped; only the manual
- *                    scripts/add-hero-preload.mjs backfill enforced it, and
- *                    nothing verified the rule held going forward. Added
- *                    2026-08-19 after pages/services.html was found
- *                    regressed: its .hub-hero-bg rule loads
- *                    ../images/hero-homepage.webp but its only preload is
- *                    for shared.css.
+ *   hero-preload   — every url() found inside ANY rule whose selector list
+ *                    contains `.hub-hero-bg` at a real class-selector
+ *                    boundary (a plain rule, a selector list like
+ *                    `.hub-hero-bg, .other-hero`, a pseudo-element like
+ *                    `.hub-hero-bg::before`, every such rule on the page
+ *                    scanned, not just the first, and every url() inside
+ *                    one rule's body counted, not just the first — so a
+ *                    base rule plus a `@media` override with a different
+ *                    mobile hero, and a multi-image shorthand like
+ *                    `background: url(a), url(b);`, are all covered) must
+ *                    carry a matching `<link rel="preload" as="image">` in
+ *                    `<head>`, resolved against the page's own directory
+ *                    (not a raw string compare) so two different relative
+ *                    paths to the same file count as a match. The browser's
+ *                    preload scanner cannot discover an image referenced
+ *                    only from CSS, so a missing hint is a live LCP
+ *                    regression. AGENTS.md ("CSS background-image heroes")
+ *                    has required this since the hub-hero-bg pattern
+ *                    shipped; only the manual scripts/add-hero-preload.mjs
+ *                    backfill enforced it, and nothing verified the rule
+ *                    held going forward. Added 2026-08-19 after
+ *                    pages/services.html was found regressed: its
+ *                    .hub-hero-bg rule loads ../images/hero-homepage.webp
+ *                    but its only preload is for shared.css.
+ *                    KNOWN LIMITATION: a hero image reached only through a
+ *                    CSS custom property (`background-image:
+ *                    var(--hero-img)`) is invisible to this check — a text
+ *                    scan cannot resolve var() indirection, that needs a
+ *                    real CSS parser/cascade. Stated explicitly rather than
+ *                    left implicit; see the "KNOWN LIMITATION" note on the
+ *                    check itself.
  *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
@@ -2369,28 +2380,78 @@ if (run('area-served-parity')) {
 //     all and was `continue`d past: not flagged AND not even counted in
 //     `checked['hero-preload'].files`, silently understating coverage in
 //     the summary line while claiming a clean run.
+//
+// WIDENED AGAIN 2026-08-20 (fix-round-2, whole-PR review, three more
+// silent-false-negative gaps — the first two latent, confirmed by grepping
+// the repo):
+//   - A SECOND (or later) url() inside one shorthand declaration — e.g.
+//     `background: url('a.webp'), url('b.webp');` — was never seen, because
+//     matching was anchored to one `background(-image)?:` prefix per url().
+//   - A selector list or pseudo-element sharing the rule — e.g.
+//     `.hub-hero-bg::before { ... }` or `.hub-hero-bg, .other-hero { ... }`
+//     — matched NOTHING against the old `\.hub-hero-bg\s*\{` anchor
+//     (required `.hub-hero-bg` immediately followed by `{`), so the whole
+//     page was skipped: not counted, not flagged.
+//   Fixed together by dropping the property-name anchor entirely: find every
+//   `.hub-hero-bg` occurrence at a genuine class-selector boundary (the
+//   literal substring guarantees a `.` immediately precedes it; the
+//   `(?![\w-])` lookahead after it rejects `.hub-hero-bg-overlay` /
+//   `.hub-hero-bg-mobile` — a real different class, not this one), walk
+//   forward to that rule's own `{...}` body (bailing out if a `}` is hit
+//   before any `{`, meaning the text sits inside some OTHER rule's
+//   declaration value rather than in selector position), and pull EVERY
+//   url() out of that body regardless of which property carries it or how
+//   many appear. TRADE-OFF, accepted deliberately: a `.hub-hero-bg` rule
+//   that uses url() for something other than the hero photo (a mask, a
+//   cursor) would now also be demanded to carry a preload for it. That
+//   fails LOUD — a human sees the failure and fixes the check or the rule —
+//   which is the direction this check must err in; it is not a silent gap.
+//   - KNOWN LIMITATION, NOT fixed here and not fixable by a regex scanner:
+//     `background-image: var(--hero-img)` (the actual url() living inside a
+//     CSS custom property declared elsewhere) is invisible to this check —
+//     resolving a var() indirection needs a real CSS parser/cascade, not a
+//     text scan. A page relying on that pattern is silently uncovered by
+//     this check. Stated here on purpose rather than left implicit: a
+//     stated limitation is honest, a silent one is the bug this check
+//     exists to avoid being.
+//
 // Every distinct image URL found across all of a page's `.hub-hero-bg`
-// blocks must resolve to its own preload `<link>`. A page is counted in
+// rules resolves against its own preload `<link>`. A page is counted in
 // `checked['hero-preload'].files` only when at least one image URL was
-// found; a `.hub-hero-bg` block that only repositions/resizes an
+// found; a `.hub-hero-bg` rule that only repositions/resizes an
 // already-declared background (no url() of its own) contributes nothing
 // and is not an error — that is legitimate CSS, not a missing hero image.
 if (run('hero-preload')) {
   checked['hero-preload'] = { files: 0 };
 
-  const HERO_RULE_RE = /\.hub-hero-bg\s*\{[^}]*\}/g;
-  const BG_URL_RE = /background(?:-image)?:\s*[^;]*?url\(\s*['"]?([^'")]+)['"]?\s*\)/g;
+  // Boundary-matched: the literal ".hub-hero-bg" substring is only ever
+  // preceded by the class selector's own leading ".", and the lookahead
+  // rejects a longer class name that merely starts with these characters
+  // (".hub-hero-bg-overlay" must NOT count as ".hub-hero-bg").
+  const HUB_HERO_SELECTOR_RE = /\.hub-hero-bg(?![\w-])/g;
+  // Any url(...) anywhere inside the matched rule's body — deliberately not
+  // anchored to a `background`/`background-image` property name; see the
+  // trade-off note above.
+  const URL_RE = /url\(\s*['"]?([^'")]+)['"]?\s*\)/g;
   const PRELOAD_LINK_RE = /<link\b[^>]*>/g;
 
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const ruleBlocks = [...content.matchAll(HERO_RULE_RE)].map(m => m[0]);
-    if (!ruleBlocks.length) continue;
 
-    // Every distinct image URL across every .hub-hero-bg block on this page.
+    // Every distinct image URL across every .hub-hero-bg rule on this page.
     const imageUrls = new Set();
-    for (const block of ruleBlocks) {
-      for (const m of block.matchAll(BG_URL_RE)) imageUrls.add(m[1]);
+    for (const hit of content.matchAll(HUB_HERO_SELECTOR_RE)) {
+      const openBrace = content.indexOf('{', hit.index);
+      const closeBraceBeforeOpen = content.indexOf('}', hit.index);
+      if (openBrace === -1) continue;
+      // A `}` reached before any `{` means this occurrence of the text sat
+      // inside some OTHER rule's declaration value, not in selector
+      // position — skip it rather than mis-scanning the wrong rule's body.
+      if (closeBraceBeforeOpen !== -1 && closeBraceBeforeOpen < openBrace) continue;
+      const bodyClose = content.indexOf('}', openBrace + 1);
+      if (bodyClose === -1) continue;
+      const body = content.slice(openBrace + 1, bodyClose);
+      for (const m of body.matchAll(URL_RE)) imageUrls.add(m[1]);
     }
     if (!imageUrls.size) continue;
 
