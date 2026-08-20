@@ -207,7 +207,7 @@ This applies to: new pages, redesigned sections, copy changes, CSS refactors, an
 - No hardcoded colors outside of `DESIGN.md` palette
 - No unused CSS or dead code
 - Mobile layout works at 375px width
-- **The impeccable tool required by the scoping rule above shows 0 FAILs on all changed HTML/CSS pages**, and the PR names which tool that was
+- **The full `/impeccable critique` shows 0 FAILs on all changed HTML/CSS pages**, and the PR states its `??/40` score. There is no tool choice to name: the detector-only tier was retired 2026-08-20.
 
 ### Review rules
 - At least one approval required before merging

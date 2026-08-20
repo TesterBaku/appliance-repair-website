@@ -103,7 +103,7 @@ These checks apply whenever the diff includes `.html` or `.css` files. Run the f
 - [ ] No `#000` or `#fff` as pure values — neutrals must be tinted toward the brand hue
 - [ ] No "Book" or "Schedule" CTA button linking to `services.html` instead of `contact.html`
 - [ ] The full `/impeccable critique` returns no FAIL items on any changed page, the PR states its `??/40` score, and the run was not degraded
-- [ ] On a detector-only PR: **you re-ran the em-dash grep yourself** (`grep -n '—' <changed-files>`) — do not accept the author's confirmation. `detect.mjs` only flags 5+ per file and this project bans them outright, so this is the one fact the tooling cannot settle. Trusting a stated grep instead of running it is the P6-31 failure shape at a smaller scale, and the command costs one line
+- [ ] On EVERY PR: **you re-ran the em-dash grep yourself** (`grep -n '—' <changed-files>`) — do not accept the author's confirmation. This used to be scoped to detector-only PRs; that category no longer exists, and the duty is not tier-dependent, so it now applies to every PR you review. `detect.mjs` only flags 5+ per file and this project bans them outright, so this is the one fact the tooling cannot settle. Trusting a stated grep instead of running it is the P6-31 failure shape at a smaller scale, and the command costs one line
 
 **Impeccable warnings (flag but do not block):**
 - [ ] Note any WARN items from the impeccable run in the review output
