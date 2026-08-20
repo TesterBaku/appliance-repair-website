@@ -163,10 +163,10 @@ tool, and you run it.
 2. **Read the copy you changed.** Assessment A judges copy, but it judges what is on the page, not
    whether you meant it. Read your own wording for tone and clarity before opening the PR.
 
-**Never suppress the critique's sub-agents.** `~/.claude/skills/impeccable/reference/critique.md:8`
+**Never suppress the critique's sub-agents.** `.agents/skills/impeccable/reference/critique.md:8`
 requires Assessment A and Assessment B to run as **two isolated sub-agents whenever a sub-agent/Task
 tool is exposed**; running them inline is a **degraded** run and the report must carry a
-`⚠️ DEGRADED: single-context` banner. That file also defines the legitimate triggers, and there
+`⚠️ DEGRADED: single-context` banner. (Cite the **committed** copy at `.agents/skills/…`, not the user-local `~/.claude/…` install: only the former reaches a clone or a cloud run. The two are different provider builds, but lines 8 and 35 are byte-identical in both, verified.) That file also defines the legitimate triggers, and there
 are exactly two: no sub-agent/Task tool is exposed in the session, or — on harnesses that ask — the
 user declined. Neither is a controller deciding not to spawn them. It says so in as many words:
 *"It does not mean inconvenient."*

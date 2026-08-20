@@ -44,7 +44,7 @@ You cannot observe what the author ran, only whether their evidence matches thei
 
 "Detector only, copy-only diff" is **no longer compliant** on any HTML/CSS PR, including a price or wording change. If you see it, FAIL the PR and ask for the critique.
 
-Then run whichever the diff warrants on every HTML page changed. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
+Then run the full `/impeccable critique` on every HTML page changed — always; there is nothing to choose between. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
 
 Key impeccable checks to enforce as blockers:
 - No `border-left` or `border-right` > 1px used as a colored accent (side-stripe ban)
