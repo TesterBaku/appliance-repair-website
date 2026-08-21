@@ -299,6 +299,8 @@
     .internal-link-card:hover { border-color: #e84c1e; color: #aa3210; }
 
     @media (max-width: 768px) {
+      /* P6-62 tap targets: these internal link cards rendered 42px. */
+      .internal-link-card { min-height: 44px; display: inline-flex; align-items: center; }
       .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
       .mid-cta-strip { display: none; }
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }

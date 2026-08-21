@@ -229,6 +229,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 
 /* ── MOBILE: 768px ─────────────────────────────────────── */
 @media (max-width: 768px) {
+  /* P6-62 tap targets: the linked brand tags rendered 38px. */
+  .brand-tag { min-height: 44px; display: inline-flex; align-items: center; }
   body { padding-bottom: 64px; }
   .nav-links { display: none; }
   .nav-cta { display: none; }
@@ -250,6 +252,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   /* P1-4 — tap targets */
   .btn-primary, .btn-dark, .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
   .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
+  /* P6-62 tap targets: the footer phone + email links are the site's primary conversion path and rendered 15px tall. */
+  .footer-contact-line a { min-height: 44px; display: inline-flex; align-items: center; }
   .nav-drawer a { min-height: 44px; display: flex; align-items: center; }
   /* P6-52: the drawer must scroll itself, not rely on the page.
      .nav-drawer lives inside a position:fixed nav, so page scrolling can never

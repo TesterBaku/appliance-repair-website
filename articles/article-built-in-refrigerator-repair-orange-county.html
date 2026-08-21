@@ -130,6 +130,11 @@
       .article-wrap { padding: 36px 16px 60px; }
       .related-grid { grid-template-columns: 1fr; }
       .inline-cta a.cta-btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+      /* P6-62 tap targets: the footer phone + email links are the site's primary conversion path and rendered 15px tall. */
+      .footer-contact-line a { min-height: 44px; display: inline-flex; align-items: center; }
+      /* Articles never carried the footer nav-link rule every other page has, so these
+         rendered 15px and display:inline, which also hid them from the tap-target sweep. */
+      .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
       body { padding-bottom: 64px; }
       .sticky-mobile-bar { display: flex; }
     }

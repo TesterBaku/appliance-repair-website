@@ -201,6 +201,12 @@
     .footer-contact-line { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: #b3b3b3; margin-bottom: 10px; }
     .footer-bottom { max-width: 1000px; margin: 32px auto 0; padding-top: 20px; border-top: 1px solid #1a1a1a; font-size: 11px; color: #999999; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
     @media (max-width: 768px) {
+      /* P6-62 tap targets: the footer phone + email links are the site's primary
+         conversion path and rendered 15px tall. Articles also never carried the
+         footer nav-link rule every other page has, so those rendered 15px AND
+         display:inline, which additionally hid them from the tap-target sweep. */
+      .footer-contact-line a { min-height: 44px; display: inline-flex; align-items: center; }
+      .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
       .nav-links { display: none; }
       .article-hero-img { height: 300px; }
       /* Same mobile hero occlusion fix as the 260px variant: inline font sizes on the

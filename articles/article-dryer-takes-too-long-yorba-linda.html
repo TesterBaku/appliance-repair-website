@@ -106,6 +106,12 @@
     .nav-dropdown-menu .dropdown-all { border-top: 1px solid #f0f0f0; margin-top: 4px; color: #aa3210 !important; font-weight: 600 !important; }
   
     @media (max-width: 768px) {
+      /* P6-62 tap targets: the footer phone + email links are the site's primary
+         conversion path and rendered 15px tall. Articles also never carried the
+         footer nav-link rule every other page has, so those rendered 15px AND
+         display:inline, which additionally hid them from the tap-target sweep. */
+      .footer-contact-line a { min-height: 44px; display: inline-flex; align-items: center; }
+      .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
       .inline-cta a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
     }
   

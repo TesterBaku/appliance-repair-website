@@ -88,6 +88,10 @@
     .nav-logo-group { display: flex; align-items: center; gap: 32px; }
 
     @media (max-width: 768px) {
+      /* P6-62 tap targets: text CTAs that rendered 15-16px. */
+      .tap-link { min-height: 44px; display: inline-flex; align-items: center; }
+      /* P6-62 tap targets: these service links rendered 36px. */
+      .services-links-grid a { min-height: 44px; display: flex; align-items: center; }
       .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
@@ -729,7 +733,7 @@
         </picture>
         <div style="padding:16px 20px;">
           <div style="font-size:12.5px;color:var(--text-sub);line-height:1.7;">Service area centered on Anaheim, covering ZIP codes 92801&ndash;92808. Dispatched from our Stanton base, minutes to the west.</div>
-          <a href="https://www.google.com/maps/place/Anaheim,+CA/" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-size:13px;font-weight:600;color:var(--brand-text);text-decoration:none;">View Anaheim on Google Maps &rarr;</a>
+          <a href="https://www.google.com/maps/place/Anaheim,+CA/" target="_blank" rel="noopener" class="tap-link" style="margin-top:10px;font-size:13px;font-weight:600;color:var(--brand-text);text-decoration:none;">View Anaheim on Google Maps &rarr;</a>
         </div>
       </div>
     </div>

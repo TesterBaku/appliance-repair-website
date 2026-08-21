@@ -120,6 +120,10 @@
     .sticky { background: #ffe45e; border-radius: 4px; box-shadow: 2px 4px 12px rgba(0,0,0,0.18); }
 
     @media (max-width: 768px) {
+      /* P6-62 tap targets: this secondary CTA rendered 16px. */
+      .cta-text-link { min-height: 44px; display: inline-flex; align-items: center; }
+      /* P6-62 tap targets: the category filter pills rendered 29px. */
+      .cat-pill { min-height: 44px; display: inline-flex; align-items: center; }
       .blog-grid { grid-template-columns: 1fr; }
       .featured { grid-template-columns: 1fr; }
       .featured-img { min-height: 220px; }
@@ -1650,8 +1654,8 @@
         <p style="font-size:13px;color:#666;line-height:1.85;margin-bottom:14px;">Got a broken appliance? We diagnose and fix refrigerators, washers, dryers, dishwashers, ovens, and stoves. Most repairs are same day across Orange County.</p>
         <p style="font-size:13px;color:#666;line-height:1.85;">Reading our blog is great, but sometimes you just need an expert on-site. Give us a call.</p>
         <div style="margin-top:24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <a href="tel:+19496295365" style="display:inline-block;background:#cc3d12;color:#fff;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none;">Call (949) 629-5365</a>
-          <a href="contact.html" style="display:inline-block;color:#666;font-size:13px;font-weight:500;text-decoration:none;">or send a message →</a>
+          <a href="tel:+19496295365" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:#cc3d12;color:#fff;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none;">Call (949) 629-5365</a>
+          <a href="contact.html" class="cta-text-link" style="color:#666;font-size:13px;font-weight:500;text-decoration:none;">or send a message →</a>
         </div>
         <!-- Sticky note -->
         <div class="cta-sticky-wrap" style="position:absolute;bottom:-28px;right:-20px;">

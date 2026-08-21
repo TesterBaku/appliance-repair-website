@@ -103,6 +103,12 @@
     .faq-icon { display: inline-block; transition: transform 0.2s; flex-shrink: 0; font-style: normal; font-size: 20px; color: #aa3210; line-height: 1; }
 
     @media (max-width: 768px) {
+      /* P6-62 tap targets: the footer phone + email links are the site's primary
+         conversion path and rendered 15px tall. Articles also never carried the
+         footer nav-link rule every other page has, so those rendered 15px AND
+         display:inline, which additionally hid them from the tap-target sweep. */
+      .footer-contact-line a { min-height: 44px; display: inline-flex; align-items: center; }
+      .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
       .nav-links { display: none; }
       .article-wrap { padding: 36px 16px 60px; }
       .tip-card { padding: 20px 18px; }

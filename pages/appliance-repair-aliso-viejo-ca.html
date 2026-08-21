@@ -120,6 +120,8 @@
     .recent-repair-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .recent-repair-grid:has(> div:nth-child(4):last-child) > div:nth-child(4) { grid-column: 2; }
     @media (max-width: 768px) {
+      /* P6-62 tap targets: these service links rendered 36px. */
+      .services-links-grid a { min-height: 44px; display: flex; align-items: center; }
       .recent-repair-grid { grid-template-columns: 1fr; }
       .recent-repair-grid:has(> div:nth-child(4):last-child) > div:nth-child(4) { grid-column: 1; }
     }
