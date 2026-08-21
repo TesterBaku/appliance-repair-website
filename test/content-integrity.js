@@ -67,9 +67,11 @@
  *                    (dryer-repair-orange-county). `twitter:description` was left
  *                    unchecked at that point and 8 files had drifted; they were
  *                    reconciled and the check extended 2026-08-21 (P6-41). A file with
- *                    no twitter:description is skipped, not failed: the 6 root-level
- *                    redirect stubs carry neither meta, and what a stub owes is a
- *                    separate open question in tasks/backlog.md.
+ *                    no twitter:description is skipped, not failed: 15 pages carry none,
+ *                    404.html plus 14 redirect stubs from PR #337 (6 flat at the root,
+ *                    8 more as <slug>/index.html), and none carries a description or an
+ *                    og:description either. What a stub owes is a separate open question
+ *                    in tasks/backlog.md. All 15 are outside descChecked today.
  *
  *   schema-headline-sync — every article's JSON-LD `headline` must equal the H1 text.
  *                    Catches the schema-drift bug fixed in PR #363.
