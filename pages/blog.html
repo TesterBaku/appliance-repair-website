@@ -1864,7 +1864,11 @@
       });
 
       var q0 = new URLSearchParams(location.search).get('q');
-      if (q0) { input.value = q0; applyFilter(); }
+      if (q0) input.value = q0;
+      // Paint once at load, always: `showing` caps the grid to BATCH on phones, and
+      // nothing else reaches render() until the user types, filters, or taps Load more.
+      // Without this the cap never touched the DOM and all cards shipped on first paint.
+      applyFilter();
     })();
   </script>
 
