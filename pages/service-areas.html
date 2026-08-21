@@ -94,7 +94,7 @@
     @media (max-width: 768px) {
       /* P6-62 tap targets: Leaflet ships 30px zoom buttons. Vendor class, overridden
          locally rather than forked, and only at mobile width. */
-      .leaflet-control-zoom-in, .leaflet-control-zoom-out { min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center; }
+      .leaflet-bar a.leaflet-control-zoom-in, .leaflet-bar a.leaflet-control-zoom-out { min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center; }   /* `.leaflet-bar a...` beats vendor `.leaflet-bar a { display: block }` (0,2,0); a bare class selector lost to it. */
       .hub-hero h1 { font-size: 28px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
