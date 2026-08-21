@@ -326,6 +326,15 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
     .hero p { color: rgba(255,255,255,0.8); font-size: 15px; line-height: 1.7; margin-top: 18px; max-width: 560px; margin-left: auto; margin-right: auto; }
     .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
+    @media (max-width: 768px) {
+      /* Declared HERE, after the base rule above, on purpose. The shared
+         tap-target rule in the first <style> block sits BEFORE that base rule,
+         so at equal specificity the base `display: inline-block` wins and the
+         label sits top-aligned inside the 44px box instead of centred. Every
+         other page declares the base rule first and the override second, which
+         is why only the homepage had this problem. */
+      .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+    }
     .trust-badges { display: flex; gap: 24px; justify-content: center; margin-top: 36px; flex-wrap: wrap; }
     .trust-badge { display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.45); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: #fff; font-weight: 500; }
     .hero-rating { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 6px 16px; font-size: 12px; font-weight: 600; color: #fff; text-decoration: none; transition: background 0.15s; }
@@ -1139,7 +1148,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 
       <div class="faq-list">
         <div class="faq-item open">
-          <button class="faq-q" aria-expanded="false" aria-expanded="true" aria-controls="faq-a-1">
+          <button class="faq-q" aria-expanded="true" aria-controls="faq-a-1">
             What appliances do you repair?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1147,7 +1156,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-2">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-2">
             How long does a repair take?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1155,7 +1164,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-3">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-3">
             Do you offer a warranty on repairs?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1163,7 +1172,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-4">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-4">
             Do you offer same-day appliance repair in Orange County?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1171,7 +1180,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-5">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-5">
             Do you repair Samsung refrigerators?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1179,7 +1188,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-6">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-6">
             Do you repair LG washers?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1187,7 +1196,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-7">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-7">
             Do you repair Whirlpool dryers?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1195,7 +1204,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-8">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-8">
             Is it better to repair or replace a refrigerator?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1203,7 +1212,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-9">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-9">
             What cities in Orange County do you serve?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1211,7 +1220,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-10">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-10">
             Can I book appliance repair online?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1219,7 +1228,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-11">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-11">
             Do you charge a service call or diagnostic fee?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
@@ -1227,7 +1236,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-expanded="false" aria-controls="faq-a-12">
+          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-12">
             Do you offer discounts for seniors or returning customers?
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>

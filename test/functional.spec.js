@@ -2343,6 +2343,159 @@ for (const { brand, file } of BRAND_HUBS) {
   });
 }
 
+// ─── Mobile tap targets: 44px floor, measured in the browser ─────────────────
+// Every discrete clickable control must be at least 44px tall on a phone (Apple
+// HIG / WCAG 2.1, restated in .claude/skills/mobile-design/SKILL.md "Tap target
+// sizes"). Nothing in this repo had ever checked it — tasks/backlog.md P6-50 said
+// so outright — and the gap shipped a live conversion bug (P6-61): the mobile rule
+// `.btn-white, .btn-white-outline { min-height: 44px; ... }` was copied into 69
+// pages, while the class on the primary "Book a Repair Visit" / "Book Online" CTAs
+// is `.btn-outline-white`. The words are transposed, so the rule matched nothing.
+//
+// WHY THIS IS A BROWSER TEST AND NOT A STATIC CSS CHECK. It was first written as a
+// content-integrity check that parsed each page's CSS and computed
+// `padding + border + line-box`. That check was wrong in both directions and the
+// browser proved it:
+//   - FALSE POSITIVES, badly. It flagged 61 pages; only 5 of them (10 buttons, all
+//     on cost hubs) actually rendered short. On the other 56 the CTA sits in
+//     `.hub-cta-row`, a flex container with the default `align-items: stretch`, so
+//     `.btn-outline-white` was being pulled up to the height of its sibling
+//     `.btn-white` — which does carry `min-height: 44px`. A gate that calls 56
+//     healthy pages broken is a gate someone eventually deletes.
+//   - FALSE NEGATIVES, at the same time. Parsing bare single-class selectors made
+//     it blind to `.hub-link`, `.blog-link`, `.job-card-link`, the leaflet map
+//     controls and hundreds of unclassed anchors — most of the groups that are
+//     genuinely short.
+// Rendered height depends on the whole cascade plus flex/grid layout, and no text
+// scan resolves that. The same lesson is already written into the mobile-occlusion
+// suite below ("The behaviour is what matters, so measure the behaviour,
+// everywhere") and into the contrast-aa docblock in test/content-integrity.js,
+// which defers its unresolvable var()/rgba() cases to in-browser probes here.
+//
+// WHAT COUNTS AS A CONTROL. Visible <a> elements only, excluding `display: inline`
+// ones: a link rendered inline in a sentence is exempt under WCAG 2.5.8 and P6-50
+// already records that exemption. <button> is NOT covered yet (so
+// pages/testimonials.html's filter pills, P6-53, sit outside this gate) — stated so
+// the gap stays a known number rather than an assumption. Height only, not WCAG
+// 2.5.8's 24×24 both-axes rule.
+//
+// ONE SWEEP, NOT ONE TEST PER PAGE. playwright.config.js sets `fullyParallel: true`
+// and a 10s per-test timeout. Per-page tests would be split across workers, and the
+// ratchet below needs to see every page before it can tell a paid-down baseline
+// entry from one that is simply on a page another worker happened to run. A single
+// sweep with its own extended timeout keeps that state coherent and visits each page
+// once. Coverage is still every page in the tree, derived from the file system for
+// the same reason CITY_HUBS is: a hand-kept list drifts, and the page it drifts past
+// is the page that ships the bug.
+//
+// THE BASELINE IS A RATCHET, NOT AN ALLOWLIST. test/tap-target-baseline.json lists
+// the classes measured short when this test was written. Keyed by CLASS, not by
+// page, so a new city hub reusing an already-declared debt class is not friction;
+// the accepted trade-off is that a baselined class spreading to more pages is not
+// flagged. An element is exempt if ANY of its classes is listed. A listed class that
+// no longer measures short anywhere fails with an instruction to remove it, so the
+// baseline can only shrink rather than rotting into permanent silence.
+const TAP_TARGET_MIN = 44;
+const TAP_TARGET_BASELINE = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'tap-target-baseline.json'), 'utf8')
+);
+const TAP_TARGET_KNOWN = new Set(TAP_TARGET_BASELINE.knownShortClasses || []);
+const TAP_TARGET_UNCLASSED = '(unclassed)';
+
+const TAP_TARGET_SKIP_DIRS = new Set([
+  'node_modules', '.git', 'pagefind', 'test-results', '.impeccable', '.agents',
+  '.claude', '.husky', 'partials', '.playwright-mcp', '.staging', '.audits',
+]);
+function collectPageUrls(dir, root, out = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (!TAP_TARGET_SKIP_DIRS.has(entry.name)) collectPageUrls(full, root, out);
+      continue;
+    }
+    if (entry.isFile() && entry.name.endsWith('.html')) {
+      out.push('/' + path.relative(root, full).split(path.sep).join('/'));
+    }
+  }
+  return out;
+}
+
+test('mobile 375px: every discrete link clears the 44px tap target, site-wide', async ({ page }) => {
+  test.setTimeout(300000);                       // one navigation per page in the repo
+  const repoRoot = path.join(__dirname, '..');
+  const urls = collectPageUrls(repoRoot, repoRoot).sort();
+  expect(urls.length, 'no .html pages found to sweep').toBeGreaterThan(50);
+
+  await page.setViewportSize(MOBILE);
+  const offenders = [];
+  const seen = new Set();
+  let measured = 0;
+  const pagesWithNothingToMeasure = [];
+
+  for (const url of urls) {
+    await page.goto(url, { waitUntil: 'load' });
+    // Measure only after webfonts settle. Inter loads late, and a control sitting
+    // right on the boundary flips between runs otherwise: proving this gate against
+    // master produced 11 findings on the first pass and 10 on the retry, purely from
+    // fallback-font metrics on a 43.x/44px button.
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    const found = await page.evaluate(min => {
+      const short = [];
+      let n = 0;
+      for (const el of document.querySelectorAll('a')) {
+        const cs = getComputedStyle(el);
+        if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+        const r = el.getBoundingClientRect();
+        if (r.width <= 0 || r.height <= 0) continue;
+        if (cs.display === 'inline') continue;   // WCAG 2.5.8 inline-prose exemption
+        n++;
+        if (r.height >= min) continue;
+        short.push({
+          classes: (typeof el.className === 'string' ? el.className : '').trim().split(/\s+/).filter(Boolean),
+          height: Math.round(r.height * 10) / 10,
+          text: (el.textContent || '').trim().slice(0, 40),
+        });
+      }
+      return { short, n };
+    }, TAP_TARGET_MIN);
+
+    measured += found.n;
+    if (found.n === 0) pagesWithNothingToMeasure.push(url);
+
+    for (const s of found.short) {
+      const hit = s.classes.length
+        ? s.classes.filter(c => TAP_TARGET_KNOWN.has(c))
+        : (TAP_TARGET_KNOWN.has(TAP_TARGET_UNCLASSED) ? [TAP_TARGET_UNCLASSED] : []);
+      if (hit.length) { hit.forEach(c => seen.add(c)); continue; }
+      offenders.push({ url, ...s });
+    }
+  }
+
+  // The sweep has to prove it actually measured something, the same reason navFixed
+  // is asserted in the mobile-occlusion test below: a suite that silently stopped
+  // finding links would otherwise report green while proving nothing.
+  expect(measured, 'swept every page but found no visible non-inline <a> anywhere').toBeGreaterThan(100);
+  expect(
+    pagesWithNothingToMeasure,
+    `these pages rendered no visible non-inline <a> at all, so the sweep proves nothing about them`
+  ).toEqual([]);
+
+  expect(
+    offenders,
+    `${offenders.length} link(s) render under ${TAP_TARGET_MIN}px tall at 375px and are not declared in ` +
+    `test/tap-target-baseline.json. Give the class its own mobile \`min-height: ${TAP_TARGET_MIN}px\` rule, ` +
+    `and check for a transposed class name before adding a new one: ` +
+    JSON.stringify(offenders.slice(0, 10), null, 1)
+  ).toEqual([]);
+
+  const stale = [...TAP_TARGET_KNOWN].filter(c => !seen.has(c));
+  expect(
+    stale,
+    `listed in test/tap-target-baseline.json but no page measures them under ${TAP_TARGET_MIN}px any more. ` +
+    `Remove them — the baseline may only shrink: ${JSON.stringify(stale)}`
+  ).toEqual([]);
+});
+
 // ── Mobile hero occlusion + horizontal overflow, at 375px ─────────────────────
 // Google indexes mobile-first. This file already had SOME 375px coverage (the
 // no-horizontal-overflow test on the luxury city hubs, above), but nothing checked
