@@ -2447,9 +2447,46 @@ test('mobile 375px: every discrete link clears the 44px tap target, site-wide', 
         if (cs.display === 'none' || cs.visibility === 'hidden') continue;
         const r = el.getBoundingClientRect();
         if (r.width <= 0 || r.height <= 0) continue;
-        if (cs.display === 'inline') continue;   // WCAG 2.5.8 inline-prose exemption
+        // WCAG 2.5.8 exempts a link rendered inline in a run of text. `display: inline`
+        // is that shape - EXCEPT that the exemption used to be applied blindly, and it
+        // silently swallowed a real bug: `.footer-links a` on all 75 articles rendered
+        // 15px AND display:inline, because those pages never carried the footer nav rule
+        // every other page has, so the gate reported clean on them for that reason alone.
+        // Inline therefore exempts only when the link is NOT a known discrete control.
+        const isDiscreteControl = el.closest('.footer-links, .nav-links, .nav-drawer, .sticky-mobile-bar');
+        if (cs.display === 'inline' && !isDiscreteControl) continue;
+
+        // A breadcrumb is a navigation trail rendered as a run of text, exempt for the
+        // same reason, and tasks/backlog.md P6-50 already records that exemption. It has
+        // to be named explicitly because `.breadcrumb` is a flex container, which
+        // blockifies its children, so its links never compute as `display: inline`.
+        if (el.closest('.breadcrumb')) continue;
+
         n++;
         if (r.height >= min) continue;
+
+        // STRETCHED LINKS. The card patterns here put the tap target on the card, not
+        // the label: `.blog-link`, `.job-card-link` and `.read-more` each carry an
+        // `::after { position: absolute; inset: 0 }` over a positioned card, so the real
+        // hit area is the whole card (measured 327x498, 311x378 and 327x704 via
+        // elementFromPoint) while the link's own box is 15px. Measuring the box alone
+        // called 320 healthy links broken. Measure the card instead.
+        //
+        // This deliberately does NOT just exempt those classes: it requires the
+        // positioned ancestor to exist AND to clear the floor. That is what catches the
+        // failure this pattern actually has - the 7 pages/blog/*.html category pages had
+        // copied the card markup WITHOUT `position: relative` or the overlay, so
+        // identical-looking cards were card-clickable on the blog index and a 15px text
+        // link everywhere else. A blanket class exemption would have called that clean.
+        const after = getComputedStyle(el, '::after');
+        if (after.position === 'absolute' && after.content && after.content !== 'none') {
+          let anc = el.parentElement;
+          while (anc && getComputedStyle(anc).position === 'static') anc = anc.parentElement;
+          if (anc) {
+            const ar = anc.getBoundingClientRect();
+            if (ar.height >= min && ar.width >= min) continue;   // the card is the tap target
+          }
+        }
         short.push({
           classes: (typeof el.className === 'string' ? el.className : '').trim().split(/\s+/).filter(Boolean),
           height: Math.round(r.height * 10) / 10,

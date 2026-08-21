@@ -69,8 +69,21 @@
     .content-wrap p { font-size: 14px; color: #444; line-height: 1.85; margin-bottom: 16px; }
     .section-label { font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
     .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .blog-card { background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+    .blog-card { position: relative; cursor: pointer; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
     .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
+    /* P6-62: match pages/blog.html - the whole card is the tap target, not the 12px
+       "Read Article" text. These category pages copied the card markup without the
+       stretched-link overlay or the positioned parent it needs, so identical-looking
+       cards were card-clickable on the blog index and text-only here. */
+    .blog-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+    .blog-card:focus-within { outline: 2px solid #e84c1e; outline-offset: 4px; }
+    /* One focus ring, not two. shared.css:31 gives every focusable element a
+       `:focus-visible` outline, so tabbing to a card link drew a tight ring around
+       the 12px anchor text AND this one around the whole card. The card ring is the
+       better indicator here because the card is the tap target. Raised in the
+       /review of PR #766; the collision was pre-existing on pages/blog.html and this
+       PR had faithfully copied it onto the 7 category pages. */
+    .blog-card:focus-within .blog-link:focus-visible { outline: none; }
     .blog-img-wrap { position: relative; overflow: hidden; }
     .blog-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.3s; }
     .blog-card:hover .blog-img { transform: scale(1.03); }
@@ -83,6 +96,10 @@
     .blog-link:hover { gap: 9px; }
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; }
     @media (max-width: 768px) {
+      /* P6-62 tap targets: this callout CTA rendered 33px. */
+      .service-callout a { min-height: 44px; display: inline-flex; align-items: center; }
+      /* P6-62 tap targets: this secondary CTA rendered 16px. */
+      .cta-text-link { min-height: 44px; display: inline-flex; align-items: center; }
       .blog-grid { grid-template-columns: 1fr; }
       .content-wrap { padding: 0 16px 48px; }
     }
@@ -366,7 +383,7 @@
           <div class="blog-date">July 25, 2026</div>
           <div class="blog-title">Miele Washer Not Draining? Causes, DIY Checks and Repair Costs</div>
           <div class="blog-excerpt">Water sitting in the drum at the end of the cycle, or an F11 message? The five reasons a Miele washer won't drain, starting with the front drain filter you can clean yourself, plus real premium-brand repair costs.</div>
-          <a href="../../articles/article-miele-washer-not-draining-orange-county.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-miele-washer-not-draining-orange-county.html" class="blog-link" aria-label="Read more: Miele Washer Not Draining? Causes, DIY Checks and Repair Costs">Read more &rarr;</a>
         </div>
       </div>
 
@@ -379,7 +396,7 @@
           <div class="blog-date">July 17, 2026</div>
           <div class="blog-title">Samsung Washer Not Draining in Buena Park? Causes and Fixes</div>
           <div class="blog-excerpt">Tub full of water with an nd or 5E code on your Samsung? The 6 reasons a Samsung washer won't drain in Buena Park, from a clogged filter or hose to a failed drain pump, and which you can clear yourself.</div>
-          <a href="../../articles/article-samsung-washer-not-draining-buena-park.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-samsung-washer-not-draining-buena-park.html" class="blog-link" aria-label="Read more: Samsung Washer Not Draining in Buena Park? Causes and Fixes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -392,7 +409,7 @@
           <div class="blog-date">July 16, 2026</div>
           <div class="blog-title">Washer Repair Cost in Orange County (2026 Guide)</div>
           <div class="blog-excerpt">What does washing machine repair actually cost in 2026? Real Orange County price ranges by failure type, from a $130 drain pump to an $800 transmission, plus the repair-or-replace math.</div>
-          <a href="../../articles/article-washer-repair-cost-orange-county.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-washer-repair-cost-orange-county.html" class="blog-link" aria-label="Read more: Washer Repair Cost in Orange County (2026 Guide)">Read more &rarr;</a>
         </div>
       </div>
 
@@ -408,7 +425,7 @@
           <div class="blog-date">July 10, 2026</div>
           <div class="blog-title">LG Washer Repair in Aliso Viejo, CA: Error Codes &amp; Common Fixes</div>
           <div class="blog-excerpt">OE, UE, LE, and dE errors, a washer that won't drain or spin, or a stuck door: how to read your LG washer's codes and the common fixes our techs handle in Aliso Viejo.</div>
-          <a href="../../articles/article-lg-washer-repair-aliso-viejo.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-lg-washer-repair-aliso-viejo.html" class="blog-link" aria-label="Read more: LG Washer Repair in Aliso Viejo, CA: Error Codes &amp; Common Fixes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -424,7 +441,7 @@
           <div class="blog-date">July 9, 2026</div>
           <div class="blog-title">Whirlpool Washer Error Codes: F21, Sd, F5 E2 and More Explained</div>
           <div class="blog-excerpt">What every common Whirlpool washer code means, from the F21 drain error to Sd excess suds. The DIY checks to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
-          <a href="../../articles/article-whirlpool-washer-error-codes.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-whirlpool-washer-error-codes.html" class="blog-link" aria-label="Read more: Whirlpool Washer Error Codes: F21, Sd, F5 E2 and More Explained">Read more &rarr;</a>
         </div>
       </div>
 
@@ -440,7 +457,7 @@
           <div class="blog-date">June 29, 2026</div>
           <div class="blog-title">LG Washer Error Codes: OE, UE, IE and More Explained</div>
           <div class="blog-excerpt">What every common LG washer code means, from the OE drain error to a UE unbalanced load. The five-minute DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
-          <a href="../../articles/article-lg-washer-error-codes.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-lg-washer-error-codes.html" class="blog-link" aria-label="Read more: LG Washer Error Codes: OE, UE, IE and More Explained">Read more &rarr;</a>
         </div>
       </div>
 
@@ -456,7 +473,7 @@
           <div class="blog-date">July 25, 2026</div>
           <div class="blog-title">Samsung Washer Error Codes: 4E, UE, dE, SUD and More Explained</div>
           <div class="blog-excerpt">What every common Samsung washer code means, from the 4E water-supply fault to a UE unbalanced load. The DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
-          <a href="../../articles/article-samsung-washer-error-codes.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-samsung-washer-error-codes.html" class="blog-link" aria-label="Read more: Samsung Washer Error Codes: 4E, UE, dE, SUD and More Explained">Read more &rarr;</a>
         </div>
       </div>
 
@@ -472,7 +489,7 @@
           <div class="blog-date">April 23, 2026</div>
           <div class="blog-title">Washing Machine Not Spinning in Huntington Beach? 5 Common Causes</div>
           <div class="blog-excerpt">Pull out soaking wet laundry after every cycle? Learn the five most common reasons a washer won't spin and which ones you can fix yourself.</div>
-          <a href="../../articles/article-washer-not-spinning-huntington-beach.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-washer-not-spinning-huntington-beach.html" class="blog-link" aria-label="Read more: Washing Machine Not Spinning in Huntington Beach? 5 Common Causes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -488,7 +505,7 @@
           <div class="blog-date">April 27, 2026</div>
           <div class="blog-title">Washing Machine Leaking in Buena Park? Here's Why</div>
           <div class="blog-excerpt">Water on the laundry room floor? Learn the most common causes of a washing machine leak and which ones you can rule out yourself.</div>
-          <a href="../../articles/article-washer-leaking-buena-park.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-washer-leaking-buena-park.html" class="blog-link" aria-label="Read more: Washing Machine Leaking in Buena Park? Here&#x27;s Why">Read more &rarr;</a>
         </div>
       </div>
 
@@ -504,7 +521,7 @@
           <div class="blog-date">April 23, 2026</div>
           <div class="blog-title">Washer Repair in Garden Grove, CA: Signs You Need a Pro</div>
           <div class="blog-excerpt">Leaking, not draining, banging through spin, or just dead? Learn what each washing machine symptom usually means and when it's time to call a technician.</div>
-          <a href="../../articles/article-washer-repair-garden-grove.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-washer-repair-garden-grove.html" class="blog-link" aria-label="Read more: Washer Repair in Garden Grove, CA: Signs You Need a Pro">Read more &rarr;</a>
         </div>
       </div>
 
@@ -520,7 +537,7 @@
           <div class="blog-date">April 21, 2025</div>
           <div class="blog-title">Washer Repair in Irvine, CA: Costs, Timeline &amp; What to Expect</div>
           <div class="blog-excerpt">Washing machine not spinning or leaking? Learn what common washer problems cost to fix in Irvine and when replacement makes more sense than a repair.</div>
-          <a href="../../articles/article-washer-repair-irvine.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-washer-repair-irvine.html" class="blog-link" aria-label="Read more: Washer Repair in Irvine, CA: Costs, Timeline &amp; What to Expect">Read more &rarr;</a>
         </div>
       </div>
 
@@ -535,8 +552,8 @@
         <p style="font-size:13px;color:#555;line-height:1.85;margin-bottom:14px;">Washing machine issues tend to compound; a small leak becomes a flooded floor if the drain pump gives out completely. Our technicians are available same-day across Orange County.</p>
         <p style="font-size:13px;color:#555;line-height:1.85;">Don't wait until the next load of laundry makes it worse. Give us a call.</p>
         <div style="margin-top:24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <a href="tel:+19496295365" style="display:inline-block;background:#cc3d12;color:#fff;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none;">Call (949) 629-5365</a>
-          <a href="../contact.html" style="display:inline-block;color:#666;font-size:13px;font-weight:500;text-decoration:none;">or send a message &rarr;</a>
+          <a href="tel:+19496295365" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:#cc3d12;color:#fff;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none;">Call (949) 629-5365</a>
+          <a href="../contact.html" class="cta-text-link" style="color:#666;font-size:13px;font-weight:500;text-decoration:none;">or send a message &rarr;</a>
         </div>
       </div>
       <div style="text-align:center;margin-top:60px;color:rgba(255,255,255,0.88);font-size:19px;font-weight:600;line-height:1.55;">

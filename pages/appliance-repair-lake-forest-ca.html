@@ -294,12 +294,22 @@
       .neighborhoods-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
+      /* P6-62 tap targets: text CTAs that rendered 15-16px. */
+      .tap-link { min-height: 44px; display: inline-flex; align-items: center; }
+      /* P6-62 tap targets: these service links rendered 36px.
+         `a[href]` rather than `a` on purpose: 10 of these hub pages declare this
+         mobile block ABOVE the unconditional `.services-links-grid a { display: block }`
+         base rule, so at equal specificity the later base rule won and
+         `align-items: center` was dead code. Raising specificity makes the override
+         independent of source order. Caught by the impeccable critique, which measured
+         the rendered box instead of trusting the rule. */
+      .services-links-grid a[href] { min-height: 44px; display: flex; align-items: center; }
       .btn-white, .btn-white-outline, .btn-primary, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
       .neighborhoods-grid { grid-template-columns: 1fr; }
-      .services-links-grid { grid-template-columns: 1fr; }
+      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .symptoms-list { grid-template-columns: 1fr; }
       .cta-box { padding: 36px 24px; }
@@ -308,7 +318,7 @@
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
-      .services-links-grid { grid-template-columns: 1fr; }
+      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
       .process-steps { grid-template-columns: 1fr; }
       .nav-cta { display: none; }
     }
@@ -737,7 +747,7 @@
               <div style="font-size:10px;font-weight:700;color:var(--brand-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Samsung &middot; Dishwasher</div>
               <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Drain Pump Replacement</div>
               <div style="font-size:12px;color:#666;margin-top:4px;">Lake Forest, CA</div>
-              <a href="samsung-appliance-repair-orange-county.html" style="display:inline-block;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our Samsung appliance repair &rarr;</a>
+              <a href="samsung-appliance-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our Samsung appliance repair &rarr;</a>
             </div>
           </div>
         </div>

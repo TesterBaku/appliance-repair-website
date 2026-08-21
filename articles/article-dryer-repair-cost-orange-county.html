@@ -24,7 +24,7 @@
   <meta property="og:url" content="https://fixappliancesfast.com/articles/article-dryer-repair-cost-orange-county.html" />
   <meta property="og:image" content="https://fixappliancesfast.com/images/real/business/completed-repair-dryer-frontload-motor-blower.jpg" />
   <meta property="article:published_time" content="2025-04-21T00:00:00+00:00" />
-  <meta property="article:modified_time" content="2026-08-09T00:00:00+00:00" />
+  <meta property="article:modified_time" content="2026-08-21T00:00:00+00:00" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Dryer Repair Cost in Orange County, CA (2026 Guide)" />
   <meta name="twitter:description" content="Dryer repair cost in Orange County, 2026: thermal fuse $120-$180, heating element $150-$250, motor $250-$400. Full price table by failure type. Gas vs electric." />
@@ -49,7 +49,7 @@
       "logo": { "@type": "ImageObject", "url": "https://fixappliancesfast.com/logo.png" }
     },
     "datePublished": "2025-04-21T00:00:00+00:00",
-    "dateModified": "2026-08-09T00:00:00+00:00"
+    "dateModified": "2026-08-21T00:00:00+00:00"
   }
   </script>
   <script type="application/ld+json">
@@ -294,6 +294,12 @@
     .nav-drawer a:last-child { border-bottom: none; }
     .nav-drawer a.nav-drawer-cta { color: #aa3210; font-weight: 600; }
     @media (max-width: 768px) {
+      /* P6-62 tap targets: the footer phone + email links are the site's primary
+         conversion path and rendered 15px tall. Articles also never carried the
+         footer nav-link rule every other page has, so those rendered 15px AND
+         display:inline, which additionally hid them from the tap-target sweep. */
+      .footer-contact-line a { min-height: 44px; display: inline-flex; align-items: center; }
+      .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
       .nav-links { display: none; }
       .nav-cta { display: none; }
       .nav-hamburger { display: flex; }

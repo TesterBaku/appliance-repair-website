@@ -26,7 +26,7 @@
   <meta name="twitter:description" content="Samsung refrigerator error codes explained: 22E, 21E, OF OF, 39E, 40E and more. What each fault means, DIY fixes to try, and repair costs in Orange County, CA." />
   <meta name="twitter:image" content="https://fixappliancesfast.com/images/fridge-sidebyside.jpg" />
   <meta property="article:published_time" content="2026-06-29T00:00:00+00:00" />
-  <meta property="article:modified_time" content="2026-08-03T00:00:00+00:00" />
+  <meta property="article:modified_time" content="2026-08-21T00:00:00+00:00" />
   <link rel="icon" href="../favicon.ico" sizes="any" />
   <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png" />
@@ -128,6 +128,12 @@
     .sticky-call { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #cc3d12; color: #fff; gap: 6px; }
     .sticky-book { display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; font-size: 14px; font-weight: 600; text-decoration: none; background: #111; color: #fff; }
     @media (max-width: 768px) {
+      /* P6-62 tap targets: the footer phone + email links are the site's primary
+         conversion path and rendered 15px tall. Articles also never carried the
+         footer nav-link rule every other page has, so those rendered 15px AND
+         display:inline, which additionally hid them from the tap-target sweep. */
+      .footer-contact-line a { min-height: 44px; display: inline-flex; align-items: center; }
+      .footer-links a { display: flex; align-items: center; padding: 8px 0; min-height: 44px; }
       .nav-links { display: none; }
       .nav-cta { display: none; }
       .nav-hamburger { display: flex; }
@@ -178,7 +184,7 @@
       "logo": { "@type": "ImageObject", "url": "https://fixappliancesfast.com/logo.png" }
     },
     "datePublished": "2026-06-29T00:00:00+00:00",
-    "dateModified": "2026-08-03T00:00:00+00:00"
+    "dateModified": "2026-08-21T00:00:00+00:00"
   }
   </script>
   <script type="application/ld+json">

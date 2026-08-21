@@ -88,19 +88,29 @@
     .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
 
     @media (max-width: 768px) {
+      /* P6-62 tap targets: text CTAs that rendered 15-16px. */
+      .tap-link { min-height: 44px; display: inline-flex; align-items: center; }
+      /* P6-62 tap targets: these service links rendered 36px.
+         `a[href]` rather than `a` on purpose: 10 of these hub pages declare this
+         mobile block ABOVE the unconditional `.services-links-grid a { display: block }`
+         base rule, so at equal specificity the later base rule won and
+         `align-items: center` was dead code. Raising specificity makes the override
+         independent of source order. Caught by the impeccable critique, which measured
+         the rendered box instead of trusting the rule. */
+      .services-links-grid a[href] { min-height: 44px; display: flex; align-items: center; }
       .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
       .neighborhoods-grid { grid-template-columns: 1fr; }
-      .services-links-grid { grid-template-columns: 1fr; }
+      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
-      .services-links-grid { grid-template-columns: 1fr; }
+      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
       .process-steps { grid-template-columns: 1fr; }
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
@@ -754,7 +764,7 @@
         </picture>
         <div style="padding:16px 20px;">
           <div style="font-size:12.5px;color:var(--text-sub);line-height:1.7;">Service area centered on Santa Ana, covering ZIP codes 92701&ndash;92707. Dispatched from our Stanton base, a short drive northwest.</div>
-          <a href="https://www.google.com/maps/place/Santa+Ana,+CA/" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-size:13px;font-weight:600;color:var(--brand-text);text-decoration:none;">View Santa Ana on Google Maps &rarr;</a>
+          <a href="https://www.google.com/maps/place/Santa+Ana,+CA/" target="_blank" rel="noopener" class="tap-link" style="margin-top:10px;font-size:13px;font-weight:600;color:var(--brand-text);text-decoration:none;">View Santa Ana on Google Maps &rarr;</a>
         </div>
       </div>
     </div>

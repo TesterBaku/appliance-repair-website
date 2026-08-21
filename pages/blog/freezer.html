@@ -69,8 +69,21 @@
     .content-wrap p { font-size: 14px; color: #444; line-height: 1.85; margin-bottom: 16px; }
     .section-label { font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
     .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .blog-card { background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+    .blog-card { position: relative; cursor: pointer; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
     .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
+    /* P6-62: match pages/blog.html - the whole card is the tap target, not the 12px
+       "Read Article" text. These category pages copied the card markup without the
+       stretched-link overlay or the positioned parent it needs, so identical-looking
+       cards were card-clickable on the blog index and text-only here. */
+    .blog-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+    .blog-card:focus-within { outline: 2px solid #e84c1e; outline-offset: 4px; }
+    /* One focus ring, not two. shared.css:31 gives every focusable element a
+       `:focus-visible` outline, so tabbing to a card link drew a tight ring around
+       the 12px anchor text AND this one around the whole card. The card ring is the
+       better indicator here because the card is the tap target. Raised in the
+       /review of PR #766; the collision was pre-existing on pages/blog.html and this
+       PR had faithfully copied it onto the 7 category pages. */
+    .blog-card:focus-within .blog-link:focus-visible { outline: none; }
     .blog-img-wrap { position: relative; overflow: hidden; }
     .blog-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.3s; }
     .blog-card:hover .blog-img { transform: scale(1.03); }
@@ -83,6 +96,10 @@
     .blog-link:hover { gap: 9px; }
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; }
     @media (max-width: 768px) {
+      /* P6-62 tap targets: this callout CTA rendered 33px. */
+      .service-callout a { min-height: 44px; display: inline-flex; align-items: center; }
+      /* P6-62 tap targets: this secondary CTA rendered 16px. */
+      .cta-text-link { min-height: 44px; display: inline-flex; align-items: center; }
       .blog-grid { grid-template-columns: 1fr; }
       .content-wrap { padding: 0 16px 48px; }
     }
@@ -369,7 +386,7 @@
           <div class="blog-date">July 16, 2026</div>
           <div class="blog-title">Freezer Not Freezing in Placentia, CA? 6 Common Causes</div>
           <div class="blog-excerpt">Soft ice cream and a puddle where the ice should be? The six reasons a freezer stops getting cold in Placentia, from dusty condenser coils to a failed defrost system or dead evaporator fan, and which you can fix yourself.</div>
-          <a href="../../articles/article-freezer-not-freezing-placentia.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-not-freezing-placentia.html" class="blog-link" aria-label="Read more: Freezer Not Freezing in Placentia, CA? 6 Common Causes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -385,7 +402,7 @@
           <div class="blog-date">April 27, 2026</div>
           <div class="blog-title">Freezer Not Freezing in Anaheim? 5 Common Causes &amp; Fixes</div>
           <div class="blog-excerpt">Freezer humming but nothing inside is frozen? Learn the five most common causes, from dirty coils to a failing start relay, and which ones you can check yourself.</div>
-          <a href="../../articles/article-freezer-not-freezing-anaheim.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-not-freezing-anaheim.html" class="blog-link" aria-label="Read more: Freezer Not Freezing in Anaheim? 5 Common Causes &amp; Fixes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -401,7 +418,7 @@
           <div class="blog-date">May 1, 2026</div>
           <div class="blog-title">Freezer Not Freezing in Westminster? 5 Common Causes &amp; Fix Costs</div>
           <div class="blog-excerpt">Ice cream soft and meat thawing? Learn the 5 most common reasons a freezer stops freezing and when to call a technician in Orange County.</div>
-          <a href="../../articles/article-freezer-not-freezing-westminster.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-not-freezing-westminster.html" class="blog-link" aria-label="Read more: Freezer Not Freezing in Westminster? 5 Common Causes &amp; Fix Costs">Read more &rarr;</a>
         </div>
       </div>
 
@@ -417,7 +434,7 @@
           <div class="blog-date">May 2, 2026</div>
           <div class="blog-title">Freezer Repair in Brea, CA: What to Check Before Food Thaws</div>
           <div class="blog-excerpt">Soft ice cream and warming meat point to a short list of failures. Learn what to check first and when it's time to call a technician in Brea.</div>
-          <a href="../../articles/article-freezer-repair-brea.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-repair-brea.html" class="blog-link" aria-label="Read more: Freezer Repair in Brea, CA: What to Check Before Food Thaws">Read more &rarr;</a>
         </div>
       </div>
 
@@ -433,7 +450,7 @@
           <div class="blog-date">May 3, 2026</div>
           <div class="blog-title">Freezer Repair Cost in Rancho Santa Margarita, CA: What Homeowners Usually Pay</div>
           <div class="blog-excerpt">Local cost guide covering common repair ranges in Rancho Santa Margarita and when replacement becomes the smarter call.</div>
-          <a href="../../articles/article-freezer-cost-rancho-santa-margarita.html" class="blog-link">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-cost-rancho-santa-margarita.html" class="blog-link" aria-label="Read more: Freezer Repair Cost in Rancho Santa Margarita, CA: What Homeowners Usually Pay">Read more &rarr;</a>
         </div>
       </div>
 
@@ -448,8 +465,8 @@
         <p style="font-size:13px;color:#555;line-height:1.85;margin-bottom:14px;">When food is at risk, same-day repair matters. Our technicians service chest freezers, upright freezers, and refrigerator-freezer combos across Orange County.</p>
         <p style="font-size:13px;color:#555;line-height:1.85;">Don't wait for the next thaw. Call us now.</p>
         <div style="margin-top:24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <a href="tel:+19496295365" style="display:inline-block;background:#cc3d12;color:#fff;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none;">Call (949) 629-5365</a>
-          <a href="../contact.html" style="display:inline-block;color:#666;font-size:13px;font-weight:500;text-decoration:none;">or send a message &rarr;</a>
+          <a href="tel:+19496295365" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;background:#cc3d12;color:#fff;font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;text-decoration:none;">Call (949) 629-5365</a>
+          <a href="../contact.html" class="cta-text-link" style="color:#666;font-size:13px;font-weight:500;text-decoration:none;">or send a message &rarr;</a>
         </div>
       </div>
       <div style="text-align:center;margin-top:60px;color:rgba(255,255,255,0.88);font-size:19px;font-weight:600;line-height:1.55;">
