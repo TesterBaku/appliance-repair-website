@@ -21,15 +21,28 @@
  *                                    is touched and the inject-partials chrome regexes stay
  *                                    intact.
  *
+ * Cleans before it writes: Pagefind content-hashes every fragment/index chunk it emits
+ * and never deletes a superseded chunk from a prior run, so ./pagefind only grows across
+ * runs (P6-38 — 222 .pf_fragment files for 75 live articles, 30 pagefind.en_*.pf_meta
+ * files where there should be one). Deleting ./pagefind up front and then running pagefind
+ * in place would leave the committed index destroyed if pagefind then failed, so instead
+ * this builds into a fresh temp directory and only swaps it in for ./pagefind after
+ * pagefind has exited 0. If pagefind fails, ./pagefind is left untouched; the only
+ * unprotected moment is the swap itself, after a successful build, and `git checkout pagefind`
+ * recovers from that.
+ *
  * Re-run and commit ./pagefind whenever an article is added, removed, or renamed
  * (same discipline as `npm run build:sitemap`).
  */
 'use strict';
 
 const { spawnSync } = require('child_process');
+const fs = require('fs');
+const os = require('os');
 const path = require('path');
 
 const repoRoot = path.resolve(__dirname, '..');
+const outputDir = path.join(repoRoot, 'pagefind');
 
 // Shared chrome to keep OUT of the index (CSS selectors, excluded at crawl time).
 const EXCLUDE_SELECTORS = [
@@ -40,7 +53,11 @@ const EXCLUDE_SELECTORS = [
   '.related-grid',      // "Related Articles" cards (other articles' titles → cross-talk)
 ];
 
-const args = ['--site', '.', '--glob', 'articles/**/*.html'];
+// Build into a fresh temp directory (never ./pagefind directly) so a failed run can
+// never leave the committed index half-deleted or half-written.
+const tmpOutputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'pagefind-build-'));
+
+const args = ['--site', '.', '--glob', 'articles/**/*.html', '--output-path', tmpOutputDir];
 for (const sel of EXCLUDE_SELECTORS) args.push('--exclude-selectors', sel);
 
 // Resolve the pagefind binary from node_modules/.bin (.cmd shim on Windows).
@@ -59,6 +76,31 @@ const result = spawnSync(bin, args, {
 
 if (result.error) {
   console.error('build-search-index: failed to run pagefind:', result.error.message);
+  fs.rmSync(tmpOutputDir, { recursive: true, force: true });
   process.exit(1);
 }
-process.exit(result.status === null ? 1 : result.status);
+
+const exitCode = result.status === null ? 1 : result.status;
+if (exitCode !== 0) {
+  console.error(`build-search-index: pagefind exited with status ${exitCode}; leaving existing ./pagefind untouched.`);
+  fs.rmSync(tmpOutputDir, { recursive: true, force: true });
+  process.exit(exitCode);
+}
+
+// pagefind succeeded — only now is it safe to replace the committed ./pagefind. Remove
+// the old (possibly stale-chunk-laden) output and move the fresh build into place.
+fs.rmSync(outputDir, { recursive: true, force: true });
+try {
+  fs.renameSync(tmpOutputDir, outputDir);
+} catch (err) {
+  // rename() can fail across filesystem/device boundaries (e.g. os.tmpdir() on a
+  // different drive than the repo on Windows) — fall back to copy + remove.
+  if (err.code === 'EXDEV') {
+    fs.cpSync(tmpOutputDir, outputDir, { recursive: true });
+    fs.rmSync(tmpOutputDir, { recursive: true, force: true });
+  } else {
+    throw err;
+  }
+}
+
+process.exit(0);
