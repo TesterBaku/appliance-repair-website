@@ -59,13 +59,19 @@
  *                    186 chars. An articles-only guard on a site whose commercial
  *                    landing pages all live in pages/ was guarding the wrong half.
  *
- *   og-desc-sync   — every article's and every pages/ file's `og:description` must equal
- *                    its `name="description"`. Divergence was the bug in PR #359 review.
+ *   og-desc-sync   — every article's and every pages/ file's `og:description` AND
+ *                    `twitter:description` must equal its `name="description"`.
+ *                    Divergence was the bug in PR #359 review.
  *                    Added 2026-05-21; widened to pages/ 2026-08-09 alongside
  *                    meta-desc-len, which immediately found one stale og:description
- *                    (dryer-repair-orange-county). NOTE: `twitter:description` is
- *                    deliberately NOT checked — 9 files currently diverge and
- *                    reconciling them is out of scope here. See tasks/backlog.md.
+ *                    (dryer-repair-orange-county). `twitter:description` was left
+ *                    unchecked at that point and 8 files had drifted; they were
+ *                    reconciled and the check extended 2026-08-21 (P6-41). A file with
+ *                    no twitter:description is skipped, not failed: 15 pages carry none,
+ *                    404.html plus 14 redirect stubs from PR #337 (6 flat at the root,
+ *                    8 more as <slug>/index.html), and none carries a description or an
+ *                    og:description either. What a stub owes is a separate open question
+ *                    in tasks/backlog.md. All 15 are outside descChecked today.
  *
  *   schema-headline-sync — every article's JSON-LD `headline` must equal the H1 text.
  *                    Catches the schema-drift bug fixed in PR #363.
@@ -676,9 +682,13 @@ if (run('og-desc-sync')) {
     checked['og-desc-sync'].files++;
     const meta = content.match(/<meta\s+name="description"\s+content="([^"]*)"/);
     const og   = content.match(/<meta\s+property="og:description"\s+content="([^"]*)"/);
-    if (!meta || !og) continue; // separately covered by meta-desc-len
-    if (meta[1] !== og[1]) {
+    const tw   = content.match(/<meta\s+name="twitter:description"\s+content="([^"]*)"/);
+    if (!meta) continue;                            // separately covered by meta-desc-len
+    if (og && meta[1] !== og[1]) {
       issues.push(`[OG-SYNC] ${rel(filePath)} — og:description differs from name="description"`);
+    }
+    if (tw && meta[1] !== tw[1]) {
+      issues.push(`[OG-SYNC] ${rel(filePath)} — twitter:description differs from name="description"`);
     }
   }
 }
@@ -2514,7 +2524,7 @@ if (checked['testimonial-pill-count']) parts.push(`testimonials All pill (${chec
 if (checked['testimonial-review-schema']) parts.push(`all ${checked['testimonial-review-schema'].quotedCards} quoted testimonial cards have a Review JSON-LD node`);
 if (checked['business-tenure'])      parts.push(`no stale "8+ years" tenure claims in ${checked['business-tenure'].files} files`);
 if (checked['meta-desc-len'])        parts.push(`meta descriptions ≤ ${checked['meta-desc-len'].limit} chars on ${checked['meta-desc-len'].files} articles + pages`);
-if (checked['og-desc-sync'])         parts.push(`og:description = name="description" on ${checked['og-desc-sync'].files} articles + pages`);
+if (checked['og-desc-sync'])         parts.push(`og:description + twitter:description = name="description" on ${checked['og-desc-sync'].files} articles + pages`);
 if (checked['schema-headline-sync']) parts.push(`schema headline = H1 on ${checked['schema-headline-sync'].files} articles`);
 if (checked['modified-time-sync'])   parts.push(`modified_time meta = dateModified JSON-LD on ${checked['modified-time-sync'].files} articles`);
 if (checked['analytics-present'])    parts.push(`analytics.js present on all ${checked['analytics-present'].files} nav pages`);
