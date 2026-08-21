@@ -1196,6 +1196,45 @@ test.describe('Blog page', () => {
   test('load-more button is present in DOM', async ({ page }) => {
     await expect(page.locator('#blog-load-more')).toBeAttached();
   });
+
+  // Regression (P6-64): the mobile batch cap never reached the DOM, because render() was
+  // only reachable from an input event, a pill click, the button itself, or a ?q= param.
+  // All 75 cards shipped on first paint (41,675px tall at 375px) and the button was dead
+  // code. Asserting attachment, as the test above does, cannot see that, so measure.
+  test('mobile: first paint is capped to one batch, and Load more extends it', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.reload();
+    const total = await page.locator('.blog-card').count();
+    expect(total).toBeGreaterThan(12);
+    const visible = () => page.locator('.blog-card:visible').count();
+    expect(await visible()).toBe(12);
+    const btn = page.locator('#blog-load-more');
+    await expect(btn).toBeVisible();
+    // The site-wide 44px sweep measures <a> only, so this <button> is checked here.
+    await page.evaluate(() => document.fonts.ready);
+    expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+    await btn.click();
+    expect(await visible()).toBe(Math.min(24, total));
+  });
+
+  test('desktop: every card paints and Load more stays hidden', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.reload();
+    const total = await page.locator('.blog-card').count();
+    expect(await page.locator('.blog-card:visible').count()).toBe(total);
+    await expect(page.locator('#blog-load-more')).toBeHidden();
+  });
+
+  // Load more is CSS-hidden above 768px, so a phone rotated to landscape must not be
+  // left holding one batch with no control to lift it.
+  test('crossing the breakpoint re-releases the cards', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.reload();
+    expect(await page.locator('.blog-card:visible').count()).toBe(12);
+    await page.setViewportSize({ width: 900, height: 812 });
+    const total = await page.locator('.blog-card').count();
+    await expect.poll(() => page.locator('.blog-card:visible').count()).toBe(total);
+  });
 });
 
 // ─── Service areas page ───────────────────────────────────────────────────────
