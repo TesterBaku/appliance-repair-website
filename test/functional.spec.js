@@ -1221,6 +1221,17 @@ test.describe('Blog page', () => {
     expect(await page.locator('.blog-card:visible').count()).toBe(total);
     await expect(page.locator('#blog-load-more')).toBeHidden();
   });
+
+  // Load more is CSS-hidden above 768px, so a phone rotated to landscape must not be
+  // left holding one batch with no control to lift it.
+  test('crossing the breakpoint re-releases the cards', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.reload();
+    expect(await page.locator('.blog-card:visible').count()).toBe(12);
+    await page.setViewportSize({ width: 900, height: 812 });
+    const total = await page.locator('.blog-card').count();
+    await expect.poll(() => page.locator('.blog-card:visible').count()).toBe(total);
+  });
 });
 
 // ─── Service areas page ───────────────────────────────────────────────────────

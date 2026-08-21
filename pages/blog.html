@@ -1863,6 +1863,17 @@
         });
       });
 
+      // The batch cap is a phone affordance, and the button that lifts it is hidden by CSS
+      // above 768px. Recompute on a breakpoint crossing, or a phone rotated to landscape
+      // would be stranded at 12 cards with no visible control to load the rest.
+      var wasMobile = isMobile();
+      window.addEventListener('resize', function() {
+        if (isMobile() === wasMobile) return;
+        wasMobile = !wasMobile;
+        showing = wasMobile ? BATCH : cards.length;
+        applyFilter();
+      });
+
       var q0 = new URLSearchParams(location.search).get('q');
       if (q0) input.value = q0;
       // Paint once at load, always: `showing` caps the grid to BATCH on phones, and
