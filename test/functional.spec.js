@@ -1210,6 +1210,9 @@ test.describe('Blog page', () => {
     expect(await visible()).toBe(12);
     const btn = page.locator('#blog-load-more');
     await expect(btn).toBeVisible();
+    // The site-wide 44px sweep measures <a> only, so this <button> is checked here.
+    await page.evaluate(() => document.fonts.ready);
+    expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
     await btn.click();
     expect(await visible()).toBe(Math.min(24, total));
   });
