@@ -77,6 +77,13 @@
        cards were card-clickable on the blog index and text-only here. */
     .blog-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
     .blog-card:focus-within { outline: 2px solid #e84c1e; outline-offset: 4px; }
+    /* One focus ring, not two. shared.css:31 gives every focusable element a
+       `:focus-visible` outline, so tabbing to a card link drew a tight ring around
+       the 12px anchor text AND this one around the whole card. The card ring is the
+       better indicator here because the card is the tap target. Raised in the
+       /review of PR #766; the collision was pre-existing on pages/blog.html and this
+       PR had faithfully copied it onto the 7 category pages. */
+    .blog-card:focus-within .blog-link:focus-visible { outline: none; }
     .blog-img-wrap { position: relative; overflow: hidden; }
     .blog-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.3s; }
     .blog-card:hover .blog-img { transform: scale(1.03); }
@@ -380,7 +387,7 @@
           <div class="blog-date">May 23, 2026</div>
           <div class="blog-title">The Real Cost of Skipping Appliance Maintenance: Repair Statistics by Type (2026)</div>
           <div class="blog-excerpt">What missed appliance maintenance actually costs, by appliance type. NFPA dryer-fire data, Energy Star refrigerator coil claims, HomeAdvisor 2025 repair costs.</div>
-          <a href="../../articles/article-maintenance-skip-cost-statistics.html" class="blog-link" aria-label="Read the article: The Real Cost of Skipping Appliance Maintenance: Repair Statistics by Type (2026)">Read more &rarr;</a>
+          <a href="../../articles/article-maintenance-skip-cost-statistics.html" class="blog-link" aria-label="Read more: The Real Cost of Skipping Appliance Maintenance: Repair Statistics by Type (2026)">Read more &rarr;</a>
         </div>
       </div>
 
@@ -396,7 +403,7 @@
           <div class="blog-date">May 23, 2026</div>
           <div class="blog-title">How Long Do Appliances Actually Last? 2026 Lifespan Data by Type and Brand</div>
           <div class="blog-excerpt">Average lifespans for refrigerators, washers, dryers, dishwashers, ovens, and microwaves, broken out by budget, mid-range, and premium brand tiers. Sourced from US Department of Energy rulemakings, Consumer Reports, and Miele design specs.</div>
-          <a href="../../articles/article-appliance-lifespan-data-2026.html" class="blog-link" aria-label="Read the article: How Long Do Appliances Actually Last? 2026 Lifespan Data by Type and Brand">Read more &rarr;</a>
+          <a href="../../articles/article-appliance-lifespan-data-2026.html" class="blog-link" aria-label="Read more: How Long Do Appliances Actually Last? 2026 Lifespan Data by Type and Brand">Read more &rarr;</a>
         </div>
       </div>
 
@@ -412,7 +419,7 @@
           <div class="blog-date">May 21, 2026</div>
           <div class="blog-title">Appliance Failure Rates by Year: When Each Type Typically Breaks Down (2026 Data)</div>
           <div class="blog-excerpt">Year-by-year failure probability for refrigerators, washers, dryers, dishwashers, ovens, and more. Sourced from Consumer Reports, US Department of Energy rulemakings, and Yale Appliance. Includes the bathtub curve and brand-tier comparison.</div>
-          <a href="../../articles/article-appliance-failure-rates-by-year.html" class="blog-link" aria-label="Read the article: Appliance Failure Rates by Year: When Each Type Typically Breaks Down (2026 Data)">Read more &rarr;</a>
+          <a href="../../articles/article-appliance-failure-rates-by-year.html" class="blog-link" aria-label="Read more: Appliance Failure Rates by Year: When Each Type Typically Breaks Down (2026 Data)">Read more &rarr;</a>
         </div>
       </div>
 
@@ -428,7 +435,7 @@
           <div class="blog-date">April 23, 2026</div>
           <div class="blog-title">Microwave Not Heating in Costa Mesa? Here's Why</div>
           <div class="blog-excerpt">Turntable spins but food stays cold? Learn the most common causes of a microwave that runs without heating and when to call a pro.</div>
-          <a href="../../articles/article-microwave-not-heating-costa-mesa.html" class="blog-link" aria-label="Read the article: Microwave Not Heating in Costa Mesa? Here&#x27;s Why">Read more &rarr;</a>
+          <a href="../../articles/article-microwave-not-heating-costa-mesa.html" class="blog-link" aria-label="Read more: Microwave Not Heating in Costa Mesa? Here&#x27;s Why">Read more &rarr;</a>
         </div>
       </div>
 
@@ -444,7 +451,7 @@
           <div class="blog-date">April 23, 2026</div>
           <div class="blog-title">Garbage Disposal Repair in Costa Mesa, CA</div>
           <div class="blog-excerpt">Disposal humming, not turning on, or leaking? Most garbage disposal problems have a simple fix; learn which ones you can handle yourself and when to call a pro.</div>
-          <a href="../../articles/article-garbage-disposal-repair-costa-mesa.html" class="blog-link" aria-label="Read the article: Garbage Disposal Repair in Costa Mesa, CA">Read more &rarr;</a>
+          <a href="../../articles/article-garbage-disposal-repair-costa-mesa.html" class="blog-link" aria-label="Read more: Garbage Disposal Repair in Costa Mesa, CA">Read more &rarr;</a>
         </div>
       </div>
 
@@ -460,7 +467,7 @@
           <div class="blog-date">April 28, 2026</div>
           <div class="blog-title">Wine Cooler Repair in Newport Beach, CA: What to Expect</div>
           <div class="blog-excerpt">Wine fridge not maintaining temperature? Learn the most common causes (dirty coils to a failing thermostat) and when to call a technician.</div>
-          <a href="../../articles/article-wine-cooler-repair-newport-beach.html" class="blog-link" aria-label="Read the article: Wine Cooler Repair in Newport Beach, CA: What to Expect">Read more &rarr;</a>
+          <a href="../../articles/article-wine-cooler-repair-newport-beach.html" class="blog-link" aria-label="Read more: Wine Cooler Repair in Newport Beach, CA: What to Expect">Read more &rarr;</a>
         </div>
       </div>
 
@@ -476,7 +483,7 @@
           <div class="blog-date">April 29, 2025</div>
           <div class="blog-title">Microwave Not Heating in Mission Viejo? 5 Common Causes &amp; How to Fix It</div>
           <div class="blog-excerpt">Microwave not heating in Mission Viejo? Learn the 5 most common causes and how we repair them. Same-day service available.</div>
-          <a href="../../articles/article-microwave-not-heating-mission-viejo.html" class="blog-link" aria-label="Read the article: Microwave Not Heating in Mission Viejo? 5 Common Causes &amp; How to Fix It">Read more &rarr;</a>
+          <a href="../../articles/article-microwave-not-heating-mission-viejo.html" class="blog-link" aria-label="Read more: Microwave Not Heating in Mission Viejo? 5 Common Causes &amp; How to Fix It">Read more &rarr;</a>
         </div>
       </div>
 
@@ -492,7 +499,7 @@
           <div class="blog-date">May 2, 2026</div>
           <div class="blog-title">Wine Cooler Not Cooling in Seal Beach? 6 Common Causes</div>
           <div class="blog-excerpt">Wine fridge runs all day but bottles still feel warm? Here are the six most common reasons Seal Beach units lose cooling.</div>
-          <a href="../../articles/article-wine-cooler-not-cooling-seal-beach.html" class="blog-link" aria-label="Read the article: Wine Cooler Not Cooling in Seal Beach? 6 Common Causes">Read more &rarr;</a>
+          <a href="../../articles/article-wine-cooler-not-cooling-seal-beach.html" class="blog-link" aria-label="Read more: Wine Cooler Not Cooling in Seal Beach? 6 Common Causes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -508,7 +515,7 @@
           <div class="blog-date">March 5, 2025</div>
           <div class="blog-title">Repair or Replace? How to Decide What to Do With a Broken Appliance</div>
           <div class="blog-excerpt">When your stove stops working or your washer leaks, should you repair it or buy new? The answer depends on age, repair cost, and efficiency.</div>
-          <a href="../../articles/article-repair-replace.html" class="blog-link" aria-label="Read the article: Repair or Replace? How to Decide What to Do With a Broken Appliance">Read more &rarr;</a>
+          <a href="../../articles/article-repair-replace.html" class="blog-link" aria-label="Read more: Repair or Replace? How to Decide What to Do With a Broken Appliance">Read more &rarr;</a>
         </div>
       </div>
 
@@ -524,7 +531,7 @@
           <div class="blog-date">April 2, 2025</div>
           <div class="blog-title">5 Must-Have Appliances for Dorm Life</div>
           <div class="blog-excerpt">College dorm life is tight on space. Every appliance has to pull its weight; here are 5 compact, student-friendly picks that are functional and worth every penny.</div>
-          <a href="../../articles/article-dorm-appliances.html" class="blog-link" aria-label="Read the article: 5 Must-Have Appliances for Dorm Life">Read more &rarr;</a>
+          <a href="../../articles/article-dorm-appliances.html" class="blog-link" aria-label="Read more: 5 Must-Have Appliances for Dorm Life">Read more &rarr;</a>
         </div>
       </div>
 

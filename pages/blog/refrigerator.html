@@ -85,6 +85,13 @@
        cards were card-clickable on the blog index and text-only here. */
     .blog-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
     .blog-card:focus-within { outline: 2px solid #e84c1e; outline-offset: 4px; }
+    /* One focus ring, not two. shared.css:31 gives every focusable element a
+       `:focus-visible` outline, so tabbing to a card link drew a tight ring around
+       the 12px anchor text AND this one around the whole card. The card ring is the
+       better indicator here because the card is the tap target. Raised in the
+       /review of PR #766; the collision was pre-existing on pages/blog.html and this
+       PR had faithfully copied it onto the 7 category pages. */
+    .blog-card:focus-within .blog-link:focus-visible { outline: none; }
     .blog-img-wrap { position: relative; overflow: hidden; }
     .blog-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.3s; }
     .blog-card:hover .blog-img { transform: scale(1.03); }
@@ -389,7 +396,7 @@
           <div class="blog-date">July 25, 2026</div>
           <div class="blog-title">Viking Refrigerator Not Cooling? Causes, DIY Checks and Repair Costs</div>
           <div class="blog-excerpt">Fridge warm but the freezer still cold, or the whole box slowly warming? The five reasons a Viking refrigerator stops cooling, from dust-clogged condenser coils and a failed evaporator fan to the defrost system, and the checks to run first.</div>
-          <a href="../../articles/article-viking-refrigerator-not-cooling-orange-county.html" class="blog-link" aria-label="Read the article: Viking Refrigerator Not Cooling? Causes, DIY Checks and Repair Costs">Read more &rarr;</a>
+          <a href="../../articles/article-viking-refrigerator-not-cooling-orange-county.html" class="blog-link" aria-label="Read more: Viking Refrigerator Not Cooling? Causes, DIY Checks and Repair Costs">Read more &rarr;</a>
         </div>
       </div>
 
@@ -402,7 +409,7 @@
           <div class="blog-date">July 16, 2026</div>
           <div class="blog-title">Refrigerator Not Cooling but the Freezer Works? 6 Common Causes</div>
           <div class="blog-excerpt">Milk barely cool but ice cream rock hard? The 6 reasons a fridge stops cooling while the freezer stays cold in La Habra, from dirty condenser coils to a stopped evaporator fan, and which you can fix yourself.</div>
-          <a href="../../articles/article-fridge-not-cooling-la-habra.html" class="blog-link" aria-label="Read the article: Refrigerator Not Cooling but the Freezer Works? 6 Common Causes">Read more &rarr;</a>
+          <a href="../../articles/article-fridge-not-cooling-la-habra.html" class="blog-link" aria-label="Read more: Refrigerator Not Cooling but the Freezer Works? 6 Common Causes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -415,7 +422,7 @@
           <div class="blog-date">July 16, 2026</div>
           <div class="blog-title">Refrigerator Repair Cost in Orange County (2026 Guide)</div>
           <div class="blog-excerpt">What does fridge repair actually cost in 2026? Real Orange County price ranges by failure type, from a $120 door gasket to a $900 compressor, plus the repair-or-replace math.</div>
-          <a href="../../articles/article-refrigerator-repair-cost-orange-county.html" class="blog-link" aria-label="Read the article: Refrigerator Repair Cost in Orange County (2026 Guide)">Read more &rarr;</a>
+          <a href="../../articles/article-refrigerator-repair-cost-orange-county.html" class="blog-link" aria-label="Read more: Refrigerator Repair Cost in Orange County (2026 Guide)">Read more &rarr;</a>
         </div>
       </div>
 
@@ -428,7 +435,7 @@
           <div class="blog-date">July 16, 2026</div>
           <div class="blog-title">Why Is My Refrigerator Freezing Food? 6 Common Causes</div>
           <div class="blog-excerpt">Lettuce snapping in half and slushy milk? The 6 reasons a fridge freezes food in Cypress, from a too-cold setting to a stuck air damper or failing thermistor, and which you can fix yourself.</div>
-          <a href="../../articles/article-refrigerator-freezing-food-cypress.html" class="blog-link" aria-label="Read the article: Why Is My Refrigerator Freezing Food? 6 Common Causes">Read Article &rarr;</a>
+          <a href="../../articles/article-refrigerator-freezing-food-cypress.html" class="blog-link" aria-label="Read Article: Why Is My Refrigerator Freezing Food? 6 Common Causes">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -444,7 +451,7 @@
           <div class="blog-date">June 29, 2026</div>
           <div class="blog-title">Samsung Refrigerator Error Codes: 22E, OF OF, 40E and More Explained</div>
           <div class="blog-excerpt">What every common Samsung fridge code means, from the 22E evaporator-fan fault to the OF OF demo-mode message. DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
-          <a href="../../articles/article-samsung-refrigerator-error-codes.html" class="blog-link" aria-label="Read the article: Samsung Refrigerator Error Codes: 22E, OF OF, 40E and More Explained">Read more &rarr;</a>
+          <a href="../../articles/article-samsung-refrigerator-error-codes.html" class="blog-link" aria-label="Read more: Samsung Refrigerator Error Codes: 22E, OF OF, 40E and More Explained">Read more &rarr;</a>
         </div>
       </div>
 
@@ -460,7 +467,7 @@
           <div class="blog-date">July 25, 2026</div>
           <div class="blog-title">LG Refrigerator Error Codes: Er FF, Er IF, dH and More Explained</div>
           <div class="blog-excerpt">What every common LG fridge code means, from the Er FF freezer-fan fault to the OF F demo-mode message. DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
-          <a href="../../articles/article-lg-refrigerator-error-codes.html" class="blog-link" aria-label="Read the article: LG Refrigerator Error Codes: Er FF, Er IF, dH and More Explained">Read more &rarr;</a>
+          <a href="../../articles/article-lg-refrigerator-error-codes.html" class="blog-link" aria-label="Read more: LG Refrigerator Error Codes: Er FF, Er IF, dH and More Explained">Read more &rarr;</a>
         </div>
       </div>
 
@@ -476,7 +483,7 @@
           <div class="blog-date">June 3, 2026</div>
           <div class="blog-title">Samsung Refrigerator Not Cooling but Freezer Is? 6 Causes (Irvine, CA)</div>
           <div class="blog-excerpt">Freezer rock solid but the fridge warm on your Samsung? The 6 most common causes, the Cooling Off mode fix, repair costs, and when to call a pro in Irvine.</div>
-          <a href="../../articles/article-samsung-fridge-not-cooling-irvine.html" class="blog-link" aria-label="Read the article: Samsung Refrigerator Not Cooling but Freezer Is? 6 Causes (Irvine, CA)">Read more &rarr;</a>
+          <a href="../../articles/article-samsung-fridge-not-cooling-irvine.html" class="blog-link" aria-label="Read more: Samsung Refrigerator Not Cooling but Freezer Is? 6 Causes (Irvine, CA)">Read more &rarr;</a>
         </div>
       </div>
 
@@ -492,7 +499,7 @@
           <div class="blog-date">April 23, 2026</div>
           <div class="blog-title">Refrigerator Not Cooling in Huntington Beach? 6 Common Causes</div>
           <div class="blog-excerpt">Motor's running but nothing inside is cold? Learn the 6 most common reasons a fridge stops cooling and when same-day repair is the right call.</div>
-          <a href="../../articles/article-fridge-not-cooling-huntington-beach.html" class="blog-link" aria-label="Read the article: Refrigerator Not Cooling in Huntington Beach? 6 Common Causes">Read more &rarr;</a>
+          <a href="../../articles/article-fridge-not-cooling-huntington-beach.html" class="blog-link" aria-label="Read more: Refrigerator Not Cooling in Huntington Beach? 6 Common Causes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -508,7 +515,7 @@
           <div class="blog-date">April 30, 2026</div>
           <div class="blog-title">Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes</div>
           <div class="blog-excerpt">Fridge running warm? Learn the 6 most common reasons a refrigerator stops cooling, what each repair costs, and when to call a technician.</div>
-          <a href="../../articles/article-fridge-not-cooling-fountain-valley.html" class="blog-link" aria-label="Read the article: Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes">Read more &rarr;</a>
+          <a href="../../articles/article-fridge-not-cooling-fountain-valley.html" class="blog-link" aria-label="Read more: Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes">Read more &rarr;</a>
         </div>
       </div>
 
@@ -524,7 +531,7 @@
           <div class="blog-date">April 23, 2026</div>
           <div class="blog-title">Refrigerator Repair in Garden Grove, CA: What to Expect</div>
           <div class="blog-excerpt">Fridge stopped cooling and food is at risk? Learn the most common refrigerator problems and what a same-day repair visit looks like in Garden Grove.</div>
-          <a href="../../articles/article-fridge-repair-garden-grove.html" class="blog-link" aria-label="Read the article: Refrigerator Repair in Garden Grove, CA: What to Expect">Read more &rarr;</a>
+          <a href="../../articles/article-fridge-repair-garden-grove.html" class="blog-link" aria-label="Read more: Refrigerator Repair in Garden Grove, CA: What to Expect">Read more &rarr;</a>
         </div>
       </div>
 
@@ -540,7 +547,7 @@
           <div class="blog-date">April 29, 2025</div>
           <div class="blog-title">LG Refrigerator Repair in Laguna Beach, CA: Common Issues &amp; What to Expect</div>
           <div class="blog-excerpt">LG fridge repair in Laguna Beach? We fix cooling problems, ice makers, and compressor issues. Expert repair or honest advice on replacement.</div>
-          <a href="../../articles/article-lg-fridge-repair-laguna-beach.html" class="blog-link" aria-label="Read the article: LG Refrigerator Repair in Laguna Beach, CA: Common Issues &amp; What to Expect">Read more &rarr;</a>
+          <a href="../../articles/article-lg-fridge-repair-laguna-beach.html" class="blog-link" aria-label="Read more: LG Refrigerator Repair in Laguna Beach, CA: Common Issues &amp; What to Expect">Read more &rarr;</a>
         </div>
       </div>
 
@@ -556,7 +563,7 @@
           <div class="blog-date">March 15, 2025</div>
           <div class="blog-title">7 Refrigerator Maintenance Tips to Keep Your Fridge Running Longer</div>
           <div class="blog-excerpt">Your refrigerator works 24/7. With a little regular maintenance you can add years to its lifespan and avoid expensive repair calls.</div>
-          <a href="../../articles/article-fridge-maintenance.html" class="blog-link" aria-label="Read the article: 7 Refrigerator Maintenance Tips to Keep Your Fridge Running Longer">Read more &rarr;</a>
+          <a href="../../articles/article-fridge-maintenance.html" class="blog-link" aria-label="Read more: 7 Refrigerator Maintenance Tips to Keep Your Fridge Running Longer">Read more &rarr;</a>
         </div>
       </div>
 
@@ -572,7 +579,7 @@
           <div class="blog-date">March 30, 2025</div>
           <div class="blog-title">Best Mini Fridges for Students: How to Choose the Right Refrigerator for College Life</div>
           <div class="blog-excerpt">Heading to college? Here's how to pick the right compact refrigerator for your needs and budget, no wasted space, no wasted money.</div>
-          <a href="../../articles/article-mini-fridge.html" class="blog-link" aria-label="Read the article: Best Mini Fridges for Students: How to Choose the Right Refrigerator for College Life">Read more &rarr;</a>
+          <a href="../../articles/article-mini-fridge.html" class="blog-link" aria-label="Read more: Best Mini Fridges for Students: How to Choose the Right Refrigerator for College Life">Read more &rarr;</a>
         </div>
       </div>
 
