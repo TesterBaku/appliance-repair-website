@@ -73,6 +73,11 @@
     /* overlay resolves against .featured (positioned ancestor): do not add position:relative to .read-more */
     .read-more::after { content: ''; position: absolute; inset: 0; z-index: 1; }
     .featured:focus-within { outline: 2px solid #e84c1e; outline-offset: 4px; }
+    /* Same single-focus-ring rule as .blog-card/.blog-link below: the featured card
+       is the tap target, so the card ring is the indicator and the tight ring around
+       the 12.5px anchor text is suppressed. Missed on the first pass of this fix and
+       caught in the /review of PR #766 - same bug, same file, one element short. */
+    .featured:focus-within .read-more:focus-visible { outline: none; }
     .featured-img { width: 100%; height: 100%; min-height: 380px; object-fit: cover; display: block; }
     .featured-body { padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; }
     .featured-tag { display: inline-block; background: #fff7ed; color: #aa3210; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
