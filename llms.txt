@@ -38,10 +38,13 @@ service is available in these cities when that schedule is open. The diagnostic 
 same $99 that applies across Los Angeles County.
 
 We also serve select Riverside County areas (Corona, Norco, Eastvale) and neighboring
-Chino and Chino Hills. We have a technician based in Riverside County, so same-day is
-available when that schedule is open, with next-available usually within a day or two.
-The Riverside diagnostic fee is $120 per visit, credited toward the repair if the customer
-proceeds.
+Chino and Chino Hills, and the Coachella Valley (Palm Springs, Cathedral City, Rancho
+Mirage, Palm Desert), where our Riverside technician runs regular routes, so same-day is
+available there when that schedule is open. Our Riverside County technician is based on the Riverside side of the
+county, so for these western cities we book the next available visit, usually within a day
+or two, with same-day when a technician is already routed nearby.
+The diagnostic fee is $99 per visit everywhere we serve, credited toward the repair if the
+customer proceeds.
 
 ## Repair Cost Guide
 
@@ -59,7 +62,7 @@ in Orange County, CA. Warranty on all repairs, parts and labor.
 
 ## Pricing & Discounts
 
-Diagnostic fee: $99 per visit in Orange County and throughout Los Angeles County (all cities, all brands, including Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach); $120 per visit in Riverside County (Corona, Norco, Eastvale, and neighboring Chino and Chino Hills). Applied toward the repair if the customer approves. If the customer does not proceed, the fee covers the visit only.
+Diagnostic fee: $99 per visit everywhere we serve: Orange County, Los Angeles County (all cities, all brands, including Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach), and Riverside County. Applied toward the repair if the customer approves. If the customer does not proceed, the fee covers the visit only.
 
 Multi-unit visits: First unit $99, each additional unit on the same visit $49.
 
