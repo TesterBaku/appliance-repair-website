@@ -6,7 +6,13 @@ const { execSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const BASE_URL = 'https://fixappliancesfast.com';
-const EXCLUDE_DIRS = new Set(['node_modules', 'scripts', 'test', 'tasks', '.git', '.claude', 'logs', 'pagefind', 'partials']);
+// 'progress' and 'tasks' are gitignored local working notes (AGENTS.md, "progress.md Contract"):
+// they are never part of the deployed artifact. They must be excluded here because this walker
+// reads the filesystem, not `git ls-files`, so an untracked scratch .html sitting on someone's
+// disk at build time would otherwise be published as a real URL. That happened: a staging file
+// at progress/_norco_faq.html was emitted into sitemap.xml as a live <loc>, which would have
+// returned 404 to Google and leaked an internal filename. Caught in review of PR #770.
+const EXCLUDE_DIRS = new Set(['node_modules', 'scripts', 'test', 'tasks', 'progress', '.git', '.claude', 'logs', 'pagefind', 'partials']);
 const EXCLUDE_FILES = new Set(['404.html']);
 
 // A redirect stub (old WP URL / pretty-URL alias) is a meta-refresh page whose only

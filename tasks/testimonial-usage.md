@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-08-18** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-08-21** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 105 |
-| On exactly 1 hub (1 free slot each) | 5 |
-| On exactly 2 hubs (at cap) | 96 |
+| Distinct reviews currently on >=1 hub | 106 |
+| On exactly 1 hub (1 free slot each) | 4 |
+| On exactly 2 hubs (at cap) | 98 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **5** |
+| **Free hub-slots available now** | **4** |
 | Approx. new city hubs supportable @ 3/hub | **~1** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 5 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 4 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -41,9 +41,8 @@ not as violations to fix. No other review may exceed 2 hubs.
 
 | Review | On hub |
 |---|---|
-| Ahmed El Korashy | kenmore-hub |
-| Alexander Battaglia | oven-repair-cost-hub |
 | Eleonora Abukova | dishwasher-repair-cost-hub |
+| Kathleen Street | norco |
 | Laurie Summers | wolf-hub |
 | Satara Armstrong Charlson | viking-hub |
 
@@ -54,6 +53,8 @@ not as violations to fix. No other review may exceed 2 hubs.
 | A T | costa-mesa, fountain-valley |
 | Adriana Lopez | corona, washer-repair-cost-hub |
 | Aghasahib Zarbaliyev | corona, washer-repair-cost-hub |
+| Ahmed El Korashy | norco, kenmore-hub |
+| Alexander Battaglia | norco, oven-repair-cost-hub |
 | Arzuman Qarayev | anaheim, westminster |
 | B P | tustin, viking-hub |
 | Brian Brassil | refrigerator-repair-cost-hub, sub-zero-hub |
