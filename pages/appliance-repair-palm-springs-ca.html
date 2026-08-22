@@ -90,16 +90,10 @@
     .btn-white { display: inline-block; background: var(--surface); color: var(--brand-text); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
     .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
 
-    /* Testimonials */
-    .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
-    /* 4 reviews: center the 4th card in the middle column so a 3-col grid does not strand it left-aligned */
-    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: 2; }
-    .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
-    .hub-page .stars { color: var(--amber); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
-    .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-sub); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
-    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
-    .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
-
+    /* Testimonial CSS intentionally absent: this page renders no testimonial markup, so the
+       template block (grid, card, stars, t-initial, and the 4th-card :has() centering rule
+       plus its mobile reset) was removed rather than left dead. Whoever backfills the
+       section should port fresh CSS from a live hub instead of trusting stale rules. */
     .city-pricing-line { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: var(--text-soft); line-height: 1.7; max-width: 760px; }
     .city-pricing-line strong { color: var(--text-primary); }
     .city-pricing-disclaimer { display: block; font-size: 13px; color: var(--text-sub); margin-top: 6px; }
@@ -115,16 +109,7 @@
     .landmarks-block a { color: var(--brand-text); font-weight: 600; text-decoration: none; }
 
     @media (max-width: 900px) {
-      .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
       .neighborhoods-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 480px) {
-      .hub-page .testimonials-grid { grid-template-columns: 1fr; }
-      /* Repeat the :has() selector verbatim. A shorter reset (e.g. plain
-         .testimonial-card) has LOWER specificity than the desktop rule above,
-         silently loses, and leaves desktop grid placement active on phones,
-         causing horizontal overflow. Measured precedent in testimonial-selection.md. */
-      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: auto; }
     }
     @media (max-width: 768px) {
       /* P6-62 tap targets: these service links rendered 36px.
@@ -749,8 +734,9 @@
   <!-- TESTIMONIALS: intentionally omitted.
        Palm Springs ships testimonial-free because no verified review in data/testimonials.json
        comes from a Coachella Valley job, and a review may never be relabelled to a city it did
-       not come from. Established precedent: the Frigidaire hub, the LA luxury hubs and the cost
-       hubs all ship this way. The LocalBusiness block above therefore carries no aggregateRating
+       not come from. Precedent is the five LA luxury hubs, and ONLY those. Checked 2026-08-22:
+       the brand hubs and the cost hubs are NOT testimonial-free (frigidaire-appliance-repair-orange-county.html carries a real aggregateRating and 3 Review nodes; appliance-repair-cost-orange-county.html carries 6), so do not cite them.
+       The LocalBusiness block above therefore carries no aggregateRating
        and no Review nodes, since Google flags AggregateRating without on-page review markup.
        Backfill a 3-card section here, and restore aggregateRating, once a real local review
        exists. See .claude/skills/testimonial-selection/SKILL.md. -->
