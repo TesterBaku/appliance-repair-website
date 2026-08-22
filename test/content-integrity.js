@@ -267,7 +267,7 @@
  *   brand-tier     — a brand may only appear inside a PREMIUM enumeration if
  *                    seo-content.md tiers it premium, and every stated company
  *                    diagnostic fee must be one of the three rule-defined values
- *                    ($99 OC/LA, $120 Riverside, $49 additional unit). Added
+ *                    ($99 everywhere, $49 additional unit). Added
  *                    2026-08-03 after Bosch was found marketed as premium on 3
  *                    cost hubs and 6 city hubs, in copy AND FAQPage JSON-LD,
  *                    while the rule tiers it standard. Gates only the two
@@ -1716,14 +1716,18 @@ if (run('brand-tier')) {
   // may never appear inside a premium enumeration.
   const STANDARD = new Set(['Whirlpool', 'GE', 'Samsung', 'LG', 'KitchenAid', 'Maytag',
                             'Frigidaire', 'Kenmore', 'Bosch', 'Electrolux', 'Amana', 'Hotpoint']);
-  // seo-content.md defines TWO company fees: $99 (OC + LA County, all brands) and
-  // $120 (Riverside). The $49 additional-unit price is a policy line that lives in
+  // seo-content.md defines ONE company fee: $99, everywhere we serve, every city and every
+  // brand (owner decision 2026-08-22, collapsing the former $120 Riverside tier). '120' was
+  // REMOVED from FEES on that date: it is now a defect inside a company-fee statement. The
+  // regex below keys on the word "fee", so the ~29 files that legitimately carry $120 inside
+  // a repair COST ESTIMATE ("$120 to $300 for a drain pump") are never reached, and must not be.
+  // The $49 additional-unit price is a policy line that lives in
   // llms.txt, NOT in seo-content.md — it is allowed here so a legitimate page cannot
   // fail, but the message below must not attribute it to the rules file. Flagged by
   // Copilot on PR #670. (The regex below keys on the word "fee", so the usual
   // "each additional unit ... $49" phrasing is not actually reached; this entry is
   // belt-and-braces for a page that does word it as a fee.)
-  const FEES = new Set(['99', '120', '49']);
+  const FEES = new Set(['99', '49']);
   checked['brand-tier'] = { pages: 0, lists: 0, fees: 0 };
 
   for (const filePath of allHtml) {
@@ -1754,7 +1758,7 @@ if (run('brand-tier')) {
       const val = m[1] || m[2];
       checked['brand-tier'].fees++; touched = true;
       if (!FEES.has(val)) {
-        issues.push(`[BRAND-TIER] ${rel(filePath)} — states a $${val} diagnostic fee. seo-content.md defines two company fees: $99 (Orange County + LA County, all brands) and $120 (Riverside County). The only other allowed value is $49, the additional-unit price documented in llms.txt.`);
+        issues.push(`[BRAND-TIER] ${rel(filePath)} — states a $${val} diagnostic fee. seo-content.md defines ONE company fee: $99, everywhere we serve, every city and every brand (the $120 Riverside tier was retired by owner decision 2026-08-22). The only other allowed value is $49, the additional-unit price documented in llms.txt.`);
       }
     }
     if (touched) checked['brand-tier'].pages++;
