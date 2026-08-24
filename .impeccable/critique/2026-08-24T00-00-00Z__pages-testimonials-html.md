@@ -1,4 +1,4 @@
-# Impeccable Critique — pages/testimonials.html
+# Impeccable Critique: pages/testimonials.html
 
 **Date:** 2026-08-24
 **Target:** `pages/testimonials.html`
@@ -11,11 +11,15 @@ JSON-LD nodes, `All (113)` to `All (115)`, count surfaces swept site-wide by
 evidence) ran as two isolated, parallel sub-agents, neither seeing the other's output, per
 `.agents/skills/impeccable/reference/critique.md`. No degraded banner applies.
 
-**Score: 32/40** — 0 P0, 0 P1, 2 P2, 2 P3.
+**Score: 32/40.** 0 P0, 0 P1, 2 P2, 2 P3.
+
+> **Note on this file's own prose:** it carries no em dashes, deliberately. This project bans them in
+> editorial copy and the practical instruction is to grep *changed files*, not changed `.html` files.
+> `test/html-integrity.js` only walks `.html`, so nothing automated would have caught them here.
 
 ---
 
-## Assessment A — Design Review
+## Assessment A: Design Review
 
 **AI slop verdict: No.** The review copy is unsanitized (typos preserved verbatim), the photos are
 real job photos rather than stock, and the card/filter/hero pattern follows the site's own system.
@@ -44,34 +48,34 @@ exists to prevent.
 
 ### Findings
 
-**[P2] Alt text less specific than the page's own convention — INTRODUCED BY THIS PR. FIXED.**
+**[P2] Alt text less specific than the page's own convention. INTRODUCED BY THIS PR. FIXED.**
 `pages/testimonials.html:1072`. Every comparable photo card names the appliance and often the brand
 ("the top-load dryer we repaired", "the stainless LG front-load washer"). Stacey Etnire's read
 "showing the appliance we repaired", giving a screen-reader user nothing.
 
-*Resolution:* the appliance genuinely is not known here — the body names none, the photo shows no
-wordmark or console, and the owner confirmed it on 2026-08-24 — so naming one would be fabrication,
+*Resolution:* the appliance genuinely is not known here (the body names none, the photo shows no
+wordmark or console, and the owner confirmed it on 2026-08-24), so naming one would be fabrication,
 which is a worse failure than a vague alt. Fixed instead by describing **what is actually visible**:
 "showing the white top panel and service label of the appliance we repaired". Honest and specific,
 with nothing invented.
 
-**[P2] Filter pills under the 44px tap-target floor — PRE-EXISTING, not touched by this PR.**
+**[P2] Filter pills under the 44px tap-target floor. PRE-EXISTING, not touched by this PR.**
 `.filter-pill` measures **30px** at 375px (Assessment B, measured post-`fonts.ready`, not estimated
 from CSS). `AGENTS.md` already documents this by name as **P6-53**: these are `<button>` elements
 and the site-wide tap-target sweep covers `<a>` only. Real friction for the phone persona; not a
 blocker for this PR, and not silently dropped either.
 
-**[P3] 8-option filter bar exceeds the >4-visible-options guideline — PRE-EXISTING.** Unchanged by
+**[P3] 8-option filter bar exceeds the >4-visible-options guideline. PRE-EXISTING.** Unchanged by
 this PR; both new cards reuse the existing `general` category.
 
-**[P3] Unbounded, un-chunked card growth — PRE-EXISTING and compounding by design.** 115 cards, no
+**[P3] Unbounded, un-chunked card growth. PRE-EXISTING and compounding by design.** 115 cards, no
 pagination, "show more", or sort. This page is deliberately a near-complete archive that grows most
 weeks, so the flat scroll lengthens every batch. **Distinct from the settled trailing-orphan-row
 decision** (that one is about alignment of the last row; this is about total volume).
 
 ### Strengths
 
-1. Total internal consistency across every review-count surface — meta, OG, Twitter, hero, stats
+1. Total internal consistency across every review-count surface: meta, OG, Twitter, hero, stats
    bar, filter pill, `AggregateRating`, `LocalBusiness`. Nothing drifted in this batch.
 2. Authentic, unsanitized voice; verbatim typos build more trust than polished copy would.
 3. Schema discipline: every displayed card has a matching `Review` node with verbatim `reviewBody`,
@@ -79,7 +83,7 @@ decision** (that one is about alignment of the last row; this is about total vol
 
 ---
 
-## Assessment B — Detector + Browser Evidence
+## Assessment B: Detector + Browser Evidence
 
 **Detector, `pages/testimonials.html`:** 1 finding, `em-dash-overuse` (warning).
 
@@ -99,10 +103,10 @@ in unrelated `<style>` blocks and untouched by this PR's digit-only edit.
 
 | Measurement | Value |
 |---|---|
-| Horizontal scroll at 375x812 | `scrollWidth` 360 = `clientWidth` 360 — none |
-| `.filter-pill` height at 375px, post-`fonts.ready` | **30px** (all 8) — see P2 above |
+| Horizontal scroll at 375x812 | `scrollWidth` 360 = `clientWidth` 360, none |
+| `.filter-pill` height at 375px, post-`fonts.ready` | **30px** (all 8), see P2 above |
 | Card 1 image | `appliance-stacey-etnire.webp`, `complete: true`, natural **768x338**, rendered **80x80** |
-| Card 2 | Cindi Nichols, `hasImage: false` — matches spec |
+| Card 2 | Cindi Nichols, `hasImage: false`, matches spec |
 | Console messages | **0** at every level, at both 1440x900 and 375x812 |
 
 Server and browser both confirmed stopped.
@@ -114,8 +118,8 @@ Server and browser both confirmed stopped.
 ## Settled decisions cited, not re-litigated
 
 The grid's trailing row holds a single left-aligned card at 115. That is the case the owner
-explicitly accepted **twice** (2026-08-11, 2026-08-12), with both candidate fixes — a flexbox
-conversion and a JS orphan class — presented and declined. See
+explicitly accepted **twice** (2026-08-11, 2026-08-12), with both candidate fixes (a flexbox
+conversion and a JS orphan class) presented and declined. See
 `.claude/skills/testimonial-selection/SKILL.md`, "`pages/testimonials.html`: add cards in multiples
 of 3, and accept the orphan when you cannot". Assessment A was briefed on this, checked the area,
 and confirmed it found no different problem there. Not a finding.
