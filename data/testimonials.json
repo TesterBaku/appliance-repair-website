@@ -1,16 +1,24 @@
 {
   "_meta": {
-    "lastUpdated": "2026-08-15",
+    "lastUpdated": "2026-08-24",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 116,
-        "publishedCount": 116,
-        "capturedCount": 115,
+        "totalReviewsOnListing": 118,
+        "publishedCount": 118,
+        "capturedCount": 117,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-08-24",
+            "note": "TRACK A CAPTURE + TRACK B PUBLISH, same day (per tasks/runbook-weekly-review-batch.md). CAPTURE: +1 review transcribed from owner-supplied GBP dashboard screenshot (latest_review_0824_2026/review_screenshot.png, 2026-08-24), sorted Newest, 5-star with the NEW badge, shown '2 days ago': Stacey Etnire (7 reviews / 1 photo on her profile, review photo attached and supplied separately as review_photo.webp, Google service tag '$200-250'). Body verbatim 'Great service and very informative' (28 characters, 5 words, no trailing period in the original and reproduced as written, so bodyHasTypos=false and no display correction). GBP listing total bumped 117 to 118 (screenshot header shows 5.0, 118 reviews). capturedCount 116 to 117. Remaining 118-117=1 gap is the long-standing uncaptured review flagged 2026-05-31, not a new one. ratingValue unchanged at 5.0. NO APPLIANCE AND NO BRAND ARE RECORDED, and that is a finding rather than an omission: the body names neither, and unlike google-ahmed-el-korashy-2026-08-15 the photo cannot supply them either. The attached image (3393x1495) shows an unbranded white appliance panel with a curved top seam and a black QR service label at the upper right, with no wordmark, no console and no control markings anywhere in frame; the label region and the seam were cropped and upscaled 8x to check, and the label resolved as a QR code over an unreadable serial string, brand-free. The owner was asked directly on 2026-08-24 and confirmed the appliance is not known, so appliance and brand are both null rather than guessed from the panel shape. Consequences, recorded so a later audit does not read them as drift: the testimonials card carries data-category='general' and the role label 'Verified Customer' (the pool's established generic label, on 29 other cards), and the photo file carries no appliance slug (appliance-stacey-etnire.webp), the first filename in the pool to depart from the [appliance]-[brand-if-confirmed]-[reviewer-slug] convention. If the appliance is later established, rename the file and set the field rather than leaving both. Quotable per quality floor clause (a) ONLY (has a review photo, 5-word body clears the >= 2 word floor); it would fail clause (b), which needs >= 8 words, and clause (c), which needs a named appliance or brand, so the photo is load-bearing for quotability rather than decoration. Location 'Orange County, CA' Google default (reviewer city not exposed, no OC city in the body, no job-photo corroborated attestation, so neither location exception applies). Review photo resized proportionally, no crop, from 3393x1495 to 768x338 webp, saved to images/real/reviews/appliance-stacey-etnire.webp. PUBLISH: this is the weekly Track B batch that the 2026-08-19 Cindi Nichols capture was explicitly held for by owner direction. publishedCount promoted 116 to 118 in one step, covering both held reviews, and every site-wide count surface (AggregateRating.reviewCount, 'N verified 5-star Google reviews' prose including the testimonials-page meta/og/twitter descriptions, 'N Google reviews' hero copy and aria-label, 'Read all N reviews', the testimonials-page stat) rewritten from publishedCount by 'npm run build:review-counts -- --publish'. No hand edits and no sed: that is what the script replaced. The 'All (N)' pill is out of that script's scope and was moved by hand from 113 to 115 for the two new cards. Cindi Nichols and Stacey Etnire were both carded on pages/testimonials.html in this batch. Neither was placed on a hub: Cindi's body names no appliance and no brand, Stacey's names neither and her photo identifies no unit, so neither matches a service hub or adds anything to a city hub, and only 6 free hub slots remain pool-wide. Both sit at 0 hubs with a full 2-slot allowance and tasks/testimonial-usage.md is unchanged, so its regeneration (runbook Track B step 4) is a genuine no-op this pass rather than a skipped step."
+          },
+          {
+            "date": "2026-08-19",
+            "note": "TRACK A CAPTURE ONLY (per tasks/runbook-weekly-review-batch.md): +1 review transcribed from owner-supplied GBP dashboard screenshot (new_review_from_local_guide.png, 2026-08-19), sorted Newest, 5-star with the NEW badge, shown '24 hours ago': Cindi Nichols (Local Guide, 9 reviews / 1 photo on her profile, Google price tag 'Reasonable price', no service tag shown). GBP listing total bumped 116 to 117 (screenshot header shows 5.0, 117 reviews). capturedCount 115 to 116. Remaining 117-116=1 gap is the long-standing uncaptured review flagged 2026-05-31, not a new one. ratingValue unchanged at 5.0. publishedCount deliberately LEFT AT 116 and NO .html file was touched: publishing is a weekly Track B batch, so the site keeps claiming 116 until the next batch promotes it. Body verbatim, no typos, 28 words, names no appliance and no brand, so appliance and brand are both null rather than guessed. Quotable per quality floor clause (b) (no reviewPhoto, body >= 8 words). Location 'Orange County, CA' Google default (reviewer city not exposed by Google, no OC city named in the body, no job-photo corroborated attestation, so neither location exception applies). reviewPhoto is null and Track A step 6 does not apply: the '1 photo' in the byline is a lifetime count on the reviewer's Local Guide profile, not an image attached to this review, no photo is rendered in the review block of the supplied screenshot, and the owner confirmed on 2026-08-19 that this review carries no photo. Owner also directed the same day that this capture waits for the next weekly Track B batch on Monday 2026-08-24 rather than publishing early. Not placed on any hub, so it sits at 0 hubs with a full 2-slot allowance; tasks/testimonial-usage.md unchanged. Not carded on pages/testimonials.html either, which is Track B step 3."
+          },
           {
             "date": "2026-08-15",
             "note": "+1 review transcribed from owner-supplied GBP dashboard screenshot (kathleen_street_review.png, 2026-08-15, plus the separately supplied review_attached_photo.webp), sorted Newest, 5-star with the NEW badge, shown '4 hours ago': Kathleen Street (dryer repair, reviewer has 0 reviews / 1 photo, review photo attached, Google service tag '$250-300'). GBP listing total bumped 115 to 116 (listing header in the screenshot shows 5.0, 116 reviews). capturedCount 114 to 115. Remaining 116-115=1 gap is the long-standing uncaptured review flagged 2026-05-31, not a new one. ratingValue unchanged at 5.0. Body verbatim 'Ag fix my Samsung dryer.Good service!' (bodyHasTypos=true: display-only light correction 'Ag' to 'AG', 'fix' to 'fixed', 'dryer.Good' to 'dryer. Good'). Appliance 'dryer' and brand 'Samsung' are read from the BODY TEXT ONLY, not the photo: the attached review photo (review_attached_photo.webp, 3393x1495) shows a top-load dryer console, but the appliance wordmark is clipped off by the top edge of the frame and unreadable at magnification, and the visible control markings ('MoistureSensor', 'Mixed Load Bell', 'Wrinkle Prevent', and a HEAVY DUTY / BEDDING / SANITIZE / DELICATES / PERM PRESS / QUICK DRY / TIME DRY / WRINKLE RELEASE cycle set with 'Sensor Dry' / 'Manual Dry') are not characteristic of Samsung. Because the brand is not photo-confirmed, the photo file carries no brand slug, matching the existing oven-marie-bennett.webp convention for a brand-unconfirmed photo. Quotable per quality floor clause (a) (has review photo, body clears the >= 2 word floor) and independently per clause (c) (names both a listed appliance 'dryer' and a listed brand 'Samsung' in the body). Location 'Orange County, CA' Google default (reviewer city not exposed, no OC city in the body, no job-photo corroborated attestation, so neither location exception applies). Review photo resized proportionally (no crop) from 3393x1495 to 768x338 webp, saved to images/real/reviews/dryer-kathleen-street.webp. Surfaced on pages/testimonials.html (All pill 111 to 112) with the role label 'Dryer Repair', not 'Samsung Dryer Repair', since the photo does not corroborate the brand the body claims. Not placed on any hub in this pass, so it sits at 0 hubs with a full 2-slot allowance; tasks/testimonial-usage.md (which tracks only reviews on >=1 hub) is unchanged. Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating and its aria-label, testimonials stat, testimonials meta/og/twitter descriptions) updated 115 to 116 = totalReviewsOnListing across all review-bearing pages via a pattern-scoped sweep (npm run sync:testimonials covers pages/testimonials.html only)."
@@ -37,7 +45,7 @@
           },
           {
             "date": "2026-08-07",
-            "note": "+1 review transcribed from owner-supplied GBP screenshot (new_review 2026-08-06 155245.png): Jayson Hawley (washer, '18 hours ago', no photo, tag 'Great price \u00b7 $300\u2013350'). GBP listing total bumped 107 to 108. capturedCount 106 to 107. Remaining 108-107=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Quotable per quality floor (no photo, body \u22658 words, names appliance 'washer'). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 107 to 108 = totalReviewsOnListing across all review-bearing pages."
+            "note": "+1 review transcribed from owner-supplied GBP screenshot (new_review 2026-08-06 155245.png): Jayson Hawley (washer, '18 hours ago', no photo, tag 'Great price · $300–350'). GBP listing total bumped 107 to 108. capturedCount 106 to 107. Remaining 108-107=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Quotable per quality floor (no photo, body ≥8 words, names appliance 'washer'). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 107 to 108 = totalReviewsOnListing across all review-bearing pages."
           },
           {
             "date": "2026-07-30",
@@ -117,7 +125,7 @@
           },
           {
             "date": "2026-07-15",
-            "note": "+2 reviews transcribed from owner-supplied GBP screenshot (new_reviews.png), sorted Newest, both 5-star with the NEW badge: Olga Garcia (stove-top + freezer repair; no photo; '2 hours ago'; 'Great price \u00b7 $500+' service tag) and Marie Bennett (oven repair; 1 photo of a black 5-burner gas cooktop; '22 hours ago'). GBP listing total bumped 95 to 97 (owner screenshot panel shows 5.0, 97 reviews). capturedCount 94 to 96. Remaining 97-96=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Marie Bennett's review photo downscaled 2540x1119 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-marie-bennett.webp (brand unconfirmed, so no brand slug). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 95 to 97 = totalReviewsOnListing across all review-bearing pages. Both surfaced on pages/testimonials.html (Olga photo-less, Marie with photo); All pill 89 to 91. Both remain OUT of the hub testimonial grids (grandfathered)."
+            "note": "+2 reviews transcribed from owner-supplied GBP screenshot (new_reviews.png), sorted Newest, both 5-star with the NEW badge: Olga Garcia (stove-top + freezer repair; no photo; '2 hours ago'; 'Great price · $500+' service tag) and Marie Bennett (oven repair; 1 photo of a black 5-burner gas cooktop; '22 hours ago'). GBP listing total bumped 95 to 97 (owner screenshot panel shows 5.0, 97 reviews). capturedCount 94 to 96. Remaining 97-96=1 gap is the long-standing uncaptured review flagged 2026-05-31. ratingValue unchanged at 5.0. Marie Bennett's review photo downscaled 2540x1119 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-marie-bennett.webp (brand unconfirmed, so no brand slug). Site-wide public count surfaces (AggregateRating.reviewCount, 'N verified 5-star Google reviews' copy, 'Read all N reviews', 'N Google reviews' hero-rating, testimonials stat) updated 95 to 97 = totalReviewsOnListing across all review-bearing pages. Both surfaced on pages/testimonials.html (Olga photo-less, Marie with photo); All pill 89 to 91. Both remain OUT of the hub testimonial grids (grandfathered)."
           },
           {
             "date": "2026-08-03",
@@ -148,18 +156,56 @@
     },
     "policyNotes": [
       "Location policy is source-specific. Google records: city not exposed by Google, all standardized to 'Orange County, CA'. Yelp records: use the city displayed on the reviewer's Yelp profile (real OC cities like Dana Point, Anaheim, Irvine).",
-      "Rating filter is enforced by display rule, not by capture. All Google records (115) are 5-star; Yelp has 3 \u00d7 5-star + 1 \u00d7 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA, outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
+      "Rating filter is enforced by display rule, not by capture. All Google records are 5-star; Yelp has 3 × 5-star + 1 × 1-star captured. The 1-star reviewer (Tony B.) is from San Bernardino, CA, outside the OC service area, which likely explains the 'didn't show up' complaint (logistics, not service quality). The 1-star record is captured for accurate rating math but never displayed as a testimonial (see testimonial-selection.md step 1).",
       "Bodies preserved verbatim including spelling/grammar issues. Use _bodyHasTypos flag to decide if light correction is acceptable for display.",
       "All review bodies that have text are now complete (Kathy Calderon, Dave Brisbin, andrea hall full bodies sourced from missing_data/ folder).",
       "Two reviews have no body text (Theresa Robinson is photo-only with stove image; Luci LaBue has only 'Reasonable price' + 'Washing machine repair' service tags). Useful for photo display only.",
-      "Review photos (.webp) for 13 reviewers stored at images/real/reviews/, named [appliance]-[brand-if-confirmed]-[reviewer].webp. Each is referenced via its reviewPhoto field. The profilePhoto field is currently null for every record \u2014 no actual reviewer avatars have been captured.",
+      "Review photos (.webp) for 13 reviewers stored at images/real/reviews/, named [appliance]-[brand-if-confirmed]-[reviewer].webp. Each is referenced via its reviewPhoto field. The profilePhoto field is currently null for every record — no actual reviewer avatars have been captured.",
       "Review photos live in two forms and are deliberately NOT counted here, because a hardcoded tally goes stale on every capture and this note drifted for months before Copilot flagged it on PR #731 (2026-08-15). Count them instead: local files are the contents of images/real/reviews/, and remote ones are the records whose reviewPhoto starts with http, captured as Google CDN URLs during the initial browser scrape and still needing re-download to local before they expire. Prefer local; when adding a photo, resize proportionally to 768px wide, save as webp, and name it [appliance]-[brand-if-confirmed]-[reviewer-slug].webp.",
-      "Display rule for testimonials (mirrors .claude/skills/testimonial-selection/SKILL.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body \u22652 words (lowered from \u22653 by owner decision 2026-08-12; this mirror was left saying \u22653 until Copilot caught the drift on PR #731, 2026-08-15 \u2014 the rules file is authoritative, this note is only a convenience copy); (b) no reviewPhoto and body \u22658 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and \u22642-overlap rules in the same rules file also apply.",
+      "Display rule for testimonials (mirrors .claude/skills/testimonial-selection/SKILL.md step 6): a record is quotable as a testimonial only if it satisfies one of (a) has a reviewPhoto and body ≥2 words (lowered from ≥3 by owner decision 2026-08-12; this mirror was left saying ≥3 until Copilot caught the drift on PR #731, 2026-08-15 — the rules file is authoritative, this note is only a convenience copy); (b) no reviewPhoto and body ≥8 words; (c) no reviewPhoto and body <8 words but the body names a specific appliance (refrigerator/fridge/washer/washing machine/dryer/dishwasher/oven/stove/range/cooktop/microwave/freezer/garbage disposal/wine cooler) or brand (Whirlpool/GE/Samsung/LG/Sub-Zero/Wolf/Bosch/Viking/KitchenAid/Maytag/Frigidaire/Kenmore/Thermador/Miele/Dacor). Records with bodyStatus 'photo-only' or 'no-body' are never quotable; their photos may be used as imagery. Row-balance and ≤2-overlap rules in the same rules file also apply.",
       "Schema: every record has a 'source' field ('google' | 'yelp'). Yelp records may have a 'previousBody' field for updated reviews. Records linked across sources have a '_crossSourceMatch' field pointing to the corresponding record's id.",
-      "AggregateRating in HTML schema markup is Google-only (5.0 \u00d7 116). There are three distinct counters under _meta.sources.google, added by the weekly review-batch cadence plan (2026-08-15) so daily capture and weekly publishing can move independently: totalReviewsOnListing is what the live GBP listing shows right now, free to move daily as reviews are captured, and may move DOWN if Google filters a review; publishedCount is what the website currently claims (reviewCount in AggregateRating and every visible count surface), and moves only during a weekly publish batch, never on a daily capture; capturedCount is how many reviews are transcribed into this pool, internal only, never rendered on any page. The content-integrity 'review-count' check validates every page's reviewCount against publishedCount (not totalReviewsOnListing), and also asserts publishedCount <= totalReviewsOnListing so the public claim can never overstate the live listing. capturedCount (115) trails totalReviewsOnListing (116) by 1 because a single long-standing review is counted on GBP but not yet transcribed into this pool (see captureHistory 2026-07-06); publishedCount (116) currently equals totalReviewsOnListing because this PR introduced the field at the already-in-sync value, not because the two are the same field. Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
+      "AggregateRating in HTML schema markup is Google-only, and its two values are read from fields on this object rather than written here as literals: ratingValue is ratingAverage, reviewCount is publishedCount. There are three distinct counters under _meta.sources.google, added by the weekly review-batch cadence plan (2026-08-15) so daily capture and weekly publishing can move independently: totalReviewsOnListing is what the live GBP listing shows right now, free to move daily as reviews are captured, and may move DOWN if Google filters a review; publishedCount is what the website currently claims (reviewCount in AggregateRating and every visible count surface), and moves only during a weekly publish batch, never on a daily capture; capturedCount is how many reviews are transcribed into this pool, internal only, never rendered on any page. The content-integrity 'review-count' check validates every page's reviewCount against publishedCount (not totalReviewsOnListing), and also asserts publishedCount <= totalReviewsOnListing so the public claim can never overstate the live listing. capturedCount trails totalReviewsOnListing by 1 because a single long-standing review is counted on GBP but not yet transcribed into this pool (see captureHistory 2026-07-06); that gap is stable and is not a sign of a missed capture. publishedCount trails totalReviewsOnListing whenever a daily Track A capture has landed since the last weekly Track B publish batch, which is the normal, intended state and not a bug: the site under-reports until the batch runs. Read all three from the fields above; none of them is written into this note as a literal, because a hardcoded tally here drifted for months before Copilot flagged it on PR #731. Yelp is not folded into AggregateRating due to small sample size, 4.0 average, and Google's discouragement of mixed-source aggregates. Yelp may be surfaced as a separate visual trust signal."
     ]
   },
   "reviews": [
+    {
+      "id": "google-stacey-etnire-2026-08-24",
+      "source": "google",
+      "name": "Stacey Etnire",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "2 days ago",
+      "isNew": true,
+      "priceTag": "$200-250",
+      "body": "Great service and very informative",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/appliance-stacey-etnire.webp",
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-08-24 (latest_review_0824_2026/review_screenshot.png) plus the separately supplied review photo (review_photo.webp), sorted Newest, NEW badge, 5-star, shown '2 days ago', reviewer has 7 reviews / 1 photo. Google service tag: '$200-250'. Body verbatim 'Great service and very informative' (bodyHasTypos=false; the original carries no trailing period and is reproduced as written). APPLIANCE AND BRAND ARE BOTH null, deliberately. The body names neither, and unlike google-ahmed-el-korashy-2026-08-15 the photo cannot supply them: the attached image (3393x1495) shows an unbranded white appliance panel with a curved top seam and a black QR service label at the upper right, and carries no wordmark, no console and no control markings in frame. The label region and the top seam were cropped and upscaled 8x to check; the label resolved as a QR code over an unreadable serial string, brand-free. Guessing the appliance from the panel shape would be the same class of inference the location rules ban for a reviewer's city, so it is not done here either. The owner was asked on 2026-08-24 and confirmed the appliance is not known. Consequences, recorded so a later audit does not read them as drift: the testimonials card uses data-category='general' and the role label 'Verified Customer' (the pool's established generic label, on 29 other cards), and the photo filename carries no appliance slug, appliance-stacey-etnire.webp, the first in the pool to depart from the [appliance]-[brand-if-confirmed]-[reviewer-slug] convention. If the appliance is later established, rename the file and set the field rather than leaving both. Quotable per quality floor clause (a) ONLY: it has a review photo and its 5-word body clears the >= 2 word floor. It would fail clause (b) (needs >= 8 words) and clause (c) (needs a named appliance or brand), so the photo is load-bearing for quotability, not decoration. Location 'Orange County, CA' Google default (reviewer city not exposed, no OC city in the body, no job-photo corroborated attestation, so neither location exception applies). Review photo resized proportionally, no crop, from 3393x1495 to 768x338 webp, saved to images/real/reviews/appliance-stacey-etnire.webp. Carded on pages/testimonials.html in the 2026-08-24 weekly batch. Not placed on any hub, so it sits at 0 hubs with a full 2-slot allowance. Part of the 117 to 118 GBP listing bump."
+    },
+    {
+      "id": "google-cindi-nichols-2026-08-19",
+      "source": "google",
+      "name": "Cindi Nichols",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-08",
+      "dateText": "24 hours ago",
+      "isNew": true,
+      "priceTag": "Reasonable price",
+      "body": "Did the job perfectly when another company said it could not be done. Made sure the area was cleaner when he finished than when he arrived. Thank you.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-08-19 (new_review_from_local_guide.png), sorted Newest, NEW badge, 5-star, shown '24 hours ago'. Reviewer is a Google Local Guide with 9 reviews / 1 photo on her profile. Google price tag: 'Reasonable price' (no service tag shown, unlike Luci LaBue's record which carries both). Body verbatim, 28 words, no typos, so bodyHasTypos=false and no display correction is needed. The body names neither an appliance nor a brand and there is no review photo to read one off, so appliance and brand are both null; do not infer either from the price tag or from the reviewer's profile. Quotable per quality floor clause (b): no reviewPhoto and body >= 8 words. reviewPhoto is null, and this is settled, not pending: the '1 photo' in the byline is the lifetime photo count on the reviewer's Local Guide profile, not an image attached to this review, the review block in the screenshot renders no image thumbnail, and the owner confirmed on 2026-08-19 that there is no photo on this review. Do not re-open the question on a later pass. Location 'Orange County, CA' Google default (reviewer city not exposed by Google, no OC city named in the body, no job-photo corroborated attestation, so neither location exception applies). Captured under Track A only: publishedCount stays 116 and no .html was touched, so this review is not yet carded on pages/testimonials.html and not yet placed on any hub. It sits at 0 hubs with a full 2-slot allowance. Part of the 116 to 117 GBP listing bump."
+    },
     {
       "id": "google-kathleen-street-2026-08-15",
       "source": "google",
@@ -320,7 +366,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: owner-supplied GBP screenshot 2026-08-06 (new_review 2026-08-06 155245.png). Washer repair (water pump). Google tag: 'Great price \u00b7 $300\u2013350'. No review photo. Quotable testimonial per quality floor (no photo, body \u22658 words, names appliance 'washer'). Part of the 107 to 108 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-08-06 (new_review 2026-08-06 155245.png). Washer repair (water pump). Google tag: 'Great price · $300–350'. No review photo. Quotable testimonial per quality floor (no photo, body ≥8 words, names appliance 'washer'). Part of the 107 to 108 GBP listing bump."
     },
     {
       "id": "google-donna-barnett-corwin-2026-08-03",
@@ -388,7 +434,7 @@
       "approxDate": "2026-07",
       "dateText": "Yesterday",
       "isNew": true,
-      "priceTag": "Great price \u00b7 $50\u2013100",
+      "priceTag": "Great price · $50–100",
       "body": "AG had a lot of insight into what was wrong with my fridge. He fixed it and also fixed my front door.",
       "bodyStatus": "complete",
       "bodyHasTypos": false,
@@ -407,13 +453,13 @@
       "approxDate": "2026-07",
       "dateText": "1 hour ago",
       "isNew": true,
-      "priceTag": "Great price \u00b7 $250\u2013300",
+      "priceTag": "Great price · $250–300",
       "body": "AG was the best repair person I have ever had at my house. Honest Nice knowledgable. Can't say enough about him. He works on all appliances I will be using him for everything going forward. He fixed both our washer and dryer.",
       "bodyStatus": "complete",
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-07-28 (2_new_reviews.png), sorted Newest, shown '1 hour ago', NEW badge, reviewer 'David Lindley' (8 reviews, 0 photos). Combined washer + dryer repair by tech AG. Google service tag on the review reads 'Great price \u00b7 $250\u2013300' (job-value band, stored in priceTag). Body stored verbatim; bodyHasTypos=true (missing punctuation in 'Honest Nice knowledgable' and 'knowledgable' misspelled; 'He works on all appliances I will be using him' is a run-on). Display version applies light punctuation/spelling correction only, no rewording: 'Honest, nice, knowledgeable.' and a sentence break before 'I will be using him'. Quotable per the quality floor (no photo but body well over 8 words, names washer and dryer). Location standardized to 'Orange County, CA' per Google source policy. Part of the 101 to 103 GBP listing bump. Surfaced on pages/testimonials.html and on the dryer-repair-cost hub, where it replaced Susan Gerakos: her 8-word body named no appliance or brand, and pairing David's 44 words with Melissa's 55 restores row balance on that hub's centered 2-card pair."
+      "_note": "Source: owner-supplied GBP dashboard screenshot 2026-07-28 (2_new_reviews.png), sorted Newest, shown '1 hour ago', NEW badge, reviewer 'David Lindley' (8 reviews, 0 photos). Combined washer + dryer repair by tech AG. Google service tag on the review reads 'Great price · $250–300' (job-value band, stored in priceTag). Body stored verbatim; bodyHasTypos=true (missing punctuation in 'Honest Nice knowledgable' and 'knowledgable' misspelled; 'He works on all appliances I will be using him' is a run-on). Display version applies light punctuation/spelling correction only, no rewording: 'Honest, nice, knowledgeable.' and a sentence break before 'I will be using him'. Quotable per the quality floor (no photo but body well over 8 words, names washer and dryer). Location standardized to 'Orange County, CA' per Google source policy. Part of the 101 to 103 GBP listing bump. Surfaced on pages/testimonials.html and on the dryer-repair-cost hub, where it replaced Susan Gerakos: her 8-word body named no appliance or brand, and pairing David's 44 words with Melissa's 55 restores row balance on that hub's centered 2-card pair."
     },
     {
       "id": "google-reuben-johnson-2026-07-28",
@@ -503,7 +549,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/refrigerator-matt-semonza.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-21 (3_new_reviews.png), shown 'Yesterday', NEW badge. Frigidaire refrigerator repair by tech AJ in Westminster. Service tags 'Great price \u00b7 $50\u2013100'. Review photo shows a Frigidaire refrigerator; downscaled from 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-matt-semonza.webp. Body stored verbatim. Quotable testimonial (has photo + body over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 97 to 100 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-21 (3_new_reviews.png), shown 'Yesterday', NEW badge. Frigidaire refrigerator repair by tech AJ in Westminster. Service tags 'Great price · $50–100'. Review photo shows a Frigidaire refrigerator; downscaled from 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-matt-semonza.webp. Body stored verbatim. Quotable testimonial (has photo + body over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 97 to 100 GBP listing bump."
     },
     {
       "id": "google-olga-garcia-2026-07-15",
@@ -521,7 +567,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-15 (new_reviews.png), sorted Newest, shown '2 hours ago', NEW badge. Stove-top and freezer repair by tech AG. Reviewer profile shows '2 reviews \u00b7 0 photos'. Google service tag on the review reads 'Great price \u00b7 $500+' (job-value band; not stored as a field). Body stored verbatim. Quotable testimonial per the quality floor: no photo but body over 8 words (also names the stove/freezer). Location standardized to 'Orange County, CA' per Google source policy. Part of the 95 to 97 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-15 (new_reviews.png), sorted Newest, shown '2 hours ago', NEW badge. Stove-top and freezer repair by tech AG. Reviewer profile shows '2 reviews · 0 photos'. Google service tag on the review reads 'Great price · $500+' (job-value band; not stored as a field). Body stored verbatim. Quotable testimonial per the quality floor: no photo but body over 8 words (also names the stove/freezer). Location standardized to 'Orange County, CA' per Google source policy. Part of the 95 to 97 GBP listing bump."
     },
     {
       "id": "google-marie-bennett-2026-07-15",
@@ -539,7 +585,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/oven-marie-bennett.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-15 (new_reviews.png), shown '22 hours ago', NEW badge. Oven repair by tech AG (fast diagnosis, part on hand). Reviewer profile shows '0 reviews \u00b7 1 photo'. Review photo (black 5-burner gas cooktop/range top) downscaled from 2540x1119 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-marie-bennett.webp. Brand not confirmed (no legible badge; the visible 'Power Burner'/'Accusimmer' knob labels are generic gas-range terms) so brand=null. Body stored verbatim; bodyHasTypos=true (hyphens used where a comma/space belongs: 'knowledgeable- he', 'him- he') so light correction is allowed at display. Quotable testimonial (has photo + body well over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 95 to 97 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-15 (new_reviews.png), shown '22 hours ago', NEW badge. Oven repair by tech AG (fast diagnosis, part on hand). Reviewer profile shows '0 reviews · 1 photo'. Review photo (black 5-burner gas cooktop/range top) downscaled from 2540x1119 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-marie-bennett.webp. Brand not confirmed (no legible badge; the visible 'Power Burner'/'Accusimmer' knob labels are generic gas-range terms) so brand=null. Body stored verbatim; bodyHasTypos=true (hyphens used where a comma/space belongs: 'knowledgeable- he', 'him- he') so light correction is allowed at display. Quotable testimonial (has photo + body well over 3 words). Location standardized to 'Orange County, CA' per Google source policy. Part of the 95 to 97 GBP listing bump."
     },
     {
       "id": "google-atlindacity-2026-07-07",
@@ -557,7 +603,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-07 (2_new_reviews.png), sorted Newest, shown Yesterday, NEW badge. Whirlpool refrigerator repair by tech AG. Reviewer profile shows '1 review \u00b7 0 photos'. Body stored verbatim; bodyHasTypos=true ('are' should be 'our', 'whirlpool' lowercase, 'Thank' capitalized mid-sentence) so light correction is allowed at display. Quotable testimonial per the quality floor: no photo and body under 8 words but names a specific appliance (refrigerator) and brand (Whirlpool). Location standardized to 'Orange County, CA' per Google source policy. Part of the 93 to 95 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-07 (2_new_reviews.png), sorted Newest, shown Yesterday, NEW badge. Whirlpool refrigerator repair by tech AG. Reviewer profile shows '1 review · 0 photos'. Body stored verbatim; bodyHasTypos=true ('are' should be 'our', 'whirlpool' lowercase, 'Thank' capitalized mid-sentence) so light correction is allowed at display. Quotable testimonial per the quality floor: no photo and body under 8 words but names a specific appliance (refrigerator) and brand (Whirlpool). Location standardized to 'Orange County, CA' per Google source policy. Part of the 93 to 95 GBP listing bump."
     },
     {
       "id": "google-daniel-rojas-2026-07-07",
@@ -575,7 +621,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-07 (2_new_reviews.png), shown Yesterday, NEW badge. Oven repair by tech AG (a fast ~15-minute fix). Reviewer profile shows '1 review \u00b7 0 photos'. Body stored verbatim; bodyHasTypos=true only for the trailing comma (ends 'amazing work,'), which may be shown as a period at display. Quotable testimonial (no photo, body well over 8 words, names the oven). Location standardized to 'Orange County, CA' per Google source policy. Part of the 93 to 95 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-07 (2_new_reviews.png), shown Yesterday, NEW badge. Oven repair by tech AG (a fast ~15-minute fix). Reviewer profile shows '1 review · 0 photos'. Body stored verbatim; bodyHasTypos=true only for the trailing comma (ends 'amazing work,'), which may be shown as a period at display. Quotable testimonial (no photo, body well over 8 words, names the oven). Location standardized to 'Orange County, CA' per Google source policy. Part of the 93 to 95 GBP listing bump."
     },
     {
       "id": "google-lethkris-bh-2026-07-06",
@@ -593,7 +639,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/dryer-electrolux-lethkris.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), sorted Newest, shown 5 days ago, NEW badge. Electrolux dryer repair by tech AG. Reviewer profile shows '1 review \u00b7 1 photo'. Review photo (white Electrolux dryer) downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/dryer-electrolux-lethkris.webp. Location standardized to 'Orange County, CA' per Google source policy (city not exposed). Quotable testimonial (has photo + body well over 3 words). Part of the 89 to 93 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), sorted Newest, shown 5 days ago, NEW badge. Electrolux dryer repair by tech AG. Reviewer profile shows '1 review · 1 photo'. Review photo (white Electrolux dryer) downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/dryer-electrolux-lethkris.webp. Location standardized to 'Orange County, CA' per Google source policy (city not exposed). Quotable testimonial (has photo + body well over 3 words). Part of the 89 to 93 GBP listing bump."
     },
     {
       "id": "google-adriana-lopez-2026-07-06",
@@ -611,7 +657,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/washer-lg-adriana-lopez.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), shown 6 days ago, NEW badge. LG front-load washer drain pump replacement by tech AG. Reviewer is a Local Guide ('15 reviews \u00b7 1 photo'). Brand LG confirmed from the review photo (LG Direct Drive front-loader). Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/washer-lg-adriana-lopez.webp. The photo/job visually matches the business photo completed-repair-washer-lg-drain-pump-santa-ana (likely the same repair). Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/2.png), shown 6 days ago, NEW badge. LG front-load washer drain pump replacement by tech AG. Reviewer is a Local Guide ('15 reviews · 1 photo'). Brand LG confirmed from the review photo (LG Direct Drive front-loader). Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/washer-lg-adriana-lopez.webp. The photo/job visually matches the business photo completed-repair-washer-lg-drain-pump-santa-ana (likely the same repair). Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
     },
     {
       "id": "google-pat-sepulveda-garcia-2026-07-06",
@@ -629,7 +675,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 1 week ago, NEW badge. Oven/range service by tech AG. Reviewer profile shows '1 review \u00b7 1 photo'. Review photo is a stainless professional gas range with a center griddle (visually resembles the Dacor range on completed-repair-oven-dacor-convection-fan-pico-rivera, owner-confirmed 2026-07-06 to be the same appliance as that recent-repairs Dacor convection-fan job, so brand=Dacor). Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 1 week ago, NEW badge. Oven/range service by tech AG. Reviewer profile shows '1 review · 1 photo'. Review photo is a stainless professional gas range with a center griddle (visually resembles the Dacor range on completed-repair-oven-dacor-convection-fan-pico-rivera, owner-confirmed 2026-07-06 to be the same appliance as that recent-repairs Dacor convection-fan job, so brand=Dacor). Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
     },
     {
       "id": "google-aghasahib-zarbaliyev-2026-07-06",
@@ -647,7 +693,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp",
-      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 2 weeks ago, NEW badge. Refrigerator not-cooling repair. Reviewer profile shows '6 reviews \u00b7 2 photos' (only one photo supplied). Body stored verbatim including the reviewer's phrasing 'Universal Appliance Services' (their wording, not the canonical business name); bodyHasTypos=false. Brand not visible in the photo (stainless doors), left null. Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-07-06 (new_reviews/1.png), shown 2 weeks ago, NEW badge. Refrigerator not-cooling repair. Reviewer profile shows '6 reviews · 2 photos' (only one photo supplied). Body stored verbatim including the reviewer's phrasing 'Universal Appliance Services' (their wording, not the canonical business name); bodyHasTypos=false. Brand not visible in the photo (stainless doors), left null. Photo downscaled 3393x1495 to a 125x125 square-crop webp thumbnail, saved to images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp. Location standardized to 'Orange County, CA' per Google source policy. Quotable testimonial. Part of the 89 to 93 GBP listing bump."
     },
     {
       "id": "google-christian-dorn-2026-06-19",
@@ -665,7 +711,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: owner-supplied GBP screenshot 2026-06-19 (new_reviews_1.png), sorted Newest, shown 1 hour ago. Dishwasher service by tech AG. Reviewer profile shows '3 reviews \u00b7 1 photo' (lifetime stats); no review photo was supplied, so reviewPhoto is null. Location standardized to 'Orange County, CA' per Google source policy (city not exposed; review text names no city). Part of the 84 to 89 GBP listing bump."
+      "_note": "Source: owner-supplied GBP screenshot 2026-06-19 (new_reviews_1.png), sorted Newest, shown 1 hour ago. Dishwasher service by tech AG. Reviewer profile shows '3 reviews · 1 photo' (lifetime stats); no review photo was supplied, so reviewPhoto is null. Location standardized to 'Orange County, CA' per Google source policy (city not exposed; review text names no city). Part of the 84 to 89 GBP listing bump."
     },
     {
       "id": "google-who-bangin-sports-talk-2026-06-19",
@@ -791,7 +837,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/wine-cooler-viking-at.webp",
-      "_note": "Source: new_reviews_scrshot.png (owner-supplied 2026-05-26). Reviewer is a Local Guide with 17 reviews \u00b7 45 photos. Non-native English: 'work' = 'works', 'fixed' = 'fixing'. Body preserved verbatim per policy. Reviewer's attached photo is an exterior of the home (cypress tree + brown front door), not the wine cooler itself. Technician (AG) confirmed job was Costa Mesa \u2014 evaporator + compressor replacement; job-site photos saved to images/real/business/completed-repair-wine-cooler-viking-costa-mesa-{brazing,compressor}.webp for use on Costa Mesa city page and wine cooler hub. Trailing '+++++' preserved verbatim; light trim recommended for display."
+      "_note": "Source: new_reviews_scrshot.png (owner-supplied 2026-05-26). Reviewer is a Local Guide with 17 reviews · 45 photos. Non-native English: 'work' = 'works', 'fixed' = 'fixing'. Body preserved verbatim per policy. Reviewer's attached photo is an exterior of the home (cypress tree + brown front door), not the wine cooler itself. Technician (AG) confirmed job was Costa Mesa — evaporator + compressor replacement; job-site photos saved to images/real/business/completed-repair-wine-cooler-viking-costa-mesa-{brazing,compressor}.webp for use on Costa Mesa city page and wine cooler hub. Trailing '+++++' preserved verbatim; light trim recommended for display."
     },
     {
       "id": "google-mike-bonilla-2026-05",
@@ -848,11 +894,11 @@
       "rating": 5,
       "approxDate": "2026-03",
       "dateText": "2 months ago",
-      "body": "AG of Universal Appliance Repair Group has helped our family with both our Thermador dishwasher and stove top \u2014 both times he did an excellent and professional job.",
+      "body": "AG of Universal Appliance Repair Group has helped our family with both our Thermador dishwasher and stove top — both times he did an excellent and professional job.",
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Has 3 photos on Google (dishwasher / stove top) \u2014 not yet captured."
+      "_note": "Has 3 photos on Google (dishwasher / stove top) — not yet captured."
     },
     {
       "id": "google-jennifer-trette-2026-02",
@@ -943,7 +989,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Has 3 photos on Google (dryer) \u2014 not yet captured."
+      "_note": "Has 3 photos on Google (dryer) — not yet captured."
     },
     {
       "id": "google-robert-clemmons-2026-01",
@@ -990,7 +1036,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: danette_vanover_full_review.png. Reviewer typos preserved verbatim ('on the past' \u2192 in the past; 'no charged' \u2192 no charge; 'foul order' \u2192 foul odor). Light editing recommended for display."
+      "_note": "Source: danette_vanover_full_review.png. Reviewer typos preserved verbatim ('on the past' → in the past; 'no charged' → no charge; 'foul order' → foul odor). Light editing recommended for display."
     },
     {
       "id": "google-russell-kadota-2026-01",
@@ -1017,7 +1063,7 @@
       "rating": 5,
       "approxDate": "2026-03",
       "dateText": "2 months ago",
-      "body": "Our technician was top rate in terms of product knowledge so the repairs on our dishwasher and wash machine were handled efficiently and on budget. Great customer service as well \u2014 I highly recommend this company.",
+      "body": "Our technician was top rate in terms of product knowledge so the repairs on our dishwasher and wash machine were handled efficiently and on budget. Great customer service as well — I highly recommend this company.",
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null
@@ -1062,7 +1108,7 @@
       "rating": 5,
       "approxDate": "2026-02",
       "dateText": "3 months ago",
-      "body": "We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear \u2014 we will call him again when another appliance needs repair.",
+      "body": "We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear — we will call him again when another appliance needs repair.",
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null
@@ -1096,7 +1142,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: steve_d_full_review.png. Reviewer is a Local Guide with 95 reviews and 29 photos available \u2014 owner export recommended for the photo set; would be valuable for hub pages."
+      "_note": "Source: steve_d_full_review.png. Reviewer is a Local Guide with 95 reviews and 29 photos available — owner export recommended for the photo set; would be valuable for hub pages."
     },
     {
       "id": "google-julie-l-2025-05",
@@ -1159,7 +1205,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Has 2 photos on Google (freezer) \u2014 not yet captured."
+      "_note": "Has 2 photos on Google (freezer) — not yet captured."
     },
     {
       "id": "google-jonathan-stone-2026-02",
@@ -1217,11 +1263,11 @@
       "rating": 5,
       "approxDate": "2025-09",
       "dateText": "8 months ago",
-      "body": "I had a great experience with AG and this appliance repair service. The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication\u2014he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable\u2014couldn't ask for better service!",
+      "body": "I had a great experience with AG and this appliance repair service. The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication—he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable—couldn't ask for better service!",
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: missing_data/kathy_calderon.png. Long-form review \u2014 strong testimonial for hub pages."
+      "_note": "Source: missing_data/kathy_calderon.png. Long-form review — strong testimonial for hub pages."
     },
     {
       "id": "google-paul-guns-2026-02",
@@ -1237,7 +1283,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Reviewer profile shows 4 reviews \u00b7 2 photos \u2014 has photos that may be available on the listing but not in screenshots."
+      "_note": "Reviewer profile shows 4 reviews · 2 photos — has photos that may be available on the listing but not in screenshots."
     },
     {
       "id": "google-william-nugent-2026-01",
@@ -1285,7 +1331,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/washer-michele-ohanian.webp",
-      "_note": "Review photo shows a front-load washer/dryer pair. Reviewer has 13 reviews, 2 photos \u2014 second photo may exist on the listing."
+      "_note": "Review photo shows a front-load washer/dryer pair. Reviewer has 13 reviews, 2 photos — second photo may exist on the listing."
     },
     {
       "id": "google-roger-antonie-2026-03",
@@ -1314,7 +1360,7 @@
       "rating": 5,
       "approxDate": "2025-05",
       "dateText": "a year ago",
-      "body": "Prompt, professional, clean, reasonably priced \u2014 would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure.",
+      "body": "Prompt, professional, clean, reasonably priced — would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure.",
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/washer-rick-deangelo.webp",
@@ -1335,7 +1381,7 @@
       "profilePhoto": null,
       "reviewPhoto": null,
       "bodyHasTypos": true,
-      "bodyNote": "\"PLease\" has capital L \u2014 mid-word capitalization artifact. Light correction to \"Please\" applied for display."
+      "bodyNote": "\"PLease\" has capital L — mid-word capitalization artifact. Light correction to \"Please\" applied for display."
     },
     {
       "id": "google-jeff-c-2026-03",
@@ -1398,7 +1444,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: review_scr_5.png (full text). 'communication' should be 'communicating' \u2014 preserve verbatim."
+      "_note": "Source: review_scr_5.png (full text). 'communication' should be 'communicating' — preserve verbatim."
     },
     {
       "id": "google-satara-armstrong-charlson-2026-03",
@@ -1493,7 +1539,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/washer-lg-patricio-villanueva.webp",
-      "_note": "Non-native English. 'fix' should be 'fixing'. Review photo shows an LG front-load washer with a paper receipt on top \u2014 light trust signal."
+      "_note": "Non-native English. 'fix' should be 'fixing'. Review photo shows an LG front-load washer with a paper receipt on top — light trust signal."
     },
     {
       "id": "google-dave-brisbin-2025-07",
@@ -1544,7 +1590,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Reviewer has 6 reviews \u00b7 5 photos on profile \u2014 may have additional photos. 'fix' typo + extra d's preserved verbatim."
+      "_note": "Reviewer has 6 reviews · 5 photos on profile — may have additional photos. 'fix' typo + extra d's preserved verbatim."
     },
     {
       "id": "google-b-p-2026-03",
@@ -1625,7 +1671,7 @@
       "bodyHasTypos": true,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Reviewer has 6 reviews \u00b7 4 photos on profile \u2014 additional photos may exist. 'fun motor' likely 'fan motor'; 'fix' should be 'fixing'."
+      "_note": "Reviewer has 6 reviews · 4 photos on profile — additional photos may exist. 'fun motor' likely 'fan motor'; 'fix' should be 'fixing'."
     },
     {
       "id": "google-suzan-hier-2025-05",
@@ -1688,7 +1734,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": "from-screenshot:review_scr_10.png",
-      "_note": "Reviewer has 10 reviews \u00b7 11 photos. Review photo shows kitchen with built-in fridge."
+      "_note": "Reviewer has 10 reviews · 11 photos. Review photo shows kitchen with built-in fridge."
     },
     {
       "id": "google-karen-myhra-2025-11",
@@ -1735,7 +1781,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Reviewer is Local Guide with 21 reviews \u00b7 26 photos."
+      "_note": "Reviewer is Local Guide with 21 reviews · 26 photos."
     },
     {
       "id": "google-veronique-reaver-2025-09",
@@ -1751,7 +1797,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Reviewer has 4 reviews \u00b7 7 photos on profile \u2014 additional photos may exist."
+      "_note": "Reviewer has 4 reviews · 7 photos on profile — additional photos may exist."
     },
     {
       "id": "google-george-2025-05",
@@ -1763,11 +1809,11 @@
       "rating": 5,
       "approxDate": "2025-05",
       "dateText": "a year ago",
-      "body": "He fixed the washing machine \ud83d\udc4d",
+      "body": "He fixed the washing machine 👍",
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/dishwasher-george.webp",
-      "_note": "Body says 'washing machine' but photo shows a dishwasher with hand pointing inside. Likely the body text was about washing machine but the photo was their dishwasher repair \u2014 the same tech may have done both. Recommend treating as dishwasher for hub-page assignment since the photo is the visual. Photo file: images/real/reviews/dishwasher-george.webp (extracted from screenshot)."
+      "_note": "Body says 'washing machine' but photo shows a dishwasher with hand pointing inside. Likely the body text was about washing machine but the photo was their dishwasher repair — the same tech may have done both. Recommend treating as dishwasher for hub-page assignment since the photo is the visual. Photo file: images/real/reviews/dishwasher-george.webp (extracted from screenshot)."
     },
     {
       "id": "google-andrea-walter-2025-05",
@@ -1843,7 +1889,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Reviewer has 8 reviews \u00b7 3 photos."
+      "_note": "Reviewer has 8 reviews · 3 photos."
     },
     {
       "id": "google-elizabeth-lovejoy-2026-04-30",
@@ -1877,7 +1923,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Source: missing_data/andrea_hall.png. Long-form review with strong testimonial language \u2014 good for hub pages."
+      "_note": "Source: missing_data/andrea_hall.png. Long-form review with strong testimonial language — good for hub pages."
     },
     {
       "id": "google-molla-islam-2026-04-22",
@@ -1894,7 +1940,7 @@
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Reviewer is Local Guide with 11 reviews \u00b7 2 photos \u2014 photos may exist on listing."
+      "_note": "Reviewer is Local Guide with 11 reviews · 2 photos — photos may exist on listing."
     },
     {
       "id": "google-joellyn-meadows-2026-04",
@@ -1937,7 +1983,7 @@
       "rating": 5,
       "approxDate": "2026-04",
       "dateText": "a month ago",
-      "body": "The gentleman was completely professional, clean, cleaned up after himself. It was an absolute pleasure having him repair my appliance \u2014 being the washer and dryer. Thank you so much",
+      "body": "The gentleman was completely professional, clean, cleaned up after himself. It was an absolute pleasure having him repair my appliance — being the washer and dryer. Thank you so much",
       "bodyStatus": "complete",
       "profilePhoto": null,
       "reviewPhoto": null
@@ -2038,7 +2084,7 @@
       "bodyStatus": "photo-only",
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/range-theresa-robinson.webp",
-      "_note": "Photo-only review \u2014 no body text. Photo shows a stainless pro-style range with red knobs. Usable as hub-page imagery only; never as a quoted testimonial."
+      "_note": "Photo-only review — no body text. Photo shows a stainless pro-style range with red knobs. Usable as hub-page imagery only; never as a quoted testimonial."
     },
     {
       "id": "google-luci-labue-2025-07",
@@ -2091,7 +2137,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "Yelp updated review (previous Aug 17, 2024). No photo attached to this review on Yelp (reviewer's profile photo count is lifetime, not per-review). Note: this is a cooktop installation/replacement, not a repair \u2014 still credible trust signal."
+      "_note": "Yelp updated review (previous Aug 17, 2024). No photo attached to this review on Yelp (reviewer's profile photo count is lifetime, not per-review). Note: this is a cooktop installation/replacement, not a repair — still credible trust signal."
     },
     {
       "id": "yelp-mrs-d-2024-08",
@@ -2125,7 +2171,7 @@
       "bodyHasTypos": false,
       "profilePhoto": null,
       "reviewPhoto": null,
-      "_note": "1-star review. Reviewer's displayed location is San Bernardino, CA \u2014 outside the business's Orange County service area, which likely explains the no-show (logistics/range mismatch, not a service quality issue). Captured for accurate rating math; never displayed as testimonial (filtered by 5-star precondition in testimonial-selection.md step 1)."
+      "_note": "1-star review. Reviewer's displayed location is San Bernardino, CA — outside the business's Orange County service area, which likely explains the no-show (logistics/range mismatch, not a service quality issue). Captured for accurate rating math; never displayed as testimonial (filtered by 5-star precondition in testimonial-selection.md step 1)."
     }
   ]
 }
