@@ -73,8 +73,17 @@ content rather than a decision point, so a soft finding.
 
 1. Genuine city-specificity in "About Riverside"; it passes the "could only be said about Riverside"
    test.
-2. Disciplined same-day honesty: "when that schedule is open" is threaded through the hero, AI block,
-   process step 2, two FAQs and the CTA. No unconditional same-day promise anywhere.
+2. Disciplined same-day honesty **in the body copy**: "when that schedule is open" is threaded
+   through the hero, AI block, process step 2, two FAQs and the CTA.
+
+   > **Correction, added after review.** This strength was originally written as "no unconditional
+   > same-day promise anywhere", and that was false. The `<title>`, `og:title` and `twitter:title`
+   > all read "Same-Day Service" flat. Assessment A checked the rendered copy and generalised the
+   > result to the whole page; the `<head>` was never looked at. That is the same class of miss
+   > seo-content's 2026-08-15 history note records, where meta tags were the last surface found
+   > carrying a stale scheduling claim, because nothing in `npm test` checks them for accuracy.
+   > `/review` caught it. Fixed in `af7ceac` by dropping the phrase from all three tags, matching
+   > the Corona and Palm Springs pattern.
 3. Structural parity with the Corona and Palm Springs siblings.
 
 ---
