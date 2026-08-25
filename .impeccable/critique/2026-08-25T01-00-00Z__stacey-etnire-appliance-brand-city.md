@@ -1,5 +1,30 @@
 # Impeccable Critique: Stacey Etnire's appliance, brand and city
 
+> ## WITHDRAWN AFTER REVIEW. The change this critique scored is no longer in the PR.
+>
+> Both assessments below examined a diff that set `appliance='washer'`, `brand='Samsung'` and
+> `location='Mission Viejo, CA'` under testimonial-selection Exception 2. Independent review
+> rejected that evidence and was right, so all three fields were reverted to their captured values
+> and the PR now carries only the finding.
+>
+> **Neither assessment was wrong about what it measured**, and that is the point worth keeping.
+> Assessment B's browser evidence (the renamed image loads, decodes 768x338, 0 of 30 requests 404,
+> the filter buckets move 21/32/115) was all accurate. Assessment A's P2, that the card claimed a
+> specificity its own visible proof did not show, was pointing straight at the real defect. **I read
+> it as a presentation trade-off and argued it away**; the reviewer read the same gap as an evidence
+> failure and went and checked the photographs. Assessment A got there first and I did not listen.
+>
+> What the photographs showed, at full magnification: the shared black service sticker is Samsung's
+> GENERIC product-support label, register-product / read-manual / headset icons plus a QR, factory
+> applied in the same position on every unit of the model line, not a serial plate. The code beneath
+> the QR is illegible in both images. The review photo is an extreme close crop with no surroundings
+> at all, so the "same visible surroundings" half of Exception 2 Part 1 could never have been
+> checked. The match is consistent with the same unit; it does not establish it. That left the
+> owner's say-so doing both of the rule's two jobs, which is the exact failure it names.
+>
+> The scores below are left as they were recorded rather than restated, because a critique of a
+> withdrawn change is a record of what was thought at the time, not a verdict on what shipped.
+
 **Date:** 2026-08-25
 **Branch:** `content/stacey-etnire-mission-viejo`
 **Target:** `pages/testimonials.html` (the only rendered file in the diff)
