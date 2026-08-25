@@ -19,6 +19,16 @@ function isRedirectStub(absPath) {
   return /http-equiv=["']refresh["']/i.test(head);
 }
 
+// A noindexed page (offline by owner decision, kept live and reversible) must never
+// appear in the sitemap either. Detecting the robots meta keeps this list-free, the
+// same way isRedirectStub() is: any current or future noindexed page is auto-excluded
+// without a hardcoded path list to maintain.
+function isNoIndex(absPath) {
+  const head = fs.readFileSync(absPath, 'utf8').slice(0, 1500);
+  const match = head.match(/<meta\s+name=["']robots["']\s+content=["']([^"']*)["']/i);
+  return !!match && /noindex/i.test(match[1]);
+}
+
 function priority(urlPath) {
   if (urlPath === '/') return '1.0';
   if (urlPath.startsWith('/pages/services')) return '0.9';
@@ -51,7 +61,7 @@ function collectFiles(dir, files = []) {
       if (!EXCLUDE_DIRS.has(entry.name)) collectFiles(path.join(dir, entry.name), files);
     } else if (entry.name.endsWith('.html') && !EXCLUDE_FILES.has(entry.name)) {
       const abs = path.join(dir, entry.name);
-      if (!isRedirectStub(abs)) files.push(abs);
+      if (!isRedirectStub(abs) && !isNoIndex(abs)) files.push(abs);
     }
   }
   return files;
