@@ -49,9 +49,9 @@ a flat tack-on at the end of a vivid paragraph about 109 degree summers, hard gr
 condenser coils, reading like a leftover SEO stub in the strongest passage on the page. *Fixed by
 cutting it*, not rewording: the paragraph is about Palm Springs and never needed it.
 
-**[P2] "Click any city" contradicted by 13 of 44 cards. WORSENED BY THIS CHANGE. FIXED.**
+**[P2] "Click any city" contradicted by 13 of 50 cards. WORSENED BY THIS CHANGE. FIXED.**
 `pages/service-areas.html`. The grid caption read "Click any city to book a repair or learn more
-about service in your area" above a grid where 13 cards are plain `div`s. Twelve predate this change;
+about service in your area" above a grid of 50 cards, 13 of them plain `div`s. Twelve predate this change;
 Corona is the thirteenth, which is what made it worth fixing now. A Corona homeowner following the
 instruction literally taps the card, nothing happens, and no on-card text explains why. *Fixed*: the
 caption now describes what the grid does and reassures the reader that an unlinked city is still
@@ -112,3 +112,17 @@ contains zero `article:modified_time` or `dateModified` lines.
 verified by command line before the kill and confirmed gone). A stale reused PID that turned out to be
 an unrelated Notepad process was correctly identified as not its own and left untouched. This is the
 behaviour the earlier incident in this session lacked.
+
+---
+
+## Correction, after review
+
+`/review` recounted the grid and found this file said **44** cards where the page actually renders
+**50** (37 `.city-card.primary-city` + 13 `.city-card--info`). Recounted independently here and the
+reviewer is right. Corrected above.
+
+The finding and its fix are unaffected: 13 unclickable cards under a "Click any city" caption is the
+defect either way. But a document whose own framing is "measured, not inferred" got a number wrong,
+which is the third wrong count in this session, so it is recorded rather than silently patched. The
+figure came from Assessment A's prose and was carried into this snapshot without being re-derived.
+**Re-derive every count you copy from an assessment, including your own.**
