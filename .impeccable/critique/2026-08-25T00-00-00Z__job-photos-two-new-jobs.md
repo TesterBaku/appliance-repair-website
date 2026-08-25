@@ -16,7 +16,7 @@ sub-agents, neither seeing the other's output.
 
 ## Assessment A: Design Review
 
-**AI slop verdict: no absolute-ban violations.** None of the seven insertions introduce new
+**AI slop verdict: no absolute-ban violations.** None of the eight insertions introduce new
 structure; each clones the sibling card markup already on its page. One real tell was found in the
 new copy, below.
 
@@ -78,7 +78,7 @@ in the title while it is unknown.
 
 ### Strengths
 
-1. Structural fidelity: all seven insertions replicate sibling markup, inline styles, radius, shadow
+1. Structural fidelity: all eight insertions replicate sibling markup, inline styles, radius, shadow
    and the full `<picture>`/`srcset`/`sizes` pattern, and read as originally authored.
 2. The diff incidentally repairs two pre-existing stranded trailing rows (Irvine 5 to 6, dishwasher
    hub 5 to 6).
@@ -143,3 +143,25 @@ that alt text stands as written. The Samsung alt originally said the washer stan
 no readable badge, so the claim was cut to "a white dryer" across all five surfaces before this
 critique began. This is not a critique finding; it is recorded here because the corrected text is
 what both assessments measured.
+
+---
+
+## Correction, after review
+
+`/review` recounted the insertions and found this file said **seven** where the diff makes
+**eight**: there are 7 touched files, but `pages/recent-repairs.html` gains two cards, the Bosch
+and the Samsung, not one. Recounted independently and the reviewer is right. Corrected in both
+places above.
+
+Nothing load-bearing moved. The schema parity figure (53 cards / 53 `ImageObject`), the layout
+measurements and the test results were all re-derived by the reviewer and matched to the decimal.
+But this is the fourth miscount in this session's documents, and it landed in the one file whose
+entire claim to authority is that its numbers were measured rather than inferred, so it is recorded
+here rather than quietly patched.
+
+The mechanism was the same each time: a count was carried across from an assessment's prose into a
+summary sentence without being re-derived against the artifact. The rule that follows from it is
+already written in the 2026-08-24 Corona snapshot and was not applied here: **re-derive every count
+you copy, including from your own earlier work.** Writing it down twice has not been enough; the
+cheap mechanical version is to count from the file with a command at the moment of writing the
+sentence, not to remember a number from a paragraph above.
