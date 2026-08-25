@@ -17,10 +17,17 @@
 > What the photographs showed, at full magnification: the shared black service sticker is Samsung's
 > GENERIC product-support label, register-product / read-manual / headset icons plus a QR, factory
 > applied in the same position on every unit of the model line, not a serial plate. The code beneath
-> the QR is illegible in both images. The review photo is an extreme close crop with no surroundings
-> at all, so the "same visible surroundings" half of Exception 2 Part 1 could never have been
-> checked. The match is consistent with the same unit; it does not establish it. That left the
+> the QR is illegible in both images. The review photo is a close crop whose only non-appliance
+> content is a narrow, out-of-focus strip of textured tan surface at the right edge, with no shape
+> or fitting to match, so the "same visible surroundings" half of Exception 2 Part 1 gets no
+> purchase. The match is consistent with the same unit; it does not establish it. That left the
 > owner's say-so doing both of the rule's two jobs, which is the exact failure it names.
+>
+> **Corrected after a second review pass.** This banner first said the review photo had no
+> surroundings in frame at all. It does have some, and the reviewer went and looked. Nothing about
+> the conclusion moves, since the strip is featureless, but overstating a finding in the corrective
+> direction is the same failure as the overstatement being corrected, so it is fixed here and in the
+> record rather than quietly smoothed.
 >
 > The scores below are left as they were recorded rather than restated, because a critique of a
 > withdrawn change is a record of what was thought at the time, not a verdict on what shipped.
