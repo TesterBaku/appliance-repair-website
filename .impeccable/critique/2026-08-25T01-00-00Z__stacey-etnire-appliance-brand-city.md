@@ -1,36 +1,39 @@
 # Impeccable Critique: Stacey Etnire's appliance, brand and city
 
-> ## WITHDRAWN AFTER REVIEW. The change this critique scored is no longer in the PR.
+> ## Partially withdrawn. The card change below SHIPS; the city label does not.
 >
-> Both assessments below examined a diff that set `appliance='washer'`, `brand='Samsung'` and
-> `location='Mission Viejo, CA'` under testimonial-selection Exception 2. Independent review
-> rejected that evidence and was right, so all three fields were reverted to their captured values
-> and the PR now carries only the finding.
+> Both assessments scored a diff that set `appliance='washer'`, `brand='Samsung'` and
+> `location='Mission Viejo, CA'`. After two review rounds the change was split:
 >
-> **Neither assessment was wrong about what it measured**, and that is the point worth keeping.
-> Assessment B's browser evidence (the renamed image loads, decodes 768x338, 0 of 30 requests 404,
-> the filter buckets move 21/32/115) was all accurate. Assessment A's P2, that the card claimed a
-> specificity its own visible proof did not show, was pointing straight at the real defect. **I read
-> it as a presentation trade-off and argued it away**; the reviewer read the same gap as an evidence
-> failure and went and checked the photographs. Assessment A got there first and I did not listen.
+> - **Appliance, brand, the renamed photo and the card ship**, on the owner's dated attestation.
+>   That is the pool's established practice: 21 of the 87 records carrying an appliance have one
+>   the review body never names.
+> - **The city does not ship.** Exception 2's Part 1 fails on its own terms: the only feature the
+>   two photos share is Samsung's generic product-support sticker, factory-applied identically on
+>   every unit of the model line, so a second person checking the images can agree it is the same
+>   MODEL but not the same UNIT. The rule's own lines decide it, and neither turns on the owner's
+>   credibility: "A technician saying that's the same job is not sufficient on its own", and
+>   "A later audit must be able to re-check the claim without asking anyone."
 >
-> What the photographs showed, at full magnification: the shared black service sticker is Samsung's
-> GENERIC product-support label, register-product / read-manual / headset icons plus a QR, factory
-> applied in the same position on every unit of the model line, not a serial plate. The code beneath
-> the QR is illegible in both images. The review photo is a close crop whose only non-appliance
-> content is a narrow, out-of-focus strip of textured tan surface at the right edge, with no shape
-> or fitting to match, so the "same visible surroundings" half of Exception 2 Part 1 gets no
-> purchase. The match is consistent with the same unit; it does not establish it. That left the
-> owner's say-so doing both of the rule's two jobs, which is the exact failure it names.
+> **The rendered diff that ships is byte-identical to what both assessments measured**, verified
+> with `git diff 4018028 -- pages/testimonials.html` returning empty. The city is a JSON field and
+> was never rendered on a card, so removing it changes nothing either assessment looked at. That is
+> why this snapshot stands for the shipped change rather than being re-run.
 >
-> **Corrected after a second review pass.** This banner first said the review photo had no
-> surroundings in frame at all. It does have some, and the reviewer went and looked. Nothing about
-> the conclusion moves, since the strip is featureless, but overstating a finding in the corrective
-> direction is the same failure as the overstatement being corrected, so it is fixed here and in the
-> record rather than quietly smoothed.
+> **Assessment A's P2 is the finding that mattered and it is accepted, not argued away this time.**
+> It said the card claims a specificity its own visible proof does not show. True, and it remains
+> true: the label rests on the owner's records, not on anything a reader can see. That is the same
+> footing as the other 21 records, and it is the reason the city, which publishes a customer's
+> location, is held to a bar the appliance and brand are not. My first response to that P2 was to
+> reframe it as a presentation trade-off and move on. The reviewer read the same gap as an evidence
+> failure and went and looked at the photographs.
 >
-> The scores below are left as they were recorded rather than restated, because a critique of a
-> withdrawn change is a record of what was thought at the time, not a verdict on what shipped.
+> **One correction inside the correction:** an earlier version of this banner said the review photo
+> had no surroundings in frame at all. It has a narrow, featureless strip of tan surface at the
+> right edge. The conclusion does not move, but overstating in the corrective direction is the same
+> failure as the overstatement being corrected.
+>
+> Scores below are left as recorded rather than restated.
 
 **Date:** 2026-08-25
 **Branch:** `content/stacey-etnire-mission-viejo`
