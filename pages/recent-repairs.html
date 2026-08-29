@@ -131,6 +131,13 @@
     "image": [
       {
         "@type": "ImageObject",
+        "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.jpg",
+        "name": "LG Washer and Dryer Maintenance: Foothill Ranch, CA",
+        "description": "Graphite LG front-load washer and dryer pair standing side by side in a Foothill Ranch, CA laundry room during a maintenance visit.",
+        "contentLocation": "Foothill Ranch, CA"
+      },
+      {
+        "@type": "ImageObject",
         "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-dishwasher-bosch-spray-arm-irvine.jpg",
         "name": "Bosch Dishwasher Spray Arm Replacement: Irvine, CA",
         "description": "Stainless Bosch built-in dishwasher with a SilencePlus 50 dBA control panel, set under a quartz countertop on a tile floor in an Irvine kitchen, after the spray arm was replaced because it had stopped spraying water onto the dishes.",
@@ -852,6 +859,19 @@
     <!-- GALLERY -->
     <section class="gallery-section" aria-label="Completed repairs gallery">
       <div class="gallery-grid" id="gallery-grid">
+        <!-- Card: LG washer and dryer maintenance (Foothill Ranch) -->
+        <div class="repair-card" data-appliance="washer dryer" data-brand="lg" data-city="foothill-ranch">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.webp 1024w" type="image/webp" sizes="(max-width:480px) 100vw, (max-width:900px) 50vw, 360px">
+            <img class="card-photo" src="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.jpg" alt="Graphite LG front-load washer and dryer side by side in a Foothill Ranch laundry room during a maintenance visit" width="1024" height="768" loading="lazy">
+          </picture>
+          <div class="card-body">
+            <div class="card-pill">LG &middot; Washer &amp; Dryer</div>
+            <div class="card-title">Washer &amp; Dryer Maintenance</div>
+            <div class="card-location">Foothill Ranch, CA</div>
+            <p class="card-caption">We documented this graphite LG front-load washer and dryer pair during a maintenance visit in Foothill Ranch.</p>
+          </div>
+        </div>
         <!-- Card: Bosch dishwasher spray arm replacement (Irvine) -->
         <div class="repair-card" data-appliance="dishwasher" data-brand="bosch" data-city="irvine">
           <picture>
@@ -1686,7 +1706,8 @@
         let lastVisible = null;
         let secondLastVisible = null;
         cards.forEach(function (card) {
-          const show = (active.appliance === 'all' || card.dataset.appliance === active.appliance)
+          const appliances = (card.dataset.appliance || '').split(/\s+/);
+          const show = (active.appliance === 'all' || appliances.includes(active.appliance))
                     && (active.brand === 'all' || card.dataset.brand === active.brand);
           card.toggleAttribute('hidden', !show);
           card.classList.remove('grid-orphan', 'pair-a', 'pair-b');
