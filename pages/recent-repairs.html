@@ -53,7 +53,7 @@
     .filters-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
     .filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .filter-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; }
-    .chip { background: transparent; border: 1.5px solid var(--border-subtle); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600; color: var(--text-sub); cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; white-space: nowrap; }
+    .chip { background: transparent; border: 1.5px solid var(--border-subtle); border-radius: 20px; padding: 5px 14px; min-height: 44px; display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: var(--text-sub); cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; white-space: nowrap; }
     .chip:hover { border-color: var(--brand-text); color: var(--brand-text); }
     .chip.active { background: var(--brand-dark); border-color: var(--brand-dark); color: var(--surface); }
 
@@ -166,6 +166,13 @@
       },
       {
         "@type": "ImageObject",
+        "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-cooktop-empava-installed-fullerton.jpg",
+        "name": "Empava Gas Cooktop Replacement: Fullerton, CA",
+        "description": "Stainless Empava gas cooktop installed in a Fullerton, CA kitchen as part of a cooktop replacement.",
+        "contentLocation": "Fullerton, CA"
+      },
+      {
+        "@type": "ImageObject",
         "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-oven-kitchenaid-temperature-sensor-irvine.jpg",
         "name": "KitchenAid Double Wall Oven Temperature Sensor Replacement: Irvine, CA",
         "description": "KitchenAid stainless built-in double wall oven with a warming drawer below, set into maple cabinetry in an Irvine kitchen, after the oven temperature sensor was replaced.",
@@ -247,6 +254,13 @@
         "name": "GE Monogram Refrigerator Water Filter and Coil Service: Orange, CA",
         "description": "Built-in GE Monogram side-by-side refrigerator serviced at the same Orange home as the Thermador range repair: the water filter was replaced and the condenser coil cleaned.",
         "contentLocation": "Orange, CA"
+      },
+      {
+        "@type": "ImageObject",
+        "contentUrl": "https://fixappliancesfast.com/images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim.jpg",
+        "name": "Monogram Refrigerator Control and Inverter Board Replacements: Anaheim, CA",
+        "description": "Stainless Monogram refrigerator with its upper service compartment open, showing wiring and electrical components during control-board and inverter-board replacements in Anaheim, CA.",
+        "contentLocation": "Anaheim, CA"
       },
       {
         "@type": "ImageObject",
@@ -856,7 +870,9 @@
           <button class="chip" data-filter="brand" data-value="maytag">Maytag</button>
           <button class="chip" data-filter="brand" data-value="thermador">Thermador</button>
           <button class="chip" data-filter="brand" data-value="dacor">Dacor</button>
+          <button class="chip" data-filter="brand" data-value="empava">Empava</button>
           <button class="chip" data-filter="brand" data-value="ge">GE</button>
+          <button class="chip" data-filter="brand" data-value="monogram">Monogram</button>
           <button class="chip" data-filter="brand" data-value="samsung">Samsung</button>
           <button class="chip" data-filter="brand" data-value="bosch">Bosch</button>
           <button class="chip" data-filter="brand" data-value="frigidaire">Frigidaire</button>
@@ -930,6 +946,19 @@
             <div class="card-title">Spark Module &amp; Igniter Replacement</div>
             <div class="card-location">Newport Beach, CA</div>
             <p class="card-caption">This Thermador professional gas cooktop in Newport Beach clicked non-stop, even with every burner switched off. We replaced the spark module and the failed spark igniter, so the burners light on demand and stay quiet in between.</p>
+          </div>
+        </div>
+        <!-- Card: Empava gas cooktop replacement (Fullerton) -->
+        <div class="repair-card" data-appliance="cooktop" data-brand="empava" data-city="fullerton">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-cooktop-empava-installed-fullerton-480w.webp 480w, ../images/real/business/completed-repair-cooktop-empava-installed-fullerton.webp 1024w" type="image/webp" sizes="(max-width:480px) 100vw, (max-width:900px) 50vw, 360px">
+            <img class="card-photo" src="../images/real/business/completed-repair-cooktop-empava-installed-fullerton.jpg" alt="Stainless Empava gas cooktop installed in a light-colored countertop above a white oven in Fullerton, CA" width="1024" height="768" loading="lazy">
+          </picture>
+          <div class="card-body">
+            <div class="card-pill">Empava &middot; Cooktop</div>
+            <div class="card-title">Gas Cooktop Replacement</div>
+            <div class="card-location">Fullerton, CA</div>
+            <p class="card-caption">Stainless Empava gas cooktop installed in a Fullerton kitchen as part of a cooktop replacement.</p>
           </div>
         </div>
         <!-- Card: KitchenAid double wall oven temperature sensor replacement (Irvine) -->
@@ -1086,6 +1115,19 @@
             <div class="card-title">Water Filter and Coil Service</div>
             <div class="card-location">Orange, CA</div>
             <p class="card-caption">Built-in GE Monogram side-by-side refrigerator serviced at the same Orange home as the Thermador range repair: the water filter was replaced and the condenser coil cleaned to keep the sealed system running efficiently.</p>
+          </div>
+        </div>
+        <!-- Card: Monogram refrigerator control and inverter board replacements (Anaheim) -->
+        <div class="repair-card" data-appliance="refrigerator" data-brand="monogram" data-city="anaheim">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim.webp 768w" type="image/webp" sizes="(max-width:480px) 100vw, (max-width:900px) 50vw, 360px">
+            <img class="card-photo" src="../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim.jpg" alt="Stainless Monogram refrigerator with the upper service compartment open, showing wiring and electrical components in Anaheim, CA" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="card-body">
+            <div class="card-pill">Monogram &middot; Refrigerator</div>
+            <div class="card-title">Control &amp; Inverter Board Replacements</div>
+            <div class="card-location">Anaheim, CA</div>
+            <p class="card-caption">Monogram refrigerator with the upper service compartment open, showing wiring and electrical components during control-board and inverter-board replacements in Anaheim.</p>
           </div>
         </div>
         <!-- Card: Samsung refrigerator condenser coil cleaning (Garden Grove) -->
