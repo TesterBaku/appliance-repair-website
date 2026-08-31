@@ -20,8 +20,8 @@ The Impeccable detector's seven em-dash findings were false positives from verba
 
 ## Validation
 
-Run against isolated worktree commit `bee7a66`:
+Run against isolated worktree commit `183bc46`:
 
 - `npm test` passed: 176 pages, review count 124 across 67 surfaces, 121 testimonial cards, and 118 quoted cards with Review JSON-LD.
 - `npm run screenshot` passed for the complete static site.
-- `PORT=8803 npm run test:functional` passed: 1,310 tests, including the Sub-Zero hub checks and site-wide mobile tap-target sweep.
+- `PORT=8804 npm run test:functional` passed: 1,310 tests, including the Sub-Zero hub checks and site-wide mobile tap-target sweep.
