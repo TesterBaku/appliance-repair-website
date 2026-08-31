@@ -4,7 +4,7 @@
 
 - Added six captured Google reviews to `data/testimonials.json`.
 - Published the Google review count from 118 to 124 with `npm run build:review-counts -- --publish`.
-- Added the curated testimonial cards and the matching count surfaces.
+- Added the curated testimonial cards and the matching count surfaces. Thang Bui's short refrigerator review is included under the appliance-specific quality-floor exception.
 - Placed Mark Lauria's verified Sub-Zero refrigerator review on the Sub-Zero and San Clemente hubs, with the corresponding review image and usage-tracker entry.
 
 ## Independent assessment
@@ -22,7 +22,6 @@ The Impeccable detector's seven em-dash findings were false positives from verba
 
 Run against isolated worktree commit `bee7a66`:
 
-- `npm test` passed: 176 pages, review count 124 across 67 surfaces, 120 testimonial cards, and 117 quoted cards with Review JSON-LD.
+- `npm test` passed: 176 pages, review count 124 across 67 surfaces, 121 testimonial cards, and 118 quoted cards with Review JSON-LD.
 - `npm run screenshot` passed for the complete static site.
 - `PORT=8803 npm run test:functional` passed: 1,310 tests, including the Sub-Zero hub checks and site-wide mobile tap-target sweep.
-
