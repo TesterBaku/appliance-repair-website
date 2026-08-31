@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-08-24** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-08-30** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 106 |
-| On exactly 1 hub (1 free slot each) | 4 |
-| On exactly 2 hubs (at cap) | 98 |
+| Distinct reviews currently on >=1 hub | 107 |
+| On exactly 1 hub (1 free slot each) | 6 |
+| On exactly 2 hubs (at cap) | 97 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **4** |
-| Approx. new city hubs supportable @ 3/hub | **~1** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **6** |
+| Approx. new city hubs supportable @ 3/hub | **~2** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 4 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 6 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -42,8 +42,10 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Review | On hub |
 |---|---|
 | Eleonora Abukova | dishwasher-repair-cost-hub |
+| Jeff C | refrigerator-repair-cost-hub |
 | Kathleen Street | riverside |
 | Laurie Summers | wolf-hub |
+| Noelle B | yorba-linda |
 | Satara Armstrong Charlson | viking-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
@@ -86,7 +88,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Greg Schnabel | costa-mesa, miele-hub |
 | J. Feria | dana-point, rancho-santa-margarita |
 | James Wehrman | stanton, frigidaire-hub |
-| Jeff C | refrigerator-repair-cost-hub, sub-zero-hub |
 | Jeff Lane Songs | kitchenaid-hub, samsung-hub |
 | Jennifer Trette | costa-mesa, cypress |
 | John Dinger | cost-hub, dana-point |
@@ -110,6 +111,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Marcy Kucik | anaheim, refrigerator-repair-hub |
 | Marie Bennett | bosch-hub, dcs-hub |
 | Mark Koss | rancho-santa-margarita, thermador-hub |
+| Mark Lauria | san-clemente, sub-zero-hub |
 | Mark Rivera | lake-forest, washer-repair-hub |
 | Matt Semonza | kitchenaid-hub, whirlpool-hub |
 | Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
@@ -117,7 +119,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Michele Ohanian | ge-hub, refrigerator-repair-cost-hub |
 | Muhammed Nusratli | kenmore-hub, oven-repair-cost-hub |
 | Naoki MacInnes | long-beach, wine-cooler-repair-hub |
-| Noelle B | san-clemente, yorba-linda |
 | Olga Garcia | lg-hub, maytag-hub |
 | Pat Sepulveda-Garcia | corona, dcs-hub |
 | Patricio Jr Villanueva | la-habra, washer-repair-hub |
