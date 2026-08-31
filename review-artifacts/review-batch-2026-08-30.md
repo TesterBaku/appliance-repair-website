@@ -18,6 +18,8 @@ Both were corrected in commit `bee7a66`. Fresh independent reassessments approve
 
 The Impeccable detector's seven em-dash findings were false positives from verbatim customer-review text, which is explicitly exempt from the editorial-copy rule.
 
+Full dual-agent Impeccable critique: PASS, 34/40 from both independent assessments, with no P0 or P1 findings. The detector reported zero actionable findings. The only P2 observation is that the long testimonial archive remains dense despite the appliance filters, which is pre-existing and outside this batch's scope.
+
 ## Validation
 
 Run against isolated worktree commit `183bc46`:
