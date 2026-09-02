@@ -2667,6 +2667,11 @@ if (run('img-dimensions')) {
     }
     if (fileHasImg) checked['img-dimensions'].files++;
   }
+  // Unique "page|src" keys among the flagged occurrences — the same unit the
+  // baseline is keyed and sized in. Kept distinct from `flagged` (a COUNT of
+  // <img> occurrences, since one page can repeat the same src on several
+  // tags) so the summary line never mixes the two units.
+  checked['img-dimensions'].flaggedKeys = flaggedKeys.size;
 
   if (WRITE_BASELINE) {
     flaggedDetails.sort((a, b) => a.key.localeCompare(b.key));
@@ -2710,7 +2715,7 @@ if (run('img-dimensions')) {
       : { entries: {} };
     const baselineEntries = baselineRaw.entries || {};
     const baselineKeySet = new Set(Object.keys(baselineEntries));
-    checked['img-dimensions'].baselineCount = baselineKeySet.size;
+    checked['img-dimensions'].baselineCount = baselineKeySet.size; // baseline is keyed, so this is already a key count
 
     for (const d of flaggedDetails) {
       if (!baselineKeySet.has(d.key)) {
@@ -2787,7 +2792,14 @@ if (checked['area-served-parity'])   parts.push(`areaServed JSON-LD matches ${ch
 if (checked['hero-preload'])         parts.push(`.hub-hero-bg preload <link> present + resolves to the CSS image on all ${checked['hero-preload'].files} pages with a hero background-image`);
 if (checked['img-dimensions']) {
   const c = checked['img-dimensions'];
-  parts.push(`img width/height ratchet held on ${c.checkedEntries} decoded <img> entries across ${c.files} files (${c.flagged} flagged >0.15 ratio delta, baseline covers ${c.baselineCount !== undefined ? c.baselineCount : c.flagged}; ${c.withinTolerance} mismatched-but-in-tolerance, informational)`);
+  // Two distinct units, both stated explicitly so neither reads as the other:
+  // `flagged` counts <img> OCCURRENCES (a page can repeat the same src on
+  // several tags), while `flaggedKeys`/`baselineCount` count unique
+  // "page|src" KEYS, the unit the baseline is sized in. In --write-img-baseline
+  // mode there is no separate baselineCount (nothing was read back), so fall
+  // back to flaggedKeys — the key count just written — never to `flagged`.
+  const keyCount = c.baselineCount !== undefined ? c.baselineCount : c.flaggedKeys;
+  parts.push(`img width/height ratchet held on ${c.checkedEntries} decoded <img> entries across ${c.files} files (${c.flagged} flagged occurrences = ${c.flaggedKeys} unique page|src keys; baseline covers ${keyCount} keys; ${c.withinTolerance} in-tolerance mismatches, informational)`);
 }
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
