@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-08-30",
+    "lastUpdated": "2026-09-02",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 124,
-        "publishedCount": 124,
-        "capturedCount": 123,
+        "totalReviewsOnListing": 126,
+        "publishedCount": 126,
+        "capturedCount": 125,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-09-02",
+            "note": "TRACK A CAPTURE + TRACK B PUBLISH, same day (per tasks/runbook-weekly-review-batch.md). Two 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshot new_review_scrnshot.png, sorted Newest, both carrying the NEW badge: Alexander Vershinin (refrigerator, Local Guide, 24 reviews / 2 photos, '14 hours ago', no review photo, quotable under quality-floor clause (b)) and Tog Valizada (Sub-Zero refrigerator, 8 reviews / 1 photo, '16 hours ago', three-paragraph body, review photo attached, quotable under quality-floor clause (a)). The dashboard header showed 5.0 / 126 reviews, so totalReviewsOnListing moved 124 to 126 and capturedCount 123 to 125; the remaining one-review gap is the long-standing uncaptured 2026-05-31 record. Tog's review photo (review_photo.webp, 3393x1495) was resized proportionally, no crop, to 768x338 WebP, saved to images/real/reviews/refrigerator-sub-zero-tog-valizada.webp; it does not match any existing images/real/business/ job photo closely enough to support a job-photo corroborated-attestation location, so both new records use the Orange County default location. PUBLISH: npm run build:review-counts -- --publish promoted publishedCount 124 to 126 and synchronized every site-wide count surface (AggregateRating.reviewCount, 'N verified 5-star Google reviews' prose including the testimonials-page meta/og/twitter descriptions, 'N Google reviews' hero copy + aria-label, 'Read all N reviews', the testimonials-page stat), no hand edits. Curated cards: both new reviews added to the top of pages/testimonials.html, taking the visible card total from 121 to 123 (multiple of three; filter pill updated by hand, out of the sync script's scope). Hub placement: Tog Valizada replaced Brian Brassil on the Sub-Zero brand hub (card + Review JSON-LD); Alexander Vershinin replaced Brian Brassil on the refrigerator-repair-cost hub (card + Review JSON-LD). Brian Brassil drops from the prior hub placements to 0 hubs, intentionally, to keep both hub sections at 3 cards and stay within the weekly ≤2-hubs allocation rule. The hub-usage tracker was regenerated from live HTML."
+          },
           {
             "date": "2026-08-30",
             "note": "TRACK A CAPTURE + TRACK B PUBLISH, same day (per tasks/runbook-weekly-review-batch.md). Six 5-star Google reviews transcribed from owner-supplied GBP screenshots Screenshot 2026-08-30 102005.png and Screenshot 2026-08-30 102049.png, sorted Newest: Daniel Eichkhoff (general), Thang Bui (refrigerator, seven-word body, pool-only), Chinese Student Association (Bosch dishwasher, review photo), Mark Lauria (Sub-Zero refrigerator, review photo), Chris Simons (no body, pool-only), and Charles (refrigerator). The dashboard header showed 5.0 / 124 reviews, so totalReviewsOnListing moved 118 to 124 and capturedCount 117 to 123; the remaining one-review gap is the long-standing uncaptured record from 2026-05-31. Two review photos were resized proportionally to 768x338 WebP. Mark Lauria's San Clemente label meets the job-photo corroborated-attestation bar: owner Rufat Malikov attested the Sub-Zero San Clemente job on 2026-08-30, and the supplied image visibly matches images/real/business/completed-repair-refrigerator-sub-zero-water-leak-drain-line-clean-san-clemente.jpg on the built-in stainless refrigerator, full-height handles, white paneled cabinetry, and adjacent kitchen layout. PUBLISH: npm run build:review-counts -- --publish promoted publishedCount 118 to 124 and synchronized 74 HTML files, with no hand-edited count sweep. Curated cards: Daniel, Chinese Student Association, Mark Lauria and Charles, plus existing Yelp review Linda B. to take the visible testimonials-page total from 115 to 120, a multiple of three. Mark Lauria replaced one generic review on each of the Sub-Zero and San Clemente hubs, reaching the allowed two hubs; the hub-usage tracker was regenerated from live HTML."
@@ -172,6 +176,42 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-alexander-vershinin-2026-09",
+      "source": "google",
+      "name": "Alexander Vershinin",
+      "location": "Orange County, CA",
+      "appliance": "refrigerator",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-09",
+      "dateText": "14 hours ago",
+      "isNew": true,
+      "body": "Great service! He was on time, clean, neat, and very professional. He did a great job repairing my fridge and I would definitely recommend him.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot new_review_scrnshot.png (2026-09-02), sorted Newest, NEW badge, 5-star, shown '14 hours ago', reviewer Alexander Vershinin is a Local Guide with 24 reviews / 2 photos on the reviewer's profile. Google 'Great price' tag ($50-100) is a Google attribute, not body text, and is not stored. Body copied verbatim, no typos. No review photo attached to this review. Quotable under quality-floor clause (b): no photo, 26-word body. Names the appliance 'fridge' (mapped to refrigerator) but no brand, so brand is null rather than guessed. Location 'Orange County, CA' Google default (reviewer city not exposed, no OC city named in the body, no job-photo corroborated attestation). Captured in the 2026-09-02 weekly batch."
+    },
+    {
+      "id": "google-tog-valizada-2026-09",
+      "source": "google",
+      "name": "Tog Valizada",
+      "location": "Orange County, CA",
+      "appliance": "refrigerator",
+      "brand": "Sub-Zero",
+      "rating": 5,
+      "approxDate": "2026-09",
+      "dateText": "16 hours ago",
+      "isNew": true,
+      "body": "Excellent experience from start to finish! The team did a fantastic job repairing our Sub Zero refrigerator. They were able to locate the original parts needed, complete the repair, and get everything installed very quickly, which meant very little downtime for us.\n\nThey were punctual, communicated clearly throughout the entire process, and the work was extremely clean and professional. Everything was handled efficiently and the finished result exceeded my expectations.\n\nIt's not always easy to find a company that is reliable, knowledgeable, and gets the job done right the first time. Highly recommend them for any appliance repair or installation!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/refrigerator-sub-zero-tog-valizada.webp",
+      "_note": "Source: owner-supplied GBP dashboard screenshot new_review_scrnshot.png plus review_photo.webp (2026-09-02), sorted Newest, NEW badge, 5-star, shown '16 hours ago', reviewer Tog Valizada has 8 reviews / 1 photo on the reviewer's profile. Body is three paragraphs, transcribed verbatim and joined with a blank line (\\n\\n) exactly as they appear in the GBP dashboard; the body names appliance 'refrigerator' and brand 'Sub Zero' (recorded as 'Sub-Zero' in the brand field per site style, body text left verbatim as written by the reviewer without the hyphen). Attached review photo (3393x1495) shows a stainless built-in SIDE-BY-SIDE refrigerator: two full-height doors with handles meeting at the centre, white beadboard cabinetry to the right. The only existing Sub-Zero business photo, images/real/business/completed-repair-refrigerator-sub-zero-water-leak-drain-line-clean-san-clemente.jpg, is a different unit (French-door style, paneled cabinetry), so there is no visual match; the job-photo corroborated-attestation location exception does not apply and location stays the Orange County default. Review photo resized proportionally (no crop) to 768x338 WebP, saved to images/real/reviews/refrigerator-sub-zero-tog-valizada.webp. Quotable under quality-floor clause (a): review photo plus a well over 2-word body. Captured in the 2026-09-02 weekly batch."
+    },
     {
       "id": "google-daniel-eichkhoff-2026-08-30",
       "source": "google",
