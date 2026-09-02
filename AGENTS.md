@@ -236,15 +236,15 @@ which loads automatically on every Claude Code session.
 
 ## Active plans (tasks/ — gitignored, local)
 - `tasks/backlog.md` — single source of truth for all open work: exhaustive, so nothing is lost, but
-  not prioritized and not re-verified. For *what to do next*, read `tasks/top_3_tasks_priority.md`
+  not prioritized and not re-verified. For *what to do next*, read `tasks/priorities.md`
   below, which is a re-measured subset of this file. (Includes the Months 2–3 themes; the May 11–Jun 7
   4-week schedule completed and was retired 2026-06-08.)
 - `tasks/lessons.md` — patterns learned from corrections; review at session start
-- `tasks/top_3_tasks_priority.md` — where the current round of top priorities is picked, with each
-  figure re-measured against a named master commit. Supersedes the backlog for "what to do next".
-  Read it before proposing work, and **reconcile any item you intend to start against `git log`
-  first**: four consecutive rounds have found the source documents wrong, including one item marked
-  queued whose shipping commit was already the HEAD of master.
+- `tasks/priorities.md`: the owner-approved three-tier view (high / medium / low-or-owner-blocked)
+  of the backlog, consolidated 2026-09-02 against master 7d2ec1e. Supersedes `tasks/top_3_tasks_priority.md`
+  (archived) for "what to do next". Read it before proposing work, and **reconcile any item you
+  intend to start against `git log` first**: four consecutive rounds have found the source documents
+  wrong, including one item marked queued whose shipping commit was already the HEAD of master.
 - `tasks/todo.md` — the per-task working plan required by Task Management step 1. It is recreated per
   task; when its work is fully merged it moves to `tasks/archive/` under a distinguishing dated name,
   so a stale one never shadows the next task.
