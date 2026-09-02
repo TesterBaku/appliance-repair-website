@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-six enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-seven enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -414,6 +414,30 @@
  *                    left implicit; see the "KNOWN LIMITATION" note on the
  *                    check itself.
  *
+ *   img-dimensions — every `<img>` tag that declares BOTH `width` and `height` attributes
+ *                    must have those attributes roughly match the image FILE's real decoded
+ *                    intrinsic aspect ratio, not just be present. Reuses the srcset-width
+ *                    check's pure-Node WebP/PNG/JPEG header decoder (same three formats, same
+ *                    "no dependency" discipline), extended to also read each format's height
+ *                    field alongside width. A mismatch is only FAILED when the declared aspect
+ *                    ratio (declared w/h) differs from the real one (real w/h) by more than
+ *                    0.15 absolute — the point at which the browser's own reserved-space box
+ *                    visibly shifts content once the real image paints (a CLS regression). A
+ *                    mismatched-but-in-tolerance pair (e.g. an off-by-a-few-px export) is
+ *                    counted and reported informationally, never failed. A RATCHET against
+ *                    test/img-dimension-baseline.json, same semantics as tap-target-baseline.json
+ *                    in test/functional.spec.js: a flagged img not in the baseline is a NEW
+ *                    failure; a baseline entry no longer flagged (ratio fixed, or the page/img
+ *                    no longer exists) is ALSO a failure, with a message to prune it — the
+ *                    baseline can only shrink. Regenerate it with
+ *                    `node test/content-integrity.js img-dimensions --write-img-baseline`.
+ *                    Added 2026-09-02 after tasks/backlog.md recorded 853 local `<img>` tags
+ *                    with both attributes, of which 202 across 75 files mismatch the real file
+ *                    and 151 are wrong enough (>0.15 ratio) to cause layout shift. Local
+ *                    images only: `src` is resolved against the page's own directory (site-
+ *                    absolute `/...` from the repo root, else relative to the page), and
+ *                    remote/`data:` sources are skipped — nothing to decode locally.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -435,7 +459,13 @@
  *                                             faq-jsonld-parity, contrast-aa,
  *                                             faq-schema-presence, gallery-parity, brand-tier,
  *                                             tel-target, umbrella-range, srcset-width,
- *                                             area-served-parity, hero-preload, title-length)
+ *                                             area-served-parity, hero-preload,
+ *                                             img-dimensions, title-length)
+ *
+ *   node test/content-integrity.js img-dimensions --write-img-baseline
+ *                                          — regenerate test/img-dimension-baseline.json
+ *                                            from the current tree (see the img-dimensions
+ *                                            docblock below).
  */
 
 'use strict';
@@ -2495,6 +2525,213 @@ if (run('hero-preload')) {
   }
 }
 
+// ── Check 24: img-dimensions ──────────────────────────────────────────────────
+// See the docblock above for the full rationale, threshold, and ratchet
+// semantics. Reuses the srcset-width check's WebP/PNG/JPEG header decoder
+// (same three formats, same "no dependency" discipline), extended here to
+// also read each format's height field alongside width — a separate function
+// scoped to this check, not a shared refactor of srcset-width's decoder, so
+// that check is left untouched.
+if (run('img-dimensions')) {
+  checked['img-dimensions'] = {
+    files: 0, entries: 0, checkedEntries: 0, flagged: 0, withinTolerance: 0,
+  };
+
+  const TOLERANCE = 0.15;
+  const BASELINE_PATH = path.join(root, 'test', 'img-dimension-baseline.json');
+  const WRITE_BASELINE = process.argv.includes('--write-img-baseline');
+
+  // Pure-Node intrinsic width+height decoder — same header layouts as
+  // decodeIntrinsicWidth() in the srcset-width check above, plus each
+  // format's height field.
+  function decodeIntrinsicSize(buf) {
+    // WebP: "RIFF"....'WEBP' container, then one of three sub-formats.
+    if (buf.length >= 30 && buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP') {
+      const fourcc = buf.toString('ascii', 12, 16);
+      if (fourcc === 'VP8 ') {
+        // Lossy: 14-bit LE width at 26, 14-bit LE height at 28.
+        return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
+      }
+      if (fourcc === 'VP8L') {
+        // Lossless: signature byte at 20, then a packed little-endian 32-bit
+        // value across bytes 21-24: bits 0-13 = width-1, bits 14-27 = height-1.
+        const value = buf[21] | (buf[22] << 8) | (buf[23] << 16) | (buf[24] << 24);
+        return { width: (value & 0x3fff) + 1, height: ((value >>> 14) & 0x3fff) + 1 };
+      }
+      if (fourcc === 'VP8X') {
+        // Extended: 24-bit LE canvas width at 24-26, 24-bit LE canvas height
+        // at 27-29, both stored as (real - 1).
+        return {
+          width: 1 + (buf[24] | (buf[25] << 8) | (buf[26] << 16)),
+          height: 1 + (buf[27] | (buf[28] << 8) | (buf[29] << 16)),
+        };
+      }
+      return null;
+    }
+    // PNG: 8-byte signature, then the IHDR chunk (4-byte length + 4-byte
+    // type + 4-byte BE width at 16, 4-byte BE height at 20).
+    if (buf.length >= 24 && buf.toString('hex', 0, 8) === '89504e470d0a1a0a') {
+      return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+    }
+    // JPEG: walk markers to the first Start-Of-Frame segment, same marker
+    // walk as decodeIntrinsicWidth() above (see its comments for the run-of-
+    // 0xFF and non-SOF-0xCx exclusions). SOF layout: length(2) precision(1)
+    // height(2) width(2) — height at m+4, width at m+6.
+    if (buf.length >= 4 && buf[0] === 0xff && buf[1] === 0xd8) {
+      let offset = 2;
+      while (offset < buf.length - 1) {
+        if (buf[offset] !== 0xff) { offset++; continue; }
+        let m = offset + 1;
+        while (m < buf.length && buf[m] === 0xff) m++;
+        if (m >= buf.length) break;
+        const marker = buf[m];
+        if (marker === 0x00) { offset = m + 1; continue; }
+        if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd9)) { offset = m + 1; continue; }
+        if (m + 2 >= buf.length) break;
+        const segLen = buf.readUInt16BE(m + 1);
+        const isSOF = marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
+        if (isSOF) {
+          if (m + 7 >= buf.length) return null;
+          return { height: buf.readUInt16BE(m + 4), width: buf.readUInt16BE(m + 6) };
+        }
+        if (segLen < 2) return null;
+        offset = m + 1 + segLen;
+      }
+      return null;
+    }
+    return null; // not a recognized WebP/PNG/JPEG header
+  }
+
+  const sizeCache = new Map(); // resolved absolute path -> {width,height} | null
+  const IMG_RE = /<img\b[^>]*>/gi;
+  const flaggedKeys = new Set();
+  const flaggedDetails = [];
+
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const fileDir = path.dirname(filePath);
+    const p = rel(filePath);
+    let fileHasImg = false;
+
+    for (const m of content.matchAll(IMG_RE)) {
+      const tag = m[0];
+      const srcM = tag.match(/\bsrc\s*=\s*["']([^"']+)["']/);
+      const wM   = tag.match(/\bwidth\s*=\s*["']?(\d+)["']?/);
+      const hM   = tag.match(/\bheight\s*=\s*["']?(\d+)["']?/);
+      if (!srcM || !wM || !hM) continue; // both attributes required, see docblock
+
+      const src = srcM[1];
+      if (/^(?:https?:)?\/\//.test(src) || src.startsWith('data:')) continue; // nothing to decode locally
+
+      fileHasImg = true;
+      checked['img-dimensions'].entries++;
+      const lineNo = content.slice(0, m.index).split('\n').length;
+
+      // Site-absolute ("/images/…") resolves from the repo root; everything
+      // else resolves relative to the HTML file's OWN directory, matching
+      // srcset-width and every other file-resolving check in this file.
+      const resolved = src.startsWith('/') ? path.join(root, src.slice(1)) : path.resolve(fileDir, src);
+
+      if (!fs.existsSync(resolved)) {
+        issues.push(`[IMG-DIMENSIONS] ${p}:${lineNo} — ${src} does not exist on disk (resolved to ${rel(resolved)}).`);
+        continue;
+      }
+
+      let size = sizeCache.get(resolved);
+      if (size === undefined) {
+        size = decodeIntrinsicSize(fs.readFileSync(resolved));
+        sizeCache.set(resolved, size);
+      }
+      if (!size || !size.width || !size.height) {
+        issues.push(`[IMG-DIMENSIONS] ${p}:${lineNo} — ${src} could not be decoded (unrecognized or malformed WebP/PNG/JPEG header at ${rel(resolved)}).`);
+        continue;
+      }
+
+      checked['img-dimensions'].checkedEntries++;
+      const declaredW = parseInt(wM[1], 10);
+      const declaredH = parseInt(hM[1], 10);
+      if (!declaredW || !declaredH) continue; // width="0" etc. — not a real declared box
+
+      if (declaredW === size.width && declaredH === size.height) continue; // exact match, nothing to report
+
+      const diff = Math.abs((declaredW / declaredH) - (size.width / size.height));
+      const key = `${p}|${src}`;
+
+      if (diff > TOLERANCE) {
+        checked['img-dimensions'].flagged++;
+        flaggedKeys.add(key);
+        flaggedDetails.push({ key, p, lineNo, src, declaredW, declaredH, realW: size.width, realH: size.height, diff });
+      } else {
+        checked['img-dimensions'].withinTolerance++;
+      }
+    }
+    if (fileHasImg) checked['img-dimensions'].files++;
+  }
+  // Unique "page|src" keys among the flagged occurrences — the same unit the
+  // baseline is keyed and sized in. Kept distinct from `flagged` (a COUNT of
+  // <img> occurrences, since one page can repeat the same src on several
+  // tags) so the summary line never mixes the two units.
+  checked['img-dimensions'].flaggedKeys = flaggedKeys.size;
+
+  if (WRITE_BASELINE) {
+    flaggedDetails.sort((a, b) => a.key.localeCompare(b.key));
+    const baseline = {
+      _README: [
+        'BASELINE OF <img> TAGS WHOSE DECLARED width/height ATTRIBUTES DISAGREE WITH THE',
+        "REAL FILE'S DECODED ASPECT RATIO BY MORE THAN 0.15. This is a RATCHET, not an",
+        'allowlist, matching test/tap-target-baseline.json in test/functional.spec.js.',
+        '',
+        'Recorded when the img-dimensions check was first written, from tasks/backlog.md',
+        '(lines 122-143): of 853 local <img> tags carrying both width and height, 202',
+        'across 75 files mismatch the real file, and 151 are wrong enough (>0.15 aspect-',
+        'ratio delta) to shift layout once the real image decodes.',
+        '',
+        'The check FAILS if: an <img> not listed here is flagged (new drift); or a listed',
+        'entry is no longer flagged (fixed, or its page/img no longer exists) — remove it.',
+        'The baseline can only shrink. Do NOT add an entry to make a failing run pass: a',
+        'newly-wrong declared box is a bug in the page, not a number to record here.',
+        '',
+        'Regenerate from the current tree with:',
+        '  node test/content-integrity.js img-dimensions --write-img-baseline',
+        '',
+        'Keyed by "<page path>|<src as written in the HTML>". `declared` and `real` are',
+        'WIDTHxHEIGHT for a human scanning the file; `ratioDiff` is |declared_w/h -',
+        'real_w/h|, the same number the check compares against the 0.15 threshold.',
+      ],
+      recorded: new Date().toISOString().slice(0, 10),
+      tolerance: TOLERANCE,
+      entries: Object.fromEntries(flaggedDetails.map(d => [d.key, {
+        declared: `${d.declaredW}x${d.declaredH}`,
+        real: `${d.realW}x${d.realH}`,
+        ratioDiff: Number(d.diff.toFixed(3)),
+      }])),
+    };
+    fs.writeFileSync(BASELINE_PATH, JSON.stringify(baseline, null, 2) + '\n');
+    const writtenCount = Object.keys(baseline.entries).length;
+    console.log(`[IMG-DIMENSIONS] wrote ${writtenCount} unique page|src entries to test/img-dimension-baseline.json (${flaggedDetails.length} flagged <img> occurrences, some pages repeat the same src)`);
+  } else {
+    const baselineRaw = fs.existsSync(BASELINE_PATH)
+      ? JSON.parse(fs.readFileSync(BASELINE_PATH, 'utf8'))
+      : { entries: {} };
+    const baselineEntries = baselineRaw.entries || {};
+    const baselineKeySet = new Set(Object.keys(baselineEntries));
+    checked['img-dimensions'].baselineCount = baselineKeySet.size; // baseline is keyed, so this is already a key count
+
+    for (const d of flaggedDetails) {
+      if (!baselineKeySet.has(d.key)) {
+        issues.push(`[IMG-DIMENSIONS] ${d.p}:${d.lineNo} — ${d.src} declares ${d.declaredW}x${d.declaredH} but the file is actually ${d.realW}x${d.realH} (aspect ratio off by ${d.diff.toFixed(2)}, >${TOLERANCE}); not in test/img-dimension-baseline.json. Fix the width/height attributes, or run --write-img-baseline if this is pre-existing debt.`);
+      }
+    }
+    // Retire stale baseline entries so the file cannot silently outlive the debt.
+    for (const key of baselineKeySet) {
+      if (flaggedKeys.has(key)) continue;
+      const [pageRel] = key.split('|');
+      const pageExists = fs.existsSync(path.join(root, pageRel));
+      issues.push(`[IMG-DIMENSIONS] ${key} — listed in test/img-dimension-baseline.json but ${pageExists ? 'is no longer flagged (ratio now within tolerance, or the img was fixed/removed)' : 'the page no longer exists'}. Remove it from the baseline.`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -2553,5 +2790,16 @@ if (checked['umbrella-range'])       parts.push(`umbrella price ranges hold on $
 if (checked['srcset-width'])         parts.push(`srcset width descriptors match decoded pixel width on ${checked['srcset-width'].checkedEntries} entries across ${checked['srcset-width'].files} files (${checked['srcset-width'].skippedDensity} x-density + ${checked['srcset-width'].skippedImplicit1x} implicit-1x + ${checked['srcset-width'].skippedSvg} svg + ${checked['srcset-width'].skippedRemote} remote/data skipped)`);
 if (checked['area-served-parity'])   parts.push(`areaServed JSON-LD matches ${checked['area-served-parity'].cities} rendered city cards across ${checked['area-served-parity'].pages} city-card grid page(s) (County, CA region entries exempt)`);
 if (checked['hero-preload'])         parts.push(`.hub-hero-bg preload <link> present + resolves to the CSS image on all ${checked['hero-preload'].files} pages with a hero background-image`);
+if (checked['img-dimensions']) {
+  const c = checked['img-dimensions'];
+  // Two distinct units, both stated explicitly so neither reads as the other:
+  // `flagged` counts <img> OCCURRENCES (a page can repeat the same src on
+  // several tags), while `flaggedKeys`/`baselineCount` count unique
+  // "page|src" KEYS, the unit the baseline is sized in. In --write-img-baseline
+  // mode there is no separate baselineCount (nothing was read back), so fall
+  // back to flaggedKeys — the key count just written — never to `flagged`.
+  const keyCount = c.baselineCount !== undefined ? c.baselineCount : c.flaggedKeys;
+  parts.push(`img width/height ratchet held on ${c.checkedEntries} decoded <img> entries across ${c.files} files (${c.flagged} flagged occurrences = ${c.flaggedKeys} unique page|src keys; baseline covers ${keyCount} keys; ${c.withinTolerance} in-tolerance mismatches, informational)`);
+}
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
