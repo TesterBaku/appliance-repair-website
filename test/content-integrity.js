@@ -2956,6 +2956,26 @@ if (run('faq-cost-table-parity')) {
   // row, but the sentence's earlier "compressor replacement" mention was
   // enough for matchedRowsFor to pull in the compressor row's much narrower
   // envelope. Same safe-miss direction as the rest of this list.
+  //
+  // Deliberately NOT narrowed to require "new"/"unit"/"appliance" nearby (PR
+  // #799 review raised this): the sentence above never uses any of those
+  // words next to "replacement cost" ("...against a $10,000-$18,000
+  // replacement cost" has no qualifier), so requiring one would silently
+  // un-fix the exact case this branch exists for. Checked instead for a
+  // corpus collision: grepped every FAQPage JSON-LD `acceptedAnswer.text` and
+  // `.ai-block`/`.callout-blue` block in articles/ and pages/ for the literal
+  // phrase "replacement cost" (2026-09-04) — every scanned-surface hit prices
+  // a whole appliance/unit (gas-vs-electric-range, sub-zero-repair-cost,
+  // built-in-refrigerator, freezer-not-freezing-anaheim), never a repair
+  // part. Two PART-labeled "Replacement cost: $X" lines exist
+  // (article-stove-burner-not-lighting-orange-county.html's igniter-switch
+  // and spark-module list items) but sit in plain body `<li>` prose, a
+  // surface extractFaqAiBlocks() never reads, so they cannot reach this
+  // check at all today. If a future FAQ/ai-block answer ever prices a PART
+  // with the literal phrase "replacement cost," this branch will wrongly
+  // skip it; revisit narrowing then, weighed against whatever new corpus
+  // example forced it, rather than pre-emptively breaking the case that's
+  // proven live today.
   const REPLACEMENT_UNIT_RE = /\breplacement\s+unit\b|\breplacement\s+cost\b|\bbuying\s+(?:a\s+)?new\b|\bbrand[- ]new\b/i;
   // Deliberate scope exclusion, same precedent as check 20's premium/brand-scoped
   // segmentation: a range whose FAQ answer names a premium brand (or "premium"/
@@ -3031,6 +3051,22 @@ if (run('faq-cost-table-parity')) {
   // bounded sentence (semicolon-joined clauses share one "parts" cue), not
   // findWindow()'s narrower window, since that window is deliberately clipped
   // at the shared semicolon and would miss the cue in the second clause.
+  //
+  // FIXED 2026-09-04 (PR #799 review): the bare word "part(s)" anywhere in the
+  // sentence is NOT enough on its own — a TOTAL figure that merely mentions
+  // "parts" while explicitly including labor is not parts-only, and this same
+  // PR's own edit to articles/article-washer-repair-cost-orange-county.html
+  // proves the gap live: "Most washing machine repairs in Orange County run
+  // between $110 and $490 all-in, parts and labor." names "parts" in the same
+  // sentence as its TOTAL figure and was being silently skipped from
+  // comparison as a false "parts-only" match, exactly the failure mode
+  // flagged in review (Copilot comment 3929533076). LABOR_INCLUSIVE_RE
+  // recognizes the phrasings this corpus actually uses to say a figure
+  // already covers labor ("all-in", "parts and labor", "parts + labor",
+  // "labor and parts") and vetoes the parts-only skip when present, so the
+  // dryer's genuine parts-only sentence (no labor mention at all) still gets
+  // skipped while the washer's total figure is still compared to the table.
+  const LABOR_INCLUSIVE_RE = /\ball[- ]in\b|\bparts?\s*(?:,\s*|and\s+|\+\s*)labor\b|\blabor\s*(?:and\s+|\+\s*)parts?\b/i;
   const PARTS_ONLY_RE = /\bparts?\b/i;
 
   function singularize(w) {
@@ -3311,7 +3347,8 @@ if (run('faq-cost-table-parity')) {
         const sentStartFull = clean.lastIndexOf('.', m.index) + 1;
         const relEndFull = clean.slice(m.index + m[0].length).search(/\./);
         const sentEndFull = relEndFull === -1 ? clean.length : m.index + m[0].length + relEndFull;
-        if (PARTS_ONLY_RE.test(clean.slice(sentStartFull, sentEndFull))) continue;
+        const sentenceFull = clean.slice(sentStartFull, sentEndFull);
+        if (PARTS_ONLY_RE.test(sentenceFull) && !LABOR_INCLUSIVE_RE.test(sentenceFull)) continue;
 
         const windowWords = significantWords(window.replace(CATEGORY_BASED_RE, ' '));
         const matched = matchedRowsFor(windowWords, rows);
