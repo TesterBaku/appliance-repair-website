@@ -488,9 +488,11 @@
  *                    (pages/washer-repair-cost-orange-county.html's mid-range bucket claiming
  *                    $300 against parts capped at $280, and
  *                    pages/viking-appliance-repair-orange-county.html's igniter/hinge-spring
- *                    bucket claiming $600 against parts capped at $550) are pre-existing debt,
- *                    baselined rather than auto-fixed (a pricing decision, not an agent's to
- *                    make). `--file <path>` restricts a single run to one file, which may live
+ *                    bucket claiming $600 against parts capped at $550) were pre-existing
+ *                    and were fixed in the page copy in the same PR (the table wins, per the
+ *                    #696 precedent), so the baseline shipped empty; it exists only so a
+ *                    future finding can be ratcheted rather than silently tolerated.
+ *                    `--file <path>` restricts a single run to one file, which may live
  *                    outside the repo, used to adversarially prove the check against a
  *                    scratch fixture without touching a real page.
  *
