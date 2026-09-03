@@ -510,6 +510,15 @@
  *                    `--file <path>` restricts a single run to one file, which may live
  *                    outside the repo, used to adversarially prove the check against a
  *                    scratch fixture without touching a real page.
+ *                    FIXED 2026-09-03: extractCostTableRows() ran RANGE_RE directly against
+ *                    raw cell HTML, so a `.cost-table` price cell written with an `&ndash;`
+ *                    entity (`$95 &ndash; $150` inside `price-pill` spans) yielded zero
+ *                    ranges and the whole table read as "no cost table": 23 of 68
+ *                    FAQ+cost-table pages were silently skipped, so the summary reported 38
+ *                    files scanned instead of ~68. Fixed by entity-decoding both the label
+ *                    and price cell (decodeEntities(), hoisted next to num/RANGE_RE in the
+ *                    "Shared dollar-range helpers" block, same entities check 20's
+ *                    faq-jsonld-parity block already decoded) before RANGE_RE runs.
  *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
@@ -1956,6 +1965,16 @@ if (run('tel-target')) {
 // extraction and dollar-range parsing instead of re-deriving it. Behavior is
 // unchanged from check 20's original inline versions.
 const num = (s) => parseInt(s.replace(/,/g, ''), 10);
+// Decodes the handful of HTML entities this corpus actually uses in dollar-range
+// prose and cost-table cells (en/em dash, nbsp, amp, and a numeric $ entity seen
+// in one template). Hoisted here, rather than duplicated, so check 25's
+// extractCostTableRows() can decode `.cost-table` price cells the same way check
+// 20 already decodes FAQ/ai-block prose — see check 25's docblock (~line 456) for
+// the &ndash; coverage gap this closes.
+const decodeEntities = (s) => s
+  .replace(/&ndash;/g, '–').replace(/&#8211;|&#x2013;/gi, '–')
+  .replace(/&mdash;/g, '—').replace(/&#8212;|&#x2014;/gi, '—')
+  .replace(/&nbsp;/g, ' ').replace(/&#36;/g, '$').replace(/&amp;/g, '&');
 const CONNECT = '(?:to|and|–|-)';
 // Any two-number dollar range, e.g. "$100 to $350", "$120-$450", "$230 to $490+".
 const RANGE_SRC = `\\$([\\d,]+)\\s*${CONNECT}\\s*\\$([\\d,]+)\\+?`;
@@ -2929,7 +2948,35 @@ if (run('faq-cost-table-parity')) {
   // roughly $800 to $1,400" (pages/bosch-appliance-repair-orange-county.html)
   // does not match "new\s+dishwasher" directly.
   const NEW_UNIT_RE = /\bnew\s+(?:[a-z-]+\s+){0,2}(?:unit|appliance|dishwasher|refrigerator|fridge|freezer|washer|dryer|oven|range|stove|cooktop|microwave|water\s+heater|garbage\s+disposal|disposal|wine\s+cooler|ice\s+maker)\b/i;
-  const REPLACEMENT_UNIT_RE = /\breplacement\s+unit\b|\bbuying\s+(?:a\s+)?new\b|\bbrand[- ]new\b/i;
+  // "replacement cost" added 2026-09-03: a WHOLE-UNIT price cited alongside a
+  // part-specific figure in the same sentence, e.g. "Even a $1,800 compressor
+  // replacement is well under the 50% rule against a $10,000-$18,000
+  // replacement cost" (articles/article-sub-zero-repair-cost-orange-county.html).
+  // The $10k-18k figure is what a NEW Sub-Zero unit costs, not the compressor
+  // row, but the sentence's earlier "compressor replacement" mention was
+  // enough for matchedRowsFor to pull in the compressor row's much narrower
+  // envelope. Same safe-miss direction as the rest of this list.
+  //
+  // Deliberately NOT narrowed to require "new"/"unit"/"appliance" nearby (PR
+  // #799 review raised this): the sentence above never uses any of those
+  // words next to "replacement cost" ("...against a $10,000-$18,000
+  // replacement cost" has no qualifier), so requiring one would silently
+  // un-fix the exact case this branch exists for. Checked instead for a
+  // corpus collision: grepped every FAQPage JSON-LD `acceptedAnswer.text` and
+  // `.ai-block`/`.callout-blue` block in articles/ and pages/ for the literal
+  // phrase "replacement cost" (2026-09-04) — every scanned-surface hit prices
+  // a whole appliance/unit (gas-vs-electric-range, sub-zero-repair-cost,
+  // built-in-refrigerator, freezer-not-freezing-anaheim), never a repair
+  // part. Two PART-labeled "Replacement cost: $X" lines exist
+  // (article-stove-burner-not-lighting-orange-county.html's igniter-switch
+  // and spark-module list items) but sit in plain body `<li>` prose, a
+  // surface extractFaqAiBlocks() never reads, so they cannot reach this
+  // check at all today. If a future FAQ/ai-block answer ever prices a PART
+  // with the literal phrase "replacement cost," this branch will wrongly
+  // skip it; revisit narrowing then, weighed against whatever new corpus
+  // example forced it, rather than pre-emptively breaking the case that's
+  // proven live today.
+  const REPLACEMENT_UNIT_RE = /\breplacement\s+unit\b|\breplacement\s+cost\b|\bbuying\s+(?:a\s+)?new\b|\bbrand[- ]new\b/i;
   // Deliberate scope exclusion, same precedent as check 20's premium/brand-scoped
   // segmentation: a range whose FAQ answer names a premium brand (or "premium"/
   // "built-in" generally) is deliberate brand-tier segmentation, not a
@@ -2990,6 +3037,37 @@ if (run('faq-cost-table-parity')) {
   // fall between $150 and $450, with sealed-system work sitting above that
   // range").
   const EXCLUSION_CUE_RE = /\b(?:above|outside|beyond|higher than|more than)\s+(?:that|this|the)\s+range\b/i;
+  // Deliberate scope exclusion: pickColumns() above always selects the TOTAL
+  // (parts + labor) column as priceIdx when a table has one, per its own
+  // "totalOnes" preference. A FAQ sentence that explicitly prices PARTS ONLY
+  // (a narrower, legitimately smaller figure) is therefore never comparable to
+  // that column, whichever row it names. Found live on
+  // articles/article-dryer-repair-cost-orange-county.html: "Gas-specific parts
+  // like igniters and valve coils run $20 to $60; electric heating elements
+  // run $30 to $80" (both figures match the table's own "Parts cost" column
+  // exactly: $20-$60 spans the igniter/valve-coil parts rows, $30-$80 is the
+  // heating-element parts row) is not a table contradiction, it is the same
+  // number read from a different column. Tested against the whole PERIOD-
+  // bounded sentence (semicolon-joined clauses share one "parts" cue), not
+  // findWindow()'s narrower window, since that window is deliberately clipped
+  // at the shared semicolon and would miss the cue in the second clause.
+  //
+  // FIXED 2026-09-04 (PR #799 review): the bare word "part(s)" anywhere in the
+  // sentence is NOT enough on its own — a TOTAL figure that merely mentions
+  // "parts" while explicitly including labor is not parts-only, and this same
+  // PR's own edit to articles/article-washer-repair-cost-orange-county.html
+  // proves the gap live: "Most washing machine repairs in Orange County run
+  // between $110 and $490 all-in, parts and labor." names "parts" in the same
+  // sentence as its TOTAL figure and was being silently skipped from
+  // comparison as a false "parts-only" match, exactly the failure mode
+  // flagged in review (Copilot comment 3929533076). LABOR_INCLUSIVE_RE
+  // recognizes the phrasings this corpus actually uses to say a figure
+  // already covers labor ("all-in", "parts and labor", "parts + labor",
+  // "labor and parts") and vetoes the parts-only skip when present, so the
+  // dryer's genuine parts-only sentence (no labor mention at all) still gets
+  // skipped while the washer's total figure is still compared to the table.
+  const LABOR_INCLUSIVE_RE = /\ball[- ]in\b|\bparts?\s*(?:,\s*|and\s+|\+\s*)labor\b|\blabor\s*(?:and\s+|\+\s*)parts?\b/i;
+  const PARTS_ONLY_RE = /\bparts?\b/i;
 
   function singularize(w) {
     if (w.length > 4 && w.endsWith('ies')) return w.slice(0, -3) + 'y';
@@ -3068,7 +3146,11 @@ if (run('faq-cost-table-parity')) {
   // $A-$B</span></td>...</tr></tbody></table>, see pickColumns() above for the
   // handful of pages that vary this shape. Rows whose price cell carries no
   // two-number range (a flat-fee row, if any) or whose label reduces to no safe
-  // subphrase are skipped, nothing to compare against, conservatively.
+  // subphrase are skipped, nothing to compare against, conservatively. Both the
+  // label and price cell are run through decodeEntities() before matching: some
+  // `price-pill` spans write the range as `$95 &ndash; $150` rather than a
+  // literal en dash, and RANGE_RE only matches literal connectors (fixed
+  // 2026-09-03, see this check's docblock above).
   function extractCostTableRows(content) {
     const rows = [];
     for (const t of content.matchAll(/<table\b[^>]*\bclass="[^"]*\bcost-table\b[^"]*"[^>]*>([\s\S]*?)<\/table>/g)) {
@@ -3082,7 +3164,7 @@ if (run('faq-cost-table-parity')) {
       for (const tr of body.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)) {
         const tds = [...tr[1].matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)].map(d => d[1]);
         if (tds.length <= Math.max(labelIdx, priceIdx)) continue;
-        const label = tds[labelIdx].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').trim();
+        const label = decodeEntities(tds[labelIdx].replace(/<[^>]+>/g, '')).trim();
         if (!label) continue;
         // The diagnostic/visit-fee row ("Service call / diagnostic: Orange
         // County market average (often credited toward repair)") is a
@@ -3100,7 +3182,8 @@ if (run('faq-cost-table-parity')) {
         RANGE_RE.lastIndex = 0;
         const ranges = [];
         let rm;
-        while ((rm = RANGE_RE.exec(tds[priceIdx]))) ranges.push({ A: num(rm[1]), B: num(rm[2]) });
+        const priceCell = decodeEntities(tds[priceIdx]);
+        while ((rm = RANGE_RE.exec(priceCell))) ranges.push({ A: num(rm[1]), B: num(rm[2]) });
         if (!ranges.length) continue;
         const subphrases = labelSubphrases(label);
         if (!subphrases.length) continue;
@@ -3169,7 +3252,17 @@ if (run('faq-cost-table-parity')) {
   //       table entirely, so its (wrongly widened) envelope came out too
   //       narrow and flagged a false contradiction.
   //   (c) fallback, the whole sentence containing the range, bounded by the
-  //       nearest '.' or ';' on either side.
+  //       nearest '.' or ';' on either side, further split on ", and " if
+  //       present: "Most jobs fall in the $250-$1,400 range, and sealed-system
+  //       or compressor work runs $1,200-$2,400" is an UMBRELLA figure and a
+  //       specific-part figure sharing one sentence with no ';' between them
+  //       (articles/article-sub-zero-repair-cost-orange-county.html); without
+  //       the split, the umbrella figure's window widens to include
+  //       "compressor" and gets wrongly held to the compressor row's much
+  //       narrower envelope. Only ", and " is treated as a boundary here (not
+  //       every ","), since a plain comma also separates ordinary list items
+  //       within one shared clause (see shape (b) above), which must stay one
+  //       window.
   function findWindow(text, idx, len) {
     const before = text.slice(0, idx);
     const openParen = before.match(/\(\s*$/);
@@ -3189,7 +3282,13 @@ if (run('faq-cost-table-parity')) {
     const sentStart = Math.max(text.lastIndexOf('.', idx), text.lastIndexOf(';', idx)) + 1;
     const relEndOffset = after.search(/[.;]/);
     const sentEnd = relEndOffset === -1 ? text.length : idx + len + relEndOffset;
-    return text.slice(sentStart, sentEnd);
+    const sentence = text.slice(sentStart, sentEnd);
+    const relIdx = idx - sentStart;
+    const andSplitIdx = sentence.indexOf(', and ');
+    if (andSplitIdx !== -1) {
+      return relIdx < andSplitIdx ? sentence.slice(0, andSplitIdx) : sentence.slice(andSplitIdx + ', and '.length);
+    }
+    return sentence;
   }
 
   const flaggedDetails = [];
@@ -3243,6 +3342,13 @@ if (run('faq-cost-table-parity')) {
         const window = findWindow(clean, m.index, m[0].length);
         if (NEW_UNIT_RE.test(window) || REPLACEMENT_UNIT_RE.test(window)) continue;
         if (EXCLUSION_CUE_RE.test(window)) continue; // "...sitting above that range", check 20's territory, not a table contradiction
+        // Period-bounded sentence, wider than findWindow()'s semicolon-clipped
+        // window on purpose, see PARTS_ONLY_RE above.
+        const sentStartFull = clean.lastIndexOf('.', m.index) + 1;
+        const relEndFull = clean.slice(m.index + m[0].length).search(/\./);
+        const sentEndFull = relEndFull === -1 ? clean.length : m.index + m[0].length + relEndFull;
+        const sentenceFull = clean.slice(sentStartFull, sentEndFull);
+        if (PARTS_ONLY_RE.test(sentenceFull) && !LABOR_INCLUSIVE_RE.test(sentenceFull)) continue;
 
         const windowWords = significantWords(window.replace(CATEGORY_BASED_RE, ' '));
         const matched = matchedRowsFor(windowWords, rows);
