@@ -304,6 +304,14 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 
     /* Nav height differs on homepage (70px vs 52px on inner pages) */
     .nav-inner { height: 70px; }
+    /* Anchor scroll offset (P6-24, #797 critique, 2026-09-03): the homepage nav is
+       71px tall (70px .nav-inner + 1px border, taller than the 53px shared.css
+       inner pages use), so an in-page #anchor jump (e.g. #faq, #services) lands the
+       target flush under the header with no offset. Matches the 96px used in
+       articles/, which share this same 71px header height. Harmless on ids that
+       carry fixed/hidden elements (#mobile-nav-drawer, etc); it only affects
+       scroll-into-view. */
+    [id] { scroll-margin-top: 96px; }
     /* The homepage used to also run a larger logo (16px) and larger nav links (13px).
        The Brands dropdown makes 8 top-level items, and at those sizes the row needed
        ~1133px inside a 1100px container, so the wordmark, "Service Areas" and the
