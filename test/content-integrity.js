@@ -2832,7 +2832,12 @@ if (run('faq-cost-table-parity')) {
   checked['faq-cost-table-parity'] = { files: 0, blocks: 0, instancesChecked: 0 };
 
   const fileArgIdx = process.argv.indexOf('--file');
-  const debugFile = fileArgIdx !== -1 ? process.argv[fileArgIdx + 1] : null;
+  const fileArgVal = fileArgIdx !== -1 ? process.argv[fileArgIdx + 1] : null;
+  if (fileArgIdx !== -1 && (!fileArgVal || fileArgVal.startsWith('--') || !fs.existsSync(fileArgVal))) {
+    console.error('usage: node test/content-integrity.js faq-cost-table-parity --file <path-to-html>  (the path must exist)');
+    process.exit(2);
+  }
+  const debugFile = fileArgVal;
   const filesToScan = debugFile ? [debugFile] : allHtml;
   const relOrPath = (p) => (debugFile ? p : rel(p));
 
@@ -3198,10 +3203,10 @@ if (run('faq-cost-table-parity')) {
         'and test/img-dimension-baseline.json.',
         '',
         'The check FAILS if: a page|phrase not listed here is flagged (new drift); or a',
-        'listed entry is no longer flagged (fixed, or the page/phrase no longer exists) -',
+        'listed entry is no longer flagged (fixed, or the page/phrase no longer exists):',
         'remove it. The baseline can only shrink. Do NOT add an entry to make a failing run',
         'pass: a newly-contradicting FAQ figure is a bug in the page, not a number to',
-        'record here, see P6-34 in tasks/backlog.md.',
+        'record here (see P6-34 in tasks/backlog.md).',
         '',
         'Regenerate from the current tree with:',
         '  node test/content-integrity.js faq-cost-table-parity --write-faq-cost-baseline',

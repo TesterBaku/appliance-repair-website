@@ -16,12 +16,8 @@
     "",
     "Keyed by \"<page path>|<the matched FAQ phrase, verbatim>\". `faqRange` is the",
     "contradicting figure; `tableRows` names the .cost-table row(s) it was matched",
-    "against and their own range(s).",
-    "",
-    "Empty since 2026-09-02: the two contradictions the first run found (washer-cost",
-    "mid-range FAQ ceiling $300 vs table rows topping at $280; Viking igniter/hinge FAQ",
-    "ceiling $600 vs rows topping at $550) were fixed in the page copy in the same PR."
+    "against and their own range(s)."
   ],
-  "recorded": "2026-09-02",
+  "recorded": "2026-09-03",
   "entries": {}
 }
