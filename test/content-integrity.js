@@ -299,9 +299,10 @@
  *                    fix/cost-hub-price-contradictions) after this exact
  *                    contradiction was found live on 11 cost-hub FAQ/AI-answer
  *                    blocks and hand-fixed.
- *                    SCOPE, deliberately narrow: only FAQPage JSON-LD answer text
- *                    and `.ai-block p` prose are scanned (matching the defect
- *                    class, not every dollar figure on the page). The governing
+ *                    SCOPE, deliberately narrow: only FAQPage JSON-LD answer text,
+ *                    `.ai-block p` prose, and `.callout-blue` prose are scanned
+ *                    (matching the defect class, not every dollar figure on the
+ *                    page). The governing
  *                    range must be the first dollar range in the block, verb-
  *                    anchored (run/runs/land/lands/fall/falls/cost/costs, optional
  *                    "between", then a range), the ONLY range in its own sentence
@@ -316,16 +317,30 @@
  *                    see the check's own comment block for the exact strings and
  *                    reasoning.
  *
- *                    Second known gap, found in review of #744 and NOT closed
- *                    here: the AI-answer scan matches class="ai-block" only, but
- *                    69 files carry that content in a class="callout-blue"
- *                    callout instead, so those blocks are not scanned at all.
- *                    That is how a "$150 to $600" claim survived on
+ *                    Second known gap, found in review of #744, CLOSED
+ *                    2026-09-03 (P6-24 Slice A-2 item 3): the AI-answer scan
+ *                    now also matches class="callout-blue" (recounted by a
+ *                    recursive grep at fix time: 70 files carry the class, not
+ *                    the 69 first estimated in review of #744; one more file
+ *                    picked up the class since; see extractFaqAiBlocks()).
+ *                    That gap is how a "$150 to $600" claim once survived on
  *                    article-gas-vs-electric-range-repair-cost-orange-county.html
- *                    while the FAQ three sections down said "$100 to $600".
- *                    Widening the selector needs its own false-positive sweep
- *                    across those 69 files, so it is logged in tasks/backlog.md
- *                    under P6-24 Slice A-2 rather than bolted on here.
+ *                    while the FAQ three sections down said "$100 to $600";
+ *                    that specific figure had already been hand-fixed to
+ *                    "$100 to $600" by the time this widening landed, so it is
+ *                    cited here as the historical motivation, not a live find.
+ *                    The false-positive sweep across all 70 files this comment
+ *                    used to defer found zero: every live callout-blue block is
+ *                    plain text directly inside the div (a leading <strong>
+ *                    label, no nested <p>), and of the ~75 such blocks
+ *                    sitewide, only 2 parse as a governing range at all
+ *                    (article-maintenance-skip-cost-los-angeles-county.html's
+ *                    "$350 to $650" sealed-system line and
+ *                    article-microwave-not-heating-mission-viejo.html's
+ *                    "$100 to $250" line): both are the ONLY dollar range in
+ *                    their own callout-blue div, so neither has anything to
+ *                    check against and both are correctly silent. No exclusion
+ *                    rule was needed or added.
  *                    Two exemptions are structural, not textual: the sanctioned
  *                    "The one exception above that range is X, which runs $A-$B"
  *                    clause (PR #696) is carved out before governing detection so
@@ -1980,6 +1995,26 @@ function extractFaqAiBlocks(content) {
       blocks.push({ label: 'AI answer block', text });
     }
   }
+  // Second AI-answer surface, widened 2026-09-03 (P6-24 Slice A-2 item 3): the
+  // 70 `class="callout-blue"` blocks live in articles/ and carry the SAME class
+  // of "quick answer" prose the FAQ/`.ai-block` scan already covers, but were
+  // never scanned, which is how a "$150 to $600" claim survived on
+  // article-gas-vs-electric-range-repair-cost-orange-county.html while its FAQ
+  // three sections down said "$100 to $600" (found in review of #744). Unlike
+  // `.ai-block`, every live callout-blue div puts its text directly inside the
+  // div (a leading `<strong>` label, then prose) with no nested `<p>` at all
+  // (confirmed by scanning all 75 live instances across the 70 files), so a
+  // div with no `<p>` children is treated as one block, matching `.ai-block`'s
+  // per-`<p>` behavior for the (currently nonexistent) case where a future
+  // callout-blue div does nest paragraphs.
+  for (const m of content.matchAll(/<div\b[^>]*\bclass="[^"]*\bcallout-blue\b[^"]*"[^>]*>([\s\S]*?)<\/div>/g)) {
+    const paras = [...m[1].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(p => p[1]);
+    const rawTexts = paras.length ? paras : [m[1]];
+    for (const raw of rawTexts) {
+      const text = raw.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
+      blocks.push({ label: 'AI answer block (callout-blue)', text });
+    }
+  }
   return blocks;
 }
 
@@ -1992,8 +2027,9 @@ function extractFaqAiBlocks(content) {
 // The big two, a drive motor or a control board, reach $230 to $490" told the
 // reader two different ceilings in one paragraph.
 //
-// SCOPE, deliberately narrow: only FAQPage JSON-LD answer text and `.ai-block p`
-// prose are scanned. FAQ answers are read from JSON-LD (already plain text, and
+// SCOPE, deliberately narrow: only FAQPage JSON-LD answer text, `.ai-block p`
+// prose, and `.callout-blue` prose (widened 2026-09-03, P6-24 Slice A-2 item 3)
+// are scanned. FAQ answers are read from JSON-LD (already plain text, and
 // kept in sync with the visible accordion by faq-jsonld-parity), so no
 // tag-stripping is needed there.
 //
@@ -2078,8 +2114,23 @@ function extractFaqAiBlocks(content) {
 // Bare single figures ($99 diagnostic fee, the $49 additional-unit line) never
 // match the two-number range pattern below, so they are excluded automatically
 // without a dedicated rule for them.
+//
+// DEBUG: `--file <path>` restricts the scan to exactly one file (which may live
+// outside the repo, e.g. a scratch fixture), same as check 25's flag, for
+// adversarially proving the check fails on a broken copy without touching a
+// real page. Only honored in this check.
 if (run('umbrella-range')) {
   checked['umbrella-range'] = { files: 0, blocks: 0, governingRanges: 0, rangesChecked: 0 };
+
+  const ur_fileArgIdx = process.argv.indexOf('--file');
+  const ur_fileArgVal = ur_fileArgIdx !== -1 ? process.argv[ur_fileArgIdx + 1] : null;
+  if (ur_fileArgIdx !== -1 && (!ur_fileArgVal || ur_fileArgVal.startsWith('--') || !fs.existsSync(ur_fileArgVal))) {
+    console.error('usage: node test/content-integrity.js umbrella-range --file <path-to-html>  (the path must exist)');
+    process.exit(2);
+  }
+  const ur_debugFile = ur_fileArgVal;
+  const ur_filesToScan = ur_debugFile ? [ur_debugFile] : allHtml;
+  const ur_relOrPath = (p) => (ur_debugFile ? p : rel(p));
 
   // num, CONNECT, RANGE_SRC, RANGE_RE, EXCEPTION_RE and extractFaqAiBlocks() are
   // hoisted above (shared with check 25, faq-cost-table-parity), see the
@@ -2099,7 +2150,7 @@ if (run('umbrella-range')) {
   const REPAIR_WORD = /\brepairs?\b/i;
   const SUBJECT_WINDOW = 40; // "repair(s)" must appear this close to the sentence start to count as the true subject, not a trailing aside
 
-  for (const filePath of allHtml) {
+  for (const filePath of ur_filesToScan) {
     const content = fs.readFileSync(filePath, 'utf8');
     const blocks = extractFaqAiBlocks(content);
     if (!blocks.length) continue;
@@ -2177,7 +2228,7 @@ if (run('umbrella-range')) {
         const y = num(m[2]);
         if (y > B) {
           const snippet = clean.slice(Math.max(0, m.index - 40), m.index + 40).replace(/\s+/g, ' ').trim();
-          issues.push(`[UMBRELLA-RANGE] ${rel(filePath)} (${label}): $${m[1]} to $${m[2]} exceeds the governing $${gov.A} to $${gov.B} ceiling stated in the same block ("...${snippet}...")`);
+          issues.push(`[UMBRELLA-RANGE] ${ur_relOrPath(filePath)} (${label}): $${m[1]} to $${m[2]} exceeds the governing $${gov.A} to $${gov.B} ceiling stated in the same block ("...${snippet}...")`);
         }
       }
     }
