@@ -2939,23 +2939,43 @@ if (run('faq-cost-table-parity')) {
   // unrelated priced range, and a genuinely brand-scoped block names the brand
   // in its question ("How much does Sub-Zero or built-in refrigerator repair cost?").
   const SCOPE_RE = /\b(Sub-Zero|Wolf|Viking|Thermador|Miele|premium|built-in)\b/i;
-  // A brand hub's OWN brand, so the skip below does not also swallow the hub's
-  // OWN FAQ coverage: pages/viking-appliance-repair-orange-county.html asks
-  // "How much does Viking oven repair cost?" in nearly every question, and
-  // that is not brand-tier segmentation relative to ITS OWN .cost-table, only
-  // relative to a DIFFERENT page's table (a generic hub's occasional Sub-Zero
-  // aside). Flagged by the PR #795 Copilot review: the original block-vs-name
-  // skip treated every brand-hub question as out-of-scope, defeating this
-  // check's coverage on exactly the pages it exists to check. Read from the
-  // filename (pages/<brand>-appliance-repair-orange-county.html) or, failing
-  // that, the <title>.
-  function pageOwnBrand(filePath, content) {
+  // A brand hub's OWN brand(s), so the skip below does not also swallow the
+  // hub's OWN FAQ coverage: pages/viking-appliance-repair-orange-county.html
+  // asks "How much does Viking oven repair cost?" in nearly every question,
+  // and that is not brand-tier segmentation relative to ITS OWN .cost-table,
+  // only relative to a DIFFERENT page's table (a generic hub's occasional
+  // Sub-Zero aside). Flagged by the PR #795 Copilot review: the original
+  // block-vs-name skip treated every brand-hub question as out-of-scope,
+  // defeating this check's coverage on exactly the pages it exists to check.
+  //
+  // Filename first: the URL slug is a deliberate, stable signal an author
+  // chose on purpose, unlike title prose which can drift or name a brand in
+  // passing. Uses a dedicated OWN_BRAND_RE (the five brand names only, never
+  // "premium"/"built-in", which are generic tiers, not a page's own brand)
+  // and collects EVERY distinct match, so a page naming two brands in its
+  // slug is scoped to both. <title> is used only as a fallback when the
+  // filename names none, and only when the title names exactly ONE distinct
+  // brand: a title naming two or more brands makes "own brand" ambiguous, and
+  // the safe outcome is to skip those brand-named questions (a documented
+  // coverage loss) rather than risk checking a question against the wrong
+  // page's table. Per the 2026-09-03 enumeration of all 68 pages this check
+  // scans, the title fallback is never load-bearing on the live corpus today:
+  // every non-null own brand is already derivable from the filename. The one
+  // behavioural difference is deliberate and measured: the old probe returned
+  // "built-in" for articles/article-built-in-refrigerator-repair-orange-county.html
+  // (a tier word, not a brand), which made that page's "built-in"/"premium"
+  // questions own-scope; now they fall out of scope like any generic page's.
+  // The whole-corpus summary (116 matched figures, 38 files) is identical
+  // before and after, and that page matched 0 figures under both versions.
+  const OWN_BRAND_RE = /\b(sub-zero|wolf|viking|thermador|miele)\b/gi;
+  function pageOwnBrands(filePath, content) {
     const base = path.basename(filePath, '.html');
-    const slugMatch = base.match(/^([a-z0-9-]+)-appliance-repair-orange-county$/);
+    const fromFilename = new Set((base.match(OWN_BRAND_RE) || []).map(b => b.toLowerCase()));
+    if (fromFilename.size) return fromFilename;
     const titleMatch = content.match(/<title>([\s\S]*?)<\/title>/);
-    const probe = `${slugMatch ? slugMatch[1].replace(/-/g, ' ') : ''} ${titleMatch ? titleMatch[1] : ''}`;
-    const m = probe.match(SCOPE_RE);
-    return m ? m[1].toLowerCase() : null;
+    const titleText = titleMatch ? titleMatch[1] : '';
+    const fromTitle = new Set((titleText.match(OWN_BRAND_RE) || []).map(b => b.toLowerCase()));
+    return fromTitle.size === 1 ? fromTitle : new Set();
   }
   // Deliberate scope exclusion: "compressor-based" / "thermoelectric-based" name
   // a wine-cooler TECHNOLOGY CATEGORY, not the "Compressor" table row, even
@@ -3184,13 +3204,13 @@ if (run('faq-cost-table-parity')) {
     if (!faqBlocks.length) continue; // no FAQPage JSON-LD, nothing to cross-check
 
     checked['faq-cost-table-parity'].files++;
-    const ownBrand = pageOwnBrand(filePath, content);
+    const ownBrands = pageOwnBrands(filePath, content);
 
     for (const { text, name } of faqBlocks) {
       checked['faq-cost-table-parity'].blocks++;
       // Premium/brand-scoped segmentation, same precedent as check 20: skip
       // the block when its QUESTION names a premium brand OTHER than the
-      // page's own (pageOwnBrand above), that is the block's actual topic
+      // page's own (pageOwnBrands above), that is the block's actual topic
       // ("How much does Sub-Zero or built-in refrigerator repair cost?" on the
       // GENERIC refrigerator-cost hub, "How much does Miele or Bosch washer
       // repair cost?" on the generic washer-cost hub). Deliberately narrower
@@ -3198,14 +3218,17 @@ if (run('faq-cost-table-parity')) {
       // mention "Premium brands (Miele) generally cost more" as a trailing
       // aside, and that aside must NOT re-scope an earlier, unrelated
       // mid-range sentence in the same answer. Do NOT skip when the named
-      // brand IS the page's own (or a generic "premium"/"built-in" mention on
-      // a brand hub, which is that hub describing itself): a brand hub's own
-      // .cost-table is exactly the standard this check must hold that hub's
-      // own FAQ copy to.
+      // brand IS one of the page's own (or a generic "premium"/"built-in"
+      // mention on a brand hub, which is that hub describing itself): a brand
+      // hub's own .cost-table is exactly the standard this check must hold
+      // that hub's own FAQ copy to. A "premium"/"built-in" question is only
+      // ever treated as own-scope on a page that already has at least one
+      // real own brand (ownBrands.size > 0); on a generic page with no own
+      // brand, such a question stays out of scope, same as before.
       const scopeMatch = name.match(SCOPE_RE);
       if (scopeMatch) {
         const namedBrand = scopeMatch[1].toLowerCase();
-        const isOwnBrand = ownBrand && (namedBrand === ownBrand || namedBrand === 'premium' || namedBrand === 'built-in');
+        const isOwnBrand = ownBrands.size > 0 && (ownBrands.has(namedBrand) || namedBrand === 'premium' || namedBrand === 'built-in');
         if (!isOwnBrand) continue;
       }
 
