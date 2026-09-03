@@ -527,14 +527,14 @@
  *                                            docblock below).
  *
  *   node test/content-integrity.js faq-cost-table-parity --write-faq-cost-baseline
- *                                         , regenerate test/faq-cost-table-baseline.json
- *                                            from the current tree (see the
- *                                            faq-cost-table-parity docblock above).
+ *                                           regenerate test/faq-cost-table-baseline.json
+ *                                           from the current tree (see the
+ *                                           faq-cost-table-parity docblock above).
  *
  *   node test/content-integrity.js faq-cost-table-parity --file <path>
- *                                         , restrict the scan to exactly one file (may be
- *                                            outside the repo); debug-only, see the
- *                                            faq-cost-table-parity docblock above.
+ *                                           restrict the scan to exactly one file (may be
+ *                                           outside the repo); debug-only, see the
+ *                                           faq-cost-table-parity docblock above.
  */
 
 'use strict';
@@ -2882,10 +2882,11 @@ if (run('faq-cost-table-parity')) {
   // Deliberate scope exclusion, same precedent as check 20's premium/brand-scoped
   // segmentation: a range whose FAQ answer names a premium brand (or "premium"/
   // "built-in" generally) is deliberate brand-tier segmentation, not a
-  // contradiction with the standard-brand table. Tested against the WHOLE
-  // answer text (not just the local window) because the scoping cue is often
-  // the block's OPENING sentence ("Miele and Bosch washer repair generally
-  // costs more...") while the priced range sits in a later sentence.
+  // contradiction with the standard-brand table. Tested against the FAQ
+  // QUESTION text (the block's own topic), not the answer body: a brand named
+  // only in a trailing disclaimer sentence must not re-scope an earlier,
+  // unrelated priced range, and a genuinely brand-scoped block names the brand
+  // in its question ("How much does Sub-Zero or built-in refrigerator repair cost?").
   const SCOPE_RE = /\b(Sub-Zero|Wolf|Viking|Thermador|Miele|premium|built-in)\b/i;
   // A brand hub's OWN brand, so the skip below does not also swallow the hub's
   // OWN FAQ coverage: pages/viking-appliance-repair-orange-county.html asks
