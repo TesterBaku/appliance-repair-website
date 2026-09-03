@@ -3000,8 +3000,41 @@ if (run('faq-cost-table-parity')) {
     return rows;
   }
 
+  // A row subphrase matches if ALL its words are present in the window, OR if
+  // some TAIL of it is (leading qualifier words dropped one at a time): "Oven
+  // door hinge spring" still matches a FAQ mention of just "hinge springs",
+  // the compound noun's head, without requiring "oven"/"door" too
+  // (pages/viking-appliance-repair-orange-county.html). Order does not matter
+  // within a candidate (a window's filtered word order does not reliably
+  // reflect the source text's word order, and "door boot seal" must still
+  // match the row "Door seal" even though "door" and "seal" are not adjacent
+  // there). Tail-only, not arbitrary word-dropping: dropping from the front
+  // models "qualifier prefix elided in shorthand", the shape actually observed
+  // on this corpus; dropping from anywhere would make an unrelated shared word
+  // (e.g. two rows both ending in "board") enough to match either one.
+  //
+  // A DROPPED tail must still be >=2 words — never fall all the way to one
+  // bare word UNLESS that was the row's whole (undropped) phrase to begin
+  // with. A single generic word is exactly the false-hit direction this check
+  // must avoid: an earlier version allowed a length>=4 single-word tail and
+  // matched "New disposal unit installed" against an unrelated "on a budget
+  // unit" via the bare word "unit" alone
+  // (pages/garbage-disposal-repair-orange-county.html), and separately failed
+  // to notice that "Oven igniter" tail-dropped to bare "igniter" was ALSO too
+  // permissive: it matched an "igniter and spark ignition" FAQ mention on its
+  // own, producing an envelope too narrow to include the (unmatched) "Spark
+  // module / ignition switch" row it was meant to combine with
+  // (pages/oven-repair-cost-orange-county.html) — the fix is not "no tail
+  // matching," it is "no SINGLE-WORD tail matching."
   function matchedRowsFor(windowWords, rows) {
-    return rows.filter(row => row.subphrases.some(ws => ws.every(w => windowWords.includes(w))));
+    return rows.filter(row => row.subphrases.some(ws => {
+      for (let start = 0; start < ws.length; start++) {
+        const tail = ws.slice(start);
+        if (tail.length === 1 && (start > 0 || tail[0].length < 4)) continue;
+        if (tail.every(w => windowWords.includes(w))) return true;
+      }
+      return false;
+    }));
   }
 
   // The window a FAQ dollar-range instance is judged against. Three shapes,
