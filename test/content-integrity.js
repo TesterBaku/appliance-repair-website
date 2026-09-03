@@ -1963,8 +1963,8 @@ function extractFaqAiBlocks(content) {
         for (const q of node.mainEntity) {
           const a = q && q.acceptedAnswer;
           // `name` (the question) is carried alongside `text` (the answer) so
-          // check 25 can test premium/brand scoping against the QUESTION only
-          //, the block's own topic, rather than the whole answer body, which
+          // check 25 can test premium/brand scoping against the QUESTION only,
+          // the block's own topic, rather than the whole answer body, which
           // may mention a premium brand only as a trailing disclaimer that
           // does not re-scope an earlier, unrelated sentence.
           if (a && typeof a.text === 'string') blocks.push({ label: 'FAQ answer', text: a.text, name: typeof q.name === 'string' ? q.name : '' });
@@ -2882,6 +2882,24 @@ if (run('faq-cost-table-parity')) {
   // the block's OPENING sentence ("Miele and Bosch washer repair generally
   // costs more...") while the priced range sits in a later sentence.
   const SCOPE_RE = /\b(Sub-Zero|Wolf|Viking|Thermador|Miele|premium|built-in)\b/i;
+  // A brand hub's OWN brand, so the skip below does not also swallow the hub's
+  // OWN FAQ coverage: pages/viking-appliance-repair-orange-county.html asks
+  // "How much does Viking oven repair cost?" in nearly every question, and
+  // that is not brand-tier segmentation relative to ITS OWN .cost-table, only
+  // relative to a DIFFERENT page's table (a generic hub's occasional Sub-Zero
+  // aside). Flagged by the PR #795 Copilot review: the original block-vs-name
+  // skip treated every brand-hub question as out-of-scope, defeating this
+  // check's coverage on exactly the pages it exists to check. Read from the
+  // filename (pages/<brand>-appliance-repair-orange-county.html) or, failing
+  // that, the <title>.
+  function pageOwnBrand(filePath, content) {
+    const base = path.basename(filePath, '.html');
+    const slugMatch = base.match(/^([a-z0-9-]+)-appliance-repair-orange-county$/);
+    const titleMatch = content.match(/<title>([\s\S]*?)<\/title>/);
+    const probe = `${slugMatch ? slugMatch[1].replace(/-/g, ' ') : ''} ${titleMatch ? titleMatch[1] : ''}`;
+    const m = probe.match(SCOPE_RE);
+    return m ? m[1].toLowerCase() : null;
+  }
   // Deliberate scope exclusion: "compressor-based" / "thermoelectric-based" name
   // a wine-cooler TECHNOLOGY CATEGORY, not the "Compressor" table row, even
   // though the word "compressor" is shared (pages/wine-cooler-repair-orange-county.html).
@@ -2989,6 +3007,19 @@ if (run('faq-cost-table-parity')) {
         if (tds.length <= Math.max(labelIdx, priceIdx)) continue;
         const label = tds[labelIdx].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').trim();
         if (!label) continue;
+        // The diagnostic/visit-fee row ("Service call / diagnostic: Orange
+        // County market average (often credited toward repair)") is a
+        // different CONCEPT from every other row: a flat visit fee, not a
+        // repair-part price, site-wide (see AGENTS.md's $99 diagnostic-fee
+        // rule). Its own label's "service call" reduces to the single word
+        // "call" once labelSubphrases strips "service" as a JOB_WORD, and
+        // "call" alone is generic enough to match ordinary prose ("most
+        // service calls run $X") that has nothing to do with the flat fee
+        // row (pages/sub-zero-appliance-repair-orange-county.html). Excluded
+        // by label rather than tightened via GENERIC_STOP, so this stays
+        // scoped to the fee row and does not weaken "call"/"service" as
+        // matchable words anywhere else.
+        if (/\bdiagnostic\b|\bservice\s*call\b/i.test(label)) continue;
         RANGE_RE.lastIndex = 0;
         const ranges = [];
         let rm;
@@ -3096,18 +3127,30 @@ if (run('faq-cost-table-parity')) {
     if (!faqBlocks.length) continue; // no FAQPage JSON-LD, nothing to cross-check
 
     checked['faq-cost-table-parity'].files++;
+    const ownBrand = pageOwnBrand(filePath, content);
 
     for (const { text, name } of faqBlocks) {
       checked['faq-cost-table-parity'].blocks++;
       // Premium/brand-scoped segmentation, same precedent as check 20: skip
-      // the whole block when its QUESTION names a premium brand, that is the
-      // block's actual topic ("How much does Sub-Zero or built-in refrigerator
-      // repair cost?", "How much does Miele or Bosch washer repair cost?").
-      // Deliberately narrower than testing the whole answer body: the generic
-      // washer-repair FAQ's answer also mentions "Premium brands (Miele)
-      // generally cost more" as a trailing aside, and that aside must NOT
-      // re-scope an earlier, unrelated mid-range sentence in the same answer.
-      if (SCOPE_RE.test(name)) continue;
+      // the block when its QUESTION names a premium brand OTHER than the
+      // page's own (pageOwnBrand above), that is the block's actual topic
+      // ("How much does Sub-Zero or built-in refrigerator repair cost?" on the
+      // GENERIC refrigerator-cost hub, "How much does Miele or Bosch washer
+      // repair cost?" on the generic washer-cost hub). Deliberately narrower
+      // than testing the whole answer body: a generic hub's answer may also
+      // mention "Premium brands (Miele) generally cost more" as a trailing
+      // aside, and that aside must NOT re-scope an earlier, unrelated
+      // mid-range sentence in the same answer. Do NOT skip when the named
+      // brand IS the page's own (or a generic "premium"/"built-in" mention on
+      // a brand hub, which is that hub describing itself): a brand hub's own
+      // .cost-table is exactly the standard this check must hold that hub's
+      // own FAQ copy to.
+      const scopeMatch = name.match(SCOPE_RE);
+      if (scopeMatch) {
+        const namedBrand = scopeMatch[1].toLowerCase();
+        const isOwnBrand = ownBrand && (namedBrand === ownBrand || namedBrand === 'premium' || namedBrand === 'built-in');
+        if (!isOwnBrand) continue;
+      }
 
       // Allow-marker, same wording PR #696 settled on and check 20 already
       // strips: a figure introduced by this phrase is a stated exception, not
