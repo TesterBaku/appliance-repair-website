@@ -45,11 +45,11 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .nav-cta { background: var(--brand-dark); color: var(--surface); font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 7px; text-decoration: none; white-space: nowrap; }
 .nav-cta:hover { background: var(--brand-deeper); }
 
-/* Anchor scroll offset (P6-24, #797 critique, 2026-09-03): .nav is fixed and
-   .nav-inner measures 52px + 1px border = 53px, so an in-page #anchor jump
-   (TOC links, FAQ links, the sticky mobile bar) lands the target flush under
-   the header with no offset. scroll-margin-top clears the header plus a
-   breathing-room gap for every anchor-able element; it only affects
+/* Anchor scroll offset (P6-24, #797 critique, 2026-09-03): .nav is fixed:
+   .nav-inner is 52px tall and .nav adds a 1px bottom border, 53px total, so
+   an in-page #anchor jump (TOC links, FAQ links) lands the target flush under
+   the header with no offset. 76px = 53px header + 23px breathing room, on
+   every anchor-able element; it only affects
    scroll-into-view, so it is harmless on ids that carry fixed/sticky/hidden
    elements (.nav, .nav-drawer, .sticky-mobile-bar, form fields, etc). */
 [id] { scroll-margin-top: 76px; }

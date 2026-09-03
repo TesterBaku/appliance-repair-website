@@ -307,8 +307,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
     /* Anchor scroll offset (P6-24, #797 critique, 2026-09-03): the homepage nav is
        71px tall (70px .nav-inner + 1px border, taller than the 53px shared.css
        inner pages use), so an in-page #anchor jump (e.g. #faq, #services) lands the
-       target flush under the header with no offset. Matches the 96px used in
-       articles/, which share this same 71px header height. Harmless on ids that
+       target flush under the header with no offset. 96px = 71px header + 25px
+       breathing room, matching articles/, which share this same 71px header. Harmless on ids that
        carry fixed/hidden elements (#mobile-nav-drawer, etc); it only affects
        scroll-into-view. */
     [id] { scroll-margin-top: 96px; }

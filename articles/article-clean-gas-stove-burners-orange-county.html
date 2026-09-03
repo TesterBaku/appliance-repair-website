@@ -73,9 +73,8 @@
     .callout-danger { background: #fef2f2; border: 2px solid #fca5a5; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 14.5px; color: #991b1b; line-height: 1.75; }
     /* Anchor scroll offset (P6-24, #797 critique, 2026-09-03): fixed .nav is 71px tall
        (70px .nav-inner + 1px border), so an in-page #anchor jump (TOC links, FAQ
-       links, the sticky mobile bar) lands the target flush under the header with
-       no offset. scroll-margin-top clears the header plus a breathing-room gap
-       for every anchor-able element; it only affects scroll-into-view, so it is
+       links) lands the target flush under the header with no offset.
+       96px = 71px header + 25px breathing room, on every anchor-able element; it only affects scroll-into-view, so it is
        harmless on ids that carry fixed/hidden elements (#mobile-nav-drawer, etc). */
     [id] { scroll-margin-top: 96px; }
     .faq-item { background: #fff; border-radius: 14px; padding: 22px 26px; margin: 14px 0; box-shadow: 0 1px 12px rgba(0,0,0,0.06); }
