@@ -1,0 +1,23 @@
+{
+  "_README": [
+    "BASELINE OF FAQ-ANSWER DOLLAR RANGES THAT NAME A PART ALSO PRICED IN THE SAME",
+    "PAGE'S .cost-table, WHOSE FIGURE FALLS OUTSIDE THE UNION OF THE MATCHING TABLE",
+    "ROW(S). This is a RATCHET, not an allowlist, matching test/tap-target-baseline.json",
+    "and test/img-dimension-baseline.json.",
+    "",
+    "The check FAILS if: a page|phrase not listed here is flagged (new drift); or a",
+    "listed entry is no longer flagged (fixed, or the page/phrase no longer exists):",
+    "remove it. The baseline can only shrink. Do NOT add an entry to make a failing run",
+    "pass: a newly-contradicting FAQ figure is a bug in the page, not a number to",
+    "record here (see P6-34 in tasks/backlog.md).",
+    "",
+    "Regenerate from the current tree with:",
+    "  node test/content-integrity.js faq-cost-table-parity --write-faq-cost-baseline",
+    "",
+    "Keyed by \"<page path>|<the matched FAQ phrase, verbatim>\". `faqRange` is the",
+    "contradicting figure; `tableRows` names the .cost-table row(s) it was matched",
+    "against and their own range(s)."
+  ],
+  "recorded": "2026-09-03",
+  "entries": {}
+}
