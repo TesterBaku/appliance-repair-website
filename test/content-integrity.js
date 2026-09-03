@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-seven enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-eight enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -438,6 +438,62 @@
  *                    absolute `/...` from the repo root, else relative to the page), and
  *                    remote/`data:` sources are skipped — nothing to decode locally.
  *
+ *   faq-cost-table-parity — P6-34's second half (tasks/backlog.md): on any page carrying
+ *                    BOTH FAQPage JSON-LD and a `.cost-table`, a dollar figure or range
+ *                    inside a FAQ answer that names a part/job also priced in that page's
+ *                    `.cost-table` must fall within the UNION of the matching table row(s)
+ *                    (the "bake element vs broil element" trap: one FAQ phrase can
+ *                    legitimately match two rows, and the check unions their ranges rather
+ *                    than picking one). P6-34's first half, the umbrella-vs-itemized shape
+ *                    WITHIN a single FAQ answer, is check 20 (umbrella-range); this check is
+ *                    the cross-surface comparison PR #696 originally wanted but never got:
+ *                    an answer agreeing with its own JSON-LD twin while contradicting the
+ *                    rest of the page. Reuses num/RANGE_RE/EXCEPTION_RE/extractFaqAiBlocks
+ *                    from the "Shared dollar-range helpers" block above check 20 (see there).
+ *                    Matching is deliberately conservative (a miss over a false hit): a table
+ *                    row label is split into "/"-or-"or"-separated alternatives, parenthetical
+ *                    qualifiers stripped ("Heating element (electric)" -> "Heating element"),
+ *                    and a FAQ window matches a row only when EVERY significant word of one
+ *                    alternative is present in the window. Three window shapes, narrowest
+ *                    first: a range wrapped in "(...)" right after its naming phrase; a
+ *                    "$X to $Y for <phrase>" idiom (narrowed to just that phrase, not the
+ *                    whole comma-joined list — see check 20's own ROUND 2 note on the same
+ *                    false-positive shape); otherwise the whole sentence. Excluded, all found
+ *                    live and adjudicated by reading the page rather than assumed: the
+ *                    check-20 allow-marker ("The one exception above that range is ..."); a
+ *                    new-appliance/replacement-unit price (NEW_UNIT_RE, allowing a brand name
+ *                    between "new" and the appliance noun: "a new Bosch dishwasher runs
+ *                    roughly $800 to $1,400" is not a repair-part price); premium/brand-scoped
+ *                    segmentation, tested against the FAQ QUESTION only, not the whole answer
+ *                    body, so a generic answer's trailing "Premium brands (Miele) cost more"
+ *                    aside cannot re-scope an earlier, unrelated sentence in the same answer
+ *                    (pages/refrigerator-repair-cost-orange-county.html's dedicated Sub-Zero
+ *                    FAQ vs pages/washer-repair-cost-orange-county.html's generic FAQ); a
+ *                    "compressor-based"/"thermoelectric-based" technology-category qualifier,
+ *                    which shares the word "compressor" with a literal table row without
+ *                    naming that specific part (pages/wine-cooler-repair-orange-county.html);
+ *                    an explicit "...sitting above that range" cue, ceding that instance back
+ *                    to check 20's territory; and a `.cost-table` whose header row names no
+ *                    cost/range-bearing column at all (error-code decode tables and a
+ *                    maintenance-vs-repair comparison table share the `.cost-table` CSS class
+ *                    without being a repair-price table — guessing a column there paired an
+ *                    appliance name with its PREVENTIVE-task cost, not its repair cost, and
+ *                    produced three false positives on
+ *                    articles/article-maintenance-skip-cost-statistics.html). A RATCHET
+ *                    against test/faq-cost-table-baseline.json, same semantics as
+ *                    test/tap-target-baseline.json and test/img-dimension-baseline.json,
+ *                    keyed `<page>|<matched FAQ phrase>`. Added 2026-09-02/03: of 19 raw
+ *                    findings on the pre-fix corpus, 17 were adjudicated as false positives
+ *                    in the classes above; the 2 genuine, if minor, contradictions
+ *                    (pages/washer-repair-cost-orange-county.html's mid-range bucket claiming
+ *                    $300 against parts capped at $280, and
+ *                    pages/viking-appliance-repair-orange-county.html's igniter/hinge-spring
+ *                    bucket claiming $600 against parts capped at $550) are pre-existing debt,
+ *                    baselined rather than auto-fixed (a pricing decision, not an agent's to
+ *                    make). `--file <path>` restricts a single run to one file, which may live
+ *                    outside the repo — used to adversarially prove the check against a
+ *                    scratch fixture without touching a real page.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -446,7 +502,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all twenty-six enforced checks + the report
+ *   node test/content-integrity.js          : run all twenty-eight enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -460,12 +516,23 @@
  *                                             faq-schema-presence, gallery-parity, brand-tier,
  *                                             tel-target, umbrella-range, srcset-width,
  *                                             area-served-parity, hero-preload,
- *                                             img-dimensions, title-length)
+ *                                             img-dimensions, faq-cost-table-parity,
+ *                                             title-length)
  *
  *   node test/content-integrity.js img-dimensions --write-img-baseline
  *                                          — regenerate test/img-dimension-baseline.json
  *                                            from the current tree (see the img-dimensions
  *                                            docblock below).
+ *
+ *   node test/content-integrity.js faq-cost-table-parity --write-faq-cost-baseline
+ *                                          — regenerate test/faq-cost-table-baseline.json
+ *                                            from the current tree (see the
+ *                                            faq-cost-table-parity docblock above).
+ *
+ *   node test/content-integrity.js faq-cost-table-parity --file <path>
+ *                                          — restrict the scan to exactly one file (may be
+ *                                            outside the repo); debug-only, see the
+ *                                            faq-cost-table-parity docblock above.
  */
 
 'use strict';
@@ -1866,6 +1933,54 @@ if (run('tel-target')) {
   };
 }
 
+// ── Shared dollar-range helpers (checks 20 and 25) ─────────────────────────────
+// Hoisted out of check 20's original scope on 2026-09-02 so check 25
+// (faq-cost-table-parity, P6-34's second half) can reuse the same FAQ-answer
+// extraction and dollar-range parsing instead of re-deriving it. Behavior is
+// unchanged from check 20's original inline versions.
+const num = (s) => parseInt(s.replace(/,/g, ''), 10);
+const CONNECT = '(?:to|and|–|-)';
+// Any two-number dollar range, e.g. "$100 to $350", "$120-$450", "$230 to $490+".
+const RANGE_SRC = `\\$([\\d,]+)\\s*${CONNECT}\\s*\\$([\\d,]+)\\+?`;
+const RANGE_RE = new RegExp(RANGE_SRC, 'g');
+// Sanctioned escape hatch, PR #696: "The one exception above that range is X, which runs $A-$B."
+const EXCEPTION_RE = new RegExp(`The one exception above that range is[^.]*?${RANGE_SRC}`, 'g');
+
+// Extracts FAQPage JSON-LD answer text and `.ai-block p` prose from a page's raw
+// HTML. FAQ answers are read from JSON-LD (already plain text, and kept in sync
+// with the visible accordion by faq-jsonld-parity), so no tag-stripping is
+// needed there.
+function extractFaqAiBlocks(content) {
+  const blocks = [];
+  for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; } // jsonld-valid reports parse errors
+    const walk = (node) => {
+      if (Array.isArray(node)) return node.forEach(walk);
+      if (!node || typeof node !== 'object') return;
+      if (node['@type'] === 'FAQPage' && Array.isArray(node.mainEntity)) {
+        for (const q of node.mainEntity) {
+          const a = q && q.acceptedAnswer;
+          // `name` (the question) is carried alongside `text` (the answer) so
+          // check 25 can test premium/brand scoping against the QUESTION only
+          // — the block's own topic — rather than the whole answer body, which
+          // may mention a premium brand only as a trailing disclaimer that
+          // does not re-scope an earlier, unrelated sentence.
+          if (a && typeof a.text === 'string') blocks.push({ label: 'FAQ answer', text: a.text, name: typeof q.name === 'string' ? q.name : '' });
+        }
+      }
+      for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v);
+    };
+    walk(parsed);
+  }
+  for (const m of content.matchAll(/<div\b[^>]*\bclass="[^"]*\bai-block\b[^"]*"[^>]*>([\s\S]*?)<\/div>/g)) {
+    for (const p of m[1].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)) {
+      const text = p[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
+      blocks.push({ label: 'AI answer block', text });
+    }
+  }
+  return blocks;
+}
+
 // ── Check 20: umbrella-range ──────────────────────────────────────────────────
 // Inside a single FAQ answer (or a single .ai-block <p> of AI-answer-block
 // prose), a "governing" summary range must actually bound every other dollar
@@ -1964,16 +2079,12 @@ if (run('tel-target')) {
 if (run('umbrella-range')) {
   checked['umbrella-range'] = { files: 0, blocks: 0, governingRanges: 0, rangesChecked: 0 };
 
-  const num = (s) => parseInt(s.replace(/,/g, ''), 10);
-  const CONNECT = '(?:to|and|–|-)';
-  // Any two-number dollar range, e.g. "$100 to $350", "$120-$450", "$230 to $490+".
-  const RANGE_SRC = `\\$([\\d,]+)\\s*${CONNECT}\\s*\\$([\\d,]+)\\+?`;
-  const RANGE_RE = new RegExp(RANGE_SRC, 'g');
+  // num, CONNECT, RANGE_SRC, RANGE_RE, EXCEPTION_RE and extractFaqAiBlocks() are
+  // hoisted above (shared with check 25, faq-cost-table-parity) — see the
+  // "Shared dollar-range helpers" block just before this check.
   // Verb-anchored "governing" shape: the range must sit immediately after the verb
   // (an optional "between" is the only filler allowed).
   const GOVERN_RE = new RegExp(`\\b(?:run|runs|land|lands|fall|falls|cost|costs)\\s+(?:between\\s+)?${RANGE_SRC}`, 'gi');
-  // Sanctioned escape hatch, PR #696: "The one exception above that range is X, which runs $A-$B."
-  const EXCEPTION_RE = new RegExp(`The one exception above that range is[^.]*?${RANGE_SRC}`, 'g');
   // ROUND 3 finding: seo-content.md's own brand-tier system treats "premium" as a
   // defined tier, not just the 5 brand names spelled out. One remaining block
   // (article-repair-replace.html) scopes a higher refrigerator range with
@@ -1986,35 +2097,9 @@ if (run('umbrella-range')) {
   const REPAIR_WORD = /\brepairs?\b/i;
   const SUBJECT_WINDOW = 40; // "repair(s)" must appear this close to the sentence start to count as the true subject, not a trailing aside
 
-  function extractBlocks(content) {
-    const blocks = [];
-    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
-      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; } // jsonld-valid reports parse errors
-      const walk = (node) => {
-        if (Array.isArray(node)) return node.forEach(walk);
-        if (!node || typeof node !== 'object') return;
-        if (node['@type'] === 'FAQPage' && Array.isArray(node.mainEntity)) {
-          for (const q of node.mainEntity) {
-            const a = q && q.acceptedAnswer;
-            if (a && typeof a.text === 'string') blocks.push({ label: 'FAQ answer', text: a.text });
-          }
-        }
-        for (const v of Object.values(node)) if (v && typeof v === 'object') walk(v);
-      };
-      walk(parsed);
-    }
-    for (const m of content.matchAll(/<div\b[^>]*\bclass="[^"]*\bai-block\b[^"]*"[^>]*>([\s\S]*?)<\/div>/g)) {
-      for (const p of m[1].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)) {
-        const text = p[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
-        blocks.push({ label: 'AI answer block', text });
-      }
-    }
-    return blocks;
-  }
-
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
-    const blocks = extractBlocks(content);
+    const blocks = extractFaqAiBlocks(content);
     if (!blocks.length) continue;
     checked['umbrella-range'].files++;
 
@@ -2732,6 +2817,357 @@ if (run('img-dimensions')) {
   }
 }
 
+// ── Check 25: faq-cost-table-parity ─────────────────────────────────────────────
+// See the docblock above for the full rationale (P6-34's second half). Reuses
+// num/RANGE_RE/EXCEPTION_RE/extractFaqAiBlocks from the "Shared dollar-range
+// helpers" block above check 20.
+//
+// DEBUG: `--file <path>` restricts the scan to exactly one file (which may live
+// outside the repo, e.g. a scratch fixture), for adversarially proving the check
+// fails on a broken copy without touching a real page. Only honored in this
+// check.
+if (run('faq-cost-table-parity')) {
+  checked['faq-cost-table-parity'] = { files: 0, blocks: 0, instancesChecked: 0 };
+
+  const fileArgIdx = process.argv.indexOf('--file');
+  const debugFile = fileArgIdx !== -1 ? process.argv[fileArgIdx + 1] : null;
+  const filesToScan = debugFile ? [debugFile] : allHtml;
+  const relOrPath = (p) => (debugFile ? p : rel(p));
+
+  const BASELINE_PATH = path.join(root, 'test', 'faq-cost-table-baseline.json');
+  const WRITE_BASELINE = process.argv.includes('--write-faq-cost-baseline');
+
+  // Words that never identify a specific part/job, so they are stripped before
+  // matching a FAQ phrase against a table row's label. Deliberately does NOT
+  // include ordinary part nouns (motor, board, valve, gasket, ...): those ARE
+  // the identifying vocabulary this check relies on.
+  const GENERIC_STOP = new Set([
+    'a', 'an', 'the', 'and', 'or', 'of', 'for', 'to', 'in', 'on', 'not', 'no', 'with', 'per',
+    'is', 'are', 'be', 'it', 'its', 'that', 'this', 'these', 'those', 'most', 'some',
+    'typical', 'typically', 'usual', 'usually', 'often', 'more', 'less', 'than', 'about',
+    'around', 'over', 'under', 'up', 'down', 'out', 'if', 'you', 'your', 'at', 'as', 'all',
+    'any', 'one', 'run', 'runs', 'cost', 'costs', 'costing', 'fall', 'falls', 'land', 'lands',
+    'can', 'will', 'may', 'might', 'depending', 'depend', 'depends', 'vary', 'varies',
+    'range', 'ranges', 'total', 'totals', 'flat', 'fee', 'fees', 'estimate', 'estimates',
+    'quote', 'quotes', 'before', 'after', 'also', 'other', 'same', 'still', 'while', 'which',
+    'what', 'how', 'much', 'does', 'do', 'job', 'jobs', 'work', 'works', 'higher', 'lower',
+    'brand', 'brands', 'model', 'models', 'part', 'parts', 'orange', 'county',
+    // Descriptive trailing nouns that a FAQ mention routinely drops (e.g. "blower
+    // wheel" for a table row literally named "Blower wheel & housing") — treating
+    // them as generic keeps the CORE part word(s) as the match signal instead of
+    // silently failing the match on a dropped word. Found via #696-style
+    // adjudication on this check itself (dryer-repair-cost-orange-county.html).
+    'housing', 'assembly', 'assemblies',
+  ]);
+  const JOB_WORDS = new Set([
+    'repair', 'repairs', 'repaired', 'repairing', 'replacement', 'replacements', 'replacing',
+    'replace', 'replaced', 'install', 'installed', 'installation', 'installing', 'installs',
+    'service', 'services', 'servicing', 'fix', 'fixes', 'fixing', 'fixed',
+  ]);
+  // Deliberate scope exclusion: a new-appliance / replacement-unit price is not
+  // the same claim as a repair-part price, even when it names the same part
+  // vocabulary (#696 false-positive class). Allows 0-2 filler words (a brand
+  // name) between "new" and the appliance noun — "a new Bosch dishwasher runs
+  // roughly $800 to $1,400" (pages/bosch-appliance-repair-orange-county.html)
+  // does not match "new\s+dishwasher" directly.
+  const NEW_UNIT_RE = /\bnew\s+(?:[a-z-]+\s+){0,2}(?:unit|appliance|dishwasher|refrigerator|fridge|freezer|washer|dryer|oven|range|stove|cooktop|microwave|water\s+heater|garbage\s+disposal|disposal|wine\s+cooler|ice\s+maker)\b/i;
+  const REPLACEMENT_UNIT_RE = /\breplacement\s+unit\b|\bbuying\s+(?:a\s+)?new\b|\bbrand[- ]new\b/i;
+  // Deliberate scope exclusion, same precedent as check 20's premium/brand-scoped
+  // segmentation: a range whose FAQ answer names a premium brand (or "premium"/
+  // "built-in" generally) is deliberate brand-tier segmentation, not a
+  // contradiction with the standard-brand table. Tested against the WHOLE
+  // answer text (not just the local window) because the scoping cue is often
+  // the block's OPENING sentence ("Miele and Bosch washer repair generally
+  // costs more...") while the priced range sits in a later sentence.
+  const SCOPE_RE = /\b(Sub-Zero|Wolf|Viking|Thermador|Miele|premium|built-in)\b/i;
+  // Deliberate scope exclusion: "compressor-based" / "thermoelectric-based" name
+  // a wine-cooler TECHNOLOGY CATEGORY, not the "Compressor" table row, even
+  // though the word "compressor" is shared (pages/wine-cooler-repair-orange-county.html).
+  // Stripped from the window before word-matching so the category word can
+  // never be mistaken for the row's part name.
+  const CATEGORY_BASED_RE = /\b[a-z-]+-based\b/gi;
+  // Deliberate scope exclusion: a range with this cue right in its own window is
+  // explicitly stated to fall OUTSIDE the adjacent range, not to equal it — the
+  // umbrella-vs-itemized shape check 20 already owns
+  // (articles/article-freezer-cost-rancho-santa-margarita.html: "Most repairs
+  // fall between $150 and $450, with sealed-system work sitting above that
+  // range").
+  const EXCLUSION_CUE_RE = /\b(?:above|outside|beyond|higher than|more than)\s+(?:that|this|the)\s+range\b/i;
+
+  function singularize(w) {
+    if (w.length > 4 && w.endsWith('ies')) return w.slice(0, -3) + 'y';
+    if (w.length > 4 && /(?:ches|shes|xes|sses|zes)$/.test(w)) return w.slice(0, -2);
+    if (w.length > 3 && w.endsWith('s') && !w.endsWith('ss') && !w.endsWith('us')) return w.slice(0, -1);
+    return w;
+  }
+  function normalizeWords(text) {
+    return text.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean).map(singularize);
+  }
+  function significantWords(text) {
+    return normalizeWords(text).filter(w => w.length > 1 && !GENERIC_STOP.has(w) && !JOB_WORDS.has(w) && !/^\d+$/.test(w));
+  }
+  // Splits a table-row label into alternative part-name phrases ("Door gasket /
+  // tub seal" -> ["door gasket", "tub seal"]) and keeps only phrases with
+  // enough distinguishing vocabulary to match safely: at least two significant
+  // words, or one that is long enough (>=4 chars) to not be a stray generic
+  // noun. A phrase that reduces to nothing (a purely symptom-shaped label like
+  // "Won't start") is dropped rather than matched loosely. Parenthetical
+  // qualifiers ("Heating element (electric)", "Oven igniter (gas oven)") are
+  // stripped BEFORE splitting: they are annotations, not part of the identifying
+  // phrase, and requiring their words too caused false "no match" misses that
+  // in turn narrowed the matched-rows envelope and produced false positives
+  // (dryer-repair-cost-orange-county.html: "heating element" in the FAQ never
+  // said "electric", so the row silently dropped out of the envelope).
+  function labelSubphrases(label) {
+    const stripped = label.replace(/\([^)]*\)/g, ' ');
+    const alts = stripped.split(/\s*\/\s*|\bor\b/i).map(s => s.trim()).filter(Boolean);
+    const phrases = [];
+    for (const alt of alts) {
+      const words = significantWords(alt);
+      if (words.length >= 2 || (words.length === 1 && words[0].length >= 4)) phrases.push(words);
+    }
+    return phrases;
+  }
+
+  // Picks which column of a `.cost-table` is the label (part/job name) and
+  // which is the price, from the header row. Most tables are the simple
+  // 2-3 column "Repair | Typical Range | ..." shape, where the defaults
+  // (label=0, price=1) are already right — this only matters for the handful
+  // of wider or differently-ordered tables found live:
+  //   - "Repair type | Parts cost | Labor | Total range" (the four *-cost
+  //     articles): price must be the TOTAL column, not the parts-only one.
+  //   - "Appliance | Typical Range | Most Common Repairs | Replacement Cost
+  //     (new)" (the umbrella cost hub): two columns match /cost|range/i: the
+  //     repair price and the brand-new-unit price. The new-unit one is
+  //     excluded explicitly — comparing a FAQ repair figure against a
+  //     replacement-unit price is the same false-positive class NEW_UNIT_RE
+  //     guards against on the FAQ side.
+  //   - Tables with NO column naming a cost/range at all (error-code decode
+  //     tables sharing the `.cost-table` CSS class; a maintenance-vs-repair
+  //     comparison table whose "Preventive task"/"Median major repair"
+  //     columns never say cost/range) are skipped entirely — safer to see no
+  //     rows than to guess which column is a price
+  //     (articles/article-maintenance-skip-cost-statistics.html: guessing
+  //     column 1 there paired an appliance NAME with its PREVENTIVE-task
+  //     cost, not its repair cost, and produced three false positives).
+  function pickColumns(theadHtml) {
+    if (!theadHtml) return { labelIdx: 0, priceIdx: 1 }; // no header row at all — classic 2-3 col shape
+    const ths = [...theadHtml.matchAll(/<th[^>]*>([\s\S]*?)<\/th>/g)].map(x => x[1].replace(/<[^>]+>/g, '').trim());
+    if (!ths.length) return { labelIdx: 0, priceIdx: 1 };
+    let candidates = ths.map((h, i) => ({ i, h })).filter(({ h }) => /cost|range/i.test(h));
+    if (!candidates.length) return null; // no discernible price column — skip the whole table
+    const nonNew = candidates.filter(({ h }) => !/\bnew\b|replacement/i.test(h));
+    if (nonNew.length) candidates = nonNew;
+    const totalOnes = candidates.filter(({ h }) => /total/i.test(h));
+    if (totalOnes.length) candidates = totalOnes;
+    const priceIdx = candidates[0].i;
+    const labelMatch = ths.findIndex((h, i) => i !== priceIdx && /\b(repair|fault|component|problem)\b/i.test(h));
+    return { labelIdx: labelMatch === -1 ? 0 : labelMatch, priceIdx };
+  }
+
+  // Extracts every `.cost-table` row on the page as { label, ranges, subphrases }.
+  // Structure observed across all 65 `.cost-table` pages: <table class="cost-table">
+  // ... <tbody><tr><td><strong>Label</strong></td><td><span class="cost-range">
+  // $A-$B</span></td>...</tr></tbody></table> — see pickColumns() above for the
+  // handful of pages that vary this shape. Rows whose price cell carries no
+  // two-number range (a flat-fee row, if any) or whose label reduces to no safe
+  // subphrase are skipped — nothing to compare against, conservatively.
+  function extractCostTableRows(content) {
+    const rows = [];
+    for (const t of content.matchAll(/<table\b[^>]*\bclass="[^"]*\bcost-table\b[^"]*"[^>]*>([\s\S]*?)<\/table>/g)) {
+      const tableHtml = t[1];
+      const theadMatch = tableHtml.match(/<thead[^>]*>([\s\S]*?)<\/thead>/);
+      const cols = pickColumns(theadMatch ? theadMatch[1] : null);
+      if (!cols) continue; // no discernible price column — skip this table
+      const { labelIdx, priceIdx } = cols;
+      const bodyMatch = tableHtml.match(/<tbody[^>]*>([\s\S]*?)<\/tbody>/);
+      const body = bodyMatch ? bodyMatch[1] : tableHtml;
+      for (const tr of body.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)) {
+        const tds = [...tr[1].matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)].map(d => d[1]);
+        if (tds.length <= Math.max(labelIdx, priceIdx)) continue;
+        const label = tds[labelIdx].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').trim();
+        if (!label) continue;
+        RANGE_RE.lastIndex = 0;
+        const ranges = [];
+        let rm;
+        while ((rm = RANGE_RE.exec(tds[priceIdx]))) ranges.push({ A: num(rm[1]), B: num(rm[2]) });
+        if (!ranges.length) continue;
+        const subphrases = labelSubphrases(label);
+        if (!subphrases.length) continue;
+        rows.push({ label, ranges, subphrases });
+      }
+    }
+    return rows;
+  }
+
+  function matchedRowsFor(windowWords, rows) {
+    return rows.filter(row => row.subphrases.some(ws => ws.every(w => windowWords.includes(w))));
+  }
+
+  // The window a FAQ dollar-range instance is judged against. Three shapes,
+  // narrowest first, because a wider-than-necessary window mixes several named
+  // parts together and (per the "prefer a miss to a false hit" instruction)
+  // that is a SAFE failure mode, not a dangerous one — it can only widen the
+  // matched-rows envelope, never mis-narrow it:
+  //   (a) parenthetical-adjacent — "worn door gasket/tub seal ($120-$250)": the
+  //       range sits immediately inside "(...)" right after the naming phrase.
+  //       Window = the text between the previous [,.;:] and the "(", i.e. just
+  //       that one named phrase, not the whole (possibly multi-part) sentence.
+  //   (b) "for"-adjacent — "$180 to $350 for a dishwasher drain pump, $250 to
+  //       $450 for a control board, ...": one verb distributed across a
+  //       comma-joined "$X to $Y for <phrase>" list (the same false-positive
+  //       shape check 20's ROUND 2 finding names). Window = the phrase between
+  //       "for" and the next [,.;], not the whole multi-clause sentence, so
+  //       each range is judged only against ITS OWN named part. Found live on
+  //       pages/bosch-appliance-repair-orange-county.html and
+  //       pages/dcs-appliance-repair-orange-county.html: without this, every
+  //       range in the list widened its envelope with every OTHER part in the
+  //       list too, and one of the four ranges named a part absent from the
+  //       table entirely, so its (wrongly widened) envelope came out too
+  //       narrow and flagged a false contradiction.
+  //   (c) fallback — the whole sentence containing the range, bounded by the
+  //       nearest '.' or ';' on either side.
+  function findWindow(text, idx, len) {
+    const before = text.slice(0, idx);
+    const openParen = before.match(/\(\s*$/);
+    if (openParen) {
+      const parenStart = before.length - openParen[0].length;
+      const priorText = before.slice(0, parenStart);
+      const boundary = Math.max(priorText.lastIndexOf(','), priorText.lastIndexOf('.'), priorText.lastIndexOf(';'), priorText.lastIndexOf(':'));
+      return priorText.slice(boundary + 1);
+    }
+    const after = text.slice(idx + len);
+    const forMatch = after.match(/^[^a-zA-Z]{0,12}for\s+/i);
+    if (forMatch) {
+      const afterFor = after.slice(forMatch[0].length);
+      const stopMatch = afterFor.match(/[,.;]/);
+      return afterFor.slice(0, stopMatch ? stopMatch.index : afterFor.length);
+    }
+    const sentStart = Math.max(text.lastIndexOf('.', idx), text.lastIndexOf(';', idx)) + 1;
+    const relEndOffset = after.search(/[.;]/);
+    const sentEnd = relEndOffset === -1 ? text.length : idx + len + relEndOffset;
+    return text.slice(sentStart, sentEnd);
+  }
+
+  const flaggedDetails = [];
+  const flaggedKeys = new Set();
+
+  for (const filePath of filesToScan) {
+    if (!fs.existsSync(filePath)) continue;
+    const content = fs.readFileSync(filePath, 'utf8');
+    const rows = extractCostTableRows(content);
+    if (!rows.length) continue; // no .cost-table — nothing to cross-check
+    const faqBlocks = extractFaqAiBlocks(content).filter(b => b.label === 'FAQ answer');
+    if (!faqBlocks.length) continue; // no FAQPage JSON-LD — nothing to cross-check
+
+    checked['faq-cost-table-parity'].files++;
+
+    for (const { text, name } of faqBlocks) {
+      checked['faq-cost-table-parity'].blocks++;
+      // Premium/brand-scoped segmentation, same precedent as check 20: skip
+      // the whole block when its QUESTION names a premium brand — that is the
+      // block's actual topic ("How much does Sub-Zero or built-in refrigerator
+      // repair cost?", "How much does Miele or Bosch washer repair cost?").
+      // Deliberately narrower than testing the whole answer body: the generic
+      // washer-repair FAQ's answer also mentions "Premium brands (Miele)
+      // generally cost more" as a trailing aside, and that aside must NOT
+      // re-scope an earlier, unrelated mid-range sentence in the same answer.
+      if (SCOPE_RE.test(name)) continue;
+
+      // Allow-marker, same wording PR #696 settled on and check 20 already
+      // strips: a figure introduced by this phrase is a stated exception, not
+      // a contradiction.
+      const clean = text.replace(EXCEPTION_RE, ' ');
+
+      RANGE_RE.lastIndex = 0;
+      let m;
+      while ((m = RANGE_RE.exec(clean))) {
+        const window = findWindow(clean, m.index, m[0].length);
+        if (NEW_UNIT_RE.test(window) || REPLACEMENT_UNIT_RE.test(window)) continue;
+        if (EXCLUSION_CUE_RE.test(window)) continue; // "...sitting above that range" — check 20's territory, not a table contradiction
+
+        const windowWords = significantWords(window.replace(CATEGORY_BASED_RE, ' '));
+        const matched = matchedRowsFor(windowWords, rows);
+        if (!matched.length) continue; // no table row named in this window — category bucket, generic prose, etc.
+
+        checked['faq-cost-table-parity'].instancesChecked++;
+        const allRanges = matched.flatMap(r => r.ranges);
+        const envMin = Math.min(...allRanges.map(r => r.A));
+        const envMax = Math.max(...allRanges.map(r => r.B));
+        const x = num(m[1]), y = num(m[2]);
+
+        if (x < envMin || y > envMax) {
+          const phrase = window.replace(/\s+/g, ' ').trim();
+          const key = `${relOrPath(filePath)}|${phrase}`;
+          flaggedKeys.add(key);
+          flaggedDetails.push({
+            key, filePath, phrase,
+            faqRange: `$${m[1]}-${m[2]}`,
+            tableRows: matched.map(r => `${r.label} ($${r.ranges.map(rr => `${rr.A}-${rr.B}`).join(', $')})`).join('; '),
+          });
+        }
+      }
+    }
+  }
+
+  if (WRITE_BASELINE) {
+    flaggedDetails.sort((a, b) => a.key.localeCompare(b.key));
+    const baseline = {
+      _README: [
+        'BASELINE OF FAQ-ANSWER DOLLAR RANGES THAT NAME A PART ALSO PRICED IN THE SAME',
+        "PAGE'S .cost-table, WHOSE FIGURE FALLS OUTSIDE THE UNION OF THE MATCHING TABLE",
+        'ROW(S). This is a RATCHET, not an allowlist, matching test/tap-target-baseline.json',
+        'and test/img-dimension-baseline.json.',
+        '',
+        'The check FAILS if: a page|phrase not listed here is flagged (new drift); or a',
+        'listed entry is no longer flagged (fixed, or the page/phrase no longer exists) —',
+        'remove it. The baseline can only shrink. Do NOT add an entry to make a failing run',
+        'pass: a newly-contradicting FAQ figure is a bug in the page, not a number to',
+        'record here — see P6-34 in tasks/backlog.md.',
+        '',
+        'Regenerate from the current tree with:',
+        '  node test/content-integrity.js faq-cost-table-parity --write-faq-cost-baseline',
+        '',
+        'Keyed by "<page path>|<the matched FAQ phrase, verbatim>". `faqRange` is the',
+        'contradicting figure; `tableRows` names the .cost-table row(s) it was matched',
+        'against and their own range(s).',
+      ],
+      recorded: new Date().toISOString().slice(0, 10),
+      entries: Object.fromEntries(flaggedDetails.map(d => [d.key, {
+        faqRange: d.faqRange,
+        tableRows: d.tableRows,
+      }])),
+    };
+    fs.writeFileSync(BASELINE_PATH, JSON.stringify(baseline, null, 2) + '\n');
+    console.log(`[FAQ-COST-TABLE-PARITY] wrote ${flaggedDetails.length} page|phrase entries to test/faq-cost-table-baseline.json`);
+  } else if (debugFile) {
+    // Debug mode: report directly, do not consult or require the baseline —
+    // the fixture lives outside the repo and was never meant to be baselined.
+    for (const d of flaggedDetails) {
+      issues.push(`[FAQ-COST-TABLE-PARITY] ${relOrPath(d.filePath)} — FAQ says ${d.faqRange} for "...${d.phrase}..." but the .cost-table row(s) say ${d.tableRows}`);
+    }
+  } else {
+    const baselineRaw = fs.existsSync(BASELINE_PATH)
+      ? JSON.parse(fs.readFileSync(BASELINE_PATH, 'utf8'))
+      : { entries: {} };
+    const baselineEntries = baselineRaw.entries || {};
+    const baselineKeySet = new Set(Object.keys(baselineEntries));
+    checked['faq-cost-table-parity'].baselineCount = baselineKeySet.size;
+
+    for (const d of flaggedDetails) {
+      if (!baselineKeySet.has(d.key)) {
+        issues.push(`[FAQ-COST-TABLE-PARITY] ${rel(d.filePath)} — FAQ says ${d.faqRange} for "...${d.phrase}..." but the .cost-table row(s) say ${d.tableRows}; not in test/faq-cost-table-baseline.json. Fix the contradiction, or run --write-faq-cost-baseline if this is pre-existing debt.`);
+      }
+    }
+    for (const key of baselineKeySet) {
+      if (flaggedKeys.has(key)) continue;
+      const [pageRel] = key.split('|');
+      const pageExists = fs.existsSync(path.join(root, pageRel));
+      issues.push(`[FAQ-COST-TABLE-PARITY] ${key} — listed in test/faq-cost-table-baseline.json but ${pageExists ? 'is no longer flagged (fixed, or the phrase no longer appears)' : 'the page no longer exists'}. Remove it from the baseline.`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -2800,6 +3236,10 @@ if (checked['img-dimensions']) {
   // back to flaggedKeys — the key count just written — never to `flagged`.
   const keyCount = c.baselineCount !== undefined ? c.baselineCount : c.flaggedKeys;
   parts.push(`img width/height ratchet held on ${c.checkedEntries} decoded <img> entries across ${c.files} files (${c.flagged} flagged occurrences = ${c.flaggedKeys} unique page|src keys; baseline covers ${keyCount} keys; ${c.withinTolerance} in-tolerance mismatches, informational)`);
+}
+if (checked['faq-cost-table-parity']) {
+  const c = checked['faq-cost-table-parity'];
+  parts.push(`FAQ/cost-table parity ratchet held on ${c.instancesChecked} matched FAQ figure(s) across ${c.blocks} FAQ answers in ${c.files} files with both FAQPage + .cost-table (baseline covers ${c.baselineCount ?? 0} page|phrase keys, see P6-34)`);
 }
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
