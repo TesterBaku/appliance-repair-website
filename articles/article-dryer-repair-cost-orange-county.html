@@ -169,6 +169,12 @@
     body { background: #f7fafc; color: #000000e6; font-family: 'Inter', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
     .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #eee; }
     .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+    /* Anchor scroll offset (P6-24, #797 critique, 2026-09-03): fixed .nav is 71px tall
+       (70px .nav-inner + 1px border), so an in-page #anchor jump (TOC links, FAQ
+       links) lands the target flush under the header with no offset.
+       96px = 71px header + 25px breathing room, on every anchor-able element; it only affects scroll-into-view, so it is
+       harmless on ids that carry fixed/hidden elements (#mobile-nav-drawer, etc). */
+    [id] { scroll-margin-top: 96px; }
     .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; color: #111; text-decoration: none; }
     /* gap was 22px until the Brands dropdown made 8 top-level items: at 22px the row
        overflows the 1100px container and the labels wrap to two lines. */
