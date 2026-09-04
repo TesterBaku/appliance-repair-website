@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-nine enforced checks (EXIT 1 on any failure) plus one informational report
+ * Thirty enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -562,6 +562,99 @@
  *                    restricts a single run to one file, which may live outside the repo,
  *                    same convention as faq-cost-table-parity and umbrella-range above.
  *
+ *   testimonial-hub-cap (P6-49, tasks/backlog.md): the "a review may appear on at most 2
+ *                    hubs" rule (`.claude/skills/testimonial-selection/SKILL.md`) was
+ *                    previously enforced only by hand via tasks/testimonial-usage.md,
+ *                    a tracker a research subagent can misread as "absent means 0 hubs"
+ *                    (it did, on the Stanton build: Olga Garcia was reported at 0 hubs
+ *                    when she was actually at the 2-hub cap). This check makes the rule
+ *                    self-enforcing from ground truth (live HTML), the same escalation
+ *                    non-person-reviewers already used for a different testimonial
+ *                    invariant.
+ *
+ *                    HUB SET, derived from a pattern, not a literal list (the same
+ *                    discipline test/functional.spec.js's CITY_HUBS uses, and for the
+ *                    same reason: a hand-maintained list drifts): every file under
+ *                    pages/ whose basename matches `^appliance-repair-.*-ca\.html$`
+ *                    (city hubs), `^luxury-appliance-repair-.*-ca\.html$` (luxury city
+ *                    hubs), or ends in `-orange-county.html` (service/brand/cost hubs,
+ *                    including appliance-repair-cost-orange-county.html). 69 pages
+ *                    qualify today. The homepage (index.html) and pages/testimonials.html
+ *                    do NOT count toward the cap, per the rule itself, and neither
+ *                    matches any hub pattern, so they are excluded automatically rather
+ *                    than by a separate exclusion list.
+ *
+ *                    CAP: reads each qualifying hub's `Review` JSON-LD (`author.name`),
+ *                    same walk as non-person-reviewers, and counts distinct hubs per
+ *                    normalized reviewer name; every name in data/testimonials.json is
+ *                    unique, verified across the full pool before relying on
+ *                    name-only counting. A name is capped at 2 hubs, except the four
+ *                    reviews grandfathered by the rule itself (Molla Islam, Joellyn
+ *                    Meadows, Lilya Raupova, Katie Anne Salen), capped at 3. A RATCHET
+ *                    against test/testimonial-hub-cap-baseline.json's `capEntries`,
+ *                    same semantics as the other baseline files in this suite: new
+ *                    overage fails, a baseline entry no longer over cap must be
+ *                    removed. Measured against the live corpus before adding this
+ *                    check: 0 names over cap (8 at 1 hub, 96 at 2, the 4 grandfathered
+ *                    at 3), which exactly reconciles with tasks/testimonial-usage.md's
+ *                    own capacity table, so `capEntries` ships empty, a pure regression
+ *                    guard rather than pre-existing debt to ratchet).
+ *
+ *                    VERBATIM: for each rendered Review, its `reviewBody` must trace
+ *                    back to that reviewer's data/testimonials.json `body` ("never
+ *                    invent a testimonial", AGENTS.md "Data"). Matched, in order:
+ *                    (1) equal to the pool body once entities are decoded and all
+ *                    punctuation is collapsed to whitespace (so an em dash vs. comma,
+ *                    or a missing space after a period in the raw captured body, is
+ *                    not a false positive); (2) the pool record carries
+ *                    `bodyHasTypos: true`, which is this project's own sanctioned
+ *                    "light typo/grammar editing" allowance
+ *                    (testimonial-selection.md), trusted outright rather than
+ *                    re-judged by a script, the same "a checker that guesses at
+ *                    English produces false failures" reasoning brand-tier already
+ *                    states for prose; (3) the rendered body is a punctuation-
+ *                    normalized PREFIX of the pool body (a shortened display quote,
+ *                    still verbatim as far as it goes). Anything else fails. A RATCHET
+ *                    against the same baseline file's `verbatimEntries`. Measured
+ *                    against the live corpus: of 55 hub reviews whose raw JSON-LD
+ *                    reviewBody did not byte-match the pool, 52 cleared one of the
+ *                    three allowances above; 3 pre-existing genuine mismatches remain
+ *                    and are baselined rather than silently changed (this check adds
+ *                    a guard, it does not rewrite content): Kathy Calderon on
+ *                    pages/dacor-appliance-repair-orange-county.html (an old, shorter
+ *                    excerpt predating the pool record being completed with its full
+ *                    body (see data/testimonials.json `_meta.notes`, "Kathy Calderon
+ *                    ... full bod[y] sourced from missing_data/"), Julie L. on
+ *                    pages/dryer-repair-cost-orange-county.html ("Universal
+ *                    Appliances" vs. the pool's "Universal Appliance"), and Mark
+ *                    Rivera on pages/washer-repair-orange-county.html ("Whirlpool
+ *                    washer" vs. the pool's "washer whirlpool", a word-order swap).
+ *
+ *                    CROSS-CHECK against tasks/testimonial-usage.md (2026-09-02,
+ *                    auto-generated by
+ *                    scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py): its
+ *                    capacity table (8 / 96 / 4 at 1/2/3 hubs) and its 4 named
+ *                    grandfathered exceptions match this check's live-HTML count
+ *                    exactly. No discrepancy found; the tracker is current, not
+ *                    stale, as of this check's addition.
+ *
+ *                    DEBUG: `--file <path>` (which may live outside the repo, e.g. a
+ *                    copy of an at-cap hub page edited to add a 3rd use of a
+ *                    2-hub review, or a fixture Review with a fabricated body) is
+ *                    ADDED to the real 69-hub scan as one more hub, rather than
+ *                    restricting the scan to it alone, unlike this file's other
+ *                    `--file` checks, because proving a cap breach needs the real
+ *                    corpus's existing 1-2 uses of a review to be present alongside
+ *                    the fixture's 3rd use. In `--file` mode neither ratchet baseline
+ *                    is consulted or required to pass; findings are reported directly,
+ *                    the same "debug fixture never touches the baseline" rule
+ *                    faq-cost-table-parity and mojibake already use.
+ *
+ *                    `node test/content-integrity.js testimonial-hub-cap
+ *                    --write-testimonial-baseline` regenerates
+ *                    test/testimonial-hub-cap-baseline.json from the current tree.
+ *                    Added 2026-09-03.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -570,7 +663,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all twenty-nine enforced checks + the report
+ *   node test/content-integrity.js          : run all thirty enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -585,7 +678,7 @@
  *                                             tel-target, umbrella-range, srcset-width,
  *                                             area-served-parity, hero-preload,
  *                                             img-dimensions, faq-cost-table-parity,
- *                                             mojibake, title-length)
+ *                                             mojibake, testimonial-hub-cap, title-length)
  *
  *   node test/content-integrity.js img-dimensions --write-img-baseline
  *                                          — regenerate test/img-dimension-baseline.json
@@ -606,6 +699,17 @@
  *                                           restrict the scan to exactly one file (may be
  *                                           outside the repo); debug-only, see the
  *                                           mojibake docblock above.
+ *
+ *   node test/content-integrity.js testimonial-hub-cap --write-testimonial-baseline
+ *                                           regenerate test/testimonial-hub-cap-baseline.json
+ *                                           from the current tree (see the
+ *                                           testimonial-hub-cap docblock above).
+ *
+ *   node test/content-integrity.js testimonial-hub-cap --file <path>
+ *                                           ADD one file (may be outside the repo) to the
+ *                                           real hub scan as one more hub, rather than
+ *                                           restricting to it; debug-only, see the
+ *                                           testimonial-hub-cap docblock above.
  */
 
 'use strict';
@@ -3561,6 +3665,194 @@ if (run('mojibake')) {
   }
 }
 
+// ── Check 27: testimonial-hub-cap ───────────────────────────────────────────────
+// See the docblock above for the full rationale (P6-49, tasks/backlog.md). Enforces
+// the "a review may appear on at most 2 hubs" rule and the "never invent a
+// testimonial" rule from ground-truth live HTML, instead of by hand via
+// tasks/testimonial-usage.md.
+//
+// DEBUG: `--file <path>` (may live outside the repo) is ADDED to the real hub
+// scan as one more hub, not a restriction to it alone, unlike this file's other
+// `--file` checks, so a fixture can supply the 3rd use of an already-at-cap
+// review. Only honored in this check. In `--file` mode, findings are reported
+// directly and neither baseline is consulted or required to pass.
+if (run('testimonial-hub-cap')) {
+  checked['testimonial-hub-cap'] = { hubFiles: 0, reviews: 0 };
+
+  const fileArgIdx = process.argv.indexOf('--file');
+  const fileArgVal = fileArgIdx !== -1 ? process.argv[fileArgIdx + 1] : null;
+  if (fileArgIdx !== -1 && (!fileArgVal || fileArgVal.startsWith('--') || !fs.existsSync(fileArgVal))) {
+    console.error('usage: node test/content-integrity.js testimonial-hub-cap --file <path-to-html>  (the path must exist)');
+    process.exit(2);
+  }
+  const debugFile = fileArgVal;
+
+  const BASELINE_PATH = path.join(root, 'test', 'testimonial-hub-cap-baseline.json');
+  const WRITE_BASELINE = process.argv.includes('--write-testimonial-baseline');
+
+  // HUB SET, derived from a pattern rather than a literal list. Matches
+  // AGENTS.md's three hub families: per-city (`appliance-repair-<city>-ca.html`),
+  // luxury per-city (`luxury-appliance-repair-<city>-ca.html`), and per-
+  // appliance/brand/cost (`<slug>-orange-county.html`, which also covers
+  // appliance-repair-cost-orange-county.html). index.html and
+  // pages/testimonials.html match none of these and are excluded automatically,
+  // per the rule ("homepage + testimonials page don't count").
+  const HUB_NAME_PATTERNS = [
+    /^appliance-repair-.*-ca\.html$/,
+    /^luxury-appliance-repair-.*-ca\.html$/,
+    /-orange-county\.html$/,
+  ];
+  const hubFiles = pages.filter(f => HUB_NAME_PATTERNS.some(re => re.test(path.basename(f))));
+  const scanFiles = debugFile ? [...hubFiles, debugFile] : hubFiles;
+  const relOrPath = (p) => (debugFile && p === debugFile ? p : rel(p));
+
+  // The four reviews grandfathered onto 3 hubs by the rule itself
+  // (testimonial-selection.md, tasks/testimonial-usage.md). Every other review
+  // is capped at 2.
+  const GRANDFATHERED = new Set(['molla islam', 'joellyn meadows', 'lilya raupova', 'katie anne salen']);
+
+  const testimonialsJson = JSON.parse(fs.readFileSync(path.join(root, 'data', 'testimonials.json'), 'utf8'));
+  const poolByName = new Map(); // normalized name -> pool record (every name in the pool is unique, verified 2026-09-03)
+  for (const r of testimonialsJson.reviews) {
+    if (typeof r.name === 'string') poolByName.set(r.name.trim().toLowerCase(), r);
+  }
+
+  // Word-only normalization: decode the entities this corpus actually carries
+  // (reusing decodeEntities from the shared dollar-range helpers above), then
+  // collapse every remaining punctuation character to a space so a missing
+  // space after a period, or an em dash rendered as a comma, is not mistaken
+  // for a real wording change.
+  const stripPunct = (s) => decodeEntities(s)
+    .toLowerCase()
+    .replace(/[^\w\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  function walkHubReviews(node, out) {
+    if (Array.isArray(node)) { node.forEach(n => walkHubReviews(n, out)); return; }
+    if (!node || typeof node !== 'object') return;
+    if (node['@type'] === 'Review' && node.author && typeof node.author.name === 'string') {
+      out.push({ name: node.author.name, body: typeof node.reviewBody === 'string' ? node.reviewBody : '' });
+    }
+    for (const v of Object.values(node)) if (v && typeof v === 'object') walkHubReviews(v, out);
+  }
+
+  const hubsByName = new Map(); // normalized name -> Set of hub relPaths
+  const verbatimFindings = []; // { key, filePath, name, body, poolBody }
+
+  for (const filePath of scanFiles) {
+    checked['testimonial-hub-cap'].hubFiles++;
+    const content = fs.readFileSync(filePath, 'utf8');
+    const relPath = relOrPath(filePath);
+    const reviewsOnPage = [];
+    for (const m of content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+      let parsed; try { parsed = JSON.parse(m[1]); } catch { continue; } // jsonld-valid reports parse errors
+      walkHubReviews(parsed, reviewsOnPage);
+    }
+    for (const rv of reviewsOnPage) {
+      checked['testimonial-hub-cap'].reviews++;
+      const nameKey = rv.name.trim().toLowerCase();
+
+      if (!hubsByName.has(nameKey)) hubsByName.set(nameKey, new Set());
+      hubsByName.get(nameKey).add(relPath);
+
+      const poolRec = poolByName.get(nameKey);
+      if (!poolRec || typeof poolRec.body !== 'string') {
+        verbatimFindings.push({ key: `${relPath}|${nameKey}`, filePath, relPath, name: rv.name, body: rv.body, poolBody: null });
+        continue;
+      }
+      const cardWords = stripPunct(rv.body);
+      const poolWords = stripPunct(poolRec.body);
+      const ok = cardWords === poolWords
+        || poolRec.bodyHasTypos === true
+        || (cardWords.length > 0 && poolWords.startsWith(cardWords));
+      if (!ok) {
+        verbatimFindings.push({ key: `${relPath}|${nameKey}`, filePath, relPath, name: rv.name, body: rv.body, poolBody: poolRec.body });
+      }
+    }
+  }
+
+  const capFindings = [];
+  for (const [nameKey, hubSet] of hubsByName) {
+    const cap = GRANDFATHERED.has(nameKey) ? 3 : 2;
+    if (hubSet.size > cap) {
+      capFindings.push({ key: nameKey, count: hubSet.size, cap, hubs: [...hubSet].sort() });
+    }
+  }
+
+  if (WRITE_BASELINE) {
+    const baseline = {
+      _README: [
+        'BASELINE FOR THE testimonial-hub-cap CHECK (P6-49, tasks/backlog.md). This is a',
+        'RATCHET, not an allowlist, matching test/faq-cost-table-baseline.json and',
+        'test/img-dimension-baseline.json.',
+        '',
+        'capEntries: a reviewer name (normalized) already rendered on MORE hubs than the',
+        '≤2-hubs rule allows (≤3 for the four grandfathered exceptions in',
+        'testimonial-selection.md). The check FAILS on any name over cap not listed here,',
+        'and on any listed entry no longer over cap (fixed; remove it). Do NOT add an',
+        'entry to make a failing run pass; a new overage is a bug on the hub page, not a',
+        'number to record here.',
+        '',
+        'verbatimEntries: a "<hub page>|<normalized reviewer name>" whose rendered Review',
+        'body does not trace back to data/testimonials.json (see the check\'s docblock for',
+        'the three allowed forms: exact modulo punctuation, bodyHasTypos:true, or a',
+        'punctuation-normalized prefix). Same ratchet semantics.',
+        '',
+        'Regenerate from the current tree with:',
+        '  node test/content-integrity.js testimonial-hub-cap --write-testimonial-baseline',
+      ],
+      recorded: new Date().toISOString().slice(0, 10),
+      capEntries: Object.fromEntries(capFindings.map(f => [f.key, { count: f.count, cap: f.cap, hubs: f.hubs }])),
+      verbatimEntries: Object.fromEntries(verbatimFindings.map(f => [f.key, { name: f.name, body: f.body, poolBody: f.poolBody }])),
+    };
+    fs.writeFileSync(BASELINE_PATH, JSON.stringify(baseline, null, 2) + '\n');
+    console.log(`[TESTIMONIAL-HUB-CAP] wrote ${capFindings.length} capEntries + ${verbatimFindings.length} verbatimEntries to test/testimonial-hub-cap-baseline.json`);
+  } else if (debugFile) {
+    // Debug mode: report directly, do not consult or require the baseline. The
+    // fixture lives outside the repo (or is a real page copied in) and was never
+    // meant to be baselined.
+    for (const f of capFindings) {
+      issues.push(`[TESTIMONIAL-HUB-CAP] "${f.name || f.key}" appears on ${f.count} hubs (cap ${f.cap}): ${f.hubs.join(', ')}`);
+    }
+    for (const f of verbatimFindings) {
+      issues.push(`[TESTIMONIAL-HUB-CAP] ${f.relPath}: "${f.name}"'s reviewBody does not match data/testimonials.json verbatim (nor bodyHasTypos, nor a punctuation-normalized prefix)`);
+    }
+  } else {
+    const baselineRaw = fs.existsSync(BASELINE_PATH)
+      ? JSON.parse(fs.readFileSync(BASELINE_PATH, 'utf8'))
+      : { capEntries: {}, verbatimEntries: {} };
+    const capBaselineKeys = new Set(Object.keys(baselineRaw.capEntries || {}));
+    const verbatimBaselineKeys = new Set(Object.keys(baselineRaw.verbatimEntries || {}));
+    checked['testimonial-hub-cap'].capBaselineCount = capBaselineKeys.size;
+    checked['testimonial-hub-cap'].verbatimBaselineCount = verbatimBaselineKeys.size;
+
+    const capFoundKeys = new Set(capFindings.map(f => f.key));
+    for (const f of capFindings) {
+      if (!capBaselineKeys.has(f.key)) {
+        issues.push(`[TESTIMONIAL-HUB-CAP] "${f.name || f.key}" appears on ${f.count} hubs (cap ${f.cap}): ${f.hubs.join(', ')}; not in test/testimonial-hub-cap-baseline.json capEntries. Move it off a hub, or run --write-testimonial-baseline if this is pre-existing debt.`);
+      }
+    }
+    for (const key of capBaselineKeys) {
+      if (capFoundKeys.has(key)) continue;
+      issues.push(`[TESTIMONIAL-HUB-CAP] "${key}" listed in test/testimonial-hub-cap-baseline.json capEntries but is no longer over cap. Remove it from the baseline.`);
+    }
+
+    const verbatimFoundKeys = new Set(verbatimFindings.map(f => f.key));
+    for (const f of verbatimFindings) {
+      if (!verbatimBaselineKeys.has(f.key)) {
+        issues.push(`[TESTIMONIAL-HUB-CAP] ${f.relPath}: "${f.name}"'s reviewBody does not match data/testimonials.json verbatim; not in test/testimonial-hub-cap-baseline.json verbatimEntries. Fix the body text, or run --write-testimonial-baseline if this is pre-existing debt.`);
+      }
+    }
+    for (const key of verbatimBaselineKeys) {
+      if (verbatimFoundKeys.has(key)) continue;
+      const [pageRel] = key.split('|');
+      const pageExists = fs.existsSync(path.join(root, pageRel));
+      issues.push(`[TESTIMONIAL-HUB-CAP] "${key}" listed in test/testimonial-hub-cap-baseline.json verbatimEntries but ${pageExists ? 'is no longer flagged (fixed, or the review was removed)' : 'the page no longer exists'}. Remove it from the baseline.`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -3635,5 +3927,9 @@ if (checked['faq-cost-table-parity']) {
   parts.push(`FAQ/cost-table parity ratchet held on ${c.instancesChecked} matched FAQ figure(s) across ${c.blocks} FAQ answers in ${c.files} files with both FAQPage + .cost-table (baseline covers ${c.baselineCount ?? 0} page|phrase keys, see P6-34)`);
 }
 if (checked['mojibake'])             parts.push(`no BOM or cp1252-double-encoding signatures across ${checked['mojibake'].files} files`);
+if (checked['testimonial-hub-cap']) {
+  const c = checked['testimonial-hub-cap'];
+  parts.push(`testimonial hub-cap + verbatim ratchet held on ${c.reviews} rendered reviews across ${c.hubFiles} hub pages (cap baseline covers ${c.capBaselineCount ?? 0}, verbatim baseline covers ${c.verbatimBaselineCount ?? 0}, see P6-49)`);
+}
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);

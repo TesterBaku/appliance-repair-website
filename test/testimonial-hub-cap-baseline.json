@@ -1,0 +1,41 @@
+{
+  "_README": [
+    "BASELINE FOR THE testimonial-hub-cap CHECK (P6-49, tasks/backlog.md). This is a",
+    "RATCHET, not an allowlist, matching test/faq-cost-table-baseline.json and",
+    "test/img-dimension-baseline.json.",
+    "",
+    "capEntries: a reviewer name (normalized) already rendered on MORE hubs than the",
+    "≤2-hubs rule allows (≤3 for the four grandfathered exceptions in",
+    "testimonial-selection.md). The check FAILS on any name over cap not listed here,",
+    "and on any listed entry no longer over cap (fixed; remove it). Do NOT add an",
+    "entry to make a failing run pass; a new overage is a bug on the hub page, not a",
+    "number to record here.",
+    "",
+    "verbatimEntries: a \"<hub page>|<normalized reviewer name>\" whose rendered Review",
+    "body does not trace back to data/testimonials.json (see the check's docblock for",
+    "the three allowed forms: exact modulo punctuation, bodyHasTypos:true, or a",
+    "punctuation-normalized prefix). Same ratchet semantics.",
+    "",
+    "Regenerate from the current tree with:",
+    "  node test/content-integrity.js testimonial-hub-cap --write-testimonial-baseline"
+  ],
+  "recorded": "2026-09-04",
+  "capEntries": {},
+  "verbatimEntries": {
+    "pages/dacor-appliance-repair-orange-county.html|kathy calderon": {
+      "name": "Kathy Calderon",
+      "body": "I had a great experience with AG and this appliance repair service. The technician arrived right on time and was very professional throughout the whole process.",
+      "poolBody": "I had a great experience with AG and this appliance repair service. The technician arrived right on time, clearly explained what might be going on with my washing machine, and gave me a fair estimate upfront. What really impressed me was his dedication—he made a special trip to pick up the needed part and came back on a Saturday morning to complete the repair. Everything is working perfectly now. Professional, courteous, and reliable—couldn't ask for better service!"
+    },
+    "pages/dryer-repair-cost-orange-county.html|julie l.": {
+      "name": "Julie L.",
+      "body": "Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliances, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help.",
+      "poolBody": "Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliance, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help."
+    },
+    "pages/washer-repair-orange-county.html|mark rivera": {
+      "name": "Mark Rivera",
+      "body": "Thank you for fixing my Whirlpool washer",
+      "poolBody": "Thank you for fixing my washer whirlpool"
+    }
+  }
+}
