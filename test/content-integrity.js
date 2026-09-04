@@ -529,7 +529,9 @@
  *                    "Shared dollar-range helpers" block, same entities check 20's
  *                    faq-jsonld-parity block already decoded) before RANGE_RE runs.
  *
- *   mojibake       - every tracked .html file (root, pages/, pages/blog/, articles/) plus
+ *   mojibake       - every .html file this script enumerates (root, pages/, pages/blog/,
+ *                    articles/, via the same filesystem walk as every other check, not a
+ *                    git-tracked-files query) plus
  *                    every data/*.json file must carry neither a UTF-8 BOM (the raw byte
  *                    sequence EF BB BF at byte 0, the same class AGENTS.md's "UTF-8 Without
  *                    BOM" standing rule already worries about) nor one of five classic
@@ -3486,9 +3488,9 @@ if (run('faq-cost-table-parity')) {
 
 // ── Check 26: mojibake ────────────────────────────────────────────────────────
 // See the docblock above for the full rationale (backlog P6-40 follow-up). Scans
-// every tracked .html file this script already enumerates (allHtml already
-// covers root, pages/, pages/blog/ and articles/) plus every data/*.json file,
-// for a UTF-8 BOM or one of the classic cp1252-double-encoding signatures.
+// every .html file this script already enumerates (allHtml already covers root,
+// pages/, pages/blog/ and articles/) plus every data/*.json file, for a UTF-8 BOM
+// or one of the classic cp1252-double-encoding signatures.
 //
 // DEBUG: `--file <path>` restricts the scan to exactly one file (which may live
 // outside the repo, e.g. a scratch fixture), for adversarially proving the check
