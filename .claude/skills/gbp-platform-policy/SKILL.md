@@ -51,9 +51,10 @@ In May 2026, Claude suggested GBP post copy with promotional language ("We handl
 - ✅ **Photos of real completed work are encouraged.** Yelp explicitly prefers real work over stock and logos. Under 5000×5000 px, unlimited for owners.
 - ✅ **Yelp's photo upload HAS a description field** (owner-confirmed from the Yelp business UI, 2026-08-11). A bare GBP photo upload carries no text at all; a Yelp photo can. (Note this is about the *photo upload* specifically, not GBP posts, which do have body text plus an action button.) Two consequences: (a) never assume a platform lacks captions because GBP does; (b) that description **is Yelp text**, so the AI-authorship bullet above governs it — a human writes it. Supply the job facts (appliance, fault, outcome, city, setting) and let the owner write the sentence. Same content limits as everything else on Yelp: city level only, nothing promotional, and claim only what the photo actually shows.
 
-## Instagram — verified 2026-07-30
+## Instagram — verified 2026-07-30, hashtag cap re-verified 2026-09-04 in a real browser
 
 - **Hashtag cap is 5.** Instagram's Help Center (`help.instagram.com/351460621611097`) states you can use up to 5 tags on a post and that a comment with more than 5 will not post. Use 3–5 specific tags.
+  - Re-verified 2026-09-04 by rendering the page in a live Chrome session (not a fetch): the page reads "You can use up to 5 tags on a post. If you include more than 5 tags on a single photo/video, your comment won't post." Unchanged since 2026-07-30.
   - ⚠️ **The page is JS-rendered, so automated fetches return an empty shell.** Anyone re-verifying this must open it in a real browser. Do not "verify" it from a search-result snippet: cached snippets still show the old cap of 30, and trusting one is exactly how a wrong figure got into this file on 2026-07-30.
   - Whether the cap counts caption and comments combined is **unconfirmed** — assume it does and stay at 5 total.
 - **Caption limit ~2,200 chars, ~125 visible** before truncation. Front-load the hook. (Limit unconfirmed on an official page today; help pages are JS-rendered.)
