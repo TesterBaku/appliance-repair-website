@@ -3675,7 +3675,10 @@ if (run('mojibake')) {
 // scan as one more hub, not a restriction to it alone, unlike this file's other
 // `--file` checks, so a fixture can supply the 3rd use of an already-at-cap
 // review. Only honored in this check. In `--file` mode, findings are reported
-// directly and neither baseline is consulted or required to pass.
+// directly and neither baseline is consulted or required to pass. Because the
+// real corpus is always scanned too, `--file` against any page resurfaces the
+// verbatim mismatches the committed baseline already carries; read the cap and
+// verbatim sections separately rather than the exit code alone.
 if (run('testimonial-hub-cap')) {
   checked['testimonial-hub-cap'] = { hubFiles: 0, reviews: 0 };
 
@@ -3775,9 +3778,15 @@ if (run('testimonial-hub-cap')) {
       }
       const cardWords = stripPunct(rv.body);
       const poolWords = stripPunct(poolRec.body);
+      // A shortened display quote must be a WORD-level prefix of the pool body.
+      // A raw string startsWith() would accept a quote cut mid-word ("whirlp"
+      // against "whirlpool"), which is a truncation defect, not a shortening
+      // (PR #806 review).
+      const isWordPrefix = cardWords.length > 0
+        && (poolWords === cardWords || poolWords.startsWith(cardWords + ' '));
       const ok = cardWords === poolWords
         || poolRec.bodyHasTypos === true
-        || (cardWords.length > 0 && poolWords.startsWith(cardWords));
+        || isWordPrefix;
       if (!ok) {
         verbatimFindings.push({ key: `${relPath}|${nameKey}`, filePath, relPath, name: rv.name, body: rv.body, poolBody: poolRec.body });
       }
