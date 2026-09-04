@@ -124,16 +124,29 @@
       .neighborhoods-grid { grid-template-columns: 1fr; }
       div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
       .process-steps { grid-template-columns: repeat(2, 1fr); }
-      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      /* P6-42: this unprefixed override is dead weight, not a live rule -- it
+         duplicates the value already active from `.hub-page .testimonials-grid`
+         at the 900px breakpoint (line 108), which outranks it on specificity
+         (0,2,0 vs 0,1,0) regardless of source order. Left unset here rather than
+         restated, so the grid isn't misread as configurable at this breakpoint. */
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
       .process-steps { grid-template-columns: 1fr; }
-      .testimonials-grid { grid-template-columns: 1fr; }
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+      /* P6-42: restores the standard collapse every sibling hub uses (e.g.
+         appliance-repair-anaheim-ca.html) and that DESIGN.md documents
+         ("Collapses to single column at 480px"). Must be `.hub-page`-prefixed
+         (specificity 0,2,0) to actually beat the `.hub-page .testimonials-grid`
+         rule at the 900px breakpoint (line 108, same specificity, but this one
+         needs to win when both are active below 480px); the previous unprefixed
+         `.testimonials-grid` version here (specificity 0,1,0) never won and was
+         dead code, which is why the grid rendered 2 columns all the way to 0px
+         and overflowed below ~301px. */
+      .hub-page .testimonials-grid { grid-template-columns: 1fr; }
     }
   </style>
 
