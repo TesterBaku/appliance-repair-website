@@ -28,6 +28,13 @@
  * phone number like '(949) 000-0000' balances to net zero and is harmless).
  * A real syntax error would already fail `npx playwright test` on its own.
  *
+ * Before any matching, comments are stripped (see stripComments below) so a
+ * commented-out `// await page.route('**formspree.io/**', ...)` can never
+ * satisfy this check and let a real, unguarded submit through. String
+ * literals are left untouched (both because the selectors and URL patterns
+ * this check matches live inside them, and so a stray "//" or "/*" inside a
+ * string is never mistaken for the start of a comment).
+ *
  * Usage:
  *   node test/formspree-guard.js
  */
@@ -40,7 +47,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const testDir = path.join(root, 'test');
 
-// Any `test(...)`, `test.only(...)`, or `test.skip(...)` call — deliberately
+// Any `test(...)`, `test.only(...)`, or `test.skip(...)` call: deliberately
 // excludes `test.describe(...)`, since a describe block is not "the same test
 // block" the backlog item is scoped to.
 const TEST_CALL_RE = /\btest(?:\.only|\.skip)?\s*\(/g;
@@ -52,6 +59,69 @@ const SUBMIT_RE = /\.click\(\s*['"]#form-submit['"]\s*\)|['"]#contact-form['"][\
 // A Formspree route stub, matching the pattern every existing test already uses:
 // page.route('**formspree.io/**', ...).
 const ROUTE_STUB_RE = /\.route\(\s*[`'"][^`'"]*formspree[^`'"]*[`'"]/gi;
+
+// Blanks out `//` line comments and `/* */` block comments, leaving every
+// other character (including string-literal contents) untouched, so the
+// SUBMIT_RE / ROUTE_STUB_RE matching below never treats commented-out code
+// as real code. String literals are copied through verbatim, character for
+// character (escape sequences included), specifically so a `//` or `/*`
+// inside a string is never misread as the start of a comment. Output is the
+// same length as the input with newlines in the same positions, so every
+// index computed against the sanitized text is still a valid index (and
+// line number, via lineOf) into the original source.
+function stripComments(src) {
+  let out = '';
+  const n = src.length;
+  let i = 0;
+  while (i < n) {
+    const ch = src[i];
+    const next = src[i + 1];
+
+    if (ch === '"' || ch === "'" || ch === '`') {
+      const quote = ch;
+      out += ch;
+      i++;
+      while (i < n) {
+        const c = src[i];
+        out += c;
+        if (c === '\\' && i + 1 < n) {
+          out += src[i + 1];
+          i += 2;
+          continue;
+        }
+        i++;
+        if (c === quote) break;
+      }
+      continue;
+    }
+
+    if (ch === '/' && next === '/') {
+      while (i < n && src[i] !== '\n') {
+        out += ' ';
+        i++;
+      }
+      continue;
+    }
+
+    if (ch === '/' && next === '*') {
+      out += '  ';
+      i += 2;
+      while (i < n && !(src[i] === '*' && src[i + 1] === '/')) {
+        out += src[i] === '\n' ? '\n' : ' ';
+        i++;
+      }
+      if (i < n) {
+        out += '  ';
+        i += 2;
+      }
+      continue;
+    }
+
+    out += ch;
+    i++;
+  }
+  return out;
+}
 
 function findSpecFiles(dir) {
   const out = [];
@@ -110,8 +180,13 @@ let submitTestCount = 0;
 for (const file of findSpecFiles(testDir)) {
   const rel = path.relative(root, file).split(path.sep).join('/');
   const src = fs.readFileSync(file, 'utf8');
+  // Match against the comment-stripped text (see stripComments above), not
+  // the raw source, so a commented-out stub can never satisfy the guard.
+  // Same length as src with newlines in the same positions, so indices into
+  // it are still valid indices into src for line-number reporting.
+  const sanitized = stripComments(src);
 
-  for (const block of extractTestBlocks(src)) {
+  for (const block of extractTestBlocks(sanitized)) {
     SUBMIT_RE.lastIndex = 0;
     const submitMatch = SUBMIT_RE.exec(block.text);
     if (!submitMatch) continue; // this test never submits the contact form
