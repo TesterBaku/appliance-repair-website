@@ -19,7 +19,14 @@ Invoke this as a **subagent** so it runs with no memory of the implementation co
 ## Review process
 
 ### Step 1 — Get the diff
-Run `git diff master...HEAD` (or fetch the PR diff). Read **every changed line**. Do not skim.
+Run `git diff master...HEAD` or `gh pr diff <PR-number>`. Invoked with `/review <branch-name>`
+instead, use `git diff master...<branch-name>` (or `git diff master...origin/<branch-name>` if
+the branch is not checked out locally) so no checkout is needed. Read **every changed line**. Do
+not skim. **Read-only, always**: see `.claude/agents/code-reviewer.md` "Hard constraints": never
+`git checkout`/`stash`/`reset`/`clean` in the shared tree, never `npm install`/`ci`, never create
+a `git worktree` yourself (an isolated checkout must come from the dispatcher's
+`isolation: "worktree"`), never drive a shared MCP browser against a page with a live form
+action.
 
 ### Step 2 — Read the full files, not just the diff
 For any HTML file touched, read the complete `<head>` section and the full page structure. Diffs hide context that breaks things.
