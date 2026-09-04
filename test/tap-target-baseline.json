@@ -43,13 +43,8 @@
   ],
   "recorded": "2026-08-20",
   "paidDownTo2": "2026-08-21",
+  "paidDownTo0": "2026-09-04",
   "measuredWith": "Chromium 375x812, after document.fonts.ready, via the test/functional.spec.js tap-target sweep",
-  "knownShortClasses": [
-    "brand-pill",
-    "hero-rating"
-  ],
-  "_debt": {
-    "brand-pill": "34 pages, 526 elements including the .premium variant, 34px. P6-50.",
-    "hero-rating": "66 pages, 66 elements, 30px. P6-50."
-  }
+  "knownShortClasses": [],
+  "_debt": {}
 }
