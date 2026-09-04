@@ -35,9 +35,9 @@
  * discipline as the final swap below, not a bare unprotected call, because "very unlikely"
  * is not "impossible" and an uncaught exception here used to crash the process with the temp
  * build directory leaked), then the fresh temp build is renamed into ./pagefind, and only
- * once THAT succeeds is the backup removed. A transient Windows lock (EPERM/EBUSY — e.g. an
- * AV scan or an editor/indexer holding a file open) on either rename is retried a few times
- * with a short backoff before giving up.
+ * once THAT succeeds is the backup removed. A transient Windows lock (EPERM/EBUSY/EACCES,
+ * e.g. an AV scan, an editor/indexer holding a file open, or a permissions/ACL snag) on
+ * either rename is retried a few times with a short backoff before giving up.
  *
  * A cross-device rename (EXDEV — e.g. os.tmpdir() on a different drive than the repo) does
  * NOT fall back to copying straight into the destination: copying directly into ./pagefind
@@ -148,7 +148,11 @@ function moveViaCopy(src, dest, { retries, delayMs }) {
       fs.rmSync(src, { recursive: true, force: true });
       return;
     } catch (err) {
-      const retryable = err.code === 'EPERM' || err.code === 'EBUSY';
+      // EACCES alongside EPERM/EBUSY: Windows can surface a locked file as any of the
+      // three depending on what's holding it (an AV scan tends to throw EBUSY/EPERM, a
+      // permissions/ACL snag or another process's read handle can surface as EACCES);
+      // all three are the same "transiently locked, worth retrying" condition here.
+      const retryable = err.code === 'EPERM' || err.code === 'EBUSY' || err.code === 'EACCES';
       if (!retryable || attempt === retries) {
         fs.rmSync(stagingDir, { recursive: true, force: true });
         throw err;
@@ -173,7 +177,8 @@ function moveDirWithRetry(src, dest, { retries = 5, delayMs = 300 } = {}) {
       if (err.code === 'EXDEV') {
         return moveViaCopy(src, dest, { retries, delayMs });
       }
-      const retryable = err.code === 'EPERM' || err.code === 'EBUSY';
+      // EACCES alongside EPERM/EBUSY: see the matching comment in moveViaCopy() above.
+      const retryable = err.code === 'EPERM' || err.code === 'EBUSY' || err.code === 'EACCES';
       if (!retryable || attempt === retries) throw err;
       console.warn(`build-search-index: rename attempt ${attempt}/${retries} failed (${err.code}), retrying...`);
       sleepSync(delayMs);

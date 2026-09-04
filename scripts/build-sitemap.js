@@ -100,10 +100,16 @@ function unquoteGitPath(p) {
 // review, WARNING). Porcelain v1 lines are `XY <path>` or, for a rename/copy (X or Y is
 // 'R'/'C'), `XY <path> -> <newpath>` — only the (current, post-rename) path on the right
 // of `->` matters here, since that is what's actually on disk to stat.
+//
+// `--untracked-files=all` is required: without it, git collapses a brand-new, entirely
+// untracked directory into a single `?? dir/` line rather than listing the files inside
+// it, so those files never matched an individual path in DIRTY_PATHS and silently fell
+// back through to the git-log (stale) or `today` path instead of their real mtime (PR
+// #802 review, follow-up after the two BLOCKERs).
 function collectDirtyPaths() {
   let out;
   try {
-    out = execSync('git status --porcelain', { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+    out = execSync('git status --porcelain --untracked-files=all', { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
   } catch (_) {
     return new Set(); // no git / not a repo — treat everything as clean, same as the old per-file catch
   }
