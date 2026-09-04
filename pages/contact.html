@@ -94,7 +94,11 @@
     <link rel="preload" href="../shared.css" as="style" />
 <link rel="stylesheet" href="../shared.css" />
   <style>
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 48px; align-items: start; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 48px; align-items: stretch; }
+    /* P6-46 item 2: stretch the form card to match the sidebar column's height and
+       center its (possibly shorter) content, so the post-submit success state does
+       not collapse to a short card with empty space beside it at desktop widths. */
+    .contact-grid > .card { display: flex; flex-direction: column; justify-content: center; }
     .form-group { margin-bottom: 16px; }
     .form-label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 6px; }
     .form-input { width: 100%; padding: 11px 14px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 13px; font-family: 'Inter', sans-serif; color: #111; background: #fff; outline: none; transition: border-color 0.15s; }
@@ -361,7 +365,7 @@
 
         <!-- FORM -->
         <div class="card" style="padding:36px 40px;">
-          <h2 class="h2-xs" style="margin-bottom:6px;">Request a Repair</h2>
+          <h2 id="form-heading" class="h2-xs" style="margin-bottom:6px;">Request a Repair</h2>
           <p id="form-intro" style="font-size:13px;color:#666;margin-bottom:28px;line-height:1.6;">Fill out the form below and one of our technicians will reach out to schedule your repair.</p>
 
           <div class="contact-pricing-callout">
@@ -616,6 +620,12 @@
       var button = document.getElementById('form-submit');
       var intro = document.getElementById('form-intro');
       var callout = document.querySelector('.contact-pricing-callout');
+      // P6-46 impeccable follow-up: the card's own "Request a Repair" heading
+      // sat outside #contact-form and was never hidden on success, so it kept
+      // showing above the "Message sent!" confirmation, one heading visually
+      // contradicting the other. Hidden alongside intro/callout for the same
+      // reason those are: it only makes sense while the form is present.
+      var heading = document.getElementById('form-heading');
       if (!form || !success || !error || !button || !window.fetch) return;
 
       var idleLabel = button.textContent;
@@ -672,7 +682,7 @@
               // "Fill out the form below" and the diagnostic-fee callout both read
               // as stale once the form is gone.
               form.style.display = 'none';
-              [intro, callout].forEach(function (el) {
+              [intro, callout, heading].forEach(function (el) {
                 if (el) el.style.display = 'none';
               });
               reveal(success);
@@ -686,7 +696,10 @@
               .then(function (data) {
                 var reasons = (data && data.errors ? data.errors : [])
                   .map(function (e) { return e.message; })
-                  .filter(Boolean);
+                  .filter(Boolean)
+                  // Strip a trailing period from each reason before joining, so a
+                  // pre-punctuated Formspree message doesn't double up into "..".
+                  .map(function (m) { return m.replace(/\.$/, ''); });
                 fail(reasons.length ? reasons.join('. ') + '.' : null);
               })
               .catch(function () { fail(null); });
@@ -723,7 +736,7 @@
           success.style.display = 'none';
           error.style.display = 'none';
           form.style.display = '';
-          [intro, callout].forEach(function (el) {
+          [intro, callout, heading].forEach(function (el) {
             if (el) el.style.display = '';
           });
           form.scrollIntoView({ behavior: 'smooth', block: 'start' });
