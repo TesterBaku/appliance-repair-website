@@ -36,8 +36,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="preload" href="../shared.css" as="style" />
-  <link rel="preload" as="image" href="../images/kitchen-with-washer.webp" fetchpriority="high" type="image/webp" media="(min-width: 800.1px)">
-  <link rel="preload" as="image" href="../images/kitchen-with-washer-800w.webp" fetchpriority="high" type="image/webp" media="(max-width: 800px)">
+  <link rel="preload" as="image" href="../images/kitchen-with-washer.webp" fetchpriority="high" type="image/webp" media="(min-width: 800.1px), (min-resolution: 2.01dppx)">
+  <link rel="preload" as="image" href="../images/kitchen-with-washer-800w.webp" fetchpriority="high" type="image/webp" media="(max-width: 800px) and (max-resolution: 2dppx)">
   <link rel="stylesheet" href="../shared.css" />
 
   <style>
@@ -118,10 +118,16 @@
     .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
 
     /* MOBILE */
-    @media (max-width: 800px) {
+    @media (max-width: 800px) and (max-resolution: 2dppx) {
       /* Matches the ../images/kitchen-with-washer-800w.webp preload's own
-         media breakpoint above (800px), not the layout breakpoint below:
-         this swap is purely bandwidth (smaller hero file), not layout. */
+         media breakpoint above (800px, DPR <= 2), not the layout breakpoint
+         below: this swap is purely bandwidth (smaller hero file), not
+         layout. The (max-resolution: 2dppx) guard targets the specific
+         case flagged in review: a DPR-3 phone at 375-428 CSS px (needing
+         1125-1284 device px) getting an upscaled 800px file. It does not
+         guarantee the 800px source is never upscaled at all DPR<=2 widths
+         inside this band (e.g. a DPR2 tablet at ~768px CSS px still gets
+         a ~1.9x upscale); narrowing further is tracked as a follow-up. */
       .hub-hero-bg { background-image: url('../images/kitchen-with-washer-800w.webp'); }
     }
     @media (max-width: 768px) {
