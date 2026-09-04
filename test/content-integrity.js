@@ -609,7 +609,7 @@
  *                    not a false positive); (2) the pool record carries
  *                    `bodyHasTypos: true`, which is this project's own sanctioned
  *                    "light typo/grammar editing" allowance
- *                    (testimonial-selection.md), trusted outright rather than
+ *                    (.claude/skills/testimonial-selection/SKILL.md), trusted outright rather than
  *                    re-judged by a script, the same "a checker that guesses at
  *                    English produces false failures" reasoning brand-tier already
  *                    states for prose; (3) the rendered body is a punctuation-
@@ -3685,10 +3685,17 @@ if (run('testimonial-hub-cap')) {
     console.error('usage: node test/content-integrity.js testimonial-hub-cap --file <path-to-html>  (the path must exist)');
     process.exit(2);
   }
-  const debugFile = fileArgVal;
+  // Resolved to absolute so a relative --file value (e.g. "pages/foo.html") can
+  // never collide with the already-absolute hubFiles entries below and get
+  // scanned twice, once under each spelling.
+  const debugFile = fileArgVal ? path.resolve(fileArgVal) : null;
 
   const BASELINE_PATH = path.join(root, 'test', 'testimonial-hub-cap-baseline.json');
   const WRITE_BASELINE = process.argv.includes('--write-testimonial-baseline');
+  if (WRITE_BASELINE && debugFile) {
+    console.error('usage: --write-testimonial-baseline cannot be combined with --file: the baseline must be regenerated from the real tree only, never from a fixture.');
+    process.exit(2);
+  }
 
   // HUB SET, derived from a pattern rather than a literal list. Matches
   // AGENTS.md's three hub families: per-city (`appliance-repair-<city>-ca.html`),
@@ -3703,11 +3710,16 @@ if (run('testimonial-hub-cap')) {
     /-orange-county\.html$/,
   ];
   const hubFiles = pages.filter(f => HUB_NAME_PATTERNS.some(re => re.test(path.basename(f))));
-  const scanFiles = debugFile ? [...hubFiles, debugFile] : hubFiles;
+  // debugFile is already resolved to an absolute path above, so this dedupe
+  // catches the case where --file names a real hub page (e.g. a relative
+  // spelling of one already in hubFiles) rather than an external fixture;
+  // without it that hub would be scanned twice and its real 1-2 uses would
+  // read as a false cap breach or a false verbatim mismatch.
+  const scanFiles = debugFile && !hubFiles.includes(debugFile) ? [...hubFiles, debugFile] : hubFiles;
   const relOrPath = (p) => (debugFile && p === debugFile ? p : rel(p));
 
   // The four reviews grandfathered onto 3 hubs by the rule itself
-  // (testimonial-selection.md, tasks/testimonial-usage.md). Every other review
+  // (.claude/skills/testimonial-selection/SKILL.md, tasks/testimonial-usage.md). Every other review
   // is capped at 2.
   const GRANDFATHERED = new Set(['molla islam', 'joellyn meadows', 'lilya raupova', 'katie anne salen']);
 
@@ -3789,7 +3801,7 @@ if (run('testimonial-hub-cap')) {
         '',
         'capEntries: a reviewer name (normalized) already rendered on MORE hubs than the',
         '≤2-hubs rule allows (≤3 for the four grandfathered exceptions in',
-        'testimonial-selection.md). The check FAILS on any name over cap not listed here,',
+        '.claude/skills/testimonial-selection/SKILL.md). The check FAILS on any name over cap not listed here,',
         'and on any listed entry no longer over cap (fixed; remove it). Do NOT add an',
         'entry to make a failing run pass; a new overage is a bug on the hub page, not a',
         'number to record here.',

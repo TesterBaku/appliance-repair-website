@@ -6,7 +6,7 @@
     "",
     "capEntries: a reviewer name (normalized) already rendered on MORE hubs than the",
     "≤2-hubs rule allows (≤3 for the four grandfathered exceptions in",
-    "testimonial-selection.md). The check FAILS on any name over cap not listed here,",
+    ".claude/skills/testimonial-selection/SKILL.md). The check FAILS on any name over cap not listed here,",
     "and on any listed entry no longer over cap (fixed; remove it). Do NOT add an",
     "entry to make a failing run pass; a new overage is a bug on the hub page, not a",
     "number to record here.",
