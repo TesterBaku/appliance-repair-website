@@ -202,19 +202,11 @@ This applies to: new pages, redesigned sections, copy changes, CSS refactors, an
 
 ## Code Review
 
-### What to check
-- Visual fidelity against the reference design
-- Tailwind classes are correct and not redundant
-- No hardcoded colors outside of `DESIGN.md` palette
-- No unused CSS or dead code
-- Mobile layout works at 375px width
-- **The full `/impeccable critique` shows 0 FAILs on all changed HTML/CSS pages**, and the PR states its `??/40` score. There is no tool choice to name: the detector-only tier was retired 2026-08-20.
-
 ### Review rules
 - At least one approval required before merging
 - Author should not merge their own PR without review
 - Resolve all comments before merging
-- Squash merge into `main`
+- Squash merge into `master`
 
 ## PR on Every Change
 
