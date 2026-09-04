@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Twenty-eight enforced checks (EXIT 1 on any failure) plus one informational report
+ * Twenty-nine enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -529,6 +529,37 @@
  *                    "Shared dollar-range helpers" block, same entities check 20's
  *                    faq-jsonld-parity block already decoded) before RANGE_RE runs.
  *
+ *   mojibake       - every tracked .html file (root, pages/, pages/blog/, articles/) plus
+ *                    every data/*.json file must carry neither a UTF-8 BOM (the raw byte
+ *                    sequence EF BB BF at byte 0, the same class AGENTS.md's "UTF-8 Without
+ *                    BOM" standing rule already worries about) nor one of five classic
+ *                    cp1252-double-encoding signatures on the decoded text: an embedded BOM
+ *                    misread as three ordinary characters ("ï»¿" i.e. the
+ *                    literal ï»¿ glyphs, can appear mid-file, not just at byte 0); U+00C3
+ *                    (Ã) immediately followed by a UTF-8 continuation byte (U+0080-U+00BF),
+ *                    the shape a misread multi-byte accented letter takes; U+00C2 (Â)
+ *                    immediately before nbsp/copyright/degree, narrowed to those three
+ *                    glyphs specifically (rather than the full U+0080-U+00BF range) so a
+ *                    legitimate French/Portuguese loanword using Â for other purposes is
+ *                    not flagged; the U+00E2 U+20AC ("â€") curly-quote/dash/ellipsis
+ *                    corruption shape; and the U+00F0 U+0178 ("ðŸ") emoji lead-byte shape.
+ *                    Added 2026-09-03 after PR #706 (logged as a residual under P6-40 in
+ *                    tasks/backlog.md) shipped an article whose sticky mobile Call CTA
+ *                    rendered "C3 B0 C5 B8 E2 80 9C C5 BE" where U+1F4DE should be, and a
+ *                    separate 2026-09-03 PowerShell round-trip corrupted 76 articles the
+ *                    same way, with no gate catching either. `detect.mjs` passes mojibake
+ *                    clean (it is not a design anti-pattern) and no other check reads
+ *                    file bytes at all. Every signature was swept across the full live
+ *                    corpus (176 HTML files + data/testimonials.json) before this check was
+ *                    added: zero matches on any of the five, so this ships as a pure
+ *                    regression guard, not a backlog of pre-existing debt to ratchet.
+ *                    Proven against two fixtures built outside the repo (never committed):
+ *                    one deliberately carrying all six signatures (raw BOM + the five
+ *                    text-level ones), which failed with all six reported; and a plain
+ *                    control fixture with no corruption, which passed clean. `--file <path>`
+ *                    restricts a single run to one file, which may live outside the repo,
+ *                    same convention as faq-cost-table-parity and umbrella-range above.
+ *
  *   title-length   — INFORMATIONAL ONLY (never fails the build). Reports every
  *                    page whose <title> exceeds 60 chars (Google SERP truncation
  *                    threshold), so the over-length titles are visible ahead of a
@@ -537,7 +568,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all twenty-eight enforced checks + the report
+ *   node test/content-integrity.js          : run all twenty-nine enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -552,7 +583,7 @@
  *                                             tel-target, umbrella-range, srcset-width,
  *                                             area-served-parity, hero-preload,
  *                                             img-dimensions, faq-cost-table-parity,
- *                                             title-length)
+ *                                             mojibake, title-length)
  *
  *   node test/content-integrity.js img-dimensions --write-img-baseline
  *                                          — regenerate test/img-dimension-baseline.json
@@ -568,6 +599,11 @@
  *                                           restrict the scan to exactly one file (may be
  *                                           outside the repo); debug-only, see the
  *                                           faq-cost-table-parity docblock above.
+ *
+ *   node test/content-integrity.js mojibake --file <path>
+ *                                           restrict the scan to exactly one file (may be
+ *                                           outside the repo); debug-only, see the
+ *                                           mojibake docblock above.
  */
 
 'use strict';
@@ -3448,6 +3484,81 @@ if (run('faq-cost-table-parity')) {
   }
 }
 
+// ── Check 26: mojibake ────────────────────────────────────────────────────────
+// See the docblock above for the full rationale (backlog P6-40 follow-up). Scans
+// every tracked .html file this script already enumerates (allHtml already
+// covers root, pages/, pages/blog/ and articles/) plus every data/*.json file,
+// for a UTF-8 BOM or one of the classic cp1252-double-encoding signatures.
+//
+// DEBUG: `--file <path>` restricts the scan to exactly one file (which may live
+// outside the repo, e.g. a scratch fixture), for adversarially proving the check
+// fails on a corrupted copy without touching a real page. Only honored in this
+// check.
+if (run('mojibake')) {
+  checked['mojibake'] = { files: 0 };
+
+  const fileArgIdx = process.argv.indexOf('--file');
+  const fileArgVal = fileArgIdx !== -1 ? process.argv[fileArgIdx + 1] : null;
+  if (fileArgIdx !== -1 && (!fileArgVal || fileArgVal.startsWith('--') || !fs.existsSync(fileArgVal))) {
+    console.error('usage: node test/content-integrity.js mojibake --file <path>  (the path must exist)');
+    process.exit(2);
+  }
+  const debugFile = fileArgVal;
+  const dataDir = path.join(root, 'data');
+  const dataJson = fs.existsSync(dataDir)
+    ? fs.readdirSync(dataDir).filter(f => f.endsWith('.json')).map(f => path.join(dataDir, f))
+    : [];
+  const filesToScan = debugFile ? [debugFile] : [...allHtml, ...dataJson];
+  const relOrPath = (p) => (debugFile ? p : rel(p));
+
+  // Text-level signatures, matched against the decoded UTF-8 string. Each one
+  // is a fingerprint that only appears when an already-UTF-8 file has been
+  // re-interpreted and re-saved as cp1252/Windows-1252 (or vice versa), never
+  // in legitimate site copy (this site's content is English-only). Narrowed
+  // per-signature to avoid flagging a bare accented letter that could occur in
+  // a real loanword (e.g. Portuguese "Ã", French "Â"):
+  //   - Ã (U+00C3) is only flagged when immediately followed by a character in
+  //     U+0080-U+00BF, the range a UTF-8 continuation byte lands in when a
+  //     lead byte 0xC3 is misread as cp1252 (the "Ã©"/"Ã±" shape).
+  //   - Â (U+00C2) is only flagged before nbsp/(c)/degree, the three glyphs
+  //     that actually turn up on this site (nbsp entities, copyright lines,
+  //     temperature figures) once misdecoded.
+  //   - "ï»¿" is a real UTF-8 BOM (EF BB BF) misread as cp1252/Latin-1 and
+  //     re-saved, i.e. the BOM survived as three ordinary characters instead
+  //     of three invisible bytes. Caught separately from the raw-BOM check
+  //     below because this shape can appear mid-file, not just at byte 0.
+  //   - "â€" is the classic curly-quote/em-dash/ellipsis corruption shape
+  //     (â€™, â€œ, â€", â€"...).
+  //   - "ðŸ" is an emoji lead-byte (U+1F4XX etc.) misread the same way.
+  // Swept across the full live corpus before adding this check (2026-09-03):
+  // zero matches on any of the five, so none of this is a live false positive
+  // today; it stays a pure regression guard.
+  const SIGNATURES = [
+    { name: 'embedded-bom',  re: /\u00EF\u00BB\u00BF/,               label: 'embedded BOM misread as text (U+00EF U+00BB U+00BF)' },
+    { name: 'a-tilde-cont',  re: /\u00C3[\u0080-\u00BF]/,            label: 'U+00C3 followed by a UTF-8 continuation byte (double-encoded accented letter)' },
+    { name: 'a-circ-narrow', re: /\u00C2[\u00A0\u00A9\u00B0]/,      label: 'U+00C2 before nbsp/copyright/degree (double-encoded symbol)' },
+    { name: 'curly-corrupt', re: /\u00E2\u20AC/,                     label: 'U+00E2 U+20AC sequence (double-encoded curly quote/dash/ellipsis)' },
+    { name: 'emoji-lead',    re: /\u00F0\u0178/,                     label: 'U+00F0 U+0178 emoji lead-byte (double-encoded emoji)' },
+  ];
+
+  for (const filePath of filesToScan) {
+    const buf = fs.readFileSync(filePath);
+    checked['mojibake'].files++;
+
+    if (buf.length >= 3 && buf[0] === 0xEF && buf[1] === 0xBB && buf[2] === 0xBF) {
+      issues.push(`[MOJIBAKE] ${relOrPath(filePath)} — file starts with a UTF-8 BOM (EF BB BF); see AGENTS.md "UTF-8 Without BOM"`);
+    }
+
+    const content = buf.toString('utf8');
+    for (const sig of SIGNATURES) {
+      const m = content.match(sig.re);
+      if (m) {
+        issues.push(`[MOJIBAKE] ${relOrPath(filePath)} — ${sig.label}: "${m[0]}"`);
+      }
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -3521,5 +3632,6 @@ if (checked['faq-cost-table-parity']) {
   const c = checked['faq-cost-table-parity'];
   parts.push(`FAQ/cost-table parity ratchet held on ${c.instancesChecked} matched FAQ figure(s) across ${c.blocks} FAQ answers in ${c.files} files with both FAQPage + .cost-table (baseline covers ${c.baselineCount ?? 0} page|phrase keys, see P6-34)`);
 }
+if (checked['mojibake'])             parts.push(`no BOM or cp1252-double-encoding signatures across ${checked['mojibake'].files} files`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
