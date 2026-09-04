@@ -134,35 +134,51 @@ function sleepSync(ms) {
 // so `dest` is only ever observed either fully absent/untouched or fully replaced — never
 // partially written. A `cpSync` failure partway through leaves only the staging directory
 // corrupted, which is removed before rethrowing; `dest` is unaffected either way.
+// Best-effort directory removal for cleanup paths. A cleanup failure must never replace or
+// be mistaken for the error (or the success) of the operation it is tidying up after: it is
+// logged and swallowed, and the caller keeps its own outcome. (PR #802 independent review:
+// a locked file inside an already-moved source dir made a SUCCESSFUL swap report as failed,
+// which then drove a restore against the live new index and a false CRITICAL message.)
+function bestEffortRm(dir, what) {
+  try {
+    fs.rmSync(dir, { recursive: true, force: true });
+  } catch (err) {
+    console.warn(`build-search-index: could not remove ${what} at ${dir} (${err.code || err.message}); leaving it in place.`);
+  }
+}
+
 function moveViaCopy(src, dest, { retries, delayMs }) {
   const stagingDir = path.join(path.dirname(dest), `${path.basename(dest)}.pf-swap-tmp-${process.pid}-${Date.now()}`);
   try {
     fs.cpSync(src, stagingDir, { recursive: true });
   } catch (err) {
-    fs.rmSync(stagingDir, { recursive: true, force: true });
+    bestEffortRm(stagingDir, 'the staging copy');
     throw err;
   }
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       fs.renameSync(stagingDir, dest);
-      fs.rmSync(src, { recursive: true, force: true });
-      return;
     } catch (err) {
       // EACCES alongside EPERM/EBUSY: Windows can surface a locked file as any of the
-      // three depending on what's holding it (an AV scan tends to throw EBUSY/EPERM, a
-      // permissions/ACL snag or another process's read handle can surface as EACCES);
+      // three depending on what is holding it (an AV scan tends to throw EBUSY/EPERM, a
+      // permissions/ACL snag or another process read handle can surface as EACCES);
       // all three are the same "transiently locked, worth retrying" condition here.
       const retryable = err.code === 'EPERM' || err.code === 'EBUSY' || err.code === 'EACCES';
       if (!retryable || attempt === retries) {
-        fs.rmSync(stagingDir, { recursive: true, force: true });
+        bestEffortRm(stagingDir, 'the staging copy');
         throw err;
       }
       console.warn(`build-search-index: staging rename attempt ${attempt}/${retries} failed (${err.code}), retrying...`);
       sleepSync(delayMs);
+      continue;
     }
+    // The move is complete and `dest` is live. Removing the now-redundant cross-device
+    // source is cleanup only, kept OUTSIDE the try above so a lock on it cannot be
+    // reported as a failed move.
+    bestEffortRm(src, 'the cross-device source directory');
+    return;
   }
 }
-
 // Move `src` into `dest` (which must not exist yet). Retries a locked-file failure
 // (EPERM/EBUSY, typically an AV scan or an indexer holding a handle open on Windows) with
 // a short backoff; falls back to moveViaCopy() (never a direct copy into `dest`) on a
@@ -203,7 +219,7 @@ if (hadExisting) {
     // rename), so there is nothing to restore — the committed index is exactly as it was.
     // Safe to clean up the temp build and fail loudly.
     console.error(`build-search-index: failed to rename the current ./pagefind aside for backup (${err.code || err.message}); leaving ./pagefind untouched.`);
-    fs.rmSync(tmpOutputDir, { recursive: true, force: true });
+    bestEffortRm(tmpOutputDir, 'the temp build');
     process.exit(1);
   }
 }
@@ -220,7 +236,10 @@ try {
   // copy of the freshly built index, and deleting it first would turn a recoverable
   // failure into data loss if the restore then also failed.
   console.error(`build-search-index: failed to move the built index into place (${err.code || err.message}).`);
-  let safeToDeleteTmp = !hadExisting; // nothing existed before, so nothing to restore
+  // Only a successful restore makes the temp build redundant. With no prior ./pagefind
+  // there is nothing to restore and tmpOutputDir is the only copy of the new index, so
+  // it is kept for manual recovery rather than deleted.
+  let safeToDeleteTmp = false;
   if (hadExisting) {
     try {
       moveDirWithRetry(backupDir, outputDir);
@@ -236,7 +255,7 @@ try {
     }
   }
   if (safeToDeleteTmp) {
-    fs.rmSync(tmpOutputDir, { recursive: true, force: true });
+    bestEffortRm(tmpOutputDir, 'the temp build');
   } else {
     console.error(`build-search-index: leaving ${tmpOutputDir} in place — it holds the only good copy of the newly built index.`);
   }
