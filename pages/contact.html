@@ -94,7 +94,11 @@
     <link rel="preload" href="../shared.css" as="style" />
 <link rel="stylesheet" href="../shared.css" />
   <style>
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 48px; align-items: start; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 48px; align-items: stretch; }
+    /* P6-46 item 2: stretch the form card to match the sidebar column's height and
+       center its (possibly shorter) content, so the post-submit success state does
+       not collapse to a short card with empty space beside it at desktop widths. */
+    .contact-grid > .card { display: flex; flex-direction: column; justify-content: center; }
     .form-group { margin-bottom: 16px; }
     .form-label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 6px; }
     .form-input { width: 100%; padding: 11px 14px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 13px; font-family: 'Inter', sans-serif; color: #111; background: #fff; outline: none; transition: border-color 0.15s; }
@@ -686,7 +690,10 @@
               .then(function (data) {
                 var reasons = (data && data.errors ? data.errors : [])
                   .map(function (e) { return e.message; })
-                  .filter(Boolean);
+                  .filter(Boolean)
+                  // Strip a trailing period from each reason before joining, so a
+                  // pre-punctuated Formspree message doesn't double up into "..".
+                  .map(function (m) { return m.replace(/\.$/, ''); });
                 fail(reasons.length ? reasons.join('. ') + '.' : null);
               })
               .catch(function () { fail(null); });
