@@ -562,6 +562,31 @@ checks that every `/skill` listed in "Skills (slash commands)" resolves to a rea
 the same drift-guard discipline the script already applies to `.claude/commands/` and to the
 `.claude/skills/*/SKILL.md` Rule Skills table above.
 
+#### Plugins: `.claude/settings.json` `enabledPlugins`
+
+The committed `enabledPlugins` block enables `superpowers@claude-plugins-official` for every clone
+(owner-approved 2026-08-09, PR #707; the `_plugins_comment` next to it records the scope and the
+per-machine opt-out). Two caveats the #707 review raised, decided 2026-09-04:
+
+- **The entry floats; that is accepted and deliberate, not an oversight.** The
+  `enabledPlugins` map is name-to-boolean and carries no version field, so a marketplace plugin
+  cannot be pinned the way `.agents/skills/impeccable/` is vendored and bumped by its own PR. A new
+  upstream superpowers release therefore changes agent behaviour on every clone with no PR here.
+  That is tolerable because the plugin only adds process skills and a SessionStart injection, and
+  `AGENTS.md` plus the six Rule Skills outrank any plugin skill by the plugin's own precedence note.
+  If a release ever changes a repo-visible behaviour, the remedy is to vendor the skills you depend
+  on under `.claude/skills/` and set the entry to `false`, not to hunt for a pin that does not exist.
+- **Headless-runner caveat, inert while both routines are paused.** Claude Code registers the
+  official marketplace the first time it starts interactively, so a clone that has never been run
+  interactively (a cloud routine, CI) may not resolve the plugin at all; "enabled for the cloud
+  runner" is therefore not unconditionally true. Zero impact today because `/seo-blog` and
+  `/seo-audit` are both disabled (see "Scheduled Automation"). **Re-check before re-enabling
+  either routine:** run one cloud session, confirm `superpowers:brainstorming` appears in its skill
+  listing, and if it does not, treat the plugin as absent there and rely on the committed
+  `.claude/skills/` and `session-start.mjs` alone. The pause itself was caused by a different
+  invisible-to-the-cloud-clone bug (gitignored `.claude/`, fixed in #575), so this failure shape has
+  already bitten this repo once.
+
 ## Status Reporting Policy
 
 Brevity applies to **reporting only** — never shorten your internal reasoning,
