@@ -61,6 +61,49 @@ function gitLastmod(absPath) {
   }
 }
 
+// Format a Date as ISO 8601 with a local UTC offset, matching the shape `git log
+// --format=%aI` produces (e.g. `2026-08-24T09:41:03-07:00`). Used only so the fs-mtime
+// fallback below carries the same precision/shape as the git path before both are
+// truncated to a bare YYYY-MM-DD for the sitemap.
+function toIsoWithOffset(date) {
+  const pad = n => String(n).padStart(2, '0');
+  const offsetMin = -date.getTimezoneOffset();
+  const sign = offsetMin >= 0 ? '+' : '-';
+  const offH = pad(Math.floor(Math.abs(offsetMin) / 60));
+  const offM = pad(Math.abs(offsetMin) % 60);
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}` +
+    `T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}${sign}${offH}:${offM}`;
+}
+
+// A file that is dirty or untracked in the working tree has no commit yet recording its
+// current content, so `git log` returns the *previous* commit's date (or nothing, for a
+// new file) — stale by construction whenever a content change and the sitemap rebuild
+// land in the same commit, which is the workflow this repo uses on every PR (P6-51).
+// `git status --porcelain` catches both cases (modified-and-unstaged/staged, and
+// untracked) in one call.
+function isDirtyOrUntracked(absPath) {
+  try {
+    const out = execSync(
+      `git status --porcelain -- "${absPath}"`,
+      { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }
+    ).trim();
+    return out.length > 0;
+  } catch (_) {
+    return false;
+  }
+}
+
+// lastmod() picks the source of truth per file: fs mtime for a file the working tree has
+// touched since its last commit (git has nothing current to report), git log otherwise.
+// On a clean tree this always takes the git branch, so a clean-tree rebuild is unaffected
+// byte-for-byte (P6-51 option 2, backlog.md ~line 3046).
+function lastmod(absPath) {
+  if (isDirtyOrUntracked(absPath)) {
+    return toIsoWithOffset(fs.statSync(absPath).mtime).slice(0, 10);
+  }
+  return gitLastmod(absPath);
+}
+
 function collectFiles(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (entry.isDirectory()) {
@@ -83,8 +126,8 @@ const urls = files.map(abs => {
     ? '/' + rel.slice(0, -'index.html'.length)
     : rel === 'index.html' ? '/' : '/' + rel;
   const loc = BASE_URL + urlPath;
-  const lastmod = gitLastmod(abs) || today;
-  return { loc, lastmod, urlPath };
+  const urlLastmod = lastmod(abs) || today;
+  return { loc, lastmod: urlLastmod, urlPath };
 });
 
 urls.sort((a, b) => {
