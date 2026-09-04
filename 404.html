@@ -36,7 +36,9 @@
 
   <style>
     .error-hero {
-      background: linear-gradient(135deg, #1e3a5f 0%, #2563a8 100%);
+      /* Same warm dark gradient as shared.css .dark-section (Night Workshop family);
+         the previous cold blue gradient was off-palette per DESIGN.md. */
+      background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%);
       color: #fff;
       text-align: center;
       padding: 80px 24px 64px;
@@ -45,7 +47,9 @@
       font-size: 96px;
       font-weight: 900;
       line-height: 1;
-      opacity: 0.18;
+      /* Decorative watermark, but still visible text: at 0.45 white over this gradient two
+         independent pixel samples measured 4.1 to 5.4:1 (large text needs 3:1, P6-16). */
+      opacity: 0.45;
       letter-spacing: -4px;
       margin-bottom: 0;
     }
@@ -64,7 +68,7 @@
     .error-hero .btn-white {
       display: inline-block;
       background: #fff;
-      color: #1e3a5f;
+      color: #111;
       font-weight: 700;
       font-size: 15px;
       padding: 13px 28px;
@@ -103,8 +107,8 @@
       transition: box-shadow 0.15s, border-color 0.15s;
     }
     .quick-link-card:hover {
-      box-shadow: 0 4px 16px rgba(37,99,168,0.12);
-      border-color: #2563a8;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      border-color: #e84c1e;
     }
     .quick-link-icon { font-size: 24px; }
     .quick-link-label {
