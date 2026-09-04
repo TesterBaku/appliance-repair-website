@@ -137,15 +137,15 @@
       .process-steps { grid-template-columns: 1fr; }
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-    }
-    /* P6-42: the 1fr collapse above was dead for the same specificity reason,
-       so the 2-column testimonials grid rendered all the way down to 0px,
-       overflowing the viewport below ~301px (measured: a .testimonial-card
-       right edge at 301px against a 300px viewport). This site's supported
-       floor is 375px (2-column renders correctly there and is unchanged by
-       this rule), so the fix is scoped to the unsupported sub-floor range
-       only, using `.hub-page` to actually beat the 900px rule's specificity. */
-    @media (max-width: 374px) {
+      /* P6-42: restores the standard collapse every sibling hub uses (e.g.
+         appliance-repair-anaheim-ca.html) and that DESIGN.md documents
+         ("Collapses to single column at 480px"). Must be `.hub-page`-prefixed
+         (specificity 0,2,0) to actually beat the `.hub-page .testimonials-grid`
+         rule at the 900px breakpoint (line 108, same specificity, but this one
+         needs to win when both are active below 480px); the previous unprefixed
+         `.testimonials-grid` version here (specificity 0,1,0) never won and was
+         dead code, which is why the grid rendered 2 columns all the way to 0px
+         and overflowed below ~301px. */
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
     }
   </style>
