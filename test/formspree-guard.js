@@ -13,14 +13,31 @@
  * cite this check instead).
  *
  * This makes the property enforced rather than remembered: it scans every
- * `test(...)` block in test/**\/*.spec.js for a contact-form submit trigger
- * (`click('#form-submit')` or `'#contact-form'...submit()`), and fails if that
- * trigger is not preceded, inside the SAME test block, by a
- * `page.route('...formspree...', ...)` stub. A beforeEach-registered route does
- * NOT count on purpose: this check only looks inside individual test() bodies,
- * matching how the real spec file already writes it (the route call sits right
- * above the click, inside every contact-form test), so a stub hoisted out of the
- * test body would need a deliberate second look here, not a silent pass.
+ * `test(...)` block in test/**\/*.spec.js for a reference to the contact
+ * form's submit control (a bare `'#form-submit'` or `'#contact-form'`
+ * selector literal, quote-anchored so an unrelated string like
+ * `'form#contact-form'` does not count), and fails if that reference is not
+ * preceded, inside the SAME test block, by a `page.route('...formspree...', ...)`
+ * stub. A beforeEach-registered route does NOT count on purpose: this check
+ * only looks inside individual test() bodies, matching how the real spec file
+ * already writes it (the route call sits right above the click, inside every
+ * contact-form test), so a stub hoisted out of the test body would need a
+ * deliberate second look here, not a silent pass.
+ *
+ * Matching a bare selector reference, not just `.click(...)` or `.submit()`,
+ * is deliberate (Copilot review, PR #804): Playwright specs commonly drive a
+ * submit via `page.locator('#form-submit').click()`, a variable assigned
+ * earlier and clicked later (`const submit = page.locator('#form-submit');
+ * ... await submit.click();`), `page.press('#form-submit', 'Enter')`,
+ * `.evaluate(f => f.submit())` / `.evaluate(f => f.requestSubmit())`, or
+ * `.dispatchEvent('submit')`, none of which the previous click/submit-only
+ * pattern caught. Every one of those still needs the selector string
+ * somewhere in the test body, so anchoring on the selector itself (rather
+ * than the specific call that fires it) closes the gap without trying to
+ * parse every way Playwright can trigger a click. The one pattern this
+ * cannot see is `page.getByRole(...)` used with no ID reference anywhere in
+ * the block; that is a real, stated limit of a regex heuristic, not an
+ * oversight, and the docblock says so rather than implying full coverage.
  *
  * Bracket depth is tracked at the character level to find the end of each
  * test(...) call, which is a heuristic, not a JS parser: it works because this
@@ -37,6 +54,10 @@
  *
  * Usage:
  *   node test/formspree-guard.js
+ *   node test/formspree-guard.js <path>   # scan one file or one directory
+ *                                          # instead of test/**, for fixture
+ *                                          # runs that must not live in the
+ *                                          # repo tree
  */
 
 'use strict';
@@ -52,9 +73,17 @@ const testDir = path.join(root, 'test');
 // block" the backlog item is scoped to.
 const TEST_CALL_RE = /\btest(?:\.only|\.skip)?\s*\(/g;
 
-// A click on the contact form's submit button, or an explicit .submit() call
-// targeting #contact-form.
-const SUBMIT_RE = /\.click\(\s*['"]#form-submit['"]\s*\)|['"]#contact-form['"][\s\S]{0,60}?\.submit\(\s*\)/g;
+// A bare, quote-anchored reference to the contact form's submit control:
+// '#form-submit' or '#contact-form' as the entire string literal. Anchoring
+// on the quotes (not just the substring) is what keeps this from matching
+// 'form#contact-form' (the plain existence-check locator in the "contact
+// form exists" test, which never submits and carries no stub) while still
+// matching every real trigger shape: .click('#form-submit'),
+// .locator('#form-submit').click(), a locator assigned to a variable and
+// clicked later, page.press('#form-submit', 'Enter'), and
+// .locator('#contact-form').evaluate(f => f.submit()) /
+// .dispatchEvent('submit') / .evaluate(f => f.requestSubmit()).
+const SUBMIT_RE = /['"]#(?:form-submit|contact-form)['"]/g;
 
 // A Formspree route stub, matching the pattern every existing test already uses:
 // page.route('**formspree.io/**', ...).
@@ -136,6 +165,17 @@ function findSpecFiles(dir) {
   return out;
 }
 
+// Optional CLI argument: a single file or a directory to scan instead of the
+// default test/**/*.spec.js sweep. Fixture proof runs for this guard's own
+// logic must live outside the repo tree (never a committed .spec.js), so an
+// explicit target path is the only way to exercise them.
+function resolveTargets(argPath) {
+  if (!argPath) return findSpecFiles(testDir);
+  const resolved = path.resolve(process.cwd(), argPath);
+  const stat = fs.statSync(resolved);
+  return stat.isDirectory() ? findSpecFiles(resolved) : [resolved];
+}
+
 function lineOf(src, index) {
   let line = 1;
   for (let i = 0; i < index; i++) {
@@ -177,7 +217,7 @@ function extractTestBlocks(src) {
 const violations = [];
 let submitTestCount = 0;
 
-for (const file of findSpecFiles(testDir)) {
+for (const file of resolveTargets(process.argv[2])) {
   const rel = path.relative(root, file).split(path.sep).join('/');
   const src = fs.readFileSync(file, 'utf8');
   // Match against the comment-stripped text (see stripComments above), not
@@ -189,7 +229,7 @@ for (const file of findSpecFiles(testDir)) {
   for (const block of extractTestBlocks(sanitized)) {
     SUBMIT_RE.lastIndex = 0;
     const submitMatch = SUBMIT_RE.exec(block.text);
-    if (!submitMatch) continue; // this test never submits the contact form
+    if (!submitMatch) continue; // this test never references #form-submit or #contact-form
 
     submitTestCount++;
 
@@ -199,8 +239,8 @@ for (const file of findSpecFiles(testDir)) {
 
     if (!stubComesFirst) {
       violations.push(
-        `${rel}:${lineOf(src, block.start + submitMatch.index)}: submits #contact-form without a preceding ` +
-          `page.route('**formspree.io/**', ...) stub in the same test block`
+        `${rel}:${lineOf(src, block.start + submitMatch.index)}: references #form-submit / #contact-form ` +
+          `without a preceding page.route('**formspree.io/**', ...) stub in the same test block`
       );
     }
   }
@@ -210,8 +250,9 @@ if (violations.length) {
   console.error(`formspree-guard: ${violations.length} unguarded contact-form submit(s) found:`);
   violations.forEach((v) => console.error('  ' + v));
   console.error(
-    '\nEvery test that clicks #form-submit (or calls #contact-form.submit()) must register ' +
-      "page.route('**formspree.io/**', ...) earlier in the SAME test() body. Without it, a real " +
+    "\nEvery test that references '#form-submit' or '#contact-form' (click, locator + later .click(), " +
+      "page.press(...), .submit()/.requestSubmit()/.dispatchEvent('submit'), or any other trigger) must " +
+      "register page.route('**formspree.io/**', ...) earlier in the SAME test() body. Without it, a real " +
       'submission reaches the live Formspree endpoint and creates a fake lead in the owner\'s inbox ' +
       '(P6-47 Incident 2).'
   );
