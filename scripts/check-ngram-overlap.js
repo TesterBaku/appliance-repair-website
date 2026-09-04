@@ -149,7 +149,9 @@ function extractVisibleText(html) {
 
   // Strip remaining tags, keeping text.
   s = s.replace(/<!--[\s\S]*?-->/g, ' ');
-  s = s.replace(/<[^>]+>/g, ' ');
+  // Require a tag-name start (letter, "/" or "!") so a stray "<" in prose ("usage < 5%")
+  // is kept as text instead of swallowing everything up to the next ">".
+  s = s.replace(/<\/?[a-zA-Z!][^>]*>/g, ' ');
 
   s = decodeEntities(s);
   s = s.toLowerCase();
