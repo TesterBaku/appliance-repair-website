@@ -28,7 +28,7 @@ Examples:
 Rules:
 - Use lowercase and hyphens only (no spaces, no underscores)
 - Keep descriptions short (2–4 words)
-- Branch off `main` unless told otherwise
+- Branch off `master` unless told otherwise
 
 ## Commit Messages
 Follow Conventional Commits format:
@@ -241,5 +241,5 @@ No direct commits to `master`. No skipping steps for "small" changes. No self-me
 - Deliberate override, when you actually mean it: `git push --no-verify`
 - The hook gates **pushes**, not commits. Nothing stops you committing on `master`
   locally, so branch before you start work, not after.
-- Always branch off `main`, make your changes, then open a PR
-- Force-pushing to `main` is also prohibited
+- Always branch off `master`, make your changes, then open a PR
+- Force-pushing to `master` is also prohibited

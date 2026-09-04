@@ -20,7 +20,7 @@ Invoke this as a **subagent** so it runs with no memory of the implementation co
 
 ### Step 1 — Get the diff
 Run `git diff master...HEAD` or `gh pr diff <PR-number>`. Read **every changed line**. Do not
-skim. **Read-only, always** — see `.claude/agents/code-reviewer.md` "Hard constraints": never
+skim. **Read-only, always**: see `.claude/agents/code-reviewer.md` "Hard constraints": never
 `git checkout`/`stash`/`reset`/`clean` in the shared tree, never `npm install`/`ci`, never create
 a `git worktree` yourself (an isolated checkout must come from the dispatcher's
 `isolation: "worktree"`), never drive a shared MCP browser against a page with a live form
