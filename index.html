@@ -30,7 +30,7 @@
   <meta name="twitter:image" content="https://fixappliancesfast.com/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="images/hero-homepage.webp" fetchpriority="high" type="image/webp" imagesrcset="images/hero-homepage.webp" imagesizes="100vw">
+  <link rel="preload" as="image" href="images/hero-homepage.webp" fetchpriority="high" type="image/webp" imagesrcset="images/hero-homepage-800w.webp 800w, images/hero-homepage.webp 1600w" imagesizes="100vw">
   <style>
 :root {
   --brand:        #e84c1e;
@@ -919,7 +919,7 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   <!-- HERO -->
   <section class="hero">
     <picture>
-      <source srcset="images/hero-homepage.webp" type="image/webp">
+      <source srcset="images/hero-homepage-800w.webp 800w, images/hero-homepage.webp 1600w" sizes="100vw" type="image/webp">
       <img class="hero-bg" src="images/hero-homepage.jpg" alt="Appliance repair technician serving Orange County CA" fetchpriority="high" loading="eager" width="1600" height="1397" decoding="async">
     </picture>
     <div class="hero-overlay"></div>
