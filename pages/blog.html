@@ -63,6 +63,10 @@
        sizing, footer, dropdown, drawer, hamburger, sticky mobile bar) is
        inherited from shared.css, linked above. */
 
+    /* Screen-reader-only utility (P6-64): standard clip-based sr-only
+       pattern. Not in shared.css yet, so declared locally here. */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
     /* Hero: shared.css sets padding/border/h1/p; these keep the decorative
        floats contained and clipped to the hero. */
     .page-hero { position: relative; overflow: hidden; }
@@ -81,7 +85,7 @@
     .featured-img { width: 100%; height: 100%; min-height: 380px; object-fit: cover; display: block; }
     .featured-body { padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; }
     .featured-tag { display: inline-block; background: #fff7ed; color: #aa3210; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
-    .featured-title { font-size: 26px; font-weight: 800; color: #111; line-height: 1.25; letter-spacing: -0.5px; margin-bottom: 14px; }
+    .featured-title { margin-top: 0; font-size: 26px; font-weight: 800; color: #111; line-height: 1.25; letter-spacing: -0.5px; margin-bottom: 14px; }
     .featured-excerpt { font-size: 13.5px; color: #666; line-height: 1.8; }
     .featured-meta { display: flex; align-items: center; gap: 14px; margin-top: 24px; }
     .featured-date { font-size: 12px; color: #666; }
@@ -107,7 +111,7 @@
     .blog-cat-badge { position: absolute; top: 14px; left: 14px; background: rgba(255,255,255,0.92); backdrop-filter: blur(6px); color: #aa3210; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 4px 10px; border-radius: 20px; }
     .blog-body { padding: 22px 24px 26px; flex: 1; display: flex; flex-direction: column; }
     .blog-date { font-size: 12px; color: #666; margin-bottom: 10px; }
-    .blog-title { font-size: 16px; font-weight: 700; color: #111; line-height: 1.35; margin-bottom: 10px; }
+    .blog-title { margin-top: 0; font-size: 16px; font-weight: 700; color: #111; line-height: 1.35; margin-bottom: 10px; }
     .blog-excerpt { font-size: 12.5px; color: #666; line-height: 1.75; flex: 1; }
     .blog-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #aa3210; text-decoration: none; margin-top: 16px; }
     .blog-link:hover { gap: 9px; }
@@ -119,14 +123,25 @@
     /* Search */
     #blog-search { display: block; width: 100%; max-width: 480px; margin: 32px auto 0; padding: 11px 18px; font-size: 14px; font-family: 'Inter', sans-serif; border: 1.5px solid #e5e7eb; border-radius: 10px; outline: none; background: #fff; color: #111; transition: border-color 0.15s; }
     #blog-search:focus { border-color: #e84c1e; box-shadow: 0 0 0 3px rgba(232,76,30,0.1); }
-    #blog-search::placeholder { color: #bbb; }
+    /* P6-64: was #bbb (1.92:1 on white, fails 4.5:1). #666 ("Dust", DESIGN.md's
+       documented secondary-text floor) measures 5.74:1 on white. */
+    #blog-search::placeholder { color: #666; }
     #search-empty { text-align: center; padding: 56px 24px; color: #666; font-size: 14px; display: none; }
+    #search-empty p { margin: 0 0 20px; }
+    #search-empty p:last-child { margin-bottom: 0; font-size: 13px; }
+    #search-empty a { color: #aa3210; font-weight: 600; text-decoration: none; }
+    /* Explicit min-height regardless of viewport: this control can appear on desktop too
+       (search works at any width), so it must not depend on shared.css's .btn-outline
+       min-height override, which only applies at <=768px. */
+    #search-empty .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; cursor: pointer; font-family: 'Inter', sans-serif; }
 
-    /* Load more (mobile only) */
-    /* min-height: the site-wide 44px tap floor. The CI sweep measures <a> only, so this
-       <button> is not covered by it; the blog spec asserts the height directly. */
-    #blog-load-more { display: block; min-height: 44px; margin: 28px auto 0; padding: 11px 36px; background: #fff; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; font-weight: 600; color: #111; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.15s, border-color 0.15s; }
-    #blog-load-more:hover { background: #f9fafb; border-color: #ccc; }
+    /* Load more (mobile only). P6-64: was a bespoke one-off style (that drift is how it
+       slipped below the 44px floor unnoticed); now reuses shared.css's .btn-outline for
+       its base look and only overrides layout/visibility here. min-height: the site-wide
+       44px tap floor, set explicitly because the CI sweep measures <a> only, not <button>,
+       and .btn-outline's own min-height override lives inside shared.css's ≤768px media
+       query; this button must clear the floor unconditionally. */
+    #blog-load-more { display: block; min-height: 44px; margin: 28px auto 0; cursor: pointer; font-family: 'Inter', sans-serif; }
     @media (min-width: 769px) { #blog-load-more { display: none !important; } }
 
     /* Dark CTA: shared.css provides gradient/padding; keep blog's centering + sticky note */
@@ -392,8 +407,9 @@
       <p>Practical advice, buying guides, and maintenance tips from the Universal Appliances Repair team in Orange County.</p>
 
       <!-- Category filters -->
+      <h2 class="sr-only">Browse by Category</h2>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
-        <a href="blog.html" class="cat-pill active" data-filter="all">All Posts (76)</a>
+        <a href="blog.html" class="cat-pill active" data-filter="all" aria-current="true">All Posts (76)</a>
         <a href="blog/refrigerator.html" class="cat-pill" data-filter="refrigerator">Refrigerator (18)</a>
         <a href="blog/washer.html" class="cat-pill" data-filter="washer">Washer (12)</a>
         <a href="blog/dryer.html" class="cat-pill" data-filter="dryer">Dryer (5)</a>
@@ -407,7 +423,7 @@
 
   <!-- FEATURED POST -->
   <section style="padding:0 24px 0;max-width:1100px;margin:0 auto;">
-    <div style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-top:48px;margin-bottom:0;">Featured Post</div>
+    <h2 style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-top:48px;margin-bottom:0;">Featured Post</h2>
     <div class="featured">
       <picture>
         <source srcset="../images/appliance-repair-generic-800w.webp 800w, ../images/appliance-repair-generic.webp 1200w" type="image/webp" sizes="(max-width: 768px) 100vw, 800px">
@@ -415,7 +431,7 @@
       </picture>
       <div class="featured-body">
         <span class="featured-tag">Decision Guide</span>
-        <div class="featured-title">Appliance Repair or Replace? The 50% Rule + What It Costs in 2026 (OC)</div>
+        <h3 class="featured-title">Appliance Repair or Replace? The 50% Rule + What It Costs in 2026 (OC)</h3>
         <div class="featured-excerpt">Should you spend $400 fixing your washer or put it toward a new one? Apply the 50% Rule, check it against real 2026 Orange County repair costs for every major appliance, and stop guessing before you buy.</div>
         <div class="featured-meta">
           <span class="featured-date">Updated August 2026 · by RM</span>
@@ -427,7 +443,7 @@
 
   <!-- ALL POSTS GRID -->
   <section style="padding:56px 24px 80px;max-width:1100px;margin:0 auto;">
-    <div style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0;">All Articles</div>
+    <h2 style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-top:0;margin-bottom:0;">All Articles</h2>
     <input type="search" id="blog-search" placeholder="Search 76 articles…" aria-label="Search articles" autocomplete="off" />
     <div class="blog-grid">
 
@@ -439,7 +455,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">August 26, 2026</div>
-          <div class="blog-title">How to Clean Clogged Gas Stove Burners: A Step-by-Step Guide</div>
+          <h3 class="blog-title">How to Clean Clogged Gas Stove Burners: A Step-by-Step Guide</h3>
           <div class="blog-excerpt">Weak, uneven, or dead flame on one burner? The safe soak-and-clear method every manufacturer agrees on, the tool disagreement worth knowing about, what to never use, and when it's not a cleaning problem at all.</div>
           <a href="../articles/article-clean-gas-stove-burners-orange-county.html" class="blog-link" aria-label="Read Article: How to Clean Clogged Gas Stove Burners: A Step-by-Step Guide">Read Article &rarr;</a>
         </div>
@@ -456,7 +472,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">The Real Cost of Skipping Appliance Maintenance in Los Angeles County</div>
+          <h3 class="blog-title">The Real Cost of Skipping Appliance Maintenance in Los Angeles County</h3>
           <div class="blog-excerpt">AB 628 now ties a working stove and fridge to habitability on LA County leases. NFPA dryer-fire data, PNNL's coil-cleaning guidance, and who actually pays when upkeep gets skipped in a rental.</div>
           <a href="../articles/article-maintenance-skip-cost-los-angeles-county.html" class="blog-link" aria-label="Read Article: The Real Cost of Skipping Appliance Maintenance in Los Angeles County">Read Article &rarr;</a>
         </div>
@@ -473,7 +489,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">August 9, 2026</div>
-          <div class="blog-title">Broken Stove or Fridge in an LA County Rental? What the 2026 Law Requires</div>
+          <h3 class="blog-title">Broken Stove or Fridge in an LA County Rental? What the 2026 Law Requires</h3>
           <div class="blog-excerpt">From January 2026, California AB 628 makes a working stove and refrigerator a condition of tenantability on new, amended or extended leases. What that covers, what it does not, and where the 30-day rule actually applies.</div>
           <a href="../articles/article-rental-appliance-law-los-angeles-county.html" class="blog-link" aria-label="Read Article: Broken Stove or Fridge in an LA County Rental? What the 2026 Law Requires">Read Article &rarr;</a>
         </div>
@@ -490,7 +506,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">How Long Do Appliances Actually Last in Los Angeles County?</div>
+          <h3 class="blog-title">How Long Do Appliances Actually Last in Los Angeles County?</h3>
           <div class="blog-excerpt">LA County's median home was built in 1966, older than Orange County's. See how that housing stock, DOE's 2023-2024 service-life data, and Consumer Reports' shorter figures all fit together.</div>
           <a href="../articles/article-appliance-lifespan-los-angeles-county.html" class="blog-link" aria-label="Read Article: How Long Do Appliances Actually Last in Los Angeles County?">Read Article &rarr;</a>
         </div>
@@ -504,7 +520,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">August 4, 2026</div>
-          <div class="blog-title">KitchenAid Built-In Refrigerator Not Cooling: Temperature Sensor and Control Board Problems</div>
+          <h3 class="blog-title">KitchenAid Built-In Refrigerator Not Cooling: Temperature Sensor and Control Board Problems</h3>
           <div class="blog-excerpt">There's no such thing as a "high voltage temperature sensor," but there are two real parts that sound like it: the thermistor and the High Voltage Board. What each one does, how the bimetal defrost thermostat fits in, and what KitchenAid's own alarms actually tell you.</div>
           <a href="../articles/article-kitchenaid-refrigerator-temperature-sensor-aliso-viejo.html" class="blog-link" aria-label="Read Article: KitchenAid Built-In Refrigerator Not Cooling: Temperature Sensor and Control Board Problems">Read Article &rarr;</a>
         </div>
@@ -518,7 +534,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 25, 2026</div>
-          <div class="blog-title">Miele Washer Not Draining? Causes, DIY Checks and Repair Costs</div>
+          <h3 class="blog-title">Miele Washer Not Draining? Causes, DIY Checks and Repair Costs</h3>
           <div class="blog-excerpt">Water sitting in the drum at the end of the cycle, or an F11 message? The five reasons a Miele washer won't drain, starting with the front drain filter you can clean yourself, plus real premium-brand repair costs.</div>
           <a href="../articles/article-miele-washer-not-draining-orange-county.html" class="blog-link" aria-label="Read Article: Miele Washer Not Draining? Causes, DIY Checks and Repair Costs">Read Article &rarr;</a>
         </div>
@@ -532,7 +548,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 25, 2026</div>
-          <div class="blog-title">Thermador Cooktop Igniter Not Working? Causes, DIY Checks and Repair Costs</div>
+          <h3 class="blog-title">Thermador Cooktop Igniter Not Working? Causes, DIY Checks and Repair Costs</h3>
           <div class="blog-excerpt">Burner clicks but won't light, or won't stop clicking? Why a Thermador cooktop igniter fails, the ExtraLow clicking that is actually normal, the match test that pinpoints the fault, and the DIY fixes that cost nothing.</div>
           <a href="../articles/article-thermador-cooktop-igniter-orange-county.html" class="blog-link" aria-label="Read Article: Thermador Cooktop Igniter Not Working? Causes, DIY Checks and Repair Costs">Read Article &rarr;</a>
         </div>
@@ -546,7 +562,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 25, 2026</div>
-          <div class="blog-title">Viking Refrigerator Not Cooling? Causes, DIY Checks and Repair Costs</div>
+          <h3 class="blog-title">Viking Refrigerator Not Cooling? Causes, DIY Checks and Repair Costs</h3>
           <div class="blog-excerpt">Fridge warm but the freezer still cold, or the whole box slowly warming? The five reasons a Viking refrigerator stops cooling, from dust-clogged condenser coils and a failed evaporator fan to the defrost system, and the checks to run first.</div>
           <a href="../articles/article-viking-refrigerator-not-cooling-orange-county.html" class="blog-link" aria-label="Read Article: Viking Refrigerator Not Cooling? Causes, DIY Checks and Repair Costs">Read Article &rarr;</a>
         </div>
@@ -560,7 +576,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Dacor Oven Not Heating? Causes, DIY Checks and Repair Costs</div>
+          <h3 class="blog-title">Dacor Oven Not Heating? Causes, DIY Checks and Repair Costs</h3>
           <div class="blog-excerpt">The igniter glows but the burner never lights, or the oven quit right after a self-clean? The five parts behind a Dacor oven that won't heat, from the igniter and bake element to the F1 control-board fault, and the checks to run first.</div>
           <a href="../articles/article-dacor-oven-not-heating-orange-county.html" class="blog-link" aria-label="Read Article: Dacor Oven Not Heating? Causes, DIY Checks and Repair Costs">Read Article &rarr;</a>
         </div>
@@ -574,7 +590,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Samsung Washer Not Draining in Buena Park? Causes and Fixes</div>
+          <h3 class="blog-title">Samsung Washer Not Draining in Buena Park? Causes and Fixes</h3>
           <div class="blog-excerpt">Tub full of water with an nd or 5E code on your Samsung? The 6 reasons a Samsung washer won't drain in Buena Park, from a clogged filter or hose to a failed drain pump, and which you can clear yourself.</div>
           <a href="../articles/article-samsung-washer-not-draining-buena-park.html" class="blog-link" aria-label="Read Article: Samsung Washer Not Draining in Buena Park? Causes and Fixes">Read Article &rarr;</a>
         </div>
@@ -588,7 +604,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 17, 2026</div>
-          <div class="blog-title">DCS Range &amp; Oven Repair in Newport Beach, CA</div>
+          <h3 class="blog-title">DCS Range &amp; Oven Repair in Newport Beach, CA</h3>
           <div class="blog-excerpt">Burners light and the broiler works, but the DCS oven won't bake? The 6 issues we see most on DCS professional ranges in Newport Beach, from a weak bake igniter to coastal corrosion, and how each is fixed.</div>
           <a href="../articles/article-dcs-range-repair-newport-beach.html" class="blog-link" aria-label="Read Article: DCS Range &amp; Oven Repair in Newport Beach, CA">Read Article &rarr;</a>
         </div>
@@ -602,7 +618,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 16, 2026</div>
-          <div class="blog-title">Dishwasher Not Draining in La Habra? 6 Causes and Fixes</div>
+          <h3 class="blog-title">Dishwasher Not Draining in La Habra? 6 Causes and Fixes</h3>
           <div class="blog-excerpt">Standing water in the bottom after every cycle? The 6 reasons a dishwasher won't drain in La Habra, from a clogged filter or air gap to a failed drain pump, and which you can clear yourself.</div>
           <a href="../articles/article-dishwasher-not-draining-la-habra.html" class="blog-link" aria-label="Read Article: Dishwasher Not Draining in La Habra? 6 Causes and Fixes">Read Article &rarr;</a>
         </div>
@@ -616,7 +632,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 16, 2026</div>
-          <div class="blog-title">Dryer Not Heating in Lake Forest? 6 Causes and Fixes</div>
+          <h3 class="blog-title">Dryer Not Heating in Lake Forest? 6 Causes and Fixes</h3>
           <div class="blog-excerpt">Drum spins but the clothes come out cold? The 6 reasons a dryer runs without heat in Lake Forest, from a clogged vent and blown thermal fuse to a bad heating element or igniter, and which you can fix yourself.</div>
           <a href="../articles/article-dryer-not-heating-lake-forest.html" class="blog-link" aria-label="Read Article: Dryer Not Heating in Lake Forest? 6 Causes and Fixes">Read Article &rarr;</a>
         </div>
@@ -630,7 +646,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Refrigerator Not Cooling but the Freezer Works? 6 Common Causes</div>
+          <h3 class="blog-title">Refrigerator Not Cooling but the Freezer Works? 6 Common Causes</h3>
           <div class="blog-excerpt">Milk barely cool but ice cream rock hard? The 6 reasons a fridge stops cooling while the freezer stays cold in La Habra, from dirty condenser coils to a stopped evaporator fan, and which you can fix yourself.</div>
           <a href="../articles/article-fridge-not-cooling-la-habra.html" class="blog-link" aria-label="Read Article: Refrigerator Not Cooling but the Freezer Works? 6 Common Causes">Read Article &rarr;</a>
         </div>
@@ -644,7 +660,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Washer Repair Cost in Orange County (2026 Guide)</div>
+          <h3 class="blog-title">Washer Repair Cost in Orange County (2026 Guide)</h3>
           <div class="blog-excerpt">What does washing machine repair actually cost in 2026? Real Orange County price ranges by failure type, from a $130 drain pump to an $800 transmission, plus the repair-or-replace math.</div>
           <a href="../articles/article-washer-repair-cost-orange-county.html" class="blog-link" aria-label="Read Article: Washer Repair Cost in Orange County (2026 Guide)">Read Article &rarr;</a>
         </div>
@@ -658,7 +674,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Refrigerator Repair Cost in Orange County (2026 Guide)</div>
+          <h3 class="blog-title">Refrigerator Repair Cost in Orange County (2026 Guide)</h3>
           <div class="blog-excerpt">What does fridge repair actually cost in 2026? Real Orange County price ranges by failure type, from a $120 door gasket to a $900 compressor, plus the repair-or-replace math.</div>
           <a href="../articles/article-refrigerator-repair-cost-orange-county.html" class="blog-link" aria-label="Read Article: Refrigerator Repair Cost in Orange County (2026 Guide)">Read Article &rarr;</a>
         </div>
@@ -672,7 +688,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Freezer Not Freezing in Placentia, CA? 6 Common Causes</div>
+          <h3 class="blog-title">Freezer Not Freezing in Placentia, CA? 6 Common Causes</h3>
           <div class="blog-excerpt">Soft ice cream and a puddle where the ice should be? The 6 reasons a freezer stops getting cold in Placentia, from dusty condenser coils to a failed defrost system or dead evaporator fan, and which you can fix yourself.</div>
           <a href="../articles/article-freezer-not-freezing-placentia.html" class="blog-link" aria-label="Read Article: Freezer Not Freezing in Placentia, CA? 6 Common Causes">Read Article &rarr;</a>
         </div>
@@ -686,7 +702,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Why Is My Refrigerator Freezing Food? 6 Common Causes</div>
+          <h3 class="blog-title">Why Is My Refrigerator Freezing Food? 6 Common Causes</h3>
           <div class="blog-excerpt">Lettuce snapping in half and slushy milk? The 6 reasons a fridge freezes food in Cypress, from a too-cold setting to a stuck air damper or failing thermistor, and which you can fix yourself.</div>
           <a href="../articles/article-refrigerator-freezing-food-cypress.html" class="blog-link" aria-label="Read Article: Why Is My Refrigerator Freezing Food? 6 Common Causes">Read Article &rarr;</a>
         </div>
@@ -703,7 +719,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 12, 2026</div>
-          <div class="blog-title">Why Is My Washer Shaking? 6 Common Causes and Fixes</div>
+          <h3 class="blog-title">Why Is My Washer Shaking? 6 Common Causes and Fixes</h3>
           <div class="blog-excerpt">Washer banging, rattling, or walking across the floor in Fountain Valley? The 6 most common causes, from the free checks you can do yourself to worn shock absorbers, and when to call a pro.</div>
           <a href="../articles/article-washer-shaking-fountain-valley.html" class="blog-link" aria-label="Read Article: Why Is My Washer Shaking? 6 Common Causes and Fixes">Read Article &rarr;</a>
         </div>
@@ -720,7 +736,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Bosch Dishwasher Repair in Lake Forest, CA</div>
+          <h3 class="blog-title">Bosch Dishwasher Repair in Lake Forest, CA</h3>
           <div class="blog-excerpt">Standing water, an E15 error, poor drying, or a leak on your Bosch dishwasher? What each symptom means, the checks to try first, and when to call a technician in Lake Forest.</div>
           <a href="../articles/article-bosch-dishwasher-repair-lake-forest.html" class="blog-link" aria-label="Read more: Bosch Dishwasher Repair in Lake Forest, CA">Read more &rarr;</a>
         </div>
@@ -737,7 +753,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 10, 2026</div>
-          <div class="blog-title">LG Washer Repair in Aliso Viejo, CA: Error Codes &amp; Common Fixes</div>
+          <h3 class="blog-title">LG Washer Repair in Aliso Viejo, CA: Error Codes &amp; Common Fixes</h3>
           <div class="blog-excerpt">OE, UE, LE, and dE errors, a washer that won't drain or spin, or a stuck door: how to read your LG washer's codes and the common fixes our techs handle in Aliso Viejo.</div>
           <a href="../articles/article-lg-washer-repair-aliso-viejo.html" class="blog-link" aria-label="Read more: LG Washer Repair in Aliso Viejo, CA: Error Codes &amp; Common Fixes">Read more &rarr;</a>
         </div>
@@ -754,7 +770,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 3, 2026</div>
-          <div class="blog-title">Thermador Dishwasher Error Codes: E15, E24, E09 and More Explained</div>
+          <h3 class="blog-title">Thermador Dishwasher Error Codes: E15, E24, E09 and More Explained</h3>
           <div class="blog-excerpt">What every common Thermador dishwasher code means, from the E15 anti-flood trip to an E24 drain fault. The DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
           <a href="../articles/article-thermador-dishwasher-error-codes.html" class="blog-link" aria-label="Read more: Thermador Dishwasher Error Codes: E15, E24, E09 and More Explained">Read more &rarr;</a>
         </div>
@@ -771,7 +787,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 3, 2026</div>
-          <div class="blog-title">Wolf Oven Not Heating? The Bake Igniter and 4 Other Causes</div>
+          <h3 class="blog-title">Wolf Oven Not Heating? The Bake Igniter and 4 Other Causes</h3>
           <div class="blog-excerpt">A cold Wolf oven with a working cooktop almost always points to the bake igniter. The five causes to know, the safe checks you can do yourself, and repair cost ranges in Orange County.</div>
           <a href="../articles/article-wolf-oven-not-heating-orange-county.html" class="blog-link" aria-label="Read more: Wolf Oven Not Heating? The Bake Igniter and 4 Other Causes">Read more &rarr;</a>
         </div>
@@ -788,7 +804,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Bosch Dishwasher Error Codes: E15, E24, E22 and More Explained</div>
+          <h3 class="blog-title">Bosch Dishwasher Error Codes: E15, E24, E22 and More Explained</h3>
           <div class="blog-excerpt">What every common Bosch dishwasher code means, from the E15 flood-float trip to an E24 drain fault. The DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
           <a href="../articles/article-bosch-dishwasher-error-codes.html" class="blog-link" aria-label="Read more: Bosch Dishwasher Error Codes: E15, E24, E22 and More Explained">Read more &rarr;</a>
         </div>
@@ -805,7 +821,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 9, 2026</div>
-          <div class="blog-title">Whirlpool Washer Error Codes: F21, Sd, F5 E2 and More Explained</div>
+          <h3 class="blog-title">Whirlpool Washer Error Codes: F21, Sd, F5 E2 and More Explained</h3>
           <div class="blog-excerpt">What every common Whirlpool washer code means, from the F21 drain error to Sd excess suds. The DIY checks to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
           <a href="../articles/article-whirlpool-washer-error-codes.html" class="blog-link" aria-label="Read more: Whirlpool Washer Error Codes: F21, Sd, F5 E2 and More Explained">Read more &rarr;</a>
         </div>
@@ -822,7 +838,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">June 29, 2026</div>
-          <div class="blog-title">LG Washer Error Codes: OE, UE, IE and More Explained</div>
+          <h3 class="blog-title">LG Washer Error Codes: OE, UE, IE and More Explained</h3>
           <div class="blog-excerpt">What every common LG washer code means, from the OE drain error to a UE unbalanced load. The five-minute DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
           <a href="../articles/article-lg-washer-error-codes.html" class="blog-link" aria-label="Read more: LG Washer Error Codes: OE, UE, IE and More Explained">Read more &rarr;</a>
         </div>
@@ -839,7 +855,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 25, 2026</div>
-          <div class="blog-title">Samsung Washer Error Codes: 4E, UE, dE, SUD and More Explained</div>
+          <h3 class="blog-title">Samsung Washer Error Codes: 4E, UE, dE, SUD and More Explained</h3>
           <div class="blog-excerpt">What every common Samsung washer code means, from the 4E water-supply fault to a UE unbalanced load. The DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
           <a href="../articles/article-samsung-washer-error-codes.html" class="blog-link" aria-label="Read more: Samsung Washer Error Codes: 4E, UE, dE, SUD and More Explained">Read more &rarr;</a>
         </div>
@@ -856,7 +872,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">June 29, 2026</div>
-          <div class="blog-title">Samsung Refrigerator Error Codes: 22E, OF OF, 40E and More Explained</div>
+          <h3 class="blog-title">Samsung Refrigerator Error Codes: 22E, OF OF, 40E and More Explained</h3>
           <div class="blog-excerpt">What every common Samsung fridge code means, from the 22E evaporator-fan fault to the OF OF demo-mode message. DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
           <a href="../articles/article-samsung-refrigerator-error-codes.html" class="blog-link" aria-label="Read more: Samsung Refrigerator Error Codes: 22E, OF OF, 40E and More Explained">Read more &rarr;</a>
         </div>
@@ -873,7 +889,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">July 25, 2026</div>
-          <div class="blog-title">LG Refrigerator Error Codes: Er FF, Er IF, dH and More Explained</div>
+          <h3 class="blog-title">LG Refrigerator Error Codes: Er FF, Er IF, dH and More Explained</h3>
           <div class="blog-excerpt">What every common LG fridge code means, from the Er FF freezer-fan fault to the OF F demo-mode message. DIY fixes to try first, repair cost ranges, and which faults need a technician in Orange County.</div>
           <a href="../articles/article-lg-refrigerator-error-codes.html" class="blog-link" aria-label="Read more: LG Refrigerator Error Codes: Er FF, Er IF, dH and More Explained">Read more &rarr;</a>
         </div>
@@ -890,7 +906,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Samsung Refrigerator Not Cooling but Freezer Is? 6 Causes (Irvine, CA)</div>
+          <h3 class="blog-title">Samsung Refrigerator Not Cooling but Freezer Is? 6 Causes (Irvine, CA)</h3>
           <div class="blog-excerpt">Freezer rock solid but the fridge warm on your Samsung? The 6 most common causes, the Cooling Off mode fix, repair costs, and when to call a pro in Irvine.</div>
           <a href="../articles/article-samsung-fridge-not-cooling-irvine.html" class="blog-link" aria-label="Read more: Samsung Refrigerator Not Cooling but Freezer Is? 6 Causes (Irvine, CA)">Read more &rarr;</a>
         </div>
@@ -907,7 +923,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">The Real Cost of Skipping Appliance Maintenance: Repair Statistics by Type (2026)</div>
+          <h3 class="blog-title">The Real Cost of Skipping Appliance Maintenance: Repair Statistics by Type (2026)</h3>
           <div class="blog-excerpt">What missed appliance maintenance actually costs, by appliance type. NFPA dryer-fire data (13,820 fires/yr, 32% from failure to clean), PNNL condenser-coil guidance, HomeAdvisor 2025 repair costs, plus an honest section on what maintenance can't prevent.</div>
           <a href="../articles/article-maintenance-skip-cost-statistics.html" class="blog-link" aria-label="Read more: The Real Cost of Skipping Appliance Maintenance: Repair Statistics by Type (2026)">Read more &rarr;</a>
         </div>
@@ -924,7 +940,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">How Long Do Appliances Actually Last? 2026 Lifespan Data by Type and Brand</div>
+          <h3 class="blog-title">How Long Do Appliances Actually Last? 2026 Lifespan Data by Type and Brand</h3>
           <div class="blog-excerpt">Average lifespans for refrigerators, washers, dryers, dishwashers, ovens, and microwaves, broken out by budget, mid-range, and premium brand tiers. Sourced from DOE, Consumer Reports, and Miele design specs.</div>
           <a href="../articles/article-appliance-lifespan-data-2026.html" class="blog-link" aria-label="Read more: How Long Do Appliances Actually Last? 2026 Lifespan Data by Type and Brand">Read more &rarr;</a>
         </div>
@@ -941,7 +957,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Appliance Failure Rates by Year: When Each Type Typically Breaks Down (2026 Data)</div>
+          <h3 class="blog-title">Appliance Failure Rates by Year: When Each Type Typically Breaks Down (2026 Data)</h3>
           <div class="blog-excerpt">Year-by-year failure probability for refrigerators, washers, dryers, dishwashers, ovens, and more. Sourced from Consumer Reports, DOE, and Yale Appliance. Includes the bathtub curve and brand-tier comparison.</div>
           <a href="../articles/article-appliance-failure-rates-by-year.html" class="blog-link" aria-label="Read more: Appliance Failure Rates by Year: When Each Type Typically Breaks Down (2026 Data)">Read more &rarr;</a>
         </div>
@@ -958,7 +974,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Gas Range vs Electric Range Repair Costs in Orange County (2026)</div>
+          <h3 class="blog-title">Gas Range vs Electric Range Repair Costs in Orange County (2026)</h3>
           <div class="blog-excerpt">Side-by-side cost breakdown for the most common gas and electric range repairs, with price tables and the 50% repair-vs-replace rule applied to ranges.</div>
           <a href="../articles/article-gas-vs-electric-range-repair-cost-orange-county.html" class="blog-link" aria-label="Read more: Gas Range vs Electric Range Repair Costs in Orange County (2026)">Read more &rarr;</a>
         </div>
@@ -975,7 +991,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">May 25, 2026</div>
-          <div class="blog-title">Viking Oven Not Heating? Causes, DIY Checks and Repair Costs</div>
+          <h3 class="blog-title">Viking Oven Not Heating? Causes, DIY Checks and Repair Costs</h3>
           <div class="blog-excerpt">Viking oven not heating in Orange County? Walk through the most likely causes: bake element, gas igniter, convection fan, temperature sensor. Includes repair costs and DIY checks before calling a tech.</div>
           <a href="../articles/article-viking-oven-not-heating-orange-county.html" class="blog-link" aria-label="Read more: Viking Oven Not Heating? Causes, DIY Checks and Repair Costs">Read more &rarr;</a>
         </div>
@@ -992,7 +1008,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Stove Burner Not Lighting After Cleaning? 3 Causes and Quick Fixes</div>
+          <h3 class="blog-title">Stove Burner Not Lighting After Cleaning? 3 Causes and Quick Fixes</h3>
           <div class="blog-excerpt">Cleaned the cooktop and now a burner won't light? Almost always moisture, a misaligned cap, or clogged ports. Step-by-step fixes you can try in under five minutes.</div>
           <a href="../articles/article-stove-burner-not-lighting-orange-county.html" class="blog-link" aria-label="Read more: Stove Burner Not Lighting After Cleaning? 3 Causes and Quick Fixes">Read more &rarr;</a>
         </div>
@@ -1009,7 +1025,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">May 25, 2026</div>
-          <div class="blog-title">Miele Dishwasher Error Codes: F11, F14, F70 and More Explained</div>
+          <h3 class="blog-title">Miele Dishwasher Error Codes: F11, F14, F70 and More Explained</h3>
           <div class="blog-excerpt">What every Miele G-series fault code means, from F11 drainage to the F18 Aquastop trip. What to check first, which codes you can safely reset, and what each repair costs in Orange County.</div>
           <a href="../articles/article-miele-dishwasher-error-codes.html" class="blog-link" aria-label="Read more: Miele Dishwasher Error Codes: F11, F14, F70 and More Explained">Read more &rarr;</a>
         </div>
@@ -1023,7 +1039,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">May 25, 2026</div>
-          <div class="blog-title">Gas Stove Igniter Not Working? 5 Causes and Fixes</div>
+          <h3 class="blog-title">Gas Stove Igniter Not Working? 5 Causes and Fixes</h3>
           <div class="blog-excerpt">Gas stove clicking but not lighting, or completely silent? The five most common causes, DIY checks you can do at home, and what each repair costs in Orange County.</div>
           <a href="../articles/article-gas-stove-igniter-not-working-orange-county.html" class="blog-link" aria-label="Read more: Gas Stove Igniter Not Working? 5 Causes and Fixes">Read more &rarr;</a>
         </div>
@@ -1040,7 +1056,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Wolf Range Igniter Not Working? 4 Causes and How to Fix It</div>
+          <h3 class="blog-title">Wolf Range Igniter Not Working? 4 Causes and How to Fix It</h3>
           <div class="blog-excerpt">The burner clicks but won't catch. Four causes from a dirty ceramic tip to a failed spark module, what you can check yourself, and what each repair costs in Orange County.</div>
           <a href="../articles/article-wolf-range-igniter-not-working-orange-county.html" class="blog-link" aria-label="Read more: Wolf Range Igniter Not Working? 4 Causes and How to Fix It">Read more &rarr;</a>
         </div>
@@ -1057,7 +1073,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Built-In Refrigerator Repair in Orange County: Sub-Zero, Thermador &amp; Miele Guide</div>
+          <h3 class="blog-title">Built-In Refrigerator Repair in Orange County: Sub-Zero, Thermador &amp; Miele Guide</h3>
           <div class="blog-excerpt">What makes built-in refrigerator repair different from freestanding, brand-by-brand failure patterns for Sub-Zero, Thermador, and Miele, and what repairs cost in OC homes.</div>
           <a href="../articles/article-built-in-refrigerator-repair-orange-county.html" class="blog-link" aria-label="Read more: Built-In Refrigerator Repair in Orange County: Sub-Zero, Thermador &amp; Miele Guide">Read more &rarr;</a>
         </div>
@@ -1074,7 +1090,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Whirlpool Dryer Repair in Los Alamitos, CA: Common Problems, Costs & What to Expect</div>
+          <h3 class="blog-title">Whirlpool Dryer Repair in Los Alamitos, CA: Common Problems, Costs & What to Expect</h3>
           <div class="blog-excerpt">If your Whirlpool dryer runs but stays cold, thumps, or takes all afternoon to finish one load, this guide breaks down the likely failure, the usual repair cost, and when fixing it still makes sense.</div>
           <a href="../articles/article-whirlpool-dryer-repair-los-alamitos.html" class="blog-link" aria-label="Read more: Whirlpool Dryer Repair in Los Alamitos, CA: Common Problems, Costs &amp; What to Expect">Read more →</a>
         </div>
@@ -1091,7 +1107,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Freezer Repair Cost in Rancho Santa Margarita, CA: What Homeowners Usually Pay</div>
+          <h3 class="blog-title">Freezer Repair Cost in Rancho Santa Margarita, CA: What Homeowners Usually Pay</h3>
           <div class="blog-excerpt">Retail pages do not help when your freezer is softening food. This local cost guide covers the common repair ranges in Rancho Santa Margarita and when replacement becomes the smarter call.</div>
           <a href="../articles/article-freezer-cost-rancho-santa-margarita.html" class="blog-link" aria-label="Read more: Freezer Repair Cost in Rancho Santa Margarita, CA: What Homeowners Usually Pay">Read more →</a>
         </div>
@@ -1108,7 +1124,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">May 2, 2026</div>
-          <div class="blog-title">Freezer Repair in Brea, CA: What to Check Before Food Thaws</div>
+          <h3 class="blog-title">Freezer Repair in Brea, CA: What to Check Before Food Thaws</h3>
           <div class="blog-excerpt">Soft ice cream and warming meat usually point to a short list of failures. Learn what to check first, what common freezer repairs cost, and when it is time to call a technician in Brea.</div>
           <a href="../articles/article-freezer-repair-brea.html" class="blog-link" aria-label="Read more: Freezer Repair in Brea, CA: What to Check Before Food Thaws">Read more →</a>
         </div>
@@ -1125,7 +1141,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">May 2, 2026</div>
-          <div class="blog-title">Wine Cooler Not Cooling in Seal Beach? 6 Common Causes</div>
+          <h3 class="blog-title">Wine Cooler Not Cooling in Seal Beach? 6 Common Causes</h3>
           <div class="blog-excerpt">If your wine fridge runs all day but the bottles still feel warm, the issue is usually airflow, controls, or a small failed component. Here are the six most common reasons Seal Beach units lose cooling.</div>
           <a href="../articles/article-wine-cooler-not-cooling-seal-beach.html" class="blog-link" aria-label="Read more: Wine Cooler Not Cooling in Seal Beach? 6 Common Causes">Read more →</a>
         </div>
@@ -1142,7 +1158,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Best Mini Fridges for Students: How to Choose the Right Refrigerator for College Life</div>
+          <h3 class="blog-title">Best Mini Fridges for Students: How to Choose the Right Refrigerator for College Life</h3>
           <div class="blog-excerpt">Heading to college? One of the must-have dorm essentials is a compact refrigerator. With so many options out there, here's how to pick the right one for your needs and budget.</div>
           <a href="../articles/article-mini-fridge.html" class="blog-link" aria-label="Read Article: Best Mini Fridges for Students: How to Choose the Right Refrigerator for College Life">Read Article →</a>
         </div>
@@ -1159,7 +1175,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">7 Refrigerator Maintenance Tips to Keep Your Fridge Running Longer</div>
+          <h3 class="blog-title">7 Refrigerator Maintenance Tips to Keep Your Fridge Running Longer</h3>
           <div class="blog-excerpt">Your refrigerator works 24/7. With a little regular maintenance you can add years to its lifespan and avoid expensive repair calls. Here are seven tips every homeowner should know.</div>
           <a href="../articles/article-fridge-maintenance.html" class="blog-link" aria-label="Read Article: 7 Refrigerator Maintenance Tips to Keep Your Fridge Running Longer">Read Article →</a>
         </div>
@@ -1176,7 +1192,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Repair or Replace? How to Decide What to Do With a Broken Appliance</div>
+          <h3 class="blog-title">Repair or Replace? How to Decide What to Do With a Broken Appliance</h3>
           <div class="blog-excerpt">When your stove stops working or your washer leaks, should you repair it or buy new? The answer depends on age, repair cost, and efficiency. Here's a simple guide to make the right call.</div>
           <a href="../articles/article-repair-replace.html" class="blog-link" aria-label="Read Article: Repair or Replace? How to Decide What to Do With a Broken Appliance">Read Article →</a>
         </div>
@@ -1193,7 +1209,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Dryer Repair in Orange County, CA: Common Problems & When to Call a Pro</div>
+          <h3 class="blog-title">Dryer Repair in Orange County, CA: Common Problems & When to Call a Pro</h3>
           <div class="blog-excerpt">Dryer not heating, won't start, or making strange noises? Learn what's behind the most common dryer failures in Orange County and whether repair or replacement makes more sense.</div>
           <a href="../articles/article-dryer-repair-cost-orange-county.html" class="blog-link" aria-label="Read Article: Dryer Repair in Orange County, CA: Common Problems &amp; When to Call a Pro">Read Article →</a>
         </div>
@@ -1210,7 +1226,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated May 2026</div>
-          <div class="blog-title">Dishwasher Not Draining? 6 Common Causes & Fixes (Anaheim Homeowner's Guide)</div>
+          <h3 class="blog-title">Dishwasher Not Draining? 6 Common Causes & Fixes (Anaheim Homeowner's Guide)</h3>
           <div class="blog-excerpt">Standing water in your dishwasher after a cycle is almost always caused by one of six fixable issues. Learn which ones you can handle yourself and when to call a technician in Anaheim.</div>
           <a href="../articles/article-dishwasher-not-draining-anaheim.html" class="blog-link" aria-label="Read Article: Dishwasher Not Draining? 6 Common Causes &amp; Fixes (Anaheim Homeowner&#x27;s Guide)">Read Article →</a>
         </div>
@@ -1227,7 +1243,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Washer Repair in Garden Grove, CA: Signs You Need a Pro</div>
+          <h3 class="blog-title">Washer Repair in Garden Grove, CA: Signs You Need a Pro</h3>
           <div class="blog-excerpt">Leaking, not draining, banging through spin, or just dead? Learn what each washing machine symptom usually means and when it's time to call a technician in Garden Grove.</div>
           <a href="../articles/article-washer-repair-garden-grove.html" class="blog-link" aria-label="Read Article: Washer Repair in Garden Grove, CA: Signs You Need a Pro">Read Article →</a>
         </div>
@@ -1244,7 +1260,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">April 23, 2026</div>
-          <div class="blog-title">Microwave Not Heating in Costa Mesa? Here's Why</div>
+          <h3 class="blog-title">Microwave Not Heating in Costa Mesa? Here's Why</h3>
           <div class="blog-excerpt">Turntable spins but food stays cold? Learn the most common causes of a microwave that runs without heating, what's safe to check yourself, and when to call a pro.</div>
           <a href="../articles/article-microwave-not-heating-costa-mesa.html" class="blog-link" aria-label="Read Article: Microwave Not Heating in Costa Mesa? Here&#x27;s Why">Read Article →</a>
         </div>
@@ -1261,7 +1277,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">April 23, 2026</div>
-          <div class="blog-title">5 Dishwasher Maintenance Tips to Avoid Breakdowns in Fullerton</div>
+          <h3 class="blog-title">5 Dishwasher Maintenance Tips to Avoid Breakdowns in Fullerton</h3>
           <div class="blog-excerpt">Most dishwasher problems are preventable. These five habits from our Fullerton technicians will keep your dishwasher cleaning well and running longer, starting with one that takes 3 minutes a month.</div>
           <a href="../articles/article-dishwasher-maintenance-fullerton.html" class="blog-link" aria-label="Read Article: 5 Dishwasher Maintenance Tips to Avoid Breakdowns in Fullerton">Read Article →</a>
         </div>
@@ -1278,7 +1294,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Dryer Not Heating in Santa Ana? Here's Why and What to Do</div>
+          <h3 class="blog-title">Dryer Not Heating in Santa Ana? Here's Why and What to Do</h3>
           <div class="blog-excerpt">Drum spins but clothes come out cold? Learn the most common causes of a dryer not heating: for both gas and electric models, and what you can check before calling a tech.</div>
           <a href="../articles/article-dryer-not-heating-santa-ana.html" class="blog-link" aria-label="Read Article: Dryer Not Heating in Santa Ana? Here&#x27;s Why and What to Do">Read Article →</a>
         </div>
@@ -1295,7 +1311,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">April 23, 2026</div>
-          <div class="blog-title">Refrigerator Not Cooling in Huntington Beach? 6 Common Causes</div>
+          <h3 class="blog-title">Refrigerator Not Cooling in Huntington Beach? 6 Common Causes</h3>
           <div class="blog-excerpt">Motor's running but nothing inside is cold? Learn the 6 most common reasons a fridge stops cooling, which ones you can check yourself, and when same-day repair is the right call.</div>
           <a href="../articles/article-fridge-not-cooling-huntington-beach.html" class="blog-link" aria-label="Read Article: Refrigerator Not Cooling in Huntington Beach? 6 Common Causes">Read Article →</a>
         </div>
@@ -1309,7 +1325,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">April 23, 2026</div>
-          <div class="blog-title">Garbage Disposal Repair in Costa Mesa, CA</div>
+          <h3 class="blog-title">Garbage Disposal Repair in Costa Mesa, CA</h3>
           <div class="blog-excerpt">Disposal humming, not turning on, or leaking? Most garbage disposal problems have a simple fix. Learn which ones you can handle yourself and when to call a pro in Costa Mesa.</div>
           <a href="../articles/article-garbage-disposal-repair-costa-mesa.html" class="blog-link" aria-label="Read Article: Garbage Disposal Repair in Costa Mesa, CA">Read Article →</a>
         </div>
@@ -1326,7 +1342,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Refrigerator Repair in Garden Grove, CA: What to Expect</div>
+          <h3 class="blog-title">Refrigerator Repair in Garden Grove, CA: What to Expect</h3>
           <div class="blog-excerpt">Fridge stopped cooling and food is at risk? Learn the most common refrigerator problems, what you can check yourself, and what a same-day repair visit looks like in Garden Grove.</div>
           <a href="../articles/article-fridge-repair-garden-grove.html" class="blog-link" aria-label="Read Article: Refrigerator Repair in Garden Grove, CA: What to Expect">Read Article →</a>
         </div>
@@ -1343,7 +1359,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Washing Machine Not Spinning in Huntington Beach? 5 Common Causes</div>
+          <h3 class="blog-title">Washing Machine Not Spinning in Huntington Beach? 5 Common Causes</h3>
           <div class="blog-excerpt">Pull out soaking wet laundry after every cycle? Learn the five most common reasons a washer won't spin and which ones you can fix yourself without calling a technician.</div>
           <a href="../articles/article-washer-not-spinning-huntington-beach.html" class="blog-link" aria-label="Read Article: Washing Machine Not Spinning in Huntington Beach? 5 Common Causes">Read Article →</a>
         </div>
@@ -1360,7 +1376,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">April 23, 2026</div>
-          <div class="blog-title">Oven Repair in Santa Ana, CA: What to Expect</div>
+          <h3 class="blog-title">Oven Repair in Santa Ana, CA: What to Expect</h3>
           <div class="blog-excerpt">Oven not heating, burner won't ignite, or temperature running off? Learn the most common oven problems Santa Ana homeowners face and what a professional repair visit looks like.</div>
           <a href="../articles/article-oven-repair-santa-ana.html" class="blog-link" aria-label="Read Article: Oven Repair in Santa Ana, CA: What to Expect">Read Article →</a>
         </div>
@@ -1377,7 +1393,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">April 27, 2026</div>
-          <div class="blog-title">Washing Machine Leaking in Buena Park? Here's Why</div>
+          <h3 class="blog-title">Washing Machine Leaking in Buena Park? Here's Why</h3>
           <div class="blog-excerpt">Water on the laundry room floor? Learn the most common causes of a washing machine leak: door seals, drain pumps, inlet hoses, and more, and which ones you can rule out yourself.</div>
           <a href="../articles/article-washer-leaking-buena-park.html" class="blog-link" aria-label="Read more: Washing Machine Leaking in Buena Park? Here&#x27;s Why">Read more →</a>
         </div>
@@ -1394,7 +1410,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Dishwasher Repair in Orange, CA: What to Expect</div>
+          <h3 class="blog-title">Dishwasher Repair in Orange, CA: What to Expect</h3>
           <div class="blog-excerpt">Not draining, leaking from the door, or leaving dishes dirty? Learn the most common dishwasher problems Orange homeowners face and what a same-day repair visit looks like.</div>
           <a href="../articles/article-dishwasher-repair-orange.html" class="blog-link" aria-label="Read more: Dishwasher Repair in Orange, CA: What to Expect">Read more →</a>
         </div>
@@ -1411,7 +1427,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Freezer Not Freezing in Anaheim? 5 Common Causes & Fixes</div>
+          <h3 class="blog-title">Freezer Not Freezing in Anaheim? 5 Common Causes & Fixes</h3>
           <div class="blog-excerpt">Freezer humming but nothing inside is frozen? Learn the five most common causes: from dirty coils to a failing start relay, and which ones you can check yourself before calling a tech.</div>
           <a href="../articles/article-freezer-not-freezing-anaheim.html" class="blog-link" aria-label="Read more: Freezer Not Freezing in Anaheim? 5 Common Causes &amp; Fixes">Read more →</a>
         </div>
@@ -1428,7 +1444,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">April 28, 2026</div>
-          <div class="blog-title">Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda</div>
+          <h3 class="blog-title">Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda</h3>
           <div class="blog-excerpt">Running two cycles to finish one load? Learn the most common causes of a slow dryer: clogged vents, failing heating elements, and overloading, and when to call a tech.</div>
           <a href="../articles/article-dryer-takes-too-long-yorba-linda.html" class="blog-link" aria-label="Read more: Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda">Read more →</a>
         </div>
@@ -1445,7 +1461,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Oven Repair in Laguna Niguel, CA: What to Expect</div>
+          <h3 class="blog-title">Oven Repair in Laguna Niguel, CA: What to Expect</h3>
           <div class="blog-excerpt">Oven not heating or running way off temperature? Learn the most common causes for gas and electric ovens, what to check yourself, and what a repair visit looks like.</div>
           <a href="../articles/article-oven-repair-laguna-niguel.html" class="blog-link" aria-label="Read more: Oven Repair in Laguna Niguel, CA: What to Expect">Read more →</a>
         </div>
@@ -1462,7 +1478,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">April 28, 2026</div>
-          <div class="blog-title">Wine Cooler Repair in Newport Beach, CA: What to Expect</div>
+          <h3 class="blog-title">Wine Cooler Repair in Newport Beach, CA: What to Expect</h3>
           <div class="blog-excerpt">Wine fridge not maintaining temperature? Learn the most common causes: from dirty coils to a failing thermostat. Find out what to check yourself, and when to call a technician.</div>
           <a href="../articles/article-wine-cooler-repair-newport-beach.html" class="blog-link" aria-label="Read more: Wine Cooler Repair in Newport Beach, CA: What to Expect">Read more →</a>
         </div>
@@ -1479,7 +1495,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Washer Repair in Irvine, CA: Costs, Timeline & What to Expect</div>
+          <h3 class="blog-title">Washer Repair in Irvine, CA: Costs, Timeline & What to Expect</h3>
           <div class="blog-excerpt">Washing machine not spinning or leaking? Learn what common washer problems cost to fix in Irvine, how long repairs take, and when a replacement makes more sense than a repair.</div>
           <a href="../articles/article-washer-repair-irvine.html" class="blog-link" aria-label="Read Article: Washer Repair in Irvine, CA: Costs, Timeline &amp; What to Expect">Read Article →</a>
         </div>
@@ -1496,7 +1512,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Freezer Not Freezing in Westminster? 5 Common Causes &amp; Fix Costs</div>
+          <h3 class="blog-title">Freezer Not Freezing in Westminster? 5 Common Causes &amp; Fix Costs</h3>
           <div class="blog-excerpt">Ice cream soft and meat thawing? Learn the 5 most common reasons a freezer stops freezing, what each repair costs in Orange County, and when to call a technician.</div>
           <a href="../articles/article-freezer-not-freezing-westminster.html" class="blog-link" aria-label="Read Article: Freezer Not Freezing in Westminster? 5 Common Causes &amp; Fix Costs">Read Article →</a>
         </div>
@@ -1513,7 +1529,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Dishwasher Leaking in Dana Point? Common Causes &amp; What It Costs to Fix</div>
+          <h3 class="blog-title">Dishwasher Leaking in Dana Point? Common Causes &amp; What It Costs to Fix</h3>
           <div class="blog-excerpt">Water on the kitchen floor after a cycle? Learn the most common dishwasher leak causes: door gasket, pump, inlet valve, and what each repair costs in Orange County.</div>
           <a href="../articles/article-dishwasher-leaking-dana-point.html" class="blog-link" aria-label="Read Article: Dishwasher Leaking in Dana Point? Common Causes &amp; What It Costs to Fix">Read Article →</a>
         </div>
@@ -1530,7 +1546,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Oven Not Heating in Tustin? What to Check Before Calling a Pro</div>
+          <h3 class="blog-title">Oven Not Heating in Tustin? What to Check Before Calling a Pro</h3>
           <div class="blog-excerpt">Oven cold before dinner? Learn what's most likely wrong: bake element, igniter, or thermostat, and what each repair costs, and what you can check yourself first.</div>
           <a href="../articles/article-oven-not-heating-tustin.html" class="blog-link" aria-label="Read Article: Oven Not Heating in Tustin? What to Check Before Calling a Pro">Read Article →</a>
         </div>
@@ -1547,7 +1563,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes</div>
+          <h3 class="blog-title">Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes</h3>
           <div class="blog-excerpt">Fridge running warm? Learn the 6 most common reasons a refrigerator stops cooling, what each repair costs in Orange County, and when to call a technician.</div>
           <a href="../articles/article-fridge-not-cooling-fountain-valley.html" class="blog-link" aria-label="Read Article: Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes">Read Article →</a>
         </div>
@@ -1564,7 +1580,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">How Much Does Dishwasher Repair Cost in Orange County? (2026 Pricing Guide)</div>
+          <h3 class="blog-title">How Much Does Dishwasher Repair Cost in Orange County? (2026 Pricing Guide)</h3>
           <div class="blog-excerpt">Dishwasher repair costs in Orange County: exact pricing for common repairs, diagnostic fees, and when replacement makes sense vs repair.</div>
           <a href="../articles/article-dishwasher-cost-orange-county.html" class="blog-link" aria-label="Read Article: How Much Does Dishwasher Repair Cost in Orange County? (2026 Pricing Guide)">Read Article →</a>
         </div>
@@ -1581,7 +1597,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">LG Refrigerator Repair in Laguna Beach, CA: Common Issues &amp; What to Expect</div>
+          <h3 class="blog-title">LG Refrigerator Repair in Laguna Beach, CA: Common Issues &amp; What to Expect</h3>
           <div class="blog-excerpt">LG fridge repair in Laguna Beach? We fix cooling problems, ice makers, and compressor issues. Expert repair or honest advice on replacement.</div>
           <a href="../articles/article-lg-fridge-repair-laguna-beach.html" class="blog-link" aria-label="Read Article: LG Refrigerator Repair in Laguna Beach, CA: Common Issues &amp; What to Expect">Read Article →</a>
         </div>
@@ -1598,7 +1614,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Microwave Not Heating in Mission Viejo? 5 Common Causes &amp; How to Fix It</div>
+          <h3 class="blog-title">Microwave Not Heating in Mission Viejo? 5 Common Causes &amp; How to Fix It</h3>
           <div class="blog-excerpt">Microwave not heating in Mission Viejo? Learn the 5 most common causes and how we repair them. Same-day service available.</div>
           <a href="../articles/article-microwave-not-heating-mission-viejo.html" class="blog-link" aria-label="Read Article: Microwave Not Heating in Mission Viejo? 5 Common Causes &amp; How to Fix It">Read Article →</a>
         </div>
@@ -1615,7 +1631,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated May 2026</div>
-          <div class="blog-title">5 Must-Have Appliances for Dorm Life</div>
+          <h3 class="blog-title">5 Must-Have Appliances for Dorm Life</h3>
           <div class="blog-excerpt">College dorm life is tight on space. Every appliance has to pull its weight. Here are 5 compact, student-friendly picks that are functional and worth every penny.</div>
           <a href="../articles/article-dorm-appliances.html" class="blog-link" aria-label="Read Article: 5 Must-Have Appliances for Dorm Life">Read Article →</a>
         </div>
@@ -1632,7 +1648,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Sub-Zero Refrigerator Not Cooling? 5 Causes and What to Do in Orange County</div>
+          <h3 class="blog-title">Sub-Zero Refrigerator Not Cooling? 5 Causes and What to Do in Orange County</h3>
           <div class="blog-excerpt">Sub-Zero not cooling? Learn the 5 most common causes: from dirty condenser coils to compressor failure, and what each costs to repair, and when it's worth fixing.</div>
           <a href="../articles/article-sub-zero-not-cooling-orange-county.html" class="blog-link" aria-label="Read Article: Sub-Zero Refrigerator Not Cooling? 5 Causes and What to Do in Orange County">Read Article &rarr;</a>
         </div>
@@ -1649,7 +1665,7 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
-          <div class="blog-title">Sub-Zero Refrigerator Repair Cost in Orange County (2026 Guide)</div>
+          <h3 class="blog-title">Sub-Zero Refrigerator Repair Cost in Orange County (2026 Guide)</h3>
           <div class="blog-excerpt">Full price breakdown by repair type: our $99 diagnostic fee, $250&ndash;$750 for fan motors and gaskets, up to $2,400 for compressor replacement. Plus a repair-vs-replace decision guide.</div>
           <a href="../articles/article-sub-zero-repair-cost-orange-county.html" class="blog-link" aria-label="Read Article: Sub-Zero Refrigerator Repair Cost in Orange County (2026 Guide)">Read Article &rarr;</a>
         </div>
@@ -1666,15 +1682,19 @@
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated August 2026</div>
-          <div class="blog-title">Sub-Zero Refrigerator: Repair or Replace? An Honest Decision Guide for Orange County</div>
+          <h3 class="blog-title">Sub-Zero Refrigerator: Repair or Replace? An Honest Decision Guide for Orange County</h3>
           <div class="blog-excerpt">Should you spend $1,400 on the repair or put it toward a $10,000 replacement? Apply the 50% rule, see which failures favor repair, and learn the rare scenarios where replacement actually wins.</div>
           <a href="../articles/article-sub-zero-repair-vs-replace.html" class="blog-link" aria-label="Read Article: Sub-Zero Refrigerator: Repair or Replace? An Honest Decision Guide for Orange County">Read Article &rarr;</a>
         </div>
       </div>
 
     </div>
-    <button id="blog-load-more" style="display:none;" aria-label="Load more articles">Load more</button>
-    <div id="search-empty">No articles match your search. Try a different keyword.</div>
+    <button id="blog-load-more" class="btn-outline" style="display:none;" aria-label="Load more articles">Load more</button>
+    <div id="search-empty" role="status">
+      <p>No articles match your search. Try a different keyword.</p>
+      <button type="button" id="clear-search" class="btn-outline">Clear search</button>
+      <p>Still can&rsquo;t find what you need? <a href="tel:+19496295365">Call (949) 629-5365</a>.</p>
+    </div>
   </section>
 
   <!-- DARK CTA -->
@@ -1766,7 +1786,17 @@
       var input = document.getElementById('blog-search');
       var empty = document.getElementById('search-empty');
       var loadMore = document.getElementById('blog-load-more');
+      var clearSearch = document.getElementById('clear-search');
       var currentCat = 'all';
+
+      function setActivePill(pill) {
+        pills.forEach(function(p) {
+          p.classList.remove('active');
+          p.removeAttribute('aria-current');
+        });
+        pill.classList.add('active');
+        pill.setAttribute('aria-current', 'true');
+      }
 
       function isMobile() { return window.innerWidth <= 768; }
       var showing = isMobile() ? BATCH : cards.length;
@@ -1861,6 +1891,21 @@
         });
       }
 
+      if (clearSearch) {
+        clearSearch.addEventListener('click', function() {
+          input.value = '';
+          currentCat = 'all';
+          var allPill = pills.filter(function(p) { return (p.dataset.filter || 'all') === 'all'; })[0];
+          if (allPill) setActivePill(allPill);
+          var url = new URL(location.href);
+          url.searchParams.delete('q');
+          history.replaceState(null, '', url.toString());
+          showing = isMobile() ? BATCH : cards.length;
+          applyFilter();
+          input.focus();
+        });
+      }
+
       input.addEventListener('input', function() {
         var url = new URL(location.href);
         var q = this.value.trim();
@@ -1876,8 +1921,7 @@
         pill.addEventListener('click', function(e) {
           e.preventDefault();
           currentCat = this.dataset.filter || 'all';
-          pills.forEach(function(p) { p.classList.remove('active'); });
-          this.classList.add('active');
+          setActivePill(this);
           showing = isMobile() ? BATCH : cards.length;
           applyFilter();
         });
