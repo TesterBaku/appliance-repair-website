@@ -75,30 +75,58 @@ function toIsoWithOffset(date) {
     `T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}${sign}${offH}:${offM}`;
 }
 
+// git quotes a path in double quotes (with C-style backslash/octal escapes) whenever it
+// contains a space, a quote, a backslash, or — by default (core.quotepath) — any
+// non-ASCII byte. Undo that quoting so the path matches what fs/path produce. A no-op for
+// the plain-ASCII paths this repo actually uses, but correct for the general case.
+function unquoteGitPath(p) {
+  if (!(p.startsWith('"') && p.endsWith('"'))) return p;
+  return p.slice(1, -1).replace(/\\([0-7]{1,3}|.)/g, (_, esc) => {
+    if (/^[0-7]{1,3}$/.test(esc)) return String.fromCharCode(parseInt(esc, 8));
+    if (esc === 'n') return '\n';
+    if (esc === 't') return '\t';
+    return esc; // \\ -> \, \" -> ", etc.
+  });
+}
+
 // A file that is dirty or untracked in the working tree has no commit yet recording its
 // current content, so `git log` returns the *previous* commit's date (or nothing, for a
 // new file) — stale by construction whenever a content change and the sitemap rebuild
 // land in the same commit, which is the workflow this repo uses on every PR (P6-51).
-// `git status --porcelain` catches both cases (modified-and-unstaged/staged, and
-// untracked) in one call.
-function isDirtyOrUntracked(absPath) {
+//
+// One `git status --porcelain` call for the whole repo, parsed into a Set of resolved
+// absolute paths, rather than a `git status --porcelain -- <path>` subprocess spawned per
+// file: the per-file version measured 11.6s -> 22.4s on this repo's ~160 pages (PR #802
+// review, WARNING). Porcelain v1 lines are `XY <path>` or, for a rename/copy (X or Y is
+// 'R'/'C'), `XY <path> -> <newpath>` — only the (current, post-rename) path on the right
+// of `->` matters here, since that is what's actually on disk to stat.
+function collectDirtyPaths() {
+  let out;
   try {
-    const out = execSync(
-      `git status --porcelain -- "${absPath}"`,
-      { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }
-    ).trim();
-    return out.length > 0;
+    out = execSync('git status --porcelain', { cwd: ROOT, encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
   } catch (_) {
-    return false;
+    return new Set(); // no git / not a repo — treat everything as clean, same as the old per-file catch
   }
+  const dirty = new Set();
+  for (const rawLine of out.split('\n')) {
+    if (!rawLine) continue;
+    // Columns 1-2 are the two status characters, column 3 is a space, the path starts at 4.
+    let rest = rawLine.slice(3);
+    const arrow = rest.indexOf(' -> ');
+    if (arrow !== -1) rest = rest.slice(arrow + 4);
+    dirty.add(path.resolve(ROOT, unquoteGitPath(rest)));
+  }
+  return dirty;
 }
+
+const DIRTY_PATHS = collectDirtyPaths();
 
 // lastmod() picks the source of truth per file: fs mtime for a file the working tree has
 // touched since its last commit (git has nothing current to report), git log otherwise.
-// On a clean tree this always takes the git branch, so a clean-tree rebuild is unaffected
-// byte-for-byte (P6-51 option 2, backlog.md ~line 3046).
+// On a clean tree DIRTY_PATHS is empty, so every file takes the git branch and a clean-tree
+// rebuild is unaffected byte-for-byte (P6-51 option 2, backlog.md ~line 3046).
 function lastmod(absPath) {
-  if (isDirtyOrUntracked(absPath)) {
+  if (DIRTY_PATHS.has(path.resolve(absPath))) {
     return toIsoWithOffset(fs.statSync(absPath).mtime).slice(0, 10);
   }
   return gitLastmod(absPath);
