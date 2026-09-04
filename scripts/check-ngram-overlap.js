@@ -53,8 +53,13 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--all') args.all = true;
-    else if (a === '--n') args.n = parseInt(argv[++i], 10);
-    else if (a === '--ceiling') args.ceiling = parseFloat(argv[++i]);
+    else if (a === '--n') {
+      args.n = parseInt(argv[++i], 10);
+      if (!Number.isInteger(args.n) || args.n < 1) { console.error('--n needs a positive integer'); process.exit(2); }
+    } else if (a === '--ceiling') {
+      args.ceiling = parseFloat(argv[++i]);
+      if (!Number.isFinite(args.ceiling) || args.ceiling < 0) { console.error('--ceiling needs a non-negative number'); process.exit(2); }
+    }
     else if (a === '--json') args.json = true;
     else if (a === '--strict') args.strict = true;
     else args.files.push(a);
@@ -69,7 +74,13 @@ const ENTITIES = {
 };
 
 function decodeEntities(str) {
-  return str.replace(/&#?\w+;/g, (m) => (ENTITIES[m] !== undefined ? ENTITIES[m] : m));
+  // Numeric entities (&#8250; &#x2022;) decode to their character; named entities use the
+  // table above; anything unmapped is dropped rather than left as a "deg"/"8250" token
+  // that would count as shared content across otherwise unrelated pages.
+  return str
+    .replace(/&#x([0-9a-fA-F]+);/g, (m, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (m, d) => String.fromCodePoint(parseInt(d, 10)))
+    .replace(/&\w+;/g, (m) => (ENTITIES[m] !== undefined ? ENTITIES[m] : ' '));
 }
 
 function stripBlockByClass(html, classPrefix, exact) {
