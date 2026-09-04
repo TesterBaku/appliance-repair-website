@@ -75,7 +75,16 @@
  *
  *   schema-headline-sync — every article's JSON-LD `headline` must equal the H1 text.
  *                    Catches the schema-drift bug fixed in PR #363.
- *                    Added 2026-05-21.
+ *                    Added 2026-05-21. WIDENED 2026-09-03 (P6-27): the original
+ *                    `if (!hl || !h1m) continue` skipped identically whether the page had
+ *                    no JSON-LD headline (fair, nothing to compare) or NO H1 AT ALL (a real
+ *                    content bug), so retagging an article's <h1> to <h2> shipped clean.
+ *                    Now only "no headline" is skipped; a page with a headline but no H1 is
+ *                    a FAIL. Measured against the live corpus before deciding severity
+ *                    (per the backlog item, which did not itself specify FAIL vs
+ *                    informational): 0 of 76 articles currently have a headline with no H1,
+ *                    so this ships as a pure regression guard, same precedent as
+ *                    faq-schema-presence.
  *
  *   modified-time-sync — every article's `article:modified_time` meta must equal its
  *                    JSON-LD `dateModified`. Catches the drift bug fixed in PR #358
@@ -826,7 +835,14 @@ if (run('schema-headline-sync')) {
     const hl = content.match(/"headline"\s*:\s*"([^"]*)"/);
     // H1 text — strip tags + decode &amp; for comparison
     const h1m = content.match(/<h1[^>]*>(.*?)<\/h1>/s);
-    if (!hl || !h1m) continue;
+    if (!hl) continue;                                // no schema headline: nothing to compare (P6-27)
+    if (!h1m) {
+      // P6-27: a schema headline with NO H1 at all is a real content bug, not the
+      // "nothing to compare" case above; do not fold the two together (the prior
+      // `if (!hl || !h1m) continue` treated both cases identically).
+      issues.push(`[HEADLINE] ${rel(filePath)} — JSON-LD headline present but no <h1> found on the page`);
+      continue;
+    }
     const h1Text = h1m[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
     const hlText = hl[1].replace(/&amp;/g, '&').trim();
     if (h1Text !== hlText) {
