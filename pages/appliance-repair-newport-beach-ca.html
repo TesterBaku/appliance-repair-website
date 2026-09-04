@@ -124,16 +124,29 @@
       .neighborhoods-grid { grid-template-columns: 1fr; }
       div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
       .process-steps { grid-template-columns: repeat(2, 1fr); }
-      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      /* P6-42: this unprefixed override is dead weight, not a live rule -- it
+         duplicates the value already active from `.hub-page .testimonials-grid`
+         at the 900px breakpoint (line 108), which outranks it on specificity
+         (0,2,0 vs 0,1,0) regardless of source order. Left unset here rather than
+         restated, so the grid isn't misread as configurable at this breakpoint. */
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
       .process-steps { grid-template-columns: 1fr; }
-      .testimonials-grid { grid-template-columns: 1fr; }
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+    }
+    /* P6-42: the 1fr collapse above was dead for the same specificity reason,
+       so the 2-column testimonials grid rendered all the way down to 0px,
+       overflowing the viewport below ~301px (measured: a .testimonial-card
+       right edge at 301px against a 300px viewport). This site's supported
+       floor is 375px (2-column renders correctly there and is unchanged by
+       this rule), so the fix is scoped to the unsupported sub-floor range
+       only, using `.hub-page` to actually beat the 900px rule's specificity. */
+    @media (max-width: 374px) {
+      .hub-page .testimonials-grid { grid-template-columns: 1fr; }
     }
   </style>
 
