@@ -13,10 +13,14 @@
  * cite this check instead).
  *
  * This makes the property enforced rather than remembered: it scans every
- * `test(...)` block in test/**\/*.spec.js for a reference to the contact
- * form's submit control (a bare `'#form-submit'` or `'#contact-form'`
- * selector literal, quote-anchored so an unrelated string like
- * `'form#contact-form'` does not count), and fails if that reference is not
+ * `test(...)` block in test/**\/*.spec.js for a reference, inside the test's
+ * BODY (after the `=>` of its callback, never inside the test's own title
+ * string; see bodySlice below), to one of three submit-candidate tokens: a
+ * bare `#form-submit` or `#contact-form` selector literal (quote-anchored,
+ * any of `` ` ``/`'`/`"`, so an unrelated string like `'form#contact-form'`
+ * does not count), the word `formspree` inside any quoted string (case
+ * insensitive), or the string `Send Message` inside any quoted string. If
+ * the test body references any of those, it fails unless that reference is
  * preceded, inside the SAME test block, by a `page.route('...formspree...', ...)`
  * stub. A beforeEach-registered route does NOT count on purpose: this check
  * only looks inside individual test() bodies, matching how the real spec file
@@ -24,20 +28,38 @@
  * contact-form test), so a stub hoisted out of the test body would need a
  * deliberate second look here, not a silent pass.
  *
- * Matching a bare selector reference, not just `.click(...)` or `.submit()`,
- * is deliberate (Copilot review, PR #804): Playwright specs commonly drive a
- * submit via `page.locator('#form-submit').click()`, a variable assigned
- * earlier and clicked later (`const submit = page.locator('#form-submit');
- * ... await submit.click();`), `page.press('#form-submit', 'Enter')`,
- * `.evaluate(f => f.submit())` / `.evaluate(f => f.requestSubmit())`, or
- * `.dispatchEvent('submit')`, none of which the previous click/submit-only
- * pattern caught. Every one of those still needs the selector string
- * somewhere in the test body, so anchoring on the selector itself (rather
- * than the specific call that fires it) closes the gap without trying to
- * parse every way Playwright can trigger a click. The one pattern this
- * cannot see is `page.getByRole(...)` used with no ID reference anywhere in
- * the block; that is a real, stated limit of a regex heuristic, not an
- * oversight, and the docblock says so rather than implying full coverage.
+ * Matching bare selector/token references, not just `.click(...)` or
+ * `.submit()`, is deliberate (Copilot review, PR #804 round 3): Playwright
+ * specs commonly drive a submit via `page.locator('#form-submit').click()`,
+ * a variable assigned earlier and clicked later (`const submit =
+ * page.locator('#form-submit'); ... await submit.click();`),
+ * `page.press('#form-submit', 'Enter')`, `.evaluate(f => f.submit())` /
+ * `.evaluate(f => f.requestSubmit())`, or `.dispatchEvent('submit')`, none of
+ * which the original click/submit-only pattern caught. Every one of those
+ * still needs the selector string somewhere in the test body, so anchoring on
+ * the selector itself (rather than the specific call that fires it) closes
+ * the gap without trying to parse every way Playwright can trigger a click.
+ *
+ * Round 4 (Copilot review, PR #804) widened this further after a second
+ * fixture set: a backtick-delimited selector (`` page.click(`#form-submit`) ``)
+ * was missed because the old character class was quote-only; an alternate CSS
+ * selector reaching the same button (`page.click('form[action*="formspree"]
+ * button[type="submit"]')`) and `page.getByRole('button', {name: 'Send
+ * Message'})` were both missed entirely because neither contains the literal
+ * string `#form-submit` or `#contact-form`. The backtick is now in the
+ * selector class; the `formspree` and `Send Message` tokens catch the other
+ * two by matching on text that selector-by-attribute and getByRole calls do
+ * still contain, even though they do not contain the ID.
+ *
+ * Stated, real boundary of this heuristic (not fixed here, because a regex
+ * cannot fix it without becoming a JS parser): a selector assembled at
+ * runtime, whether by string concatenation (`'#form-' + 'submit'`), template
+ * interpolation of a variable, or a helper function that returns the
+ * selector, never appears as one contiguous quoted literal, so none of the
+ * three tokens above can see it. `page.getByRole(...)` used with no textual
+ * overlap against any of the three tokens (e.g. matched by an accessible name
+ * that isn't `Send Message`) is the same gap by the same cause. Closing this
+ * fully requires evaluating the test file's AST, not scanning its text.
  *
  * Bracket depth is tracked at the character level to find the end of each
  * test(...) call, which is a heuristic, not a JS parser: it works because this
@@ -73,17 +95,29 @@ const testDir = path.join(root, 'test');
 // block" the backlog item is scoped to.
 const TEST_CALL_RE = /\btest(?:\.only|\.skip)?\s*\(/g;
 
-// A bare, quote-anchored reference to the contact form's submit control:
-// '#form-submit' or '#contact-form' as the entire string literal. Anchoring
-// on the quotes (not just the substring) is what keeps this from matching
-// 'form#contact-form' (the plain existence-check locator in the "contact
-// form exists" test, which never submits and carries no stub) while still
-// matching every real trigger shape: .click('#form-submit'),
-// .locator('#form-submit').click(), a locator assigned to a variable and
-// clicked later, page.press('#form-submit', 'Enter'), and
-// .locator('#contact-form').evaluate(f => f.submit()) /
-// .dispatchEvent('submit') / .evaluate(f => f.requestSubmit()).
-const SUBMIT_RE = /['"]#(?:form-submit|contact-form)['"]/g;
+// Three submit-candidate tokens, any one of which marks a test body as
+// referencing the contact form's submit control (see the docblock above for
+// the fixture each one exists to catch):
+//   1. `#form-submit` or `#contact-form` as an entire, quote-anchored string
+//      literal (backtick, single, or double quote on both ends). Anchoring
+//      on the quotes, not just the substring, is what keeps this from
+//      matching 'form#contact-form' (the plain existence-check locator in
+//      the "contact form exists" test, which never submits and carries no
+//      stub).
+//   2. The word `formspree`, case-insensitive, inside any quoted string.
+//      Catches an alternate CSS selector built off the form's action
+//      attribute (`'form[action*="formspree"] button[type="submit"]'`) that
+//      never spells out `#form-submit`. This also matches the
+//      `page.route('**formspree.io/**', ...)` stub's own URL string, which
+//      is harmless: a stub always precedes its own URL literal, so it can
+//      never itself trigger a violation, only get (correctly) counted as a
+//      checked test.
+//   3. The string `Send Message` inside any quoted string. Catches
+//      `page.getByRole('button', { name: 'Send Message' })`, which contains
+//      neither `#form-submit`/`#contact-form` nor `formspree`.
+// Case-insensitive throughout ('i' flag) since none of the three tokens
+// needs case sensitivity to stay precise.
+const SUBMIT_RE = /[`'"]#(?:form-submit|contact-form)[`'"]|[`'"][^`'"]*formspree[^`'"]*[`'"]|[`'"][^`'"]*Send Message[^`'"]*[`'"]/gi;
 
 // A Formspree route stub, matching the pattern every existing test already uses:
 // page.route('**formspree.io/**', ...).
@@ -176,6 +210,22 @@ function resolveTargets(argPath) {
   return stat.isDirectory() ? findSpecFiles(resolved) : [resolved];
 }
 
+// Slices a test() block's text down to just its callback body, dropping the
+// title-string argument. This matters now that SUBMIT_RE's `formspree` token
+// matches any quoted occurrence of the word: several test titles in this repo
+// literally say "Formspree" (e.g. `test('form posts to Formspree', ...)`,
+// `test('the rejection reason from Formspree is shown, not swallowed', ...)`),
+// and without this slice those titles alone would (wrongly) count as a
+// submit-candidate reference. `=>` reliably marks the end of the title/params
+// and the start of the body for every test() call in this repo's spec files
+// (`test('...', async ({ page }) => { ... })`); if a call has no `=>` at all
+// (not expected here), the whole block text is used unchanged.
+function bodySlice(blockText) {
+  const arrowIndex = blockText.indexOf('=>');
+  if (arrowIndex === -1) return { offset: 0, text: blockText };
+  return { offset: arrowIndex + 2, text: blockText.slice(arrowIndex + 2) };
+}
+
 function lineOf(src, index) {
   let line = 1;
   for (let i = 0; i < index; i++) {
@@ -227,20 +277,26 @@ for (const file of resolveTargets(process.argv[2])) {
   const sanitized = stripComments(src);
 
   for (const block of extractTestBlocks(sanitized)) {
+    // Body only: excludes the test's own title-string argument, so a title
+    // like "form posts to Formspree" can never itself satisfy the
+    // `formspree` token (see bodySlice above).
+    const { offset: bodyOffset, text: bodyText } = bodySlice(block.text);
+
     SUBMIT_RE.lastIndex = 0;
-    const submitMatch = SUBMIT_RE.exec(block.text);
-    if (!submitMatch) continue; // this test never references #form-submit or #contact-form
+    const submitMatch = SUBMIT_RE.exec(bodyText);
+    if (!submitMatch) continue; // this test's body never references a submit-candidate token
 
     submitTestCount++;
 
     ROUTE_STUB_RE.lastIndex = 0;
-    const stubMatch = ROUTE_STUB_RE.exec(block.text);
+    const stubMatch = ROUTE_STUB_RE.exec(bodyText);
     const stubComesFirst = stubMatch && stubMatch.index < submitMatch.index;
 
     if (!stubComesFirst) {
       violations.push(
-        `${rel}:${lineOf(src, block.start + submitMatch.index)}: references #form-submit / #contact-form ` +
-          `without a preceding page.route('**formspree.io/**', ...) stub in the same test block`
+        `${rel}:${lineOf(src, block.start + bodyOffset + submitMatch.index)}: references #form-submit / ` +
+          `#contact-form / formspree / "Send Message" without a preceding page.route('**formspree.io/**', ...) ` +
+          `stub in the same test block`
       );
     }
   }
@@ -250,9 +306,10 @@ if (violations.length) {
   console.error(`formspree-guard: ${violations.length} unguarded contact-form submit(s) found:`);
   violations.forEach((v) => console.error('  ' + v));
   console.error(
-    "\nEvery test that references '#form-submit' or '#contact-form' (click, locator + later .click(), " +
-      "page.press(...), .submit()/.requestSubmit()/.dispatchEvent('submit'), or any other trigger) must " +
-      "register page.route('**formspree.io/**', ...) earlier in the SAME test() body. Without it, a real " +
+    "\nEvery test whose body references '#form-submit', '#contact-form', the word formspree, or " +
+      "\"Send Message\" (in a quoted selector, a page.press(...) target, an .evaluate()/.dispatchEvent() " +
+      "call, a getByRole() name, or any other trigger built from that text) must register " +
+      "page.route('**formspree.io/**', ...) earlier in the SAME test() body. Without it, a real " +
       'submission reaches the live Formspree endpoint and creates a fake lead in the owner\'s inbox ' +
       '(P6-47 Incident 2).'
   );
