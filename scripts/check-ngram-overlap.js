@@ -73,13 +73,16 @@ const ENTITIES = {
   '&rdquo;': '"', '&ldquo;': '"', '&hellip;': '...',
 };
 
+// Out-of-range or surrogate code points (String.fromCodePoint throws) become a space.
+function cp(n) { return n > 0 && n <= 0x10ffff && !(n >= 0xd800 && n <= 0xdfff) ? String.fromCodePoint(n) : ' '; }
+
 function decodeEntities(str) {
   // Numeric entities (&#8250; &#x2022;) decode to their character; named entities use the
   // table above; anything unmapped is dropped rather than left as a "deg"/"8250" token
   // that would count as shared content across otherwise unrelated pages.
   return str
-    .replace(/&#x([0-9a-fA-F]+);/g, (m, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&#(\d+);/g, (m, d) => String.fromCodePoint(parseInt(d, 10)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (m, h) => cp(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (m, d) => cp(parseInt(d, 10)))
     .replace(/&\w+;/g, (m) => (ENTITIES[m] !== undefined ? ENTITIES[m] : ' '));
 }
 
