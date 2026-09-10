@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-05-06T00:00:00Z",
+  "generatedAt": "2026-09-09T23:51:07.4891746Z",
   "title": "Design System: Universal Appliances Repair",
   "extensions": {
     "colorMeta": {
@@ -8,25 +8,31 @@
         "role": "primary",
         "displayName": "Craftsman's Ember",
         "canonical": "oklch(57% 0.21 28)",
-        "tonalRamp": ["#fef3ef", "#fcdacc", "#f8b49a", "#f08060", "#e84c1e", "#cc3a10", "#a02a08", "#6b1604"]
+        "tonalRamp": ["#6b1604", "#a02a08", "#cc3a10", "#e84c1e", "#f08060", "#f8b49a", "#fcdacc", "#fef3ef"]
       },
       "ember-deep": {
         "role": "primary-hover",
         "displayName": "Ember Deep",
         "canonical": "oklch(47% 0.19 28)",
-        "tonalRamp": ["#fef0eb", "#fad0bc", "#f3a07a", "#e8703c", "#cc3d12", "#a82e0a", "#7e2006", "#511203"]
+        "tonalRamp": ["#511203", "#7e2006", "#a82e0a", "#cc3d12", "#e8703c", "#f3a07a", "#fad0bc", "#fef0eb"]
+      },
+      "ember-deeper": {
+        "role": "primary-text",
+        "displayName": "Ember Deeper",
+        "canonical": "#aa3210",
+        "tonalRamp": ["#481206", "#6c1d09", "#8c270c", "#aa3210", "#d95a32", "#ed8f70", "#f7c3b0", "#fce9e2"]
       },
       "coastal-mist": {
         "role": "neutral-bg",
         "displayName": "Coastal Mist",
         "canonical": "oklch(98% 0.005 240)",
-        "tonalRamp": ["#fafcff", "#f2f7fb", "#e4eef6", "#d1e2ef", "#b5cfde", "#7ea5bc", "#4a7191", "#1e3d50"]
+        "tonalRamp": ["#1e3d50", "#4a7191", "#7ea5bc", "#b5cfde", "#d1e2ef", "#e4eef6", "#f2f7fb", "#fafcff"]
       },
       "surface": {
         "role": "neutral-surface",
         "displayName": "Surface White",
         "canonical": "oklch(100% 0 0)",
-        "tonalRamp": ["#ffffff", "#f5f5f5", "#e8e8e8", "#d0d0d0", "#b0b0b0", "#808080", "#505050", "#202020"]
+        "tonalRamp": ["#202020", "#505050", "#808080", "#b0b0b0", "#d0d0d0", "#e8e8e8", "#f5f5f5", "#ffffff"]
       },
       "pressed-steel": {
         "role": "neutral-text-primary",
@@ -38,19 +44,49 @@
         "role": "neutral-text-secondary",
         "displayName": "Dust",
         "canonical": "oklch(44% 0 0)",
-        "tonalRamp": ["#f7f7f7", "#e0e0e0", "#c4c4c4", "#999999", "#777777", "#555555", "#333333", "#111111"]
+        "tonalRamp": ["#111111", "#333333", "#555555", "#777777", "#999999", "#c4c4c4", "#e0e0e0", "#f7f7f7"]
+      },
+      "forest-deep": {
+        "role": "secondary",
+        "displayName": "Forest Deep",
+        "canonical": "#047857",
+        "tonalRamp": ["#013225", "#024b36", "#036447", "#047857", "#3fb58f", "#7fd4b7", "#b8ead8", "#e6f7f1"]
+      },
+      "chalk": {
+        "role": "neutral-text-muted",
+        "displayName": "Chalk",
+        "canonical": "#767676",
+        "tonalRamp": ["#333333", "#555555", "#767676", "#929292", "#bdbdbd", "#d9d9d9", "#ededed", "#fafafa"]
+      },
+      "ghost": {
+        "role": "neutral-inactive",
+        "displayName": "Ghost",
+        "canonical": "#aaaaaa",
+        "tonalRamp": ["#666666", "#858585", "#aaaaaa", "#c0c0c0", "#d6d6d6", "#e8e8e8", "#f5f5f5", "#ffffff"]
+      },
+      "linen": {
+        "role": "neutral-border",
+        "displayName": "Linen",
+        "canonical": "#eeeeee",
+        "tonalRamp": ["#b0b0b0", "#c8c8c8", "#dddddd", "#eeeeee", "#f3f3f3", "#f8f8f8", "#fcfcfc", "#ffffff"]
+      },
+      "footer-mist": {
+        "role": "neutral-footer-text",
+        "displayName": "Footer Mist",
+        "canonical": "#999999",
+        "tonalRamp": ["#555555", "#777777", "#999999", "#b7b7b7", "#d2d2d2", "#e9e9e9", "#f5f5f5", "#ffffff"]
       },
       "night-workshop": {
         "role": "neutral-surface-dark",
         "displayName": "Night Workshop",
         "canonical": "oklch(5% 0.003 30)",
-        "tonalRamp": ["#f5ede8", "#d4b8ae", "#a88070", "#7a5248", "#4e2e26", "#2e1a14", "#170d09", "#090909"]
+        "tonalRamp": ["#090909", "#170d09", "#2e1a14", "#4e2e26", "#7a5248", "#a88070", "#d4b8ae", "#f5ede8"]
       },
       "star-gold": {
         "role": "tertiary",
         "displayName": "Star Gold",
         "canonical": "oklch(73% 0.17 78)",
-        "tonalRamp": ["#fef9ec", "#fdefc5", "#fce190", "#f9cc47", "#f59e0b", "#d07f05", "#9a5e02", "#613a01"]
+        "tonalRamp": ["#613a01", "#9a5e02", "#d07f05", "#f59e0b", "#f9cc47", "#fce190", "#fdefc5", "#fef9ec"]
       }
     },
     "typographyMeta": {
@@ -154,18 +190,18 @@
   ],
   "narrative": {
     "northStar": "The Craftsperson's Workshop",
-    "overview": "This is a system built like a good repair: nothing wasted, everything earned. Every surface, shadow, and color exists because it solves a problem for a stressed homeowner on a 375px screen who needs to book a repair in the next thirty seconds. Decoration that doesn't serve conversion is not decoration; it's friction.\n\nThe palette is restrained orange over light gray. The typography is weight-driven, not size-driven. The component set is small and confident. There is one button color in the system, and it means one thing: take action now.\n\nThis system explicitly rejects the aesthetics of national appliance-chain franchises, HVAC corporate sterility, and over-engineered local service site templates that feel more like a tech startup than someone who shows up with tools.",
+    "overview": "This is a system built like a good repair: nothing wasted, everything earned. Every surface, shadow, and color exists because it solves a problem for a stressed homeowner on a 375px screen who needs to book a repair in the next thirty seconds. Decoration that doesn't serve conversion is not decoration; it's friction. The design earns trust the same way a skilled technician does: by being exactly what it promises, no more, no less.\n\nThe palette is restrained orange over light gray. The typography is weight-driven, not size-driven. The component set is small and confident. There is one button color in the system, and it means one thing: take action now. This economy is deliberate. A homeowner scanning for a phone number should not have to wonder which orange thing is clickable.\n\nThis system explicitly rejects the aesthetics of national appliance-chain franchises (cold blues, aggressive discounting energy), HVAC corporate sterility (white-on-white with teal accents), and over-engineered local service site templates that feel more like a tech startup than someone who shows up with tools. The warmth comes from proportion and weight, not from gradients or glassmorphism.",
     "keyCharacteristics": [
       "Single accent color used only for action (calls, bookings, CTAs)",
       "Weight contrast drives heading hierarchy; Inter at 800 and 400 feel like different typefaces",
       "Shadows are ambient and structural, never decorative",
       "Mobile sticky bar anchors conversion at every scroll position",
-      "Dark section uses deep brown warmth, not generic dark navy"
+      "Dark section (footer CTA) uses deep brown warmth, not generic dark navy"
     ],
     "rules": [
-      { "name": "The One Ember Rule",       "body": "Craftsman's Ember appears on 10% or less of any given screen. Every CTA is orange; decorations are not.",                                              "section": "colors" },
-      { "name": "The Warm Footer Rule",     "body": "The footer dark section uses #090909 (brown-shifted near-black), not cold #000. This warmth connects to Ember on dark surfaces.",                    "section": "colors" },
-      { "name": "The Weight-Over-Size Rule","body": "When in doubt, add weight rather than increasing size. A 14px 700-weight label reads more distinct from 14px 400-weight body than 16px 400.",       "section": "typography" },
+      { "name": "The One Ember Rule",       "body": "Craftsman's Ember appears on ≤10% of any given screen. Every CTA is orange; decorations are not. If a new component is orange, ask whether it is an action. If not, rethink the color choice.",                                              "section": "colors" },
+      { "name": "The Warm Footer Rule",     "body": "The footer dark section uses #090909 (brown-shifted near-black), not a generic #000 or cold #0a0a0a. This warmth is intentional: it connects to the Ember on dark surfaces rather than creating a cold contrast.",                    "section": "colors" },
+      { "name": "The Weight-Over-Size Rule","body": "When in doubt, add weight rather than increasing size. A 14px 700-weight label reads more hierarchically distinct from 14px 400-weight body than a 16px 400-weight label does.",       "section": "typography" },
       { "name": "The Tracking Rule",        "body": "Tight tracking (-1.5px to -0.5px) is reserved for display and headline sizes only. Body and label text runs at default or zero tracking.",          "section": "typography" },
       { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. Shadows appear only as a structural signal that an element is above the surface beneath it. No hover shadows on cards.", "section": "elevation" },
       { "name": "The Dark Feature Exception","body": "The 0 24px 70px rgba(0,0,0,0.50) shadow is permissible on the letter card over the dark section only. Using it anywhere else is prohibited.",     "section": "elevation" }
@@ -174,9 +210,10 @@
       "Do use Craftsman's Ember exclusively for calls to action, phone number emphasis, focus rings, and brand icons.",
       "Do drive heading hierarchy with weight contrast (800 vs 700 vs 400) before reaching for size increases.",
       "Do maintain min-height: 44px on all interactive elements at mobile viewports.",
-      "Do use Ghost (#aaa) for decorative/inactive UI elements and Chalk (#767676) minimum for any text that carries meaning.",
+      "Do use Ghost (#aaaaaa) only for genuinely decorative, non-informational marks. Note the FAQ accordion icon and dropdown arrows are driven by --text-inactive, which is now Dust (#666666), not Ghost. Use Dust (#666666) minimum for any text that carries meaning. Never let secondary text drop below 4.5:1. Check the ratio against the background it will actually sit on, not against white: Chalk (#767676) passes on white and fails on Coastal Mist, which is exactly how 204 declarations slipped under the floor.",
       "Do include aria-expanded, aria-controls, and keyboard event handlers on any element with toggled visibility.",
-      "Do write prefers-reduced-motion: reduce overrides for every CSS transition in shared.css."
+      "Do write prefers-reduced-motion: reduce overrides for every CSS transition in shared.css.",
+      "Do let the sticky mobile bar be the persistent conversion anchor on mobile. Its presence means the headline CTA doesn't need to over-compete for attention."
     ],
     "donts": [
       "Don't use Craftsman's Ember as a decorative color — no orange section backgrounds, no orange emphasis text.",
