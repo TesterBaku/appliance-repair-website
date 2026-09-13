@@ -56,7 +56,7 @@ let applied = 0;
   let next = orig
     .replace(/(placeholder="Search )\d+( articles)/, (_m, a, b) => a + total + b)
     // Category pills: "<Label> (N)" keyed by data-filter ("all" → total, else per category).
-    .replace(/(data-filter="([a-z]+)">)([^<]*?)\(\d+\)/g, (_m, pre, filter, label) => {
+    .replace(/(data-filter="([a-z]+)"[^>]*>)([^<]*?)\(\d+\)/g, (_m, pre, filter, label) => {
       const n = filter === 'all' ? total : (byCat[filter] || 0);
       return pre + label + '(' + n + ')';
     });

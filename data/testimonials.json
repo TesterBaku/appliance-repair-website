@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-09-02",
+    "lastUpdated": "2026-09-07",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 126,
-        "publishedCount": 126,
-        "capturedCount": 125,
+        "totalReviewsOnListing": 128,
+        "publishedCount": 128,
+        "capturedCount": 127,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-09-07",
+            "note": "TRACK A CAPTURE ONLY (per tasks/runbook-weekly-review-batch.md): two 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshot Screenshot 2026-09-07 161502.png, sorted Newest, both carrying the NEW badge: Leticia Caro (dryer vent cleaning, 3 reviews / 0 photos on her profile, shown '4 days ago', no review photo) and Courtney Miller (7-word review, 2 reviews / 1 photo on her profile, shown '5 days ago', no review photo). The dashboard header showed 5.0 / 128 reviews, so totalReviewsOnListing moved 126 to 128 and capturedCount 125 to 127; publishedCount deliberately remains 126 for the weekly Track B batch. Leticia's body is complete and copied verbatim, names a dryer, and is quotable under quality-floor clause (b); Courtney's body is complete and copied verbatim, has the typo 'a hour' (bodyHasTypos=true), names no appliance or brand, and is pool-only under the quality floor (7 words, no review photo). The '1 photo' shown for Courtney is the reviewer's profile lifetime count; no image is rendered on this review in the supplied screenshot. Both use the Google default location 'Orange County, CA'; no city is named in either body and no job-photo corroborated attestation was supplied. No review-photo asset was supplied or added. No HTML, testimonial card, hub placement, published count, or site-wide count surface was changed. Screenshot SHA-256: 8F008699287556F34511A3186DDAAD1FE4B617D461257A68676D916754F0762A. TRACK B PUBLISH: owner requested the update on Monday, 2026-09-07; the parent independently viewed the same supplied screenshot and confirmed 5.0 / 128 reviews, then ran npm run build:review-counts -- --publish to promote publishedCount from 126 to 128. Leticia Caro replaces the two-word Jaz A card and matching Review schema on the testimonials page, preserving 123 curated cards. Jaz remains in the source pool; Courtney remains pool-only. Final validation is recorded in the batch PR."
+          },
           {
             "date": "2026-09-02",
             "note": "TRACK A CAPTURE + TRACK B PUBLISH, same day (per tasks/runbook-weekly-review-batch.md). Two 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshot new_review_scrnshot.png, sorted Newest, both carrying the NEW badge: Alexander Vershinin (refrigerator, Local Guide, 24 reviews / 2 photos, '14 hours ago', no review photo, quotable under quality-floor clause (b)) and Tog Valizada (Sub-Zero refrigerator, 8 reviews / 1 photo, '16 hours ago', three-paragraph body, review photo attached, quotable under quality-floor clause (a)). The dashboard header showed 5.0 / 126 reviews, so totalReviewsOnListing moved 124 to 126 and capturedCount 123 to 125; the remaining one-review gap is the long-standing uncaptured 2026-05-31 record. Tog's review photo (review_photo.webp, 3393x1495) was resized proportionally, no crop, to 768x338 WebP, saved to images/real/reviews/refrigerator-sub-zero-tog-valizada.webp; it does not match any existing images/real/business/ job photo closely enough to support a job-photo corroborated-attestation location, so both new records use the Orange County default location. PUBLISH: npm run build:review-counts -- --publish promoted publishedCount 124 to 126 and synchronized every site-wide count surface (AggregateRating.reviewCount, 'N verified 5-star Google reviews' prose including the testimonials-page meta/og/twitter descriptions, 'N Google reviews' hero copy + aria-label, 'Read all N reviews', the testimonials-page stat), no hand edits. Curated cards: both new reviews added to the top of pages/testimonials.html, taking the visible card total from 121 to 123 (multiple of three; filter pill updated by hand, out of the sync script's scope). Hub placement: Tog Valizada replaced Brian Brassil on the Sub-Zero brand hub (card + Review JSON-LD); Alexander Vershinin replaced Brian Brassil on the refrigerator-repair-cost hub (card + Review JSON-LD). Brian Brassil drops from the prior hub placements to 0 hubs, intentionally, to keep both hub sections at 3 cards and stay within the weekly ≤2-hubs allocation rule. The hub-usage tracker was regenerated from live HTML."
@@ -176,6 +180,43 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-leticia-caro-2026-09",
+      "source": "google",
+      "name": "Leticia Caro",
+      "location": "Orange County, CA",
+      "appliance": "dryer",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-09",
+      "dateText": "4 days ago",
+      "isNew": true,
+      "body": "I had my dryer vent cleaned and was very happy with the service. The technician was professional, friendly, and took the time to thoroughly clean the vent and explain what was being done. I noticed a difference in the dryer’s performance afterward, and I feel much better knowing the vent is clean and properly maintained. I would definitely recommend this service to anyone needing their dryer vent cleaned!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot Screenshot 2026-09-07 161502.png, sorted Newest, NEW badge, 5-star, shown '4 days ago', reviewer Leticia Caro has 3 reviews / 0 photos on her profile. Body copied verbatim, including the curly apostrophe in 'dryer’s'; no typos flagged. The body names a dryer and is quotable under quality-floor clause (b): no review photo and a body longer than 8 words. Google city unavailable, no OC city is named in the body, and no job-photo corroborated attestation was supplied, so location uses the Orange County default. No review photo is rendered in the supplied review block; profile photo count is 0. Captured in the 2026-09-07 Track A batch, then carded on pages/testimonials.html in the same-day Track B batch, replacing Jaz A; not placed on a hub."
+    },
+    {
+      "id": "google-courtney-miller-2026-09",
+      "source": "google",
+      "name": "Courtney Miller",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-09",
+      "dateText": "5 days ago",
+      "isNew": true,
+      "priceTag": "Reasonable price · $300–350",
+      "body": "Had it fixed in about a hour!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot Screenshot 2026-09-07 161502.png, sorted Newest, NEW badge, 5-star, shown '5 days ago', reviewer Courtney Miller has 2 reviews / 1 photo on her profile. Google price tag 'Reasonable price · $300–350' copied to priceTag; the separate 'Repair wait time / 1–2 hr' attribute is retained in the source screenshot but is not a field in the review pool schema. Body copied verbatim. bodyHasTypos=true because 'a hour' is grammatically incorrect, but no display correction is made until Track B curation. The body has 7 words, names no appliance or brand, and no review photo is rendered in the supplied review block, so this record is pool-only under the quality floor. The '1 photo' shown in the byline is the reviewer's profile lifetime count, not an attached review image. Google city unavailable, no OC city is named in the body, and no job-photo corroborated attestation was supplied, so location uses the Orange County default. Captured in the 2026-09-07 Track A batch; not yet carded or placed on a hub."
+    },
     {
       "id": "google-alexander-vershinin-2026-09",
       "source": "google",

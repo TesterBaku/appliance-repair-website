@@ -16,6 +16,14 @@ Single source of truth for picking testimonials from the canonical pool. Apply t
 
 All testimonials come from `data/testimonials.json`. Never invent reviewer names, quotes, or ratings.
 
+For a new capture batch, use the read-only `npm run reviews:check -- --batch <manifest.json>`
+helper documented in `docs/review-batch-validation.md`. Store the manifest and source evidence
+under `.audits/work/<dated-task>/`, or reference the owner's supplied screenshot path. It checks
+required record fields, counters, screenshot signatures/hashes, ID coverage and mechanical quote
+eligibility. It does not read screenshots, authenticate reviews, verify photo attribution, or
+replace the visual checks and selection rules below. Reuse `build:review-counts` for publication;
+the validator never writes review data or HTML.
+
 **Both Google and Yelp reviews are eligible as quoted hub testimonials** (decided 2026-06-10). A `source: "yelp"` record may be displayed as a quoted testimonial on a hub page on the same footing as a Google record, subject to the identical quality floor, layout, and ≤2-hubs rules below. Yelp reviews count toward the ≤2-hubs limit like any other review. The only Yelp-specific handling is in the display + schema rules (location label uses the Yelp-displayed city; Yelp `Review` JSON-LD is included but Yelp is **never** folded into `AggregateRating` — see "Schema requirements"). This supersedes the older framing that treated Yelp solely as a separate visual element.
 
 ## Filtering steps (in order)
