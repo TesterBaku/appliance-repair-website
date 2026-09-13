@@ -1,26 +1,66 @@
 name: Deploy to GitHub Pages
 
 on:
+  pull_request:
+    branches:
+      - master
   push:
     branches:
       - master
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
+# A newer master push supersedes the whole prior run; PRs have separate groups
+# and cannot cancel production validation or deployment.
 concurrency:
-  group: pages
+  group: pages-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  validate:
+    name: Validate site
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Static checks
+        run: npm test
+
+      - name: Screenshot checks
+        run: npm run screenshot
+
+      - name: Functional checks
+        run: npm run test:functional
+
   deploy:
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      # A fresh runner/checkout keeps validation dependencies and test outputs
+      # out of the public artifact, while checking out the same event revision.
       - name: Checkout
         uses: actions/checkout@v4
 
