@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-09-07",
+    "lastUpdated": "2026-09-22",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 128,
-        "publishedCount": 128,
-        "capturedCount": 127,
+        "totalReviewsOnListing": 129,
+        "publishedCount": 129,
+        "capturedCount": 129,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-09-22",
+            "note": "TRACK A CAPTURE + TRACK B PUBLISH, same PR (per tasks/runbook-weekly-review-batch.md, Monday batch): two 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshot 'Screenshot 2026-09-22 100140_latest_reviews.png' (SHA-256 47C06BA873528DC3F2F7068A410F98CD6AC8FFA0F7E1D5B46D17129E1BE2276D), Reviews panel sorted Newest, header 5.0 / 129 reviews, both carrying the NEW badge: Cliff Threadgold (4 words, no appliance, pool-only) and John Suveges (12 words, quotable under clause (b); appliance/brand recorded from the owner's public reply naming a Bosch dishwasher drain pump, see the record's _note). totalReviewsOnListing moved 128 to 129 and capturedCount 127 to 129 (the long-standing 1-review gap noted on 2026-07-06 is now closed by the arithmetic: 129 listed, 129 transcribed). Track B: build:review-counts --publish promoted publishedCount 128 to 129 and rewrote every count surface. John Suveges carded on pages/testimonials.html; the page was topped up to a multiple of 3 (123 to 126 cards) with two previously uncarded, floor-clearing Yelp records, William L. (cooktop installation, 47 words) and mrs d. (gas range relocation, 66 words). Hub placement: John Suveges replaces Karen Myhra (3-word body) on the dishwasher hub; Karen drops to one hub (long-beach). No review-photo asset was supplied or added. Owner reply text on the listing was read only for job attribution and is not rendered anywhere."
+          },
           {
             "date": "2026-09-07",
             "note": "TRACK A CAPTURE ONLY (per tasks/runbook-weekly-review-batch.md): two 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshot Screenshot 2026-09-07 161502.png, sorted Newest, both carrying the NEW badge: Leticia Caro (dryer vent cleaning, 3 reviews / 0 photos on her profile, shown '4 days ago', no review photo) and Courtney Miller (7-word review, 2 reviews / 1 photo on her profile, shown '5 days ago', no review photo). The dashboard header showed 5.0 / 128 reviews, so totalReviewsOnListing moved 126 to 128 and capturedCount 125 to 127; publishedCount deliberately remains 126 for the weekly Track B batch. Leticia's body is complete and copied verbatim, names a dryer, and is quotable under quality-floor clause (b); Courtney's body is complete and copied verbatim, has the typo 'a hour' (bodyHasTypos=true), names no appliance or brand, and is pool-only under the quality floor (7 words, no review photo). The '1 photo' shown for Courtney is the reviewer's profile lifetime count; no image is rendered on this review in the supplied screenshot. Both use the Google default location 'Orange County, CA'; no city is named in either body and no job-photo corroborated attestation was supplied. No review-photo asset was supplied or added. No HTML, testimonial card, hub placement, published count, or site-wide count surface was changed. Screenshot SHA-256: 8F008699287556F34511A3186DDAAD1FE4B617D461257A68676D916754F0762A. TRACK B PUBLISH: owner requested the update on Monday, 2026-09-07; the parent independently viewed the same supplied screenshot and confirmed 5.0 / 128 reviews, then ran npm run build:review-counts -- --publish to promote publishedCount from 126 to 128. Leticia Caro replaces the two-word Jaz A card and matching Review schema on the testimonials page, preserving 123 curated cards. Jaz remains in the source pool; Courtney remains pool-only. Final validation is recorded in the batch PR."
@@ -180,6 +184,42 @@
     ]
   },
   "reviews": [
+    {
+      "id": "google-cliff-threadgold-2026-09",
+      "source": "google",
+      "name": "Cliff Threadgold",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-09",
+      "dateText": "5 days ago",
+      "isNew": true,
+      "body": "Very quick and efficient.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 'Screenshot 2026-09-22 100140_latest_reviews.png' (SHA-256 47C06BA873528DC3F2F7068A410F98CD6AC8FFA0F7E1D5B46D17129E1BE2276D), Reviews panel sorted Newest, header 5.0 / 129 reviews, NEW badge, 5-star, shown '5 days ago', reviewer Cliff Threadgold has 5 reviews / 0 photos on his profile. Body copied verbatim (4 words, trailing period). Names no appliance or brand and carries no review photo, so it is pool-only under the quality floor (fails clauses a, b and c); not carded and not placed on a hub. Google city unavailable, no OC city named in the body, no job-photo corroborated attestation, so location uses the Orange County default. The owner's public reply ('Thank yo for the review, Cliff', 2 days ago) names no appliance or city. Captured in the 2026-09-22 Track A batch."
+    },
+    {
+      "id": "google-john-suveges-2026-09",
+      "source": "google",
+      "name": "John Suveges",
+      "location": "Orange County, CA",
+      "appliance": "dishwasher",
+      "brand": "Bosch",
+      "rating": 5,
+      "approxDate": "2026-09",
+      "dateText": "2 weeks ago",
+      "isNew": true,
+      "body": "Highly recommended- arrived on time, fair price- cleaned up the job site",
+      "bodyStatus": "complete",
+      "bodyHasTypos": true,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 'Screenshot 2026-09-22 100140_latest_reviews.png' (SHA-256 47C06BA873528DC3F2F7068A410F98CD6AC8FFA0F7E1D5B46D17129E1BE2276D), Reviews panel sorted Newest, header 5.0 / 129 reviews, NEW badge, 5-star, shown '2 weeks ago', reviewer John Suveges has 1 review / 0 photos on his profile. Body copied verbatim, including the two unspaced hyphens ('recommended- arrived', 'price- cleaned') and no terminal period; bodyHasTypos=true for that punctuation only, and no display correction was made. The body itself names no appliance or brand: appliance='dishwasher' and brand='Bosch' are taken from the OWNER'S OWN PUBLIC REPLY on the listing ('It was a pleasure replacing the drain pump on your Bosch dishwasher in Laguna Beach'), i.e. the business's first-hand statement of the job, not the reviewer's words. Location stays the Orange County default: 'Laguna Beach' appears only in the owner reply, which is neither the reviewer's own text (Exception 1) nor a job-photo corroborated attestation (Exception 2). Quotable under quality-floor clause (b): no review photo, 12-word body. Carded on pages/testimonials.html and placed on the dishwasher hub (replacing Karen Myhra's 3-word card) in the 2026-09-22 Track B batch."
+    },
     {
       "id": "google-leticia-caro-2026-09",
       "source": "google",
