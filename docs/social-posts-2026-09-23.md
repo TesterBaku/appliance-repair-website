@@ -1,4 +1,4 @@
-﻿# September 23, 2026 social posts
+# September 23, 2026 social posts
 
 Prepared for Universal Appliances Repair. Eight GBP/Instagram post pairs, using nine real technician photos. **Not published or scheduled.** All listed JPEGs exist locally and match the approved import report. Website placements and destination anchors are implemented and verified locally; live deployment verification remains pending. Review each platform preview before publishing.
 
