@@ -22,7 +22,7 @@ Image: `images/real/business/completed-repair-refrigerator-ge-monogram-control-b
 GBP body:
 
 ```text
-GE Monogram refrigerator main control board and thermistor replacement. Irvine, CA.
+GE Monogram refrigerator main control board and thermistors replaced. Irvine, CA.
 ```
 
 Learn more: https://fixappliancesfast.com/pages/recent-repairs.html#job-refrigerator-ge-monogram-control-board-thermistors-irvine
@@ -30,7 +30,7 @@ Learn more: https://fixappliancesfast.com/pages/recent-repairs.html#job-refriger
 Instagram: single image; city tag Irvine, CA.
 
 ```text
-GE Monogram refrigerator main control board and thermistor replacement in Irvine, CA.
+GE Monogram refrigerator main control board and thermistors replaced in Irvine, CA.
 
 #IrvineCA #OrangeCountyCA #MonogramAppliances #RefrigeratorRepair #ApplianceRepair
 ```
