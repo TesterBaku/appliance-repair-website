@@ -122,6 +122,25 @@ Common offenders to audit:
 
 ---
 
+## Portrait job photos
+
+`.job-photo figure` (free-standing job photos on city hubs, not in a fixed-height grid) must size
+its `<img>` with `width:100%;max-width:360px;height:auto`, never a fixed `height`. A hardcoded
+height stretches or squishes a portrait-orientation photo (taller than wide, e.g. 768x1024) to fill
+a box whose aspect ratio doesn't match the source image; `height:auto` lets the browser derive
+height from the image's own intrinsic ratio instead.
+
+```html
+<img src="..." style="width:100%;max-width:360px;height:auto;border-radius:12px;display:block;margin:0 auto;">
+```
+
+**This does not apply to `.card-photo`** (the fixed 240px-tall grid used on `pages/recent-repairs.html`
+and similar galleries): that box is deliberately a fixed height so cards align in a row, so a portrait
+source there is corrected with `style="object-fit:contain;"` on the `<img>` instead, not `height:auto`
+(which would break the row alignment `.card-photo` exists to guarantee). Use `height:auto` only where
+the image controls its own container height; use `object-fit:contain` where the container height is
+fixed and the image must fit inside it without stretching.
+
 ## Decorative elements
 
 - Floating emoji / shape decorations (`.float`) must be hidden at `≤ 768px`. They overlap the heading on phones.
