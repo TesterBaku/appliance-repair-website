@@ -79,7 +79,7 @@ const repoRoot = path.resolve(__dirname, '..', '..');
 const CHECK = process.argv.includes('--check');
 const PUBLISH = process.argv.includes('--publish');
 
-const SKIP_DIRS = new Set(['node_modules', 'test-results', '.staging', 'pagefind', '.git']);
+const SKIP_DIRS = new Set(['node_modules', 'test-results', '.staging', 'pagefind', '.git', '.claude']);
 
 function collectHtmlFiles(dir) {
   const results = [];
