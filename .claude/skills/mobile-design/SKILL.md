@@ -124,9 +124,11 @@ Common offenders to audit:
 
 ## Portrait job photos
 
-`.job-photo figure` (free-standing job photos on city hubs, not in a fixed-height grid) must size
-its `<img>` with `width:100%;max-width:360px;height:auto`, never a fixed `height`. A hardcoded
-height stretches or squishes a portrait-orientation photo (taller than wide, e.g. 768x1024) to fill
+A free-standing job photo on a city hub (`<figure class="job-photo">`, not in a fixed-height grid)
+should size its `<img>` with `width:100%;max-width:360px;height:auto`. A fixed `height` is allowed
+only when paired with `object-fit` to keep a multi-photo row aligned (e.g.
+`pages/appliance-repair-mission-viejo-ca.html` uses `height:480px;object-fit:cover`). A bare fixed
+height, with no `object-fit`, stretches or squishes a portrait-orientation photo (taller than wide, e.g. 768x1024) to fill
 a box whose aspect ratio doesn't match the source image; `height:auto` lets the browser derive
 height from the image's own intrinsic ratio instead.
 

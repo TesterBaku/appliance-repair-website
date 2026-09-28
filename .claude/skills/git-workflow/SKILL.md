@@ -233,7 +233,9 @@ the pre-fix commit on `master` even though the local working tree looks correct.
 inspects the local working tree (rather than `origin/<branch>`) can pass while the un-pushed fix is
 still missing from what actually ships. After any commit to a PR branch, confirm
 `git status` reads "up to date with origin/<branch>" (or `git log origin/<branch>..HEAD` is empty)
-before merging, and spot-check `git show origin/master:<changed-file>` after merging.
+before merging, and after merging run `git fetch origin` before spot-checking
+`git show origin/master:<changed-file>` (remote-tracking refs do not update on their own after
+`gh pr merge`, so an unfetched check can read stale content).
 
 ---
 
