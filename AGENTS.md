@@ -335,6 +335,15 @@ When enabled, runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Au
 
 Any PR touching `.html` or `.css` files **must** run the impeccable gate — the full `/impeccable critique` — on every changed page before the PR is created. Fix all FAIL items. State the critique's `??/40` score in the PR description, and say so if the run was degraded.
 
+**Never run two `test/serve.js`-backed processes on port 8788 at once.** `npm run test:functional`
+starts `node test/serve.js` on 8788 by default (`playwright.config.js:41`, `test/serve.js:16`). A
+collision happens whenever a second process also wants 8788 at the same time, such as another
+functional run, or an agent (a critique assessor, a reviewer) starting `node test/serve.js` by hand
+for ad-hoc browser measurements. Give an ad-hoc measurement server a different port instead:
+`npx serve . -l <other-port>`, or `PORT=<n> node test/serve.js` (`test/serve.js` honors `PORT`). If
+a functional run fails with `net::ERR_CONNECTION_REFUSED`, check for a competing process on 8788
+before debugging the code.
+
 **`/impeccable critique` and `detect.mjs` are not the same thing and must never be reported as if they were.** `critique` is the gate: an LLM-driven review that emits the `??/40` score (10 Nielsen heuristics × 4 points) the PR template asks for, and which runs `detect.mjs` internally as its Assessment B. `detect.mjs` is that deterministic scanner alone — the same engine behind the per-edit hook. The detector is a *component* of the gate, not a substitute for it.
 
 **Every such PR runs the full `critique`. There is no lighter tier** (owner decision, 2026-08-20). The former "`detect.mjs` alone is enough for a copy-only diff" exemption is **retired** — do not reinstate it, and do not reason your way back to it for a diff that looks too small or too invisible to matter. The exact wording to put in the PR is in `.claude/skills/git-workflow/SKILL.md` ("UI/UX Development Requirement").

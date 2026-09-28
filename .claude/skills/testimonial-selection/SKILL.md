@@ -30,6 +30,18 @@ the validator never writes review data or HTML.
 
 1. **Exclude non-body records.** Keep only entries where `bodyStatus: "complete"`. Records with `bodyStatus: "photo-only"` or `"no-body"` may be used as image sources but never as quoted testimonials. Also exclude records where `rating < 5` — non-5-star reviews are captured for accurate cross-source rating math and complete record-keeping, but are never displayed as quoted testimonials.
 
+   **Also exclude any record flagged `nameFlag: "non-person"` or whose `_note` contains "do not
+   display" (owner decision, 2026-07-25).** `bodyStatus`/`rating` do not encode "is this a real
+   customer," and the pool carries these flags separately; the `non-person-reviewers` check in
+   `test/content-integrity.js` enforces exactly this filter against the live data, so an excluded
+   record and a passing CI run always agree. This is a default, not an absolute: the flag records a
+   *past* judgment, and the owner has ground truth. If a flagged record looks wrong to exclude (an
+   odd Google display name on an otherwise genuine 5-star review, for example), surface it to the
+   owner rather than silently including or silently excluding it. If the owner confirms the review is
+   real, update the canonical record in `data/testimonials.json` itself (clear the flag, rewrite the
+   `_note`) so the data reflects the decision and the CI guard stays consistent with what's actually
+   displayed, instead of routing around the flag in selection logic.
+
 2. **Prefer appliance match.** For a service hub, filter for entries whose `appliance` field contains the hub's appliance type (e.g., `"washer"` for the washer hub). For a city hub, any appliance is fine.
 
 3. **Apply the ≤2-hubs rule.** **A review may appear on at most 2 hubs.** A "hub" is a city hub (`pages/appliance-repair-*-ca.html`) or a service/brand/cost hub (`pages/*-orange-county.html`). The **homepage** (`index.html`) and the **testimonials page** (`pages/testimonials.html`) are NOT hubs and do NOT count toward the limit — a review may appear on both of them and still have its full 2 hub slots free. Before adding a review to a hub page, check `tasks/testimonial-usage.md` for how many hubs already use that review; if it is already on 2 hubs, pick a different review. (Four reviews — Molla Islam, Joellyn Meadows, Lilya Raupova, Katie Anne Salen — predate this rule and sit on 3 hubs each; they are grandfathered exceptions, documented in `tasks/testimonial-usage.md`, and must not be moved. The ≤2-hubs rule applies to every other review going forward.)

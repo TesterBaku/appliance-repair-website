@@ -226,6 +226,17 @@ Every request that results in any code or file change — however small — must
 
 No direct commits to `master`. No skipping steps for "small" changes. No self-merging without a reviewer verdict.
 
+**CRITICAL: push every fix commit to the PR branch before running `gh pr merge`.** `gh pr merge`
+merges whatever is on the *remote* branch tip, not your local `HEAD`. A fix committed locally in
+response to a review finding, but never pushed, is invisible to the merge: the squash-merge lands
+the pre-fix commit on `master` even though the local working tree looks correct. A re-review that
+inspects the local working tree (rather than `origin/<branch>`) can pass while the un-pushed fix is
+still missing from what actually ships. After any commit to a PR branch, confirm
+`git status` reads "up to date with origin/<branch>" (or `git log origin/<branch>..HEAD` is empty)
+before merging, and after merging run `git fetch origin` before spot-checking
+`git show origin/master:<changed-file>` (remote-tracking refs do not update on their own after
+`gh pr merge`, so an unfetched check can read stale content).
+
 ---
 
 ## Protected Branches
