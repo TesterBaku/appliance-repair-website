@@ -124,6 +124,16 @@
        ABOVE the @media block below, where the same selector resets the fourth card to column 1. */
     .job-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
     .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: 2; }
+    /* Exactly 5 job cards: same 6-track centered-pair technique as the canonical 5-card
+       testimonials-grid block (.claude/skills/testimonial-selection/SKILL.md), applied here to
+       .job-grid. Row 1 keeps three equal cards on tracks 1-2/3-4/5-6; the trailing pair centers
+       on row 2 at tracks 2-3 and 4-5. Must be undone in the 768px mobile reset below. */
+    .job-grid:has(.job-card:nth-child(5):last-child) { grid-template-columns: repeat(6, 1fr); }
+    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(1) { grid-column: 1 / span 2; }
+    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(2) { grid-column: 3 / span 2; }
+    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(3) { grid-column: 5 / span 2; }
+    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(4) { grid-column: 2 / span 2; }
+    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(5) { grid-column: 4 / span 2; }
     .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
     .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
     .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
@@ -174,6 +184,9 @@
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
       .job-grid { grid-template-columns: 1fr; max-width: 360px; }
       .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: 1; }
+      .job-grid:has(.job-card:nth-child(5):last-child) { grid-template-columns: 1fr; }
+      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(4) { grid-column: 1; }
+      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(5) { grid-column: 1; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
       .safety-box { padding: 22px 18px; }
@@ -820,6 +833,18 @@
             <div class="job-card-title">Exhaust Sensor Replacement</div>
             <div class="job-card-loc">Mission Viejo, CA</div>
             <a href="appliance-repair-mission-viejo-ca.html" class="job-card-link">Appliance repair in Mission Viejo <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+        <div class="job-card">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-dryer-ge-timer-costa-mesa-480w.webp 480w, ../images/real/business/completed-repair-dryer-ge-timer-costa-mesa.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
+            <img src="../images/real/business/completed-repair-dryer-ge-timer-costa-mesa.jpg" alt="White GE top-load dryer beside a matching washer in a Costa Mesa laundry room" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">GE &middot; Dryer</div>
+            <div class="job-card-title">Timer Replacement</div>
+            <div class="job-card-loc">Costa Mesa, CA</div>
+            <a href="appliance-repair-costa-mesa-ca.html" class="job-card-link">Appliance repair in Costa Mesa <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
       </div>
