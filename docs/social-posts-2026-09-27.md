@@ -10,7 +10,7 @@ Use the numbered order below subject to the owner's cadence, without invented se
 
 ## Policies checked
 
-Per `.claude/skills/gbp-platform-policy/SKILL.md`: GBP posts are descriptive-only (brand, appliance, job type, city), no phone numbers in body text, Learn more CTA to a published page per owner preference (2026-09-07), no photo captions. Instagram hashtag cap is 5, re-verified live 2026-09-04 in that skill; each caption below uses 4-5 (the Silverado post uses 4, since Instagram location tagging only accepts an existing public place and Silverado is not one, so no `#SilveradoCA` hashtag substitute was added either). No Yelp copy is included (owner decision 2026-09-02: the owner reuses GBP text for Yelp). No review solicitation anywhere.
+Per `.claude/skills/gbp-platform-policy/SKILL.md`: GBP posts are descriptive-only (brand, appliance, job type, city), no phone numbers in body text, Learn more CTA to a published page per owner preference (2026-09-07), no photo captions. Instagram hashtag cap is 5, re-verified live 2026-09-04 in that skill; each caption below uses 4-5 (the Silverado post uses 4 hashtags and no location tag). Yelp's guidelines, verified in that skill, prohibit AI drafting or revising reviews or other content; no Yelp copy is included, and this draft text must not be pasted or adapted for Yelp: any Yelp text must be written by a human. No review solicitation anywhere.
 
 ## 1. Costa Mesa: GE dryer timer replacement
 
