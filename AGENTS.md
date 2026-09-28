@@ -335,14 +335,14 @@ When enabled, runs **1st of Jan, Apr, Jul, Oct at 6 AM Pacific (13:00 UTC)**. Au
 
 Any PR touching `.html` or `.css` files **must** run the impeccable gate — the full `/impeccable critique` — on every changed page before the PR is created. Fix all FAIL items. State the critique's `??/40` score in the PR description, and say so if the run was degraded.
 
-**Never run `/impeccable critique` concurrently with `npm run test:functional`.** Both start a
-`test/serve.js` static server on the same default port, 8788 (`test/serve.js` and
-`playwright.config.js` both default `PORT` to 8788). Running the critique's Assessment B (which
-spins up its own server for browser evidence) in parallel with the functional suite has produced a
-suite-wide false failure: every test after the critique's server stopped its own instance failed
-with `net::ERR_CONNECTION_REFUSED` on :8788, with no code actually broken. Run the gates
-sequentially instead. If a functional run fails connection-refused on every test past some point,
-suspect a concurrent server teardown before suspecting the code, and re-run alone.
+**Never run two `test/serve.js`-backed processes on port 8788 at once.** `npm run test:functional`
+starts `node test/serve.js` on 8788 by default (`playwright.config.js:41`, `test/serve.js:16`). A
+collision happens whenever a second process also wants 8788 at the same time, such as another
+functional run, or an agent (a critique assessor, a reviewer) starting `node test/serve.js` by hand
+for ad-hoc browser measurements. Give an ad-hoc measurement server a different port instead:
+`npx serve . -l <other-port>`, or `PORT=<n> node test/serve.js` (`test/serve.js` honors `PORT`). If
+a functional run fails with `net::ERR_CONNECTION_REFUSED`, check for a competing process on 8788
+before debugging the code.
 
 **`/impeccable critique` and `detect.mjs` are not the same thing and must never be reported as if they were.** `critique` is the gate: an LLM-driven review that emits the `??/40` score (10 Nielsen heuristics × 4 points) the PR template asks for, and which runs `detect.mjs` internally as its Assessment B. `detect.mjs` is that deterministic scanner alone — the same engine behind the per-edit hook. The detector is a *component* of the gate, not a substitute for it.
 
