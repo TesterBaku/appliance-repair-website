@@ -126,6 +126,22 @@
     .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
     @media (max-width: 600px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
 
+    /* RECENT JOB PHOTOS: pattern and rationale from pages/dryer-repair-orange-county.html */
+    .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
+    .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
+    .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
+    .job-card-body { padding: 16px 18px 20px; }
+    .job-card-kicker { font-size: 10px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .job-card-title { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.35; }
+    .job-card-loc { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+    .job-card-link { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
+    .job-card-link:hover { text-decoration: underline; }
+    /* Stretched link: makes the whole card the tap target. See dryer-repair-orange-county.html
+       for the full rationale and trade-offs. */
+    .job-card-link::after { content: ''; position: absolute; inset: 0; }
+    .job-see-all { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; font-size: 13px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
+    .job-see-all:hover { text-decoration: underline; }
+
     .cta-box { background: linear-gradient(135deg, #cc3d12 0%, #aa3210 100%); border-radius: 16px; padding: 48px 40px; text-align: center; }
     .cta-box h2 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: -0.4px; }
     .cta-box p { font-size: 14px; color: #fff; margin-bottom: 28px; line-height: 1.65; }
@@ -853,18 +869,20 @@
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">Recent Freezer Repairs</h2>
       <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:580px;margin-left:auto;margin-right:auto;line-height:1.7;">A recent freezer job our technician completed in Orange County.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:340px;margin:0 auto;">
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card">
           <picture>
             <source srcset="../images/real/business/completed-repair-freezer-frigidaire-evaporator-fan-yorba-linda-480w.webp 480w, ../images/real/business/completed-repair-freezer-frigidaire-evaporator-fan-yorba-linda.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
             <img src="../images/real/business/completed-repair-freezer-frigidaire-evaporator-fan-yorba-linda.jpg" alt="Open freezer compartment showing frosted evaporator coils and fan housing" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--brand-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Frigidaire &middot; Freezer</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Evaporator Fan Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Yorba Linda, CA</div>
+          <div class="job-card-body">
+            <div class="job-card-kicker">Frigidaire &middot; Freezer</div>
+            <div class="job-card-title">Evaporator Fan Replacement</div>
+            <div class="job-card-loc">Yorba Linda, CA</div>
+            <a href="appliance-repair-yorba-linda-ca.html" class="job-card-link">Appliance repair in Yorba Linda <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
       </div>
+      <p style="text-align:center;margin-top:24px;"><a href="recent-repairs.html" class="job-see-all">See all recent repairs <span aria-hidden="true">&rarr;</span></a></p>
     </div>
   </section>
 
