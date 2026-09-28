@@ -185,8 +185,11 @@
       .job-grid { grid-template-columns: 1fr; max-width: 360px; }
       .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: 1; }
       .job-grid:has(.job-card:nth-child(5):last-child) { grid-template-columns: 1fr; }
-      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(4) { grid-column: 1; }
-      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(5) { grid-column: 1; }
+      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(1),
+      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(2),
+      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(3),
+      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(4),
+      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(5) { grid-column: auto; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
       .safety-box { padding: 22px 18px; }
@@ -838,7 +841,7 @@
         <div class="job-card">
           <picture>
             <source srcset="../images/real/business/completed-repair-dryer-ge-timer-costa-mesa-480w.webp 480w, ../images/real/business/completed-repair-dryer-ge-timer-costa-mesa.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
-            <img src="../images/real/business/completed-repair-dryer-ge-timer-costa-mesa.jpg" alt="White GE top-load dryer beside a matching washer in a Costa Mesa laundry room" width="768" height="1024" loading="lazy">
+            <img src="../images/real/business/completed-repair-dryer-ge-timer-costa-mesa.jpg" alt="White GE dryer beside a washer in a Costa Mesa laundry room" width="768" height="1024" loading="lazy">
           </picture>
           <div class="job-card-body">
             <div class="job-card-kicker">GE &middot; Dryer</div>
