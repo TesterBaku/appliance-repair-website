@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-09-22** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-09-27** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 109 |
-| On exactly 1 hub (1 free slot each) | 10 |
-| On exactly 2 hubs (at cap) | 95 |
+| Distinct reviews currently on >=1 hub | 110 |
+| On exactly 1 hub (1 free slot each) | 12 |
+| On exactly 2 hubs (at cap) | 94 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **10** |
-| Approx. new city hubs supportable @ 3/hub | **~3** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **12** |
+| Approx. new city hubs supportable @ 3/hub | **~4** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 10 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 12 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -43,10 +43,12 @@ not as violations to fix. No other review may exceed 2 hubs.
 |---|---|
 | Alexander Vershinin | refrigerator-repair-cost-hub |
 | Eleonora Abukova | dishwasher-repair-cost-hub |
+| Ernesto Ruiz | placentia |
 | Jeff C | refrigerator-repair-cost-hub |
 | John Suveges | dishwasher-repair-hub |
 | Karen Myhra | long-beach |
 | Kathleen Street | riverside |
+| Kim Bowen | dryer-repair-hub |
 | Laurie Summers | wolf-hub |
 | Noelle B | yorba-linda |
 | Satara Armstrong Charlson | viking-hub |
@@ -83,7 +85,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Emily Bees | stanton, frigidaire-hub |
 | Emily Palmer | laguna-beach, freezer-repair-hub |
 | Erin Ponchak | laguna-niguel, yorba-linda |
-| Ernesto Ruiz | placentia, dryer-repair-hub |
 | Frank Rokhideh | ge-hub, oven-repair-cost-hub |
 | George | kenmore-hub, miele-hub |
 | George Mendoza | garden-grove, oven-stove-repair-hub |
