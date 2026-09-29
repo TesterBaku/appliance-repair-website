@@ -223,7 +223,7 @@ test('desktop nav dropdowns stay inside the viewport', async ({ page }) => {
           `${url} at ${width}px: dropdown #${i} has link(s) outside the viewport: ${JSON.stringify(offenders)}`
         ).toEqual([]);
 
-        // site.js closes a menu 120ms after the pointer leaves both toggle and menu, so a
+        // site.js closes a menu 300ms after the pointer leaves both toggle and menu, so a
         // tall vertical gap between them makes slow diagonal mouse travel drop the menu.
         // Master's toggle-anchored menus sit 10px below the toggle; hold every menu to that.
         const toggleBox = await dropdown.locator('.nav-dropdown-toggle').boundingBox();

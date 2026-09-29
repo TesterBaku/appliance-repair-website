@@ -34,8 +34,11 @@
       function openMenu() {
         clearTimeout(timer);
         // The close delay below outlives a pointer move to a neighbouring toggle, so
-        // close any other open menu now rather than letting two overlap.
-        closers.forEach(function (close) { if (close !== closeMenu) close(); });
+        // close any other open menu now rather than letting two overlap. Never one that
+        // holds keyboard focus, or focus would sit on a hidden link.
+        closers.forEach(function (c) {
+          if (c.dd !== dd && !c.dd.contains(document.activeElement)) c.close();
+        });
         menu.style.display = 'block';
         toggle.setAttribute('aria-expanded', 'true');
         if (arrow) arrow.style.transform = 'rotate(180deg)';
@@ -52,7 +55,7 @@
         clearTimeout(timer);
         timer = setTimeout(closeMenu, 300);
       }
-      closers.push(closeMenu);
+      closers.push({ dd: dd, close: closeMenu });
 
       dd.addEventListener('mouseenter', openMenu);
       dd.addEventListener('mouseleave', scheduleClose);
