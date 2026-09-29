@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-09-28** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-09-29** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 110 |
-| On exactly 1 hub (1 free slot each) | 9 |
-| On exactly 2 hubs (at cap) | 97 |
+| Distinct reviews currently on >=1 hub | 111 |
+| On exactly 1 hub (1 free slot each) | 11 |
+| On exactly 2 hubs (at cap) | 96 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **9** |
+| **Free hub-slots available now** | **11** |
 | Approx. new city hubs supportable @ 3/hub | **~3** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 9 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 11 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -42,6 +42,8 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Review | On hub |
 |---|---|
 | Alexander Vershinin | refrigerator-repair-cost-hub |
+| Arzuman Qarayev | westminster |
+| J | anaheim |
 | Jeff C | refrigerator-repair-cost-hub |
 | Karen Myhra | long-beach |
 | Kathleen Street | riverside |
@@ -60,7 +62,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Aghasahib Zarbaliyev | corona, washer-repair-cost-hub |
 | Ahmed El Korashy | riverside, kenmore-hub |
 | Alexander Battaglia | riverside, oven-repair-cost-hub |
-| Arzuman Qarayev | anaheim, westminster |
 | B P | tustin, viking-hub |
 | Cheryl Kirkpatrick | seal-beach, wine-cooler-repair-hub |
 | Christian Dorn | los-alamitos, pico-rivera |

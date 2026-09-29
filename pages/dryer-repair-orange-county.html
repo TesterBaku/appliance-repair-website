@@ -119,22 +119,18 @@
       .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) { grid-template-columns: 1fr; } }
 
     /* RECENT JOB PHOTOS */
-    /* The proof band keeps its established 3-up desktop rhythm. When a fourth card is present,
-       center it in row two rather than leaving a left-aligned orphan. Both base rules must stay
-       ABOVE the @media block below, where the same selector resets the fourth card to column 1. */
-    .job-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
-    .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: 2; }
-    /* Exactly 5 job cards: mirrors this page's 5-card testimonials-grid layout, using the same
-       6-track centered-pair technique. Row 1 keeps three equal cards on tracks 1-2/3-4/5-6; the
-       trailing pair centers on row 2 at tracks 2-3 and 4-5. Must be undone in the 768px mobile
-       reset below. */
-    .job-grid:has(.job-card:nth-child(5):last-child) { grid-template-columns: repeat(6, 1fr); }
-    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(1) { grid-column: 1 / span 2; }
-    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(2) { grid-column: 3 / span 2; }
-    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(3) { grid-column: 5 / span 2; }
-    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(4) { grid-column: 2 / span 2; }
-    .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(5) { grid-column: 4 / span 2; }
-    .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
+    /* Six half-tracks, each card spanning two, so the rendered geometry matches a 3-up grid while
+       a trailing row of one or two can still be centered, which whole tracks cannot express.
+       Replaces the earlier hardcoded 4-card/5-card rules (now that this section holds 7 cards)
+       with the count-agnostic formula already used on the Samsung and GE brand hubs: it keys off
+       the last-card's position modulo 3, so it keeps working unchanged as cards are added or
+       removed, rather than needing a new hardcoded rule at every new count. Must stay ABOVE the
+       @media block below, which repeats the same selectors to reset them on mobile. */
+    .job-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
+    .job-grid:has(.job-card:nth-child(3n+1):last-child) .job-card:last-child { grid-column: 3 / span 2; }
+    .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:nth-last-child(2) { grid-column: 2 / span 2; }
+    .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:last-child { grid-column: 4 / span 2; }
+    .job-card { grid-column: span 2; position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
     .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
     .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
     .job-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
@@ -182,14 +178,14 @@
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .testimonials-row { grid-template-columns: 1fr; }
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
+      /* These resets must repeat the full desktop selectors. A bare `.job-card { grid-column:
+         auto }` is LOWER specificity than `.job-grid:has(...) .job-card:last-child` and would
+         silently lose, leaving the 6-track placement live on phones. */
       .job-grid { grid-template-columns: 1fr; max-width: 360px; }
-      .job-grid:has(.job-card:nth-child(4):last-child) .job-card:nth-child(4) { grid-column: 1; }
-      .job-grid:has(.job-card:nth-child(5):last-child) { grid-template-columns: 1fr; }
-      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(1),
-      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(2),
-      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(3),
-      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(4),
-      .job-grid:has(.job-card:nth-child(5):last-child) .job-card:nth-child(5) { grid-column: auto; }
+      .job-grid .job-card,
+      .job-grid:has(.job-card:nth-child(3n+1):last-child) .job-card:last-child,
+      .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:nth-last-child(2),
+      .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:last-child { grid-column: auto; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
       .safety-box { padding: 22px 18px; }
@@ -277,7 +273,7 @@
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "133",
+      "reviewCount": "135",
       "bestRating": "5"
     }
   }
@@ -605,9 +601,9 @@
       <h1>Dryer Repair in<br/>Orange County, CA</h1>
       <p>Same-day service on gas &amp; electric dryers: all brands, all types. Licensed technicians, vent safety check on every visit, warranty on every repair.</p>
       <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 133 Google reviews">
+        <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 135 Google reviews">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 133 Google reviews</span>
+          <span>5.0 &middot; 135 Google reviews</span>
         </a>
       </div>
       <div class="hub-cta-row">
@@ -792,6 +788,30 @@
       <h2 class="h2-page" style="text-align:center;">Recent Dryer Repairs</h2>
       <p style="text-align:center;color:var(--text-sub);font-size:13px;margin-top:8px;margin-bottom:32px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7;">Real dryer jobs completed by our technicians across Orange County.</p>
       <div class="job-grid">
+        <div class="job-card" id="job-dryer-lg-not-heating-anaheim">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-anaheim-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-anaheim.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
+            <img src="../images/real/business/completed-repair-dryer-lg-not-heating-anaheim.jpg" alt="White LG front-load dryer with a SmartThinQ-style control panel beside an LG top-load washer in an Anaheim laundry closet" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">LG &middot; Dryer</div>
+            <div class="job-card-title">Dryer Not Heating</div>
+            <div class="job-card-loc">Anaheim, CA</div>
+            <a href="appliance-repair-anaheim-ca.html" class="job-card-link">Appliance repair in Anaheim <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+        <div class="job-card" id="job-dryer-samsung-control-board-san-juan-capistrano">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-dryer-samsung-control-board-san-juan-capistrano-480w.webp 480w, ../images/real/business/completed-repair-dryer-samsung-control-board-san-juan-capistrano.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
+            <img src="../images/real/business/completed-repair-dryer-samsung-control-board-san-juan-capistrano.jpg" alt="Samsung front-load dryer with its top service panel open for a control-board repair, beside a Samsung top-load washer in a San Juan Capistrano laundry room" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">Samsung &middot; Dryer</div>
+            <div class="job-card-title">Control Board Replacement</div>
+            <div class="job-card-loc">San Juan Capistrano, CA</div>
+            <a href="recent-repairs.html#job-dryer-samsung-control-board-san-juan-capistrano" class="job-card-link" aria-label="See this repair: Samsung dryer control board replaced, San Juan Capistrano, CA">See this repair <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
         <div class="job-card">
           <picture>
             <source srcset="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.webp 1024w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
@@ -916,7 +936,7 @@
   <section class="section section-gray" style="text-align:center;">
     <div class="container">
       <h2 class="h2-standard">What Dryer Repair Customers Say</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 133 verified 5-star Google reviews</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 135 verified 5-star Google reviews</p>
       <div class="testimonials-grid">
 
         <div class="testimonial-card">
@@ -956,7 +976,7 @@
 
       </div>
       <div style="margin-top:24px;">
-        <a href="testimonials.html" style="font-size:13px;color:var(--brand-text);font-weight:500;text-decoration:none;">Read all 133 reviews &rarr;</a>
+        <a href="testimonials.html" style="font-size:13px;color:var(--brand-text);font-weight:500;text-decoration:none;">Read all 135 reviews &rarr;</a>
       </div>
     </div>
   </section>
