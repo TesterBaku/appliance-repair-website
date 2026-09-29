@@ -23,6 +23,7 @@
 
   // 1. Nav dropdowns — hover + keyboard accessible.
   function initDropdowns() {
+    var closers = [];
     document.querySelectorAll('.nav-dropdown').forEach(function (dd) {
       var menu = dd.querySelector('.nav-dropdown-menu');
       var toggle = dd.querySelector('.nav-dropdown-toggle');
@@ -32,6 +33,9 @@
 
       function openMenu() {
         clearTimeout(timer);
+        // The close delay below outlives a pointer move to a neighbouring toggle, so
+        // close any other open menu now rather than letting two overlap.
+        closers.forEach(function (close) { if (close !== closeMenu) close(); });
         menu.style.display = 'block';
         toggle.setAttribute('aria-expanded', 'true');
         if (arrow) arrow.style.transform = 'rotate(180deg)';
@@ -41,9 +45,14 @@
         toggle.setAttribute('aria-expanded', 'false');
         if (arrow) arrow.style.transform = '';
       }
+      // 300ms, not 120ms: the Service Areas mega-menu is centred under the nav bar, not
+      // under its toggle, so a slow diagonal move to a far column spends longer outside
+      // both boxes than 120ms allowed.
       function scheduleClose() {
-        timer = setTimeout(closeMenu, 120);
+        clearTimeout(timer);
+        timer = setTimeout(closeMenu, 300);
       }
+      closers.push(closeMenu);
 
       dd.addEventListener('mouseenter', openMenu);
       dd.addEventListener('mouseleave', scheduleClose);
