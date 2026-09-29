@@ -173,6 +173,67 @@ test.describe('Homepage (index.html)', () => {
   });
 });
 
+// ─── Desktop nav dropdowns stay inside the viewport ────────────────────────────
+// The Service Areas mega-dropdown (.nav-dropdown-menu--areas) used to anchor to its
+// toggle with `left:-16px`, which pushed its widest columns (LA County, Riverside
+// County, "All Cities") past the right edge of the viewport at 800-1440px widths.
+// Fixed by centering the menu under the fixed .nav bar (`left:50%; transform:
+// translateX(-50%)`, wrapper `position:static`) and letting its columns wrap. This
+// sweeps every .nav-dropdown on a representative page from each nav-partial family
+// (root/pages via nav-main.html, articles via nav-article.html) across the widths
+// the bug actually occupied.
+const DROPDOWN_VIEWPORT_WIDTHS = [800, 1024, 1280, 1440];
+const DROPDOWN_TEST_PAGES = [
+  '/',
+  '/pages/appliance-repair-irvine-ca.html',
+  '/articles/article-mini-fridge.html',
+];
+
+test('desktop nav dropdowns stay inside the viewport', async ({ page }) => {
+  test.setTimeout(120000);
+  for (const url of DROPDOWN_TEST_PAGES) {
+    for (const width of DROPDOWN_VIEWPORT_WIDTHS) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(url);
+      await page.evaluate(() => document.fonts && document.fonts.ready);
+
+      const dropdowns = page.locator('.nav-links .nav-dropdown');
+      const count = await dropdowns.count();
+      expect(count, `${url} at ${width}px: expected at least one .nav-dropdown`).toBeGreaterThan(0);
+
+      for (let i = 0; i < count; i++) {
+        const dropdown = dropdowns.nth(i);
+        await dropdown.locator('.nav-dropdown-toggle').hover();
+        const menu = dropdown.locator('.nav-dropdown-menu');
+        await expect(menu).toBeVisible();
+
+        const offenders = await menu.evaluate(el => {
+          const vw = window.innerWidth;
+          const bad = [];
+          for (const a of el.querySelectorAll('a')) {
+            const r = a.getBoundingClientRect();
+            if (r.left < 0 || r.right > vw) {
+              bad.push((a.textContent || '').trim());
+            }
+          }
+          return bad;
+        });
+        expect(
+          offenders,
+          `${url} at ${width}px: dropdown #${i} has link(s) outside the viewport: ${JSON.stringify(offenders)}`
+        ).toEqual([]);
+
+        // Move away and wait for the menu to hide before checking the next dropdown.
+        // Hover a fixed, unrelated nav element (the logo) rather than a raw coordinate:
+        // a wrapped mega-menu's vertical extent varies by width/content, so a fixed
+        // (x, y) can still land inside it and make this wait flaky.
+        await page.locator('a.logo').first().hover();
+        await expect(menu).toBeHidden();
+      }
+    }
+  }
+});
+
 // ─── Contact page ─────────────────────────────────────────────────────────────
 test.describe('Contact page', () => {
   test.beforeEach(async ({ page }) => {
