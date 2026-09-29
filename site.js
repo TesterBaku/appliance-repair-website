@@ -34,10 +34,14 @@
       function openMenu() {
         clearTimeout(timer);
         // The close delay below outlives a pointer move to a neighbouring toggle, so
-        // close any other open menu now rather than letting two overlap. Never one that
-        // holds keyboard focus, or focus would sit on a hidden link.
+        // close any other open menu now rather than letting two overlap. If that menu
+        // holds keyboard focus, drop the focus first so it never sits on a hidden link.
+        // (Not inside closeMenu: Escape closes then refocuses the toggle, and a blur
+        // there would make that refocus reopen the menu.)
         closers.forEach(function (c) {
-          if (c.dd !== dd && !c.dd.contains(document.activeElement)) c.close();
+          if (c.dd === dd) return;
+          if (c.dd.contains(document.activeElement)) document.activeElement.blur();
+          c.close();
         });
         menu.style.display = 'block';
         toggle.setAttribute('aria-expanded', 'true');

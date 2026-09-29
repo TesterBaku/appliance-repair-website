@@ -245,6 +245,36 @@ test('desktop nav dropdowns stay inside the viewport', async ({ page }) => {
   }
 });
 
+// Opening one desktop dropdown closes the others, including one that holds keyboard
+// focus (mixed keyboard + mouse). A first cut skipped focused menus, which left a
+// tabbed-into menu stuck open under every later hover.
+test('desktop nav dropdowns never stay open together, with keyboard or mouse', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  const dropdowns = page.locator('.nav-links .nav-dropdown');
+  const menus = dropdowns.locator('.nav-dropdown-menu');
+  const toggles = dropdowns.locator('.nav-dropdown-toggle');
+  const openStates = () => menus.evaluateAll(ms => ms.map(m => getComputedStyle(m).display !== 'none'));
+
+  // Keyboard focus parks in Services, then the mouse moves to Service Areas.
+  await toggles.nth(0).focus();
+  await expect(menus.nth(0)).toBeVisible();
+  await toggles.nth(2).hover();
+  expect(await openStates()).toEqual([false, false, true]);
+  expect(await dropdowns.nth(0).evaluate(dd => dd.contains(document.activeElement))).toBe(false);
+
+  // Then on to Brands: still exactly one menu open.
+  await toggles.nth(1).hover();
+  expect(await openStates()).toEqual([false, true, false]);
+
+  // Escape on a focused toggle closes its menu and does not reopen it.
+  await page.locator('a.logo').first().hover();
+  await toggles.nth(2).focus();
+  await expect(menus.nth(2)).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(menus.nth(2)).toBeHidden();
+});
+
 // ─── Contact page ─────────────────────────────────────────────────────────────
 test.describe('Contact page', () => {
   test.beforeEach(async ({ page }) => {
