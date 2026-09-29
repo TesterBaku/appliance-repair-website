@@ -11,26 +11,26 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Appliance Repair in Tustin, CA: Old Town &amp; Tustin Ranch</title>
-  <meta name="description" content="Same-day appliance repair in Tustin, CA. Old Town, Tustin Ranch, Tustin Legacy &amp; North Tustin. Refrigerators, washers, dryers, ovens. Call (949) 629-5365." />
-  <meta name="keywords" content="appliance repair Tustin, refrigerator repair Tustin, washer repair Tustin Ranch, dryer repair Tustin Legacy, oven repair Tustin CA, same-day appliance service Tustin, appliance repair 92780, appliance repair 92782" />
-  <link rel="canonical" href="https://fixappliancesfast.com/pages/appliance-repair-tustin-ca.html" />
+  <title>Appliance Repair in San Juan Capistrano, CA | Universal Appliances Repair</title>
+  <link rel="canonical" href="https://fixappliancesfast.com/pages/appliance-repair-san-juan-capistrano-ca.html" />
+  <meta name="description" content="Same-day appliance repair in San Juan Capistrano, CA: Historic Downtown, Los Rios, San Juan Hills, and Pacifica San Juan. Sub-Zero, Bosch, Samsung, LG experts." />
+  <meta name="keywords" content="appliance repair San Juan Capistrano, refrigerator repair San Juan Capistrano, washer repair San Juan Capistrano, dishwasher repair San Juan Capistrano, Sub-Zero repair San Juan Capistrano, oven repair Los Rios, same-day appliance service San Juan Capistrano 92675" />
   <link rel="icon" href="../favicon.ico" sizes="any" />
   <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png" />
 
   <!-- Open Graph -->
   <meta property="og:site_name" content="Universal Appliances Repair" />
-  <meta property="og:title" content="Appliance Repair in Tustin, CA: Old Town &amp; Tustin Ranch" />
-  <meta property="og:description" content="Same-day appliance repair in Tustin, CA. Old Town, Tustin Ranch, Tustin Legacy &amp; North Tustin. Refrigerators, washers, dryers, ovens. Call (949) 629-5365." />
+  <meta property="og:title" content="Appliance Repair in San Juan Capistrano, CA | Universal Appliances Repair" />
+  <meta property="og:description" content="Same-day appliance repair in San Juan Capistrano, CA: Historic Downtown, Los Rios, San Juan Hills, and Pacifica San Juan. Sub-Zero, Bosch, Samsung, LG experts." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://fixappliancesfast.com/pages/appliance-repair-tustin-ca.html" />
+  <meta property="og:url" content="https://fixappliancesfast.com/pages/appliance-repair-san-juan-capistrano-ca.html" />
   <meta property="og:image" content="https://fixappliancesfast.com/images/hero-homepage.jpg" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Appliance Repair in Tustin, CA: Old Town &amp; Tustin Ranch" />
-  <meta name="twitter:description" content="Same-day appliance repair in Tustin, CA. Old Town, Tustin Ranch, Tustin Legacy &amp; North Tustin. Refrigerators, washers, dryers, ovens. Call (949) 629-5365." />
+  <meta name="twitter:title" content="Appliance Repair in San Juan Capistrano, CA | Universal Appliances Repair" />
+  <meta name="twitter:description" content="Same-day appliance repair in San Juan Capistrano, CA: Historic Downtown, Los Rios, San Juan Hills, and Pacifica San Juan. Sub-Zero, Bosch, Samsung, LG experts." />
   <meta name="twitter:image" content="https://fixappliancesfast.com/images/hero-homepage.jpg" />
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
@@ -112,6 +112,34 @@
     .landmarks-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.8; }
     .landmarks-block a { color: var(--brand-text); font-weight: 600; text-decoration: none; }
 
+    /* Recent-repair single job-photo card. Reuses the .job-card / stretched-link pattern
+       from pages/samsung-appliance-repair-orange-county.html (see that page's comment
+       block for the tap-target rationale) but drops the 6-track :has() orphan-centering
+       grid, which only matters for 2+ cards; a single card is centered with plain flex. */
+    .job-single-wrap { display: flex; justify-content: center; }
+    .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; max-width: 280px; width: 100%; }
+    .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
+    .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
+    .job-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
+    .job-card-body { padding: 16px 18px 20px; }
+    .job-card-kicker { font-size: 10px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .job-card-title { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.35; }
+    .job-card-loc { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+    .job-card-link { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
+    .job-card-link:hover { text-decoration: underline; }
+    .job-card-link::after { content: ''; position: absolute; inset: 0; }
+
+    @media (max-width: 768px) {
+      /* P6-62 tap targets: these service links rendered 36px.
+         `a[href]` rather than `a` on purpose: 10 of these hub pages declare this
+         mobile block ABOVE the unconditional `.services-links-grid a { display: block }`
+         base rule, so at equal specificity the later base rule won and
+         `align-items: center` was dead code. Raising specificity makes the override
+         independent of source order. */
+      .services-links-grid a[href] { min-height: 44px; display: flex; align-items: center; }
+      .job-card { max-width: 320px; }
+    }
+
     @media (max-width: 900px) {
       .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
       .neighborhoods-grid { grid-template-columns: repeat(2, 1fr); }
@@ -120,56 +148,25 @@
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 768px) {
-      /* P6-62 tap targets: these service links rendered 36px.
-         `a[href]` rather than `a` on purpose: 10 of these hub pages declare this
-         mobile block ABOVE the unconditional `.services-links-grid a { display: block }`
-         base rule, so at equal specificity the later base rule won and
-         `align-items: center` was dead code. Raising specificity makes the override
-         independent of source order. Caught by the impeccable critique, which measured
-         the rendered box instead of trusting the rule. */
-      .services-links-grid a[href] { min-height: 44px; display: flex; align-items: center; }
       .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-      /* P6-50 tap target: the brand pill rendered 34px tall (padding: 8px 18px). */
       .brand-pill { min-height: 44px; display: inline-flex; align-items: center; }
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
       .neighborhoods-grid { grid-template-columns: 1fr; }
       .symptoms-list { grid-template-columns: 1fr; }
-      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
+      div.services-links-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
-      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
+      div.services-links-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr; }
       .nav-cta { display: none; }
       .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
     }
-    /* RECENT JOB PHOTOS - defect-fixed .job-grid, copied from pages/dryer-repair-orange-county.html.
-       Fixed 3-up collapsing straight to 1-up (an auto-fit grid passes through a 2-column stage and
-       orphans the third card). These base rules must stay ABOVE the media block: media queries add
-       no specificity. */
-    .job-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
-    .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
-    .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
-    .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
-    .job-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
-    .job-card-body { padding: 16px 18px 20px; }
-    /* Kicker is a static label, not an action: DESIGN.md reserves brand orange for clickable or critical. */
-    .job-card-kicker { font-size: 10px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-    .job-card-title { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.35; }
-    .job-card-loc { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
-    .job-card-link { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
-    .job-card-link:hover { text-decoration: underline; }
-    /* Stretched link: whole card becomes the hit area, so the mobile tap target is the full card
-       rather than a 15px text run (mobile-design.md requires >=44x44px). */
-    .job-card-link::after { content: ''; position: absolute; inset: 0; }
-    .job-see-all { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; font-size: 13px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
-    .job-see-all:hover { text-decoration: underline; }
-    @media (max-width: 768px) { .job-grid { grid-template-columns: 1fr; max-width: 360px; } }
   </style>
 
   <!-- SCHEMA: Article -->
@@ -177,8 +174,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Appliance Repair in Tustin, CA",
-    "description": "Same-day appliance repair in Tustin, CA. Serving Old Town Tustin, Tustin Ranch, Tustin Legacy, Columbus Square, Tustin Meadows, and North Tustin. Whirlpool, GE, Samsung, LG, KitchenAid, Bosch, and all major brands.",
+    "headline": "Appliance Repair in San Juan Capistrano, CA",
+    "description": "Same-day appliance repair in San Juan Capistrano, CA. Serving Historic Downtown, the Los Rios Historic District, San Juan Hills, and Pacifica San Juan. Sub-Zero, Wolf, Thermador, Bosch, Samsung, LG, and all major brands.",
     "image": "https://fixappliancesfast.com/images/hero-homepage.jpg",
     "author": {
       "@type": "Organization",
@@ -192,9 +189,9 @@
         "url": "https://fixappliancesfast.com/logo.png"
       }
     },
-    "datePublished": "2026-06-08T00:00:00+00:00",
-    "dateModified": "2026-09-23T00:00:00+00:00",
-    "url": "https://fixappliancesfast.com/pages/appliance-repair-tustin-ca.html"
+    "datePublished": "2026-09-29T00:00:00+00:00",
+    "dateModified": "2026-09-29T00:00:00+00:00",
+    "url": "https://fixappliancesfast.com/pages/appliance-repair-san-juan-capistrano-ca.html"
   }
   </script>
 
@@ -206,9 +203,10 @@
     "@id": "https://fixappliancesfast.com/#business",
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "33.745800",
-      "longitude": "-117.826100"
+      "latitude": "33.501700",
+      "longitude": "-117.662600"
     },
+    "hasMap": "https://www.google.com/maps?cid=6142328803939874574",
     "sameAs": [
       "https://www.google.com/maps?cid=6142328803939874574",
       "https://www.yelp.com/biz/universal-appliances-repair-tustin",
@@ -259,7 +257,7 @@
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fixappliancesfast.com/" },
       { "@type": "ListItem", "position": 2, "name": "Service Areas", "item": "https://fixappliancesfast.com/pages/service-areas.html" },
-      { "@type": "ListItem", "position": 3, "name": "Appliance Repair Tustin CA", "item": "https://fixappliancesfast.com/pages/appliance-repair-tustin-ca.html" }
+      { "@type": "ListItem", "position": 3, "name": "Appliance Repair San Juan Capistrano CA", "item": "https://fixappliancesfast.com/pages/appliance-repair-san-juan-capistrano-ca.html" }
     ]
   }
   </script>
@@ -272,33 +270,33 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Do you offer same-day appliance repair in Tustin, CA?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Same-day appliance repair is usually available in Tustin when you call before noon. Technicians reach most Tustin addresses quickly via the 5 and 55 freeways and Jamboree Road. Call (949) 629-5365 to confirm same-day availability for your address." }
+        "name": "Is same-day appliance repair available in San Juan Capistrano, CA?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, in most cases. Call before noon and a technician can typically be out to you that same day, whether you are near Historic Downtown, out in San Juan Hills, or up in Pacifica San Juan. Our team routes in on the 5 freeway and Ortega Highway to reach San Juan Capistrano quickly. Call (949) 629-5365 to confirm same-day availability for your street." }
       },
       {
         "@type": "Question",
-        "name": "Which Tustin ZIP codes and neighborhoods do you cover?",
-        "acceptedAnswer": { "@type": "Answer", "text": "We cover all of Tustin under ZIP codes 92780 and 92782, including Old Town Tustin, Tustin Ranch, Tustin Legacy, Columbus Square, Columbus Grove, Tustin Meadows, and Lower Peters Canyon. We also serve the adjacent unincorporated North Tustin area in ZIP 92705, including Lemon Heights and Cowan Heights. There are no travel surcharges for any Tustin address." }
+        "name": "How fast can a technician reach San Juan Capistrano from your Stanton location?",
+        "acceptedAnswer": { "@type": "Answer", "text": "South OC cities are typically a 30–50 minute drive from our Stanton base, and San Juan Capistrano is no exception. Same-day appointments are available most weekdays when you call early. Call (949) 629-5365 to check today's availability." }
       },
       {
         "@type": "Question",
-        "name": "Do you service Tustin Ranch and Tustin Legacy homes?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Tustin Ranch homes from the 1990s often have original built-in appliances reaching 25 to 30 years old, and Tustin Legacy's newer construction comes with builder-installed appliance sets that are now aging out of manufacturer warranty. We repair both: original built-ins and out-of-warranty builder packages from Whirlpool, GE, Samsung, LG, KitchenAid, and Bosch." }
+        "name": "What neighborhoods and ZIP codes do you cover in San Juan Capistrano?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We cover every corner of San Juan Capistrano within ZIP code 92675, including Historic Downtown, the Los Rios Historic District, San Juan Hills, and Pacifica San Juan, with no travel surcharge anywhere in the city." }
       },
       {
         "@type": "Question",
-        "name": "How much does an appliance service call cost in Tustin?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Our diagnostic fee is $99, and it is applied toward the repair if you proceed. You receive a firm quote after diagnosis, before any work begins. Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair." }
+        "name": "Do you repair appliances in San Juan Capistrano's historic homes near the Mission and Los Rios District?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Many homes near the Mission and the Los Rios Historic District are decades old, with original-build kitchens and laundry rooms where parts have simply worn out over time. We regularly repair aging refrigerators, ovens, washers, and dryers in these older homes, alongside newer appliances in the hillside tracts of San Juan Hills and Pacifica San Juan." }
       },
       {
         "@type": "Question",
-        "name": "Which appliance brands do you repair in Tustin?",
-        "acceptedAnswer": { "@type": "Answer", "text": "We service all major brands common in Tustin homes, including Whirlpool, GE, Samsung, LG, KitchenAid, Bosch, Maytag, Frigidaire, and Kenmore, plus premium brands like Sub-Zero, Wolf, Thermador, Viking, and Miele found in Tustin Ranch and North Tustin custom homes." }
+        "name": "What brands do you service in San Juan Capistrano?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We service Sub-Zero, Wolf, Thermador, Viking, and Miele built-in and premium appliances, plus Whirlpool, Bosch, GE, Samsung, LG, KitchenAid, Maytag, Frigidaire, and Kenmore across every San Juan Capistrano neighborhood." }
       },
       {
         "@type": "Question",
-        "name": "Is your appliance repair work covered by a warranty?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. All repairs carry a 90-day warranty on parts and labor. If the same issue recurs within the warranty period, we return and resolve it at no additional charge. Your technician will go over the specific warranty terms when they provide the quote, before any work begins." }
+        "name": "How much does appliance repair cost in San Juan Capistrano?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Our diagnostic fee is a flat $99, applied toward the repair if you move forward. Most San Juan Capistrano jobs run $150 to $400 depending on the appliance, part, and brand, with sealed-system and built-in luxury work running higher. Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair." }
       }
     ]
   }
@@ -309,12 +307,12 @@
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "Appliance Repair in Tustin, CA",
+    "name": "Appliance Repair in San Juan Capistrano, CA",
     "serviceType": "Appliance Repair",
     "provider": { "@id": "https://fixappliancesfast.com/#business" },
     "areaServed": {
       "@type": "City",
-      "name": "Tustin",
+      "name": "San Juan Capistrano",
       "addressRegion": "CA",
       "addressCountry": "US"
     },
@@ -327,8 +325,8 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dryer Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dishwasher Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oven and Stove Repair" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Wine Cooler Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Freezer Repair" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Microwave Repair" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Garbage Disposal Repair" } }
       ]
     }
@@ -343,23 +341,23 @@
     "itemListElement": [
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "Surma Karimova" },
+        "author": { "@type": "Person", "name": "T G" },
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "Ag fixed my General Electric oven. Fast service!!! Thank you",
+        "reviewBody": "AG did a great job! He went above and beyond.",
         "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
       },
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "B P" },
+        "author": { "@type": "Person", "name": "Caitlin Singleton" },
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "Super reliable & goes above to help solve your problems!",
+        "reviewBody": "AG did a great job and was good with communication",
         "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
       },
       {
         "@type": "Review",
-        "author": { "@type": "Person", "name": "Darina Martirosyan" },
+        "author": { "@type": "Person", "name": "Jeff C" },
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "Thank you for fixing my microwave !!!",
+        "reviewBody": "Always a timely and competent repair. Highly recommend.",
         "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
       }
     ]
@@ -604,8 +602,8 @@
     <div class="hub-hero-bg"></div>
     <div class="hub-hero-overlay"></div>
     <div class="hub-hero-content">
-      <h1>Appliance Repair in<br/>Tustin, CA</h1>
-      <p>Serving Old Town, Tustin Ranch, Tustin Legacy and all of central Orange County. Same-day service. Licensed and insured.</p>
+      <h1>Appliance Repair in<br/>San Juan Capistrano, CA</h1>
+      <p>Covering Historic Downtown, the Los Rios Historic District, San Juan Hills, and Pacifica San Juan with licensed, insured technicians who can usually get to you the same day.</p>
       <div style="margin-bottom:22px;">
         <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 135 Google reviews">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
@@ -626,33 +624,33 @@
       <span style="margin:0 6px;">&#8250;</span>
       <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
       <span style="margin:0 6px;">&#8250;</span>
-      <span style="color:#333;">Appliance Repair Tustin, CA</span>
+      <span style="color:#333;">Appliance Repair San Juan Capistrano, CA</span>
     </div>
   </div>
 
   <!-- AI ANSWER BLOCK -->
   <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. provides appliance repair in Tustin, California, including Old Town Tustin, Tustin Ranch, Tustin Legacy, Columbus Square, and Tustin Meadows (ZIP codes 92780 and 92782), plus the adjacent North Tustin area (92705). We repair refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, microwaves, wine coolers, and garbage disposals from brands including Whirlpool, GE, Samsung, LG, KitchenAid, Bosch, Sub-Zero, and Wolf. Same-day appointments are usually available when you call by midday. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
+    <p>Universal Appliances Repair Group Inc. handles residential appliance repair throughout San Juan Capistrano, CA, from Historic Downtown and the Los Rios Historic District out to San Juan Hills and Pacifica San Juan, ZIP code 92675. Technicians here fix broken refrigerators, ovens, stoves, dishwashers, washers, dryers, freezers, wine coolers, and garbage disposals, working on Whirlpool, Samsung, LG, and Bosch appliances as often as Sub-Zero, Wolf, and Thermador units in older kitchens near the Mission and newer builds up in the hills. Same-day repair is usually available, and a $99 diagnostic fee is applied toward the cost of the repair. Reach the team at (949) 629-5365 or book a visit at fixappliancesfast.com.</p>
   </div>
 
   <!-- COMMON SYMPTOMS -->
   <section class="section section-white">
     <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Common Appliance Problems We Fix</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:620px;text-align:center;margin:12px auto 0;">Most repairs are completed in a single visit. Here are the symptoms we diagnose every day across Tustin.</p>
+      <h2 class="h2-page" style="text-align:center;">What We Fix Most Often in San Juan Capistrano</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:620px;text-align:center;margin:12px auto 0;">One visit is usually enough to get the appliance running again. Here is what our technicians see most in San Juan Capistrano kitchens and laundry rooms.</p>
       <div class="symptoms-list">
-        <div class="symptom-item">Refrigerator not cooling or freezing unevenly</div>
-        <div class="symptom-item">Samsung or LG ice maker not making ice</div>
-        <div class="symptom-item">Washer not draining or leaving clothes wet</div>
-        <div class="symptom-item">Stackable washer or dryer in a condo not starting</div>
-        <div class="symptom-item">Dryer taking two or more cycles to dry clothes</div>
-        <div class="symptom-item">Dishwasher not cleaning or leaving standing water</div>
-        <div class="symptom-item">GE or Whirlpool oven not heating to set temperature</div>
-        <div class="symptom-item">Gas stove burner clicking but not lighting</div>
-        <div class="symptom-item">Freezer running warm while fridge section is cold</div>
-        <div class="symptom-item">Garbage disposal humming but not spinning</div>
-        <div class="symptom-item">Microwave not heating or turntable not rotating</div>
-        <div class="symptom-item">Builder-installed appliance failing just out of warranty</div>
+        <div class="symptom-item">Refrigerator running warm or cycling on and off</div>
+        <div class="symptom-item">Built-in Sub-Zero or Bosch fridge acting up past 15 years</div>
+        <div class="symptom-item">Washer stopping mid-cycle or leaving clothes soaked</div>
+        <div class="symptom-item">Dryer needing two runs to finish one load</div>
+        <div class="symptom-item">Dishwasher leaving standing water at the bottom</div>
+        <div class="symptom-item">Oven heating unevenly or missing its set temperature</div>
+        <div class="symptom-item">Cooktop burner clicking but never catching a flame</div>
+        <div class="symptom-item">Ice maker stuck and no longer dropping cubes</div>
+        <div class="symptom-item">Freezer running warm while the fridge stays cold</div>
+        <div class="symptom-item">Garbage disposal humming without the blades spinning</div>
+        <div class="symptom-item">Wine cooler drifting away from its set temperature</div>
+        <div class="symptom-item">Microwave turntable spinning but the food stays cold</div>
       </div>
     </div>
   </section>
@@ -660,53 +658,28 @@
   <!-- NEIGHBORHOODS -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page">Tustin Neighborhoods We Serve</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Tustin spans everything from a 19th-century Old Town to brand-new construction at Tustin Legacy, and the appliances change with the housing stock. We cover every neighborhood in ZIP codes 92780 and 92782, plus unincorporated North Tustin, with no travel surcharges.</p>
+      <h2 class="h2-page">San Juan Capistrano Neighborhoods We Serve</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">San Juan Capistrano is one of Orange County's oldest and most historic cities, built around Mission San Juan Capistrano and San Juan Creek. We cover every neighborhood across ZIP code 92675, with no travel surcharges.</p>
       <div class="neighborhoods-grid">
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Old Town Tustin</div>
-          <div class="neighborhood-zip">ZIP 92780</div>
-          <div class="neighborhood-note">Historic district around El Camino Real and Main Street. Older homes often run appliances well past 15 years; repairs here lean toward aging units.</div>
+          <div class="neighborhood-name">Historic Downtown</div>
+          <div class="neighborhood-zip">ZIP 92675</div>
+          <div class="neighborhood-note">The Mission-adjacent core along Camino Capistrano, lined with shops, restaurants, and colonial-era adobe buildings.</div>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Tustin Ranch</div>
-          <div class="neighborhood-zip">ZIP 92782</div>
-          <div class="neighborhood-note">1990s master-planned community near Tustin Ranch Golf Club. Original built-in appliances are now 25 to 30 years old and failing in waves.</div>
+          <div class="neighborhood-name">Los Rios Historic District</div>
+          <div class="neighborhood-zip">ZIP 92675</div>
+          <div class="neighborhood-note">California's oldest residential street, with original adobes just steps from the Amtrak and Metrolink depot.</div>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Tustin Legacy</div>
-          <div class="neighborhood-zip">ZIP 92782</div>
-          <div class="neighborhood-note">New construction on the former Marine air base. Builder-installed appliance sets are aging out of manufacturer warranty; we pick up where it ends.</div>
+          <div class="neighborhood-name">San Juan Hills</div>
+          <div class="neighborhood-zip">ZIP 92675</div>
+          <div class="neighborhood-note">Newer hillside tract near San Juan Hills High School and San Juan Creek Park.</div>
         </div>
         <div class="neighborhood-card">
-          <div class="neighborhood-name">Columbus Square</div>
-          <div class="neighborhood-zip">ZIP 92782</div>
-          <div class="neighborhood-note">Tustin Legacy village with townhomes and detached homes. Stackable laundry units and builder-grade kitchen packages are common calls.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Columbus Grove</div>
-          <div class="neighborhood-zip">ZIP 92782</div>
-          <div class="neighborhood-note">On the Irvine border near The District. Late-2000s townhomes and single-family homes with mid-life appliances.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Tustin Meadows</div>
-          <div class="neighborhood-zip">ZIP 92780</div>
-          <div class="neighborhood-note">Established tract community around Centennial Park. A mix of original and replacement appliances across home ages.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Lower Peters Canyon</div>
-          <div class="neighborhood-zip">ZIP 92782</div>
-          <div class="neighborhood-note">East-side neighborhood near Peters Canyon Regional Park. 1990s homes with original built-ins reaching replacement-or-repair age.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">El Camino Real corridor</div>
-          <div class="neighborhood-zip">ZIP 92780</div>
-          <div class="neighborhood-note">Central Tustin condos and apartments. We service compact, stackable, and apartment-sized kitchen and laundry units here.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">North Tustin</div>
-          <div class="neighborhood-zip">ZIP 92705</div>
-          <div class="neighborhood-note">Adjacent unincorporated area including Lemon Heights and Cowan Heights. Custom homes with premium and built-in appliances.</div>
+          <div class="neighborhood-name">Pacifica San Juan</div>
+          <div class="neighborhood-zip">ZIP 92675</div>
+          <div class="neighborhood-note">Gated bluff-top community with canyon views, southeast of the historic core.</div>
         </div>
       </div>
     </div>
@@ -715,44 +688,43 @@
   <!-- BRANDS -->
   <section class="section section-white">
     <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Brands We Service in Tustin</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">Tustin Legacy and Columbus Square run heavily on builder-grade packages from Whirlpool, GE, Samsung, and KitchenAid, while Tustin Ranch and North Tustin custom homes add built-in and premium brands. We service the full range.</p>
-      <div class="brands-group">
-        <div class="brands-group-label">All Major Brands</div>
-        <div class="brands-list">
-          <a href="whirlpool-appliance-repair-orange-county.html" class="brand-pill">Whirlpool</a>
-          <a href="bosch-appliance-repair-orange-county.html" class="brand-pill">Bosch</a>
-          <a href="ge-appliance-repair-orange-county.html" class="brand-pill">GE</a>
-          <a href="samsung-appliance-repair-orange-county.html" class="brand-pill">Samsung</a>
-          <a href="lg-appliance-repair-orange-county.html" class="brand-pill">LG</a>
-                    <a href="kitchenaid-appliance-repair-orange-county.html" class="brand-pill">KitchenAid</a>
-          <a href="maytag-appliance-repair-orange-county.html" class="brand-pill">Maytag</a>
-          <a href="frigidaire-appliance-repair-orange-county.html" class="brand-pill">Frigidaire</a>
-          <a href="kenmore-appliance-repair-orange-county.html" class="brand-pill">Kenmore</a>
-        </div>
-      </div>
+      <h2 class="h2-page" style="text-align:center;">Brands We Service in San Juan Capistrano</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">Kitchens here range from adobe-era originals near the Mission to freshly built hillside homes up in San Juan Hills, so our technicians move from a basic laundry-room repair to a built-in luxury column in the same afternoon.</p>
       <div class="brands-group">
         <div class="brands-group-label">Premium &amp; Luxury Brands</div>
         <div class="brands-list">
-          <a href="sub-zero-appliance-repair-orange-county.html" class="brand-pill premium">Sub-Zero</a>
-          <a href="wolf-appliance-repair-orange-county.html" class="brand-pill premium">Wolf</a>
-          <a href="thermador-appliance-repair-orange-county.html" class="brand-pill premium">Thermador</a>
           <a href="viking-appliance-repair-orange-county.html" class="brand-pill premium">Viking</a>
           <a href="miele-appliance-repair-orange-county.html" class="brand-pill premium">Miele</a>
+          <a href="sub-zero-appliance-repair-orange-county.html" class="brand-pill premium">Sub-Zero</a>
           <a href="dacor-appliance-repair-orange-county.html" class="brand-pill premium">Dacor</a>
+          <a href="thermador-appliance-repair-orange-county.html" class="brand-pill premium">Thermador</a>
+          <a href="wolf-appliance-repair-orange-county.html" class="brand-pill premium">Wolf</a>
           <a href="dcs-appliance-repair-orange-county.html" class="brand-pill premium">DCS</a>
-        
         </div>
       </div>
-      <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;text-align:center;">We service these brands but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
+      <div class="brands-group">
+        <div class="brands-group-label">All Major Brands</div>
+        <div class="brands-list">
+          <a href="lg-appliance-repair-orange-county.html" class="brand-pill">LG</a>
+          <a href="frigidaire-appliance-repair-orange-county.html" class="brand-pill">Frigidaire</a>
+          <a href="whirlpool-appliance-repair-orange-county.html" class="brand-pill">Whirlpool</a>
+          <a href="samsung-appliance-repair-orange-county.html" class="brand-pill">Samsung</a>
+          <a href="maytag-appliance-repair-orange-county.html" class="brand-pill">Maytag</a>
+          <a href="ge-appliance-repair-orange-county.html" class="brand-pill">GE</a>
+          <a href="kitchenaid-appliance-repair-orange-county.html" class="brand-pill">KitchenAid</a>
+          <a href="bosch-appliance-repair-orange-county.html" class="brand-pill">Bosch</a>
+          <a href="kenmore-appliance-repair-orange-county.html" class="brand-pill">Kenmore</a>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;text-align:center;">Servicing a brand here does not mean factory authorization unless we say so directly. If a manufacturer warranty is still active on your unit, start there before booking a visit with us.</p>
     </div>
   </section>
 
   <!-- SERVICES -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Services We Offer in Tustin</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:620px;text-align:center;margin:12px auto 24px;">From refrigerators and ovens to washers and disposals, we repair every major home appliance. Each service links to its full Orange County hub page with brand coverage and common symptoms.</p>
+      <h2 class="h2-page" style="text-align:center;">Services We Offer in San Juan Capistrano</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:620px;text-align:center;margin:12px auto 24px;">Whether it is a wine cooler that will not hold temperature or a disposal that hums and stalls, our team covers the full lineup of kitchen and laundry appliances. Tap a service below for its complete Orange County guide, brands included.</p>
       <div class="services-links-grid">
         <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
         <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
@@ -775,22 +747,22 @@
         <div class="process-step">
           <div class="step-number">1</div>
           <div class="step-title">Book</div>
-          <div class="step-desc">Call (949) 629-5365 or submit the online form. Tell us the appliance type, brand, and the symptom you are seeing.</div>
+          <div class="step-desc">Reach out at (949) 629-5365 or fill out the online form, letting us know the appliance, its brand, and what is going wrong.</div>
         </div>
         <div class="process-step">
           <div class="step-number">2</div>
           <div class="step-title">Diagnose</div>
-          <div class="step-desc">Your technician arrives via the 5 or 55 freeway and runs a full diagnostic on your appliance. The $99 fee is credited toward the repair.</div>
+          <div class="step-desc">A technician heads out from our Stanton base, typically routing in on the 5 freeway or Ortega Highway, and works through a full diagnostic on arrival.</div>
         </div>
         <div class="process-step">
           <div class="step-number">3</div>
           <div class="step-title">Quote</div>
-          <div class="step-desc">You receive a firm, transparent quote before any work begins. No hidden fees. You decide whether to proceed.</div>
+          <div class="step-desc">Before any repair starts, you get a clear, written price with nothing hidden, and the final call on whether to proceed is yours.</div>
         </div>
         <div class="process-step">
           <div class="step-number">4</div>
           <div class="step-title">Repair + Warranty</div>
-          <div class="step-desc">Most repairs are completed in one visit. All work carries a 90-day warranty on parts and labor.</div>
+          <div class="step-desc">One visit is usually enough to finish the job, and every repair is backed by a 90-day warranty covering both parts and labor.</div>
         </div>
       </div>
     </div>
@@ -799,73 +771,10 @@
   <!-- LANDMARKS -->
   <section class="section section-gray">
     <div class="container-lg">
-      <h2 class="h2-page">About Tustin</h2>
+      <h2 class="h2-page">About San Juan Capistrano</h2>
       <div class="landmarks-block">
-        <p>Tustin sits at the center of Orange County, bordered by <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>, <a href="appliance-repair-irvine-ca.html">Irvine</a>, and <a href="appliance-repair-orange-ca.html">Orange</a>. Few OC cities cover this much housing history in one place: the <strong>Old Town historic district</strong> dates to the 1880s, <strong>Tustin Meadows</strong> and the central tracts filled in through the 1960s and 70s, <strong>Tustin Ranch</strong> brought Mediterranean-style homes and the <strong>Tustin Ranch Golf Club</strong> in the 1990s, and <strong>Tustin Legacy</strong> is still building out on the former Marine Corps Air Station beneath its landmark WWII blimp hangar. Residents shop at <strong>The Market Place</strong> on Jamboree Road and hike <strong>Peters Canyon Regional Park</strong> on the east side. That spread of home ages means we see everything here: 30-year-old built-ins in Tustin Ranch, aging tract appliances near <strong>Centennial Park</strong>, and builder-grade packages in Tustin Legacy failing just past their warranty.</p>
+        <p>San Juan Capistrano sits along San Juan Creek in south Orange County, bordered by <a href="appliance-repair-dana-point-ca.html">Dana Point</a>, <a href="appliance-repair-san-clemente-ca.html">San Clemente</a>, and <a href="appliance-repair-rancho-santa-margarita-ca.html">Rancho Santa Margarita</a>. Founded in 1776 with the building of <strong>Mission San Juan Capistrano</strong>, the seventh of California's 21 missions and famous for the swallows' annual March 19 return, the city is often called the birthplace of Orange County, even though it was not incorporated until 1961. That span, from the adobes of the <strong>Los Rios Historic District</strong>, California's oldest residential street, to the 1894 Mission Revival <strong>Amtrak and Metrolink depot</strong> across the tracks, to the newer hillside tracts of San Juan Hills and Pacifica San Juan, means we see everything from century-old original kitchens to modern built-in appliances. Because so many homes near the Mission and Los Rios sit alongside newer premium builds, our technicians regularly work on Sub-Zero, Wolf, and Thermador units here, right alongside the Whirlpool, Samsung, and LG appliances that fill most other kitchens in town.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- RECENT JOB PHOTOS -->
-  <section class="section section-white">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">Recent Work in Tustin</h2>
-      <p style="text-align:center;color:var(--text-sub);font-size:13px;margin-top:8px;margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">A built-in double wall oven swap in a Tustin kitchen: the original Thermador out, a new KitchenAid in, leveled and tested before we left.</p>
-      <div class="job-grid">
-        <div class="job-card">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin-480w.webp 480w, ../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin.webp 576w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
-            <img src="../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin.jpg" alt="Original Thermador stainless double wall oven in its cabinet opening before removal in a Tustin kitchen" width="576" height="1024" loading="lazy">
-          </picture>
-          <div class="job-card-body">
-            <div class="job-card-kicker">Thermador &middot; Double Wall Oven</div>
-            <div class="job-card-title">The Original Oven, Before Removal</div>
-            <div class="job-card-loc">Tustin, CA</div>
-            <a href="thermador-appliance-repair-orange-county.html" class="job-card-link">Thermador appliance repair <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </div>
-        <div class="job-card">
-          <picture>
-            <source srcset="../images/real/business/technician-oven-kitchenaid-double-wall-lift-tustin-480w.webp 480w, ../images/real/business/technician-oven-kitchenaid-double-wall-lift-tustin.webp 576w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
-            <img src="../images/real/business/technician-oven-kitchenaid-double-wall-lift-tustin.jpg" alt="New KitchenAid double wall oven still in its protective wrap, raised on an appliance lift during installation in Tustin" width="576" height="1024" loading="lazy">
-          </picture>
-          <div class="job-card-body">
-            <div class="job-card-kicker">KitchenAid &middot; Double Wall Oven</div>
-            <div class="job-card-title">New Oven Going In</div>
-            <div class="job-card-loc">Tustin, CA</div>
-            <a href="oven-stove-repair-orange-county.html" class="job-card-link">Oven and stove repair <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </div>
-        <div class="job-card">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-oven-kitchenaid-double-wall-install-tustin-480w.webp 480w, ../images/real/business/completed-repair-oven-kitchenaid-double-wall-install-tustin.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
-            <img src="../images/real/business/completed-repair-oven-kitchenaid-double-wall-install-tustin.jpg" alt="Newly installed KitchenAid stainless built-in double wall oven powered on in a Tustin kitchen" width="768" height="1024" loading="lazy">
-          </picture>
-          <div class="job-card-body">
-            <div class="job-card-kicker">KitchenAid &middot; Double Wall Oven</div>
-            <div class="job-card-title">Installed, Leveled and Tested</div>
-            <div class="job-card-loc">Tustin, CA</div>
-            <a href="kitchenaid-appliance-repair-orange-county.html" class="job-card-link">KitchenAid appliance repair <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </div>
-      </div>
-      <h3 style="text-align:center;font-size:20px;color:var(--text-primary);margin:32px 0 10px;">LG Washer Drain Pump Replacement</h3>
-      <p style="text-align:center;color:var(--text-sub);font-size:13px;margin:0 auto 24px;max-width:600px;line-height:1.7;">A separate Tustin service call: our technician replaced the drain pump in an LG washer. The photo shows the washer open during service.</p>
-      <div style="max-width:296px;margin:0 auto;">
-        <div class="job-card">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-tustin-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-tustin.webp 1200w" type="image/webp" sizes="296px">
-            <img src="../images/real/business/completed-repair-washer-lg-drain-pump-tustin.jpg" alt="Front-load washer with its front panel removed, exposing the drum opening and lower cabinet" width="1200" height="1410" loading="lazy" style="width:100%;height:auto;display:block;">
-          </picture>
-          <div class="job-card-body">
-            <div class="job-card-kicker">LG &middot; Washer</div>
-            <div class="job-card-title">Drain Pump Replacement</div>
-            <div class="job-card-loc">Tustin, CA</div>
-            <a href="washer-repair-orange-county.html" class="job-card-link">Washer repair <span aria-hidden="true">&rarr;</span></a>
-          </div>
-        </div>
-      </div>
-      <p style="text-align:center;margin-top:24px;"><a href="recent-repairs.html" class="job-see-all">See all recent repairs <span aria-hidden="true">&rarr;</span></a></p>
     </div>
   </section>
 
@@ -878,23 +787,23 @@
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-quote">"Ag fixed my General Electric oven. Fast service!!! Thank you"</p>
-          <div class="t-initial" style="background:#444444;">SK</div>
-          <div class="testimonial-name">Surma Karimova &middot; GE oven repair &middot; Orange County, CA</div>
+          <p class="testimonial-quote">"AG did a great job! He went above and beyond."</p>
+          <div class="t-initial" style="background:#444444;">TG</div>
+          <div class="testimonial-name">T G &middot; Appliance repair &middot; Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-quote">"Super reliable &amp; goes above to help solve your problems!"</p>
-          <div class="t-initial" style="background:#444444;">BP</div>
-          <div class="testimonial-name">B P &middot; Orange County, CA</div>
+          <p class="testimonial-quote">"AG did a great job and was good with communication"</p>
+          <div class="t-initial" style="background:#444444;">CS</div>
+          <div class="testimonial-name">Caitlin Singleton &middot; Appliance repair &middot; Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-quote">"Thank you for fixing my microwave !!!"</p>
-          <div class="t-initial" style="background:#444444;">DM</div>
-          <div class="testimonial-name">Darina Martirosyan &middot; Microwave repair &middot; Orange County, CA</div>
+          <p class="testimonial-quote">"Always a timely and competent repair. Highly recommend."</p>
+          <div class="t-initial" style="background:#444444;">JC</div>
+          <div class="testimonial-name">Jeff C &middot; Appliance repair &middot; Orange County, CA</div>
         </div>
 
       </div>
@@ -908,8 +817,30 @@
   <section class="section section-white" style="padding-top:0;padding-bottom:40px;">
     <div class="container">
       <div class="city-pricing-line">
-        <strong>$99 diagnostic fee</strong>, applied toward your repair &middot; <strong>20% off labor</strong> for seniors 60+ &amp; repeat customers.
-        <span class="city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. <a href="appliance-repair-cost-orange-county.html">Full pricing guide &rarr;</a></span>
+        <strong>$99 diagnostic fee</strong>, credited toward the repair &middot; <strong>20% labor discount</strong> for seniors 60+ and returning customers.
+        <span class="city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair. <a href="appliance-repair-cost-orange-county.html">Full pricing guide &rarr;</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENT REPAIR -->
+  <section class="section section-gray" style="padding-top:0;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Recent Repairs in San Juan Capistrano</h2>
+      <p style="text-align:center;font-size:13.5px;color:#666;margin-bottom:32px;">A real job completed by our technicians in a San Juan Capistrano laundry room.</p>
+      <div class="job-single-wrap">
+        <div class="job-card">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-dryer-samsung-control-board-san-juan-capistrano-480w.webp 480w, ../images/real/business/completed-repair-dryer-samsung-control-board-san-juan-capistrano.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
+            <img src="../images/real/business/completed-repair-dryer-samsung-control-board-san-juan-capistrano.jpg" alt="Samsung front-load dryer with its top service panel open for a control-board repair, beside a Samsung top-load washer in a San Juan Capistrano laundry room" width="768" height="1024" loading="lazy">
+          </picture>
+          <div class="job-card-body">
+            <div class="job-card-kicker">Samsung &middot; Dryer</div>
+            <div class="job-card-title">Control Board Replacement</div>
+            <div class="job-card-loc">San Juan Capistrano, CA</div>
+            <a href="dryer-repair-orange-county.html" class="job-card-link">See our dryer repair service <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -917,37 +848,37 @@
   <!-- FAQ -->
   <section class="section section-white">
     <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">FAQ: Tustin Appliance Repair</h2>
+      <h2 class="h2-page" style="text-align:center;">FAQ: San Juan Capistrano Appliance Repair</h2>
       <div class="faq-list">
 
         <div class="faq-item">
-          <button class="faq-q">Do you offer same-day appliance repair in Tustin, CA?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Same-day appliance repair is usually available in Tustin when you call before noon. Technicians reach most Tustin addresses quickly via the 5 and 55 freeways and Jamboree Road. Call (949) 629-5365 to confirm same-day availability for your address.</div>
+          <button class="faq-q">Is same-day appliance repair available in San Juan Capistrano, CA?<span class="icon">+</span></button>
+          <div class="faq-a">Yes, in most cases. Call before noon and a technician can typically be out to you that same day, whether you are near Historic Downtown, out in San Juan Hills, or up in Pacifica San Juan. Our team routes in on the 5 freeway and Ortega Highway to reach San Juan Capistrano quickly. Call (949) 629-5365 to confirm same-day availability for your street.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Which Tustin ZIP codes and neighborhoods do you cover?<span class="icon">+</span></button>
-          <div class="faq-a">We cover all of Tustin under ZIP codes 92780 and 92782, including Old Town Tustin, Tustin Ranch, Tustin Legacy, Columbus Square, Columbus Grove, Tustin Meadows, and Lower Peters Canyon. We also serve the adjacent unincorporated North Tustin area in ZIP 92705, including Lemon Heights and Cowan Heights. There are no travel surcharges for any Tustin address.</div>
+          <button class="faq-q">How fast can a technician reach San Juan Capistrano from your Stanton location?<span class="icon">+</span></button>
+          <div class="faq-a">South OC cities are typically a 30–50 minute drive from our Stanton base, and San Juan Capistrano is no exception. Same-day appointments are available most weekdays when you call early. Call (949) 629-5365 to check today's availability.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Do you service Tustin Ranch and Tustin Legacy homes?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Tustin Ranch homes from the 1990s often have original built-in appliances reaching 25 to 30 years old, and Tustin Legacy's newer construction comes with builder-installed appliance sets that are now aging out of manufacturer warranty. We repair both: original built-ins and out-of-warranty builder packages from Whirlpool, GE, Samsung, LG, KitchenAid, and Bosch.</div>
+          <button class="faq-q">What neighborhoods and ZIP codes do you cover in San Juan Capistrano?<span class="icon">+</span></button>
+          <div class="faq-a">We cover every corner of San Juan Capistrano within ZIP code 92675, including Historic Downtown, the Los Rios Historic District, San Juan Hills, and Pacifica San Juan, with no travel surcharge anywhere in the city.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">How much does an appliance service call cost in Tustin?<span class="icon">+</span></button>
-          <div class="faq-a">Our diagnostic fee is $99, and it is applied toward the repair if you proceed. You receive a firm quote after diagnosis, before any work begins. Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</div>
+          <button class="faq-q">Do you repair appliances in San Juan Capistrano's historic homes near the Mission and Los Rios District?<span class="icon">+</span></button>
+          <div class="faq-a">Yes. Many homes near the Mission and the Los Rios Historic District are decades old, with original-build kitchens and laundry rooms where parts have simply worn out over time. We regularly repair aging refrigerators, ovens, washers, and dryers in these older homes, alongside newer appliances in the hillside tracts of San Juan Hills and Pacifica San Juan.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Which appliance brands do you repair in Tustin?<span class="icon">+</span></button>
-          <div class="faq-a">We service all major brands common in Tustin homes, including Whirlpool, GE, Samsung, LG, KitchenAid, Bosch, Maytag, Frigidaire, and Kenmore, plus premium brands like <a href="sub-zero-appliance-repair-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Sub-Zero</a>, <a href="wolf-appliance-repair-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Wolf</a>, Thermador, Viking, and Miele found in Tustin Ranch and North Tustin custom homes.</div>
+          <button class="faq-q">What brands do you service in San Juan Capistrano?<span class="icon">+</span></button>
+          <div class="faq-a">We service <a href="sub-zero-appliance-repair-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Sub-Zero</a>, <a href="wolf-appliance-repair-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Wolf</a>, Thermador, Viking, and Miele built-in and premium appliances, plus Whirlpool, Bosch, GE, Samsung, LG, KitchenAid, Maytag, Frigidaire, and Kenmore across every San Juan Capistrano neighborhood.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Is your appliance repair work covered by a warranty?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. All repairs carry a 90-day warranty on parts and labor. If the same issue recurs within the warranty period, we return and resolve it at no additional charge. Your technician will go over the specific warranty terms when they provide the quote, before any work begins.</div>
+          <button class="faq-q">How much does appliance repair cost in San Juan Capistrano?<span class="icon">+</span></button>
+          <div class="faq-a">Our diagnostic fee is a flat $99, applied toward the repair if you move forward. Most San Juan Capistrano jobs run $150 to $400 depending on the appliance, part, and brand, with sealed-system and built-in luxury work running higher. Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</div>
         </div>
 
       </div>
@@ -958,8 +889,8 @@
   <section class="section section-white" style="padding-top:0;">
     <div class="container">
       <div class="cta-box">
-        <h2>Need Appliance Repair in Tustin?</h2>
-        <p>Same-day service available in Old Town, Tustin Ranch, Tustin Legacy, and all of Tustin. Licensed technicians, 90-day warranty on every repair.</p>
+        <h2>Need Appliance Repair in San Juan Capistrano?</h2>
+        <p>We are on call for Historic Downtown, Los Rios, San Juan Hills, Pacifica San Juan, and everywhere else in San Juan Capistrano, with technicians who stand behind every job for 90 days.</p>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
           <a href="tel:+19496295365" class="btn-white">Call (949) 629-5365</a>
           <a href="contact.html" class="btn-white-outline">Book Online</a>

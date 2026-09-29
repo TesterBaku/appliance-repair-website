@@ -35,7 +35,7 @@ Always include at least one of these cities in every SEO article. Rotate across 
 - Anaheim, Santa Ana, Irvine, Huntington Beach, Garden Grove, Fullerton, Orange, Costa Mesa
 
 **Secondary:**
-- Newport Beach, Laguna Beach, Mission Viejo, Lake Forest, Yorba Linda, Brea, Laguna Niguel, Tustin, Westminster, Fountain Valley, Buena Park, Cypress, Placentia, La Habra, Seal Beach, San Clemente, Dana Point, Aliso Viejo, Rancho Santa Margarita, Los Alamitos
+- Newport Beach, Laguna Beach, Mission Viejo, Lake Forest, Yorba Linda, Brea, Laguna Niguel, Tustin, Westminster, Fountain Valley, Buena Park, Cypress, Placentia, La Habra, Seal Beach, San Clemente, Dana Point, Aliso Viejo, Rancho Santa Margarita, San Juan Capistrano, Los Alamitos
 
 **Rule:** Never repeat the same city in consecutive articles. Check existing articles before picking a city.
 
