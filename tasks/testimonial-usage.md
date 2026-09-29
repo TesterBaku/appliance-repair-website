@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 111 |
-| On exactly 1 hub (1 free slot each) | 11 |
-| On exactly 2 hubs (at cap) | 96 |
+| Distinct reviews currently on >=1 hub | 113 |
+| On exactly 1 hub (1 free slot each) | 12 |
+| On exactly 2 hubs (at cap) | 97 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **11** |
-| Approx. new city hubs supportable @ 3/hub | **~3** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **12** |
+| Approx. new city hubs supportable @ 3/hub | **~4** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 11 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 12 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -43,14 +43,15 @@ not as violations to fix. No other review may exceed 2 hubs.
 |---|---|
 | Alexander Vershinin | refrigerator-repair-cost-hub |
 | Arzuman Qarayev | westminster |
+| Caitlin Singleton | san-juan-capistrano |
 | J | anaheim |
-| Jeff C | refrigerator-repair-cost-hub |
 | Karen Myhra | long-beach |
 | Kathleen Street | riverside |
 | Kim Bowen | dryer-repair-hub |
 | Laurie Summers | wolf-hub |
 | Noelle B | yorba-linda |
 | Satara Armstrong Charlson | viking-hub |
+| T G | san-juan-capistrano |
 | Tog Valizada | sub-zero-hub |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
@@ -92,6 +93,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Greg Schnabel | costa-mesa, miele-hub |
 | J. Feria | dana-point, rancho-santa-margarita |
 | James Wehrman | stanton, frigidaire-hub |
+| Jeff C | san-juan-capistrano, refrigerator-repair-cost-hub |
 | Jeff Lane Songs | kitchenaid-hub, samsung-hub |
 | Jennifer Trette | costa-mesa, cypress |
 | John Dinger | cost-hub, dana-point |
