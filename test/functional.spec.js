@@ -223,6 +223,14 @@ test('desktop nav dropdowns stay inside the viewport', async ({ page }) => {
           `${url} at ${width}px: dropdown #${i} has link(s) outside the viewport: ${JSON.stringify(offenders)}`
         ).toEqual([]);
 
+        // The Service Areas columns must sit on one row: when they wrapped, a single column
+        // dropped alone onto a second row at 800-849px. Adding a column needs a layout rethink.
+        const rowTops = await menu.evaluate(el => el.classList.contains('nav-dropdown-menu--areas')
+          ? [...new Set([...el.firstElementChild.children].map(c => Math.round(c.getBoundingClientRect().top)))]
+          : []);
+        expect(rowTops.length, `${url} at ${width}px: Service Areas columns wrapped onto ${rowTops.length} rows`)
+          .toBeLessThanOrEqual(1);
+
         // site.js closes a menu 300ms after the pointer leaves both toggle and menu, so a
         // tall vertical gap between them makes slow diagonal mouse travel drop the menu.
         // Master's toggle-anchored menus sit 10px below the toggle; hold every menu to that.
