@@ -105,6 +105,24 @@ let skipped = 0;
 let converted = 0;
 const drift = [];
 
+// Nav-dropdown interaction JS is single-sourced in site.js (see its header
+// comment and AGENTS.md "Shared chrome (partials)"). analytics.js carried a
+// second, conflicting keyboard handler (initNavKeyboard) until this guard was
+// added: it stamped aria attributes redundantly and raced site.js's own
+// Escape/Enter handling. Catch a reintroduction early: any occurrence of the
+// literal string "nav-dropdown" in analytics.js means nav interaction logic
+// crept back in there instead of site.js.
+if (CHECK) {
+  const analyticsPath = path.join(repoRoot, 'analytics.js');
+  const analyticsContent = fs.readFileSync(analyticsPath, 'utf8');
+  if (analyticsContent.includes('nav-dropdown')) {
+    console.error('inject-site-js --check: analytics.js contains "nav-dropdown".');
+    console.error('Nav interaction JS (open/close, Escape, aria-expanded) is single-sourced in site.js initDropdowns().');
+    console.error('Remove the nav-dropdown handling from analytics.js instead of duplicating it there.');
+    process.exit(1);
+  }
+}
+
 for (const file of files) {
   if (locationOf(file) === null) { skipped++; continue; }
   const content = fs.readFileSync(file, 'utf8');

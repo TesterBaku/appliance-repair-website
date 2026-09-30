@@ -283,6 +283,82 @@ test('desktop nav dropdowns never stay open together, with keyboard or mouse', a
   await expect(menus.nth(2)).toBeHidden();
 });
 
+// Nav-dropdown keyboard behaviour is single-sourced in site.js: analytics.js's
+// old initNavKeyboard() used to intercept Enter/Space on a focused toggle and
+// toggle the menu with preventDefault(), so Enter never followed the toggle's
+// own href: it opened the menu on Tab (site.js focus handler), then Enter
+// closed it (analytics.js), then a second Enter reopened it. A toggle is a
+// plain <a href>, so Enter must behave like any other link: navigate.
+test('desktop nav: Enter on a dropdown toggle follows its link', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  const dropdowns = page.locator('.nav-links .nav-dropdown');
+  const toggles = dropdowns.locator('.nav-dropdown-toggle');
+  const menus = dropdowns.locator('.nav-dropdown-menu');
+
+  await toggles.nth(0).focus();
+  await expect(menus.nth(0)).toBeVisible();
+  await page.keyboard.press('Enter');
+  // The test server may serve a clean URL in place of the .html file.
+  await page.waitForURL(/\/services(\.html)?$/);
+});
+
+// site.js used to close a keyboard-opened menu on Escape by calling
+// closeMenu() then toggle.focus() directly on the toggle/menu elements. That
+// refocus fired the toggle's own `focus` -> openMenu listener, silently
+// reopening the very menu Escape had just closed. Fixed by a single
+// document-level Escape handler that focuses the toggle first, then closes
+// every dropdown, so the reopen from that focus() call is undone too.
+test('desktop nav: Escape from inside a menu closes it and returns focus to its toggle', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  const dropdowns = page.locator('.nav-links .nav-dropdown');
+  const toggles = dropdowns.locator('.nav-dropdown-toggle');
+  const menus = dropdowns.locator('.nav-dropdown-menu');
+
+  await toggles.nth(0).focus();
+  await expect(menus.nth(0)).toBeVisible();
+
+  // Tab moves focus onto the first link inside the now-visible Services menu.
+  await page.keyboard.press('Tab');
+  await expect(menus.nth(0)).toBeVisible();
+  const firstMenuLink = menus.nth(0).locator('a').first();
+  expect(await firstMenuLink.evaluate(el => el === document.activeElement)).toBe(true);
+
+  await page.keyboard.press('Escape');
+  expect(await menus.evaluateAll(ms => ms.map(m => getComputedStyle(m).display !== 'none'))).toEqual([false, false, false]);
+  expect(await toggles.nth(0).evaluate(el => el === document.activeElement)).toBe(true);
+
+  // Confirm the toggle refocus above did not silently reopen the menu.
+  await page.waitForTimeout(350);
+  await expect(menus.nth(0)).toBeHidden();
+});
+
+// A mouse-opened menu holds no keyboard focus at all (focus can be anywhere,
+// including outside the nav entirely). Escape must still close it, with no
+// focus movement: there is no dropdown containing document.activeElement to
+// refocus into. This passed even on the pre-fix code, since analytics.js's
+// initNavKeyboard() closed every menu unconditionally on Escape; recorded
+// here so that fact is explicit rather than assumed.
+test('desktop nav: Escape closes a mouse-opened menu', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  const dropdowns = page.locator('.nav-links .nav-dropdown');
+  const toggles = dropdowns.locator('.nav-dropdown-toggle');
+  const menus = dropdowns.locator('.nav-dropdown-menu');
+
+  // Keep the pointer ON the open menu the whole time: moving it away would close
+  // the menu via the 300ms mouseleave timer and pass this test with no Escape
+  // handler at all. Hovering never moves focus, so focus is outside every dropdown.
+  await toggles.nth(2).hover();
+  await menus.nth(2).locator('a').first().hover();
+  await expect(menus.nth(2)).toBeVisible();
+  expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true);
+
+  await page.keyboard.press('Escape');
+  await expect(menus.nth(2)).toBeHidden({ timeout: 250 });
+});
+
 // ─── Contact page ─────────────────────────────────────────────────────────────
 test.describe('Contact page', () => {
   test.beforeEach(async ({ page }) => {
