@@ -59,7 +59,7 @@
         clearTimeout(timer);
         timer = setTimeout(closeMenu, 300);
       }
-      closers.push({ dd: dd, close: closeMenu });
+      closers.push({ dd: dd, close: closeMenu, toggle: toggle });
 
       dd.addEventListener('mouseenter', openMenu);
       dd.addEventListener('mouseleave', scheduleClose);
@@ -72,13 +72,27 @@
         a.addEventListener('blur', scheduleClose);
       });
       toggle.addEventListener('blur', scheduleClose);
+    });
 
-      toggle.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') { closeMenu(); toggle.focus(); }
-      });
-      menu.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') { closeMenu(); toggle.focus(); }
-      });
+    // Escape closes every dropdown, from anywhere: a menu opened by mouse (focus
+    // outside any dropdown) or by keyboard (focus inside one, on the toggle or a
+    // menu link). Single document-level listener, not per-toggle/per-menu ones:
+    // those closed then called toggle.focus(), and refocusing the toggle fires
+    // its own focus -> openMenu handler above, silently reopening the menu the
+    // Escape press just closed.
+    //
+    // Order matters: find the dropdown (if any) containing the active element
+    // and move focus to ITS toggle FIRST, before closing anything. Moving focus
+    // first means that dropdown's own openMenu may fire (harmless: it's about
+    // to be closed anyway), and it lands keyboard focus somewhere sane (the
+    // toggle) rather than on a link inside a menu that's about to disappear.
+    // Only then close every closers entry, unconditionally, so all menus end
+    // hidden regardless of where focus started.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var entry = closers.filter(function (c) { return c.dd.contains(document.activeElement); })[0];
+      if (entry && document.activeElement !== entry.toggle) entry.toggle.focus();
+      closers.forEach(function (c) { c.close(); });
     });
   }
 
