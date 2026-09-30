@@ -231,6 +231,17 @@ test('desktop nav dropdowns stay inside the viewport', async ({ page }) => {
         expect(rowTops.length, `${url} at ${width}px: Service Areas columns wrapped onto ${rowTops.length} rows`)
           .toBeLessThanOrEqual(1);
 
+        // Menu links keep their 12.5px size at every width. shared.css's 769-1099px
+        // compact-nav rule once matched `.nav-links a` and shrank them to 11px.
+        const linkSizes = await menu.evaluate(el =>
+          [...new Set([...el.querySelectorAll('a')].map(a => getComputedStyle(a).fontSize))]);
+        expect(linkSizes, `${url} at ${width}px: dropdown #${i} link font-size`).toEqual(['12.5px']);
+        // ...while the top-level row (plain links and the three toggles) stays one size.
+        const topSizes = await page.evaluate(() => [...new Set(
+          [...document.querySelectorAll('.nav-links > a, .nav-links .nav-dropdown-toggle')]
+            .map(a => getComputedStyle(a).fontSize))]);
+        expect(topSizes.length, `${url} at ${width}px: top-level nav sizes ${JSON.stringify(topSizes)}`).toBe(1);
+
         // site.js closes a menu 300ms after the pointer leaves both toggle and menu, so a
         // tall vertical gap between them makes slow diagonal mouse travel drop the menu.
         // Master's toggle-anchored menus sit 10px below the toggle; hold every menu to that.

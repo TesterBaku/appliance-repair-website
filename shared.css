@@ -229,7 +229,11 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
   .nav-inner { padding: 0 16px; }
   .logo span { display: none; }
   .nav-links { gap: 8px; }
-  .nav-links a, .nav-dropdown-toggle { font-size: 11px; }
+  /* Direct children and the dropdown toggles only: a bare `.nav-links a` also matched
+     the links inside the dropdown menus and shrank them from 12.5px to 11px in this
+     band. The toggle selector is scoped to `.nav-links` so it still outranks the base
+     `.nav-links a { font-size: 12px }`. */
+  .nav-links > a, .nav-links .nav-dropdown-toggle { font-size: 11px; }
   .nav-actions { gap: 10px; }
   .nav-cta { padding: 7px 12px; }
   /* the logo carries an inline height to avoid layout shift, so this needs the override */
