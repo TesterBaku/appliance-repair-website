@@ -173,6 +173,108 @@ test.describe('Homepage (index.html)', () => {
   });
 });
 
+// ─── Desktop nav dropdowns stay inside the viewport ────────────────────────────
+// The Service Areas mega-dropdown (.nav-dropdown-menu--areas) used to anchor to its
+// toggle with `left:-16px`, which pushed its widest columns (LA County, Riverside
+// County, "All Cities") past the right edge of the viewport at 800-1440px widths.
+// Fixed by centering the menu under the fixed .nav bar (`left:50%; transform:
+// translateX(-50%)`, wrapper `position:static`) and letting its columns wrap. This
+// sweeps every .nav-dropdown on a representative page from each nav-partial family
+// (root/pages via nav-main.html, articles via nav-article.html) across the widths
+// the bug actually occupied.
+const DROPDOWN_VIEWPORT_WIDTHS = [800, 1024, 1280, 1440];
+const DROPDOWN_TEST_PAGES = [
+  '/',
+  '/pages/appliance-repair-irvine-ca.html',
+  '/articles/article-mini-fridge.html',
+];
+
+test('desktop nav dropdowns stay inside the viewport', async ({ page }) => {
+  test.setTimeout(120000);
+  for (const url of DROPDOWN_TEST_PAGES) {
+    for (const width of DROPDOWN_VIEWPORT_WIDTHS) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(url);
+      await page.evaluate(() => document.fonts && document.fonts.ready);
+
+      const dropdowns = page.locator('.nav-links .nav-dropdown');
+      const count = await dropdowns.count();
+      expect(count, `${url} at ${width}px: expected at least one .nav-dropdown`).toBeGreaterThan(0);
+
+      for (let i = 0; i < count; i++) {
+        const dropdown = dropdowns.nth(i);
+        await dropdown.locator('.nav-dropdown-toggle').hover();
+        const menu = dropdown.locator('.nav-dropdown-menu');
+        await expect(menu).toBeVisible();
+
+        const offenders = await menu.evaluate(el => {
+          const vw = window.innerWidth;
+          const bad = [];
+          for (const a of el.querySelectorAll('a')) {
+            const r = a.getBoundingClientRect();
+            if (r.left < 0 || r.right > vw) {
+              bad.push((a.textContent || '').trim());
+            }
+          }
+          return bad;
+        });
+        expect(
+          offenders,
+          `${url} at ${width}px: dropdown #${i} has link(s) outside the viewport: ${JSON.stringify(offenders)}`
+        ).toEqual([]);
+
+        // site.js closes a menu 300ms after the pointer leaves both toggle and menu, so a
+        // tall vertical gap between them makes slow diagonal mouse travel drop the menu.
+        // Master's toggle-anchored menus sit 10px below the toggle; hold every menu to that.
+        const toggleBox = await dropdown.locator('.nav-dropdown-toggle').boundingBox();
+        const toggleBottom = toggleBox.y + toggleBox.height;
+        const menuTop = (await menu.boundingBox()).y;
+        expect(
+          menuTop - toggleBottom,
+          `${url} at ${width}px: dropdown #${i} opens ${Math.round(menuTop - toggleBottom)}px below its toggle`
+        ).toBeLessThanOrEqual(12);
+
+        // Move away and wait for the menu to hide before checking the next dropdown.
+        // Hover a fixed, unrelated nav element (the logo) rather than a raw coordinate:
+        // a wrapped mega-menu's vertical extent varies by width/content, so a fixed
+        // (x, y) can still land inside it and make this wait flaky.
+        await page.locator('a.logo').first().hover();
+        await expect(menu).toBeHidden();
+      }
+    }
+  }
+});
+
+// Opening one desktop dropdown closes the others, including one that holds keyboard
+// focus (mixed keyboard + mouse). A first cut skipped focused menus, which left a
+// tabbed-into menu stuck open under every later hover.
+test('desktop nav dropdowns never stay open together, with keyboard or mouse', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  const dropdowns = page.locator('.nav-links .nav-dropdown');
+  const menus = dropdowns.locator('.nav-dropdown-menu');
+  const toggles = dropdowns.locator('.nav-dropdown-toggle');
+  const openStates = () => menus.evaluateAll(ms => ms.map(m => getComputedStyle(m).display !== 'none'));
+
+  // Keyboard focus parks in Services, then the mouse moves to Service Areas.
+  await toggles.nth(0).focus();
+  await expect(menus.nth(0)).toBeVisible();
+  await toggles.nth(2).hover();
+  expect(await openStates()).toEqual([false, false, true]);
+  expect(await dropdowns.nth(0).evaluate(dd => dd.contains(document.activeElement))).toBe(false);
+
+  // Then on to Brands: still exactly one menu open.
+  await toggles.nth(1).hover();
+  expect(await openStates()).toEqual([false, true, false]);
+
+  // Escape on a focused toggle closes its menu and does not reopen it.
+  await page.locator('a.logo').first().hover();
+  await toggles.nth(2).focus();
+  await expect(menus.nth(2)).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(menus.nth(2)).toBeHidden();
+});
+
 // ─── Contact page ─────────────────────────────────────────────────────────────
 test.describe('Contact page', () => {
   test.beforeEach(async ({ page }) => {
