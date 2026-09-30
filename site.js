@@ -211,6 +211,11 @@
     items.forEach(function (item) {
       var btn = item.querySelector('.faq-q');
       if (!btn) return;
+      // Sync aria-expanded to the item's actual open/closed state at init, not just on
+      // click: a page can ship an item pre-opened via class="faq-item open" (e.g. a hub's
+      // featured FAQ), and the button's aria-expanded must reflect that from the first
+      // paint (WCAG 4.1.2), not only after a user toggles it.
+      btn.setAttribute('aria-expanded', String(item.classList.contains('open')));
       btn.addEventListener('click', function () {
         var isOpen = item.classList.contains('open');
         items.forEach(function (i) {
