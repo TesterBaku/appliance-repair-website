@@ -2460,6 +2460,20 @@ for (const { brand, file } of BRAND_HUBS) {
       await expect(page.locator('#faq')).toBeAttached();
     });
 
+    // WCAG 4.1.2: a page can ship an item pre-opened via class="faq-item open" (e.g.
+    // Wolf/Sub-Zero's featured question). site.js's initFaq() must sync aria-expanded
+    // to that class on init, not only on click, so the button's accessible state
+    // matches what is visibly on screen from first paint.
+    test('every faq-q aria-expanded matches its item\'s open class on load', async ({ page }) => {
+      const items = page.locator('.faq-item');
+      const count = await items.count();
+      for (let i = 0; i < count; i++) {
+        const item = items.nth(i);
+        const isOpen = await item.evaluate(el => el.classList.contains('open'));
+        await expect(item.locator('.faq-q')).toHaveAttribute('aria-expanded', String(isOpen));
+      }
+    });
+
     // ── Testimonials ──────────────────────────────────────────────────────────
     test('has exactly 3 testimonial cards', async ({ page }) => {
       const cards = await page.locator('.testimonial-card').count();
