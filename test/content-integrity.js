@@ -2042,6 +2042,48 @@ if (run('brand-tier')) {
         issues.push(`[BRAND-TIER] ${rel(filePath)} — states a $${val} diagnostic fee. seo-content.md defines ONE company fee: $99, everywhere we serve, every city and every brand (the $120 Riverside tier was retired by owner decision 2026-08-22). The only other allowed value is $49, the additional-unit price documented in llms.txt.`);
       }
     }
+
+    // Widened 2026-09-30: a .cost-table row must never state the company's own
+    // flat fee as a bare single dollar figure. seo-content.md's tiered rule keeps
+    // two contexts strictly separate — a cost-table row is always a brand-tiered
+    // MARKET RANGE ($75-$100 standard brands, $95-$150 premium brands), and the
+    // company's own flat policy fee (one of FEES above) belongs in prose only,
+    // never inside a .cost-table row ("Never put a company-fee value into a
+    // cost-table row (that row stays the brand-tiered range above)").
+    //
+    // The fee regex just above never reaches this shape: it requires the exact
+    // phrase "diagnostic fee" or "service call fee" to sit within 30 no-tag
+    // characters of the dollar sign, but a real offending row splits the label
+    // ("Diagnostic visit (LA County)" / "Flat fee, credited toward the repair")
+    // from the value ("$99") across separate <td> cells and never uses the
+    // phrase "diagnostic fee" or "service call fee" at all — found live on
+    // articles/article-maintenance-skip-cost-los-angeles-county.html, which this
+    // check was widened to catch. This scans each .cost-table ROW as a whole
+    // (tags stripped first, so a cell boundary can't break word proximity) and
+    // flags any row that names a diagnostic/service-call/flat-fee concept
+    // alongside a dollar figure that is not part of a two-number range. A row
+    // with no dollar figure at all (a pure label/"n/a" row) is not flagged —
+    // there is nothing to be a flat fee.
+    const COST_TABLE_FEE_LABEL_RE = /\bdiagnostic\b|\bservice[- ]?call\b|\bflat fee\b/i;
+    const ROW_HAS_RANGE_RE = /\$[\d,]+\s*(?:to|and|–|—|-)\s*\$[\d,]+/i;
+    const ROW_DOLLAR_RE = /\$[\d,]+/g;
+    for (const tbl of content.matchAll(/<table\b[^>]*\bclass="[^"]*\bcost-table\b[^"]*"[^>]*>([\s\S]*?)<\/table>/g)) {
+      for (const row of tbl[1].matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)) {
+        const rowText = row[1]
+          .replace(/&ndash;|&#8211;|&#x2013;/gi, '-')
+          .replace(/<[^>]+>/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        if (!COST_TABLE_FEE_LABEL_RE.test(rowText)) continue;
+        if (ROW_HAS_RANGE_RE.test(rowText)) continue; // already a proper market-range row
+        const dollars = rowText.match(ROW_DOLLAR_RE);
+        if (!dollars || !dollars.length) continue; // label-only row, nothing to be a flat fee
+        checked['brand-tier'].costTableFlatFees = (checked['brand-tier'].costTableFlatFees || 0) + 1;
+        touched = true;
+        issues.push(`[BRAND-TIER] ${rel(filePath)} — a .cost-table row ("${rowText.slice(0, 140)}") states a flat company fee (${dollars.join(', ')}) instead of the brand-tiered MARKET RANGE seo-content.md requires for a cost-table diagnostic/service-call row ($75-$100 standard brands, $95-$150 premium brands). The company's own flat fee belongs in prose only, never in a .cost-table row.`);
+      }
+    }
+
     if (touched) checked['brand-tier'].pages++;
   }
 }
