@@ -2772,3 +2772,50 @@ for (const url of MOBILE_OCCLUSION_PAGES) {
     expect(r.scrollW, `${url}: document scrolls sideways (${r.scrollW}px vs ${r.clientW}px viewport). Widest offender: ${JSON.stringify(r.widest)}`).toBeLessThanOrEqual(r.clientW + 1);
   });
 }
+
+// ── Mobile hero H1 size, at 375px ─────────────────────────────────────────────
+// Most articles carry `h1 { font-size: 28px !important; }` inside their inline
+// @media (max-width: 768px) block, capping the hero heading on a phone. A dozen
+// articles never got that rule and render the hero H1 at their unconstrained
+// desktop size (36-38px) on a 375px viewport, over the site's 28-34px mobile
+// heading limit. Derived from the filesystem, the same reason CITY_HUBS above and
+// MOBILE_OCCLUSION_PAGES are: a hand-kept list drifts, and the article it drifts
+// past is the one that ships the bug.
+const ARTICLE_H1_PAGES = fs.readdirSync(path.join(__dirname, '..', 'articles'))
+  .filter(f => /^article-.*\.html$/.test(f))
+  .map(f => `/articles/${f}`)
+  .sort();
+
+test('mobile 375px: every article hero h1 is 34px or smaller', async ({ page }) => {
+  test.setTimeout(300000); // one navigation per article in the repo
+  expect(ARTICLE_H1_PAGES.length, 'no articles found to sweep').toBeGreaterThan(50);
+
+  await page.setViewportSize(MOBILE);
+  const offenders = [];
+
+  for (const url of ARTICLE_H1_PAGES) {
+    await page.goto(url, { waitUntil: 'load' });
+    // Measure only after webfonts settle: Inter loads late and fallback-font
+    // metrics differ from the final render (see the tap-target sweep above for the
+    // same fix and the 43px/45px flip it corrected).
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    const size = await page.evaluate(() => {
+      const h1 = document.querySelector('.hero h1, h1');
+      if (!h1) return null;
+      return parseFloat(getComputedStyle(h1).fontSize);
+    });
+    if (size === null) {
+      offenders.push({ url, size: null, reason: 'no h1 found' });
+      continue;
+    }
+    if (size > 34) {
+      offenders.push({ url, size });
+    }
+  }
+
+  expect(
+    offenders,
+    `${offenders.length} article(s) render the hero <h1> over 34px at 375px width: ` +
+    JSON.stringify(offenders, null, 1)
+  ).toEqual([]);
+});
