@@ -2009,7 +2009,7 @@ if (run('brand-tier')) {
   // "each additional unit ... $49" phrasing is not actually reached; this entry is
   // belt-and-braces for a page that does word it as a fee.)
   const FEES = new Set(['99', '49']);
-  checked['brand-tier'] = { pages: 0, lists: 0, fees: 0 };
+  checked['brand-tier'] = { pages: 0, lists: 0, fees: 0, costTableFlatFees: 0 };
 
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
@@ -2078,7 +2078,7 @@ if (run('brand-tier')) {
         if (ROW_HAS_RANGE_RE.test(rowText)) continue; // already a proper market-range row
         const dollars = rowText.match(ROW_DOLLAR_RE);
         if (!dollars || !dollars.length) continue; // label-only row, nothing to be a flat fee
-        checked['brand-tier'].costTableFlatFees = (checked['brand-tier'].costTableFlatFees || 0) + 1;
+        checked['brand-tier'].costTableFlatFees++;
         touched = true;
         issues.push(`[BRAND-TIER] ${rel(filePath)} — a .cost-table row ("${rowText.slice(0, 140)}") states a flat company fee (${dollars.join(', ')}) instead of the brand-tiered MARKET RANGE seo-content.md requires for a cost-table diagnostic/service-call row ($75-$100 standard brands, $95-$150 premium brands). The company's own flat fee belongs in prose only, never in a .cost-table row.`);
       }
@@ -3968,7 +3968,7 @@ if (checked['faq-jsonld-parity']) {
   parts.push(`FAQ/JSON-LD parity ratchet held on ${c.pairs} Q&A pairs across ${c.files} pages (debt measured ${c.measuredFields} fields in ${c.measuredFiles} files, baseline declares ${c.baselineFields}/${c.baselineFiles}, see P6-12)`);
 }
 if (checked['gallery-parity'])       parts.push(`ImageGallery schema matches rendered photos exactly on ${checked['gallery-parity'].pages} page(s) (${checked['gallery-parity'].images} listed images)`);
-if (checked['brand-tier'])           parts.push(`brand tiers + fee values match seo-content.md across ${checked['brand-tier'].pages} pages (${checked['brand-tier'].lists} premium lists, ${checked['brand-tier'].fees} fee statements)`);
+if (checked['brand-tier'])           parts.push(`brand tiers + fee values match seo-content.md across ${checked['brand-tier'].pages} pages (${checked['brand-tier'].lists} premium lists, ${checked['brand-tier'].fees} fee statements, ${checked['brand-tier'].costTableFlatFees} cost-table rows flagged for stating a flat fee instead of a range)`);
 if (checked['tel-target'])           parts.push(`all ${checked['tel-target'].links} tel: links dial ${checked['tel-target'].canonical} (${checked['tel-target'].distinct} distinct target${checked['tel-target'].distinct === 1 ? '' : 's'})`);
 if (checked['umbrella-range'])       parts.push(`umbrella price ranges hold on ${checked['umbrella-range'].rangesChecked} itemized range(s) against ${checked['umbrella-range'].governingRanges} governing range(s) across ${checked['umbrella-range'].blocks} FAQ/AI-answer blocks in ${checked['umbrella-range'].files} files`);
 if (checked['srcset-width'])         parts.push(`srcset width descriptors match decoded pixel width on ${checked['srcset-width'].checkedEntries} entries across ${checked['srcset-width'].files} files (${checked['srcset-width'].skippedDensity} x-density + ${checked['srcset-width'].skippedImplicit1x} implicit-1x + ${checked['srcset-width'].skippedSvg} svg + ${checked['srcset-width'].skippedRemote} remote/data skipped)`);
