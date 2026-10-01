@@ -6,7 +6,7 @@ Prepared for Universal Appliances Repair. One GBP/Instagram post pair, using one
 
 The only facts supplied by the owner are: KitchenAid dishwasher, control board replaced, Santa Ana, CA. No date, symptom, model number or customer detail was provided, and none is stated anywhere below. The photo shows the front of a stainless KitchenAid dishwasher under a countertop with its display lit. It is placed on the recent-repairs gallery, the Santa Ana city hub, the KitchenAid brand hub, and the dishwasher appliance hub.
 
-For GBP, choose **Update**, attach the processed JPEG and use **Learn more** with the exact destination. For Instagram, use the caption and hashtags together; Santa Ana, CA is a legitimate taggable Instagram location. All image paths are repository-relative. Use the processed JPEG with metadata removed; no crop was needed (no faces, addresses, or documents visible).
+For GBP, choose **Update**, attach the processed JPEG and use **Learn more** with the exact destination. For Instagram, use the caption and hashtags together; tag the city (Santa Ana, CA), never a customer's home, and confirm the place tag exists in Instagram's location search before posting (not checked here). All image paths are repository-relative. Use the processed JPEG with metadata removed; no crop was needed (no faces, addresses, or documents visible).
 
 ## Policies checked
 
