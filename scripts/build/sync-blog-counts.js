@@ -96,7 +96,13 @@ for (const entry of fs.readdirSync(catDir)) {
 {
   const blog = fs.readFileSync(blogPath, 'utf8');
   const cardRe = /<div class="blog-card" data-category="([a-z-]+)">[\s\S]*?articles\/(article-[^"#]+\.html)/g;
-  for (const m of blog.matchAll(cardRe)) {
+  const matches = [...blog.matchAll(cardRe)];
+  // Every card must be parsed, or a differently-written card would be skipped silently.
+  if (matches.length !== countCards(blog)) {
+    missing.push(`pages/blog.html: membership check parsed ${matches.length} of ${countCards(blog)} cards; ` +
+      'each card must open as <div class="blog-card" data-category="..."> with an article link');
+  }
+  for (const m of matches) {
     const [, cat, article] = m;
     if (LANDER_EXCLUSIONS[article]) continue;
     const lander = path.join(catDir, (LANDER_FOR[cat] || cat) + '.html');
