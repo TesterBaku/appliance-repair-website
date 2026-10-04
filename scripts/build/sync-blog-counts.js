@@ -16,9 +16,15 @@
  *                            (only the number is replaced; the rest of the label and
  *                            the file's line endings are preserved)
  *
- * Each surface is made consistent with the cards ON ITS OWN PAGE. blog.html's per-
- * category pill and the matching category page can legitimately differ (a category
- * lander may curate a subset), so this never forces cross-page set equality.
+ * Each surface is made consistent with the cards ON ITS OWN PAGE.
+ *
+ * Membership (check only, never auto-fixed): every blog.html card with
+ * data-category="<cat>" must also appear on pages/blog/<cat>.html. A lander may still
+ * curate a subset, but only by listing the article in LANDER_EXCLUSIONS below with a
+ * reason. Until 2026-10-04 curation was allowed implicitly, and nine articles (all three
+ * Sub-Zero guides, the built-in and KitchenAid refrigerator articles, the washer-shaking
+ * article and the three LA County articles) were never added to any lander, unnoticed,
+ * because each page's count only ever had to agree with its own cards.
  *
  *   node scripts/build/sync-blog-counts.js           # rewrite (apply)
  *   node scripts/build/sync-blog-counts.js --check    # verify only (exit 1 on drift) — used by `npm test`
@@ -44,7 +50,13 @@ function countByCategory(html) {
   return tally;
 }
 
+// blog.html data-category value -> lander filename, where they differ.
+const LANDER_FOR = { oven: 'oven-stove' };
+// Deliberate curation: 'article-<slug>.html' -> reason. Empty means every card is listed.
+const LANDER_EXCLUSIONS = {};
+
 const drift = [];
+const missing = [];
 let applied = 0;
 
 // --- pages/blog.html: search placeholder + category pills ---
@@ -80,14 +92,45 @@ for (const entry of fs.readdirSync(catDir)) {
   }
 }
 
+// --- membership: every categorised blog.html card is on its category lander ---
+{
+  const blog = fs.readFileSync(blogPath, 'utf8');
+  const cardRe = /<div class="blog-card" data-category="([a-z-]+)">[\s\S]*?articles\/(article-[^"#]+\.html)/g;
+  const matches = [...blog.matchAll(cardRe)];
+  // Every card must be parsed, or a differently-written card would be skipped silently.
+  if (matches.length !== countCards(blog)) {
+    missing.push(`pages/blog.html: membership check parsed ${matches.length} of ${countCards(blog)} cards; ` +
+      'each card must open as <div class="blog-card" data-category="..."> with an article link');
+  }
+  for (const m of matches) {
+    const [, cat, article] = m;
+    if (LANDER_EXCLUSIONS[article]) continue;
+    const lander = path.join(catDir, (LANDER_FOR[cat] || cat) + '.html');
+    if (!fs.existsSync(lander)) {
+      missing.push(`${article}: no lander pages/blog/${path.basename(lander)} for category "${cat}"`);
+      continue;
+    }
+    if (!fs.readFileSync(lander, 'utf8').includes('articles/' + article)) {
+      missing.push(`${article}: on blog.html as "${cat}" but missing from pages/blog/${path.basename(lander)}`);
+    }
+  }
+}
+
+if (missing.length) {
+  console.error(`sync-blog-counts: ${missing.length} blog card(s) missing from their category page:`);
+  missing.forEach((f) => console.error('  - ' + f));
+  console.error('Copy each card onto its category page (or list it in LANDER_EXCLUSIONS with a reason).');
+}
+
 if (CHECK) {
   if (drift.length) {
     console.error(`sync-blog-counts --check: stale article counts on ${drift.length} page(s):`);
     drift.forEach((f) => console.error('  - ' + f));
     console.error('Run `npm run build:blog-counts` and commit the result.');
-    process.exit(1);
   }
-  console.log('sync-blog-counts: all blog article counts match card counts. OK');
+  if (drift.length || missing.length) process.exit(1);
+  console.log('sync-blog-counts: all blog article counts match card counts; every categorised card is on its category page. OK');
 } else {
   console.log(`sync-blog-counts: ${applied} file(s) updated to match live card counts.`);
+  if (missing.length) process.exit(1);
 }
