@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-09-29** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-10-03** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -15,9 +15,9 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 113 |
+| Distinct reviews currently on >=1 hub | 114 |
 | On exactly 1 hub (1 free slot each) | 12 |
-| On exactly 2 hubs (at cap) | 97 |
+| On exactly 2 hubs (at cap) | 98 |
 | On 3 hubs (grandfathered exceptions) | 4 |
 | **Free hub-slots available now** | **12** |
 | Approx. new city hubs supportable @ 3/hub | **~4** (before appliance-match / brand-variety / row-balance filters) |
@@ -119,6 +119,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Mark Koss | rancho-santa-margarita, thermador-hub |
 | Mark Lauria | san-clemente, sub-zero-hub |
 | Mark Rivera | lake-forest, washer-repair-hub |
+| Marla Katz | santa-ana, kitchenaid-hub |
 | Matt Semonza | kitchenaid-hub, whirlpool-hub |
 | Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
 | Melissa | dryer-repair-cost-hub, whirlpool-hub |
