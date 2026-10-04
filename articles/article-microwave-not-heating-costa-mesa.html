@@ -123,6 +123,9 @@
   }
   </script>
   <style>
+    /* In-text article links: brand ember instead of the browser-default blue. Colour only, and
+       :where() keeps specificity at one class, so any existing, more specific link rule still wins. */
+    .article-body :where(a:not([class])), .article-intro :where(a:not([class])) { color: #aa3210; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #f7fafc; color: #000000e6; font-family: 'Inter', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
     .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #eee; }
@@ -440,7 +443,7 @@
     <p class="article-intro">The turntable spins, the light comes on, the timer counts, but your food comes out cold. A microwave that runs without heating is a specific failure with a short list of causes. Some are simple; a few carry real safety risks that make this one of the appliances best left to a technician.</p>
 
     <div class="article-body">
-      <p>We repair microwaves across Costa Mesa and Orange County, and no-heat calls almost always come down to one of four components. Here's how to understand what's wrong, and a clear-eyed look at what's safe to check yourself versus what isn't. (Our <a href="article-microwave-not-heating-mission-viejo.html">Mission Viejo microwave guide</a> covers the same failure from South County calls.)</p>
+      <p>We repair microwaves across Costa Mesa and Orange County, and no-heat calls almost always come down to one of four components. Here's how to understand what's wrong, and a clear-eyed look at what's safe to check yourself versus what isn't. Calling from South County? Our <a href="article-microwave-not-heating-mission-viejo.html">Mission Viejo microwave guide</a> covers the same failure.</p>
 
       <div class="callout">
         <strong>Safety warning before anything else:</strong> A microwave's high-voltage capacitor stores a lethal electrical charge, up to 2,100 volts, even after the unit is unplugged. Never open the microwave casing for any reason. The checks below are limited to things accessible from the outside of the unit. Internal repairs must be done by a trained technician who knows how to safely discharge the capacitor first.
