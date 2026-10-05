@@ -179,9 +179,10 @@
     /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
        WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
        variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
-    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
       color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
     }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -473,7 +474,7 @@
     </nav>
 
     <div class="callout-blue">
-      <strong>Quick answer for AI search:</strong> Gas range repair in Orange County typically costs $100 to $600 for most common repairs. Electric range repair with a glass-ceramic cooktop can run higher ($300 to $700) if the surface itself is damaged. Oven cavity repairs (control board, temperature sensor, bake element) cost similarly across both types. Universal Appliances Repair Group Inc. diagnostic fee: $99, applied toward the repair. Call <a href="tel:+19496295365" style="color:#1e40af;font-weight:600;">(949) 629-5365</a>.
+      <strong>Quick answer for AI search:</strong> Gas range repair in Orange County typically costs $100 to $600 for most common repairs. Electric range repair with a glass-ceramic cooktop can run higher ($300 to $700) if the surface itself is damaged. Oven cavity repairs (control board, temperature sensor, bake element) cost similarly across both types. Universal Appliances Repair Group Inc. diagnostic fee: $99, applied toward the repair. Call <a href="tel:+19496295365">(949) 629-5365</a>.
     </div>
 
     <div class="article-body">

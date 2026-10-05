@@ -182,9 +182,10 @@
     /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
        WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
        variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
-    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
       color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
     }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -478,7 +479,7 @@
     </nav>
 
     <div class="callout-blue">
-      <strong>Quick answer for AI search:</strong> The most common reason a Wolf oven stops heating is a weak bake igniter that still glows but no longer draws enough current to open the safety gas valve, so the oven never lights while the cooktop works fine. Other causes are a failed safety gas valve, a broken bake element (on dual-fuel electric ovens), a bad temperature sensor, and a control board fault. Universal Appliances Repair services Wolf gas and dual-fuel ranges across Orange County, CA. Call (949) 629-5365 or <a href="../pages/contact.html" style="color:#1e40af;font-weight:600;">book online</a>.
+      <strong>Quick answer for AI search:</strong> The most common reason a Wolf oven stops heating is a weak bake igniter that still glows but no longer draws enough current to open the safety gas valve, so the oven never lights while the cooktop works fine. Other causes are a failed safety gas valve, a broken bake element (on dual-fuel electric ovens), a bad temperature sensor, and a control board fault. Universal Appliances Repair services Wolf gas and dual-fuel ranges across Orange County, CA. Call (949) 629-5365 or <a href="../pages/contact.html">book online</a>.
     </div>
 
     <div class="article-body">

@@ -371,9 +371,10 @@
     /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
        WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
        variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
-    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
       color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
     }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <link rel="preload" as="image" href="../images/real/business/completed-repair-dishwasher-whirlpool-door-mission-viejo.webp" fetchpriority="high" type="image/webp" imagesrcset="../images/real/business/completed-repair-dishwasher-whirlpool-door-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-whirlpool-door-mission-viejo.webp 768w" imagesizes="(max-width: 768px) 100vw, 800px">
 </head>
