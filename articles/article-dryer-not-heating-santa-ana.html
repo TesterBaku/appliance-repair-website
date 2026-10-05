@@ -253,6 +253,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -479,7 +486,7 @@
         <li>Give you a clear repair estimate before any parts are replaced</li>
         <li>Complete the repair same-day in most cases, thermal fuses, heating elements, igniters, and coils are stocked for the most common brands</li>
       </ul>
-      <p>Most dryer heating repairs in Santa Ana wrap up in 1–2 hours. Brands serviced include Whirlpool, Maytag, Samsung, LG, GE, Kenmore, Bosch, and Electrolux. For Kenmore dryers specifically, our <a href="../pages/kenmore-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">Kenmore appliance repair service in Orange County</a> covers matching the model number to the right OEM parts before the technician arrives.</p>
+      <p>Most dryer heating repairs in Santa Ana wrap up in 1–2 hours. Brands serviced include Whirlpool, Maytag, Samsung, LG, GE, Kenmore, Bosch, and Electrolux. For Kenmore dryers specifically, our <a href="../pages/kenmore-appliance-repair-orange-county.html">Kenmore appliance repair service in Orange County</a> covers matching the model number to the right OEM parts before the technician arrives.</p>
 
       <h2>Frequently Asked Questions</h2>
       <div class="faq-item">

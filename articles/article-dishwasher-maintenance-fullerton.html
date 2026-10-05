@@ -263,6 +263,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -517,7 +524,7 @@
       </div>
 
       <h2>Dishwasher Brands We Service in Fullerton</h2>
-      <p>Universal Appliances Repair services all major dishwasher brands in Fullerton, including Bosch, KitchenAid, Whirlpool, GE, Samsung, LG, Frigidaire, Maytag, and <a href="../pages/miele-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">Miele</a>. Whether it's a routine repair or a more complex control board or pump issue, our technicians carry parts for the most common models and complete most repairs in a single visit. For same-day booking and a full overview of what we fix, see our <a href="../pages/appliance-repair-fullerton-ca.html" style="color:#aa3210;font-weight:600;">appliance repair service in Fullerton, CA</a>.</p>
+      <p>Universal Appliances Repair services all major dishwasher brands in Fullerton, including Bosch, KitchenAid, Whirlpool, GE, Samsung, LG, Frigidaire, Maytag, and <a href="../pages/miele-appliance-repair-orange-county.html">Miele</a>. Whether it's a routine repair or a more complex control board or pump issue, our technicians carry parts for the most common models and complete most repairs in a single visit. For same-day booking and a full overview of what we fix, see our <a href="../pages/appliance-repair-fullerton-ca.html">appliance repair service in Fullerton, CA</a>.</p>
 
       <h2>Frequently Asked Questions</h2>
       <div class="faq-item">

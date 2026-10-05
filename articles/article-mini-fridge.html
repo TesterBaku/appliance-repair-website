@@ -182,6 +182,13 @@
     .references-block li:last-child { margin-bottom: 0; }
     .references-block a { color: #aa3210; text-decoration: none; font-weight: 500; }
     .references-block a:hover { text-decoration: underline; }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -566,7 +573,7 @@
 
       <h3>ENERGY STAR: non-negotiable</h3>
 
-      <p>Most schools require ENERGY STAR certification, and even where it is not required, it is a useful filter. Under <a href="https://www.energystar.gov/products/refrigerators/key_product_criteria" target="_blank" rel="noopener" style="color:#aa3210;font-weight:600;text-decoration:none;">ENERGY STAR criteria effective August 5, 2021</a>, compact refrigerators under 7.75 cubic feet must use 10% less measured energy than models that only meet the federal minimum efficiency standard. On a mini fridge that is a modest dollar saving, so treat the label as a quality signal rather than a big money saver.</p>
+      <p>Most schools require ENERGY STAR certification, and even where it is not required, it is a useful filter. Under <a href="https://www.energystar.gov/products/refrigerators/key_product_criteria" target="_blank" rel="noopener">ENERGY STAR criteria effective August 5, 2021</a>, compact refrigerators under 7.75 cubic feet must use 10% less measured energy than models that only meet the federal minimum efficiency standard. On a mini fridge that is a modest dollar saving, so treat the label as a quality signal rather than a big money saver.</p>
 
       <h3>Freezer or no freezer? Be honest with yourself</h3>
 
@@ -680,7 +687,7 @@
           <span class="product-spec">ENERGY STAR ✓</span>
           <span class="product-spec">Most Reliable</span>
         </div>
-        <p class="product-desc">If your priority is "I want this thing to still be working when I graduate," the Midea is our pick. Midea has built a reputation for compressor longevity that even Consumer Reports has called out. In long-term user data, Midea minis routinely run 6 to 8 years with no service calls, well above the 3 to 5 year average for the category (consistent with what we see in our own <a href="article-appliance-lifespan-data-2026.html" style="color:#aa3210;font-weight:600;text-decoration:none;">appliance lifespan data</a>).</p>
+        <p class="product-desc">If your priority is "I want this thing to still be working when I graduate," the Midea is our pick. Midea has built a reputation for compressor longevity that even Consumer Reports has called out. In long-term user data, Midea minis routinely run 6 to 8 years with no service calls, well above the 3 to 5 year average for the category (consistent with what we see in our own <a href="article-appliance-lifespan-data-2026.html">appliance lifespan data</a>).</p>
         <ul class="product-bullets">
           <li><strong>Compressor quality:</strong> Midea manufactures their own compressors, including for other brands' OEM contracts. The engineering is consistent.</li>
           <li><strong>Manual defrost:</strong> fewer moving parts means fewer things to fail. This is a feature, not a downside, for longevity.</li>

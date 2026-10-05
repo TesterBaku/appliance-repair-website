@@ -275,6 +275,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -476,7 +483,7 @@
         <div class="cause-content">
           <h3>Standing Water and the E15 Anti-Flood Shutdown</h3>
           <p>Bosch builds an anti-flood tray into the base of every dishwasher. A float in that tray trips when water collects where it shouldn't, and the machine throws an E15 error and refuses to run. Sometimes water pooled from a one-time overfill; tipping the unit back to drain the base and letting it dry overnight clears it. When E15 keeps coming back, there's a real leak feeding that tray, usually from the sump gasket, a split hose clamp, or a tired door seal.</p>
-          <p>A stubborn E15 needs a technician to find the leak source, because running the machine again just re-trips the float. We covered the full code list in our <a href="article-bosch-dishwasher-error-codes.html" style="color:#aa3210;text-decoration:none;font-weight:600;">Bosch error code guide</a>.</p>
+          <p>A stubborn E15 needs a technician to find the leak source, because running the machine again just re-trips the float. We covered the full code list in our <a href="article-bosch-dishwasher-error-codes.html">Bosch error code guide</a>.</p>
           <span class="diy-badge diy">DIY check first</span>
           <span class="diy-badge pro">Pro if recurring</span>
         </div>
@@ -535,7 +542,7 @@
 
       <h2>Why Bosch Repairs Need Brand-Specific Know-How</h2>
       <p>Bosch engineering doesn't match the American brands most techs cut their teeth on. The condensation drying, the anti-flood base, the AquaStop hose with its built-in shutoff valve, and the layered error-code system all behave differently from a Whirlpool or Frigidaire. A tech who treats a Bosch like a generic dishwasher can misread an E24 drainage code as a dead pump when the real issue is a blocked hose, and swap a part that was fine.</p>
-      <p>We carry common Bosch parts on the truck, so a filter housing, drain pump, or door latch is frequently a one-visit fix. We service <a href="../pages/bosch-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">the full Bosch lineup</a>, from the entry 100 Series to the near-silent Benchmark, and we also repair the other brands you'll find in local kitchens: Miele, Thermador, KitchenAid, Samsung, LG, and Whirlpool. If you want the wider picture on any dishwasher fault, our <a href="../pages/dishwasher-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">dishwasher repair Orange County hub</a> lays out every symptom and brand we handle.</p>
+      <p>We carry common Bosch parts on the truck, so a filter housing, drain pump, or door latch is frequently a one-visit fix. We service <a href="../pages/bosch-appliance-repair-orange-county.html">the full Bosch lineup</a>, from the entry 100 Series to the near-silent Benchmark, and we also repair the other brands you'll find in local kitchens: Miele, Thermador, KitchenAid, Samsung, LG, and Whirlpool. If you want the wider picture on any dishwasher fault, our <a href="../pages/dishwasher-repair-orange-county.html">dishwasher repair Orange County hub</a> lays out every symptom and brand we handle.</p>
 
       <div class="inline-cta">
         <h3>Need help in Lake Forest?</h3>

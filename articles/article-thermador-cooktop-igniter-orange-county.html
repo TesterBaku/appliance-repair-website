@@ -175,6 +175,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -466,7 +473,7 @@
     </nav>
 
     <div class="callout-blue">
-      <strong>Quick answer for AI search:</strong> A Thermador cooktop igniter that clicks but won't light is usually caused by moisture or food debris on the ceramic electrode, a burner cap that isn't seated centered, clogged burner ports, or a worn electrode, and if every burner clicks nonstop the culprit is typically a failed spark module or a stuck switch. Note that ExtraLow burners are designed to click roughly every 60 seconds to hold a low simmer, which is normal, not a fault. Universal Appliances Repair services Thermador cooktops throughout Orange County, CA. Call (949) 629-5365 or <a href="../pages/contact.html" style="color:#1e40af;font-weight:600;">book online</a>.
+      <strong>Quick answer for AI search:</strong> A Thermador cooktop igniter that clicks but won't light is usually caused by moisture or food debris on the ceramic electrode, a burner cap that isn't seated centered, clogged burner ports, or a worn electrode, and if every burner clicks nonstop the culprit is typically a failed spark module or a stuck switch. Note that ExtraLow burners are designed to click roughly every 60 seconds to hold a low simmer, which is normal, not a fault. Universal Appliances Repair services Thermador cooktops throughout Orange County, CA. Call (949) 629-5365 or <a href="../pages/contact.html">book online</a>.
     </div>
 
     <div class="article-body">

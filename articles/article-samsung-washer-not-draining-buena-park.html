@@ -279,6 +279,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -526,7 +533,7 @@
       </div>
 
       <h2>Which causes you can fix yourself</h2>
-      <p>On a front-load Samsung, cleaning the debris filter is the single most effective do-it-yourself fix, and checking the drain hose and standpipe applies to any model. Those steps clear a large share of no-drain cases. Where it gets harder is a top-load Samsung like the one in the photo: with no front filter, a clog or a worn pump sits at the base of the machine, and the lid switch is behind the control panel. If you have cleared the hose, confirmed the standpipe drains, and, on a front-load, cleaned the filter, and the washer in your Buena Park laundry room still holds water, the problem has moved past the easy fixes. Our <a href="../pages/washer-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">washer repair service in Orange County</a> handles Samsung drain pumps, lid switches, and controls on every model. Not the washer? Our <a href="../pages/samsung-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">Samsung appliance repair across Orange County</a> page covers the rest of the lineup.</p>
+      <p>On a front-load Samsung, cleaning the debris filter is the single most effective do-it-yourself fix, and checking the drain hose and standpipe applies to any model. Those steps clear a large share of no-drain cases. Where it gets harder is a top-load Samsung like the one in the photo: with no front filter, a clog or a worn pump sits at the base of the machine, and the lid switch is behind the control panel. If you have cleared the hose, confirmed the standpipe drains, and, on a front-load, cleaned the filter, and the washer in your Buena Park laundry room still holds water, the problem has moved past the easy fixes. Our <a href="../pages/washer-repair-orange-county.html">washer repair service in Orange County</a> handles Samsung drain pumps, lid switches, and controls on every model. Not the washer? Our <a href="../pages/samsung-appliance-repair-orange-county.html">Samsung appliance repair across Orange County</a> page covers the rest of the lineup.</p>
 
       <div class="inline-cta">
         <h3>Samsung washer full of water in Buena Park?</h3>
@@ -545,7 +552,7 @@
       </ol>
 
       <h2>Why it matters more than you think</h2>
-      <p>A washer that will not drain is more than an interrupted load. Water left standing in the tub and the door seal turns stagnant and smells within a day or two, and mildew builds on a front-load gasket fast. The underlying clog also tends to get worse, and a pump straining against a blockage wears out sooner. Clearing it early, while it is still just a filter or a hose, keeps a quick fix quick and protects the pump. Buena Park residents can reach us through our <a href="../pages/appliance-repair-buena-park-ca.html" style="color:#aa3210;text-decoration:none;font-weight:500;">appliance repair in Buena Park, CA</a> page for same-day help.</p>
+      <p>A washer that will not drain is more than an interrupted load. Water left standing in the tub and the door seal turns stagnant and smells within a day or two, and mildew builds on a front-load gasket fast. The underlying clog also tends to get worse, and a pump straining against a blockage wears out sooner. Clearing it early, while it is still just a filter or a hose, keeps a quick fix quick and protects the pump. Buena Park residents can reach us through our <a href="../pages/appliance-repair-buena-park-ca.html">appliance repair in Buena Park, CA</a> page for same-day help.</p>
 
       <h2>We service Samsung and every washer brand</h2>
       <p>The no-drain problem shows up on every make, and the diagnosis follows the same path across all of them. Alongside Samsung we repair Whirlpool, GE, LG, Maytag, Bosch, KitchenAid, Frigidaire, and Kenmore washers throughout Buena Park and the surrounding North Orange County cities, both top-load and front-load. Whether it is a Samsung top-loader in a Los Coyotes home or a front-load pair in a Beach Boulevard apartment, the fix starts with reading the code and checking the drain path.</p>
@@ -574,7 +581,7 @@
 
       <div class="faq-item">
         <h3>Is it worth repairing a Samsung washer that won't drain?</h3>
-        <p>Usually yes. The parts behind a no-drain Samsung, the drain pump, lid switch, or door lock, are common and modest relative to a new washer. On a machine under about 10 years old the repair is well worth it. Replacement only makes sense when the washer already has another major problem, like a failing bearing or a bad main control. We give you a written quote before any work so you can weigh the repair against a replacement with real numbers. See our full <a href="../pages/appliance-repair-buena-park-ca.html" style="color:inherit;text-decoration:underline;">appliance repair in Buena Park, CA</a> page for the neighborhoods we cover.</p>
+        <p>Usually yes. The parts behind a no-drain Samsung, the drain pump, lid switch, or door lock, are common and modest relative to a new washer. On a machine under about 10 years old the repair is well worth it. Replacement only makes sense when the washer already has another major problem, like a failing bearing or a bad main control. We give you a written quote before any work so you can weigh the repair against a replacement with real numbers. See our full <a href="../pages/appliance-repair-buena-park-ca.html">appliance repair in Buena Park, CA</a> page for the neighborhoods we cover.</p>
       </div>
 
     </div>

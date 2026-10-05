@@ -262,6 +262,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -460,7 +467,7 @@
         <div class="cause-num">1</div>
         <div class="cause-content">
           <h3>Clogged Filter</h3>
-          <p>Most modern dishwashers, especially Bosch, KitchenAid, and <a href="../pages/miele-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">Miele</a>, have a manual filter at the bottom of the tub that traps food particles. When it gets clogged, water can't flow to the drain pump. This is the most common cause of standing water in Anaheim homes, especially where hard water accelerates mineral buildup on the mesh.</p>
+          <p>Most modern dishwashers, especially Bosch, KitchenAid, and <a href="../pages/miele-appliance-repair-orange-county.html">Miele</a>, have a manual filter at the bottom of the tub that traps food particles. When it gets clogged, water can't flow to the drain pump. This is the most common cause of standing water in Anaheim homes, especially where hard water accelerates mineral buildup on the mesh.</p>
           <p>Turn the filter counterclockwise, lift it out, and rinse it under warm water with a soft brush. Reinstall and run a short cycle. If this solves it, aim to clean the filter monthly.</p>
           <span class="diy-badge diy">DIY-safe</span>
         </div>

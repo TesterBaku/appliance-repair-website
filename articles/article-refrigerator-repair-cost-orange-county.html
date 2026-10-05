@@ -290,6 +290,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -564,7 +571,7 @@
 
       <h2>What the cheap repairs are (and why most fixes are affordable)</h2>
       <p>The good news is that the majority of refrigerator problems fall in the bottom two-thirds of that table. A worn door gasket, a bad thermistor, a stuck defrost heater, or a failed evaporator fan are all common, all under about $280, and all finish in one visit because the parts ride in the van. When a fridge stops cooling, these are usually the first suspects, not the compressor. So the reflex to assume a broken fridge means a four-figure bill is, more often than not, wrong.</p>
-      <p>If your fridge is showing symptoms and you have not pinned down the cause yet, our <a href="../pages/refrigerator-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">refrigerator repair service in Orange County</a> starts with a full diagnosis so you get a firm number before any parts go in.</p>
+      <p>If your fridge is showing symptoms and you have not pinned down the cause yet, our <a href="../pages/refrigerator-repair-orange-county.html">refrigerator repair service in Orange County</a> starts with a full diagnosis so you get a firm number before any parts go in.</p>
 
       <div class="inline-cta">
         <h3>Want a real number for your fridge?</h3>
@@ -592,7 +599,7 @@
       </ul>
 
       <h2>How our pricing works, plainly</h2>
-      <p>No surprises is the whole point. A diagnostic visit is $99 anywhere in Orange County, and that fee is credited toward the repair if you decide to go ahead. After the technician tests the fridge and finds the fault, you get a written, itemized quote before any work starts. If you approve it, most repairs finish the same visit. If you would rather not proceed, you have paid only the $99 and you walk away with a clear diagnosis you can use. You can see the full refrigerator pricing breakdown on our <a href="../pages/refrigerator-repair-cost-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">Orange County refrigerator repair cost page</a>, which sits inside our wider <a href="../pages/appliance-repair-cost-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">appliance repair pricing guide</a>.</p>
+      <p>No surprises is the whole point. A diagnostic visit is $99 anywhere in Orange County, and that fee is credited toward the repair if you decide to go ahead. After the technician tests the fridge and finds the fault, you get a written, itemized quote before any work starts. If you approve it, most repairs finish the same visit. If you would rather not proceed, you have paid only the $99 and you walk away with a clear diagnosis you can use. You can see the full refrigerator pricing breakdown on our <a href="../pages/refrigerator-repair-cost-orange-county.html">Orange County refrigerator repair cost page</a>, which sits inside our wider <a href="../pages/appliance-repair-cost-orange-county.html">appliance repair pricing guide</a>.</p>
 
       <h2>We service every refrigerator brand</h2>
       <p>We repair Whirlpool, GE, Samsung, LG, Frigidaire, Maytag, Kenmore, Bosch, <a href="../pages/kitchenaid-appliance-repair-orange-county.html">KitchenAid</a>, Sub-Zero, Viking, Thermador, and Miele refrigerators across Orange County, from top-freezers and side-by-sides to French-door and built-in columns. The diagnosis is the same regardless of the badge; the parts price and the access are what set the final number. Whatever you own, you get the same written quote before we start.</p>

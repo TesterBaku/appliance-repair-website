@@ -253,6 +253,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -499,7 +506,7 @@
       </ul>
 
       <h2>Oven Brands We Repair in Santa Ana</h2>
-      <p>Our technicians are factory-trained and work on all major brands sold in Orange County homes, including GE, Whirlpool, Samsung, LG, Bosch, KitchenAid, Frigidaire, Maytag, <a href="../pages/viking-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">Viking</a>, <a href="../pages/wolf-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">Wolf</a>, and <a href="../pages/thermador-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">Thermador</a>. Santa Ana homeowners with both budget-range and premium appliances get the same level of service.</p>
+      <p>Our technicians are factory-trained and work on all major brands sold in Orange County homes, including GE, Whirlpool, Samsung, LG, Bosch, KitchenAid, Frigidaire, Maytag, <a href="../pages/viking-appliance-repair-orange-county.html">Viking</a>, <a href="../pages/wolf-appliance-repair-orange-county.html">Wolf</a>, and <a href="../pages/thermador-appliance-repair-orange-county.html">Thermador</a>. Santa Ana homeowners with both budget-range and premium appliances get the same level of service.</p>
 
       <h2>Frequently Asked Questions</h2>
       <div class="faq-item">

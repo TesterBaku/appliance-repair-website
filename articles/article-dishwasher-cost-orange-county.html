@@ -368,6 +368,13 @@
       .cost-table td { display: flex; justify-content: space-between; gap: 16px; padding: 7px 16px; border-bottom: none; }
       .cost-table td[data-label]::before { content: attr(data-label); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #666; }
     }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <link rel="preload" as="image" href="../images/real/business/completed-repair-dishwasher-whirlpool-door-mission-viejo.webp" fetchpriority="high" type="image/webp" imagesrcset="../images/real/business/completed-repair-dishwasher-whirlpool-door-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-whirlpool-door-mission-viejo.webp 768w" imagesizes="(max-width: 768px) 100vw, 800px">
 </head>
@@ -815,7 +822,7 @@
             <div class="related-card-body"><div class="related-card-cat">Advice</div><div class="related-card-title">Repair or Replace? The 50% Rule Explained</div></div>
           </a>
         </div>
-        <p style="margin-top:14px;font-size:13px;color:#666;">Also see: <a href="article-dishwasher-maintenance-fullerton.html" style="color:#aa3210;font-weight:600;text-decoration:none;">5 Dishwasher Maintenance Tips in Fullerton</a> &middot; <a href="article-maintenance-skip-cost-statistics.html" style="color:#aa3210;font-weight:600;text-decoration:none;">What Skipping Appliance Maintenance Really Costs</a> &middot; <a href="../pages/appliance-repair-irvine-ca.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Appliance Repair in Irvine, CA</a></p>
+        <p style="margin-top:14px;font-size:13px;color:#666;">Also see: <a href="article-dishwasher-maintenance-fullerton.html">5 Dishwasher Maintenance Tips in Fullerton</a> &middot; <a href="article-maintenance-skip-cost-statistics.html">What Skipping Appliance Maintenance Really Costs</a> &middot; <a href="../pages/appliance-repair-irvine-ca.html">Appliance Repair in Irvine, CA</a></p>
       </div>
 
     </div>

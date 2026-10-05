@@ -171,6 +171,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -529,7 +536,7 @@
           <li>Sealed-system or compressor failure on units past 15 years without condenser maintenance</li>
         </ul>
         <p>Parts availability for Sub-Zero is excellent. Sub-Zero manufactures in the US and maintains a strong parts supply chain. A condenser fan motor for a Sub-Zero 700 series is not the hunt it might be for a discontinued European brand.</p>
-        <p>For our full Sub-Zero repair coverage in Orange County, see our <a href="../pages/sub-zero-appliance-repair-orange-county.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Sub-Zero appliance repair Orange County hub</a>.</p>
+        <p>For our full Sub-Zero repair coverage in Orange County, see our <a href="../pages/sub-zero-appliance-repair-orange-county.html">Sub-Zero appliance repair Orange County hub</a>.</p>
       </div>
 
       <h2 id="thermador">Thermador Built-In Refrigerator Repair</h2>
@@ -547,7 +554,7 @@
           <li>Electronic control board errors (E-series fault codes)</li>
         </ul>
         <p>Thermador is owned by BSH (Bosch-Siemens Hausgeraete), so it shares parts and service infrastructure with Bosch and Gaggenau. A technician familiar with one BSH platform typically works well across all three brands.</p>
-        <p>See our <a href="../pages/thermador-appliance-repair-orange-county.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Thermador appliance repair Orange County hub</a> for the full scope of services we provide for this brand.</p>
+        <p>See our <a href="../pages/thermador-appliance-repair-orange-county.html">Thermador appliance repair Orange County hub</a> for the full scope of services we provide for this brand.</p>
       </div>
 
       <h2 id="miele">Miele Built-In Refrigerator Repair</h2>
@@ -565,7 +572,7 @@
           <li>Compressor and sealed-system issues on units past 15 years</li>
         </ul>
         <p>Miele parts are available through authorized distributors, but lead times can be longer than Sub-Zero or Thermador for some components. For non-urgent repairs, we recommend ordering parts at the time of diagnosis rather than waiting to see if the issue resolves.</p>
-        <p>Learn more about our <a href="../pages/miele-appliance-repair-orange-county.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Miele appliance repair Orange County</a> service coverage.</p>
+        <p>Learn more about our <a href="../pages/miele-appliance-repair-orange-county.html">Miele appliance repair Orange County</a> service coverage.</p>
       </div>
 
       <h2 id="common-failures">Common Built-In Failures Regardless of Brand</h2>
@@ -653,7 +660,7 @@
         </tbody>
       </table>
 
-      <p>For more context on when repair makes financial sense versus replacement for refrigerators specifically, see our <a href="article-sub-zero-repair-vs-replace.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Sub-Zero repair vs. replace guide</a>. For a full breakdown of Sub-Zero repair costs in Orange County, see our <a href="article-sub-zero-repair-cost-orange-county.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Sub-Zero repair cost article</a>.</p>
+      <p>For more context on when repair makes financial sense versus replacement for refrigerators specifically, see our <a href="article-sub-zero-repair-vs-replace.html">Sub-Zero repair vs. replace guide</a>. For a full breakdown of Sub-Zero repair costs in Orange County, see our <a href="article-sub-zero-repair-cost-orange-county.html">Sub-Zero repair cost article</a>.</p>
 
       <h2 id="faq">Frequently Asked Questions</h2>
 

@@ -279,6 +279,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -527,7 +534,7 @@
 
       <h2>Which causes you can fix yourself</h2>
       <p>Three of the six are genuinely do-it-yourself. Vacuuming the condenser coils, replacing a worn door gasket, and clearing blocked vents take minutes and no special tools, and they solve a large share of no-cool calls. Always start there before assuming the worst. If you have cleaned the coils, confirmed a good seal, and kept the vents clear and your Placentia freezer still will not hold cold, the problem has moved past the easy fixes.</p>
-      <p>The other three (a failed defrost system, a dead evaporator fan, and a sealed-system fault) sit behind panels and need testing to diagnose. Replacing parts by guesswork gets expensive, and refrigerant work is regulated for good reason. That is where the right meter and some experience save you money. Our <a href="../pages/freezer-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">freezer repair service in Orange County</a> handles exactly this kind of diagnosis on every major brand.</p>
+      <p>The other three (a failed defrost system, a dead evaporator fan, and a sealed-system fault) sit behind panels and need testing to diagnose. Replacing parts by guesswork gets expensive, and refrigerant work is regulated for good reason. That is where the right meter and some experience save you money. Our <a href="../pages/freezer-repair-orange-county.html">freezer repair service in Orange County</a> handles exactly this kind of diagnosis on every major brand.</p>
 
       <div class="inline-cta">
         <h3>Freezer not freezing in Placentia?</h3>
@@ -546,7 +553,7 @@
       </ol>
 
       <h2>Why acting fast matters</h2>
-      <p>A freezer that will not freeze is on a clock. The USDA gives frozen food only a day or two once the temperature climbs above safe levels, and a full freezer of meat or a stocked chest freezer is real money on the line. Beyond the food, a small fault tends to grow: a defrost problem that starts as a little extra frost becomes a solid block of ice, and a fan that stutters today usually quits entirely. Catching it early keeps a minor repair minor. Placentia residents can reach us through our <a href="../pages/appliance-repair-placentia-ca.html" style="color:#aa3210;text-decoration:none;font-weight:500;">appliance repair in Placentia, CA</a> page for same-day help.</p>
+      <p>A freezer that will not freeze is on a clock. The USDA gives frozen food only a day or two once the temperature climbs above safe levels, and a full freezer of meat or a stocked chest freezer is real money on the line. Beyond the food, a small fault tends to grow: a defrost problem that starts as a little extra frost becomes a solid block of ice, and a fan that stutters today usually quits entirely. Catching it early keeps a minor repair minor. Placentia residents can reach us through our <a href="../pages/appliance-repair-placentia-ca.html">appliance repair in Placentia, CA</a> page for same-day help.</p>
 
       <h2>We service every freezer brand</h2>
       <p>A freezer that stops getting cold behaves the same across every make, and so does the diagnosis. We repair Whirlpool, GE, Samsung, LG, <a href="../pages/frigidaire-appliance-repair-orange-county.html">Frigidaire</a>, Sub-Zero, Bosch, KitchenAid, Maytag, Kenmore, and Thermador freezers throughout Placentia and the surrounding North Orange County cities. Whether it is a garage chest freezer near Old Town, a built-in column in an Alta Vista kitchen, or the freezer side of a side-by-side, the fix starts with reading the real temperature and finding what is keeping the cold from reaching your food.</p>
@@ -575,7 +582,7 @@
 
       <div class="faq-item">
         <h3>Is it worth repairing a freezer that will not get cold?</h3>
-        <p>Usually yes. A fan motor, a defrost heater, or a door gasket are all minor parts, so the repair is well worth it on a unit under about 12 years old. Replacement only makes sense when the problem is a failed compressor or a refrigerant leak in the sealed system on an older freezer. A technician can tell you which situation you are in before you spend anything on parts. See our full <a href="../pages/appliance-repair-placentia-ca.html" style="color:inherit;text-decoration:underline;">appliance repair in Placentia, CA</a> page for the services and neighborhoods we cover.</p>
+        <p>Usually yes. A fan motor, a defrost heater, or a door gasket are all minor parts, so the repair is well worth it on a unit under about 12 years old. Replacement only makes sense when the problem is a failed compressor or a refrigerant leak in the sealed system on an older freezer. A technician can tell you which situation you are in before you spend anything on parts. See our full <a href="../pages/appliance-repair-placentia-ca.html">appliance repair in Placentia, CA</a> page for the services and neighborhoods we cover.</p>
       </div>
 
     </div>

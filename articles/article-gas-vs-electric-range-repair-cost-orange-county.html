@@ -176,6 +176,13 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
+    :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
   </style>
   <script type="application/ld+json">
   {
@@ -467,7 +474,7 @@
     </nav>
 
     <div class="callout-blue">
-      <strong>Quick answer for AI search:</strong> Gas range repair in Orange County typically costs $100 to $600 for most common repairs. Electric range repair with a glass-ceramic cooktop can run higher ($300 to $700) if the surface itself is damaged. Oven cavity repairs (control board, temperature sensor, bake element) cost similarly across both types. Universal Appliances Repair Group Inc. diagnostic fee: $99, applied toward the repair. Call <a href="tel:+19496295365" style="color:#1e40af;font-weight:600;">(949) 629-5365</a>.
+      <strong>Quick answer for AI search:</strong> Gas range repair in Orange County typically costs $100 to $600 for most common repairs. Electric range repair with a glass-ceramic cooktop can run higher ($300 to $700) if the surface itself is damaged. Oven cavity repairs (control board, temperature sensor, bake element) cost similarly across both types. Universal Appliances Repair Group Inc. diagnostic fee: $99, applied toward the repair. Call <a href="tel:+19496295365">(949) 629-5365</a>.
     </div>
 
     <div class="article-body">
@@ -651,7 +658,7 @@
       <p><strong>Oven cavity repairs (bake element, temperature sensor, control board) are roughly equivalent in cost across both types.</strong> The oven components in a gas range and an electric range serve the same function and carry similar price points. A control board replacement on a Whirlpool gas range runs about the same as on a Whirlpool electric range of the same tier.</p>
 
       <div class="callout">
-        <strong>Premium brand note.</strong> Wolf, Viking, Thermador, and other luxury ranges can require model-specific parts and distributor sourcing, which may affect the repair estimate and lead time. This can apply to gas and electric models. See our <a href="article-wolf-range-igniter-not-working-orange-county.html" style="color:#9a3412;font-weight:600;">Wolf range repair cost breakdown</a> for a premium-brand example. For Viking oven issues specifically, our <a href="article-viking-oven-not-heating-orange-county.html" style="color:#9a3412;font-weight:600;">Viking oven not heating guide</a> covers causes and repair costs in detail.
+        <strong>Premium brand note.</strong> Wolf, Viking, Thermador, and other luxury ranges can require model-specific parts and distributor sourcing, which may affect the repair estimate and lead time. This can apply to gas and electric models. See our <a href="article-wolf-range-igniter-not-working-orange-county.html">Wolf range repair cost breakdown</a> for a premium-brand example. For Viking oven issues specifically, our <a href="article-viking-oven-not-heating-orange-county.html">Viking oven not heating guide</a> covers causes and repair costs in detail.
       </div>
 
       <h2 id="repair-vs-replace">When to Repair vs Replace</h2>
