@@ -290,6 +290,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -570,7 +576,7 @@
 
       <h2>What the cheap repairs are (and why most fixes are affordable)</h2>
       <p>The reassuring news is that most washer problems fall in the bottom half of that table. A drive belt, a lid switch, a water inlet valve, a drain pump, or a motor coupler are all common, all under about $280, and all finish in one visit because the parts ride in the van. When a washer will not spin, drain, or fill, these are usually the first suspects, not the transmission. So the fear that a dead washer means a four-figure bill is, more often than not, misplaced.</p>
-      <p>If your machine is showing symptoms and you have not pinned down the cause yet, our <a href="../pages/washer-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">washer repair service in Orange County</a> starts with a full diagnosis so you get a firm number before any parts go in.</p>
+      <p>If your machine is showing symptoms and you have not pinned down the cause yet, our <a href="../pages/washer-repair-orange-county.html">washer repair service in Orange County</a> starts with a full diagnosis so you get a firm number before any parts go in.</p>
 
       <div class="inline-cta">
         <h3>Want a real number for your washer?</h3>
@@ -598,7 +604,7 @@
       </ul>
 
       <h2>How our pricing works, plainly</h2>
-      <p>No surprises is the whole point. A diagnostic visit is $99 anywhere in Orange County, and that fee is credited toward the repair if you decide to go ahead. After the technician tests the washer and finds the fault, you get a written, itemized quote before any work starts. If you approve it, most repairs finish the same visit. If you would rather not proceed, you have paid only the $99 and you walk away with a clear diagnosis you can use. You can see our full pricing framework on the <a href="../pages/appliance-repair-cost-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">Orange County appliance repair cost page</a>.</p>
+      <p>No surprises is the whole point. A diagnostic visit is $99 anywhere in Orange County, and that fee is credited toward the repair if you decide to go ahead. After the technician tests the washer and finds the fault, you get a written, itemized quote before any work starts. If you approve it, most repairs finish the same visit. If you would rather not proceed, you have paid only the $99 and you walk away with a clear diagnosis you can use. You can see our full pricing framework on the <a href="../pages/appliance-repair-cost-orange-county.html">Orange County appliance repair cost page</a>.</p>
 
       <h2>We service every washer brand</h2>
       <p>We repair <a href="../pages/whirlpool-appliance-repair-orange-county.html">Whirlpool</a>, Maytag, GE, LG, Samsung, Kenmore, Frigidaire, Bosch, Speed Queen, and Electrolux washers across Orange County, front-load and top-load, high-efficiency and conventional. The diagnosis is the same regardless of the badge; the parts price and the access are what set the final number. Whatever you own, you get the same written quote before we start.</p>

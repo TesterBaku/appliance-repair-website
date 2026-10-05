@@ -263,6 +263,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -504,7 +510,7 @@
       </div>
 
       <h2>What Happens During a Washer Repair Visit in Irvine</h2>
-      <p>Knowing what to expect makes the process smoother. For a full overview of every brand and failure mode we cover, see our <a href="../pages/washer-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">washing machine repair service in Orange County</a>. Here's how a typical service call works when you book with us in Irvine:</p>
+      <p>Knowing what to expect makes the process smoother. For a full overview of every brand and failure mode we cover, see our <a href="../pages/washer-repair-orange-county.html">washing machine repair service in Orange County</a>. Here's how a typical service call works when you book with us in Irvine:</p>
       <ol>
         <li><strong>Schedule:</strong> Book online or by phone. We offer same-day and next-day windows in Irvine and surrounding areas of Orange County. You'll get a 2-hour arrival window so you're not waiting all day.</li>
         <li><strong>Diagnose:</strong> The technician runs the machine through its cycles, checks error codes, and inspects the most likely failure points. This takes 20–45 minutes.</li>
@@ -517,7 +523,7 @@
       <p>This is the most common question Irvine homeowners ask, and the answer depends on three factors: the machine's age, the repair cost relative to replacement, and the reliability of the brand.</p>
       <p>A useful rule of thumb is the <strong>50% rule</strong>: if the repair cost exceeds 50% of what a comparable new machine costs, replacement is usually the smarter financial move. A mid-range washer in 2025 runs $600–$900, so any repair over $350–$450 deserves a second look.</p>
       <p>Age matters too. Most washing machines are designed for 10–14 years of normal use. If your machine is already 10+ years old and facing a major repair, replacing it now avoids a second large repair bill in two or three years.</p>
-      <p>That said, premium brands like Miele, Speed Queen, and older-model Maytags are built to last 20+ years. A $300 repair on a well-built machine that still has a decade of life left is almost always worth it. Kenmore washers are a special case since the badge doesn't tell you who actually built the machine, so our <a href="../pages/kenmore-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">Kenmore appliance repair service in Orange County</a> starts every visit by confirming the real manufacturer before quoting a repair.</p>
+      <p>That said, premium brands like Miele, Speed Queen, and older-model Maytags are built to last 20+ years. A $300 repair on a well-built machine that still has a decade of life left is almost always worth it. Kenmore washers are a special case since the badge doesn't tell you who actually built the machine, so our <a href="../pages/kenmore-appliance-repair-orange-county.html">Kenmore appliance repair service in Orange County</a> starts every visit by confirming the real manufacturer before quoting a repair.</p>
 
       <div class="callout-blue">
         <strong>💡 Our technician's take:</strong> We'll always give you an honest opinion on whether repair makes sense for your specific machine. If it doesn't, we'll tell you, we'd rather earn your trust than charge you for a repair that won't last.
@@ -557,7 +563,7 @@
 
       <div class="faq-item">
         <h3>Is same-day washer repair available in Irvine?</h3>
-        <p>Yes, we offer same-day and next-day service in Irvine and throughout Orange County, subject to technician availability. Calling before noon gives the best chance of a same-day appointment. See our full <a href="../pages/appliance-repair-irvine-ca.html" style="color:inherit;text-decoration:underline;">appliance repair in Irvine, CA</a> page for the complete list of services and neighborhoods we cover.</p>
+        <p>Yes, we offer same-day and next-day service in Irvine and throughout Orange County, subject to technician availability. Calling before noon gives the best chance of a same-day appointment. See our full <a href="../pages/appliance-repair-irvine-ca.html">appliance repair in Irvine, CA</a> page for the complete list of services and neighborhoods we cover.</p>
       </div>
 
     </div>

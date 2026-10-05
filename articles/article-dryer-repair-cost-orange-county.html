@@ -338,6 +338,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <link rel="preload" as="image" href="../images/real/business/completed-repair-dryer-frontload-motor-blower.jpg" fetchpriority="high">
 </head>
@@ -793,7 +799,7 @@
             <div class="related-card-body"><div class="related-card-cat">Advice</div><div class="related-card-title">Repair or Replace? The 50% Rule Explained</div></div>
           </a>
         </div>
-        <p style="margin-top:14px;font-size:13px;color:#666;">Also see: <a href="article-whirlpool-dryer-repair-los-alamitos.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Whirlpool Dryer Repair in Los Alamitos, CA</a> &middot; <a href="article-dryer-takes-too-long-yorba-linda.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Dryer Takes Too Long in Yorba Linda</a> &middot; <a href="../pages/appliance-repair-lake-forest-ca.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Appliance Repair in Lake Forest, CA</a></p>
+        <p style="margin-top:14px;font-size:13px;color:#666;">Also see: <a href="article-whirlpool-dryer-repair-los-alamitos.html">Whirlpool Dryer Repair in Los Alamitos, CA</a> &middot; <a href="article-dryer-takes-too-long-yorba-linda.html">Dryer Takes Too Long in Yorba Linda</a> &middot; <a href="../pages/appliance-repair-lake-forest-ca.html">Appliance Repair in Lake Forest, CA</a></p>
       </div>
 
     </div>

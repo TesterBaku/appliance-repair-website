@@ -264,6 +264,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -513,7 +519,7 @@
       </div>
 
       <h2>What a Repair Visit Looks Like in Aliso Viejo</h2>
-      <p>Knowing the steps makes the whole thing easier. For the full picture of every brand and failure mode we handle, see our <a href="../pages/washer-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">washing machine repair service in Orange County</a>. Here is how a typical LG call runs when you book with us:</p>
+      <p>Knowing the steps makes the whole thing easier. For the full picture of every brand and failure mode we handle, see our <a href="../pages/washer-repair-orange-county.html">washing machine repair service in Orange County</a>. Here is how a typical LG call runs when you book with us:</p>
       <ol>
         <li><strong>Schedule.</strong> Book online or by phone. We offer same-day and next-day windows across Aliso Viejo, reaching most streets by way of Aliso Creek Road, Pacific Park Drive, and the 73 toll road. You get a two-hour arrival window, not an all-day wait.</li>
         <li><strong>Diagnose.</strong> The technician reads the error code, runs the washer through its cycle, and checks the likeliest failure points for that code. This takes 20 to 45 minutes.</li>
@@ -533,7 +539,7 @@
       </ul>
 
       <h2>We Repair Every Washer Brand, Not Just LG</h2>
-      <p>LG is one of the most common washers we see in Aliso Viejo, but it is far from the only one. Our technicians also service Samsung, Whirlpool, Maytag, GE, Bosch, Kenmore, Frigidaire, and Speed Queen washing machines, both front-load and top-load. If you own a stacked LG WashTower or a Samsung front-loader in a Vista Pointe condo, the diagnostic approach is the same: read the code, confirm the failed part, and fix it right the first time. The rest of the brand's lineup is covered on our <a href="../pages/lg-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">LG appliance repair across Orange County</a> page.</p>
+      <p>LG is one of the most common washers we see in Aliso Viejo, but it is far from the only one. Our technicians also service Samsung, Whirlpool, Maytag, GE, Bosch, Kenmore, Frigidaire, and Speed Queen washing machines, both front-load and top-load. If you own a stacked LG WashTower or a Samsung front-loader in a Vista Pointe condo, the diagnostic approach is the same: read the code, confirm the failed part, and fix it right the first time. The rest of the brand's lineup is covered on our <a href="../pages/lg-appliance-repair-orange-county.html">LG appliance repair across Orange County</a> page.</p>
 
       <h2>Frequently Asked Questions: LG Washer Repair in Aliso Viejo</h2>
 
@@ -554,7 +560,7 @@
 
       <div class="faq-item">
         <h3>Do you service other washer brands in Aliso Viejo besides LG?</h3>
-        <p>Yes. Along with LG we repair Samsung, Whirlpool, Maytag, GE, Bosch, Kenmore, Frigidaire, and Speed Queen washing machines throughout Aliso Viejo, including the Glenwood, Westridge, Vista Pointe, and Pacific Ridge neighborhoods. Same-day and next-day appointments are usually available across ZIP code 92656. See our full <a href="../pages/appliance-repair-aliso-viejo-ca.html" style="color:inherit;text-decoration:underline;">appliance repair in Aliso Viejo, CA</a> page for the complete list of services and neighborhoods we cover.</p>
+        <p>Yes. Along with LG we repair Samsung, Whirlpool, Maytag, GE, Bosch, Kenmore, Frigidaire, and Speed Queen washing machines throughout Aliso Viejo, including the Glenwood, Westridge, Vista Pointe, and Pacific Ridge neighborhoods. Same-day and next-day appointments are usually available across ZIP code 92656. See our full <a href="../pages/appliance-repair-aliso-viejo-ca.html">appliance repair in Aliso Viejo, CA</a> page for the complete list of services and neighborhoods we cover.</p>
       </div>
 
     </div>

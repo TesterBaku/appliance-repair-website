@@ -174,6 +174,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -481,7 +487,7 @@
     </div>
 
     <p class="article-intro">
-      We repair small appliances every day across Orange County. Mini fridges, kettles, toaster ovens, handheld vacuums: we see what fails after one semester, what holds up for four years, and what gets tossed to the curb in May. Our <a href="article-appliance-failure-rates-by-year.html" style="color:#aa3210;font-weight:600;text-decoration:none;">appliance reliability and lifespan guide</a> explains what appliance age can and cannot tell you about a repair decision. Every pick in this guide was chosen partly to avoid predictable failure patterns such as undersized compressors, heating elements without auto shut-off protection, and clogged filters on units without a maintenance reminder.
+      We repair small appliances every day across Orange County. Mini fridges, kettles, toaster ovens, handheld vacuums: we see what fails after one semester, what holds up for four years, and what gets tossed to the curb in May. Our <a href="article-appliance-failure-rates-by-year.html">appliance reliability and lifespan guide</a> explains what appliance age can and cannot tell you about a repair decision. Every pick in this guide was chosen partly to avoid predictable failure patterns such as undersized compressors, heating elements without auto shut-off protection, and clogged filters on units without a maintenance reminder.
     </p>
 
     <div class="article-body">
@@ -586,7 +592,7 @@
       <div class="pick-card">
         <div class="pick-num">1</div>
         <div class="pick-name">Mini Fridge: Whirlpool 3.1 cu ft (or Midea 3.1 single-door for longevity)</div>
-        <p class="pick-desc">The mini fridge is the most important dorm appliance and the one most likely to break before graduation. We covered the full decision in detail in our <a href="article-mini-fridge.html" style="color:#aa3210;font-weight:600;text-decoration:none;">Best Mini Fridges for Students 2026 guide</a>, but the short version:</p>
+        <p class="pick-desc">The mini fridge is the most important dorm appliance and the one most likely to break before graduation. We covered the full decision in detail in our <a href="article-mini-fridge.html">Best Mini Fridges for Students 2026 guide</a>, but the short version:</p>
         <ul class="pick-bullets">
           <li><strong>Whirlpool 3.1 cu ft</strong> if you want the best balance of size, freezer compartment, and price</li>
           <li><strong>Midea 3.1 cu ft single-door</strong> if you want maximum reliability and don't need a freezer</li>
@@ -691,7 +697,7 @@
       <p>The same playbook applies to all small appliances: ventilation, regular cleaning, don't overstress the motor or heating element.</p>
 
       <ol>
-        <li><strong>Mini fridge:</strong> 2+ inches of clearance, vacuum coils every 6 months, don't unplug for short weekend trips (<a href="article-mini-fridge.html" style="color:#aa3210;font-weight:600;text-decoration:none;">full detail in our mini-fridge guide</a>)</li>
+        <li><strong>Mini fridge:</strong> 2+ inches of clearance, vacuum coils every 6 months, don't unplug for short weekend trips (<a href="article-mini-fridge.html">full detail in our mini-fridge guide</a>)</li>
         <li><strong>Electric kettle:</strong> descale monthly with white vinegar, don't overfill above the max line, don't operate empty</li>
         <li><strong>Toaster oven:</strong> clean the crumb tray weekly, leave 4+ inches of clearance on top and sides, don't slam the door</li>
         <li><strong>Air purifier:</strong> replace the HEPA filter every 6 months (set a calendar reminder), vacuum the pre-filter monthly</li>

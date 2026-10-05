@@ -157,6 +157,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -486,7 +492,7 @@
       <h2>What a Wine Cooler Repair Visit in Newport Beach Looks Like</h2>
       <p>When you call, a technician typically arrives the same day or the following morning. Diagnostics take 20–30 minutes.</p>
       <p>They'll check refrigerant pressure on compressor models, test the thermostat with a meter, inspect the door seal, listen to the compressor, and check fan motor operation. Most repairs, thermostat replacement, fan motor swap, start relay, gasket, can be done in that same visit if the part is on the truck.</p>
-      <p>Brands common in Newport Beach homes, <a href="../pages/sub-zero-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">Sub-Zero</a>, Viking, U-Line, Perlick, EuroCave, Liebherr, have solid parts availability. Less common parts typically arrive within 1–2 business days.</p>
+      <p>Brands common in Newport Beach homes, <a href="../pages/sub-zero-appliance-repair-orange-county.html">Sub-Zero</a>, Viking, U-Line, Perlick, EuroCave, Liebherr, have solid parts availability. Less common parts typically arrive within 1–2 business days.</p>
       <p>After the repair, the technician verifies the unit reaches and holds the target temperature before leaving. Most standard wine cooler repairs wrap up in 1–2 hours total.</p>
 
       <div class="callout">

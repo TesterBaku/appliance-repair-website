@@ -279,6 +279,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -519,7 +525,7 @@
 
       <h2>Repair Costs and Getting It Fixed in Orange County</h2>
       <p>A technician tests each suspect part with a meter rather than guessing from the symptom alone, since a weak thermistor and a failing board can produce overlapping symptoms early on. Our company diagnostic fee is a flat $99 in Orange County, credited toward the repair if you move forward. From there, cost tracks which part actually failed: a thermistor replacement is a smaller job, while a full control board replacement runs $200 to $430 on typical Orange County jobs. <em>Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</em></p>
-      <p>We work on KitchenAid built-in and freestanding refrigerators throughout Orange County, including Aliso Viejo, Laguna Niguel, Mission Viejo, and the rest of South County. See our <a href="../pages/kitchenaid-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">KitchenAid appliance repair page</a> for dishwashers, ovens, and ranges too, or our <a href="../pages/refrigerator-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">refrigerator repair page</a> if you're working with a different brand.</p>
+      <p>We work on KitchenAid built-in and freestanding refrigerators throughout Orange County, including Aliso Viejo, Laguna Niguel, Mission Viejo, and the rest of South County. See our <a href="../pages/kitchenaid-appliance-repair-orange-county.html">KitchenAid appliance repair page</a> for dishwashers, ovens, and ranges too, or our <a href="../pages/refrigerator-repair-orange-county.html">refrigerator repair page</a> if you're working with a different brand.</p>
 
       <h2>Frequently Asked Questions: KitchenAid Refrigerator Temperature Sensor and Control Board Issues</h2>
 

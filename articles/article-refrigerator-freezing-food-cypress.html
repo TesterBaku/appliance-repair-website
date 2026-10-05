@@ -279,6 +279,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -527,7 +533,7 @@
 
       <h2>Which causes you can fix yourself</h2>
       <p>Three of the six are genuinely do-it-yourself. Turning the temperature up, clearing the vents, and checking or swapping a door gasket all take minutes and no special tools. Those alone solve most cases, so always start there. If you have done all three and the fridge in your Cypress home still turns the crisper into an icebox, the problem has moved past the easy fixes.</p>
-      <p>The other three (a failing thermistor, a stuck damper, and a bad control board) sit behind panels and test the same to the eye whether they are good or bad. Replacing parts by guesswork gets expensive fast, and putting the wrong part in does not fix the freezing. That is where a meter and some experience save you money. Our <a href="../pages/refrigerator-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">refrigerator repair service in Orange County</a> handles exactly this kind of diagnosis on every major brand.</p>
+      <p>The other three (a failing thermistor, a stuck damper, and a bad control board) sit behind panels and test the same to the eye whether they are good or bad. Replacing parts by guesswork gets expensive fast, and putting the wrong part in does not fix the freezing. That is where a meter and some experience save you money. Our <a href="../pages/refrigerator-repair-orange-county.html">refrigerator repair service in Orange County</a> handles exactly this kind of diagnosis on every major brand.</p>
 
       <div class="inline-cta">
         <h3>Fridge freezing everything in Cypress?</h3>
@@ -546,7 +552,7 @@
       </ol>
 
       <h2>Why it matters more than you think</h2>
-      <p>A fridge that freezes food is not just annoying. Produce turns to mush once it thaws, eggs crack in the shell, and glass bottles can burst. It also tends to get worse: a damper that sticks a little today usually sticks wide open later, and a compressor running nonstop against a worn gasket wears out sooner. Catching it early, while it is still just the lettuce and not the whole shelf, keeps a small repair small. Cypress residents can reach us through our <a href="../pages/appliance-repair-cypress-ca.html" style="color:#aa3210;text-decoration:none;font-weight:500;">appliance repair in Cypress, CA</a> page for same-day help.</p>
+      <p>A fridge that freezes food is not just annoying. Produce turns to mush once it thaws, eggs crack in the shell, and glass bottles can burst. It also tends to get worse: a damper that sticks a little today usually sticks wide open later, and a compressor running nonstop against a worn gasket wears out sooner. Catching it early, while it is still just the lettuce and not the whole shelf, keeps a small repair small. Cypress residents can reach us through our <a href="../pages/appliance-repair-cypress-ca.html">appliance repair in Cypress, CA</a> page for same-day help.</p>
 
       <h2>We service every refrigerator brand</h2>
       <p>The freezing problem shows up on every make, and the diagnosis is the same across all of them. We repair Whirlpool, GE, Samsung, LG, Sub-Zero, Bosch, KitchenAid, Maytag, <a href="../pages/frigidaire-appliance-repair-orange-county.html">Frigidaire</a>, Kenmore, and Thermador refrigerators throughout Cypress and the surrounding North Orange County cities, including neighboring <a href="../pages/appliance-repair-stanton-ca.html">Stanton</a>, where our shop is based. Whether it is a basic top-freezer in an apartment near Cypress College or a built-in in a Sorrento Homes kitchen, the fix starts with reading the real temperature and finding what is overriding it.</p>
@@ -575,7 +581,7 @@
 
       <div class="faq-item">
         <h3>Should I repair or replace a refrigerator that freezes everything?</h3>
-        <p>Almost always repair. The parts behind a freezing fridge (thermistor, damper, control board, door gasket) are relatively minor, so the fix is usually well worth it on a unit under about 11 years old. Replacement only makes sense when the freezing comes alongside a failing compressor or the fridge is already near the end of its life. A technician can tell you which situation you are in before you spend anything on parts. See our full <a href="../pages/appliance-repair-cypress-ca.html" style="color:inherit;text-decoration:underline;">appliance repair in Cypress, CA</a> page for the services and neighborhoods we cover.</p>
+        <p>Almost always repair. The parts behind a freezing fridge (thermistor, damper, control board, door gasket) are relatively minor, so the fix is usually well worth it on a unit under about 11 years old. Replacement only makes sense when the freezing comes alongside a failing compressor or the fridge is already near the end of its life. A technician can tell you which situation you are in before you spend anything on parts. See our full <a href="../pages/appliance-repair-cypress-ca.html">appliance repair in Cypress, CA</a> page for the services and neighborhoods we cover.</p>
       </div>
 
     </div>

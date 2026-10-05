@@ -283,6 +283,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -522,7 +528,7 @@
       <h2>How to Use This Before Your Own Service Visit</h2>
       <p>Start with the full model number and a plain description of what you observe. Note whether the change affects the display, one compartment, or the whole refrigerator; whether it is constant or intermittent; and when it began. Those details help frame the visit without treating a symptom as a diagnosis.</p>
       <p>These photos document our Orange County repair work, but they are not a remote diagnostic tool. Similar outward behavior can lead to different repairs, so a technician still needs to inspect and test your refrigerator before naming a part.</p>
-      <p>If you need service rather than case-study detail, start with our <a href="../pages/ge-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">GE appliance repair page for Orange County</a>. Our broader <a href="../pages/refrigerator-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:600;">Orange County refrigerator repair service</a> covers other brands and refrigerator configurations.</p>
+      <p>If you need service rather than case-study detail, start with our <a href="../pages/ge-appliance-repair-orange-county.html">GE appliance repair page for Orange County</a>. Our broader <a href="../pages/refrigerator-repair-orange-county.html">Orange County refrigerator repair service</a> covers other brands and refrigerator configurations.</p>
 
       <h2>Frequently Asked Questions About These Monogram Repairs</h2>
 

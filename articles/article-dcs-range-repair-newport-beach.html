@@ -276,6 +276,12 @@
        320px in a 63px box. The sticky Call/Book bar carries the call path below this
        breakpoint, so hide the wrapping copy rather than shrinking it further. */
     @media (max-width: 480px) { .nav-phone { display: none; } .nav-inner { gap: 16px; } }
+    /* Unified prose links: ember, 600 weight, underlined (the underline is the non-colour cue,
+       WCAG 1.4.1). Last in the head and at two-class specificity so it settles the page-level
+       variants; TOC lists, reference blocks, inline-CTA buttons and navs keep their own styles. */
+    :is(.article-body, .article-intro, .faq-a, .callout) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)) {
+      color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -462,7 +468,7 @@
 
     <div class="article-body">
 
-      <p>We service DCS (Dynamic Cooking Systems) professional ranges throughout Newport Beach, from the remodeled cottages on Balboa Island to the custom kitchens of Corona del Mar and Newport Coast. To be clear, we are not a DCS factory-authorized center, but a DCS is a gas range like any other under the pro styling, and we repair them regularly. See our <a href="../pages/dcs-appliance-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">DCS repair page for Orange County</a> for the full range, cooktop, and grill lineup we service. The range in the photo above came in with the most common DCS complaint of all: the burners worked, the broiler worked, but the oven would not bake. Here are the six issues we find most, roughly in order.</p>
+      <p>We service DCS (Dynamic Cooking Systems) professional ranges throughout Newport Beach, from the remodeled cottages on Balboa Island to the custom kitchens of Corona del Mar and Newport Coast. To be clear, we are not a DCS factory-authorized center, but a DCS is a gas range like any other under the pro styling, and we repair them regularly. See our <a href="../pages/dcs-appliance-repair-orange-county.html">DCS repair page for Orange County</a> for the full range, cooktop, and grill lineup we service. The range in the photo above came in with the most common DCS complaint of all: the burners worked, the broiler worked, but the oven would not bake. Here are the six issues we find most, roughly in order.</p>
 
       <div class="tip-card">
         <div class="tip-num">1</div>
@@ -523,7 +529,7 @@
       </div>
 
       <h2>What you can handle and what needs a technician</h2>
-      <p>The surface burners are the DIY-friendly part of a DCS. Clearing clogged ports, drying a fouled cap, and wiping spilled food off the electrodes are all safe and often fix a clicking burner. Everything on the oven side, the bake igniter, the safety valve, the temperature sensor, and the control, involves the gas system or precise current-draw parts, so those are technician work. Matching the wrong igniter is a common and expensive mistake, because an igniter that glows but draws the wrong current will not open the valve and the oven still will not bake. Our <a href="../pages/oven-stove-repair-orange-county.html" style="color:#aa3210;text-decoration:none;font-weight:500;">oven and stove repair service in Orange County</a> covers DCS and every other pro brand.</p>
+      <p>The surface burners are the DIY-friendly part of a DCS. Clearing clogged ports, drying a fouled cap, and wiping spilled food off the electrodes are all safe and often fix a clicking burner. Everything on the oven side, the bake igniter, the safety valve, the temperature sensor, and the control, involves the gas system or precise current-draw parts, so those are technician work. Matching the wrong igniter is a common and expensive mistake, because an igniter that glows but draws the wrong current will not open the valve and the oven still will not bake. Our <a href="../pages/oven-stove-repair-orange-county.html">oven and stove repair service in Orange County</a> covers DCS and every other pro brand.</p>
 
       <div class="inline-cta">
         <h3>DCS oven not baking in Newport Beach?</h3>
@@ -542,7 +548,7 @@
       </ol>
 
       <h2>Is a DCS range worth repairing?</h2>
-      <p>Almost always. A DCS is built as a professional range, and the parts behind its common faults are modest next to the cost of replacing a pro unit. A weak bake igniter is a straightforward fix that gives you back a range that will run for years more. We would only steer you toward replacement if a DCS had several failing systems at once or serious corrosion damage, and we would tell you that plainly, with a written quote in hand, before you spent anything. Newport Beach residents can reach us through our <a href="../pages/appliance-repair-newport-beach-ca.html" style="color:#aa3210;text-decoration:none;font-weight:500;">appliance repair in Newport Beach, CA</a> page for same-day help.</p>
+      <p>Almost always. A DCS is built as a professional range, and the parts behind its common faults are modest next to the cost of replacing a pro unit. A weak bake igniter is a straightforward fix that gives you back a range that will run for years more. We would only steer you toward replacement if a DCS had several failing systems at once or serious corrosion damage, and we would tell you that plainly, with a written quote in hand, before you spent anything. Newport Beach residents can reach us through our <a href="../pages/appliance-repair-newport-beach-ca.html">appliance repair in Newport Beach, CA</a> page for same-day help.</p>
 
       <h2>We service DCS and every pro cooking brand</h2>
       <p>DCS shares its high-BTU, sealed-burner design language with the other professional ranges common in Newport Beach kitchens, and the diagnosis follows the same path across all of them. Alongside DCS we service Wolf, Viking, Thermador, Sub-Zero, and Dacor pro ranges, as well as mainstream KitchenAid, GE, Samsung, LG, Whirlpool, and Bosch cooking appliances. Whether it is a DCS in a Newport Coast custom kitchen or a Wolf on Balboa Island, the fix starts with reading the real oven temperature and testing the ignition system.</p>
@@ -571,7 +577,7 @@
 
       <div class="faq-item">
         <h3>Does Newport Beach coastal air affect DCS ranges?</h3>
-        <p>It can. Homes near the water on Balboa Peninsula, Balboa Island, and in Corona del Mar get more salt in the air, which corrodes exposed metal, igniter leads, valve terminals, and hinges, faster than inland kitchens. On coastal DCS ranges we often find corroded connections behind an intermittent burner or a failing igniter. We clean or replace the corroded parts and check the rest of the connections while we are in there. See our full <a href="../pages/appliance-repair-newport-beach-ca.html" style="color:inherit;text-decoration:underline;">appliance repair in Newport Beach, CA</a> page for the neighborhoods we cover.</p>
+        <p>It can. Homes near the water on Balboa Peninsula, Balboa Island, and in Corona del Mar get more salt in the air, which corrodes exposed metal, igniter leads, valve terminals, and hinges, faster than inland kitchens. On coastal DCS ranges we often find corroded connections behind an intermittent burner or a failing igniter. We clean or replace the corroded parts and check the rest of the connections while we are in there. See our full <a href="../pages/appliance-repair-newport-beach-ca.html">appliance repair in Newport Beach, CA</a> page for the neighborhoods we cover.</p>
       </div>
 
     </div>
