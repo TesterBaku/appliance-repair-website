@@ -76,13 +76,14 @@ A page that only uses `(max-width: 1024px)` or relies entirely on Tailwind's `md
 Below 768px, a fixed-position bar at the bottom of the viewport:
 
 ```html
-<div class="sticky-mobile-bar">
+<div class="sticky-mobile-bar" role="region" aria-label="Quick contact">
   <a href="tel:+19496295365" class="sticky-call">📞 Call Now</a>
   <a href="pages/contact.html" class="sticky-book">Book Repair</a>
 </div>
 ```
 
 Rules:
+- Keep `role="region" aria-label="Quick contact"`. An `aria-label` on a bare `div` is ignored by assistive tech (ARIA prohibits naming generic elements), so the role is what makes the bar announced and reachable as a landmark. All 166 pages carry it since 2026-10-06.
 - `position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;`
 - 50/50 split, each half is a 44×44px+ tap target
 - Add `padding-bottom: 64px` to `<body>` so content isn't covered
