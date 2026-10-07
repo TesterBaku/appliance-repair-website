@@ -66,7 +66,7 @@ Key impeccable checks to enforce as blockers:
 WARN items from impeccable should be listed in the review output but do not block merge.
 
 ### Step 3c — Run visual-review (hub pages only)
-**Trigger:** the diff touches any file matching `pages/appliance-repair-*-ca.html`.
+**Trigger:** the diff touches any file matching `pages/appliance-repair-*-ca.html` or `pages/luxury-appliance-repair-*-ca.html` (the LA premium city pages are city hubs too; the narrower glob let them skip this step until 2026-10-06).
 
 Run `/visual-review <page>` on each hub page changed in this PR. Hub pages are conversion-critical — impeccable checks source rules but cannot verify rendered layout, hamburger behavior, sticky bar, or mobile overflow.
 
@@ -80,7 +80,7 @@ Any FAIL item from `/visual-review` is a **blocker** — same weight as a broken
 
 ## Checklist
 
-### 🖥️ Visual review — blockers for hub pages (`pages/appliance-repair-*-ca.html`)
+### 🖥️ Visual review — blockers for hub pages (`pages/appliance-repair-*-ca.html`, `pages/luxury-appliance-repair-*-ca.html`)
 
 These checks apply when the diff includes any city hub page. Run `/visual-review <page>` and paste the full output. No results = automatic FAIL.
 
@@ -226,7 +226,7 @@ Reviewer: Senior Engineer (independent)
 npm test:                PASS / FAIL
 npm run test:functional: PASS / FAIL  (N tests)
 impeccable critique:     PASS / WARN / FAIL  (HTML/CSS PRs only; full critique + score, always)
-/visual-review:          PASS / WARN / FAIL  (hub pages only — pages/appliance-repair-*-ca.html)
+/visual-review:          PASS / WARN / FAIL  (hub pages only — pages/appliance-repair-*-ca.html, pages/luxury-appliance-repair-*-ca.html)
 
 --- VERDICT ---
 ✅ APPROVED — ready to merge
@@ -248,4 +248,4 @@ Always end with one of those two verdicts. No "mostly fine, up to you" — make 
 - If the PR description says "no visual changes" but CSS was modified, verify that claim.
 - "It looks fine" is not a review comment. Cite file and line.
 - Never approve a PR that does not show `npm run test:functional: PASS` in the test results.
-- If the PR touches any `pages/appliance-repair-*-ca.html` file, running `/visual-review` on that page is **required** — not optional. No visual-review output = automatic FAIL, regardless of impeccable score.
+- If the PR touches any `pages/appliance-repair-*-ca.html` or `pages/luxury-appliance-repair-*-ca.html` file, running `/visual-review` on that page is **required** — not optional. No visual-review output = automatic FAIL, regardless of impeccable score.
