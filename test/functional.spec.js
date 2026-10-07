@@ -2168,6 +2168,41 @@ test.describe('Regression: mobile nav drawer focus trap (P6-57)', () => {
   }
 });
 
+// ─── Regression: drawer CTA weight and order (2026-10-06) ─────────────────────
+// The drawer's primary action must render as a filled button, not a text row.
+// Covered per family on purpose: index.html inlines its own copy of the main-drawer
+// rule, and that copy was missed on the first pass of the PR that introduced the
+// filled button (the critique caught it; no test did). Articles lead with Call
+// (filled) and follow with Book (outline), matching the sticky bar.
+test.describe('Regression: drawer CTA weight and order', () => {
+  const FILLED = 'rgb(204, 61, 18)';
+  const MAIN = ['/index.html', '/pages/services.html', '/pages/appliance-repair-irvine-ca.html'];
+  for (const url of MAIN) {
+    test(`main drawer Book is a filled button: ${url}`, async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(url);
+      await page.locator('.nav-hamburger').click();
+      const cta = page.locator('.nav-drawer a.nav-drawer-cta');
+      await expect(cta).toHaveCount(1);
+      await expect(cta).toHaveAttribute('href', /contact\.html$/);
+      await expect(cta).toHaveCSS('background-color', FILLED);
+      await expect(cta).toHaveCSS('color', 'rgb(255, 255, 255)');
+    });
+  }
+  test('article drawer leads with a filled Call, then an outlined Book', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/articles/article-fridge-repair-garden-grove.html');
+    await page.locator('.nav-hamburger').click();
+    const ctas = page.locator('#mobile-nav-drawer a.nav-drawer-cta');
+    await expect(ctas).toHaveCount(2);
+    await expect(ctas.nth(0)).toHaveAttribute('href', 'tel:+19496295365');
+    await expect(ctas.nth(0)).toHaveCSS('background-color', FILLED);
+    await expect(ctas.nth(1)).toHaveAttribute('href', /contact\.html$/);
+    await expect(ctas.nth(1)).toHaveClass(/nav-drawer-cta--outline/);
+    await expect(ctas.nth(1)).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  });
+});
+
 // ─── Regression: price disclaimer on cost articles ────────────────────────────
 test.describe('Price disclaimer on cost articles', () => {
   const DISCLAIMER = /Estimates vary by brand, part availability, and diagnosis/i;
