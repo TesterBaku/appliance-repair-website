@@ -77,7 +77,7 @@ Below 768px, a fixed-position bar at the bottom of the viewport:
 
 ```html
 <div class="sticky-mobile-bar" role="region" aria-label="Quick contact">
-  <a href="tel:+19496295365" class="sticky-call">📞 Call Now</a>
+  <a href="tel:+19496295365" class="sticky-call"><span aria-hidden="true">📞</span> Call Now</a>
   <a href="pages/contact.html" class="sticky-book">Book Repair</a>
 </div>
 ```
