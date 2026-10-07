@@ -1218,6 +1218,31 @@ if (run('article-mobile-chrome')) {
   }
 }
 
+// ── Check 11b: sticky-bar-a11y ──────────────────────────────────────────────
+// Every sticky Call/Book bar on every page must be a named landmark
+// (role="region" aria-label="Quick contact"; an aria-label on a bare div is
+// ignored by assistive tech), and the decorative phone emoji in its Call link
+// must be aria-hidden so the link reads "Call Now". Added 2026-10-06 after the
+// rollout PR's own scripted pass missed 404.html (it walked pages/, articles/
+// and index.html only); this check enumerates every published page instead.
+if (run('sticky-bar-a11y')) {
+  checked['sticky-bar-a11y'] = { files: 0 };
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const bars = content.match(/<div class="sticky-mobile-bar"[^>]*>/g) || [];
+    if (!bars.length) continue;
+    checked['sticky-bar-a11y'].files++;
+    for (const tag of bars) {
+      if (!/role="region"/.test(tag) || !/aria-label="Quick contact"/.test(tag)) {
+        issues.push(`[STICKY-A11Y] ${rel(filePath)} — sticky-mobile-bar must carry role="region" aria-label="Quick contact" (found: ${tag}). See .claude/skills/mobile-design/SKILL.md.`);
+      }
+    }
+    if (/class="sticky-call">\s*(📞|&#128222;)/.test(content)) {
+      issues.push(`[STICKY-A11Y] ${rel(filePath)} — the sticky Call link's phone emoji must be wrapped in <span aria-hidden="true"> so it is not read aloud.`);
+    }
+  }
+}
+
 // ── Check 11a: hamburger-cascade ────────────────────────────────────────────
 // A real production bug, found 2026-08-18 during review of PR #752 (backlog
 // P6-56): two articles declared an unconditional ".nav-hamburger { display:
@@ -3958,6 +3983,7 @@ if (checked['jsonld-valid'])         parts.push(`${checked['jsonld-valid'].block
 if (checked['footer-self-contained']) parts.push(`footer self-contained (no var()) across ${checked['footer-self-contained'].files} pages`);
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
+if (checked['sticky-bar-a11y']) parts.push(`sticky bar named region + aria-hidden emoji on all ${checked['sticky-bar-a11y'].files} pages with one`);
 if (checked['hamburger-cascade'])    parts.push(`hamburger nav cascade order (unconditional rule before @media override) held on ${checked['hamburger-cascade'].files} files with an inline .nav-hamburger rule`);
 if (checked['nav-phone-mobile'])     parts.push(`header .nav-phone class + hide-below-480px rule held on ${checked['nav-phone-mobile'].files} pages with a header tel: link`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
