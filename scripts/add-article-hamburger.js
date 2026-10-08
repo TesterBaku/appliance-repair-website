@@ -2,14 +2,16 @@
 /**
  * add-article-hamburger.js
  *
- * Adds mobile hamburger nav + drawer to every article in /articles/ that
- * doesn't already have it. Also:
- *  - Adds prefers-reduced-motion CSS block to inline <style>
- *  - Darkens small-text orange (#e84c1e -> #c2370a) for WCAG AA contrast
- *  - Adds .nav-hamburger display:flex to existing @media (max-width: 768px)
- *    block (or appends a new rule if the block already handles it)
+ * Adds the mobile hamburger button, the article nav drawer markup and its inline CSS to any
+ * article in /articles/ that does not have them yet. The CSS is a verbatim copy of the live
+ * article block (keep it in sync if the article template changes).
  *
- * Safe to run multiple times — skips files that already have hamburger markup.
+ * It deliberately adds NO JavaScript: drawer behaviour is single-sourced in /site.js, and
+ * inject-site-js --check (npm test) fails a page that carries inline drawer JS. After running
+ * this, run `npm run build:site-js` (adds the site.js include) and `npm run build:partials`
+ * (restamps the drawer from partials/nav-article.html, the source of truth for its rows).
+ *
+ * Safe to run multiple times: skips files that already have hamburger markup.
  */
 
 const fs   = require('fs');
@@ -49,23 +51,6 @@ const NAV_DRAWER = `
     <a href="../pages/contact.html" class="nav-drawer-cta nav-drawer-cta--outline">Book a Repair</a>
   </div>`;
 
-const HAMBURGER_JS = `
-    (function() {
-      var hamburger = document.querySelector('.nav-hamburger');
-      var drawer = document.getElementById('mobile-nav-drawer');
-      if (!hamburger || !drawer) return;
-      function setOpen(open) {
-        hamburger.setAttribute('aria-expanded', String(open));
-        hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        drawer.setAttribute('aria-hidden', String(!open));
-        if (open) { drawer.setAttribute('data-open', ''); } else { drawer.removeAttribute('data-open'); }
-        document.body.style.overflow = open ? 'hidden' : '';
-      }
-      hamburger.addEventListener('click', function() { setOpen(hamburger.getAttribute('aria-expanded') !== 'true'); });
-      document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') { setOpen(false); hamburger.focus(); } });
-      drawer.querySelectorAll('a').forEach(function(link) { link.addEventListener('click', function() { setOpen(false); }); });
-    })();`;
-
 const files = fs.readdirSync(articlesDir).filter(f => f.endsWith('.html'));
 let updated = 0;
 let skipped = 0;
@@ -91,35 +76,10 @@ for (const file of files) {
   // 3. Add nav drawer after </nav>
   html = html.replace('</nav>', '</nav>' + NAV_DRAWER);
 
-  // 4. Add hamburger JS after the existing dropdown JS (before analytics.js script)
-  html = html.replace(
-    '<script defer src="../analytics.js"></script>',
-    HAMBURGER_JS + '\n  </script>\n  <script defer src="../analytics.js"></script>'
-  );
-
-  // Close the preceding script tag properly — the replacement above needs the open script tag
-  // Find the last </script> before analytics and fix structure
-  // Actually the script containing dropdown JS ends with })();\n  </script>
-  // We're inserting HAMBURGER_JS before the analytics script tag but outside any script tag
-  // Fix: wrap HAMBURGER_JS in its own script tag
-  // Undo the above and redo correctly
-  html = fs.readFileSync(filePath, 'utf8');
-  if (html.includes('nav-hamburger')) { skipped++; continue; }
-
-  html = html.replace('</style>', HAMBURGER_CSS + '\n  </style>');
-  html = html.replace(
-    /(<a href="\.\.\/pages\/contact\.html" class="nav-cta">Book a Repair<\/a>)/,
-    '$1\n      ' + HAMBURGER_BUTTON
-  );
-  html = html.replace('</nav>', '</nav>' + NAV_DRAWER);
-  html = html.replace(
-    '  <script defer src="../analytics.js"></script>',
-    '  <script>\n' + HAMBURGER_JS + '\n  </script>\n  <script defer src="../analytics.js"></script>'
-  );
-
   fs.writeFileSync(filePath, html, 'utf8');
   updated++;
   console.log('Updated:', file);
 }
 
 console.log(`\nDone. Updated: ${updated}, Skipped (already had hamburger): ${skipped}`);
+if (updated) console.log('Next: npm run build:site-js && npm run build:partials');
