@@ -150,7 +150,9 @@ function collectFiles(dir, files = []) {
   return files;
 }
 
-const today = new Date().toISOString().slice(0, 10);
+// Local calendar date, not UTC: a page created after 17:00 Pacific used to get tomorrow's
+// date from toISOString() (P6-40). toIsoWithOffset() renders in the machine's own zone.
+const today = toIsoWithOffset(new Date()).slice(0, 10);
 const files = collectFiles(ROOT);
 
 const urls = files.map(abs => {

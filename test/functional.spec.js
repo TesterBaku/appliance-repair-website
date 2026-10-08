@@ -2955,3 +2955,39 @@ test('mobile 375px: every article hero h1 is 34px or smaller', async ({ page }) 
     JSON.stringify(offenders, null, 1)
   ).toEqual([]);
 });
+
+// ─── Regression: FAQ aria-expanded on load, every page with a pre-opened item (#847) ───
+// site.js initFaq() must sync aria-expanded to a server-rendered class="faq-item open" at
+// load. The original test only ran inside the brand-hub loop, so three pages that had the
+// bug (dacor hub, pages/faq.html, the refrigerator hub) were fixed but never covered. The
+// list is derived from the file tree, so a new page that ships a pre-opened item is
+// covered the moment it exists.
+const FAQ_PREOPEN_URLS = collectPageUrls(path.join(__dirname, '..'), path.join(__dirname, '..'))
+  .filter(u => fs.readFileSync(path.join(__dirname, '..', u), 'utf8').includes('class="faq-item open"'))
+  .sort();
+
+test.describe('Regression: FAQ aria-expanded synced on load (pre-opened items)', () => {
+  test('the page list is non-empty and includes the three previously untested pages', () => {
+    for (const u of ['/pages/faq.html', '/pages/dacor-appliance-repair-orange-county.html', '/pages/refrigerator-repair-orange-county.html']) {
+      expect(FAQ_PREOPEN_URLS, `${u} no longer ships a pre-opened FAQ item; update this test`).toContain(u);
+    }
+  });
+  for (const url of FAQ_PREOPEN_URLS) {
+    test(`every .faq-q aria-expanded matches its item's open class: ${url}`, async ({ page }) => {
+      await page.goto(url);
+      const mismatches = await page.evaluate(() =>
+        [...document.querySelectorAll('.faq-item')]
+          .map((item, i) => {
+            const q = item.querySelector('.faq-q');
+            if (!q) return null;
+            const want = String(item.classList.contains('open'));
+            const got = q.getAttribute('aria-expanded');
+            return got === want ? null : `item ${i}: aria-expanded=${got}, open class=${want}`;
+          })
+          .filter(Boolean)
+      );
+      expect(mismatches).toEqual([]);
+    });
+  }
+});
+
