@@ -28,7 +28,8 @@ const HAMBURGER_CSS = `
     .nav-drawer[data-open] { display: flex; }
     .nav-drawer a { font-size: 15px; color: #666; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #eee; font-weight: 500; min-height: 44px; display: flex; align-items: center; }
     .nav-drawer a:last-child { border-bottom: none; }
-    .nav-drawer a.nav-drawer-cta { color: #e84c1e; font-weight: 600; }
+    .nav-drawer a.nav-drawer-cta { border: none; background: #cc3d12; color: #fff; font-weight: 700; justify-content: center; border-radius: 8px; margin-top: 12px; }
+    .nav-drawer a.nav-drawer-cta--outline { background: transparent; color: #aa3210; border: 1.5px solid #aa3210; margin-top: 8px; }
     @media (max-width: 768px) { .nav-hamburger { display: flex; } }
     @media (prefers-reduced-motion: reduce) { .nav-hamburger span { transition: none; } }`;
 
@@ -38,12 +39,14 @@ const NAV_DRAWER = `
   <div class="nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
     <a href="../pages/about.html">About</a>
     <a href="../pages/services.html">Services</a>
+    <a href="../pages/services.html#brands">Brands</a>
     <a href="../pages/service-areas.html">Service Areas</a>
     <a href="../pages/faq.html">FAQ</a>
     <a href="../pages/testimonials.html">Testimonials</a>
     <a href="../pages/contact.html">Contact</a>
     <a href="../pages/blog.html">Blog</a>
     <a href="tel:+19496295365" class="nav-drawer-cta">Call (949) 629-5365</a>
+    <a href="../pages/contact.html" class="nav-drawer-cta nav-drawer-cta--outline">Book a Repair</a>
   </div>`;
 
 const HAMBURGER_JS = `
