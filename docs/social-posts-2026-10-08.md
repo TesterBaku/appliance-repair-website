@@ -8,7 +8,7 @@ The only facts supplied by the owner are, from the folder and file names: Frigid
 
 The photo is placed on the recent-repairs gallery, the Frigidaire brand hub and the refrigerator hub. Chino Hills has no city hub, so there is no city placement.
 
-For GBP, choose **Update**, attach the processed JPEG and use **Learn more** with the exact destination. For Instagram, use the caption and hashtags together; tag the city (Chino Hills, CA), never a customer's home, and confirm the place tag exists in Instagram's location search before posting (not checked here). The image path is repository-relative. Use the processed JPEG with metadata removed; the owner chose to publish the frame uncropped. Privacy check: no faces, addresses, documents or readable labels; household items stored in the garage are visible around the refrigerator.
+For GBP, choose **Update**, attach the processed JPEG and use **Learn more** with the exact destination. For Instagram, use the caption and hashtags together; tag the city (Chino Hills, CA), never a customer's home, and confirm the place tag exists in Instagram's location search before posting (not checked here). The image path is repository-relative. Use the processed JPEG with metadata removed; the owner chose to publish the frame uncropped. Privacy check: no faces, addresses or documents; household items stored in the garage are visible around the refrigerator, and some carry readable product brand names.
 
 ## Policies checked
 
