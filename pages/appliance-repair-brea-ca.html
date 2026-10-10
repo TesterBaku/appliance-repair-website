@@ -92,6 +92,7 @@
 
     /* Testimonials */
     .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: 2; }
     .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
     .hub-page .stars { color: var(--amber); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-sub); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
@@ -114,6 +115,7 @@
 
     @media (max-width: 900px) {
       .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: auto; }
       .neighborhoods-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 480px) {
@@ -223,7 +225,7 @@
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "139",
+      "reviewCount": "144",
       "bestRating": "5"
     }
   }
@@ -333,6 +335,13 @@
         "author": { "@type": "Person", "name": "Mike Bonilla" },
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
         "reviewBody": "Excellent service and affordable with great customer service. Highly recommend.",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Henry Lo" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Great service. Very communicative. Very professional. Challenging repair on my built in. Working like new again.",
         "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
       }
     ]
@@ -584,9 +593,9 @@
       <h1>Appliance Repair in<br/>Brea, CA</h1>
       <p>Serving Downtown Brea, La Floresta, Olinda Village and all of north Orange County. Same-day service. Licensed and insured.</p>
       <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 139 Google reviews">
+        <a href="testimonials.html" class="hero-rating" aria-label="Rated 5.0 out of 5 from 144 Google reviews">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 139 Google reviews</span>
+          <span>5.0 &middot; 144 Google reviews</span>
         </a>
       </div>
       <div class="hub-cta-row">
@@ -807,7 +816,7 @@
   <section class="section section-white" style="text-align:center;">
     <div class="container">
       <h2 class="h2-page" style="text-align:center;">What Our Customers Say</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 139 verified 5-star Google reviews</p>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 144 verified 5-star Google reviews</p>
       <div class="testimonials-grid">
 
         <div class="testimonial-card">
@@ -831,9 +840,16 @@
           <div class="testimonial-name">Mike Bonilla &middot; Appliance repair &middot; Orange County, CA</div>
         </div>
 
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">"Great service. Very communicative. Very professional. Challenging repair on my built in. Working like new again."</p>
+          <div class="t-initial" style="background:#444444;">HL</div>
+          <div class="testimonial-name">Henry Lo &middot; KitchenAid refrigerator repair &middot; Brea, CA</div>
+        </div>
+
       </div>
       <div style="margin-top:24px;">
-        <a href="testimonials.html" style="font-size:13px;color:var(--brand-text);font-weight:500;text-decoration:none;">Read all 139 reviews &rarr;</a>
+        <a href="testimonials.html" style="font-size:13px;color:var(--brand-text);font-weight:500;text-decoration:none;">Read all 144 reviews &rarr;</a>
       </div>
     </div>
   </section>
