@@ -17,9 +17,9 @@ The website placements go live together. The posts are paced at two a week so ea
 
 ## Evidence and placement
 
-The only facts supplied by the owner are the ones in the photo filenames: Frigidaire dishwasher not draining, Irvine; Miele cooktop clicking nonstop, Corona del Mar; Miele freezer not cooling, Corona del Mar; LG dryer not heating, Chino; LG refrigerator ice maker replaced, Mission Viejo; Viking burner heads before and after, Newport Beach. The owner has no further repair detail. No date, cause, part, part number, model number or customer detail was provided, and none is stated below. For the four symptom-only jobs the copy names the symptom and the completed repair, nothing else. The Viking burner heads are described as cleaned, on the owner's unchallenged plan approval of that reading; the owner did not say whether they came from a range or a rangetop, so the copy says neither.
+The only facts supplied by the owner are the ones in the photo filenames: Frigidaire dishwasher not draining, Irvine; Miele cooktop clicking nonstop, Corona del Mar; Miele freezer not cooling, Corona del Mar; LG dryer not heating, Chino; LG refrigerator ice maker replaced, Mission Viejo; Viking burner heads before and after, Newport Beach. The owner has no further repair detail. No date, cause, part, part number, model number or customer detail was provided, and none is stated below. For the four symptom-only jobs the copy names the symptom and the completed repair, nothing else. The owner confirmed on 2026-10-11 that the Viking burner heads were cleaned (not replaced) and that they came from a range.
 
-What the photos show: the dishwasher, cooktop, dryer and refrigerator photos show the appliance from outside, not the fault or the repair. The freezer photo shows the emptied freezer with its display reading 79°F and the alarm indicator lit. The refrigerator photo does not show the ice maker. The two Viking photos show the same three brass burner heads, tarnished and then bright.
+What the photos show: the dishwasher, cooktop, dryer and refrigerator photos show the appliance from outside, not the fault or the repair. The freezer photo shows the open freezer with its display reading 79°F and the alarm indicator lit. The refrigerator photo does not show the ice maker. The two Viking photos show the same three brass burner heads, tarnished and then bright.
 
 Photos are placed on the recent-repairs gallery (7 cards), the Irvine, Newport Beach and Mission Viejo city hubs, the Frigidaire, Miele, LG and Viking brand hubs, and the dishwasher, oven and stove, freezer, dryer and refrigerator hubs. Chino has no city hub.
 
@@ -56,7 +56,7 @@ Images: `images/real/business/completed-repair-burner-heads-viking-before-newpor
 GBP body:
 
 ```text
-Viking brass burner head cleaning, before and after. Newport Beach, CA.
+Viking range burner head cleaning, before and after. Newport Beach, CA.
 ```
 
 Learn more: https://fixappliancesfast.com/pages/recent-repairs.html#job-burner-heads-viking-before-newport-beach
@@ -64,7 +64,7 @@ Learn more: https://fixappliancesfast.com/pages/recent-repairs.html#job-burner-h
 Instagram: two-image carousel (before, then after); city tag Newport Beach, CA.
 
 ```text
-Viking brass burner heads before and after cleaning in Newport Beach, CA. Swipe for the after.
+Viking range burner heads before and after cleaning in Newport Beach, CA. Swipe for the after.
 
 #NewportBeach #OrangeCountyCA #Viking #BeforeAndAfter #ApplianceRepair
 ```
