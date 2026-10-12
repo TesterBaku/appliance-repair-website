@@ -40,10 +40,14 @@ process.stdout.write(`Repo non-negotiables (SessionStart hook; canonical text in
 7. Never write content about AC/HVAC/air conditioning in any form (window units, central
    air, heat pumps) -- out of scope for this business. Full rules:
    .claude/skills/seo-content/SKILL.md.
-8. The company service-call fee is FLAT per county, never a range: \$99 Orange County,
-   \$99 LA County (every city and brand), \$120 Riverside County. Never \$150. Never claim
-   Riverside is next-available-only -- technicians are local in LA County and Riverside
-   County too. Nothing checks fee or scheduling copy for accuracy. Full rules:
+8. The company service-call fee is ONE flat \$99 everywhere we serve, never a range and
+   never tiered: Orange County, LA County (every city and brand), Riverside County, and
+   Chino / Chino Hills in San Bernardino County. \$120 and \$150 are defects in a fee
+   statement (the Riverside \$120 tier was retired 2026-08-22). Scheduling follows
+   coverage, never distance: same-day when the schedule is open in Orange County, LA
+   County, Riverside city and the Coachella Valley, and Chino / Chino Hills; western
+   Riverside County (Corona, Norco, Eastvale) is next-available by default, so do not
+   promise same-day there. Nothing checks fee or scheduling copy for accuracy. Full rules:
    .claude/skills/seo-content/SKILL.md.
 9. Never invent a reviewer name, quote, or rating. Testimonials come only from
    data/testimonials.json, verbatim. A review may appear on at most 2 hub pages -- check
