@@ -113,7 +113,8 @@
     .contact-info-sub { font-size: 12px; color: #666; margin-top: 2px; }
     .name-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     @media (max-width: 768px) {
-      .contact-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: minmax(0, 1fr); }
+      .contact-info-value { overflow-wrap: anywhere; }
       .name-grid { grid-template-columns: 1fr; }
       .form-input { font-size: 16px; }
       .form-submit { min-height: 44px; width: 100%; font-size: 15px; }
@@ -448,9 +449,11 @@
                   <option>Whittier</option>
                   <option>Other (Los Angeles County)</option>
                 </optgroup>
-                <optgroup label="Riverside County &amp; nearby">
+                <optgroup label="Riverside &amp; San Bernardino Counties">
                   <option>Chino</option>
                   <option>Chino Hills</option>
+                  <option>Palm Springs</option>
+                  <option>Riverside</option>
                   <option>Other (Riverside County)</option>
                 </optgroup>
                 <option>Other / not listed</option>
@@ -513,7 +516,7 @@
               <div class="contact-icon" style="background:#eff6ff;">✉️</div>
               <div>
                 <div class="contact-info-label">Email</div>
-                <div class="contact-info-value"><a href="mailto:info@fixappliancesfast.com" style="color:#111;text-decoration:none;">info@fixappliancesfast.com</a></div>
+                <div class="contact-info-value"><a href="mailto:info@fixappliancesfast.com" style="color:#111;text-decoration:none;">info@<wbr>fixappliancesfast.com</a></div>
                 <div class="contact-info-sub">We reply within a few hours</div>
               </div>
             </div>
