@@ -86,10 +86,13 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', san
 .btn-outline:hover { border-color: var(--text-inactive); }
 
 /* "Show all" for a capped job grid (site.js initJobGridCap). The button is also a
-   .btn-outline, which supplies the look and the 44px phone height; these only make a
-   <button> match the anchors. The row stays hidden until JS marks the grid ready. */
+   .btn-outline, which supplies the shape and the 44px phone height; this rule makes it
+   a <button> and darkens its text and border so it reads as an action. It sits after
+   .btn-outline in source order and has the same specificity, so it wins. The row stays
+   hidden until JS marks the grid ready; without JS the grid stays capped at six on
+   phones and the page's own gallery link carries the rest. */
 .job-grid-more-row { display: none; text-align: center; margin-top: 24px; }
-.job-grid-more { font-family: inherit; background: #fff; cursor: pointer; }
+.job-grid-more { font-family: inherit; font-weight: 600; color: var(--brand-text); border-color: var(--brand-text); background: #fff; cursor: pointer; }
 @media (max-width: 768px) {
   /* A 14-card grid stacked into five-plus phone screens, so only the first six show until
      the visitor asks. Markup order of the first six is therefore the phone set. */

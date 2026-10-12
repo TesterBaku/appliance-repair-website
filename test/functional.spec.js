@@ -1385,7 +1385,7 @@ test.describe('Newport Beach hub: capped Recent Repairs grid', () => {
 
     const btn = page.locator('.job-grid-more');
     await expect(btn).toBeVisible();
-    await expect(btn).toHaveText('Show all ' + total + ' Newport Beach repairs');
+    await expect(btn).toHaveText('Show all ' + total + ' repairs');
     expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
 
     await btn.click();
@@ -1416,6 +1416,10 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
     await expect(status).toBeVisible();
     await expect(status).toContainText('Newport Beach and Corona del Mar');
     await expect(status).toContainText(shown.length + ' repairs in');
+    // The line must sit above the filter bar so a phone visitor sees it first.
+    const statusTop = (await status.boundingBox()).y;
+    const barTop = (await page.locator('.filters-bar').boundingBox()).y;
+    expect(statusTop).toBeLessThan(barTop);
 
     await page.locator('#city-clear').click();
     expect(await cards.evaluateAll(els => els.filter(e => e.hidden).length)).toBe(0);

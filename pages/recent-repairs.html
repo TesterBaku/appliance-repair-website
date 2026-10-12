@@ -58,9 +58,10 @@
     .chip.active { background: var(--brand-dark); border-color: var(--brand-dark); color: var(--surface); }
 
     /* City status line: shown only when ?city= is active (see the script at the bottom). */
-    .city-status { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .city-status { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; padding: 16px 24px; font-size: 14px; font-weight: 600; color: var(--text-primary); background: var(--surface); border-bottom: 1px solid var(--border-subtle); }
     .city-status[hidden] { display: none; }
-    .city-status .chip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .city-clear { background: transparent; border: 0; color: var(--brand-text); font: inherit; font-size: 14px; font-weight: 600; text-decoration: underline; min-height: 44px; padding: 0 12px; cursor: pointer; }
+    .city-clear:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
     /* Gallery grid */
     .gallery-section { padding: 48px 24px 80px; max-width: 1100px; margin: 0 auto; }
@@ -1096,6 +1097,12 @@
       </div>
     </section>
 
+    <!-- CITY STATUS (only when ?city= is active; scrolls away, not part of the sticky bar) -->
+    <div class="city-status" id="city-status" hidden>
+      <span class="city-status-text" id="city-status-text" role="status"></span>
+      <button type="button" class="city-clear" id="city-clear">Show all cities</button>
+    </div>
+
     <!-- FILTERS -->
     <div class="filters-bar" role="search" aria-label="Filter repairs by type or brand">
       <div class="filters-inner">
@@ -1139,10 +1146,6 @@
 
     <!-- GALLERY -->
     <section class="gallery-section" aria-label="Completed repairs gallery">
-      <div class="city-status" id="city-status" role="status" aria-live="polite" hidden>
-        <span class="city-status-text" id="city-status-text"></span>
-        <button type="button" class="chip" id="city-clear">Show all cities</button>
-      </div>
       <div class="gallery-grid" id="gallery-grid">
         <div class="repair-card" id="job-burner-heads-viking-before-newport-beach" data-appliance="range" data-brand="viking" data-city="newport-beach">
           <picture>

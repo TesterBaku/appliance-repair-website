@@ -231,7 +231,7 @@
 
   // 4. Capped job grid: "Show all N <label>" button. shared.css hides cards 7+ on
   // phones and shows the button row only once the grid carries data-cap-ready, so
-  // without JS the page behaves as it always did.
+  // without JS the grid simply stays capped at six on phones.
   function initJobGridCap() {
     document.querySelectorAll('.job-grid-cap').forEach(function (grid) {
       var count = grid.children.length;
