@@ -178,8 +178,10 @@
     .article-body strong { color: #111; font-weight: 600; }
     .article-body a { color: #aa3210; font-weight: 600; text-decoration: none; }
     .article-body a:hover { text-decoration: underline; }
-    .callout { background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #9a3412; line-height: 1.75; }
+    .callout { background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 15px; color: #9a3412; line-height: 1.75; }
     .callout-blue { background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 13.5px; color: #1e40af; line-height: 1.75; }
+    .callout-green p { margin: 0 0 10px; }
+    .callout-green p:last-child { margin-bottom: 0; }
     .callout-green { background: #f7fafc; border: 1.5px solid #e0e7ef; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-size: 15px; color: #444; line-height: 1.75; }
     .inline-cta { background: linear-gradient(135deg, #cc3d12, #aa3210); border-radius: 16px; padding: 32px; margin: 40px 0; color: #fff; text-align: center; }
     .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
@@ -320,14 +322,19 @@
       color: #aa3210; font-weight: 600; text-decoration: underline; text-underline-offset: 0.15em;
     }
     :is(.article-body, .article-intro, .faq-a, .callout, .callout-blue) a:not([class]):not(:where(.inline-cta *, .article-toc *, .references-block *, nav *)):hover { text-decoration-thickness: 2px; }
-      /* Portrait job photo as hero: cover-cropped, never stretched (see mobile-design, Portrait job photos). */
-    .article-hero-img { object-position: center 38%; }
-    .hero-caption { font-size: 12.5px; color: #666; line-height: 1.6; margin: -8px 0 28px; }
+    /* Text-only hero: the portrait job photo sits whole in .job-figure below the breadcrumb. */
+    .article-hero--text { background: #090909; padding-top: 70px; }
+    .article-hero-inner { max-width: 760px; margin: 0 auto; padding: 40px 24px 36px; }
+    @media (max-width: 768px) { .article-intro { font-size: 15px; } }
+    @media (max-width: 480px) { .callout-green { padding: 16px 16px; margin: 20px 0; } .article-intro { padding: 16px; margin-bottom: 28px; } }
     @media (max-width: 640px) {
-      .article-hero-img { height: 320px; }
+      .article-hero-inner { padding: 28px 16px 28px; }
       .article-hero h1 { font-size: 24px !important; line-height: 1.2 !important; }
       .article-hero .article-meta { margin-bottom: 10px !important; }
     }
+    .refs-note { font-size: 12.5px; color: #555; line-height: 1.7; margin-bottom: 14px; }
+    .refs-group { font-size: 12.5px; font-weight: 700; color: #111; margin: 14px 0 6px; }
+    .references-block ul { padding-left: 18px; margin: 0 0 4px; }
   </style>
   <script type="application/ld+json">
   {
@@ -355,7 +362,7 @@
     ]
   }
   </script>
-  <link rel="preload" as="image" href="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.webp" fetchpriority="high" type="image/webp" imagesrcset="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.webp 768w" imagesizes="100vw">
+  <link rel="preload" as="image" href="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.webp" fetchpriority="high" type="image/webp" imagesrcset="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.webp 768w" imagesizes="(max-width: 640px) calc(100vw - 32px), 360px">
 </head>
 <body>
 
@@ -509,22 +516,15 @@
     <a href="../pages/contact.html" class="nav-drawer-cta nav-drawer-cta--outline">Book a Repair</a>
   </div>
 
-  <div class="article-hero">
-    <picture>
-      <source srcset="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.webp 768w" type="image/webp" sizes="100vw">
-      <img class="article-hero-img" src="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.jpg" alt="Stainless Frigidaire side-by-side refrigerator with a through-door ice and water dispenser, standing in a garage in Chino Hills" width="768" height="1024" fetchpriority="high">
-    </picture>
-    <div class="article-hero-overlay"></div>
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:0 24px 48px;">
-      <div style="max-width:760px;margin:0 auto;">
-        <div class="article-meta" style="margin-bottom:16px;">
-          <span class="meta-tag">Frigidaire Refrigerator</span>
-          <span class="meta-tag">Chino Hills, CA</span>
-          <span style="font-size:12px;color:#fff;">October 12, 2026</span>
-          <span style="font-size:12px;color:#fff;">8 min read</span>
-        </div>
-        <h1 style="font-size:36px;font-weight:800;letter-spacing:-0.8px;color:#fff;line-height:1.15;">Frigidaire Fridge Not Cooling, Freezer Works? Check the Damper</h1>
+  <div class="article-hero article-hero--text">
+    <div class="article-hero-inner">
+      <div class="article-meta" style="margin-bottom:16px;">
+        <span class="meta-tag">Frigidaire Refrigerator</span>
+        <span class="meta-tag">Chino Hills, CA</span>
+        <span style="font-size:12px;color:#fff;">October 12, 2026</span>
+        <span style="font-size:12px;color:#fff;">8 min read</span>
       </div>
+      <h1 style="font-size:36px;font-weight:800;letter-spacing:-0.8px;color:#fff;line-height:1.15;">Frigidaire Fridge Not Cooling, Freezer Works? Check the Damper</h1>
     </div>
   </div>
 
@@ -535,14 +535,21 @@
       <span style="color:#111;">Frigidaire Fridge Not Cooling, Freezer Works</span>
     </div>
 
-    <p class="hero-caption">Damper control replaced on this Frigidaire side-by-side refrigerator in Chino Hills after it stopped cooling.</p>
+    <figure class="job-figure">
+      <picture>
+        <source srcset="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.webp 768w" type="image/webp" sizes="(max-width: 640px) calc(100vw - 32px), 360px">
+        <img src="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.jpg" alt="Stainless Frigidaire side-by-side refrigerator with a through-door ice and water dispenser, standing in a garage in Chino Hills" width="768" height="1024" fetchpriority="high">
+      </picture>
+      <figcaption>Damper control replaced on this Frigidaire side-by-side refrigerator in Chino Hills after it stopped cooling.</figcaption>
+    </figure>
 
-    <p class="article-intro">The freezer is solid and the ice cream is fine, but the milk on the refrigerator side is lukewarm. On a side-by-side that split usually means the cold is being made but not delivered, and one small part that controls the delivery, the air damper, is a known suspect. Here is how the airflow works, how to tell the damper from the other causes, and what a recent Frigidaire job in Chino Hills showed.</p>
+    <p class="article-intro">The freezer is solid and the ice cream is fine, but the milk on the refrigerator side is lukewarm. On a side-by-side that split usually means the cold is being made but not delivered, and one small part that controls the delivery, the air damper, is a known suspect.</p>
 
     <div class="article-body">
 
       <div class="callout-green">
-        <strong>Short answer.</strong> In a side-by-side, the freezer makes the cold and a fan pushes some of it through vents into the refrigerator side. A damper, a small air door in that path, opens and closes to meter how much gets through. If the damper is stuck closed or its control has failed, the refrigerator side warms while the freezer stays cold. A failed evaporator fan, frost on the cooling coil and blocked vents look the same, so clear the vents and check the settings first. If the refrigerator side is still above 40&deg;F after a day, call a technician. Our diagnostic fee is a flat $99, applied toward the repair if you proceed.
+        <p><strong>Short answer.</strong> In a side-by-side, the freezer makes the cold and a damper, a small air door, meters how much of it reaches the refrigerator side. If the damper is stuck closed or its control has failed, the refrigerator side warms while the freezer stays cold. A failed evaporator fan, frost on the cooling coil and blocked vents look the same, so clear the vents and check the settings first. If the refrigerator side is still above 40&deg;F after a day, call a technician.</p>
+        <p>Our diagnostic fee is a flat $99, applied toward the repair if you proceed.</p>
       </div>
 
       <h2 id="airflow">How Cold Air Gets From the Freezer to the Refrigerator Side</h2>
@@ -551,7 +558,7 @@
 
       <p>Between the two compartments sits the damper. Think of it as a door in the air path. <a href="https://www.partselect.com/PS8746718-Frigidaire-242303001-Damper-Control-Assembly.htm" target="_blank" rel="noopener">PartSelect</a> describes it as opening on a signal from the temperature control to let more cold air in, then closing to restrict the airflow once the target temperature is reached, <a href="https://www.appliancepartspros.com/refrigerator-damper-duct-vent.html" target="_blank" rel="noopener">AppliancePartsPros</a> lists damper parts as controlling airflow between the freezer and refrigerator compartments, and <a href="https://www.ifixit.com/Troubleshooting/Refrigerator/Fridge+Not+Cooling+But+Freezer+Works/506845" target="_blank" rel="noopener">iFixit</a> describes it as a device that controls the flow of cold air from the freezer to the fresh food compartment on single-evaporator refrigerators. Where it sits and how it is driven vary by model, so your owner's manual is the place to look.</p>
 
-      <p>That is why the symptom splits the way it does. The freezer is where the cold is made, so it keeps working with the damper shut. The refrigerator side depends on air arriving through the damper. <a href="https://www.ifixit.com/Troubleshooting/Refrigerator/Fridge+Not+Cooling+But+Freezer+Works/506845" target="_blank" rel="noopener">iFixit</a> says that a damper that fails in the shut position makes the fresh food compartment warm up, and <a href="https://www.maytag.com/blog/kitchen/refrigerator-is-not-cooling.html" target="_blank" rel="noopener">Maytag</a> lists a damper stuck in the closed position among the causes when the freezer works but the fridge does not.</p>
+      <p>That is why the symptom splits the way it does. The freezer is where the cold is made, so it keeps working with the damper shut. The refrigerator side depends on air arriving through the damper. iFixit says that a damper that fails in the shut position makes the fresh food compartment warm up, and <a href="https://www.maytag.com/blog/kitchen/refrigerator-is-not-cooling.html" target="_blank" rel="noopener">Maytag</a> lists a damper stuck in the closed position among the causes when the freezer works but the fridge does not.</p>
 
       <h2 id="case">A Recent Frigidaire Job in Chino Hills</h2>
 
@@ -592,7 +599,7 @@
       </ol>
 
       <div class="callout">
-        <strong>Food safety:</strong> the USDA's chart says to discard perishable refrigerated food held above 40&deg;F for more than two hours, and FoodSafety.gov says never to taste food to determine its safety (<a href="https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/keeping-food-safe-during" target="_blank" rel="noopener">USDA</a>; <a href="https://www.foodsafety.gov/food-safety-charts/food-safety-during-power-outage" target="_blank" rel="noopener">FoodSafety.gov</a>). Those pages are written for power outages. Move perishables to a cooler with ice or into the freezer while you wait for the repair.
+        <strong>Food safety:</strong> the USDA's chart says to discard perishable refrigerated food held above 40&deg;F for more than two hours, and FoodSafety.gov says never to taste food to determine its safety (USDA; <a href="https://www.foodsafety.gov/food-safety-charts/food-safety-during-power-outage" target="_blank" rel="noopener">FoodSafety.gov</a>). Those pages are written for power outages. Move perishables to a cooler with ice or into the freezer while you wait for the repair.
       </div>
 
       <h2 id="visit">What a Repair Visit Covers</h2>
@@ -635,11 +642,28 @@
 
       <div class="references-block" id="references">
         <h3>Sources</h3>
-        <ol>
-          <li><strong>Manufacturer help.</strong> <a href="https://producthelp.maytag.com/Refrigeration/Full-size_Refrigerators/Product_Info/Tips_and_Tricks/How_to_Check_the_Air_Vents_for_Blockage_-_Ensuring_Proper_Air_Flow" target="_blank" rel="noopener">Maytag Product Help, checking the air vents</a>; <a href="https://producthelp.maytag.com/Refrigeration/Full-size_Refrigerators/Top_Freezer_Refrigerator/Operation/Temperature_Concerns/Too_Warm_in_Refrigerator_Compartment_-_Top_Freezer_Refrigerator" target="_blank" rel="noopener">Maytag Product Help, too warm in refrigerator compartment</a>; <a href="https://owner.frigidaire.com/support-articles/article/1907715-freezer-not-freezing-or-not-cooling" target="_blank" rel="noopener">Frigidaire owner support, freezer not freezing or not cooling</a>; <a href="https://products.geappliances.com/appliance/gea-support-search-content?contentId=21185" target="_blank" rel="noopener">GE Appliances support, refrigerator not cooling enough</a>; <a href="https://www.maytag.com/blog/kitchen/refrigerator-is-not-cooling.html" target="_blank" rel="noopener">Maytag, 10 reasons your refrigerator is not cooling</a>. Maytag and GE are separate brands from Frigidaire, so these describe how side-by-sides work in general, not your exact model.</li>
-          <li><strong>Parts retailers and repair references.</strong> <a href="https://www.searspartsdirect.com/diy/article/how-to-fix-your-evaporator-cooling-fan" target="_blank" rel="noopener">Sears PartsDirect, evaporator fan</a>; <a href="https://www.partselect.com/PS8746718-Frigidaire-242303001-Damper-Control-Assembly.htm" target="_blank" rel="noopener">PartSelect, Frigidaire damper control assembly</a>; <a href="https://www.appliancepartspros.com/refrigerator-damper-duct-vent.html" target="_blank" rel="noopener">AppliancePartsPros, damper parts</a>; <a href="https://www.ifixit.com/Troubleshooting/Refrigerator/Fridge+Not+Cooling+But+Freezer+Works/506845" target="_blank" rel="noopener">iFixit, fridge not cooling but freezer works</a>. The first three sell the parts they describe.</li>
-          <li><strong>Food safety.</strong> <a href="https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/keeping-food-safe-during" target="_blank" rel="noopener">USDA FSIS, keeping food safe during an emergency</a>; <a href="https://www.foodsafety.gov/food-safety-charts/food-safety-during-power-outage" target="_blank" rel="noopener">FoodSafety.gov, food safety during a power outage</a>; <a href="https://www.fda.gov/food/buy-store-serve-safe-food/food-and-water-safety-during-power-outages-and-floods" target="_blank" rel="noopener">FDA, food and water safety during power outages and floods</a>.</li>
-        </ol>
+        <p class="refs-note">Maytag and GE are separate brands from Frigidaire, so these describe how side-by-sides work in general, not your exact model. The first three sell the parts they describe.</p>
+        <p class="refs-group">Manufacturer help</p>
+        <ul>
+          <li><a href="https://producthelp.maytag.com/Refrigeration/Full-size_Refrigerators/Product_Info/Tips_and_Tricks/How_to_Check_the_Air_Vents_for_Blockage_-_Ensuring_Proper_Air_Flow" target="_blank" rel="noopener">Maytag Product Help, checking the air vents</a></li>
+          <li><a href="https://producthelp.maytag.com/Refrigeration/Full-size_Refrigerators/Top_Freezer_Refrigerator/Operation/Temperature_Concerns/Too_Warm_in_Refrigerator_Compartment_-_Top_Freezer_Refrigerator" target="_blank" rel="noopener">Maytag Product Help, too warm in refrigerator compartment</a></li>
+          <li><a href="https://owner.frigidaire.com/support-articles/article/1907715-freezer-not-freezing-or-not-cooling" target="_blank" rel="noopener">Frigidaire owner support, freezer not freezing or not cooling</a></li>
+          <li><a href="https://products.geappliances.com/appliance/gea-support-search-content?contentId=21185" target="_blank" rel="noopener">GE Appliances support, refrigerator not cooling enough</a></li>
+          <li><a href="https://www.maytag.com/blog/kitchen/refrigerator-is-not-cooling.html" target="_blank" rel="noopener">Maytag, 10 reasons your refrigerator is not cooling</a></li>
+        </ul>
+        <p class="refs-group">Parts retailers and repair references</p>
+        <ul>
+          <li><a href="https://www.searspartsdirect.com/diy/article/how-to-fix-your-evaporator-cooling-fan" target="_blank" rel="noopener">Sears PartsDirect, evaporator fan</a></li>
+          <li><a href="https://www.partselect.com/PS8746718-Frigidaire-242303001-Damper-Control-Assembly.htm" target="_blank" rel="noopener">PartSelect, Frigidaire damper control assembly</a></li>
+          <li><a href="https://www.appliancepartspros.com/refrigerator-damper-duct-vent.html" target="_blank" rel="noopener">AppliancePartsPros, damper parts</a></li>
+          <li><a href="https://www.ifixit.com/Troubleshooting/Refrigerator/Fridge+Not+Cooling+But+Freezer+Works/506845" target="_blank" rel="noopener">iFixit, fridge not cooling but freezer works</a></li>
+        </ul>
+        <p class="refs-group">Food safety</p>
+        <ul>
+          <li><a href="https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/keeping-food-safe-during" target="_blank" rel="noopener">USDA FSIS, keeping food safe during an emergency</a></li>
+          <li><a href="https://www.foodsafety.gov/food-safety-charts/food-safety-during-power-outage" target="_blank" rel="noopener">FoodSafety.gov, food safety during a power outage</a></li>
+          <li><a href="https://www.fda.gov/food/buy-store-serve-safe-food/food-and-water-safety-during-power-outages-and-floods" target="_blank" rel="noopener">FDA, food and water safety during power outages and floods</a></li>
+        </ul>
       </div>
 
       <div style="margin-top:40px;">
