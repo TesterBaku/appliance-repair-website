@@ -2764,9 +2764,15 @@ if (run('area-served-parity')) {
     }
 
     const cardNamesNorm = new Set(cardNames.map(norm));
+    // Owner decision 2026-10-12: Corona, Norco and Eastvale are parked. Their cards and every
+    // visible mention were removed, but the areaServed arrays were deliberately left untouched
+    // in that same decision, so these three entries are card-less on purpose. Remove this set
+    // when the owner reverses the decision or the arrays are cleaned.
+    const PARKED_CITIES = new Set(['corona', 'norco', 'eastvale']);
     for (const entry of new Set(areaServed)) {
       const trimmed = entry.trim();
       if (/county,\s*ca$/i.test(trimmed)) continue;   // region-level, card-less by design
+      if (PARKED_CITIES.has(norm((trimmed.match(/^(.*),\s*CA$/i) || [null, trimmed])[1]))) continue;   // parked, see above
       const cityPart = (trimmed.match(/^(.*),\s*CA$/i) || [null, trimmed])[1];
       if (!cardNamesNorm.has(norm(cityPart))) {
         issues.push(`[AREA-SERVED] ${rel(filePath)} — areaServed lists "${entry}" but no matching city card is rendered on the page.`);
