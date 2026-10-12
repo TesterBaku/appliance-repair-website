@@ -1370,6 +1370,67 @@ test.describe('Testimonials page', () => {
   });
 });
 
+// ─── Capped job grid + gallery city filter ───────────────────────────────────
+const visibleChildren = (loc) => loc.evaluateAll(els => els.filter(e => e.getClientRects().length > 0).length);
+
+test.describe('Newport Beach hub: capped Recent Repairs grid', () => {
+  test('phone: six cards, deep-linked card kept, Show all reveals the rest', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/pages/appliance-repair-newport-beach-ca.html');
+    const cards = page.locator('#newport-beach-job-grid > div');
+    const total = await cards.count();
+    expect(total).toBeGreaterThan(6);
+    expect(await visibleChildren(cards)).toBe(6);
+    await expect(page.locator('#job-lg-washer-drain-pump-newport-beach')).toBeVisible();
+
+    const btn = page.locator('.job-grid-more');
+    await expect(btn).toBeVisible();
+    await expect(btn).toHaveText('Show all ' + total + ' Newport Beach repairs');
+    expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+
+    await btn.click();
+    expect(await visibleChildren(cards)).toBe(total);
+    await expect(btn).toBeHidden();
+    const focusInGrid = await page.evaluate(() => document.getElementById('newport-beach-job-grid').contains(document.activeElement));
+    expect(focusInGrid).toBe(true);
+  });
+
+  test('desktop: every card visible and no Show all button', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/pages/appliance-repair-newport-beach-ca.html');
+    const cards = page.locator('#newport-beach-job-grid > div');
+    expect(await visibleChildren(cards)).toBe(await cards.count());
+    await expect(page.locator('.job-grid-more')).toBeHidden();
+  });
+});
+
+test.describe('Recent repairs gallery: ?city= filter', () => {
+  test('city set narrows the gallery and Show all cities restores it', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/pages/recent-repairs.html?city=newport-beach,corona-del-mar');
+    const cards = page.locator('#gallery-grid .repair-card');
+    const shown = await cards.evaluateAll(els => els.filter(e => !e.hidden).map(e => e.dataset.city));
+    expect(shown.length).toBeGreaterThan(0);
+    expect(shown.every(c => c === 'newport-beach' || c === 'corona-del-mar')).toBe(true);
+    const status = page.locator('#city-status');
+    await expect(status).toBeVisible();
+    await expect(status).toContainText('Newport Beach and Corona del Mar');
+    await expect(status).toContainText(shown.length + ' repairs in');
+
+    await page.locator('#city-clear').click();
+    expect(await cards.evaluateAll(els => els.filter(e => e.hidden).length)).toBe(0);
+    await expect(status).toBeHidden();
+    expect(page.url()).not.toContain('city=');
+  });
+
+  test('unknown city values are ignored', async ({ page }) => {
+    await page.goto('/pages/recent-repairs.html?city=%3Cscript%3E,not-a-city');
+    const cards = page.locator('#gallery-grid .repair-card');
+    expect(await cards.evaluateAll(els => els.filter(e => e.hidden).length)).toBe(0);
+    await expect(page.locator('#city-status')).toBeHidden();
+  });
+});
+
 // ─── Blog page ────────────────────────────────────────────────────────────────
 test.describe('Blog page', () => {
   test.beforeEach(async ({ page }) => {
