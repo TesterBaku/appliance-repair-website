@@ -237,7 +237,7 @@ These three files must exist at the root and return 200:
      | Orange County | **`$99`** | all OC cities |
      | **Los Angeles County** | **`$99`** | **all LA County cities, all brands** — the Gateway Cities (Pico Rivera, Whittier, Downey, Long Beach, Montebello, Santa Fe Springs, Norwalk) **and** the premium cities (Beverly Hills, Santa Monica, Pasadena, Manhattan Beach) |
      | **Riverside County** | **`$99`** | **all Riverside County cities**, western (Corona, Norco, Eastvale) and eastern / Coachella Valley (Riverside, Palm Springs, Cathedral City, Rancho Mirage, Palm Desert) alike |
-| **San Bernardino County** | **`$99`** | **Chino and Chino Hills only** (owner, 2026-10-11). No other San Bernardino County city is a stated service area; ask the owner before extending this row. |
+     | **San Bernardino County** | **`$99`** | **Chino and Chino Hills only** (owner, 2026-10-11). No other San Bernardino County city is a stated service area; ask the owner before extending this row. |
 
      **There is now ONE company fee: `$99`, everywhere we serve, for every city and every brand.**
 
