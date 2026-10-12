@@ -60,8 +60,9 @@
     /* City status line: shown only when ?city= is active (see the script at the bottom). */
     .city-status { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; padding: 16px 24px; font-size: 14px; font-weight: 600; color: var(--text-primary); background: var(--surface); border-bottom: 1px solid var(--border-subtle); }
     .city-status[hidden] { display: none; }
-    .city-clear { background: transparent; border: 0; color: var(--brand-text); font: inherit; font-size: 14px; font-weight: 600; text-decoration: underline; min-height: 44px; padding: 0 12px; cursor: pointer; }
-    .city-clear:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .text-action { background: transparent; border: 0; color: var(--brand-text); font: inherit; font-size: 14px; font-weight: 600; text-decoration: underline; min-height: 44px; padding: 0 12px; cursor: pointer; }
+    .text-action[hidden] { display: none; }
+    .text-action:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
     /* Gallery grid */
     .gallery-section { padding: 48px 24px 80px; max-width: 1100px; margin: 0 auto; }
@@ -96,6 +97,8 @@
     /* Empty state */
     .gallery-empty { display: none; text-align: center; padding: 64px 24px; color: var(--text-sub); font-size: 15px; }
     .gallery-empty.visible { display: block; }
+    .gallery-empty-text { margin: 0; }
+    .gallery-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; margin-top: 12px; }
 
     /* CTA strip */
     .rr-cta { background: linear-gradient(135deg, var(--brand-dark), var(--brand-deeper)); padding: 56px 24px; text-align: center; }
@@ -1100,7 +1103,7 @@
     <!-- CITY STATUS (only when ?city= is active; scrolls away, not part of the sticky bar) -->
     <div class="city-status" id="city-status" hidden>
       <span class="city-status-text" id="city-status-text" role="status"></span>
-      <button type="button" class="city-clear" id="city-clear">Show all cities</button>
+      <button type="button" class="text-action" id="city-clear">Show all cities</button>
     </div>
 
     <!-- FILTERS -->
@@ -2364,7 +2367,13 @@
         </div>
 
       </div>
-      <div class="gallery-empty" id="gallery-empty" role="status" aria-live="polite">No repairs match the selected filters.</div>
+      <div class="gallery-empty" id="gallery-empty">
+        <p class="gallery-empty-text" id="gallery-empty-text" role="status">No repairs match the selected filters.</p>
+        <div class="gallery-empty-actions">
+          <button type="button" class="text-action" id="empty-clear-filters" hidden>Clear appliance and brand filters</button>
+          <button type="button" class="text-action" id="empty-clear-cities" hidden>Show all cities</button>
+        </div>
+      </div>
     </section>
 
     <!-- CTA -->
@@ -2501,21 +2510,56 @@
           if (cities.length) {
             cityText.textContent = visible + (visible === 1 ? ' repair in ' : ' repairs in ') + cityList();
           }
+          // In the zero state the empty message is the one announcement; the count is a duplicate.
+          if (visible === 0) { cityText.setAttribute('aria-hidden', 'true'); } else { cityText.removeAttribute('aria-hidden'); }
+        }
+        if (empty) {
+          const filtered = active.appliance !== 'all' || active.brand !== 'all';
+          emptyClearFilters.hidden = !filtered;
+          emptyClearCities.hidden = cities.length === 0;
+          if (visible === 0) {
+            // "No <brand> <appliance> repairs in <cities> yet.", labels read from the active chips.
+            const parts = [];
+            const brandChip = document.querySelector('.filters-bar .chip.active[data-filter="brand"]');
+            const applianceChip = document.querySelector('.filters-bar .chip.active[data-filter="appliance"]');
+            if (active.brand !== 'all' && brandChip) parts.push(brandChip.textContent.trim());
+            if (active.appliance !== 'all' && applianceChip) parts.push(applianceChip.textContent.trim().toLowerCase());
+            parts.push('repairs');
+            emptyText.textContent = (filtered || cities.length)
+              ? 'No ' + parts.join(' ') + (cities.length ? ' in ' + cityList() : '') + ' yet.'
+              : 'No repairs match the selected filters.';
+          }
         }
       }
+      const emptyText = document.getElementById('gallery-empty-text');
+      const emptyClearFilters = document.getElementById('empty-clear-filters');
+      const emptyClearCities = document.getElementById('empty-clear-cities');
       apply();
 
-      if (cityClear) {
-        cityClear.addEventListener('click', function () {
-          cities = [];
-          apply();
-          const params = new URLSearchParams(location.search);
-          params.delete('city');
-          const qs = params.toString();
-          history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
-          // The status line (and this button) just hid; keep keyboard focus on the page's filters.
-          const firstChip = document.querySelector('.filters-bar .chip');
-          if (firstChip) firstChip.focus();
+      // After a reset: back to the filters if there is something to look at, otherwise stay
+      // on the first button still offered in the empty state so the next press is one Tab away.
+      function settleFocus() {
+        const stillEmpty = empty && empty.classList.contains('visible');
+        const next = stillEmpty && [emptyClearFilters, emptyClearCities].filter(function (b) { return !b.hidden; })[0];
+        const target = next || document.querySelector('.filters-bar .chip');
+        if (target) target.focus();
+      }
+      function clearCities() {
+        cities = [];
+        apply();
+        const params = new URLSearchParams(location.search);
+        params.delete('city');
+        const qs = params.toString();
+        history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+        settleFocus();
+      }
+      if (cityClear) cityClear.addEventListener('click', clearCities);
+      if (emptyClearCities) emptyClearCities.addEventListener('click', clearCities);
+      if (emptyClearFilters) {
+        emptyClearFilters.addEventListener('click', function () {
+          // Reuse the chips' own click path so active class and aria-pressed match a real click.
+          document.querySelectorAll('.filters-bar .chip[data-value="all"]').forEach(function (c) { c.click(); });
+          settleFocus();
         });
       }
 

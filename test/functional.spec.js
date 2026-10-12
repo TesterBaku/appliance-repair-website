@@ -1427,6 +1427,72 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
     expect(page.url()).not.toContain('city=');
   });
 
+  // Finds an appliance + brand chip pair with no card in `cities` (null = anywhere). With
+  // `needSiteWide`, the pair must also have at least one card site-wide.
+  const findEmptyPair = (page, cities, needSiteWide) => page.evaluate(({ cities, needSiteWide }) => {
+    const cards = [...document.querySelectorAll('#gallery-grid .repair-card')];
+    const vals = (g) => [...document.querySelectorAll('.filters-bar .chip[data-filter="' + g + '"]')].map(c => c.dataset.value).filter(v => v !== 'all');
+    const has = (a, b, pool) => pool.some(c => (c.dataset.appliance || '').split(/\s+/).includes(a) && c.dataset.brand === b);
+    const scoped = cities ? cards.filter(c => cities.includes(c.dataset.city)) : cards;
+    for (const a of vals('appliance')) for (const b of vals('brand')) {
+      if (!has(a, b, scoped) && (!needSiteWide || has(a, b, cards))) return { a, b };
+    }
+    return null;
+  }, { cities, needSiteWide });
+  const pickPair = async (page, pair) => {
+    await page.locator('.filters-bar .chip[data-filter="appliance"][data-value="' + pair.a + '"]').click();
+    await page.locator('.filters-bar .chip[data-filter="brand"][data-value="' + pair.b + '"]').click();
+  };
+  const NB = ['newport-beach', 'corona-del-mar'];
+
+  test('empty state under a city set names the filters and offers both resets', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/pages/recent-repairs.html?city=newport-beach,corona-del-mar');
+    const pair = await findEmptyPair(page, NB, true);
+    expect(pair, 'no appliance+brand pair is empty in these cities but present site-wide').not.toBeNull();
+    const cards = page.locator('#gallery-grid .repair-card');
+    const cityCount = await cards.evaluateAll((els, c) => els.filter(e => c.includes(e.dataset.city)).length, NB);
+    const brandLabel = (await page.locator('.filters-bar .chip[data-filter="brand"][data-value="' + pair.b + '"]').textContent()).trim();
+    await pickPair(page, pair);
+    expect(await cards.evaluateAll(els => els.filter(e => !e.hidden).length)).toBe(0);
+    const msg = page.locator('#gallery-empty-text');
+    await expect(msg).toContainText(brandLabel);
+    await expect(msg).toContainText('Newport Beach and Corona del Mar');
+    for (const id of ['#empty-clear-filters', '#empty-clear-cities']) {
+      await expect(page.locator(id)).toBeVisible();
+      expect((await page.locator(id).boundingBox()).height).toBeGreaterThanOrEqual(44);
+    }
+    await page.locator('#empty-clear-filters').click();
+    expect(await cards.evaluateAll(els => els.filter(e => !e.hidden).length)).toBe(cityCount);
+    await expect(page.locator('.filters-bar .chip.active[data-value="all"]')).toHaveCount(2);
+    await expect(page.locator('#gallery-empty')).toBeHidden();
+  });
+
+  test('Show all cities from the empty state lifts the city set', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/pages/recent-repairs.html?city=newport-beach,corona-del-mar');
+    const pair = await findEmptyPair(page, NB, true);
+    expect(pair).not.toBeNull();
+    await pickPair(page, pair);
+    await page.locator('#empty-clear-cities').click();
+    await expect(page.locator('#city-status')).toBeHidden();
+    expect(page.url()).not.toContain('city=');
+    expect(await page.locator('#gallery-grid .repair-card').evaluateAll(els => els.filter(e => !e.hidden).length)).toBeGreaterThan(0);
+    await expect(page.locator('#gallery-empty')).toBeHidden();
+  });
+
+  test('empty state without a city set offers only the filter reset', async ({ page }) => {
+    await page.goto('/pages/recent-repairs.html');
+    const pair = await findEmptyPair(page, null, false);
+    test.skip(!pair, 'every appliance+brand pair has a card site-wide');
+    await pickPair(page, pair);
+    await expect(page.locator('#gallery-empty-text')).not.toContainText(' in ');
+    await expect(page.locator('#empty-clear-filters')).toBeVisible();
+    await expect(page.locator('#empty-clear-cities')).toBeHidden();
+    await page.locator('#empty-clear-filters').click();
+    expect(await page.locator('#gallery-grid .repair-card').evaluateAll(els => els.filter(e => e.hidden).length)).toBe(0);
+  });
+
   test('unknown city values are ignored', async ({ page }) => {
     await page.goto('/pages/recent-repairs.html?city=%3Cscript%3E,not-a-city');
     const cards = page.locator('#gallery-grid .repair-card');
