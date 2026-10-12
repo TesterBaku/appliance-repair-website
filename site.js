@@ -1,8 +1,8 @@
 /*
  * site.js — single source for the site's shared interaction JS.
  *
- * Replaces the per-page inline copies of three widgets that used to be
- * duplicated (and had drifted) across ~91 pages:
+ * Replaces the per-page inline copies of widgets that used to be
+ * duplicated (and had drifted) across ~91 pages, plus one newer shared widget:
  *   1. nav dropdowns  — canonicalized to the accessible variant (hover +
  *                       keyboard focus / Escape + aria-expanded sync).
  *   2. mobile nav drawer — two markup families, detected at runtime:
@@ -10,6 +10,7 @@
  *          (aria-hidden toggle + body scroll lock + focus return)
  *        • main family:    <div class="nav-drawer"> (data-open toggle)
  *   3. FAQ accordion  — single-open (opening one closes the others) + aria.
+ *   4. capped job grid: "Show all N" button that reveals cards hidden on phones.
  *
  * Page-specific filters (blog search/filter, testimonials filter) stay
  * inline on their one page — they are singletons, not a drift class.
@@ -228,7 +229,31 @@
     });
   }
 
+  // 4. Capped job grid: "Show all N <label>" button. shared.css hides cards 7+ on
+  // phones and shows the button row only once the grid carries data-cap-ready, so
+  // without JS the page behaves as it always did.
+  function initJobGridCap() {
+    document.querySelectorAll('.job-grid-cap').forEach(function (grid) {
+      var count = grid.children.length;
+      if (count <= 6 || grid.hasAttribute('data-cap-ready')) return;
+      var row = grid.nextElementSibling;
+      if (!row || !row.classList.contains('job-grid-more-row')) return;
+      var btn = row.querySelector('.job-grid-more');
+      if (!btn) return;
+      btn.textContent = 'Show all ' + count + ' ' + (grid.getAttribute('data-more-label') || 'repairs');
+      grid.setAttribute('data-cap-ready', '');
+      btn.addEventListener('click', function () {
+        grid.setAttribute('data-expanded', '');
+        // The button disappears, so hand focus to the first newly revealed card.
+        var first = grid.children[6];
+        first.setAttribute('tabindex', '-1');
+        first.focus();
+      });
+    });
+  }
+
   initDropdowns();
   initDrawer();
   initFaq();
+  initJobGridCap();
 })();

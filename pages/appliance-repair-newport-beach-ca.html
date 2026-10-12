@@ -133,11 +133,6 @@
          restated, so the grid isn't misread as configurable at this breakpoint. */
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
-      /* Recent Repairs holds 14 cards, which stacked into five-plus screens of
-         scroll on a phone. Show the first six here; the "See all recent repairs"
-         link under the grid carries the rest. Desktop keeps all 14. Card order in
-         the markup is therefore deliberate: the six shown first are the phone set. */
-      .job-grid-cap > div:nth-child(n+7) { display: none; }
     }
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
@@ -813,7 +808,7 @@
     <div class="container">
       <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Recent Repairs in Newport Beach</h2>
        <p style="text-align:center;font-size:13.5px;color:#666;margin-bottom:32px;">Real jobs completed by our technicians in Newport Beach homes, including a Viking burner head cleaning shown before and after, a Thermador spark module and igniter replacement, an LG washer drain-pump replacement, and a Miele freezer not-cooling repair in Corona del Mar.</p>
-       <div class="job-grid-cap" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;align-items:flex-start;">
+       <div class="job-grid-cap" id="newport-beach-job-grid" data-more-label="Newport Beach repairs" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;align-items:flex-start;">
 
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
           <picture>
@@ -980,8 +975,11 @@
         </div>
 
       </div>
+      <div class="job-grid-more-row">
+        <button type="button" class="job-grid-more btn-outline" aria-controls="newport-beach-job-grid">Show all Newport Beach repairs</button>
+      </div>
       <div style="text-align:center;margin-top:20px;">
-        <a href="recent-repairs.html" class="tap-link" style="font-size:13px;color:var(--brand-text);font-weight:600;text-decoration:none;">See all recent repairs &rarr;</a>
+        <a href="recent-repairs.html?city=newport-beach,corona-del-mar" class="tap-link" style="font-size:13px;color:var(--brand-text);font-weight:600;text-decoration:none;">See all Newport Beach repairs in the gallery &rarr;</a>
       </div>
     </div>
   </section>
