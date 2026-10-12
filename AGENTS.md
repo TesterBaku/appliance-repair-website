@@ -285,7 +285,7 @@ backlink tool: none is licensed here.
   *concluding* from unfiltered numbers, not *pulling* them: an all-countries view is still the right
   first step for diagnosis and is how the discrepancy in the next bullet was spotted at all. Pull
   both, conclude from the filtered one. The business serves Orange County, LA
-  County and Riverside County only, so non-US impressions can never become a lead, and the split is
+  County and Riverside County, plus Chino and Chino Hills in San Bernardino County, and nothing outside Southern California, so non-US impressions can never become a lead, and the split is
   not a rounding error: `article-appliance-lifespan-data-2026` measured 8,440 impressions
   all-countries against **607** in the US on the same 28-day window. An unfiltered figure will
   overstate a page's value by an order of magnitude and has already done so in this repo's records.
