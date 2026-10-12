@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-10-10** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-10-12** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 115 |
-| On exactly 1 hub (1 free slot each) | 13 |
-| On exactly 2 hubs (at cap) | 98 |
+| Distinct reviews currently on >=1 hub | 117 |
+| On exactly 1 hub (1 free slot each) | 14 |
+| On exactly 2 hubs (at cap) | 99 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **13** |
+| **Free hub-slots available now** | **14** |
 | Approx. new city hubs supportable @ 3/hub | **~4** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 13 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 14 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -47,13 +47,14 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Henry Lo | brea |
 | J | anaheim |
 | Karen Myhra | long-beach |
-| Kathleen Street | riverside |
 | Kim Bowen | dryer-repair-hub |
 | Laurie Summers | wolf-hub |
 | Noelle B | yorba-linda |
 | Satara Armstrong Charlson | viking-hub |
+| Stacey Etnire | chino-hills |
 | T G | san-juan-capistrano |
 | Tog Valizada | sub-zero-hub |
+| ronney collosi | chino-hills |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
 
@@ -106,6 +107,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Justine Shaw | buena-park, garbage-disposal-repair-hub |
 | Kat Tesh | brea, viking-hub |
 | Katherine Bosboom | cost-hub, dishwasher-repair-hub |
+| Kathleen Street | chino-hills, riverside |
 | Kathy Calderon | aliso-viejo, dacor-hub |
 | Katie Holst | fullerton, dishwasher-repair-hub |
 | Kelly Heyden | huntington-beach, washer-repair-hub |
