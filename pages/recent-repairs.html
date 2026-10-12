@@ -57,6 +57,11 @@
     .chip:hover { border-color: var(--brand-text); color: var(--brand-text); }
     .chip.active { background: var(--brand-dark); border-color: var(--brand-dark); color: var(--surface); }
 
+    /* City status line: shown only when ?city= is active (see the script at the bottom). */
+    .city-status { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .city-status[hidden] { display: none; }
+    .city-status .chip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
     /* Gallery grid */
     .gallery-section { padding: 48px 24px 80px; max-width: 1100px; margin: 0 auto; }
     .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -1134,6 +1139,10 @@
 
     <!-- GALLERY -->
     <section class="gallery-section" aria-label="Completed repairs gallery">
+      <div class="city-status" id="city-status" role="status" aria-live="polite" hidden>
+        <span class="city-status-text" id="city-status-text"></span>
+        <button type="button" class="chip" id="city-clear">Show all cities</button>
+      </div>
       <div class="gallery-grid" id="gallery-grid">
         <div class="repair-card" id="job-burner-heads-viking-before-newport-beach" data-appliance="range" data-brand="viking" data-city="newport-beach">
           <picture>
@@ -2421,7 +2430,8 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <!-- Page-specific gallery filter (appliance + brand). Kept inline per the site.js page-filter convention. -->
+  <!-- Page-specific gallery filter (appliance + brand, plus an optional ?city=a,b URL parameter with
+       no chip row by design). Kept inline per the site.js page-filter convention. -->
   <script>
     (function () {
       const chips = document.querySelectorAll('.filters-bar .chip');
@@ -2429,6 +2439,31 @@
       const cards = document.querySelectorAll('#gallery-grid .repair-card');
       const empty = document.getElementById('gallery-empty');
       const active = { appliance: 'all', brand: 'all' };
+      const cityStatus = document.getElementById('city-status');
+      const cityText = document.getElementById('city-status-text');
+      const cityClear = document.getElementById('city-clear');
+
+      // ?city=newport-beach,corona-del-mar : keep only well-formed slugs that some card carries.
+      let cities = [];
+      const cityParam = new URLSearchParams(location.search).get('city');
+      if (cityParam) {
+        const known = {};
+        cards.forEach(function (card) { known[card.dataset.city] = true; });
+        cities = cityParam.split(',').filter(function (slug, i, all) {
+          return /^[a-z-]+$/.test(slug) && known[slug] && all.indexOf(slug) === i;
+        });
+      }
+
+      function cityName(slug) {
+        return slug.split('-').map(function (w) {
+          return w === 'del' ? w : w.charAt(0).toUpperCase() + w.slice(1);
+        }).join(' ');
+      }
+      function cityList() {
+        const names = cities.map(cityName);
+        if (names.length < 2) return names.join('');
+        return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+      }
 
       function apply() {
         let visible = 0;
@@ -2437,7 +2472,8 @@
         cards.forEach(function (card) {
           const appliances = (card.dataset.appliance || '').split(/\s+/);
           const show = (active.appliance === 'all' || appliances.includes(active.appliance))
-                    && (active.brand === 'all' || card.dataset.brand === active.brand);
+                    && (active.brand === 'all' || card.dataset.brand === active.brand)
+                    && (cities.length === 0 || cities.indexOf(card.dataset.city) !== -1);
           card.toggleAttribute('hidden', !show);
           card.classList.remove('grid-orphan', 'pair-a', 'pair-b');
           if (show) { visible++; secondLastVisible = lastVisible; lastVisible = card; }
@@ -2455,8 +2491,28 @@
           lastVisible.classList.add('pair-b');
         }
         if (empty) empty.classList.toggle('visible', visible === 0);
+        if (cityStatus && cityText) {
+          cityStatus.hidden = cities.length === 0;
+          if (cities.length) {
+            cityText.textContent = visible + (visible === 1 ? ' repair in ' : ' repairs in ') + cityList();
+          }
+        }
       }
       apply();
+
+      if (cityClear) {
+        cityClear.addEventListener('click', function () {
+          cities = [];
+          apply();
+          const params = new URLSearchParams(location.search);
+          params.delete('city');
+          const qs = params.toString();
+          history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+          // The status line (and this button) just hid; keep keyboard focus on the page's filters.
+          const firstChip = document.querySelector('.filters-bar .chip');
+          if (firstChip) firstChip.focus();
+        });
+      }
 
       chips.forEach(function (chip) {
         const group = chip.dataset.filter;
