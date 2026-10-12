@@ -57,6 +57,13 @@
     .chip:hover { border-color: var(--brand-text); color: var(--brand-text); }
     .chip.active { background: var(--brand-dark); border-color: var(--brand-dark); color: var(--surface); }
 
+    /* City status line: shown only when ?city= is active (see the script at the bottom). */
+    .city-status { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; padding: 16px 24px; font-size: 14px; font-weight: 600; color: var(--text-primary); background: var(--surface); border-bottom: 1px solid var(--border-subtle); }
+    .city-status[hidden] { display: none; }
+    .text-action { background: transparent; border: 0; color: var(--brand-text); font: inherit; font-size: 14px; font-weight: 600; text-decoration: underline; min-height: 44px; padding: 0 12px; cursor: pointer; }
+    .text-action[hidden] { display: none; }
+    .text-action:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
     /* Gallery grid */
     .gallery-section { padding: 48px 24px 80px; max-width: 1100px; margin: 0 auto; }
     .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -90,6 +97,12 @@
     /* Empty state */
     .gallery-empty { display: none; text-align: center; padding: 64px 24px; color: var(--text-sub); font-size: 15px; }
     .gallery-empty.visible { display: block; }
+    /* scrollIntoView margins: the box's own 64px bottom padding already clears the 56px sticky
+       mobile bar, so only a little extra is needed; the top margin clears the fixed nav and the
+       sticky filter bar. */
+    .gallery-empty { scroll-margin-top: 260px; scroll-margin-bottom: 16px; }
+    .gallery-empty-text { margin: 0; }
+    .gallery-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; margin-top: 12px; }
 
     /* CTA strip */
     .rr-cta { background: linear-gradient(135deg, var(--brand-dark), var(--brand-deeper)); padding: 56px 24px; text-align: center; }
@@ -1090,6 +1103,12 @@
         <p>Photos from our technician's repair and maintenance visits. Browse by appliance or brand to see work in Orange County and nearby communities.</p>
       </div>
     </section>
+
+    <!-- CITY STATUS (only when ?city= is active; scrolls away, not part of the sticky bar) -->
+    <div class="city-status" id="city-status" hidden>
+      <span class="city-status-text" id="city-status-text" role="status"></span>
+      <button type="button" class="text-action" id="city-clear">Show all cities</button>
+    </div>
 
     <!-- FILTERS -->
     <div class="filters-bar" role="search" aria-label="Filter repairs by type or brand">
@@ -2352,7 +2371,13 @@
         </div>
 
       </div>
-      <div class="gallery-empty" id="gallery-empty" role="status" aria-live="polite">No repairs match the selected filters.</div>
+      <div class="gallery-empty" id="gallery-empty">
+        <p class="gallery-empty-text" id="gallery-empty-text" role="status">No repairs match the selected filters.</p>
+        <div class="gallery-empty-actions">
+          <button type="button" class="text-action" id="empty-clear-filters" hidden>Clear appliance and brand filters</button>
+          <button type="button" class="text-action" id="empty-clear-cities" hidden>Show all cities</button>
+        </div>
+      </div>
     </section>
 
     <!-- CTA -->
@@ -2421,7 +2446,8 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <!-- Page-specific gallery filter (appliance + brand). Kept inline per the site.js page-filter convention. -->
+  <!-- Page-specific gallery filter (appliance + brand, plus an optional ?city=a,b URL parameter with
+       no chip row by design). Kept inline per the site.js page-filter convention. -->
   <script>
     (function () {
       const chips = document.querySelectorAll('.filters-bar .chip');
@@ -2429,6 +2455,33 @@
       const cards = document.querySelectorAll('#gallery-grid .repair-card');
       const empty = document.getElementById('gallery-empty');
       const active = { appliance: 'all', brand: 'all' };
+      const cityStatus = document.getElementById('city-status');
+      const cityText = document.getElementById('city-status-text');
+      const cityClear = document.getElementById('city-clear');
+
+      // ?city=newport-beach,corona-del-mar : keep only well-formed slugs that some card carries.
+      let cities = [];
+      const cityParam = new URLSearchParams(location.search).get('city');
+      if (cityParam) {
+        // A Set, not a plain object: `constructor` and other Object.prototype keys would
+        // otherwise look "known" through the prototype chain.
+        const known = new Set();
+        cards.forEach(function (card) { known.add(card.dataset.city); });
+        cities = cityParam.split(',').filter(function (slug, i, all) {
+          return /^[a-z-]+$/.test(slug) && known.has(slug) && all.indexOf(slug) === i;
+        });
+      }
+
+      function cityName(slug) {
+        return slug.split('-').map(function (w) {
+          return w === 'del' ? w : w.charAt(0).toUpperCase() + w.slice(1);
+        }).join(' ');
+      }
+      function cityList() {
+        const names = cities.map(cityName);
+        if (names.length < 2) return names.join('');
+        return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+      }
 
       function apply() {
         let visible = 0;
@@ -2437,7 +2490,8 @@
         cards.forEach(function (card) {
           const appliances = (card.dataset.appliance || '').split(/\s+/);
           const show = (active.appliance === 'all' || appliances.includes(active.appliance))
-                    && (active.brand === 'all' || card.dataset.brand === active.brand);
+                    && (active.brand === 'all' || card.dataset.brand === active.brand)
+                    && (cities.length === 0 || cities.indexOf(card.dataset.city) !== -1);
           card.toggleAttribute('hidden', !show);
           card.classList.remove('grid-orphan', 'pair-a', 'pair-b');
           if (show) { visible++; secondLastVisible = lastVisible; lastVisible = card; }
@@ -2455,8 +2509,91 @@
           lastVisible.classList.add('pair-b');
         }
         if (empty) empty.classList.toggle('visible', visible === 0);
+        if (cityStatus && cityText) {
+          cityStatus.hidden = cities.length === 0;
+          if (cities.length) {
+            cityText.textContent = visible + (visible === 1 ? ' repair in ' : ' repairs in ') + cityList();
+          }
+          // In the zero state the empty message is the one announcement; the count is a duplicate.
+          if (visible === 0) { cityText.setAttribute('aria-hidden', 'true'); } else { cityText.removeAttribute('aria-hidden'); }
+        }
+        if (empty) {
+          const filtered = active.appliance !== 'all' || active.brand !== 'all';
+          emptyClearFilters.hidden = !filtered;
+          emptyClearCities.hidden = cities.length === 0;
+          if (visible === 0) {
+            // "No <brand> <appliance> repairs in <cities> yet.", labels read from the active chips.
+            const parts = [];
+            const brandChip = document.querySelector('.filters-bar .chip.active[data-filter="brand"]');
+            const applianceChip = document.querySelector('.filters-bar .chip.active[data-filter="appliance"]');
+            if (active.brand !== 'all' && brandChip) parts.push(brandChip.textContent.trim());
+            if (active.appliance !== 'all' && applianceChip) parts.push(applianceChip.textContent.trim().toLowerCase());
+            parts.push('repairs');
+            emptyText.textContent = (filtered || cities.length)
+              ? 'No ' + parts.join(' ') + (cities.length ? ' in ' + cityList() : '') + ' yet.'
+              : 'No repairs match the selected filters.';
+          }
+        }
       }
+      const emptyText = document.getElementById('gallery-empty-text');
+      const emptyClearFilters = document.getElementById('empty-clear-filters');
+      const emptyClearCities = document.getElementById('empty-clear-cities');
       apply();
+
+      // After a reset: back to the filters if there is something to look at, otherwise stay
+      // on the first button still offered in the empty state so the next press is one Tab away.
+      // A user action that leaves nothing to show must not look like a dead tap: bring the empty
+      // state on screen (clear of the sticky bar via scroll-margin), moving only if it is not already.
+      function revealEmpty() {
+        if (!empty || !empty.classList.contains('visible')) return;
+        const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        empty.scrollIntoView({ block: 'nearest', behavior: calm ? 'auto' : 'smooth' });
+      }
+      function settleFocus() {
+        const stillEmpty = empty && empty.classList.contains('visible');
+        const next = stillEmpty && [emptyClearFilters, emptyClearCities].filter(function (b) { return !b.hidden; })[0];
+        const target = next || document.querySelector('.filters-bar .chip');
+        if (target) {
+          // Focusing scrolls to the element's top edge, which lands a chip under the fixed nav.
+          // Focus without scrolling, then place it clear of the nav and the sticky bar ourselves.
+          target.focus({ preventScroll: true });
+          // The still-empty case is placed by revealEmpty() below instead.
+          if (!next) keepClear(target);
+        }
+        revealEmpty();
+      }
+      function keepClear(el) {
+        const nav = document.querySelector('.nav');
+        const bar = document.querySelector('.sticky-mobile-bar');
+        const top = (nav ? nav.getBoundingClientRect().bottom : 0) + 16;
+        const barTop = bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect().top : window.innerHeight;
+        const r = el.getBoundingClientRect();
+        let dy = 0;
+        if (r.top < top) dy = r.top - top;
+        else if (r.bottom > barTop - 16) dy = r.bottom - (barTop - 16);
+        if (dy) {
+          const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollBy({ top: dy, behavior: calm ? 'auto' : 'smooth' });
+        }
+      }
+      function clearCities() {
+        cities = [];
+        apply();
+        const params = new URLSearchParams(location.search);
+        params.delete('city');
+        const qs = params.toString();
+        history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+        settleFocus();
+      }
+      if (cityClear) cityClear.addEventListener('click', clearCities);
+      if (emptyClearCities) emptyClearCities.addEventListener('click', clearCities);
+      if (emptyClearFilters) {
+        emptyClearFilters.addEventListener('click', function () {
+          // Reuse the chips' own click path so active class and aria-pressed match a real click.
+          document.querySelectorAll('.filters-bar .chip[data-value="all"]').forEach(function (c) { c.click(); });
+          settleFocus();
+        });
+      }
 
       chips.forEach(function (chip) {
         const group = chip.dataset.filter;
@@ -2470,6 +2607,7 @@
           chip.setAttribute('aria-pressed', 'true');
           active[group] = chip.dataset.value;
           apply();
+          revealEmpty();
         });
       });
     })();
