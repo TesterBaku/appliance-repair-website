@@ -211,7 +211,10 @@
     if (!items.length) return;
     items.forEach(function (item) {
       var btn = item.querySelector('.faq-q');
-      if (!btn) return;
+      // Older articles ship a static, always-open FAQ list (<div class="faq-q">, no collapsed
+      // CSS). Only a real <button> is an accordion control; leave those lists untouched so
+      // they carry no false aria-expanded and no dead click handler.
+      if (!btn || btn.tagName !== 'BUTTON') return;
       // Sync aria-expanded to the item's actual open/closed state at init, not just on
       // click: a page can ship an item pre-opened via class="faq-item open" (e.g. a hub's
       // featured FAQ), and the button's aria-expanded must reflect that from the first
@@ -222,7 +225,7 @@
         items.forEach(function (i) {
           i.classList.remove('open');
           var q = i.querySelector('.faq-q');
-          if (q) q.setAttribute('aria-expanded', 'false');
+          if (q && q.tagName === 'BUTTON') q.setAttribute('aria-expanded', 'false');
         });
         if (!isOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
       });
