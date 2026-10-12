@@ -1444,9 +1444,20 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
     await page.locator('.filters-bar .chip[data-filter="brand"][data-value="' + pair.b + '"]').click();
   };
   const NB = ['newport-beach', 'corona-del-mar'];
+  // On a phone the empty state must end up fully on screen and clear of the sticky bar.
+  const expectEmptyOnScreen = async (page, buttonIds) => {
+    const sticky = (await page.locator('.sticky-mobile-bar').boundingBox()).y;
+    const ids = ['#gallery-empty-text'].concat(buttonIds);
+    for (const id of ids) {
+      const box = await page.locator(id).boundingBox();
+      expect(box.y, id + ' top inside viewport').toBeGreaterThanOrEqual(0);
+      expect(box.y + box.height, id + ' bottom above the sticky bar').toBeLessThanOrEqual(sticky);
+    }
+  };
 
   test('empty state under a city set names the filters and offers both resets', async ({ page }) => {
     await page.setViewportSize(MOBILE);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/pages/recent-repairs.html?city=newport-beach,corona-del-mar');
     const pair = await findEmptyPair(page, NB, true);
     expect(pair, 'no appliance+brand pair is empty in these cities but present site-wide').not.toBeNull();
@@ -1462,6 +1473,7 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
       await expect(page.locator(id)).toBeVisible();
       expect((await page.locator(id).boundingBox()).height).toBeGreaterThanOrEqual(44);
     }
+    await expectEmptyOnScreen(page, ['#empty-clear-filters', '#empty-clear-cities']);
     await page.locator('#empty-clear-filters').click();
     expect(await cards.evaluateAll(els => els.filter(e => !e.hidden).length)).toBe(cityCount);
     await expect(page.locator('.filters-bar .chip.active[data-value="all"]')).toHaveCount(2);
@@ -1482,10 +1494,13 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
   });
 
   test('empty state without a city set offers only the filter reset', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/pages/recent-repairs.html');
     const pair = await findEmptyPair(page, null, false);
     test.skip(!pair, 'every appliance+brand pair has a card site-wide');
     await pickPair(page, pair);
+    await expectEmptyOnScreen(page, ['#empty-clear-filters']);
     await expect(page.locator('#gallery-empty-text')).not.toContainText(' in ');
     await expect(page.locator('#empty-clear-filters')).toBeVisible();
     await expect(page.locator('#empty-clear-cities')).toBeHidden();

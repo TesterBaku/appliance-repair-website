@@ -97,6 +97,10 @@
     /* Empty state */
     .gallery-empty { display: none; text-align: center; padding: 64px 24px; color: var(--text-sub); font-size: 15px; }
     .gallery-empty.visible { display: block; }
+    /* scrollIntoView margins: the box's own 64px bottom padding already clears the 56px sticky
+       mobile bar, so only a little extra is needed; the top margin clears the fixed nav and the
+       sticky filter bar. */
+    .gallery-empty { scroll-margin-top: 260px; scroll-margin-bottom: 16px; }
     .gallery-empty-text { margin: 0; }
     .gallery-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; margin-top: 12px; }
 
@@ -2538,11 +2542,19 @@
 
       // After a reset: back to the filters if there is something to look at, otherwise stay
       // on the first button still offered in the empty state so the next press is one Tab away.
+      // A user action that leaves nothing to show must not look like a dead tap: bring the empty
+      // state on screen (clear of the sticky bar via scroll-margin), moving only if it is not already.
+      function revealEmpty() {
+        if (!empty || !empty.classList.contains('visible')) return;
+        const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        empty.scrollIntoView({ block: 'nearest', behavior: calm ? 'auto' : 'smooth' });
+      }
       function settleFocus() {
         const stillEmpty = empty && empty.classList.contains('visible');
         const next = stillEmpty && [emptyClearFilters, emptyClearCities].filter(function (b) { return !b.hidden; })[0];
         const target = next || document.querySelector('.filters-bar .chip');
         if (target) target.focus();
+        revealEmpty();
       }
       function clearCities() {
         cities = [];
@@ -2575,6 +2587,7 @@
           chip.setAttribute('aria-pressed', 'true');
           active[group] = chip.dataset.value;
           apply();
+          revealEmpty();
         });
       });
     })();
