@@ -133,6 +133,11 @@
          restated, so the grid isn't misread as configurable at this breakpoint. */
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
+      /* Recent Repairs holds 14 cards, which stacked into five-plus screens of
+         scroll on a phone. Show the first six here; the "See all recent repairs"
+         link under the grid carries the rest. Desktop keeps all 14. Card order in
+         the markup is therefore deliberate: the six shown first are the phone set. */
+      .job-grid-cap > div:nth-child(n+7) { display: none; }
     }
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
@@ -807,8 +812,68 @@
   <section class="section section-white" style="padding-top:0;">
     <div class="container">
       <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Recent Repairs in Newport Beach</h2>
-       <p style="text-align:center;font-size:13.5px;color:#666;margin-bottom:32px;">Real jobs completed by our technicians in Newport Beach homes, including a Bosch dishwasher not-draining repair, an LG washer drain-pump replacement, and a Viking burner head cleaning shown before and after. Three are in Corona del Mar.</p>
-       <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;align-items:flex-start;">
+       <p style="text-align:center;font-size:13.5px;color:#666;margin-bottom:32px;">Real jobs completed by our technicians in Newport Beach homes, including a Viking burner head cleaning shown before and after, a Thermador spark module and igniter replacement, an LG washer drain-pump replacement, and a Miele freezer not-cooling repair in Corona del Mar.</p>
+       <div class="job-grid-cap" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;align-items:flex-start;">
+
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-burner-heads-viking-before-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-burner-heads-viking-before-newport-beach.webp 1200w" type="image/webp" sizes="280px">
+            <img src="../images/real/business/completed-repair-burner-heads-viking-before-newport-beach.jpg" alt="Three tarnished, darkened brass burner heads from a Viking range laid on a light surface before cleaning in Newport Beach" width="1200" height="1200" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
+          </picture>
+          <div style="padding:16px 18px 20px;">
+            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Viking &middot; Range</div>
+            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Burner Head Cleaning: Before</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-burner-heads-viking-after-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-burner-heads-viking-after-newport-beach.webp 1200w" type="image/webp" sizes="280px">
+            <img src="../images/real/business/completed-repair-burner-heads-viking-after-newport-beach.jpg" alt="The same three Viking brass burner heads cleaned back to a bright brass finish, laid on a light surface in Newport Beach" width="1200" height="1200" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
+          </picture>
+          <div style="padding:16px 18px 20px;">
+            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Viking &middot; Range</div>
+            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Burner Head Cleaning: After</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-freezer-miele-not-cooling-corona-del-mar-480w.webp 480w, ../images/real/business/completed-repair-freezer-miele-not-cooling-corona-del-mar.webp 1200w" type="image/webp" sizes="280px">
+            <img src="../images/real/business/completed-repair-freezer-miele-not-cooling-corona-del-mar.jpg" alt="Open Miele freezer with its display reading 79°F and a red alarm indicator, in a Corona del Mar kitchen" width="1200" height="1600" loading="lazy" style="width:100%;height:200px;object-fit:cover;object-position:50% 85%;display:block;">
+          </picture>
+          <div style="padding:16px 18px 20px;">
+            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Miele &middot; Freezer</div>
+            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Not-Cooling Repair</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">Corona del Mar, CA</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-cooktop-thermador-spark-module-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-cooktop-thermador-spark-module-newport-beach.webp 1024w" type="image/webp" sizes="280px">
+            <img src="../images/real/business/completed-repair-cooktop-thermador-spark-module-newport-beach.jpg" alt="Stainless Thermador professional gas cooktop with blue control knobs set into a Newport Beach granite counter after a spark module and igniter replacement" width="1024" height="768" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
+          </picture>
+          <div style="padding:16px 18px 20px;">
+            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Thermador · Cooktop</div>
+            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Spark Module &amp; Igniter Replacement</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-range-wolf-convection-switch-newport-beach-800w.webp 800w, ../images/real/business/completed-repair-range-wolf-convection-switch-newport-beach.webp 1600w" type="image/webp" sizes="280px">
+            <img src="../images/real/business/completed-repair-range-wolf-convection-switch-newport-beach.jpg" alt="Technician holding replaced convection fan switch from a Wolf range during a Newport Beach service call" width="1200" height="900" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
+          </picture>
+          <div style="padding:16px 18px 20px;">
+            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Wolf · Range</div>
+            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Convection Fan Switch Replacement</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
+          </div>
+        </div>
 
         <div id="job-lg-washer-drain-pump-newport-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
           <picture>
@@ -826,18 +891,6 @@
           <div style="padding:16px 18px 20px;">
             <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Wolf · Range</div>
             <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Pro Gas Range Service</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
-          </div>
-        </div>
-
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-range-wolf-convection-switch-newport-beach-800w.webp 800w, ../images/real/business/completed-repair-range-wolf-convection-switch-newport-beach.webp 1600w" type="image/webp" sizes="280px">
-            <img src="../images/real/business/completed-repair-range-wolf-convection-switch-newport-beach.jpg" alt="Technician holding replaced convection fan switch from a Wolf range during a Newport Beach service call" width="1200" height="900" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Wolf · Range</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Convection Fan Switch Replacement</div>
             <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
           </div>
         </div>
@@ -904,18 +957,6 @@
 
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
           <picture>
-            <source srcset="../images/real/business/completed-repair-cooktop-thermador-spark-module-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-cooktop-thermador-spark-module-newport-beach.webp 1024w" type="image/webp" sizes="280px">
-            <img src="../images/real/business/completed-repair-cooktop-thermador-spark-module-newport-beach.jpg" alt="Stainless Thermador professional gas cooktop with blue control knobs set into a Newport Beach granite counter after a spark module and igniter replacement" width="1024" height="768" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Thermador · Cooktop</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Spark Module &amp; Igniter Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
-          </div>
-        </div>
-
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
-          <picture>
             <source srcset="../images/real/business/completed-repair-washer-maytag-control-board-corona-del-mar-480w.webp 480w, ../images/real/business/completed-repair-washer-maytag-control-board-corona-del-mar.webp 768w" type="image/webp" sizes="280px">
             <img src="../images/real/business/completed-repair-washer-maytag-control-board-corona-del-mar.jpg" alt="White Maytag Commercial Technology top-load washer with the lid open in a Corona del Mar laundry alcove during a control-board service call" width="768" height="1024" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
           </picture>
@@ -938,45 +979,9 @@
           </div>
         </div>
 
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-freezer-miele-not-cooling-corona-del-mar-480w.webp 480w, ../images/real/business/completed-repair-freezer-miele-not-cooling-corona-del-mar.webp 1200w" type="image/webp" sizes="280px">
-            <img src="../images/real/business/completed-repair-freezer-miele-not-cooling-corona-del-mar.jpg" alt="Open Miele freezer with its display reading 79°F and a red alarm indicator, in a Corona del Mar kitchen" width="1200" height="1600" loading="lazy" style="width:100%;height:200px;object-fit:cover;object-position:50% 85%;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Miele &middot; Freezer</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Not-Cooling Repair</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Corona del Mar, CA</div>
-          </div>
-        </div>
-
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-burner-heads-viking-before-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-burner-heads-viking-before-newport-beach.webp 1200w" type="image/webp" sizes="280px">
-            <img src="../images/real/business/completed-repair-burner-heads-viking-before-newport-beach.jpg" alt="Three tarnished, darkened brass burner heads from a Viking range laid on a light surface before cleaning in Newport Beach" width="1200" height="1200" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Viking &middot; Range</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Burner Head Cleaning: Before</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
-          </div>
-        </div>
-
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);width:100%;max-width:280px;">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-burner-heads-viking-after-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-burner-heads-viking-after-newport-beach.webp 1200w" type="image/webp" sizes="280px">
-            <img src="../images/real/business/completed-repair-burner-heads-viking-after-newport-beach.jpg" alt="The same three Viking brass burner heads cleaned back to a bright brass finish, laid on a light surface in Newport Beach" width="1200" height="1200" loading="lazy" style="width:100%;height:200px;object-fit:cover;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Viking &middot; Range</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Burner Head Cleaning: After</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
-          </div>
-        </div>
-
       </div>
       <div style="text-align:center;margin-top:20px;">
-        <a href="recent-repairs.html" style="font-size:13px;color:var(--brand-text);font-weight:600;text-decoration:none;">See all recent repairs &rarr;</a>
+        <a href="recent-repairs.html" class="tap-link" style="font-size:13px;color:var(--brand-text);font-weight:600;text-decoration:none;">See all recent repairs &rarr;</a>
       </div>
     </div>
   </section>
