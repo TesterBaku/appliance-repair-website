@@ -1445,6 +1445,18 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
   };
   const NB = ['newport-beach', 'corona-del-mar'];
   // On a phone the empty state must end up fully on screen and clear of the sticky bar.
+  // After a reset, focus lands on the first appliance chip, which must not sit under the fixed nav.
+  const expectFocusedChipClear = async (page) => {
+    const info = await page.evaluate(() => {
+      const a = document.activeElement, r = a.getBoundingClientRect();
+      return { isFirstChip: a === document.querySelector('.filters-bar .chip'), top: r.top, bottom: r.bottom,
+        navBottom: document.querySelector('.nav').getBoundingClientRect().bottom,
+        stickyTop: document.querySelector('.sticky-mobile-bar').getBoundingClientRect().top };
+    });
+    expect(info.isFirstChip).toBe(true);
+    expect(info.top).toBeGreaterThanOrEqual(info.navBottom);
+    expect(info.bottom).toBeLessThanOrEqual(info.stickyTop);
+  };
   const expectEmptyOnScreen = async (page, buttonIds) => {
     const sticky = (await page.locator('.sticky-mobile-bar').boundingBox()).y;
     const ids = ['#gallery-empty-text'].concat(buttonIds);
@@ -1475,6 +1487,7 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
     }
     await expectEmptyOnScreen(page, ['#empty-clear-filters', '#empty-clear-cities']);
     await page.locator('#empty-clear-filters').click();
+    await expectFocusedChipClear(page);
     expect(await cards.evaluateAll(els => els.filter(e => !e.hidden).length)).toBe(cityCount);
     await expect(page.locator('.filters-bar .chip.active[data-value="all"]')).toHaveCount(2);
     await expect(page.locator('#gallery-empty')).toBeHidden();
@@ -1482,11 +1495,13 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
 
   test('Show all cities from the empty state lifts the city set', async ({ page }) => {
     await page.setViewportSize(MOBILE);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/pages/recent-repairs.html?city=newport-beach,corona-del-mar');
     const pair = await findEmptyPair(page, NB, true);
     expect(pair).not.toBeNull();
     await pickPair(page, pair);
     await page.locator('#empty-clear-cities').click();
+    await expectFocusedChipClear(page);
     await expect(page.locator('#city-status')).toBeHidden();
     expect(page.url()).not.toContain('city=');
     expect(await page.locator('#gallery-grid .repair-card').evaluateAll(els => els.filter(e => !e.hidden).length)).toBeGreaterThan(0);

@@ -2553,8 +2553,28 @@
         const stillEmpty = empty && empty.classList.contains('visible');
         const next = stillEmpty && [emptyClearFilters, emptyClearCities].filter(function (b) { return !b.hidden; })[0];
         const target = next || document.querySelector('.filters-bar .chip');
-        if (target) target.focus();
+        if (target) {
+          // Focusing scrolls to the element's top edge, which lands a chip under the fixed nav.
+          // Focus without scrolling, then place it clear of the nav and the sticky bar ourselves.
+          target.focus({ preventScroll: true });
+          // The still-empty case is placed by revealEmpty() below instead.
+          if (!next) keepClear(target);
+        }
         revealEmpty();
+      }
+      function keepClear(el) {
+        const nav = document.querySelector('.nav');
+        const bar = document.querySelector('.sticky-mobile-bar');
+        const top = (nav ? nav.getBoundingClientRect().bottom : 0) + 16;
+        const barTop = bar && getComputedStyle(bar).display !== 'none' ? bar.getBoundingClientRect().top : window.innerHeight;
+        const r = el.getBoundingClientRect();
+        let dy = 0;
+        if (r.top < top) dy = r.top - top;
+        else if (r.bottom > barTop - 16) dy = r.bottom - (barTop - 16);
+        if (dy) {
+          const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollBy({ top: dy, behavior: calm ? 'auto' : 'smooth' });
+        }
       }
       function clearCities() {
         cities = [];
