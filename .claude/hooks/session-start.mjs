@@ -45,9 +45,10 @@ process.stdout.write(`Repo non-negotiables (SessionStart hook; canonical text in
    Chino / Chino Hills in San Bernardino County. \$120 and \$150 are defects in a fee
    statement (the Riverside \$120 tier was retired 2026-08-22). Scheduling follows
    coverage, never distance: same-day when the schedule is open in Orange County, LA
-   County, Riverside city and the Coachella Valley, and Chino / Chino Hills; western
-   Riverside County (Corona, Norco, Eastvale) is next-available by default, so do not
-   promise same-day there. Nothing checks fee or scheduling copy for accuracy. Full rules:
+   County, Riverside city and the Coachella Valley, and Chino / Chino Hills. Corona, Norco
+   and Eastvale are PARKED (owner, 2026-10-12): never name them as served in visible copy,
+   a city card, a form option or llms.txt; the Corona hub stays offline (noindex); the
+   areaServed JSON-LD arrays still list them and are left alone on purpose. Nothing checks fee or scheduling copy for accuracy. Full rules:
    .claude/skills/seo-content/SKILL.md.
 9. Never invent a reviewer name, quote, or rating. Testimonials come only from
    data/testimonials.json, verbatim. A review may appear on at most 2 hub pages -- check

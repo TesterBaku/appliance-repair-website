@@ -389,7 +389,7 @@ test.describe('Contact page', () => {
   // The city select shipped Orange-County-only long after the business added LA and
   // Riverside coverage. Guard the county groups so a future edit cannot silently
   // narrow the form back to one county.
-  for (const county of ['Orange County', 'Los Angeles County', 'Riverside County & nearby']) {
+  for (const county of ['Orange County', 'Los Angeles County', 'Riverside & San Bernardino Counties']) {
     test(`city select offers the "${county}" group`, async ({ page }) => {
       await expect(page.locator(`form [name="city"] optgroup[label="${county}"]`)).toBeAttached();
     });
@@ -1643,6 +1643,25 @@ test.describe('Service areas page', () => {
   test('no dead # city links', async ({ page }) => {
     const links = await hrefs(page, 'a[href*="appliance-repair-"][href*="-ca.html"]');
     expect(links.every(h => h && h !== '#')).toBe(true);
+  });
+
+  test('every region jump link targets a region heading, one link per heading', async ({ page }) => {
+    const targets = await page.$$eval('.region-jump a', as => as.map(a => a.getAttribute('href')));
+    const headingIds = await page.$$eval('h3.region-title', hs => hs.map(h => '#' + h.id));
+    expect(headingIds.length).toBeGreaterThan(0);
+    expect(targets.length).toBe(headingIds.length);
+    for (const t of targets) expect(headingIds).toContain(t);
+  });
+
+  test('map markers stay out of the tab order and the map has an accessible name', async ({ page }) => {
+    // Static source assertions: no dependency on the Leaflet CDN loading.
+    const html = await page.content();
+    expect(html).toMatch(/L\.map\(\s*['"]service-map['"]\s*,\s*\{\s*keyboard:\s*false\s*\}/);
+    expect(html).toMatch(/L\.marker\([^)]*\{[^}]*keyboard:\s*false[^}]*\}\s*\)/);
+    expect(html).not.toMatch(/marker\.on\(\s*['"]add['"]/);
+    const map = page.locator('#service-map');
+    await expect(map).toHaveAttribute('role', 'region');
+    await expect(map).toHaveAttribute('aria-label', /\S/);
   });
 });
 

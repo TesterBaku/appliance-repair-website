@@ -2706,7 +2706,7 @@ if (run('area-served-parity')) {
     // Qualification: at least one rendered `<div class="city-name">…</div>`
     // on the page — deliberately NOT gated on an anchor wrapper. An earlier
     // version required a `.city-card…` anchor around the div, on the theory
-    // that plain `.city-card--info` cards (Whittier, Norco: no dedicated hub
+    // that plain `.city-card--info` cards (Whittier, Downey: no dedicated hub
     // page yet) were the only non-anchor case to worry about. That gate had
     // a silent no-op: converting every anchor card to a plain
     // `<div class="city-card city-card--info">` (all 45 `.city-name` divs
@@ -2764,10 +2764,16 @@ if (run('area-served-parity')) {
     }
 
     const cardNamesNorm = new Set(cardNames.map(norm));
+    // Owner decision 2026-10-12: Corona, Norco and Eastvale are parked. Their cards and every
+    // visible mention were removed, but the areaServed arrays were deliberately left untouched
+    // in that same decision, so these three entries are card-less on purpose. Remove this set
+    // when the owner reverses the decision or the arrays are cleaned.
+    const PARKED_CITIES = new Set(['corona', 'norco', 'eastvale']);
     for (const entry of new Set(areaServed)) {
       const trimmed = entry.trim();
       if (/county,\s*ca$/i.test(trimmed)) continue;   // region-level, card-less by design
       const cityPart = (trimmed.match(/^(.*),\s*CA$/i) || [null, trimmed])[1];
+      if (PARKED_CITIES.has(norm(cityPart))) continue;   // parked, see above
       if (!cardNamesNorm.has(norm(cityPart))) {
         issues.push(`[AREA-SERVED] ${rel(filePath)} — areaServed lists "${entry}" but no matching city card is rendered on the page.`);
       }
