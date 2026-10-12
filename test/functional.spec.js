@@ -3167,3 +3167,33 @@ test.describe('Regression: FAQ aria-expanded synced on load (pre-opened items)',
   }
 });
 
+// ─── Regression: static <div class="faq-q"> lists stay out of the accordion wiring ───
+// Older articles render their FAQ as a plain always-visible list (<div class="faq-q">, no
+// display:none on .faq-a). initFaq() once treated them as accordions, stamping an invalid
+// aria-expanded="false" on a generic <div> and telling assistive tech the visible answer
+// was collapsed. The page list is derived from the file tree.
+const FAQ_STATIC_URLS = collectPageUrls(path.join(__dirname, '..'), path.join(__dirname, '..'))
+  .filter(u => fs.readFileSync(path.join(__dirname, '..', u), 'utf8').includes('<div class="faq-q"'))
+  .sort();
+
+test('static div.faq-q lists carry no aria-expanded and every answer is visible', async ({ page }) => {
+  expect(FAQ_STATIC_URLS.length).toBeGreaterThan(0);
+  const offenders = [];
+  for (const url of FAQ_STATIC_URLS) {
+    await page.goto(url);
+    const bad = await page.evaluate(() => {
+      const out = [];
+      document.querySelectorAll('.faq-q').forEach((q, i) => {
+        if (q.hasAttribute('aria-expanded')) out.push(`.faq-q ${i} has aria-expanded`);
+      });
+      document.querySelectorAll('.faq-a').forEach((a, i) => {
+        const r = a.getBoundingClientRect();
+        if (getComputedStyle(a).display === 'none' || r.height === 0) out.push(`.faq-a ${i} not visible`);
+      });
+      return out;
+    });
+    if (bad.length) offenders.push({ url, bad: bad.slice(0, 3) });
+  }
+  expect(offenders, JSON.stringify(offenders, null, 1)).toEqual([]);
+});
+
