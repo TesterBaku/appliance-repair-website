@@ -2450,10 +2450,12 @@
       let cities = [];
       const cityParam = new URLSearchParams(location.search).get('city');
       if (cityParam) {
-        const known = {};
-        cards.forEach(function (card) { known[card.dataset.city] = true; });
+        // A Set, not a plain object: `constructor` and other Object.prototype keys would
+        // otherwise look "known" through the prototype chain.
+        const known = new Set();
+        cards.forEach(function (card) { known.add(card.dataset.city); });
         cities = cityParam.split(',').filter(function (slug, i, all) {
-          return /^[a-z-]+$/.test(slug) && known[slug] && all.indexOf(slug) === i;
+          return /^[a-z-]+$/.test(slug) && known.has(slug) && all.indexOf(slug) === i;
         });
       }
 

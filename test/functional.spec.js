@@ -1433,6 +1433,21 @@ test.describe('Recent repairs gallery: ?city= filter', () => {
     expect(await cards.evaluateAll(els => els.filter(e => e.hidden).length)).toBe(0);
     await expect(page.locator('#city-status')).toBeHidden();
   });
+
+  test('Object.prototype keys are ignored, valid slugs beside them still filter', async ({ page }) => {
+    const cards = page.locator('#gallery-grid .repair-card');
+    await page.goto('/pages/recent-repairs.html?city=constructor');
+    expect(await cards.evaluateAll(els => els.filter(e => e.hidden).length)).toBe(0);
+    await expect(page.locator('#city-status')).toBeHidden();
+
+    await page.goto('/pages/recent-repairs.html?city=constructor,newport-beach');
+    const shown = await cards.evaluateAll(els => els.filter(e => !e.hidden).map(e => e.dataset.city));
+    expect(shown.length).toBeGreaterThan(0);
+    expect(shown.every(c => c === 'newport-beach')).toBe(true);
+    const text = await page.locator('#city-status-text').textContent();
+    expect(text).toContain('Newport Beach');
+    expect(text).not.toMatch(/Constructor|Corona/);
+  });
 });
 
 // ─── Blog page ────────────────────────────────────────────────────────────────
