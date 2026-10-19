@@ -1368,6 +1368,92 @@ test.describe('Testimonials page', () => {
     await dropdown.hover();
     await expect(dropdown.locator('.nav-dropdown-menu')).toBeVisible();
   });
+
+  // Show more + per-pill counts + live status line. Counts are derived at runtime from the
+  // cards and the 147 stat, so these assertions compute expectations from the DOM rather than
+  // hard-coding 142 / 147, and a weekly review batch cannot make them stale.
+  const visibleCards = (page) => page.locator('#reviews-grid .t-card:not([hidden])');
+
+  test('Show more: starts at 24, reveals 24 at a time, focuses the first new card, hides when empty', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    const total = await page.locator('#reviews-grid .t-card').count();
+    expect(total).toBeGreaterThan(48);
+    expect(await visibleCards(page).count()).toBe(24);
+
+    const btn = page.locator('#reviews-more');
+    await expect(btn).toBeVisible();
+    await expect(btn).toHaveAttribute('aria-controls', 'reviews-grid');
+    expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+
+    await btn.click();
+    expect(await visibleCards(page).count()).toBe(48);
+    const focusedIsFirstNew = await page.evaluate(() => {
+      const all = [...document.querySelectorAll('#reviews-grid .t-card')];
+      return document.activeElement === all[24];
+    });
+    expect(focusedIsFirstNew).toBe(true);
+
+    while (await btn.isVisible()) await btn.click();
+    expect(await visibleCards(page).count()).toBe(total);
+    await expect(btn).toBeHidden();
+  });
+
+  test('without JS every card is visible (cards are hidden only by the script)', async ({ browser }) => {
+    const ctx = await browser.newContext({ javaScriptEnabled: false });
+    const page = await ctx.newPage();
+    await page.goto('/pages/testimonials.html');
+    const total = await page.locator('#reviews-grid .t-card').count();
+    expect(await visibleCards(page).count()).toBe(total);
+    await expect(page.locator('#reviews-more')).toBeHidden();
+    await expect(page.locator('#review-status')).toBeHidden();
+    await ctx.close();
+  });
+
+  test('a filter resets the reveal, counts match the pills, and the live region announces it', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    const status = page.locator('#review-status');
+    await expect(status).toHaveAttribute('aria-live', 'polite');
+    await expect(status).toHaveAttribute('role', 'status');
+
+    // Initial line is derived from the DOM: total cards and the script-owned Google total.
+    const total = await page.locator('#reviews-grid .t-card').count();
+    const google = Number(await page.locator('#google-review-total').innerText());
+    await expect(status).toContainText('Showing 24 of ' + total + ' written reviews');
+    if (google > total) await expect(status).toContainText('Our ' + google + ' Google reviews include ' + (google - total));
+
+    // Reveal a second batch, then filter: the reveal must reset to the first batch of the match set.
+    await page.locator('#reviews-more').click();
+    expect(await visibleCards(page).count()).toBe(48);
+
+    // Each category pill's "(N)" equals the number of cards the filter then shows (all revealed).
+    const washerPill = page.locator('.filter-pill[data-filter="washer"]');
+    const n = Number((await washerPill.innerText()).match(/\((\d+)\)\s*$/)[1]);
+    const expected = await page.locator('#reviews-grid .t-card').evaluateAll(
+      els => els.filter(e => (e.dataset.category || '').split(' ').includes('washer')).length);
+    expect(n).toBe(expected);
+    await washerPill.click();
+    const shownNow = await visibleCards(page).count();
+    expect(shownNow).toBe(Math.min(24, n));
+    await expect(status).toContainText(n <= 24 ? 'Showing all ' + n + ' washer reviews' : 'Showing 24 of ' + n + ' washer reviews');
+
+    // The All pill keeps its static text and restores the full set at the first batch.
+    await page.locator('.filter-pill[data-filter="all"]').click();
+    expect(await visibleCards(page).count()).toBe(24);
+    await expect(status).toContainText('Showing 24 of ' + total + ' written reviews');
+    // Reveal every card: the status switches to the "Showing all" form.
+    const btn = page.locator('#reviews-more');
+    while (await btn.isVisible()) await btn.click();
+    await expect(status).toContainText('Showing all ' + total + ' written reviews');
+  });
+
+  test('stat strip to filter pills gap is tight on desktop', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.evaluate(() => document.fonts.ready);
+    const gap = await page.evaluate(() =>
+      document.querySelector('.filter-bar').getBoundingClientRect().top -
+      document.querySelector('section.section-white').getBoundingClientRect().bottom);
+    expect(gap).toBeLessThanOrEqual(48);
+  });
 });
 
 // ─── Capped job grid + gallery city filter ───────────────────────────────────
