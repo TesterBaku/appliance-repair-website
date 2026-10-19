@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 120 |
-| On exactly 1 hub (1 free slot each) | 17 |
-| On exactly 2 hubs (at cap) | 99 |
+| Distinct reviews currently on >=1 hub | 119 |
+| On exactly 1 hub (1 free slot each) | 15 |
+| On exactly 2 hubs (at cap) | 100 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **17** |
+| **Free hub-slots available now** | **15** |
 | Approx. new city hubs supportable @ 3/hub | **~5** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 17 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 15 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -44,14 +44,12 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Alexander Vershinin | refrigerator-repair-cost-hub |
 | Arzuman Qarayev | westminster |
 | Caitlin Singleton | san-juan-capistrano |
-| Elliot Trout | palm-springs |
 | Henry Lo | brea |
 | J | anaheim |
 | Jesus Mendoza | palm-springs |
 | Karen Myhra | long-beach |
 | Kim Bowen | dryer-repair-hub |
 | Laurie Summers | wolf-hub |
-| Noelle B | yorba-linda |
 | Satara Armstrong Charlson | viking-hub |
 | Stacey Etnire | chino-hills |
 | T G | san-juan-capistrano |
@@ -132,6 +130,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Michele Ohanian | ge-hub, refrigerator-repair-cost-hub |
 | Muhammed Nusratli | kenmore-hub, oven-repair-cost-hub |
 | Naoki MacInnes | long-beach, wine-cooler-repair-hub |
+| Noelle B | palm-springs, yorba-linda |
 | Olga Garcia | lg-hub, maytag-hub |
 | Pat Sepulveda-Garcia | corona, dcs-hub |
 | Patricio Jr Villanueva | la-habra, washer-repair-hub |
