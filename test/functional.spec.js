@@ -1418,8 +1418,15 @@ test.describe('Testimonials page', () => {
     // Initial line is derived from the DOM: total cards and the script-owned Google total.
     const total = await page.locator('#reviews-grid .t-card').count();
     const google = Number(await page.locator('#google-review-total').innerText());
-    await expect(status).toContainText('Showing 24 of ' + total + ' written reviews');
-    if (google > total) await expect(status).toContainText('Our ' + google + ' Google reviews include ' + (google - total));
+    // The Google/Yelp split is read from each card's own source line, never typed or subtracted.
+    const split = await page.locator('#reviews-grid .t-source').evaluateAll(
+      els => ({ yelp: els.filter(e => /^\s*Yelp/i.test(e.textContent)).length, all: els.length }));
+    const googleCards = split.all - split.yelp;
+    expect(split.all).toBe(total);
+    await expect(status).toContainText('Showing 24 of ' + total + ' written reviews: ' + googleCards + ' from Google and ' + split.yelp + ' from Yelp.');
+    // Never "Google total minus card count": that arithmetic mixed Yelp cards into a Google figure.
+    if (google > googleCards) await expect(status).toContainText('they count toward our ' + google + ' Google reviews.');
+    await expect(status).not.toContainText('too little to quote');
 
     // Reveal a second batch, then filter: the reveal must reset to the first batch of the match set.
     await page.locator('#reviews-more').click();
@@ -1439,11 +1446,11 @@ test.describe('Testimonials page', () => {
     // The All pill keeps its static text and restores the full set at the first batch.
     await page.locator('.filter-pill[data-filter="all"]').click();
     expect(await visibleCards(page).count()).toBe(24);
-    await expect(status).toContainText('Showing 24 of ' + total + ' written reviews');
+    await expect(status).toContainText('Showing 24 of ' + total + ' written reviews: ' + googleCards + ' from Google');
     // Reveal every card: the status switches to the "Showing all" form.
     const btn = page.locator('#reviews-more');
     while (await btn.isVisible()) await btn.click();
-    await expect(status).toContainText('Showing all ' + total + ' written reviews');
+    await expect(status).toContainText('Showing all ' + total + ' written reviews: ' + googleCards + ' from Google and ' + split.yelp + ' from Yelp.');
   });
 
   test('stat strip to filter pills gap is tight on desktop', async ({ page }) => {
