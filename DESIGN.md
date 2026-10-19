@@ -17,6 +17,7 @@ colors:
   night-workshop:    "#090909"
   footer-mist:       "#999999"
   star-gold:         "#f59e0b"
+  star-gold-on-light: "#d97706"
   linen:             "#eeeeee"
 typography:
   display:
@@ -137,7 +138,8 @@ A committed palette: one saturated accent on a cool-tinted light field, grounded
 - **Linen** (`#eeeeee`): Borders and nav separators. Barely-there boundary lines.
 - **Night Workshop** (`#090909`): Footer background. Deep near-black with a faint warm undertone. Paired with footer-mist text for ~9:1 contrast.
 - **Footer Mist** (`#999999`): All footer text on Night Workshop. Light enough to read, muted enough to recede.
-- **Star Gold** (`#f59e0b`): Rating stars only. Never used elsewhere — its restriction gives the rating sections immediate recognition.
+- **Star Gold** (`#f59e0b`, `--amber`): Rating stars only. Never used elsewhere; its restriction gives the rating sections immediate recognition. Use it for stars on dark backgrounds (the hero rating chip). It measures only 2.15:1 on white, under WCAG 1.4.11's 3:1 for graphical objects, so it is not used on white cards.
+- **Star Gold on Light** (`#d97706`, `--star-on-light`): The same rating stars when they sit on a white or light card (hub testimonial cards, the homepage review cards, the testimonials page). 3.19:1 on white. Rating stars only, like Star Gold; it is a contrast-corrected variant, not a second accent.
 
 ### Named Rules
 **The One Ember Rule.** Craftsman's Ember appears on ≤10% of any given screen. Every CTA is orange; decorations are not. If a new component is orange, ask whether it is an action. If not, rethink the color choice.
@@ -236,7 +238,7 @@ Question buttons use `aria-expanded` (true/false) and `aria-controls` pointing t
 ### Don't:
 - **Don't** use Craftsman's Ember as a decorative color. No orange section backgrounds, no orange text for emphasis, no orange borders that don't communicate "interact with me."
 - **Don't** use the national-chain or corporate-HVAC aesthetic: no cold blue primary colors, no aggressive promotional starburst graphics, no clean-white-with-teal-accents look. This system should feel like a local expert, not a franchise.
-- **Don't** introduce a second accent color. Star Gold (`#f59e0b`) exists only for rating stars. Everything else is Ember or neutral.
+- **Don't** introduce a second accent color. Star Gold (`#f59e0b`, and its on-light variant `#d97706`) exists only for rating stars. Everything else is Ember or neutral.
 - **Don't** stack cards inside cards. Nested cards are never correct in this system.
 - **Don't** apply `border-left` or `border-right` greater than 1px as a colored stripe on cards, list items, or callouts. Use background tints, full borders, or leading icons instead.
 - **Don't** use gradient text (`background-clip: text` with a gradient fill). Use Pressed Steel for emphasis, weight for hierarchy.

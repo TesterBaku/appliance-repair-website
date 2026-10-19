@@ -123,7 +123,7 @@
     /* 4 reviews: center the 4th card in the middle column so a 3-col grid does not strand it left-aligned */
     .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: 2; }
     .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
-    .hub-page .stars { color: var(--amber); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .hub-page .stars { color: var(--star-on-light); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
     .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
     .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
@@ -725,34 +725,34 @@
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend"</p>
-          <div class="t-initial" style="background:#444444;">LA</div>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">LA</div>
           <div class="testimonial-name">Lale · GE Monogram refrigerator repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"MK arrived on time, quickly diagnosed and repaired our dishwasher. Great service, reasonably priced."</p>
-          <div class="t-initial" style="background:#444444;">JS</div>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JS</div>
           <div class="testimonial-name">Jonathan Stone · Dishwasher repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG has been fantastic while fixing our dryer! His work is thorough and his customer service is A+++! He will definitely be my 1st call when we need another repair! Thanks again AG!"</p>
-          <div class="t-initial" style="background:#444444;">CM</div>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">CM</div>
           <div class="testimonial-name">Cindy Montefu · Dryer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Called for dishwasher repair and AG was very responsive, helped me save money ordering a part and then came back quickly to complete the job. All works well now. Would definitely recommend. Thank you!"</p>
-          <div class="t-initial" style="background:#444444;">MK</div>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MK</div>
           <div class="testimonial-name">Marla Katz · KitchenAid dishwasher repair · Santa Ana, CA</div>
         </div>
 
       </div>
-      <div style="margin-top:24px;">
-        <a href="testimonials.html" style="font-size:13px;color:var(--brand-text);font-weight:500;text-decoration:none;">Read all 147 reviews &rarr;</a>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 147 reviews &rarr;</a>
       </div>
     </div>
   </section>

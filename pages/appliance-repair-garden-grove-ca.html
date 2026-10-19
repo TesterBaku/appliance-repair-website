@@ -108,7 +108,7 @@
     /* 4 reviews: center the 4th card in the middle column so a 3-col grid does not strand it left-aligned */
     .hub-page .testimonials-grid:has(.testimonial-card:nth-child(4):last-child) .testimonial-card:nth-child(4) { grid-column: 2; }
     .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
-    .hub-page .stars { color: var(--amber); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
+    .hub-page .stars { color: var(--star-on-light); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
     .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
     .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
@@ -771,34 +771,34 @@
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG was awesome!"</p>
-          <div class="t-initial" style="background:#444444;">CT</div>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">CT</div>
           <div class="testimonial-name">Craig Tudor · Washer repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!"</p>
-          <div class="t-initial" style="background:#444444;">LR</div>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">LR</div>
           <div class="testimonial-name">Lilya Raupova, Sub-Zero refrigerator repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"Thank you for fixing my Samsung range"</p>
-          <div class="t-initial" style="background:#444444;">GM</div>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">GM</div>
           <div class="testimonial-name">George Mendoza, Samsung range repair · Orange County, CA</div>
         </div>
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
           <p class="testimonial-quote">"AG cleaned condenser on my Samsung refrigerator. Good price!!!"</p>
-          <div class="t-initial" style="background:#444444;">RO</div>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">RO</div>
           <div class="testimonial-name">Raymond Olinger, Samsung refrigerator repair · Garden Grove, CA</div>
         </div>
 
       </div>
-      <div style="margin-top:24px;">
-        <a href="testimonials.html" style="font-size:13px;color:var(--brand-text);font-weight:500;text-decoration:none;">Read all 147 reviews &rarr;</a>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 147 reviews &rarr;</a>
       </div>
     </div>
   </section>
