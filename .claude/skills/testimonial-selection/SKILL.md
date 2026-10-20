@@ -205,8 +205,12 @@ Acceptable spread within a row: roughly 1.5× (e.g., 25-word and 40-word OK; 25-
 
 ### Non-OC hubs omit the location label (owner decision, 2026-08-15)
 
-On hub pages outside Orange County — currently Long Beach and Pico Rivera (LA County) and Corona
-(Riverside County) — testimonial cards drop the location segment entirely. Render
+On hub pages outside Orange County (currently Long Beach, Pico Rivera and Montebello in LA County;
+Riverside and Palm Springs in Riverside County; and Chino Hills in San Bernardino County)
+testimonial cards drop the location segment entirely. The Corona hub is parked and offline (owner
+decision, 2026-10-12), so it is not a live member of this set; its file still exists and its cards
+still follow the rule. One live card is a deliberate exception: the Chino Hills card whose location is
+attested under Exception 2 above keeps its attested `Chino Hills, CA` label. Render
 `Name · Job type` and stop. Do not write `Orange County, CA`, and do not substitute the hub's own
 city.
 

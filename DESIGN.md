@@ -17,6 +17,7 @@ colors:
   night-workshop:    "#090909"
   footer-mist:       "#999999"
   star-gold:         "#f59e0b"
+  star-gold-on-light: "#d97706"
   linen:             "#eeeeee"
 typography:
   display:
@@ -137,7 +138,8 @@ A committed palette: one saturated accent on a cool-tinted light field, grounded
 - **Linen** (`#eeeeee`): Borders and nav separators. Barely-there boundary lines.
 - **Night Workshop** (`#090909`): Footer background. Deep near-black with a faint warm undertone. Paired with footer-mist text for ~9:1 contrast.
 - **Footer Mist** (`#999999`): All footer text on Night Workshop. Light enough to read, muted enough to recede.
-- **Star Gold** (`#f59e0b`): Rating stars only. Never used elsewhere — its restriction gives the rating sections immediate recognition.
+- **Star Gold** (`#f59e0b`, `--amber`): Rating stars only. Never used elsewhere; its restriction gives the rating sections immediate recognition. Use it for stars on dark backgrounds (the hero rating chip). It measures only 2.15:1 on white, under WCAG 1.4.11's 3:1 for graphical objects, so it is not used on white cards.
+- **Star Gold on Light** (`#d97706`, `--star-on-light`): The same rating stars when they sit on a white or light card (hub testimonial cards, the homepage review cards, the testimonials page). 3.19:1 on white. Rating stars only, like Star Gold; it is a contrast-corrected variant, not a second accent.
 
 ### Named Rules
 **The One Ember Rule.** Craftsman's Ember appears on ≤10% of any given screen. Every CTA is orange; decorations are not. If a new component is orange, ask whether it is an action. If not, rethink the color choice.
@@ -201,7 +203,7 @@ Cards are the primary surface of this system. Corner radius signals importance t
 
 - **Service Cards** (16px radius, 20px shadow): Image-bearing cards for appliance types. Full-width image (200px height, cover fit), then padded body. The largest card unit in the system.
 - **Feature/Stat Cards** (14px radius, 16px shadow): Content-only cards for "Why Us" highlights and statistics. Padding: 24–28px internal. Never nested inside another card.
-- **Testimonial Cards** (16px radius, 24px shadow): Full-bleed width at any column count. Centered text, star row above quote, name below. On desktop, two columns via `.testimonials-grid`. Collapses to single column at 480px.
+- **Testimonial Cards** (16px radius, 24px shadow): Full-bleed width at any column count. Centered text, star row above quote, name below. On desktop, two columns via `.testimonials-grid`. Collapses to single column at 480px. This describes the homepage card. The hub-page card (`.hub-page .testimonial-card`, 14px radius, left-aligned text, 36px initials badge) is a deliberate variant: grid of three at desktop, two at tablet with a lone third card centred on its own row, one on phones; the badge and name are pinned to the card bottom so names line up across a row. Star rows on these white cards use Star Gold on Light.
 - **Testimonial Avatars** (`#444444`): Initial badges inside testimonial cards. Use Workshop Charcoal for reviewer initials so city pages match the homepage review treatment.
 - **Letter Card** (18px radius, 70px Dark Feature shadow): The signature component. White card on the dark brown section. Internal padding 44px 52px (desktop), 28px 22px (mobile). Houses the "Get in touch" copy, contact info, and a sticky-note decoration. Never replicate this shadow outside this context.
 - **FAQ Items** (12px radius, 6px shadow): Accordion containers. No outer border; shadow provides boundary. The button question row has `min-height: 44px` for mobile tap targets.
@@ -236,7 +238,7 @@ Question buttons use `aria-expanded` (true/false) and `aria-controls` pointing t
 ### Don't:
 - **Don't** use Craftsman's Ember as a decorative color. No orange section backgrounds, no orange text for emphasis, no orange borders that don't communicate "interact with me."
 - **Don't** use the national-chain or corporate-HVAC aesthetic: no cold blue primary colors, no aggressive promotional starburst graphics, no clean-white-with-teal-accents look. This system should feel like a local expert, not a franchise.
-- **Don't** introduce a second accent color. Star Gold (`#f59e0b`) exists only for rating stars. Everything else is Ember or neutral.
+- **Don't** introduce a second accent color. Star Gold (`#f59e0b`, and its on-light variant `#d97706`) exists only for rating stars. Everything else is Ember or neutral.
 - **Don't** stack cards inside cards. Nested cards are never correct in this system.
 - **Don't** apply `border-left` or `border-right` greater than 1px as a colored stripe on cards, list items, or callouts. Use background tints, full borders, or leading icons instead.
 - **Don't** use gradient text (`background-clip: text` with a gradient fill). Use Pressed Steel for emphasis, weight for hierarchy.
