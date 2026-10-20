@@ -1406,6 +1406,7 @@ test.describe('Testimonials page', () => {
     expect(await visibleCards(page).count()).toBe(total);
     await expect(page.locator('#reviews-more')).toBeHidden();
     await expect(page.locator('#review-status')).toBeHidden();
+    await expect(page.locator('#review-source-note')).toBeHidden();
     await ctx.close();
   });
 
@@ -1423,12 +1424,17 @@ test.describe('Testimonials page', () => {
       els => ({ yelp: els.filter(e => /^\s*Yelp/i.test(e.textContent)).length, all: els.length }));
     const googleCards = split.all - split.yelp;
     expect(split.all).toBe(total);
-    await expect(status).toContainText('Showing 24 of ' + total + ' reviews: ' + googleCards + ' from Google and ' + split.yelp + ' from Yelp.');
+    // The live region stays one short sentence; it is re-read on every filter and reveal.
+    await expect(status).toHaveText('Showing 24 of ' + total + ' reviews.');
+    // The source breakdown lives in a static (non-live) note after the grid.
+    const note = page.locator('#review-source-note');
+    await expect(note).not.toHaveAttribute('aria-live', /.*/);
+    await expect(note).toContainText(googleCards + ' of these reviews are from Google and ' + split.yelp + ' from Yelp.');
     // Never "Google total minus card count": that arithmetic mixed Yelp cards into a Google figure.
-    if (google > googleCards) await expect(status).toContainText('they count toward our ' + google + ' Google reviews.');
-    await expect(status).not.toContainText('too little to quote');
-    // Some cards are star-only (no text), so the total must never be called "written reviews".
+    if (google > googleCards) await expect(note).toContainText('they count toward our ' + google + ' Google reviews.');
+    // Some cards are star-only (no text), so nothing may call them "written reviews".
     await expect(status).not.toContainText('written reviews');
+    await expect(note).not.toContainText('written reviews');
 
     // Reveal a second batch, then filter: the reveal must reset to the first batch of the match set.
     await page.locator('#reviews-more').click();
@@ -1448,11 +1454,11 @@ test.describe('Testimonials page', () => {
     // The All pill keeps its static text and restores the full set at the first batch.
     await page.locator('.filter-pill[data-filter="all"]').click();
     expect(await visibleCards(page).count()).toBe(24);
-    await expect(status).toContainText('Showing 24 of ' + total + ' reviews: ' + googleCards + ' from Google');
+    await expect(status).toHaveText('Showing 24 of ' + total + ' reviews.');
     // Reveal every card: the status switches to the "Showing all" form.
     const btn = page.locator('#reviews-more');
     while (await btn.isVisible()) await btn.click();
-    await expect(status).toContainText('Showing all ' + total + ' reviews: ' + googleCards + ' from Google and ' + split.yelp + ' from Yelp.');
+    await expect(status).toHaveText('Showing all ' + total + ' reviews.');
   });
 
   test('stat strip to filter pills gap is tight on desktop', async ({ page }) => {

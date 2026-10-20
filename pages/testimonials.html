@@ -957,15 +957,18 @@
        the head; without JS it never exists, so every card and no placeholder shows. The rules lapse
        once the script has taken over (reviews-ready) and the hidden attribute owns visibility. */
     .js:not(.reviews-ready) #reviews-grid .t-card:nth-child(n+25) { display: none; }
-    .js:not(.reviews-ready) .review-status:empty { display: block; min-height: 6.4em; }
+    .js:not(.reviews-ready) .review-status:empty { display: block; min-height: 1.6em; }
     .js:not(.reviews-ready) .reviews-more-row[hidden] { display: block; visibility: hidden; }
-    @media (min-width: 641px) { .js:not(.reviews-ready) .review-status:empty { min-height: 4.8em; } }
-    @media (min-width: 688px) { .js:not(.reviews-ready) .review-status:empty { min-height: 3.2em; } }
 
     /* Cards are hidden by the script (the hidden attribute), never in the markup, so without
        JS every review is visible. .t-card sets display:flex, which would beat [hidden]. */
     .t-card[hidden] { display: none; }
-    .t-card:focus { outline: 2px solid var(--brand); outline-offset: 2px; }
+    /* Keyboard focus only: a mouse click on "Show more" must not leave an Ember ring on a
+       non-interactive card (DESIGN.md: Ember is reserved for clickable or critical things). */
+    .t-card:focus { outline: none; }
+    .t-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .review-source-note { margin: 24px auto 0; max-width: 640px; text-align: center; font-size: 13px; line-height: 1.6; color: #666666; text-wrap: balance; }
+    .review-source-note:empty { display: none; }
 
     /* SHOW MORE */
     .reviews-more-row { text-align: center; margin-top: 32px; }
@@ -2921,6 +2924,8 @@
       <div class="reviews-more-row" id="reviews-more-row" hidden>
         <button type="button" class="reviews-more" id="reviews-more" aria-controls="reviews-grid">Show more reviews</button>
       </div>
+      <!-- Where the reviews come from: filled once by the script (not a live region), empty without JS -->
+      <p class="review-source-note" id="review-source-note"></p>
 
       <script>
         // Filter pills, per-pill counts, status line and "Show more". Everything here is derived from
@@ -2969,18 +2974,13 @@
             matched.forEach(function (c, i) { c.hidden = i >= shown; });
             noResults.style.display = matched.length === 0 ? 'block' : 'none';
 
+            // Kept to one short sentence: it is a live region, re-read on every filter and "Show more".
+            // The source breakdown lives in the static note after the grid instead.
             var msg;
             var all = shown === matched.length ? 'Showing all ' : 'Showing ' + shown + ' of ';
             if (filter === 'all') {
               // "reviews", not "written reviews": a few cards are star-only Google reviews with no text.
-              msg = all + matched.length + ' reviews: ' + sourceCounts.google + ' from Google and ' + sourceCounts.yelp + ' from Yelp.';
-              // Qualitative on purpose: card count and Google total count different things (Yelp cards,
-              // and Google reviews with no card), so no figure is ever subtracted from the other. "Some"
-              // because the uncarded ones are a subset: star-only reviews can still have a card.
-              if (googleTotal > sourceCounts.google) {
-                msg += ' Some Google reviews with no text, or only a few words, are not shown here, but they count toward our ' +
-                  googleTotal + ' Google reviews.';
-              }
+              msg = all + matched.length + ' reviews.';
             } else {
               var label = document.querySelector('.filter-pill[data-filter="' + filter + '"]').dataset.label.toLowerCase();
               msg = all + matched.length + ' ' + label + ' reviews.';
@@ -3016,6 +3016,17 @@
             limit += BATCH;
             render(before); // focus the first newly revealed card
           });
+
+          // Source note, written once. Qualitative on purpose: the card count and the Google total
+          // count different things (Yelp cards, and Google reviews with no card), so no figure is
+          // ever subtracted from the other. "Some" because the uncarded ones are a subset:
+          // star-only reviews can still have a card.
+          var note = sourceCounts.google + ' of these reviews are from Google and ' + sourceCounts.yelp + ' from Yelp.';
+          if (googleTotal > sourceCounts.google) {
+            note += ' Some Google reviews with no text, or only a few words, are not shown here, but they count toward our ' +
+              googleTotal + ' Google reviews.';
+          }
+          document.getElementById('review-source-note').textContent = note;
 
           render();
         })();
