@@ -920,6 +920,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="../shared.css" />
 
+  <script>document.documentElement.className += ' js';</script>
   <style>
     /* TESTIMONIALS GRID */
     .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
@@ -943,6 +944,37 @@
     .filter-pill:hover { border-color: #aa3210; color: #aa3210; }
     .filter-pill.active { background: #cc3d12; border-color: #cc3d12; color: #fff; font-weight: 600; }
 
+    /* Section top padding: the stat strip above already supplies its own bottom padding, so the
+       default 80px (+32px pill margin) left a ~112px empty band before the pills. */
+    .section.reviews-section { padding-top: 40px; }
+    .filter-bar { margin-top: 0; }
+
+    /* STATUS LINE (aria-live region, filled by the script below; empty and hidden without JS) */
+    .review-status { margin: 20px auto 0; max-width: 640px; text-align: center; font-size: 13.5px; line-height: 1.6; color: #444; }
+    .review-status { text-wrap: balance; }
+    .review-status:empty { display: none; }
+    /* First-paint state, so the script's later work causes no layout shift. The js class is set in
+       the head; without JS it never exists, so every card and no placeholder shows. The rules lapse
+       once the script has taken over (reviews-ready) and the hidden attribute owns visibility. */
+    .js:not(.reviews-ready) #reviews-grid .t-card:nth-child(n+25) { display: none; }
+    .js:not(.reviews-ready) .review-status:empty { display: block; min-height: 1.6em; }
+    .js:not(.reviews-ready) .reviews-more-row[hidden] { display: block; visibility: hidden; }
+
+    /* Cards are hidden by the script (the hidden attribute), never in the markup, so without
+       JS every review is visible. .t-card sets display:flex, which would beat [hidden]. */
+    .t-card[hidden] { display: none; }
+    /* Keyboard focus only: a mouse click on "Show more" must not leave an Ember ring on a
+       non-interactive card (DESIGN.md: Ember is reserved for clickable or critical things). */
+    .t-card:focus { outline: none; }
+    .t-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .review-source-note { margin: 24px auto 0; max-width: 640px; text-align: center; font-size: 13px; line-height: 1.6; color: #666666; text-wrap: balance; }
+    .review-source-note:empty { display: none; }
+
+    /* SHOW MORE */
+    .reviews-more-row { text-align: center; margin-top: 32px; }
+    .reviews-more { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-size: 13.5px; font-weight: 600; color: var(--brand-text); background: #fff; border: 1.5px solid var(--brand-text); border-radius: 8px; padding: 10px 28px; cursor: pointer; }
+    .reviews-more:hover { background: var(--brand-text); color: #fff; }
+
     /* NO RESULTS */
     .no-results { display: none; text-align: center; padding: 48px 24px; color: #666666; font-size: 14px; grid-column: 1 / -1; }
 
@@ -950,6 +982,7 @@
     @media (max-width: 640px) {
       .testimonials-grid { grid-template-columns: 1fr; }
       .filter-pill { font-size: 12px; padding: 7px 14px; }
+      .review-status { font-size: 13px; }
     }
   </style>
 </head>
@@ -1213,7 +1246,7 @@
         <div style="font-size:12px;color:#666666;margin-top:4px;">Average Google Rating</div>
       </div>
       <div>
-        <div style="font-size:32px;font-weight:800;color:var(--brand-text);letter-spacing:-1px;line-height:1.15;height:38px;display:flex;align-items:center;justify-content:center;">147</div>
+        <div id="google-review-total" style="font-size:32px;font-weight:800;color:var(--brand-text);letter-spacing:-1px;line-height:1.15;height:38px;display:flex;align-items:center;justify-content:center;">147</div>
         <div style="font-size:12px;color:#666666;margin-top:4px;">Verified Google Reviews</div>
       </div>
       <div>
@@ -1224,7 +1257,7 @@
   </section>
 
   <!-- FILTER + GRID -->
-  <section class="section section-gray">
+  <section class="section section-gray reviews-section">
     <div class="container-lg">
 
       <!-- Filter pills -->
@@ -1238,6 +1271,10 @@
         <button type="button" class="filter-pill" data-filter="wine-cooler" aria-pressed="false">Wine Cooler</button>
         <button type="button" class="filter-pill" data-filter="general" aria-pressed="false">General</button>
       </div>
+
+      <!-- Live status: the counts are written by the script from the cards and the stat above, so
+           they cannot go stale when a weekly batch adds reviews. Empty (and hidden) without JS. -->
+      <p class="review-status" id="review-status" role="status" aria-live="polite"></p>
 
       <!-- Review cards -->
       <div class="testimonials-grid" id="reviews-grid">
@@ -2883,6 +2920,123 @@
         <p class="no-results" id="no-results">No reviews match this filter.</p>
       </div>
 
+      <!-- Show more: revealed by the script only; without JS every card is already visible -->
+      <div class="reviews-more-row" id="reviews-more-row" hidden>
+        <button type="button" class="reviews-more" id="reviews-more" aria-controls="reviews-grid">Show more reviews</button>
+      </div>
+      <!-- Where the reviews come from: filled once by the script (not a live region), empty without JS -->
+      <p class="review-source-note" id="review-source-note"></p>
+
+      <script>
+        // Filter pills, per-pill counts, status line and "Show more". Everything here is derived from
+        // the cards and the stat above, never typed, so a weekly review batch needs no edit to this
+        // script. Cards are hidden only by this script (the hidden attribute): no JS, every card shows.
+      try {
+        (function () {
+          var BATCH = 24; // 24 divides by 3 and by 2, so a revealed batch ends on a full row at both grid widths
+          var grid = document.getElementById('reviews-grid');
+          var pills = Array.prototype.slice.call(document.querySelectorAll('.filter-pill'));
+          var cards = Array.prototype.slice.call(grid.querySelectorAll('.t-card'));
+          var noResults = document.getElementById('no-results');
+          var status = document.getElementById('review-status');
+          var moreRow = document.getElementById('reviews-more-row');
+          var moreBtn = document.getElementById('reviews-more');
+          var totalEl = document.getElementById('google-review-total');
+          var googleTotal = totalEl ? parseInt(totalEl.textContent, 10) : NaN;
+          // Source split read from each card's own provenance line, never typed.
+          var sourceCounts = { google: 0, yelp: 0 };
+          cards.forEach(function (c) {
+            var s = c.querySelector('.t-source');
+            if (s && /^\s*Yelp/i.test(s.textContent)) sourceCounts.yelp++; else sourceCounts.google++;
+          });
+          var filter = 'all';
+          var limit = BATCH;
+
+          // One matching rule, used for the pill counts and for filtering.
+          function matches(card, f) {
+            var cats = card.dataset.category || '';
+            return f === 'all' || cats.split(' ').indexOf(f) !== -1;
+          }
+
+          // Append "(N)" to every category pill. "All" keeps its static text (a CI check counts it).
+          pills.forEach(function (pill) {
+            var f = pill.dataset.filter;
+            pill.dataset.label = pill.textContent.trim();
+            if (f === 'all') return;
+            var n = cards.filter(function (c) { return matches(c, f); }).length;
+            pill.textContent = pill.dataset.label + ' (' + n + ')';
+          });
+
+          function render(focusIndex) {
+            var matched = cards.filter(function (c) { return matches(c, filter); });
+            var shown = Math.min(limit, matched.length);
+            cards.forEach(function (c) { c.hidden = true; });
+            matched.forEach(function (c, i) { c.hidden = i >= shown; });
+            noResults.style.display = matched.length === 0 ? 'block' : 'none';
+
+            // Kept to one short sentence: it is a live region, re-read on every filter and "Show more".
+            // The source breakdown lives in the static note after the grid instead.
+            var msg;
+            var all = shown === matched.length ? 'Showing all ' : 'Showing ' + shown + ' of ';
+            if (filter === 'all') {
+              // "reviews", not "written reviews": a few cards are star-only Google reviews with no text.
+              msg = all + matched.length + ' reviews.';
+            } else {
+              var label = document.querySelector('.filter-pill[data-filter="' + filter + '"]').dataset.label.toLowerCase();
+              msg = all + matched.length + ' ' + label + ' reviews.';
+            }
+            status.textContent = msg;
+
+            var remaining = matched.length - shown;
+            moreRow.hidden = remaining <= 0;
+            moreBtn.textContent = 'Show more reviews (' + remaining + ' left)';
+
+            if (focusIndex != null && matched[focusIndex]) {
+              matched[focusIndex].setAttribute('tabindex', '-1');
+              matched[focusIndex].focus();
+            }
+          }
+
+          pills.forEach(function (pill) {
+            pill.addEventListener('click', function () {
+              // Set aria-pressed="false" rather than removing it: a toggle button with no
+              // aria-pressed is announced as a plain button, so screen-reader users lose the
+              // pressed/unpressed distinction the visual .active state conveys.
+              pills.forEach(function (p) { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
+              pill.classList.add('active');
+              pill.setAttribute('aria-pressed', 'true');
+              filter = pill.dataset.filter;
+              limit = BATCH; // a new filter starts again at the first batch of its own matches
+              render();
+            });
+          });
+
+          moreBtn.addEventListener('click', function () {
+            var before = Math.min(limit, cards.filter(function (c) { return matches(c, filter); }).length);
+            limit += BATCH;
+            render(before); // focus the first newly revealed card
+          });
+
+          // Source note, written once. Qualitative on purpose: the card count and the Google total
+          // count different things (Yelp cards, and Google reviews with no card), so no figure is
+          // ever subtracted from the other. "Some" because the uncarded ones are a subset:
+          // star-only reviews can still have a card.
+          var note = sourceCounts.google + ' of these reviews are from Google and ' + sourceCounts.yelp + ' from Yelp.';
+          if (googleTotal > sourceCounts.google) {
+            note += ' Some Google reviews with no text, or only a few words, are not shown here, but they count toward our ' +
+              googleTotal + ' Google reviews.';
+          }
+          document.getElementById('review-source-note').textContent = note;
+
+          render();
+        })();
+      } finally {
+        // Always lift the first-paint CSS, even if the code above throws, so a script error can
+        // never strand cards 25 onward behind a rule nothing is left to undo.
+        document.documentElement.classList.add('reviews-ready');
+      }
+      </script>
+
     </div>
   </section>
 
@@ -2952,33 +3106,7 @@
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
 
-  <script>
-    // Filter pill logic
-    const pills = document.querySelectorAll('.filter-pill');
-    const cards = document.querySelectorAll('#reviews-grid .t-card');
-    const noResults = document.getElementById('no-results');
 
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        // Set aria-pressed="false" rather than removing it: a toggle button with no
-        // aria-pressed is announced as a plain button, so screen-reader users lose the
-        // pressed/unpressed distinction the visual .active state conveys.
-        pills.forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
-        pill.classList.add('active');
-        pill.setAttribute('aria-pressed', 'true');
-
-        const filter = pill.dataset.filter;
-        let visible = 0;
-        cards.forEach(card => {
-          const cats = card.dataset.category || '';
-          const show = filter === 'all' || cats.split(' ').includes(filter);
-          card.style.display = show ? '' : 'none';
-          if (show) visible++;
-        });
-        noResults.style.display = visible === 0 ? 'block' : 'none';
-      });
-    });
-  </script>
 
 
   <script defer src="../site.js"></script>
