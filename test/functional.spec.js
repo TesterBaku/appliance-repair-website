@@ -1423,10 +1423,12 @@ test.describe('Testimonials page', () => {
       els => ({ yelp: els.filter(e => /^\s*Yelp/i.test(e.textContent)).length, all: els.length }));
     const googleCards = split.all - split.yelp;
     expect(split.all).toBe(total);
-    await expect(status).toContainText('Showing 24 of ' + total + ' written reviews: ' + googleCards + ' from Google and ' + split.yelp + ' from Yelp.');
+    await expect(status).toContainText('Showing 24 of ' + total + ' reviews: ' + googleCards + ' from Google and ' + split.yelp + ' from Yelp.');
     // Never "Google total minus card count": that arithmetic mixed Yelp cards into a Google figure.
     if (google > googleCards) await expect(status).toContainText('they count toward our ' + google + ' Google reviews.');
     await expect(status).not.toContainText('too little to quote');
+    // Some cards are star-only (no text), so the total must never be called "written reviews".
+    await expect(status).not.toContainText('written reviews');
 
     // Reveal a second batch, then filter: the reveal must reset to the first batch of the match set.
     await page.locator('#reviews-more').click();
@@ -1446,11 +1448,11 @@ test.describe('Testimonials page', () => {
     // The All pill keeps its static text and restores the full set at the first batch.
     await page.locator('.filter-pill[data-filter="all"]').click();
     expect(await visibleCards(page).count()).toBe(24);
-    await expect(status).toContainText('Showing 24 of ' + total + ' written reviews: ' + googleCards + ' from Google');
+    await expect(status).toContainText('Showing 24 of ' + total + ' reviews: ' + googleCards + ' from Google');
     // Reveal every card: the status switches to the "Showing all" form.
     const btn = page.locator('#reviews-more');
     while (await btn.isVisible()) await btn.click();
-    await expect(status).toContainText('Showing all ' + total + ' written reviews: ' + googleCards + ' from Google and ' + split.yelp + ' from Yelp.');
+    await expect(status).toContainText('Showing all ' + total + ' reviews: ' + googleCards + ' from Google and ' + split.yelp + ' from Yelp.');
   });
 
   test('stat strip to filter pills gap is tight on desktop', async ({ page }) => {

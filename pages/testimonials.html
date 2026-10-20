@@ -2972,11 +2972,13 @@
             var msg;
             var all = shown === matched.length ? 'Showing all ' : 'Showing ' + shown + ' of ';
             if (filter === 'all') {
-              msg = all + matched.length + ' written reviews: ' + sourceCounts.google + ' from Google and ' + sourceCounts.yelp + ' from Yelp.';
+              // "reviews", not "written reviews": a few cards are star-only Google reviews with no text.
+              msg = all + matched.length + ' reviews: ' + sourceCounts.google + ' from Google and ' + sourceCounts.yelp + ' from Yelp.';
               // Qualitative on purpose: card count and Google total count different things (Yelp cards,
-              // and Google reviews with no card), so no figure is ever subtracted from the other.
+              // and Google reviews with no card), so no figure is ever subtracted from the other. "Some"
+              // because the uncarded ones are a subset: star-only reviews can still have a card.
               if (googleTotal > sourceCounts.google) {
-                msg += ' Google reviews with only a star rating or a few words are not listed here, but they count toward our ' +
+                msg += ' Some Google reviews with no text, or only a few words, are not shown here, but they count toward our ' +
                   googleTotal + ' Google reviews.';
               }
             } else {
