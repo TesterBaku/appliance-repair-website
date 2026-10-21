@@ -173,6 +173,43 @@ test.describe('Homepage (index.html)', () => {
   });
 });
 
+// ─── Homepage: a late Inter swap must not shift layout ────────────────────────
+// The homepage used to load Inter from Google Fonts asynchronously; the swap from
+// the plain sans-serif fallback reflowed the hero and shifted the section below it
+// (Lighthouse mobile CLS 0.192). It now self-hosts Inter and puts a metric-matched
+// 'Inter Fallback' (sized Arial) in the stack. Holding the font back 1.5s forces the
+// swap to happen after first paint, the worst case a slow phone sees, and the
+// shifts are measured in the browser rather than inferred from CSS.
+test('homepage: a late Inter font swap causes no layout shift (CLS < 0.05)', async ({ page }) => {
+  // Lighthouse's mobile viewport. At 375x812 the shifted section sits below the fold,
+  // and off-screen shifts do not count, so the regression would pass unseen.
+  await page.setViewportSize({ width: 412, height: 823 });
+  await page.route('**/fonts/inter-latin-var.woff2', async (route) => {
+    await new Promise((r) => setTimeout(r, 1500));
+    await route.continue();
+  });
+  await page.addInitScript(() => {
+    window.__cls = 0;
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries()) if (!e.hadRecentInput) window.__cls += e.value;
+    }).observe({ type: 'layout-shift', buffered: true });
+  });
+  const googleFonts = [];
+  page.on('request', (req) => { if (/fonts\.(googleapis|gstatic)\.com/.test(req.url())) googleFonts.push(req.url()); });
+
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForTimeout(300);
+
+  const { cls, interLoaded } = await page.evaluate(() => ({
+    cls: window.__cls,
+    interLoaded: [...document.fonts].some((f) => f.family.replace(/"/g, '') === 'Inter' && f.status === 'loaded'),
+  }));
+  expect(interLoaded, 'self-hosted Inter should load (otherwise no swap was measured)').toBe(true);
+  expect(googleFonts, 'homepage should not request Google Fonts').toEqual([]);
+  expect(cls).toBeLessThan(0.05);
+});
+
 // ─── Desktop nav dropdowns stay inside the viewport ────────────────────────────
 // The Service Areas mega-dropdown (.nav-dropdown-menu--areas) used to anchor to its
 // toggle with `left:-16px`, which pushed its widest columns (LA County, Riverside

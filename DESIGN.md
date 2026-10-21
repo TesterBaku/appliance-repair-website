@@ -150,8 +150,8 @@ A committed palette: one saturated accent on a cool-tinted light field, grounded
 
 ## 3. Typography
 
-**Body and Display Font:** Inter (Google Fonts, weights 300–900)
-**Fallback:** system-ui, sans-serif
+**Body and Display Font:** Inter (Google Fonts, weights 300–900; the homepage self-hosts the variable latin file `fonts/inter-latin-var.woff2`, weights 400–900, preloaded)
+**Fallback:** sans-serif. The homepage puts `'Inter Fallback'` first: local Arial with `size-adjust` / `ascent-override` matched to Inter's measured metrics, so the swap to Inter does not shift layout. It is a loading stand-in, not a second brand font.
 
 **Character:** A single-family system that achieves hierarchy through weight contrast alone. Inter at 800 with tight letter-spacing (-1.5px) reads as a different typeface from Inter at 400 at normal spacing. This economy avoids the "two fonts neither quite right" problem common on local service sites.
 
