@@ -34,9 +34,13 @@
 /* Self-hosted Inter (variable, latin subset; SIL OFL, fonts/OFL.txt), preloaded above. Replaces the
    async Google Fonts stylesheet, whose late swap reflowed the hero and shifted the next section (CLS 0.192). */
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap; src: url('fonts/inter-latin-var.woff2') format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-/* Arial sized to Inter's measured advance widths and vertical metrics, so a swap from it barely reflows. */
-@font-face { font-family: 'Inter Fallback'; font-weight: 400 500; src: local('Arial'), local('ArialMT'); size-adjust: 106%; ascent-override: 91.39%; descent-override: 22.76%; line-gap-override: 0%; }
-@font-face { font-family: 'Inter Fallback'; font-weight: 600 900; src: local('Arial Bold'), local('Arial-BoldMT'); size-adjust: 101.6%; ascent-override: 95.35%; descent-override: 23.74%; line-gap-override: 0%; }
+/* Local fonts sized to Inter's measured advance widths and vertical metrics, so a swap from them barely
+   reflows. Arial (Windows, macOS, iOS) and Liberation Sans (Linux; metric-compatible with Arial) share
+   one family; Android has neither, so Roboto gets its own family with its own measured sizes. */
+@font-face { font-family: 'Inter Fallback'; font-weight: 400 500; src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'); size-adjust: 106%; ascent-override: 91.39%; descent-override: 22.76%; line-gap-override: 0%; }
+@font-face { font-family: 'Inter Fallback'; font-weight: 600 900; src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold'); size-adjust: 101.6%; ascent-override: 95.35%; descent-override: 23.74%; line-gap-override: 0%; }
+@font-face { font-family: 'Inter Fallback Roboto'; font-weight: 400 500; src: local('Roboto'), local('Roboto-Regular'); size-adjust: 107.5%; ascent-override: 90.12%; descent-override: 22.44%; line-gap-override: 0%; }
+@font-face { font-family: 'Inter Fallback Roboto'; font-weight: 600 900; src: local('Roboto Bold'), local('Roboto-Bold'), local('Roboto'); size-adjust: 108.5%; ascent-override: 89.29%; descent-override: 22.23%; line-gap-override: 0%; }
 :root {
   --brand:        #e84c1e;
   --brand-dark:   #cc3d12;
@@ -63,7 +67,7 @@
   --star-on-light: #d97706; /* rating stars on white cards: 3.19:1, vs 2.15:1 for --amber */
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text-body); font-family: 'Inter', 'Inter Fallback', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--text-body); font-family: 'Inter', 'Inter Fallback', 'Inter Fallback Roboto', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
 /* NAV */

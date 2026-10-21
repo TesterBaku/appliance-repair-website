@@ -176,10 +176,11 @@ test.describe('Homepage (index.html)', () => {
 // ─── Homepage: a late Inter swap must not shift layout ────────────────────────
 // The homepage used to load Inter from Google Fonts asynchronously; the swap from
 // the plain sans-serif fallback reflowed the hero and shifted the section below it
-// (Lighthouse mobile CLS 0.192). It now self-hosts Inter and puts a metric-matched
-// 'Inter Fallback' (sized Arial) in the stack. Holding the font back 1.5s forces the
-// swap to happen after first paint, the worst case a slow phone sees, and the
-// shifts are measured in the browser rather than inferred from CSS.
+// (Lighthouse mobile CLS 0.192). It now self-hosts Inter and puts metric-matched
+// fallbacks in the stack: sized Arial, or Liberation Sans on Linux (what CI renders
+// with; it has no Arial), then sized Roboto for Android. Holding the font back 1.5s
+// forces the swap to happen after first paint, the worst case a slow phone sees, and
+// the shifts are measured in the browser rather than inferred from CSS.
 test('homepage: a late Inter font swap causes no layout shift (CLS < 0.05)', async ({ page }) => {
   // Lighthouse's mobile viewport. At 375x812 the shifted section sits below the fold,
   // and off-screen shifts do not count, so the regression would pass unseen.
