@@ -32,7 +32,8 @@
  *     meta description / og:description / twitter:description, which embed this
  *     same phrase, and the hub-page "From our N verified 5-star Google reviews" variant)
  *   - "N Google reviews" hero-rating copy AND the matching aria-label
- *     (aria-label="Rated 5.0 out of 5 from N Google reviews")
+ *     (aria-label="5.0, N Google reviews, rated 5 out of 5"; it starts with the
+ *     visible "5.0 · N Google reviews" text so the accessible name contains the label)
  *   - "Read all N reviews" link text
  *   - the testimonials-page "Verified Google Reviews" stat number
  *
