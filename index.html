@@ -368,11 +368,12 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', 'In
       .hero-rating { min-height: 44px; }
     }
     .hero-hours { margin-top: 14px; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; }
-    /* Phones get a tap-to-call hero button in place of "Our Services" (the header number is hidden
-       below 480px), matching the hubs, which lead with Call. Declared after the .btn-outline-white
+    /* Phones get a tap-to-call hero button in place of "Our Services", matching the hubs, which lead
+       with Call. Same 480px breakpoint as the .nav-phone hide below: wider screens still show the
+       header number, so Call would appear three times there. Declared after the .btn-outline-white
        rules above so these display values win at equal specificity. */
     .hero-cta-call { display: none; }
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
       .hero-cta-services { display: none; }
       .hero-cta-call { display: inline-flex; }
     }
