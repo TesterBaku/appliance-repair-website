@@ -368,6 +368,19 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', 'In
       .hero-rating { min-height: 44px; }
     }
     .hero-hours { margin-top: 14px; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; }
+    /* Phones get a tap-to-call hero button in place of "Our Services", matching the hubs, which lead
+       with Call. Same 480px breakpoint as the .nav-phone hide below: wider screens still show the
+       header number, so Call would appear three times there. Declared after the .btn-outline-white
+       rules above so these display values win at equal specificity. */
+    .hero-cta-call { display: none; }
+    @media (max-width: 480px) {
+      .hero-cta-services { display: none; }
+      .hero-cta-call { display: inline-flex; }
+    }
+    @media (max-width: 400px) {
+      /* Keeps Book + Call on one row down to 360px (common Android width) instead of wrapping. */
+      .hero-content .btn-primary, .hero-cta-call { padding-left: 16px; padding-right: 16px; }
+    }
     .hero-pricing-strip { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; }
     @media (max-width: 480px) {
       .hero-pricing-strip { font-size: 11.5px; }
@@ -972,7 +985,8 @@ body { background: var(--bg); color: var(--text-body); font-family: 'Inter', 'In
 
       <div style="display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap;">
         <a href="pages/contact.html" class="btn-primary">Book a Service</a>
-        <a href="#services" class="btn-outline-white">Our Services</a>
+        <a href="#services" class="btn-outline-white hero-cta-services">Our Services</a>
+        <a href="tel:+19496295365" class="btn-outline-white hero-cta-call">Call (949) 629-5365</a>
       </div>
       <div class="hero-hours">Same-day service &middot; Mon–Sat, 8am–7pm</div>
 
