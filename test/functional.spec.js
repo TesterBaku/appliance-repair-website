@@ -3181,7 +3181,7 @@ test('every text button renders in the body font, site-wide', async ({ page }) =
         n++;
         const fam = first(cs.fontFamily);
         if (fam !== bodyFont) {
-          const cls = (typeof el.className === 'string' ? el.className : '').trim().split(/s+/).filter(Boolean).join('.');
+          const cls = (typeof el.className === 'string' ? el.className : '').trim().split(/\s+/).filter(Boolean).join('.');
           bad.push('button' + (cls ? '.' + cls : '') + ': ' + fam + ' (body: ' + bodyFont + ')');
         }
       }
