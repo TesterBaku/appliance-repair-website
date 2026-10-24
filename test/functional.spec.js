@@ -3198,6 +3198,66 @@ test('every text button renders in the body font, site-wide', async ({ page }) =
   ).toEqual([]);
 });
 
+// `.faq-item { overflow: hidden }` clipped the default outset focus ring on every FAQ
+// question, so keyboard users could not see which row had focus (WCAG 2.4.7) and no gate
+// measured it. Focuses the first rendered button.faq-q after a Tab (so :focus-visible
+// matches), then checks the outline box fits inside every clipping ancestor.
+test('every FAQ question shows an unclipped keyboard focus ring, site-wide', async ({ page }) => {
+  test.setTimeout(300000);
+  const repoRoot = path.join(__dirname, '..');
+  const urls = collectPageUrls(repoRoot, repoRoot).sort();
+  expect(urls.length, 'no .html pages found to sweep').toBeGreaterThan(50);
+
+  await page.setViewportSize(MOBILE);
+  const failures = [];
+  let measured = 0;
+  for (const url of urls) {
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    if (!(await page.locator('button.faq-q').count())) continue;
+    await page.keyboard.press('Tab'); // puts the page in keyboard modality
+    const res = await page.evaluate(() => {
+      const el = [...document.querySelectorAll('button.faq-q')].find(b => {
+        const r = b.getBoundingClientRect();
+        const cs = getComputedStyle(b);
+        return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden';
+      });
+      if (!el) return null;
+      el.focus();
+      if (!el.matches(':focus-visible')) return { reason: 'not :focus-visible after keyboard focus' };
+      const cs = getComputedStyle(el);
+      const w = parseFloat(cs.outlineWidth) || 0;
+      const off = parseFloat(cs.outlineOffset) || 0;
+      if (cs.outlineStyle === 'none' || w < 2) return { reason: 'outline ' + cs.outlineStyle + ' ' + cs.outlineWidth };
+      const r = el.getBoundingClientRect();
+      const g = off + w;
+      const box = { l: r.left - g, t: r.top - g, r: r.right + g, b: r.bottom + g };
+      const tol = 0.5;
+      for (let a = el.parentElement; a; a = a.parentElement) {
+        const acs = getComputedStyle(a);
+        if (acs.overflowX === 'visible' && acs.overflowY === 'visible') continue;
+        const ar = a.getBoundingClientRect();
+        const p = { l: ar.left + a.clientLeft, t: ar.top + a.clientTop };
+        p.r = p.l + a.clientWidth; p.b = p.t + a.clientHeight;
+        if (box.l < p.l - tol || box.t < p.t - tol || box.r > p.r + tol || box.b > p.b + tol) {
+          const cls = (typeof a.className === 'string' ? a.className : '').trim().split(/\s+/).filter(Boolean).join('.');
+          return { reason: 'ring (offset ' + off + ', width ' + w + ') clipped by ' + a.tagName.toLowerCase() + (cls ? '.' + cls : '') + ' overflow ' + acs.overflowX + '/' + acs.overflowY };
+        }
+      }
+      return { ok: true };
+    });
+    if (!res) continue;
+    measured++;
+    if (!res.ok) failures.push(url + ': ' + res.reason);
+  }
+  expect(measured, 'swept every page but found no rendered button.faq-q').toBeGreaterThan(50);
+  expect(
+    failures,
+    failures.length + ' page(s) show a missing or clipped FAQ focus ring. Give .faq-q:focus-visible an inset outline (outline-offset: -2px): ' +
+    JSON.stringify(failures.slice(0, 10), null, 1)
+  ).toEqual([]);
+});
+
 // ── Mobile hero occlusion + horizontal overflow, at 375px ─────────────────────
 // Google indexes mobile-first. This file already had SOME 375px coverage (the
 // no-horizontal-overflow test on the luxury city hubs, above), but nothing checked

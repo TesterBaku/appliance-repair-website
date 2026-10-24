@@ -134,6 +134,7 @@ button { font-family: inherit; } /* mirrors shared.css: this page does not link 
 .faq-item { background: var(--surface); border-radius: 12px; box-shadow: 0 1px 12px rgba(0,0,0,0.06); margin-bottom: 10px; overflow: hidden; }
 .faq-q { width: 100%; text-align: left; padding: 18px 22px; font-size: 14px; font-weight: 600; color: var(--text-primary); background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .faq-q:hover { background: var(--hover-surface); }
+.faq-q:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
 .faq-icon { font-size: 18px; color: var(--text-inactive); flex-shrink: 0; transition: transform 0.2s; }
 .faq-a { padding: 0 22px 18px; font-size: 13px; color: var(--text-sub); line-height: 1.8; display: none; text-align: left; }
 .faq-item.open .faq-a { display: block; }
