@@ -3152,6 +3152,52 @@ test('mobile 375px: every discrete link clears the 44px tap target, site-wide', 
   ).toEqual([]);
 });
 
+// <button> does not inherit font-family (UA stylesheet sets its own), so every text
+// button rendered in Arial while body text was Inter, site-wide, and nothing caught it
+// (P6-65). Compares each rendered text button's first computed family to body's.
+test('every text button renders in the body font, site-wide', async ({ page }) => {
+  test.setTimeout(300000);
+  const repoRoot = path.join(__dirname, '..');
+  const urls = collectPageUrls(repoRoot, repoRoot).sort();
+  expect(urls.length, 'no .html pages found to sweep').toBeGreaterThan(50);
+
+  await page.setViewportSize(MOBILE);
+  const mismatches = [];
+  let measured = 0;
+  for (const url of urls) {
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    const found = await page.evaluate(() => {
+      const first = f => f.split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
+      const bodyFont = first(getComputedStyle(document.body).fontFamily);
+      const bad = [];
+      let n = 0;
+      for (const el of document.querySelectorAll('button')) {
+        if (!(el.textContent || '').trim()) continue;
+        const cs = getComputedStyle(el);
+        if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+        const r = el.getBoundingClientRect();
+        if (r.width <= 0 || r.height <= 0) continue;
+        n++;
+        const fam = first(cs.fontFamily);
+        if (fam !== bodyFont) {
+          const cls = (typeof el.className === 'string' ? el.className : '').trim().split(/\s+/).filter(Boolean).join('.');
+          bad.push('button' + (cls ? '.' + cls : '') + ': ' + fam + ' (body: ' + bodyFont + ')');
+        }
+      }
+      return { bad, n };
+    });
+    measured += found.n;
+    for (const b of found.bad) mismatches.push(url + ': ' + b);
+  }
+  expect(measured, 'swept every page but found no visible text <button>').toBeGreaterThan(50);
+  expect(
+    mismatches,
+    mismatches.length + ' text button(s) do not render in the body font. Add `font-family: inherit` to the rule (shared.css has a base `button` rule; articles do not load shared.css): ' +
+    JSON.stringify(mismatches.slice(0, 10), null, 1)
+  ).toEqual([]);
+});
+
 // ── Mobile hero occlusion + horizontal overflow, at 375px ─────────────────────
 // Google indexes mobile-first. This file already had SOME 375px coverage (the
 // no-horizontal-overflow test on the luxury city hubs, above), but nothing checked
