@@ -29,6 +29,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text-body); font-family: 'Inter', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; } /* buttons do not inherit font-family; without this they render in the system font (Arial) */
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
 /* NAV */
