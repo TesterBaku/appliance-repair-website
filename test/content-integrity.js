@@ -678,7 +678,8 @@
  *                                             tel-target, umbrella-range, srcset-width,
  *                                             area-served-parity, hero-preload,
  *                                             img-dimensions, faq-cost-table-parity,
- *                                             mojibake, testimonial-hub-cap, title-length)
+ *                                             mojibake, testimonial-hub-cap, title-length,
+ *                                             testimonial-label-format)
  *
  *   node test/content-integrity.js img-dimensions --write-img-baseline
  *                                          — regenerate test/img-dimension-baseline.json
@@ -1240,6 +1241,48 @@ if (run('sticky-bar-a11y')) {
     if (/class="sticky-call">\s*(📞|&#128222;)/.test(content)) {
       issues.push(`[STICKY-A11Y] ${rel(filePath)} — the sticky Call link's phone emoji must be wrapped in <span aria-hidden="true"> so it is not read aloud.`);
     }
+  }
+}
+
+// ── Check 11c: testimonial-label-format ─────────────────────────────────────
+// A hub testimonial card ends with a reviewer label such as
+// "Lilya Raupova, Sub-Zero refrigerator repair, Orange County, CA". In a narrow
+// card (375px, or the 3-column desktop grid) the location broke mid-phrase:
+// "Orange" / "County, CA", or a lone "CA" on its own line. Two rules on every
+// `.testimonial-name` element's raw inner HTML, across every tracked page:
+//   (a) no em dash in any form (U+2014, &mdash;, &#8212;, &#x2014;): reviewer
+//       labels are editorial copy, only review BODIES are exempt.
+//   (b) a label that ends in a "<City words>, CA" location must join every word
+//       of that location with &nbsp; (Orange&nbsp;County,&nbsp;CA), so it wraps
+//       as one unit. Labels with no trailing ", CA" (the non-OC hubs carry none
+//       on most cards) pass untouched.
+// The location regex only matches capitalised words, so a lowercase job word
+// such as "repair," can never be read as part of the location.
+if (run('testimonial-label-format')) {
+  checked['testimonial-label-format'] = { files: 0, labels: 0 };
+  const LABEL_RE = /<([a-z0-9]+)\b[^>]*class="testimonial-name"[^>]*>([\s\S]*?)<\/\1>/g;
+  const EM_DASH_RE = /\u2014|&mdash;|&#8212;|&#x2014;/i;
+  const LOC_RE = /([A-Z][A-Za-z.'-]*(?:(?: |&nbsp;)[A-Z][A-Za-z.'-]*)*),(?: |&nbsp;)CA\s*$/;
+  for (const filePath of allHtml) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    let touched = false;
+    let m;
+    LABEL_RE.lastIndex = 0;
+    while ((m = LABEL_RE.exec(content)) !== null) {
+      touched = true;
+      checked['testimonial-label-format'].labels++;
+      const inner = m[2];
+      const line = content.slice(0, m.index).split('\n').length;
+      const where = `${rel(filePath)}:${line}: ${inner.trim()}`;
+      if (EM_DASH_RE.test(inner)) {
+        issues.push(`[LABEL-FORMAT] ${where} — em dash in a reviewer label (banned in editorial copy); use a middle dot separator.`);
+      }
+      const loc = LOC_RE.exec(inner);
+      if (loc && / /.test(loc[0].replace(/\s*$/, ''))) {
+        issues.push(`[LABEL-FORMAT] ${where} — trailing location "${loc[0].trim()}" contains a plain space; join it with &nbsp; so it never breaks across lines.`);
+      }
+    }
+    if (touched) checked['testimonial-label-format'].files++;
   }
 }
 
@@ -3990,6 +4033,7 @@ if (checked['footer-self-contained']) parts.push(`footer self-contained (no var(
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
 if (checked['sticky-bar-a11y']) parts.push(`sticky bar named region + aria-hidden emoji on all ${checked['sticky-bar-a11y'].files} pages with one`);
+if (checked['testimonial-label-format']) parts.push(`${checked['testimonial-label-format'].labels} reviewer labels on ${checked['testimonial-label-format'].files} pages: no em dash, trailing city+state joined with &nbsp;`);
 if (checked['hamburger-cascade'])    parts.push(`hamburger nav cascade order (unconditional rule before @media override) held on ${checked['hamburger-cascade'].files} files with an inline .nav-hamburger rule`);
 if (checked['nav-phone-mobile'])     parts.push(`header .nav-phone class + hide-below-480px rule held on ${checked['nav-phone-mobile'].files} pages with a header tel: link`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
