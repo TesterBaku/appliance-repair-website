@@ -3198,6 +3198,99 @@ test('every text button renders in the body font, site-wide', async ({ page }) =
   ).toEqual([]);
 });
 
+// `.faq-item { overflow: hidden }` clipped the default outset focus ring on every FAQ
+// question, so keyboard users could not see which row had focus (WCAG 2.4.7) and no gate
+// measured it. Focuses the first rendered button.faq-q programmatically, which puts it in
+// the :focus-visible state the browser shows to non-pointer users (not a real Tab path; that
+// would be 80-114 nav stops per page). Checks, on the computed style: the outline is drawn,
+// is not transparent and has 3:1 contrast against the background behind it (WCAG 1.4.11),
+// its box fits inside every clipping ancestor (overflow, clip-path, contain: paint), and,
+// where it reaches a rounded clip's corner, the button is rounded at least as much so the
+// corner is not trimmed.
+test('every FAQ question shows an unclipped keyboard focus ring, site-wide', async ({ page }) => {
+  test.setTimeout(300000);
+  const repoRoot = path.join(__dirname, '..');
+  const urls = collectPageUrls(repoRoot, repoRoot).sort();
+  expect(urls.length, 'no .html pages found to sweep').toBeGreaterThan(50);
+
+  await page.setViewportSize(MOBILE);
+  const failures = [];
+  let measured = 0;
+  for (const url of urls) {
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    if (!(await page.locator('button.faq-q').count())) continue;
+    const res = await page.evaluate(() => {
+      const el = [...document.querySelectorAll('button.faq-q')].find(b => {
+        const r = b.getBoundingClientRect();
+        const cs = getComputedStyle(b);
+        return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden';
+      });
+      if (!el) return null;
+      el.focus();
+      if (!el.matches(':focus-visible')) return { reason: 'not :focus-visible after focus' };
+      const cs = getComputedStyle(el);
+      const w = parseFloat(cs.outlineWidth) || 0;
+      const off = parseFloat(cs.outlineOffset) || 0;
+      if (cs.outlineStyle === 'none' || w < 2) return { reason: 'outline ' + cs.outlineStyle + ' ' + cs.outlineWidth };
+
+      const rgba = (c) => { const n = (c.match(/[0-9.]+/g) || []).map(Number); return [n[0], n[1], n[2], n.length > 3 ? n[3] : 1]; };
+      const lum = ([r, g, b]) => {
+        const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+      };
+      const fg = rgba(cs.outlineColor);
+      if (fg[3] === 0) return { reason: 'outline colour is fully transparent (' + cs.outlineColor + ')' };
+      let bg = [255, 255, 255, 1];
+      for (let n = el; n; n = n.parentElement) {
+        const c = rgba(getComputedStyle(n).backgroundColor);
+        if (c[3] > 0) { bg = c; break; }
+      }
+      const l1 = lum(fg), l2 = lum(bg);
+      const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+      if (ratio < 3) return { reason: 'outline ' + cs.outlineColor + ' on ' + 'rgb(' + bg.slice(0, 3).join(', ') + ') is ' + ratio.toFixed(2) + ':1, below 3:1' };
+
+      const r = el.getBoundingClientRect();
+      const g = off + w;
+      const box = { l: r.left - g, t: r.top - g, r: r.right + g, b: r.bottom + g };
+      const tol = 0.5;
+      const corners = [
+        ['top-left', 'l', 't'], ['top-right', 'r', 't'], ['bottom-right', 'r', 'b'], ['bottom-left', 'l', 'b']
+      ];
+      for (let a = el.parentElement; a; a = a.parentElement) {
+        const acs = getComputedStyle(a);
+        const clips = acs.overflowX !== 'visible' || acs.overflowY !== 'visible' ||
+          acs.clipPath !== 'none' || /\b(paint|strict|content)\b/.test(acs.contain);
+        if (!clips) continue;
+        const ar = a.getBoundingClientRect();
+        const p = { l: ar.left + a.clientLeft, t: ar.top + a.clientTop };
+        p.r = p.l + a.clientWidth; p.b = p.t + a.clientHeight;
+        const cls = (typeof a.className === 'string' ? a.className : '').trim().split(/\s+/).filter(Boolean).join('.');
+        const name = a.tagName.toLowerCase() + (cls ? '.' + cls : '');
+        if (box.l < p.l - tol || box.t < p.t - tol || box.r > p.r + tol || box.b > p.b + tol) {
+          return { reason: 'ring (offset ' + off + ', width ' + w + ') clipped by ' + name + ' overflow ' + acs.overflowX + '/' + acs.overflowY + ' clip-path ' + acs.clipPath + ' contain ' + acs.contain };
+        }
+        for (const [corner, x, y] of corners) {
+          const ar_ = parseFloat(acs['border-' + corner + '-radius']) || 0;
+          if (!ar_ || Math.abs(box[x] - p[x]) > 1 || Math.abs(box[y] - p[y]) > 1) continue;
+          const br = parseFloat(cs['border-' + corner + '-radius']) || 0;
+          if (br < ar_ - 1) return { reason: 'ring corner ' + corner + ' square (r=' + br + 'px) inside rounded clip (r=' + ar_ + 'px) on ' + name };
+        }
+      }
+      return { ok: true, ratio };
+    });
+    if (!res) continue;
+    measured++;
+    if (!res.ok) failures.push(url + ': ' + res.reason);
+  }
+  expect(measured, 'swept every page but found no rendered button.faq-q').toBeGreaterThan(50);
+  expect(
+    failures,
+    failures.length + ' page(s) show a missing, clipped, square-cornered or low-contrast FAQ focus ring. Give .faq-q:focus-visible an inset outline (outline-offset: -2px), border-radius: inherit and a colour with 3:1 contrast: ' +
+    JSON.stringify(failures.slice(0, 10), null, 1)
+  ).toEqual([]);
+});
+
 // ── Mobile hero occlusion + horizontal overflow, at 375px ─────────────────────
 // Google indexes mobile-first. This file already had SOME 375px coverage (the
 // no-horizontal-overflow test on the luxury city hubs, above), but nothing checked
