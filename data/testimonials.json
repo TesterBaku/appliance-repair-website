@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-10-19",
+    "lastUpdated": "2026-10-24",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 147,
-        "publishedCount": 147,
-        "capturedCount": 147,
+        "totalReviewsOnListing": 149,
+        "publishedCount": 149,
+        "capturedCount": 149,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-10-24",
+            "note": "TRACK A CAPTURE + TRACK B PUBLISH, same PR (one branch, content/review-batch-2026-10-24, covers both because both happen the same day; no separate chore/review-capture branch was cut): two 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshot 'Screenshot 2026-10-24 091758.png' (SHA-256 C7C133EDDA2E4FCBFF2BD2288DF7AA09A89F41005AFC6EA8B91E8684BF694B66), header 5.0 / 149 reviews, sorted Newest, both with the NEW badge: Brandy Blackmore ('3 days ago', 2 words, no photo, no appliance or brand) and Carol Spetzman ('5 days ago', 30 words, washer, two photos on her profile attached to this review). GBP listing total 147 to 149. capturedCount 147 to 149. publishedCount promoted 147 to 149 by 'npm run build:review-counts -- --publish'. Brandy Blackmore is below the quality floor (no photo, under 8 words, names no appliance or brand) and is captured for the count only; she is not carded anywhere. Carol Spetzman is quotable under clauses (a) and (b). Review photos: 'review_photo_1.webp' (SHA-256 EB9AA984837EDE002A301A9794E9189847EDE1C453565233CB5FAFD4736DE576) is used for Carol, resized proportionally (no crop) 1270x1119 to 768x677 webp at images/real/reviews/washer-carol-spetzman.webp; 'review_photo_2.webp' (SHA-256 F0738D26854FB7C738CE86779CFE6824D825127EA13DE30886C64946D2E06D1B, the same washer's control panel) is not used. The pool has no multi-photo precedent, so the first photo is the one carded. Placement by owner decision 2026-10-24: Carol is carded with her photo on pages/testimonials.html only, with no hub placement; no uncarded review in the pool clears the quality floor, so the card count is left at 143, one past a multiple of 3, per the testimonial-selection rule rather than padded. The two new records account exactly for the 147 to 149 move in the screenshot header."
+          },
           {
             "date": "2026-10-19",
             "note": "TRACK A CAPTURE + TRACK B PUBLISH, same PR (Monday publish slot; owner asked on 2026-10-19 to update the reviews): three 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshot 'new_reviews.png' (SHA-256 11B0C65F95A70B5CF9EA4F3C31AC3652E2BB7C274234A1F437A2B6982CC8272A), header 5.0 / 147 reviews, sorted Newest, all with the NEW badge and no review photo: nicole tomlin ('3 days ago', 34 words), Elliot Trout ('6 days ago', 15 words) and Jesus Mendoza ('1 week ago', 40 words, refrigerator, repeat customer). The fourth row in the screenshot, Jason Wolcott, was already captured on 2026-10-10 (google-jason-wolcott-2026-10) and was not re-applied. GBP listing total 144 to 147 (screenshot header 5.0 / 147). capturedCount 144 to 147. publishedCount promoted 144 to 147 by 'npm run build:review-counts -- --publish'. All three clear the quality floor and are carded on pages/testimonials.html (All pill 139 to 142; the pool held no further uncarded review that clears the floor, so the trailing card is accepted per testimonial-selection). Hub placement: by owner decision the Palm Springs hub (pages/appliance-repair-palm-springs-ca.html) gets its first testimonial section, labels dropped per the non-OC hub rule, with aggregateRating and Review nodes restored there. Cards: Jesus Mendoza (40 words), nicole tomlin (34) and Noelle B (28, Thermador; her second hub after Yorba Linda). Elliot Trout (15 words) was swapped out for row balance with the owner's go-ahead and is on the testimonials page only."
@@ -2753,6 +2757,42 @@
       "profilePhoto": null,
       "reviewPhoto": null,
       "_note": "Source: owner-supplied GBP dashboard screenshot 'new_reviews.png' (SHA-256 11B0C65F95A70B5CF9EA4F3C31AC3652E2BB7C274234A1F437A2B6982CC8272A), header 5.0 / 147 reviews, sorted Newest, NEW badge, 5-star, shown '1 week ago' (screenshot taken 2026-10-19), reviewer Jesus Mendoza is a Local Guide with 10 reviews / 118 photos on the profile; no photo is attached to this review in the screenshot. Body copied verbatim (40 words), including the line break before 'Thanks AG'. Typos: 'in a couple of occasions' should be 'on'; 'saved from wasting' is missing 'us'. Displayed verbatim. Appliance recorded as refrigerator ('our fridge'); brand not stated. A repeat customer (AG has worked for them 'a couple of occasions'). Quotable under quality-floor clauses (b) and (c). Metadata shown on the dashboard but not rendered per site convention: $250-300. No review photo. Location uses the Orange County default. Placed in the 2026-10-19 batch on one hub, the Palm Springs city hub (owner chose on 2026-10-19 to seed its first testimonial section with this batch; non-OC hub, so the card drops the location label), and carded on pages/testimonials.html."
+    },
+    {
+      "id": "google-brandy-blackmore-2026-10",
+      "source": "google",
+      "name": "Brandy Blackmore",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-10",
+      "dateText": "3 days ago",
+      "isNew": true,
+      "body": "Very reliable",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 'Screenshot 2026-10-24 091758.png' (SHA-256 C7C133EDDA2E4FCBFF2BD2288DF7AA09A89F41005AFC6EA8B91E8684BF694B66), header 5.0 / 149 reviews, sorted Newest, NEW badge, 5-star, shown '3 days ago' (screenshot taken 2026-10-24), reviewer Brandy Blackmore has 6 reviews / 0 photos on the profile. Body copied verbatim (2 words, no typos). Names no appliance or brand. BELOW the quality floor (no photo, under 8 words, no listed appliance or brand), so it is captured and counted but not quotable and not carded anywhere. Metadata shown on the dashboard but not rendered per site convention: Reasonable price, $400-450, Repair wait time 0-1 hr. No review photo. Location uses the Orange County default."
+    },
+    {
+      "id": "google-carol-spetzman-2026-10",
+      "source": "google",
+      "name": "Carol Spetzman",
+      "location": "Orange County, CA",
+      "appliance": "washer",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-10",
+      "dateText": "5 days ago",
+      "isNew": true,
+      "body": "Excellent service! The technician received the part and came to fix my washer immediately. He was professional, knowledgeable and kind. Fair pricing and great communication throughout the process. Highly recommend!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": "images/real/reviews/washer-carol-spetzman.webp",
+      "_note": "Source: owner-supplied GBP dashboard screenshot 'Screenshot 2026-10-24 091758.png' (SHA-256 C7C133EDDA2E4FCBFF2BD2288DF7AA09A89F41005AFC6EA8B91E8684BF694B66), header 5.0 / 149 reviews, sorted Newest, NEW badge, 5-star, shown '5 days ago' (screenshot taken 2026-10-24), reviewer Carol Spetzman has 1 review / 2 photos on the profile, both attached to this review. Body copied verbatim (30 words, no typos; the screenshot was zoomed to confirm 'knowledgeable'). Appliance recorded as washer ('fix my washer'). Brand recorded as null by owner decision 2026-10-24: the washer looks like a Kenmore front-loader but no wordmark is legible in either photo. Review photos: 'review_photo_1.webp' (SHA-256 EB9AA984837EDE002A301A9794E9189847EDE1C453565233CB5FAFD4736DE576, front-load washer with the door open and the drum visible), resized proportionally (no crop) 1270x1119 to 768x677 webp at images/real/reviews/washer-carol-spetzman.webp. Her second photo 'review_photo_2.webp' (SHA-256 F0738D26854FB7C738CE86779CFE6824D825127EA13DE30886C64946D2E06D1B, the same washer's control panel) was supplied but is NOT used. Quotable under quality-floor clauses (a) and (b). Metadata shown on the dashboard but not rendered per site convention: Reasonable price, $200-250, Repair wait time 0-1 hr. Location uses the Orange County default: no business job photo matches, so testimonial-selection Exception 2 does not apply. Placed in the 2026-10-24 batch on pages/testimonials.html only, with her photo (owner decision 2026-10-24); no hub placement, so she keeps a full 2-hub allowance."
     }
   ]
 }
