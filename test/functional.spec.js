@@ -3364,12 +3364,18 @@ test('every page has a working skip link, site-wide', async ({ page }) => {
       const nav = document.querySelector('nav.nav');
       return {
         count: 1,
+        isMain: els[0].tagName === 'MAIN',
+        mains: document.querySelectorAll('main').length,
         inNav: !!els[0].closest('nav.nav, .nav-drawer, #mobile-nav-drawer'),
         afterNav: !!(nav.compareDocumentPosition(els[0]) & Node.DOCUMENT_POSITION_FOLLOWING)
       };
     }, m[1]);
     if (target.count !== 1) fail('#' + m[1] + ' resolves to ' + target.count + ' elements, want 1');
-    else if (target.inNav || !target.afterNav) fail('#' + m[1] + ' is inside the nav or before it');
+    else {
+      if (target.inNav || !target.afterNav) fail('#' + m[1] + ' is inside the nav or before it');
+      if (!target.isMain) fail('#' + m[1] + ' is not a <main> landmark');
+      if (target.mains !== 1) fail('page has ' + target.mains + ' <main> elements, want 1');
+    }
 
     // Real keyboard path from a fresh load.
     await page.goto(url, { waitUntil: 'load' });
@@ -3387,6 +3393,8 @@ test('every page has a working skip link, site-wide', async ({ page }) => {
     if (first.height < 44) fail('focused skip link is ' + first.height + 'px tall, want >= 44');
 
     await page.keyboard.press('Enter');
+    const landed = await page.evaluate(() => document.activeElement && document.activeElement.tagName + '#' + document.activeElement.id);
+    if (landed !== 'MAIN#main') fail('Enter on the skip link left focus on ' + landed + ', want MAIN#main');
     await page.keyboard.press('Tab');
     const next = await page.evaluate(() => {
       const a = document.activeElement;
