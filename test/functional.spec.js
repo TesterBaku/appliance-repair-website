@@ -3291,6 +3291,44 @@ test('every FAQ question shows an unclipped keyboard focus ring, site-wide', asy
   ).toEqual([]);
 });
 
+// `.faq-q:hover` tints a question row, but 42 hub pages carry an inline
+// `.hub-page .faq-q { background: none }` that loads later at equal specificity and
+// silently cancelled it. Hovers the first rendered button.faq-q on every page with a real
+// mouse move and requires its computed background to change.
+test('every FAQ question shows a hover tint, site-wide', async ({ page }) => {
+  test.setTimeout(300000);
+  const repoRoot = path.join(__dirname, '..');
+  const urls = collectPageUrls(repoRoot, repoRoot).sort();
+  expect(urls.length, 'no .html pages found to sweep').toBeGreaterThan(50);
+
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const failures = [];
+  let measured = 0;
+  for (const url of urls) {
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    const idx = await page.evaluate(() => [...document.querySelectorAll('button.faq-q')].findIndex(b => {
+      const r = b.getBoundingClientRect();
+      return r.width > 0 && r.height > 0 && getComputedStyle(b).visibility !== 'hidden';
+    }));
+    if (idx < 0) continue;
+    const btn = page.locator('button.faq-q').nth(idx);
+    await btn.scrollIntoViewIfNeeded();
+    await page.mouse.move(1, 1);
+    const bg = () => btn.evaluate(el => getComputedStyle(el).backgroundColor);
+    const before = await bg();
+    await btn.hover();
+    const after = await bg();
+    measured++;
+    if (before === after) failures.push(url + ': background stays ' + before + ' on hover');
+  }
+  expect(measured, 'swept every page but found no rendered button.faq-q').toBeGreaterThan(50);
+  expect(
+    failures,
+    failures.length + ' page(s) show no hover tint on FAQ questions: ' + JSON.stringify(failures.slice(0, 10), null, 1)
+  ).toEqual([]);
+});
+
 // ── Mobile hero occlusion + horizontal overflow, at 375px ─────────────────────
 // Google indexes mobile-first. This file already had SOME 375px coverage (the
 // no-horizontal-overflow test on the luxury city hubs, above), but nothing checked
