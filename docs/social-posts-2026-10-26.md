@@ -14,11 +14,11 @@ Publish a post only after its Learn more page is confirmed live. Suggested slot,
 
 The only facts supplied by the owner (the source folder name): LG refrigerator, ice maker replaced on the freezer side, Orange. No date, cause, symptom, part number, model number, time-to-fix, price or customer detail was provided, and none is stated below.
 
-What the photos show: photo 1 shows a stainless LG French-door refrigerator with a door water and ice dispenser, set into cream cabinets in a kitchen with a wood-look floor; the LG logo is visible at the top of the door. Photo 2 shows the same refrigerator with its bottom freezer drawer removed, leaving the empty white freezer compartment and drawer rails visible, an "Inverter Linear" badge on the door, and a cordless drill and an open bit case on the floor. The ice maker itself is not pointed out in either photo, so the copy says only that it was replaced on the freezer side (the owner's fact) and the photo captions say the drawer was removed to work on it. Photo 1 also shows a washer and a patio door through a doorway on the left; observed: no people, faces, addresses or documents (an observation, not an owner attestation; please confirm before posting).
+What the photos show: photo 1 shows a stainless LG French-door refrigerator with a door dispenser, set into cream cabinets in a kitchen with a wood-look floor; the LG logo is visible at the top of the door. Photo 2 shows an LG refrigerator with its bottom freezer drawer removed, leaving the empty white freezer compartment and drawer rails visible, an "Inverter Linear" badge on the door, and a cordless drill and an open bit case on the floor. The ice maker itself is not pointed out in either photo. Attested by the owner: LG refrigerator, ice maker replaced on the freezer side, Orange; both photos are from this job. Observed in the photos: the refrigerator, the removed drawer, the empty compartment, a drill and a bit case. The copy keeps the two apart and makes no claim about why the drawer is out. Photo 1 also shows a washer and a patio door through a doorway on the left; observed: no people, faces, addresses or documents (an observation, not an owner attestation; please confirm before posting).
 
-On the website, both photos are on `pages/recent-repairs.html` and the refrigerator hub; photo 1 is also on the LG hub and photo 2 on the Orange city hub. The GBP Learn more link points to the Orange city hub.
+On the website, both photos are on `pages/recent-repairs.html` and the refrigerator hub; photo 1 is also on the LG hub and photo 2 on the Orange city hub (the page the GBP post links to). The GBP Learn more link points to the Orange city hub.
 
-For GBP, choose **Update**, attach the processed JPEG of photo 1 (GBP takes one image for this post; photo 2 is on the website) and use **Learn more** with the exact destination. For Instagram, a two-image carousel (photo 1, then photo 2) works; use the caption and hashtags together; tag the city, never a customer's home, and confirm the place tag exists in Instagram's location search before posting (not checked here). All image paths are repository-relative.
+For GBP, choose **Update**, attach the processed JPEG of photo 2 (GBP takes one image for this post; photo 2 is the one on the linked Orange hub and it shows the work; photo 1 is on the website) and use **Learn more** with the exact destination. For Instagram, a two-image carousel (photo 1, then photo 2) works; use the caption and hashtags together; tag the city, never a customer's home, and confirm the place tag exists in Instagram's location search before posting (not checked here). All image paths are repository-relative.
 
 Aspect ratio: photo 1 is portrait (768x1024, 3:4) and photo 2 is landscape (1024x768, 4:3). Instagram's feed may crop or letterbox mixed ratios in one carousel; preview both in the app and crop manually if the refrigerator or the open freezer compartment is cut off (the exact feed aspect-ratio limits were not re-verified for this draft). GBP's 720x720 recommendation is cleared by both.
 
@@ -28,12 +28,12 @@ Per `.claude/skills/gbp-platform-policy/SKILL.md`: GBP posts are descriptive-onl
 
 ## 1. Orange: LG refrigerator ice maker replacement, freezer side
 
-Images: `images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.jpg` (photo 1, GBP and Instagram slide 1) and `images/real/business/completed-repair-refrigerator-lg-ice-maker-freezer-orange.jpg` (photo 2, Instagram slide 2 only).
+Images: `images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.jpg` (photo 1, Instagram slide 1 only) and `images/real/business/completed-repair-refrigerator-lg-ice-maker-freezer-orange.jpg` (photo 2, GBP and Instagram slide 2).
 
 GBP body:
 
 ```text
-LG refrigerator: ice maker replaced on the freezer side. Orange, CA.
+LG refrigerator in Orange, CA: ice maker replaced on the freezer side.
 ```
 
 Learn more: https://fixappliancesfast.com/pages/appliance-repair-orange-ca.html
@@ -41,7 +41,7 @@ Learn more: https://fixappliancesfast.com/pages/appliance-repair-orange-ca.html
 Instagram: two-image carousel (see aspect ratio note); city tag Orange, CA.
 
 ```text
-LG refrigerator in Orange, CA. Ice maker replaced on the freezer side. Swipe to see the freezer drawer out.
+LG refrigerator in Orange, CA. Ice maker replaced on the freezer side. Swipe for the freezer drawer out.
 
 #OrangeCA #OrangeCountyCA #LG #RefrigeratorRepair #ApplianceRepair
 ```
