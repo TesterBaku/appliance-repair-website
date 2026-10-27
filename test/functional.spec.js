@@ -3291,6 +3291,124 @@ test('every FAQ question shows an unclipped keyboard focus ring, site-wide', asy
   ).toEqual([]);
 });
 
+// `.faq-q:hover` tints a question row, but 42 hub pages carry an inline
+// `.hub-page .faq-q { background: none }` that loads later at equal specificity and
+// silently cancelled it. Hovers the first rendered button.faq-q on every page with a real
+// mouse move and requires its computed background to change.
+test('every FAQ question shows a hover tint, site-wide', async ({ page }) => {
+  test.setTimeout(300000);
+  const repoRoot = path.join(__dirname, '..');
+  const urls = collectPageUrls(repoRoot, repoRoot).sort();
+  expect(urls.length, 'no .html pages found to sweep').toBeGreaterThan(50);
+
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const failures = [];
+  let measured = 0;
+  for (const url of urls) {
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    const idx = await page.evaluate(() => [...document.querySelectorAll('button.faq-q')].findIndex(b => {
+      const r = b.getBoundingClientRect();
+      return r.width > 0 && r.height > 0 && getComputedStyle(b).visibility !== 'hidden';
+    }));
+    if (idx < 0) continue;
+    const btn = page.locator('button.faq-q').nth(idx);
+    await btn.scrollIntoViewIfNeeded();
+    await page.mouse.move(1, 1);
+    const bg = () => btn.evaluate(el => getComputedStyle(el).backgroundColor);
+    const before = await bg();
+    await btn.hover();
+    const after = await bg();
+    measured++;
+    if (before === after) failures.push(url + ': background stays ' + before + ' on hover');
+  }
+  expect(measured, 'swept every page but found no rendered button.faq-q').toBeGreaterThan(50);
+  expect(
+    failures,
+    failures.length + ' page(s) show no hover tint on FAQ questions: ' + JSON.stringify(failures.slice(0, 10), null, 1)
+  ).toEqual([]);
+});
+
+// WCAG 2.4.1 (Bypass Blocks): every page with the site nav must open with a skip link that
+// is off-screen until focused, becomes a visible 44px+ control on the first real Tab, points
+// at exactly one target that sits after the nav, and moves the next Tab stop out of the nav.
+test('every page has a working skip link, site-wide', async ({ page }) => {
+  test.setTimeout(300000);
+  const repoRoot = path.join(__dirname, '..');
+  const urls = collectPageUrls(repoRoot, repoRoot).sort();
+  expect(urls.length, 'no .html pages found to sweep').toBeGreaterThan(50);
+  const failures = [];
+  let measured = 0;
+  for (const url of urls) {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    if (!(await page.locator('nav.nav').count())) continue;
+    measured++;
+    const fail = (why) => failures.push(url + ': ' + why);
+
+    const link = await page.evaluate(() => {
+      const a = document.querySelector('nav.nav a.skip-link');
+      if (!a) return null;
+      const r = a.getBoundingClientRect();
+      return { bottom: r.bottom, href: a.getAttribute('href') };
+    });
+    if (!link) { fail('no a.skip-link inside nav.nav'); continue; }
+    if (link.bottom > 0) fail('skip link is not off-screen while unfocused (bottom ' + link.bottom + ')');
+
+    const m = /^#(.+)$/.exec(link.href || '');
+    if (!m) { fail('skip link href is not a #fragment: ' + link.href); continue; }
+    const target = await page.evaluate((id) => {
+      const els = document.querySelectorAll('[id="' + id + '"]');
+      if (els.length !== 1) return { count: els.length };
+      const nav = document.querySelector('nav.nav');
+      return {
+        count: 1,
+        isMain: els[0].tagName === 'MAIN',
+        mains: document.querySelectorAll('main').length,
+        inNav: !!els[0].closest('nav.nav, .nav-drawer, #mobile-nav-drawer'),
+        afterNav: !!(nav.compareDocumentPosition(els[0]) & Node.DOCUMENT_POSITION_FOLLOWING)
+      };
+    }, m[1]);
+    if (target.count !== 1) fail('#' + m[1] + ' resolves to ' + target.count + ' elements, want 1');
+    else {
+      if (target.inNav || !target.afterNav) fail('#' + m[1] + ' is inside the nav or before it');
+      if (!target.isMain) fail('#' + m[1] + ' is not a <main> landmark');
+      if (target.mains !== 1) fail('page has ' + target.mains + ' <main> elements, want 1');
+    }
+
+    // Real keyboard path from a fresh load.
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    await page.keyboard.press('Tab');
+    const first = await page.evaluate(() => {
+      const a = document.activeElement;
+      if (!a || !a.classList.contains('skip-link')) return { focused: false, tag: a ? a.tagName + '.' + a.className : 'none' };
+      const r = a.getBoundingClientRect();
+      return { focused: true, top: r.top, left: r.left, right: r.right, bottom: r.bottom, height: r.height,
+        vw: document.documentElement.clientWidth, vh: window.innerHeight };
+    });
+    if (!first.focused) { fail('first Tab focused ' + first.tag + ', not the skip link'); continue; }
+    if (first.top < 0 || first.left < 0 || first.right > first.vw || first.bottom > first.vh) fail('focused skip link is not fully inside the viewport');
+    if (first.height < 44) fail('focused skip link is ' + first.height + 'px tall, want >= 44');
+
+    await page.keyboard.press('Enter');
+    const landed = await page.evaluate(() => document.activeElement && document.activeElement.tagName + '#' + document.activeElement.id);
+    if (landed !== 'MAIN#main') fail('Enter on the skip link left focus on ' + landed + ', want MAIN#main');
+    await page.keyboard.press('Tab');
+    const next = await page.evaluate(() => {
+      const a = document.activeElement;
+      return { inNav: !!(a && a.closest('nav.nav, .nav-drawer, #mobile-nav-drawer')), desc: a ? a.tagName + '.' + a.className : 'none' };
+    });
+    if (next.inNav) fail('Enter then Tab landed back in the nav on ' + next.desc);
+  }
+  expect(measured, 'swept every page but found no nav.nav').toBeGreaterThan(50);
+  expect(
+    failures,
+    failures.length + ' failure(s) across the skip-link sweep: ' + JSON.stringify(failures.slice(0, 10), null, 1)
+  ).toEqual([]);
+});
+
 // ── Mobile hero occlusion + horizontal overflow, at 375px ─────────────────────
 // Google indexes mobile-first. This file already had SOME 375px coverage (the
 // no-horizontal-overflow test on the luxury city hubs, above), but nothing checked
