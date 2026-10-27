@@ -3627,13 +3627,6 @@ test('mobile 375px: hero text clears the fixed nav, tables fit, callout paragrap
   await page.setViewportSize({ width: 375, height: 812 });
   const NAV_CLEARANCE = 16;   // px of air between the nav's bottom edge and the first text
   const heroFails = [], tableFails = [], calloutFails = [];
-  // Pre-existing hub-hero debt found while writing this sweep (the hub hero is vertically centred
-  // and its h1 rides up under the nav on a phone): garbage-disposal's h1 starts at 47px, under the
-  // 53px nav; wine-cooler's has 9px. Out of scope for the 404 fix. This list may only shrink.
-  const HERO_NAV_DEBT = new Set([
-    '/pages/garbage-disposal-repair-orange-county.html',
-    '/pages/wine-cooler-repair-orange-county.html',
-  ]);
   for (const url of urls) {
     await page.goto(url, { waitUntil: 'load' });
     await page.evaluate(() => document.fonts && document.fonts.ready);
@@ -3665,7 +3658,7 @@ test('mobile 375px: hero text clears the fixed nav, tables fit, callout paragrap
       if (cp) out.callout = cp.getBoundingClientRect().width;
       return out;
     });
-    if (!HERO_NAV_DEBT.has(url) && r.navBottom !== null && r.firstTextTop !== null && r.firstTextTop < r.navBottom + NAV_CLEARANCE) {
+    if (r.navBottom !== null && r.firstTextTop !== null && r.firstTextTop < r.navBottom + NAV_CLEARANCE) {
       heroFails.push(`${url}: first text at ${Math.round(r.firstTextTop)}px, nav bottom ${Math.round(r.navBottom)}px`);
     }
     // Scoped to site pages: a dozen-plus long-form articles ship wide scroll-wrapped tables, a separate sweep
