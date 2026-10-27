@@ -3612,3 +3612,61 @@ test('static div.faq-q lists carry no aria-expanded and every answer is visible'
   expect(offenders, JSON.stringify(offenders, null, 1)).toEqual([]);
 });
 
+
+// Phone layout sweep (375px, every page): three defects were found by design critique rather than
+// by a gate, all measurable in a browser. (1) The fixed 53px nav sat on top of the first hero text
+// (404.html left 3px). (2) A table wider than its scroll wrapper silently clipped a column
+// (appliance-repair-cost-orange-county.html: 402px in 311px, no scroll cue). (3) The blog category
+// callout paragraph was squeezed to ~85px by a flex:1 sibling that refused to wrap. Measured after
+// document.fonts.ready, never inferred from CSS.
+test('mobile 375px: hero text clears the fixed nav, tables fit, callout paragraph is readable, site-wide', async ({ page }) => {
+  test.setTimeout(300000);
+  const repoRoot = path.join(__dirname, '..');
+  const urls = collectPageUrls(repoRoot, repoRoot).sort();
+  expect(urls.length, 'no .html pages found to sweep').toBeGreaterThan(50);
+  await page.setViewportSize({ width: 375, height: 812 });
+  const NAV_CLEARANCE = 16;   // px of air between the nav's bottom edge and the first text
+  const heroFails = [], tableFails = [], calloutFails = [];
+  for (const url of urls) {
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => document.fonts && document.fonts.ready);
+    const r = await page.evaluate(() => {
+      const out = { navBottom: null, firstTextTop: null, tables: [], callout: null };
+      const nav = document.querySelector('nav.nav');
+      if (nav && getComputedStyle(nav).position === 'fixed') {
+        out.navBottom = nav.getBoundingClientRect().bottom;
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          const el = n.parentElement;
+          if (!n.textContent.trim() || el.closest('nav, script, style, noscript, .sticky-mobile-bar')) continue;
+          const range = document.createRange();
+          range.selectNodeContents(n);
+          const b = range.getBoundingClientRect();
+          if (!b.width || !b.height || getComputedStyle(el).visibility === 'hidden') continue;
+          out.firstTextTop = b.top + window.scrollY;
+          break;
+        }
+      }
+      document.querySelectorAll('table').forEach((t, i) => {
+        let box = t.parentElement;
+        while (box && box !== document.body && getComputedStyle(box).overflowX === 'visible') box = box.parentElement;
+        const scrolls = box && box !== document.body && box !== document.documentElement;
+        const avail = scrolls ? box.clientWidth : document.documentElement.clientWidth;
+        if (t.scrollWidth > avail + 1) out.tables.push({ i, cls: t.className, tableW: t.scrollWidth, availW: avail });
+      });
+      const cp = document.querySelector('.service-callout p');
+      if (cp) out.callout = cp.getBoundingClientRect().width;
+      return out;
+    });
+    if (r.navBottom !== null && r.firstTextTop !== null && r.firstTextTop < r.navBottom + NAV_CLEARANCE) {
+      heroFails.push(`${url}: first text at ${Math.round(r.firstTextTop)}px, nav bottom ${Math.round(r.navBottom)}px`);
+    }
+    // Scoped to site pages: a dozen-plus long-form articles ship wide scroll-wrapped tables, a separate sweep
+    // (articles are not edited by this change).
+    if (url.startsWith('/pages/')) r.tables.forEach((t) => tableFails.push(`${url}: table ${t.i} (${t.cls || 'no class'}) is ${t.tableW}px in ${t.availW}px`));
+    if (r.callout !== null && r.callout < 200) calloutFails.push(`${url}: callout paragraph ${Math.round(r.callout)}px wide`);
+  }
+  expect.soft(heroFails, 'first text too close to / under the fixed nav').toEqual([]);
+  expect.soft(tableFails, 'table wider than its container (clipped column)').toEqual([]);
+  expect.soft(calloutFails, 'service callout paragraph squeezed').toEqual([]);
+});

@@ -127,7 +127,8 @@
       .quick-links-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 480px) {
-      .error-hero { padding: 56px 16px 48px; }
+      /* Clear the 53px fixed nav the way .page-hero does on phones (80px top); 56px left the glyph 3px under it. */
+      .error-hero { padding: 80px 16px 48px; }
       .error-hero h1 { font-size: 22px; }
       .quick-links-grid { grid-template-columns: 1fr; }
     }

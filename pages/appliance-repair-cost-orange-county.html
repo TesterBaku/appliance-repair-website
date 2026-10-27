@@ -334,6 +334,19 @@
       .diagnostic-card { padding: 28px 20px; }
       .policy-row { gap: 12px; }
     }
+    /* Cost table at phone widths (same pattern as article-dishwasher-cost-orange-county): restack each row so every column is visible without sideways scrolling. CSS only; cell text and header cells are unchanged. */
+    @media (max-width: 600px) {
+      .cost-table-wrap { overflow-x: visible !important; }
+      .cost-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .cost-table tbody, .cost-table tr { display: block; }
+      .cost-table tr { border-bottom: 1px solid #e2e8f0; padding: 4px 0; }
+      .cost-table tr:last-child { border-bottom: none; }
+      .cost-table td { display: flex; justify-content: space-between; gap: 16px; padding: 7px 12px; border-bottom: none; text-align: right; }
+      .cost-table td:first-child { text-align: left; font-size: 15px; }
+      /* The repairs list is prose: label above, value left-aligned at full width. */
+      .cost-table td:nth-child(3) { flex-direction: column; gap: 2px; text-align: left; }
+      .cost-table td[data-label]::before { content: attr(data-label); flex: 0 0 auto; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #666; text-align: left; }
+    }
     @media (max-width: 480px) {
       .hub-hero h1 { font-size: 28px; }
       .cost-table { font-size: 12px; }
@@ -631,7 +644,7 @@
         <strong>Estimate disclaimer:</strong> Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.
       </div>
 
-      <div style="overflow-x:auto;margin-top:4px;">
+      <div class="cost-table-wrap" style="overflow-x:auto;margin-top:4px;">
         <table class="cost-table">
           <thead>
             <tr>
@@ -644,45 +657,45 @@
           <tbody>
             <tr>
               <td><strong>Refrigerator</strong></td>
-              <td><span class="cost-range">$150–$650</span></td>
-              <td>Evaporator fan, defrost heater, ice maker, thermostat, compressor</td>
-              <td>$800–$2,500+</td>
+              <td data-label="Typical range"><span class="cost-range">$150–$650</span></td>
+              <td data-label="Most common repairs">Evaporator fan, defrost heater, ice maker, thermostat, compressor</td>
+              <td data-label="Replacement cost (new)">$800–$2,500+</td>
             </tr>
             <tr>
               <td><strong>Washer</strong></td>
-              <td><span class="cost-range">$120–$400</span></td>
-              <td>Drain pump, door latch, lid switch, belt, control board</td>
-              <td>$600–$1,500</td>
+              <td data-label="Typical range"><span class="cost-range">$120–$400</span></td>
+              <td data-label="Most common repairs">Drain pump, door latch, lid switch, belt, control board</td>
+              <td data-label="Replacement cost (new)">$600–$1,500</td>
             </tr>
             <tr>
               <td><strong>Dryer</strong></td>
-              <td><span class="cost-range">$100–$350</span></td>
-              <td>Heating element, cycling thermostat, drum bearing, motor</td>
-              <td>$500–$1,200</td>
+              <td data-label="Typical range"><span class="cost-range">$100–$350</span></td>
+              <td data-label="Most common repairs">Heating element, cycling thermostat, drum bearing, motor</td>
+              <td data-label="Replacement cost (new)">$500–$1,200</td>
             </tr>
             <tr>
               <td><strong>Dishwasher</strong></td>
-              <td><span class="cost-range">$130–$400</span></td>
-              <td>Drain pump, door latch, spray arm, wash motor, control board</td>
-              <td>$600–$1,200</td>
+              <td data-label="Typical range"><span class="cost-range">$130–$400</span></td>
+              <td data-label="Most common repairs">Drain pump, door latch, spray arm, wash motor, control board</td>
+              <td data-label="Replacement cost (new)">$600–$1,200</td>
             </tr>
             <tr>
               <td><strong>Oven / Stove</strong></td>
-              <td><span class="cost-range">$100–$400</span></td>
-              <td>Igniter, bake element, thermostat, burner valve, control board</td>
-              <td>$500–$2,000+</td>
+              <td data-label="Typical range"><span class="cost-range">$100–$400</span></td>
+              <td data-label="Most common repairs">Igniter, bake element, thermostat, burner valve, control board</td>
+              <td data-label="Replacement cost (new)">$500–$2,000+</td>
             </tr>
             <tr>
               <td><strong>Freezer</strong></td>
-              <td><span class="cost-range">$120–$350</span></td>
-              <td>Defrost heater, evaporator fan, thermostat, door gasket</td>
-              <td>$300–$800</td>
+              <td data-label="Typical range"><span class="cost-range">$120–$350</span></td>
+              <td data-label="Most common repairs">Defrost heater, evaporator fan, thermostat, door gasket</td>
+              <td data-label="Replacement cost (new)">$300–$800</td>
             </tr>
             <tr>
               <td><strong>Microwave</strong></td>
-              <td><span class="cost-range">$75–$250</span></td>
-              <td>Door switch, magnetron, capacitor, control panel</td>
-              <td>$150–$600</td>
+              <td data-label="Typical range"><span class="cost-range">$75–$250</span></td>
+              <td data-label="Most common repairs">Door switch, magnetron, capacitor, control panel</td>
+              <td data-label="Replacement cost (new)">$150–$600</td>
             </tr>
           </tbody>
         </table>
