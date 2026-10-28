@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 122 |
-| On exactly 1 hub (1 free slot each) | 18 |
-| On exactly 2 hubs (at cap) | 100 |
+| Distinct reviews currently on >=1 hub | 121 |
+| On exactly 1 hub (1 free slot each) | 16 |
+| On exactly 2 hubs (at cap) | 101 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **18** |
-| Approx. new city hubs supportable @ 3/hub | **~6** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **16** |
+| Approx. new city hubs supportable @ 3/hub | **~5** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 18 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 16 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -41,18 +41,16 @@ not as violations to fix. No other review may exceed 2 hubs.
 
 | Review | On hub |
 |---|---|
-| Alexander Vershinin | refrigerator-repair-cost-hub |
 | Arzuman Qarayev | westminster |
 | Caitlin Singleton | san-juan-capistrano |
-| Carol Spetzman | whittier |
 | Cindi Nichols | whittier |
 | Daniel Eichkhoff | whittier |
+| Elvin Mammadov | wolf-hub |
 | Henry Lo | brea |
-| J | anaheim |
 | Jesus Mendoza | palm-springs |
-| Karen Myhra | long-beach |
 | Kim Bowen | dryer-repair-hub |
 | Laurie Summers | wolf-hub |
+| Naoki MacInnes | wine-cooler-repair-hub |
 | Satara Armstrong Charlson | viking-hub |
 | Stacey Etnire | chino-hills |
 | T G | san-juan-capistrano |
@@ -69,7 +67,9 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Aghasahib Zarbaliyev | corona, washer-repair-cost-hub |
 | Ahmed El Korashy | riverside, kenmore-hub |
 | Alexander Battaglia | riverside, oven-repair-cost-hub |
+| Alexander Vershinin | long-beach, refrigerator-repair-cost-hub |
 | B P | tustin, viking-hub |
+| Carol Spetzman | long-beach, whittier |
 | Cheryl Kirkpatrick | seal-beach, wine-cooler-repair-hub |
 | Christian Dorn | los-alamitos, pico-rivera |
 | Cindy Montefu | santa-ana, dryer-repair-hub |
@@ -87,7 +87,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Donna Barnett Corwin | corona, dishwasher-repair-cost-hub |
 | Eleonora Abukova | montebello, dishwasher-repair-cost-hub |
 | Elizabeth Lovejoy | laguna-beach, oven-stove-repair-hub |
-| Elvin Mammadov | long-beach, wolf-hub |
 | Emily Bees | stanton, frigidaire-hub |
 | Emily Palmer | laguna-beach, freezer-repair-hub |
 | Erin Ponchak | laguna-niguel, yorba-linda |
@@ -97,6 +96,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | George Mendoza | garden-grove, oven-stove-repair-hub |
 | Gina Kim | los-alamitos, san-clemente |
 | Greg Schnabel | costa-mesa, miele-hub |
+| J | anaheim, long-beach |
 | J. Feria | dana-point, rancho-santa-margarita |
 | James Wehrman | stanton, frigidaire-hub |
 | Jeff C | san-juan-capistrano, refrigerator-repair-cost-hub |
@@ -132,7 +132,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Melissa | dryer-repair-cost-hub, whirlpool-hub |
 | Michele Ohanian | ge-hub, refrigerator-repair-cost-hub |
 | Muhammed Nusratli | kenmore-hub, oven-repair-cost-hub |
-| Naoki MacInnes | long-beach, wine-cooler-repair-hub |
 | Noelle B | palm-springs, yorba-linda |
 | Olga Garcia | lg-hub, maytag-hub |
 | Pat Sepulveda-Garcia | corona, dcs-hub |
