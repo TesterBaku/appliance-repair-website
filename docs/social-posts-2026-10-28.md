@@ -70,7 +70,7 @@ Learn more: https://fixappliancesfast.com/pages/appliance-repair-newport-beach-c
 Instagram: two-image carousel (photo 1 first); city tag Newport Beach, CA.
 
 ```text
-Dacor cooktop in Newport Beach, CA. Burners would not turn on: spark module and wires replaced. Swipe for the burners lit.
+Dacor cooktop in Newport Beach, CA. Burners would not turn on: spark module and wires replaced. Swipe for another photo from this job.
 
 #NewportBeach #OrangeCountyCA #Dacor #CooktopRepair #ApplianceRepair
 ```
