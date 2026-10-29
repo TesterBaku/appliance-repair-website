@@ -3670,3 +3670,33 @@ test('mobile 375px: hero text clears the fixed nav, tables fit, callout paragrap
   expect.soft(tableFails, 'table wider than its container (clipped column)').toEqual([]);
   expect.soft(calloutFails, 'service callout paragraph squeezed').toEqual([]);
 });
+
+// ─── Capped review row (site.js initReviewsCap) ──────────────────────────────
+for (const slug of ['washer-repair-orange-county', 'appliance-repair-huntington-beach-ca']) {
+  test.describe('Reviews cap: ' + slug, () => {
+    test('phone: two reviews, Show more reveals the third', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto('/pages/' + slug + '.html');
+      const cards = page.locator('.reviews-cap > .testimonial-card');
+      expect(await cards.count()).toBe(3);
+      expect(await visibleChildren(cards)).toBe(2);
+      const btn = page.locator('.reviews-cap-more');
+      await expect(btn).toBeVisible();
+      await expect(btn).toHaveText('Show 1 more review');
+      await page.evaluate(() => document.fonts.ready);
+      expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+      await btn.click();
+      expect(await visibleChildren(cards)).toBe(3);
+      await expect(btn).toBeHidden();
+      await expect(cards.nth(2)).toBeFocused();
+    });
+
+    test('desktop: three reviews, no Show more button', async ({ page }) => {
+      await page.setViewportSize(DESKTOP);
+      await page.goto('/pages/' + slug + '.html');
+      const cards = page.locator('.reviews-cap > .testimonial-card');
+      expect(await visibleChildren(cards)).toBe(3);
+      await expect(page.locator('.reviews-cap-more')).toBeHidden();
+    });
+  });
+}

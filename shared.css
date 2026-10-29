@@ -106,6 +106,16 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
   .job-grid-cap[data-cap-ready]:not([data-expanded]) + .job-grid-more-row { display: block; }
 }
 
+/* Capped review row (site.js initReviewsCap). Same shape as the job grid above, with one
+   deliberate difference: cards hide only once JS has marked the grid ready, so with JS off
+   every review stays visible. Phones show the first two cards; markup order is the phone set. */
+.reviews-cap-more-row { display: none; text-align: center; margin-top: 24px; }
+.reviews-cap-more { font-family: inherit; font-weight: 600; color: var(--brand-text); border-color: var(--brand-text); background: #fff; cursor: pointer; }
+@media (max-width: 768px) {
+  .reviews-cap[data-cap-ready]:not([data-expanded]) > .testimonial-card:nth-child(n+3) { display: none; }
+  .reviews-cap[data-cap-ready]:not([data-expanded]) + .reviews-cap-more-row { display: block; }
+}
+
 /* SECTIONS */
 .section { padding: 80px 24px; }
 .section-white { background: var(--surface); }
