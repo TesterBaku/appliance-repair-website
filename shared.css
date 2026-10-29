@@ -134,12 +134,22 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
 /* One brand on a brand-specific hub: the logo is drawn larger (width/height attributes) and a
    little darker, because Wolf and Sub-Zero were near-illegible at the multi-logo sizes. */
 .expect-brands--single .expect-brands-list img { opacity: .8; }
-.expect-brands-note { margin: 10px 0 0; font-size: 11.5px; line-height: 1.45; color: var(--text-soft); }
+.expect-brands-note { margin: 10px 0 0; font-size: 13px; line-height: 1.45; color: var(--text-soft); }
 .nb { white-space: nowrap; }
 @media (max-width: 768px) {
-  .expect-strip { padding: 14px 16px 16px; }
-  .expect-list { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .expect-list li { padding: 12px 12px 11px; }
+  /* Phone compaction: the strip sits between the hero and the reviews, so every pixel here
+     pushes the reviews down. Tighter padding, gaps and leading only; no text is removed or
+     smaller than 12px, and the logos stay above the reviews. */
+  .expect-strip { padding: 12px 16px 12px; }
+  .expect-list { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .expect-list li { padding: 9px 10px 8px; }
+  .expect-list strong { font-size: 13.5px; line-height: 1.25; margin-bottom: 2px; }
+  .expect-list li > span { font-size: 12px; line-height: 1.38; }
+  .expect-trust { margin-top: 10px; font-size: 12.5px; line-height: 1.4; }
+  .expect-brands { margin-top: 10px; }
+  .expect-brands-label { margin-bottom: 6px; }
+  .expect-brands-list { gap: 8px 16px; }
+  .expect-brands-note { margin-top: 8px; font-size: 12px; line-height: 1.38; }
 }
 
 /* SECTIONS */
