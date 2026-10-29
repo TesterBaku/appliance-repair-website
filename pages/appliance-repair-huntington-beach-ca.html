@@ -71,6 +71,14 @@
     .expect-brands-list img { display: block; height: auto; max-width: 100%; filter: grayscale(1); opacity: .62; }
     .expect-brands-note { margin: 10px 0 0; font-size: 11.5px; line-height: 1.45; color: var(--text-soft); }
     .nb { white-space: nowrap; }
+    .hb-bc { background: #f7fafc; border-bottom: 1px solid #eee; padding: 10px 24px; }
+    .hb-bc-in { max-width: 1100px; margin: 0 auto; font-size: 12px; color: #666; }
+    .hb-bc-sep { margin: 0 6px; }
+    @media (max-width: 480px) {
+      .hb-bc { padding: 10px 12px; }
+      .hb-bc-in { font-size: 11px; }
+      .hb-bc-sep { margin: 0 4px; }
+    }
     @media (max-width: 768px) {
       .expect-strip { padding: 14px 16px 16px; }
       .expect-list { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -592,12 +600,12 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <div style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
-    <div style="max-width:1100px;margin:0 auto;font-size:12px;color:#666;">
+  <div class="hb-bc">
+    <div class="hb-bc-in">
       <a href="../" style="color:#666;text-decoration:none;">Home</a>
-      <span style="margin:0 6px;">›</span>
+      <span class="hb-bc-sep">›</span>
       <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
-      <span style="margin:0 6px;">›</span>
+      <span class="hb-bc-sep">›</span>
       <span style="color:#333;">Appliance Repair Huntington Beach, CA</span>
     </div>
   </div>
@@ -607,7 +615,7 @@
     <div class="expect-inner">
       <h2 class="expect-title" id="expect-title">What to expect</h2>
       <ul class="expect-list">
-        <li><strong>Flat $99 service call</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
         <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
         <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
         <li><strong>Same-day service</strong><span>Call or book online.</span></li>
@@ -617,16 +625,16 @@
         <p class="expect-brands-label" id="expect-brands-label">Brands we repair</p>
         <ul class="expect-brands-list">
           <li><img src="../images/brands/samsung.svg" alt="Samsung" width="85" height="13" loading="eager" decoding="async"></li>
-          <li><img src="../images/brands/lg.svg" alt="LG" width="87" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/lg.svg" alt="LG" width="48" height="22" loading="eager" decoding="async"></li>
           <li><img src="../images/brands/whirlpool.svg" alt="Whirlpool" width="66" height="22" loading="eager" decoding="async"></li>
           <li><img src="../images/brands/ge.svg" alt="GE" width="83" height="22" loading="eager" decoding="async"></li>
           <li><img src="../images/brands/electrolux.svg" alt="Electrolux" width="83" height="19" loading="eager" decoding="async"></li>
           <li><img src="../images/brands/frigidaire.svg" alt="Frigidaire" width="107" height="13" loading="eager" decoding="async"></li>
           <li><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></li>
-          <li><img src="../images/brands/miele.svg" alt="Miele" width="77" height="19" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/miele.svg" alt="Miele" width="65" height="16" loading="eager" decoding="async"></li>
           <li><img src="../images/brands/kitchenaid.svg" alt="KitchenAid" width="114" height="10" loading="eager" decoding="async"></li>
-          <li><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="80" height="17" loading="eager" decoding="async"></li>
-          <li><img src="../images/brands/wolf.svg" alt="Wolf" width="59" height="15" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/wolf.svg" alt="Wolf" width="70" height="18" loading="eager" decoding="async"></li>
         </ul>
         <p class="expect-brands-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
       </div>
@@ -821,7 +829,7 @@
   </section>
 
   <!-- FAQ -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">FAQ: Huntington Beach Appliance Repair</h2>
       <div class="faq-list">

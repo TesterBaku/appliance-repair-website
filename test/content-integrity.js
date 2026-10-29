@@ -3081,7 +3081,7 @@ if (run('img-dimensions')) {
         sizeCache.set(resolved, size);
       }
       if (!size || !size.width || !size.height) {
-        issues.push(`[IMG-DIMENSIONS] ${p}:${lineNo} — ${src} could not be decoded (unrecognized or malformed WebP/PNG/JPEG header at ${rel(resolved)}).`);
+        issues.push(`[IMG-DIMENSIONS] ${p}:${lineNo}: ${src} could not be decoded (unrecognized or malformed WebP/PNG/JPEG/SVG header at ${rel(resolved)}).`);
         continue;
       }
 
