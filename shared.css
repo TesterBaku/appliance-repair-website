@@ -116,6 +116,33 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
   .reviews-cap[data-cap-ready]:not([data-expanded]) + .reviews-cap-more-row { display: block; }
 }
 
+/* WHAT TO EXPECT (hub first-screen fact row + brand logo strip). Single-sourced here for the
+   hub redesign rollout; the two pilot pages (washer, Huntington Beach) still carry identical
+   inline copies until a later batch removes them. */
+.expect-strip { background: var(--bg); border-bottom: 1px solid #e2e8f0; padding: 24px 24px 22px; }
+.expect-inner { max-width: 1100px; margin: 0 auto; }
+.expect-title { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.expect-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.expect-list li { background: var(--surface); border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 14px 13px; }
+.expect-list strong { display: block; font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.3; margin-bottom: 5px; }
+.expect-list li > span { display: block; font-size: 12.5px; color: var(--text-sub); line-height: 1.5; }
+.expect-trust { margin: 14px 0 0; font-size: 13px; font-weight: 600; color: var(--text-soft); line-height: 1.5; }
+.expect-brands { margin: 14px 0 0; }
+.expect-brands-label { margin: 0 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--text-soft); }
+.expect-brands-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.expect-brands-list li { display: flex; align-items: center; }
+.expect-brands-list img { display: block; height: auto; max-width: 100%; filter: grayscale(1); opacity: .62; }
+/* One brand on a brand-specific hub: the logo is drawn larger (width/height attributes) and a
+   little darker, because Wolf and Sub-Zero were near-illegible at the multi-logo sizes. */
+.expect-brands--single .expect-brands-list img { opacity: .8; }
+.expect-brands-note { margin: 10px 0 0; font-size: 11.5px; line-height: 1.45; color: var(--text-soft); }
+.nb { white-space: nowrap; }
+@media (max-width: 768px) {
+  .expect-strip { padding: 14px 16px 16px; }
+  .expect-list { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .expect-list li { padding: 12px 12px 11px; }
+}
+
 /* SECTIONS */
 .section { padding: 80px 24px; }
 .section-white { background: var(--surface); }
