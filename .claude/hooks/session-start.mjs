@@ -44,7 +44,8 @@ process.stdout.write(`Repo non-negotiables (SessionStart hook; canonical text in
    never tiered: Orange County, LA County (every city and brand), Riverside County, and
    Chino / Chino Hills in San Bernardino County. \$120 and \$150 are defects in a fee
    statement (the Riverside \$120 tier was retired 2026-08-22). Scheduling follows
-   coverage, never distance: same-day when the schedule is open in Orange County, LA
+   coverage, never distance: same-day service may be stated plainly (no "when the schedule is open" hedge
+   required, owner 2026-10-29; never promise a same-day REPAIR) in Orange County, LA
    County, Riverside city and the Coachella Valley, and Chino / Chino Hills. Corona, Norco
    and Eastvale are PARKED (owner, 2026-10-12): never name them as served in visible copy,
    a city card, a form option or llms.txt; the Corona hub stays offline (noindex); the
