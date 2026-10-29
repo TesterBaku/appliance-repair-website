@@ -121,8 +121,10 @@
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
     .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
     .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
-    @media (max-width: 900px) { .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
+    /* 3 cards: stay 3-up until the phone stack, never 2+1 */
+    @media (max-width: 768px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
+    /* shared.css centres a lone 3rd card on a 2-up row (481-900px); this grid is 3-up from 769px, so cancel that there */
+    @media (min-width: 769px) and (max-width: 900px) { .hub-page .testimonials-grid:has(> .testimonial-card:nth-child(3):last-child) > .testimonial-card:nth-child(3) { grid-column: auto; justify-self: stretch; width: auto; } }
 
     @media (max-width: 768px) {
       /* P6-62 tap targets: these service links rendered 36px.
@@ -678,13 +680,43 @@
     </div>
   </section>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. serves Huntington Beach, California, providing same-day appliance repair for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover all Huntington Beach neighborhoods: Downtown and the Pier area, Seacliff, Central HB, Huntington Harbour, and Bolsa Chica, across ZIP codes 92646, 92647, 92648, and 92649. Coastal salt air and humidity are hard on appliances; we know what to look for. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
-  </div>
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Huntington Beach Customers Say</h2>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
+      <div class="testimonials-grid testimonials-grid--stack-768">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">KH</div>
+          <div class="testimonial-name">Kelly Heyden · Washer repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JM</div>
+          <div class="testimonial-name">Joellyn Meadows · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliance, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JL</div>
+          <div class="testimonial-name">Julie L. · Dryer repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- SERVICES -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">What We Fix in Huntington Beach</h2>
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:560px;text-align:center;margin-left:auto;margin-right:auto;">Whether your fridge stopped cooling after a hot summer week or your washer leaked onto the laundry room floor, we diagnose and fix it, usually in one visit.</p>
@@ -702,7 +734,7 @@
   </section>
 
   <!-- BRANDS -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Brands We Service in Huntington Beach</h2>
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:600px;text-align:center;margin-left:auto;margin-right:auto;">From everyday Whirlpool and Samsung to the Sub-Zero and Wolf appliances in Seacliff and Huntington Harbour homes, we service all of them.</p>
@@ -737,7 +769,7 @@
   </section>
 
   <!-- PROCESS -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">How It Works</h2>
       <p style="font-size:14px;color:#666;text-align:center;max-width:560px;margin:0 auto 8px;">Four steps from your call to a working appliance.</p>
@@ -778,41 +810,6 @@
       </figure>
     </div>
   </section>
-  <!-- TESTIMONIALS -->
-  <section class="section section-gray" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">What Huntington Beach Customers Say</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
-      <div class="testimonials-grid">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">KH</div>
-          <div class="testimonial-name">Kelly Heyden · Washer repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JM</div>
-          <div class="testimonial-name">Joellyn Meadows · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliance, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JL</div>
-          <div class="testimonial-name">Julie L. · Dryer repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-      </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
-      </div>
-    </div>
-  </section>
-
   <!-- PRICING LINE -->
   <section class="section section-white" style="padding-top:0;padding-bottom:40px;">
     <div class="container">

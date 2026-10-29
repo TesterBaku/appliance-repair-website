@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-10-28** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-10-29** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -16,13 +16,13 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 | Metric | Value |
 |---|---|
 | Distinct reviews currently on >=1 hub | 121 |
-| On exactly 1 hub (1 free slot each) | 16 |
-| On exactly 2 hubs (at cap) | 101 |
+| On exactly 1 hub (1 free slot each) | 19 |
+| On exactly 2 hubs (at cap) | 98 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **16** |
-| Approx. new city hubs supportable @ 3/hub | **~5** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **19** |
+| Approx. new city hubs supportable @ 3/hub | **~6** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 16 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 19 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -44,13 +44,16 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Arzuman Qarayev | westminster |
 | Caitlin Singleton | san-juan-capistrano |
 | Cindi Nichols | whittier |
+| Craig Tudor | garden-grove |
 | Daniel Eichkhoff | whittier |
 | Elvin Mammadov | wolf-hub |
 | Henry Lo | brea |
 | Jesus Mendoza | palm-springs |
 | Kim Bowen | dryer-repair-hub |
 | Laurie Summers | wolf-hub |
+| Mark Rivera | lake-forest |
 | Naoki MacInnes | wine-cooler-repair-hub |
+| Patricio Jr Villanueva | la-habra |
 | Satara Armstrong Charlson | viking-hub |
 | Stacey Etnire | chino-hills |
 | T G | san-juan-capistrano |
@@ -75,7 +78,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Cindy Montefu | santa-ana, dryer-repair-hub |
 | Clifford Wright | thermador-hub, wolf-hub |
 | Corinna Vickers | stanton, frigidaire-hub |
-| Craig Tudor | garden-grove, washer-repair-hub |
 | D Light | cost-hub, thermador-hub |
 | Dana McNeill | fountain-valley, rancho-santa-margarita |
 | Danette Vanover | aliso-viejo, washer-repair-hub |
@@ -125,7 +127,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Marie Bennett | bosch-hub, dcs-hub |
 | Mark Koss | rancho-santa-margarita, thermador-hub |
 | Mark Lauria | san-clemente, sub-zero-hub |
-| Mark Rivera | lake-forest, washer-repair-hub |
 | Marla Katz | santa-ana, kitchenaid-hub |
 | Matt Semonza | kitchenaid-hub, whirlpool-hub |
 | Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
@@ -135,7 +136,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Noelle B | palm-springs, yorba-linda |
 | Olga Garcia | lg-hub, maytag-hub |
 | Pat Sepulveda-Garcia | corona, dcs-hub |
-| Patricio Jr Villanueva | la-habra, washer-repair-hub |
 | Pawan Deepak | fountain-valley, placentia |
 | Raymond Olinger | garden-grove, samsung-hub |
 | Reuben Johnson | dishwasher-repair-cost-hub, samsung-hub |

@@ -118,8 +118,10 @@
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
     .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
     .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
-    @media (max-width: 900px) { .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
+    /* 3 cards: stay 3-up until the phone stack, never 2+1 */
+    @media (max-width: 768px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
+    /* shared.css centres a lone 3rd card on a 2-up row (481-900px); this grid is 3-up from 769px, so cancel that there */
+    @media (min-width: 769px) and (max-width: 900px) { .hub-page .testimonials-grid:has(> .testimonial-card:nth-child(3):last-child) > .testimonial-card:nth-child(3) { grid-column: auto; justify-self: stretch; width: auto; } }
 
     /* CTA BOX */
     .cta-box { background: linear-gradient(135deg, #cc3d12 0%, #aa3210 100%); border-radius: 16px; padding: 48px 40px; text-align: center; }
@@ -254,10 +256,7 @@
     "itemListElement": [
       { "@type": "Review", "author": { "@type": "Person", "name": "Danette Vanover" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Have used Appliance Repair in the past. AG is a 5-star technician. On time, polite. Offered a detailed description of the problem. For a 12-year-old washer the repair cost would far exceed in comparison to today's market value of a new washer. Appreciated the up-front honesty. At no charge he did a minor adjustment to prevent stagnant water accumulating in the soap dispenser thus eliminating the foul odor emitting in my washer. Have no problem calling AG in the future. It's reassuring to find a service with integrity that is honest up front. Thank you. D. Vanover", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
       { "@type": "Review", "author": { "@type": "Person", "name": "Russell Kadota" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "A.G. arrived with the part my washing machine needed and replaced it very quickly. He was very courteous and professional.", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
-      { "@type": "Review", "author": { "@type": "Person", "name": "Kelly Heyden" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
-      { "@type": "Review", "author": { "@type": "Person", "name": "Mark Rivera" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Thank you for fixing my Whirlpool washer", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
-      { "@type": "Review", "author": { "@type": "Person", "name": "Patricio Jr Villanueva" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "Thank you for fixing my LG washer", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } },
-      { "@type": "Review", "author": { "@type": "Person", "name": "Craig Tudor" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "AG was awesome!", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
+      { "@type": "Review", "author": { "@type": "Person", "name": "Kelly Heyden" }, "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "reviewBody": "We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!", "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" } }
     ]
   }
   </script>
@@ -691,13 +690,43 @@
     </div>
   </section>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. provides washing machine repair throughout Orange County, California, including Anaheim, Irvine, Huntington Beach, Santa Ana, Costa Mesa, Fullerton, Garden Grove, and nearby cities. We repair front-load and top-load washers by Samsung, LG, Whirlpool, Maytag, GE, Bosch, KitchenAid, Frigidaire, Miele, Sub-Zero, and all major brands. Same-day service available. Call (949) 629-5365 or book at fixappliancesfast.com.</p>
-  </div>
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Washer Repair Customers Say</h2>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 149 verified 5-star Google reviews</p>
+      <div class="testimonials-grid testimonials-grid--stack-768">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Have used Appliance Repair in the past. AG is a 5-star technician. On time, polite. Offered a detailed description of the problem. For a 12-year-old washer the repair cost would far exceed in comparison to today's market value of a new washer. Appreciated the up-front honesty. At no charge he did a minor adjustment to prevent stagnant water accumulating in the soap dispenser thus eliminating the foul odor emitting in my washer. Have no problem calling AG in the future. It's reassuring to find a service with integrity that is honest up front. Thank you. D. Vanover"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">DV</div>
+          <div class="testimonial-name">Danette Vanover, Washer repair, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"A.G. arrived with the part my washing machine needed and replaced it very quickly. He was very courteous and professional."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">RK</div>
+          <div class="testimonial-name">Russell Kadota, Washer repair, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">KH</div>
+          <div class="testimonial-name">Kelly Heyden, Washer repair, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- BRANDS -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page">Washing Machine Brands We Service</h2>
       <p style="color:var(--text-muted);font-size:13px;margin-top:8px;">We service all major brands and carry common parts on every truck to fix most washers same day.</p>
@@ -739,7 +768,7 @@
   </section>
 
   <!-- PROCESS -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg" style="text-align:center;">
       <h2 class="h2-page">How Our Washer Repair Works</h2>
       <p style="color:var(--text-muted);font-size:13px;margin-top:8px;max-width:500px;margin-left:auto;margin-right:auto;">From your first call to a working washer: here's what to expect.</p>
@@ -769,7 +798,7 @@
   </section>
 
   <!-- REPAIR VS REPLACE -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container">
       <h2 class="h2-standard">Should You Repair or Replace Your Washing Machine?</h2>
       <p style="font-size:13.5px;color:#555;line-height:1.8;margin-top:16px;">Washers typically last 11–14 years. If your machine is under 10 years old, repair almost always makes financial sense; a new mid-range washer runs $700–$1,200, and installation adds another $100–$200. For machines past that age facing a major component failure (motor, drum bearing, control board), replacement may be the better call. Our <a href="appliance-repair-cost-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">appliance repair cost guide</a> shows typical washer repair ranges across Orange County.</p>
@@ -861,62 +890,6 @@
           <div class="faq-a">Yes. Same-day washing machine repair is available across most of Orange County when you call before noon. A broken washer means laundry piling up; we prioritize fast dispatch. Call (949) 629-5365 to check today's availability.</div>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="section section-gray" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-standard">What Washer Repair Customers Say</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 149 verified 5-star Google reviews</p>
-      <div class="testimonials-grid testimonials-grid--stack-768">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Have used Appliance Repair in the past. AG is a 5-star technician. On time, polite. Offered a detailed description of the problem. For a 12-year-old washer the repair cost would far exceed in comparison to today's market value of a new washer. Appreciated the up-front honesty. At no charge he did a minor adjustment to prevent stagnant water accumulating in the soap dispenser thus eliminating the foul odor emitting in my washer. Have no problem calling AG in the future. It's reassuring to find a service with integrity that is honest up front. Thank you. D. Vanover"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">DV</div>
-          <div class="testimonial-name">Danette Vanover, Washer repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"A.G. arrived with the part my washing machine needed and replaced it very quickly. He was very courteous and professional."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">RK</div>
-          <div class="testimonial-name">Russell Kadota, Washer repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">KH</div>
-          <div class="testimonial-name">Kelly Heyden, Washer repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Thank you for fixing my Whirlpool washer"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">MR</div>
-          <div class="testimonial-name">Mark Rivera, Whirlpool washer repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Thank you for fixing my LG washer"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">PV</div>
-          <div class="testimonial-name">Patricio Jr Villanueva, LG washer repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG was awesome!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">CT</div>
-          <div class="testimonial-name">Craig Tudor, Washer repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-      </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
       </div>
     </div>
   </section>
