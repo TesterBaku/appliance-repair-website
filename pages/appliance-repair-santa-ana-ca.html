@@ -52,8 +52,15 @@
     .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: var(--bg); border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
+    .hb-bc { background: #f7fafc; border-bottom: 1px solid #eee; padding: 10px 24px; }
+    .hb-bc-in { max-width: 1100px; margin: 0 auto; font-size: 12px; color: #666; }
+    .hb-bc-sep { margin: 0 6px; }
+    @media (max-width: 480px) {
+      .hb-bc { padding: 10px 12px; }
+      .hb-bc-in { font-size: 11px; }
+      .hb-bc-sep { margin: 0 4px; }
+    }
+
 
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
@@ -575,20 +582,91 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <div style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
-    <div style="max-width:1100px;margin:0 auto;font-size:12px;color:#666;">
+  <div class="hb-bc">
+    <div class="hb-bc-in">
       <a href="../" style="color:#666;text-decoration:none;">Home</a>
-      <span style="margin:0 6px;">›</span>
+      <span class="hb-bc-sep">›</span>
       <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
-      <span style="margin:0 6px;">›</span>
+      <span class="hb-bc-sep">›</span>
       <span style="color:#333;">Appliance Repair Santa Ana, CA</span>
     </div>
   </div>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. serves Santa Ana, California, providing same-day appliance repair for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover all Santa Ana neighborhoods: Downtown, Floral Park, Wilshire Square, South Coast Metro, Midtown, Cabrillo Park, and East Santa Ana, across ZIP codes 92701, 92703, 92704, 92705, and 92706. We service Whirlpool, GE, Samsung, LG, Sub-Zero, Bosch, Viking, KitchenAid, and more. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
-  </div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+      <div class="expect-brands" role="group" aria-labelledby="expect-brands-label">
+        <p class="expect-brands-label" id="expect-brands-label">Brands we repair</p>
+        <ul class="expect-brands-list">
+          <li><img src="../images/brands/samsung.svg" alt="Samsung" width="85" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/lg.svg" alt="LG" width="48" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/whirlpool.svg" alt="Whirlpool" width="66" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/ge.svg" alt="GE" width="83" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/electrolux.svg" alt="Electrolux" width="83" height="19" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/frigidaire.svg" alt="Frigidaire" width="107" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/miele.svg" alt="Miele" width="65" height="16" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/kitchenaid.svg" alt="KitchenAid" width="114" height="10" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/wolf.svg" alt="Wolf" width="70" height="18" loading="eager" decoding="async"></li>
+        </ul>
+        <p class="expect-brands-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Orange County Customers Say</h2>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
+      <div class="testimonials-grid reviews-cap">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">LA</div>
+          <div class="testimonial-name">Lale · GE Monogram refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"MK arrived on time, quickly diagnosed and repaired our dishwasher. Great service, reasonably priced."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JS</div>
+          <div class="testimonial-name">Jonathan Stone · Dishwasher repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG has been fantastic while fixing our dryer! His work is thorough and his customer service is A+++! He will definitely be my 1st call when we need another repair! Thanks again AG!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">CM</div>
+          <div class="testimonial-name">Cindy Montefu · Dryer repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Called for dishwasher repair and AG was very responsive, helped me save money ordering a part and then came back quickly to complete the job. All works well now. Would definitely recommend. Thank you!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MK</div>
+          <div class="testimonial-name">Marla Katz · KitchenAid dishwasher repair · Santa&nbsp;Ana,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div class="reviews-cap-more-row">
+        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
+      </div>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- NEIGHBORHOODS -->
   <section class="section section-gray">
@@ -718,50 +796,8 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section section-gray" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">What Santa Ana Customers Say</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
-      <div class="testimonials-grid">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">LA</div>
-          <div class="testimonial-name">Lale · GE Monogram refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"MK arrived on time, quickly diagnosed and repaired our dishwasher. Great service, reasonably priced."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JS</div>
-          <div class="testimonial-name">Jonathan Stone · Dishwasher repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG has been fantastic while fixing our dryer! His work is thorough and his customer service is A+++! He will definitely be my 1st call when we need another repair! Thanks again AG!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">CM</div>
-          <div class="testimonial-name">Cindy Montefu · Dryer repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Called for dishwasher repair and AG was very responsive, helped me save money ordering a part and then came back quickly to complete the job. All works well now. Would definitely recommend. Thank you!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">MK</div>
-          <div class="testimonial-name">Marla Katz · KitchenAid dishwasher repair · Santa&nbsp;Ana,&nbsp;CA</div>
-        </div>
-
-      </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
-      </div>
-    </div>
-  </section>
-
   <!-- RECENT JOB PHOTO -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg" style="text-align:center;">
       <h2 class="h2-page" style="text-align:center;">Recent Jobs in Santa Ana</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin:8px auto 28px;max-width:560px;line-height:1.7;">A Thermador gas cooktop we serviced in a Santa Ana kitchen for nonstop igniter clicking, and a KitchenAid dishwasher in Santa Ana that needed its control board replaced.</p>
@@ -797,7 +833,7 @@
   </section>
 
   <!-- COMMON ISSUES -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page">Common Appliance Issues in Santa Ana Homes</h2>
       <p style="font-size:14px;color:#666;line-height:1.75;max-width:760px;">Santa Ana is one of Orange County's oldest and most densely built cities, and that range of housing shows up in the repairs we run.</p>
@@ -808,7 +844,7 @@
   </section>
 
   <!-- SERVICE AREA DETAILS -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page">Santa Ana Service Area Details</h2>
       <p style="font-size:14px;color:#666;line-height:1.75;max-width:760px;">Stanton sits just northwest of Santa Ana, so most of the city is a 15 to 20 minute drive from our dispatch point via the 22 freeway or Bristol Street. Downtown, Floral Park, and Washington Square are quick to reach; the South Coast Metro neighborhoods near the 405 take a few minutes longer. Same-day slots are available across every Santa Ana ZIP code for calls received before noon, with a two-hour arrival window and a call when the technician is on the way.</p>
@@ -826,7 +862,7 @@
   </section>
 
   <!-- PRICING LINE -->
-  <section class="section section-white" style="padding-top:0;padding-bottom:40px;">
+  <section class="section section-gray" style="padding-top:0;padding-bottom:40px;">
     <div class="container">
       <div class="city-pricing-line">
         <strong>$99 diagnostic fee</strong>, applied toward your repair · <strong>20% off labor</strong> for seniors 60+ &amp; repeat customers.
@@ -835,8 +871,17 @@
     </div>
   </section>
 
+  <!-- SERVICE AREA -->
+  <section class="section section-white service-area" aria-labelledby="service-area-title">
+    <div class="container">
+      <h2 id="service-area-title">Appliance repair across Santa Ana</h2>
+      <p>Universal Appliances Repair Group Inc. provides same-day appliance repair in Santa Ana, California, for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover every neighborhood, including Downtown, Floral Park, Wilshire Square, South Coast Metro, Midtown, Cabrillo Park, and East Santa Ana, across ZIP codes 92701, 92703, 92704, 92705, and 92706.</p>
+      <p>We service Whirlpool, GE, Samsung, LG, Sub-Zero, Bosch, Viking, KitchenAid, and more, and we also serve nearby <a href="appliance-repair-orange-ca.html">Orange</a>, <a href="appliance-repair-tustin-ca.html">Tustin</a>, <a href="appliance-repair-garden-grove-ca.html">Garden Grove</a>, and <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
+    </div>
+  </section>
+
   <!-- FAQ -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">FAQ: Santa Ana Appliance Repair</h2>
       <div class="faq-list">
@@ -871,7 +916,7 @@
   </section>
 
   <!-- REPAIR RESOURCES -->
-  <section class="section section-gray" style="padding-bottom:40px;">
+  <section class="section section-white" style="padding-bottom:40px;">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Repair Resources for Santa Ana Homeowners</h2>
       <p style="text-align:center;font-size:13.5px;color:#666;margin-bottom:32px;">Guides written for appliances common in Santa Ana homes.</p>
