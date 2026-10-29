@@ -266,13 +266,17 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
   .testimonials-grid .testimonial-card:has(> .t-initial) > .testimonial-name { min-height: 2.5em; }
 }
 
-/* Tablet orphan: with exactly three cards in a two-column grid, card 3 sits alone, left-aligned.
-   Centre it on its own row at the width of one column (a column is (100% - 20px gap) / 2).
-   481-900px is the widest two-column range; 4/5/6-card grids are not matched. Pages whose own
+/* Tablet orphan: with exactly three cards (or exactly five) in a two-column grid, the last card
+   sits alone, left-aligned. Centre it on its own row at the width of one column (a column is
+   (100% - 20px gap) / 2). 481-900px is the widest two-column range; 4- and 6-card grids are not
+   matched (they fill complete rows). A 5-card page must also reset its own desktop placement of
+   card 5 to grid-column: 1 / -1 in this range, as pages/dryer-repair-orange-county.html does.
+   Pages whose own
    CSS stacks the grid to one column at <=768px opt out of the 481-768 part with
    .testimonials-grid--stack-768, which makes the card full width there instead of half. */
 @media (min-width: 481px) and (max-width: 900px) {
-  .testimonials-grid:has(> .testimonial-card:nth-child(3):last-child) > .testimonial-card:nth-child(3) {
+  .testimonials-grid:has(> .testimonial-card:nth-child(3):last-child) > .testimonial-card:nth-child(3),
+  .testimonials-grid:has(> .testimonial-card:nth-child(5):last-child) > .testimonial-card:nth-child(5) {
     grid-column: 1 / -1;
     justify-self: center;
     width: var(--t-orphan-width, calc((100% - 20px) / 2));
