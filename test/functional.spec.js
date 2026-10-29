@@ -2721,15 +2721,15 @@ for (const { brand, file } of BRAND_HUBS) {
       expect(breadcrumbLinks.some(h => h && h.includes('services'))).toBe(true);
     });
 
-    // ── AI answer block ───────────────────────────────────────────────────────
+    // ── AI answer block (legacy .ai-block, or the .service-area section on redesigned hubs) ──
     test('AI answer block present and contains phone number', async ({ page }) => {
-      await expect(page.locator('.ai-block')).toBeAttached();
-      const text = await page.locator('.ai-block').textContent();
+      await expect(page.locator('.ai-block, .service-area')).toBeAttached();
+      const text = await page.locator('.ai-block, .service-area').textContent();
       expect(text).toContain('(949) 629-5365');
     });
 
     test('AI answer block contains brand name', async ({ page }) => {
-      const text = await page.locator('.ai-block').textContent();
+      const text = await page.locator('.ai-block, .service-area').textContent();
       expect(text).toContain(brand);
     });
 
