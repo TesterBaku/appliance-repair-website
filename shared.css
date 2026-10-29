@@ -271,8 +271,7 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
    (100% - 20px gap) / 2). 481-900px is the widest two-column range; 4- and 6-card grids are not
    matched (they fill complete rows). A 5-card page must also reset its own desktop placement of
    card 5 to grid-column: 1 / -1 in this range, as pages/dryer-repair-orange-county.html does.
-   Pages whose own
-   CSS stacks the grid to one column at <=768px opt out of the 481-768 part with
+   Pages whose own CSS stacks the grid to one column at <=768px opt out of the 481-768 part with
    .testimonials-grid--stack-768, which makes the card full width there instead of half. */
 @media (min-width: 481px) and (max-width: 900px) {
   .testimonials-grid:has(> .testimonial-card:nth-child(3):last-child) > .testimonial-card:nth-child(3),
