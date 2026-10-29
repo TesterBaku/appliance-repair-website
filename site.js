@@ -259,12 +259,16 @@
 
   // 5. Capped review row: shared.css hides cards 3+ on phones only once the grid carries
   // data-cap-ready (set here), so without JS every review stays visible. Only grids of 4+ cards
-  // are capped: hiding a single card behind a button costs more than it saves, so 3 or fewer show in full.
+  // are capped by default: hiding a single card behind a button costs more than it saves, so 3 or fewer
+  // show in full. A grid can opt in sooner with data-cap-from="N" (the minimum card count at which the
+  // cap applies; absent or invalid means 4), for a 3-card page whose third review is very long.
   var capSeq = 0;
   function initReviewsCap() {
     document.querySelectorAll('.reviews-cap').forEach(function (grid) {
       var count = grid.children.length;
-      if (count <= 3 || grid.hasAttribute('data-cap-ready')) return;
+      var capFrom = parseInt(grid.getAttribute('data-cap-from'), 10);
+      if (!(capFrom >= 3)) capFrom = 4;
+      if (count < capFrom || grid.hasAttribute('data-cap-ready')) return;
       var row = grid.nextElementSibling;
       if (!row || !row.classList.contains('reviews-cap-more-row')) return;
       var btn = row.querySelector('.reviews-cap-more');

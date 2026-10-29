@@ -3673,7 +3673,8 @@ test('mobile 375px: hero text clears the fixed nav, tables fit, callout paragrap
 
 // ─── Capped review row (site.js initReviewsCap) ──────────────────────────────
 // slug -> number of review cards on the page. Grids of 4+ cards are capped to two on phones behind a
-// "Show more" disclosure button; grids of 3 or fewer show every card, with no button (desktop shows all).
+// "Show more" disclosure button; grids of 3 or fewer show every card, with no button (desktop shows all),
+// unless the grid opts in with data-cap-from (Sub-Zero: 3 cards, third review very long).
 const REVIEWS_CAP_PAGES = {
   'washer-repair-orange-county': 3,
   'appliance-repair-huntington-beach-ca': 3,
@@ -3684,7 +3685,7 @@ const REVIEWS_CAP_PAGES = {
   'wolf-appliance-repair-orange-county': 3,
 };
 for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
-  const capped = total >= 4;
+  const capped = total >= 4 || slug === 'sub-zero-appliance-repair-orange-county';
   test.describe('Reviews cap: ' + slug, () => {
     if (capped) {
       test('phone: two reviews, Show more reveals the rest', async ({ page }) => {
