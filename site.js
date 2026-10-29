@@ -258,11 +258,17 @@
   }
 
   // 5. Capped review row: shared.css hides cards 3+ on phones only once the grid carries
-  // data-cap-ready (set here), so without JS every review stays visible.
+  // data-cap-ready (set here), so without JS every review stays visible. Only grids of 4+ cards
+  // are capped by default: hiding a single card behind a button costs more than it saves, so 3 or fewer
+  // show in full. A grid can opt in sooner with data-cap-from="N" (the minimum card count at which the
+  // cap applies; absent or invalid means 4), for a 3-card page whose third review is very long.
+  var capSeq = 0;
   function initReviewsCap() {
     document.querySelectorAll('.reviews-cap').forEach(function (grid) {
       var count = grid.children.length;
-      if (count <= 2 || grid.hasAttribute('data-cap-ready')) return;
+      var capFrom = parseInt(grid.getAttribute('data-cap-from'), 10);
+      if (!(capFrom >= 3)) capFrom = 4;
+      if (count < capFrom || grid.hasAttribute('data-cap-ready')) return;
       var row = grid.nextElementSibling;
       if (!row || !row.classList.contains('reviews-cap-more-row')) return;
       var btn = row.querySelector('.reviews-cap-more');
@@ -270,8 +276,13 @@
       var hidden = count - 2;
       btn.textContent = hidden === 1 ? 'Show 1 more review' : 'Show ' + hidden + ' more reviews';
       grid.setAttribute('data-cap-ready', '');
+      // Disclosure semantics: the button controls the grid and reports whether it is expanded.
+      if (!grid.id) grid.id = 'reviews-cap-' + (++capSeq);
+      btn.setAttribute('aria-controls', grid.id);
+      btn.setAttribute('aria-expanded', 'false');
       btn.addEventListener('click', function () {
         grid.setAttribute('data-expanded', '');
+        btn.setAttribute('aria-expanded', 'true');
         // The button disappears, so hand focus to the first newly revealed card.
         var first = grid.children[2];
         first.setAttribute('tabindex', '-1');

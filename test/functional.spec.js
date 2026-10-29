@@ -3672,7 +3672,9 @@ test('mobile 375px: hero text clears the fixed nav, tables fit, callout paragrap
 });
 
 // ─── Capped review row (site.js initReviewsCap) ──────────────────────────────
-// slug -> number of review cards on the page (phones show 2, desktop shows all).
+// slug -> number of review cards on the page. Grids of 4+ cards are capped to two on phones behind a
+// "Show more" disclosure button; grids of 3 or fewer show every card, with no button (desktop shows all),
+// unless the grid opts in with data-cap-from (Sub-Zero: 3 cards, third review very long).
 const REVIEWS_CAP_PAGES = {
   'washer-repair-orange-county': 3,
   'appliance-repair-huntington-beach-ca': 3,
@@ -3683,23 +3685,41 @@ const REVIEWS_CAP_PAGES = {
   'wolf-appliance-repair-orange-county': 3,
 };
 for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
+  const capped = total >= 4 || slug === 'sub-zero-appliance-repair-orange-county';
   test.describe('Reviews cap: ' + slug, () => {
-    test('phone: two reviews, Show more reveals the rest', async ({ page }) => {
-      await page.setViewportSize(MOBILE);
-      await page.goto('/pages/' + slug + '.html');
-      const cards = page.locator('.reviews-cap > .testimonial-card');
-      expect(await cards.count()).toBe(total);
-      expect(await visibleChildren(cards)).toBe(2);
-      const btn = page.locator('.reviews-cap-more');
-      await expect(btn).toBeVisible();
-      await expect(btn).toHaveText(total - 2 === 1 ? 'Show 1 more review' : 'Show ' + (total - 2) + ' more reviews');
-      await page.evaluate(() => document.fonts.ready);
-      expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
-      await btn.click();
-      expect(await visibleChildren(cards)).toBe(total);
-      await expect(btn).toBeHidden();
-      await expect(cards.nth(2)).toBeFocused();
-    });
+    if (capped) {
+      test('phone: two reviews, Show more reveals the rest', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto('/pages/' + slug + '.html');
+        const cards = page.locator('.reviews-cap > .testimonial-card');
+        expect(await cards.count()).toBe(total);
+        expect(await visibleChildren(cards)).toBe(2);
+        const btn = page.locator('.reviews-cap-more');
+        await expect(btn).toBeVisible();
+        await expect(btn).toHaveText(total - 2 === 1 ? 'Show 1 more review' : 'Show ' + (total - 2) + ' more reviews');
+        await expect(btn).toHaveAttribute('aria-expanded', 'false');
+        const controls = await btn.getAttribute('aria-controls');
+        expect(controls).toBeTruthy();
+        await expect(page.locator('#' + controls)).toHaveClass(/reviews-cap/);
+        await page.evaluate(() => document.fonts.ready);
+        expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+        await btn.click();
+        expect(await visibleChildren(cards)).toBe(total);
+        await expect(btn).toBeHidden();
+        await expect(btn).toHaveAttribute('aria-expanded', 'true');
+        await expect(cards.nth(2)).toBeFocused();
+      });
+    } else {
+      test('phone: all ' + total + ' reviews visible, no Show more button', async ({ page }) => {
+        await page.setViewportSize(MOBILE);
+        await page.goto('/pages/' + slug + '.html');
+        const cards = page.locator('.reviews-cap > .testimonial-card');
+        expect(await cards.count()).toBe(total);
+        expect(await visibleChildren(cards)).toBe(total);
+        await expect(page.locator('.reviews-cap-more')).toBeHidden();
+        await expect(page.locator('.reviews-cap')).not.toHaveAttribute('data-cap-ready', /.*/);
+      });
+    }
 
     test('desktop: all reviews, no Show more button', async ({ page }) => {
       await page.setViewportSize(DESKTOP);
@@ -3710,3 +3730,16 @@ for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
     });
   });
 }
+
+// With JavaScript off the cap is never armed, so every review stays visible and the button row stays hidden.
+test.describe('Reviews cap without JavaScript: refrigerator-repair-orange-county', () => {
+  test.use({ javaScriptEnabled: false });
+  test('phone: every review visible, Show more row hidden', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/pages/refrigerator-repair-orange-county.html');
+    const cards = page.locator('.reviews-cap > .testimonial-card');
+    expect(await cards.count()).toBe(6);
+    expect(await visibleChildren(cards)).toBe(6);
+    await expect(page.locator('.reviews-cap-more-row')).not.toBeVisible();
+  });
+});

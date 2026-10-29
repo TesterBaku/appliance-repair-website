@@ -51,7 +51,17 @@
     .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    /* AI ANSWER BLOCK */
+    /* BREADCRUMB: one line on a phone (11px, tighter side padding and separators below 480px) */
+    .hub-bc { background: #f7fafc; border-bottom: 1px solid #eee; padding: 10px 24px; }
+    .hub-bc-in { max-width: 1100px; margin: 0 auto; font-size: 12px; color: var(--text-muted); }
+    .hub-bc-in a { color: var(--text-muted); text-decoration: none; }
+    .hub-bc-sep { margin: 0 6px; }
+    .hub-bc-cur { color: var(--text-soft); }
+    @media (max-width: 480px) {
+      .hub-bc { padding: 10px 12px; }
+      .hub-bc-in { font-size: 11px; }
+      .hub-bc-sep { margin: 0 4px; }
+    }
 
     /* MODELS GRID */
     .models-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 32px; }
@@ -588,13 +598,13 @@
   </section>
 
   <!-- BREADCRUMB -->
-  <div style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
-    <div style="max-width:1100px;margin:0 auto;font-size:12px;color:var(--text-muted);">
-      <a href="../" style="color:var(--text-muted);text-decoration:none;">Home</a>
-      <span style="margin:0 6px;">›</span>
-      <a href="services.html" style="color:var(--text-muted);text-decoration:none;">Services</a>
-      <span style="margin:0 6px;">›</span>
-      <span style="color:var(--text-soft);">Wolf Appliance Repair Orange County</span>
+  <div class="hub-bc">
+    <div class="hub-bc-in">
+      <a href="../">Home</a>
+      <span class="hub-bc-sep">›</span>
+      <a href="services.html">Services</a>
+      <span class="hub-bc-sep">›</span>
+      <span class="hub-bc-cur">Wolf Appliance Repair Orange County</span>
     </div>
   </div>
 

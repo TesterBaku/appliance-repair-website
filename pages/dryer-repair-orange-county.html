@@ -111,8 +111,8 @@
       .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(1),
       .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(2),
       .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(3),
-      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(4),
-      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(5) { grid-column: auto; } }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(4) { grid-column: auto; }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) .testimonial-card:nth-child(5) { grid-column: 1 / -1; } }
     @media (max-width: 480px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; }
       .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) { grid-template-columns: 1fr; } }
 
@@ -176,6 +176,7 @@
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .testimonials-row { grid-template-columns: 1fr; }
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
+      .hub-page .testimonials-grid:has(.testimonial-card:nth-child(5):last-child) { grid-template-columns: 1fr; }
       /* These resets must repeat the full desktop selectors. A bare `.job-card { grid-column:
          auto }` is LOWER specificity than `.job-grid:has(...) .job-card:last-child` and would
          silently lose, leaving the 6-track placement live on phones. */
@@ -671,7 +672,7 @@
     <div class="container">
       <h2 class="h2-standard">What Dryer Repair Customers Say</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 149 verified 5-star Google reviews</p>
-      <div class="testimonials-grid reviews-cap">
+      <div class="testimonials-grid testimonials-grid--stack-768 reviews-cap">
 
         <div class="testimonial-card">
           <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
