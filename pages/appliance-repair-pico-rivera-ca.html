@@ -63,10 +63,10 @@
     .proof-card-kicker { font-size: 10px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
     .proof-card-title { font-size: 13.5px; font-weight: 700; color: #111; line-height: 1.35; }
     .proof-card-loc { font-size: 12px; color: #666; margin-top: 4px; }
-    /* Two of the five cards (Viking range, Dacor range) link to the LA County luxury hub, which
-       shows these same jobs. Pattern and rationale: pages/dryer-repair-orange-county.html and
-       pages/oven-stove-repair-orange-county.html. Scoped to :has(.proof-card-link) so the other
-       3 cards (Viking dishwasher, refrigerator, Samsung dryer) show no clickable affordance. */
+    /* Every card links: the three Viking/Dacor cards to the LA County luxury hub, which shows
+       these same jobs, and the refrigerator and Samsung dryer cards to their service hubs.
+       Pattern and rationale: pages/dryer-repair-orange-county.html and
+       pages/oven-stove-repair-orange-county.html. */
     .proof-card:has(.proof-card-link) { position: relative; }
     .proof-card:has(.proof-card-link):hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
     .proof-card:has(.proof-card-link):focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
@@ -695,7 +695,7 @@
             <div class="proof-card-kicker">Viking &middot; Dishwasher</div>
             <div class="proof-card-title">Viking dishwasher, not draining</div>
             <div class="proof-card-loc">Pico Rivera, CA</div>
-            <a href="dishwasher-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our dishwasher repair service &rarr;</a>
+            <a href="luxury-appliance-repair-los-angeles-ca.html" class="proof-card-link" aria-label="Luxury appliance repair in Los Angeles: Viking dishwasher, not draining, Pico Rivera, CA">Luxury appliance repair in Los Angeles <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
         <div class="proof-card">
@@ -719,7 +719,7 @@
             <div class="proof-card-kicker">Refrigeration</div>
             <div class="proof-card-title">Refrigerator condenser coil cleaning</div>
             <div class="proof-card-loc">Pico Rivera, CA</div>
-            <a href="refrigerator-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our refrigerator repair service &rarr;</a>
+            <a href="refrigerator-repair-orange-county.html" class="proof-card-link" aria-label="See our refrigerator repair service: refrigerator condenser coil cleaning, Pico Rivera, CA">See our refrigerator repair service <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
         <div class="proof-card">
@@ -731,7 +731,7 @@
             <div class="proof-card-kicker">Samsung &middot; Dryer</div>
             <div class="proof-card-title">Samsung dryer, not spinning</div>
             <div class="proof-card-loc">Pico Rivera, CA</div>
-            <a href="dryer-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our dryer repair service &rarr;</a>
+            <a href="dryer-repair-orange-county.html" class="proof-card-link" aria-label="See our dryer repair service: Samsung dryer, not spinning, Pico Rivera, CA">See our dryer repair service <span aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
       </div>
