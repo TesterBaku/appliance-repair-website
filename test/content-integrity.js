@@ -309,7 +309,7 @@
  *                    contradiction was found live on 11 cost-hub FAQ/AI-answer
  *                    blocks and hand-fixed.
  *                    SCOPE, deliberately narrow: only FAQPage JSON-LD answer text,
- *                    `.ai-block p` prose, and `.callout-blue` prose are scanned
+ *                    `.ai-block p` and `.service-area p` prose, and `.callout-blue` prose are scanned
  *                    (matching the defect class, not every dollar figure on the
  *                    page). The governing
  *                    range must be the first dollar range in the block, verb-
@@ -2250,7 +2250,7 @@ const RANGE_RE = new RegExp(RANGE_SRC, 'g');
 // Sanctioned escape hatch, PR #696: "The one exception above that range is X, which runs $A-$B."
 const EXCEPTION_RE = new RegExp(`The one exception above that range is[^.]*?${RANGE_SRC}`, 'g');
 
-// Extracts FAQPage JSON-LD answer text and `.ai-block p` prose from a page's raw
+// Extracts FAQPage JSON-LD answer text and `.ai-block p` and `.service-area p` prose from a page's raw
 // HTML. FAQ answers are read from JSON-LD (already plain text, and kept in sync
 // with the visible accordion by faq-jsonld-parity), so no tag-stripping is
 // needed there.
@@ -2277,6 +2277,14 @@ function extractFaqAiBlocks(content) {
     walk(parsed);
   }
   for (const m of content.matchAll(/<div\b[^>]*\bclass="[^"]*\bai-block\b[^"]*"[^>]*>([\s\S]*?)<\/div>/g)) {
+    for (const p of m[1].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)) {
+      const text = p[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
+      blocks.push({ label: 'AI answer block', text });
+    }
+  }
+  // `.service-area` sections on redesigned hubs (2026-10-29 pilot) carry the AI
+  // answer block as plain <p> prose, so they are scanned the same way.
+  for (const m of content.matchAll(/<section\b[^>]*\bclass="[^"]*\bservice-area\b[^"]*"[^>]*>([\s\S]*?)<\/section>/g)) {
     for (const p of m[1].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)) {
       const text = p[1].replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
       blocks.push({ label: 'AI answer block', text });
@@ -2315,7 +2323,7 @@ function extractFaqAiBlocks(content) {
 // reader two different ceilings in one paragraph.
 //
 // SCOPE, deliberately narrow: only FAQPage JSON-LD answer text, `.ai-block p`
-// prose, and `.callout-blue` prose (widened 2026-09-03, P6-24 Slice A-2 item 3)
+// and `.service-area p` prose, and `.callout-blue` prose (widened 2026-09-03, P6-24 Slice A-2 item 3)
 // are scanned. FAQ answers are read from JSON-LD (already plain text, and
 // kept in sync with the visible accordion by faq-jsonld-parity), so no
 // tag-stripping is needed there.
@@ -3030,7 +3038,14 @@ if (run('img-dimensions')) {
       }
       return null;
     }
-    return null; // not a recognized WebP/PNG/JPEG header
+    // SVG: no pixel header; the viewBox is the intrinsic box, and the aspect
+    // ratio is all this check compares.
+    if (buf.length > 0 && buf.length < 200000) {
+      const svgTag = buf.toString('utf8').match(/<svg\b[^>]*>/i);
+      const vb = svgTag && svgTag[0].match(/\bviewBox\s*=\s*["']\s*(-?[\d.]+)[ ,]+(-?[\d.]+)[ ,]+([\d.]+)[ ,]+([\d.]+)\s*["']/i);
+      if (vb && +vb[3] > 0 && +vb[4] > 0) return { width: +vb[3], height: +vb[4] };
+    }
+    return null; // not a recognized WebP/PNG/JPEG/SVG header
   }
 
   const sizeCache = new Map(); // resolved absolute path -> {width,height} | null
@@ -3074,7 +3089,7 @@ if (run('img-dimensions')) {
         sizeCache.set(resolved, size);
       }
       if (!size || !size.width || !size.height) {
-        issues.push(`[IMG-DIMENSIONS] ${p}:${lineNo} — ${src} could not be decoded (unrecognized or malformed WebP/PNG/JPEG header at ${rel(resolved)}).`);
+        issues.push(`[IMG-DIMENSIONS] ${p}:${lineNo}: ${src} could not be decoded (unrecognized or malformed WebP/PNG/JPEG/SVG header at ${rel(resolved)}).`);
         continue;
       }
 
