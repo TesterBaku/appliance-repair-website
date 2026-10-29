@@ -285,6 +285,14 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
   .testimonials-grid--stack-768 { --t-orphan-width: 100%; }
 }
 
+/* Desktop orphan: a redesigned hub's capped review grid (.reviews-cap) with exactly four cards
+   would lay out 3 + 1 under the pages' own three-column rule. Two columns gives a clean 2x2.
+   Scoped to .reviews-cap so 4-card grids on other pages are untouched; 2 classes + :has() +
+   :nth-child outranks the pages' .hub-page .testimonials-grid (2 classes). */
+@media (min-width: 901px) {
+  .reviews-cap:has(> .testimonial-card:nth-child(4):last-child) { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* "Read all N reviews" link under a testimonial row. 44px tall tap target; same look as before. */
 .reviews-all-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; font-weight: 500; color: var(--brand-text); text-decoration: none; }
 .brand-tag { background: var(--surface); border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; font-size: 13.5px; font-weight: 600; color: #1e293b; }

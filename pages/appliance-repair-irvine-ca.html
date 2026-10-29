@@ -783,7 +783,7 @@
     <div class="container">
       <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Recent Repairs in Irvine</h2>
       <p style="text-align:center;font-size:13.5px;color:#666;margin-bottom:32px;">Real jobs completed by our technicians in Irvine homes, including a Frigidaire dishwasher not-draining repair.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
+      <div class="job-grid-cap" id="irvine-job-grid" data-more-label="repairs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;">
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
             <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-control-board-thermistors-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-control-board-thermistors-irvine.webp 736w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
@@ -902,6 +902,9 @@
         </div>
 
       </div>
+      <div class="job-grid-more-row">
+        <button type="button" class="job-grid-more btn-outline" aria-controls="irvine-job-grid">Show all repairs</button>
+      </div>
     </div>
   </section>
 
@@ -1003,7 +1006,7 @@
   </section>
 
   <!-- CTA -->
-  <section class="section section-white" style="padding-top:0;">
+  <section class="section section-gray" style="padding-top:0;">
     <div class="container">
       <div class="cta-box">
         <h2>Need Appliance Repair in Irvine?</h2>
