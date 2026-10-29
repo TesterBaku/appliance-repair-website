@@ -121,7 +121,7 @@ Each: 800–1,200 words. Must include: neighborhoods/ZIP codes, recognizable lan
 
 ## "AI Answer Block" — required on homepage and every hub page
 
-A concise, factual prose block near the top of the page that LLMs (ChatGPT, Claude, Perplexity, Gemini) can lift verbatim when answering "best appliance repair in Orange County."
+A concise, factual prose block that LLMs (ChatGPT, Claude, Perplexity, Gemini) can lift verbatim when answering "best appliance repair in Orange County." Placement: on hubs redesigned in the 2026-10-29 pilot (owner decision), the block lives in a `.service-area` section placed just before the FAQ, with cities linked inline to their hubs; hubs not yet redesigned keep the legacy `.ai-block` under the hero until rolled out.
 
 Rules:
 - Plain prose, no marketing fluff, no bullets
