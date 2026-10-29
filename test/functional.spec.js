@@ -2721,15 +2721,15 @@ for (const { brand, file } of BRAND_HUBS) {
       expect(breadcrumbLinks.some(h => h && h.includes('services'))).toBe(true);
     });
 
-    // ── AI answer block ───────────────────────────────────────────────────────
+    // ── AI answer block (legacy .ai-block, or the .service-area section on redesigned hubs) ──
     test('AI answer block present and contains phone number', async ({ page }) => {
-      await expect(page.locator('.ai-block')).toBeAttached();
-      const text = await page.locator('.ai-block').textContent();
+      await expect(page.locator('.ai-block, .service-area')).toBeAttached();
+      const text = await page.locator('.ai-block, .service-area').textContent();
       expect(text).toContain('(949) 629-5365');
     });
 
     test('AI answer block contains brand name', async ({ page }) => {
-      const text = await page.locator('.ai-block').textContent();
+      const text = await page.locator('.ai-block, .service-area').textContent();
       expect(text).toContain(brand);
     });
 
@@ -3672,30 +3672,40 @@ test('mobile 375px: hero text clears the fixed nav, tables fit, callout paragrap
 });
 
 // ─── Capped review row (site.js initReviewsCap) ──────────────────────────────
-for (const slug of ['washer-repair-orange-county', 'appliance-repair-huntington-beach-ca']) {
+// slug -> number of review cards on the page (phones show 2, desktop shows all).
+const REVIEWS_CAP_PAGES = {
+  'washer-repair-orange-county': 3,
+  'appliance-repair-huntington-beach-ca': 3,
+  'refrigerator-repair-orange-county': 6,
+  'dryer-repair-orange-county': 5,
+  'dishwasher-repair-orange-county': 6,
+  'sub-zero-appliance-repair-orange-county': 3,
+  'wolf-appliance-repair-orange-county': 3,
+};
+for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
   test.describe('Reviews cap: ' + slug, () => {
-    test('phone: two reviews, Show more reveals the third', async ({ page }) => {
+    test('phone: two reviews, Show more reveals the rest', async ({ page }) => {
       await page.setViewportSize(MOBILE);
       await page.goto('/pages/' + slug + '.html');
       const cards = page.locator('.reviews-cap > .testimonial-card');
-      expect(await cards.count()).toBe(3);
+      expect(await cards.count()).toBe(total);
       expect(await visibleChildren(cards)).toBe(2);
       const btn = page.locator('.reviews-cap-more');
       await expect(btn).toBeVisible();
-      await expect(btn).toHaveText('Show 1 more review');
+      await expect(btn).toHaveText(total - 2 === 1 ? 'Show 1 more review' : 'Show ' + (total - 2) + ' more reviews');
       await page.evaluate(() => document.fonts.ready);
       expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
       await btn.click();
-      expect(await visibleChildren(cards)).toBe(3);
+      expect(await visibleChildren(cards)).toBe(total);
       await expect(btn).toBeHidden();
       await expect(cards.nth(2)).toBeFocused();
     });
 
-    test('desktop: three reviews, no Show more button', async ({ page }) => {
+    test('desktop: all reviews, no Show more button', async ({ page }) => {
       await page.setViewportSize(DESKTOP);
       await page.goto('/pages/' + slug + '.html');
       const cards = page.locator('.reviews-cap > .testimonial-card');
-      expect(await visibleChildren(cards)).toBe(3);
+      expect(await visibleChildren(cards)).toBe(total);
       await expect(page.locator('.reviews-cap-more')).toBeHidden();
     });
   });
