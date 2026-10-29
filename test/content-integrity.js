@@ -3030,7 +3030,14 @@ if (run('img-dimensions')) {
       }
       return null;
     }
-    return null; // not a recognized WebP/PNG/JPEG header
+    // SVG: no pixel header; the viewBox is the intrinsic box, and the aspect
+    // ratio is all this check compares.
+    if (buf.length > 0 && buf.length < 200000) {
+      const svgTag = buf.toString('utf8').match(/<svg\b[^>]*>/i);
+      const vb = svgTag && svgTag[0].match(/\bviewBox\s*=\s*["']\s*(-?[\d.]+)[ ,]+(-?[\d.]+)[ ,]+([\d.]+)[ ,]+([\d.]+)\s*["']/i);
+      if (vb && +vb[3] > 0 && +vb[4] > 0) return { width: +vb[3], height: +vb[4] };
+    }
+    return null; // not a recognized WebP/PNG/JPEG/SVG header
   }
 
   const sizeCache = new Map(); // resolved absolute path -> {width,height} | null
