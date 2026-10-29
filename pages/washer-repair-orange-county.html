@@ -55,6 +55,21 @@
     .ai-block { background: #f0f4f8; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
     .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
 
+    /* WHAT TO EXPECT (first-screen fact row, replaces the ai-block's old slot) */
+    .expect-strip { background: var(--bg); border-bottom: 1px solid #e2e8f0; padding: 24px 24px 22px; }
+    .expect-inner { max-width: 1100px; margin: 0 auto; }
+    .expect-title { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+    .expect-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .expect-list li { background: var(--surface); border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 14px 13px; }
+    .expect-list strong { display: block; font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.3; margin-bottom: 5px; }
+    .expect-list span { display: block; font-size: 12.5px; color: var(--text-sub); line-height: 1.5; }
+    .expect-trust { margin: 14px 0 0; font-size: 13px; font-weight: 600; color: var(--text-soft); line-height: 1.5; }
+    @media (max-width: 768px) {
+      .expect-strip { padding: 14px 16px 16px; }
+      .expect-list { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .expect-list li { padding: 12px 12px 11px; }
+    }
+
     /* SYMPTOMS */
     .symptoms-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 32px; }
     .symptom-item { background: #fff; border-radius: 10px; padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
@@ -591,10 +606,19 @@
     </div>
   </div>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. provides washing machine repair throughout Orange County, California, including Anaheim, Irvine, Huntington Beach, Santa Ana, Costa Mesa, Fullerton, Garden Grove, and nearby cities. We repair front-load and top-load washers by Samsung, LG, Whirlpool, Maytag, GE, Bosch, KitchenAid, Frigidaire, Miele, Sub-Zero, and all major brands. Same-day service available. Call (949) 629-5365 or book at fixappliancesfast.com.</p>
-  </div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 service call</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong>90-day parts, 30-day labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+    </div>
+  </section>
 
   <!-- SYMPTOMS -->
   <section class="section section-gray">
@@ -645,6 +669,11 @@
       </div>
     </div>
   </section>
+
+  <!-- AI ANSWER BLOCK -->
+  <div class="ai-block">
+    <p>Universal Appliances Repair Group Inc. provides washing machine repair throughout Orange County, California, including Anaheim, Irvine, Huntington Beach, Santa Ana, Costa Mesa, Fullerton, Garden Grove, and nearby cities. We repair front-load and top-load washers by Samsung, LG, Whirlpool, Maytag, GE, Bosch, KitchenAid, Frigidaire, Miele, Sub-Zero, and all major brands. Same-day service available. Call (949) 629-5365 or book at fixappliancesfast.com.</p>
+  </div>
 
   <!-- BRANDS -->
   <section class="section section-white">
@@ -712,7 +741,7 @@
         <div class="process-step">
           <div class="step-number">4</div>
           <div class="step-title">Fixed Same Day</div>
-          <div class="step-desc">Most washers are back in service the same visit. We warranty all parts and labor so you're covered if anything comes back.</div>
+          <div class="step-desc">Most washers are back in service the same visit. Every repair carries a 90-day parts and 30-day labor warranty, so you're covered if anything comes back.</div>
         </div>
       </div>
     </div>
@@ -875,7 +904,7 @@
   <section class="section section-white">
     <div class="container">
       <h2 style="font-size:22px;font-weight:700;color:#111;letter-spacing:-0.3px;margin-bottom:20px;text-align:center;">Recent Washer Repairs</h2>
-      <div style="max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:20px;">
+      <div class="job-grid-cap" id="washer-job-grid" data-more-label="repairs" style="max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:20px;">
         <div id="job-lg-washer-drain-pump-newport-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
             <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
@@ -1025,6 +1054,9 @@
           </div>
         </div>
       </div>
+      <div class="job-grid-more-row">
+        <button type="button" class="job-grid-more btn-outline" aria-controls="washer-job-grid">Show all repairs</button>
+      </div>
     </div>
   </section>
 
@@ -1046,7 +1078,7 @@
     <div class="container">
       <div class="cta-box">
         <h2>Need Washer Repair in Orange County?</h2>
-        <p>Same-day service available. Licensed technicians, $99 diagnostic fee, warranty on parts and labor. We cover Anaheim, Irvine, Huntington Beach, Santa Ana, Costa Mesa, and 25+ more cities.</p>
+        <p>Same-day service available. Licensed technicians, $99 diagnostic fee, 90-day parts and 30-day labor warranty. We cover Anaheim, Irvine, Huntington Beach, Santa Ana, Costa Mesa, and 25+ more cities.</p>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
           <a href="tel:+19496295365" class="btn-white">Call (949) 629-5365</a>
           <a href="contact.html" class="btn-white-outline">Book Online</a>
