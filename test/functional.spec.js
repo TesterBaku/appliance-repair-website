@@ -3695,6 +3695,12 @@ const REVIEWS_CAP_PAGES = {
   'appliance-repair-fountain-valley-ca': 3,
   'appliance-repair-buena-park-ca': 3,
   'appliance-repair-stanton-ca': 3,
+  'appliance-repair-cypress-ca': 3,
+  'appliance-repair-los-alamitos-ca': 3,
+  'appliance-repair-seal-beach-ca': 3,
+  'appliance-repair-la-habra-ca': 3,
+  'appliance-repair-brea-ca': 4,
+  'appliance-repair-placentia-ca': 3,
 };
 for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
   const capped = total >= 4 || slug === 'sub-zero-appliance-repair-orange-county';

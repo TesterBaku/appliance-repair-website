@@ -50,9 +50,6 @@
     .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: var(--bg); border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
-
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
     .neighborhood-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
@@ -625,13 +622,84 @@
     </div>
   </div>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. serves Brea, CA, including Downtown Brea, Olinda Village, La Floresta, Blackstone, Country Hills, Glenbrook, and North Hills. We repair refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, wine coolers, and garbage disposals across both ZIP codes, 92821 and 92823. We service all major brands, from Whirlpool, GE, Samsung, and LG to built-in Sub-Zero, Wolf, Thermador, and Viking units in newer La Floresta and Blackstone homes. Same-day appointments are available when you call before midday, and technicians reach most Brea addresses in 30 to 45 minutes. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
-  </div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+      <div class="expect-brands" role="group" aria-labelledby="expect-brands-label">
+        <p class="expect-brands-label" id="expect-brands-label">Brands we repair</p>
+        <ul class="expect-brands-list">
+          <li><img src="../images/brands/samsung.svg" alt="Samsung" width="85" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/lg.svg" alt="LG" width="48" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/whirlpool.svg" alt="Whirlpool" width="66" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/ge.svg" alt="GE" width="83" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/electrolux.svg" alt="Electrolux" width="83" height="19" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/frigidaire.svg" alt="Frigidaire" width="107" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/miele.svg" alt="Miele" width="65" height="16" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/kitchenaid.svg" alt="KitchenAid" width="114" height="10" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/wolf.svg" alt="Wolf" width="70" height="18" loading="eager" decoding="async"></li>
+        </ul>
+        <p class="expect-brands-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Our Customers Say</h2>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
+      <div class="testimonials-grid reviews-cap">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">"Thank you for fixing my microwave!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">DM</div>
+          <div class="testimonial-name">Darina Martirosyan &middot; Microwave repair &middot; Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">"Job was done quickly and results are great."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">KT</div>
+          <div class="testimonial-name">Kat Tesh &middot; Appliance repair &middot; Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">"Excellent service and affordable with great customer service. Highly recommend."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MB</div>
+          <div class="testimonial-name">Mike Bonilla &middot; Appliance repair &middot; Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-quote">"Great service. Very communicative. Very professional. Challenging repair on my built in. Working like new again."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">HL</div>
+          <div class="testimonial-name">Henry Lo &middot; KitchenAid refrigerator repair &middot; Brea,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div class="reviews-cap-more-row">
+        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
+      </div>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- COMMON SYMPTOMS -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Common Appliance Problems We Fix</h2>
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:620px;text-align:center;margin:12px auto 0;">Most repairs are completed in a single visit. Here are the symptoms we diagnose every day across Brea.</p>
@@ -653,7 +721,7 @@
   </section>
 
   <!-- NEIGHBORHOODS -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page">Brea Neighborhoods We Serve</h2>
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">Brea stretches from the Downtown core and the 57 freeway corridor up into the Carbon Canyon foothills. We cover every neighborhood in both ZIP codes, with no travel surcharges.</p>
@@ -708,7 +776,7 @@
   </section>
 
   <!-- BRANDS -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Brands We Service in Brea</h2>
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">Brea is a city of two housing eras. The 1960s and 1970s tract homes in Country Hills and Glenbrook often still run their original mainstream appliances, while newer communities like La Floresta and Blackstone bring built-in and panel-ready luxury units. We service both, end to end.</p>
@@ -744,7 +812,7 @@
   </section>
 
   <!-- SERVICES -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Services We Offer in Brea</h2>
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:620px;text-align:center;margin:12px auto 24px;">From refrigerators and ovens to washers and disposals, we repair every major home appliance. Each service links to its full Orange County hub page with brand coverage and common symptoms.</p>
@@ -762,7 +830,7 @@
   </section>
 
   <!-- REPAIR PROCESS -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">How It Works</h2>
       <p style="font-size:14px;color:#666;text-align:center;max-width:560px;margin:0 auto 8px;">Four steps from your call to a working appliance.</p>
@@ -792,7 +860,7 @@
   </section>
 
   <!-- LANDMARKS -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page">About Brea</h2>
       <div class="landmarks-block">
@@ -802,7 +870,7 @@
   </section>
 
   <!-- RECENT JOB PHOTO -->
-  <section class="section section-white" style="padding-bottom:0;">
+  <section class="section section-gray" style="padding-bottom:40px;">
     <div class="container-lg" style="text-align:center;">
       <h2 class="h2-page" style="text-align:center;">Recent Job in Brea</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin:8px auto 28px;max-width:560px;line-height:1.7;">A KitchenAid built-in refrigerator in a Brea kitchen that we repaired for a water leak.</p>
@@ -821,50 +889,8 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section section-white" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">What Our Customers Say</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
-      <div class="testimonials-grid">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-quote">"Thank you for fixing my microwave!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">DM</div>
-          <div class="testimonial-name">Darina Martirosyan &middot; Microwave repair &middot; Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-quote">"Job was done quickly and results are great."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">KT</div>
-          <div class="testimonial-name">Kat Tesh &middot; Appliance repair &middot; Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-quote">"Excellent service and affordable with great customer service. Highly recommend."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">MB</div>
-          <div class="testimonial-name">Mike Bonilla &middot; Appliance repair &middot; Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <p class="testimonial-quote">"Great service. Very communicative. Very professional. Challenging repair on my built in. Working like new again."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">HL</div>
-          <div class="testimonial-name">Henry Lo &middot; KitchenAid refrigerator repair &middot; Brea,&nbsp;CA</div>
-        </div>
-
-      </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
-      </div>
-    </div>
-  </section>
-
   <!-- PRICING LINE -->
-  <section class="section section-white" style="padding-top:0;padding-bottom:40px;">
+  <section class="section section-gray" style="display:flow-root;padding-top:0;padding-bottom:40px;">
     <div class="container">
       <div class="city-pricing-line">
         <strong>$99 diagnostic fee</strong>, applied toward your repair &middot; <strong>20% off labor</strong> for seniors 60+ &amp; repeat customers.
@@ -873,8 +899,17 @@
     </div>
   </section>
 
+  <!-- SERVICE AREA -->
+  <section class="section section-white service-area" aria-labelledby="service-area-title">
+    <div class="container">
+      <h2 id="service-area-title">Appliance repair across Brea</h2>
+      <p>Universal Appliances Repair Group Inc. provides same-day service in Brea for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, wine coolers, and garbage disposals. We cover Downtown Brea, Olinda Village, La Floresta, Blackstone, Country Hills, Glenbrook, and North Hills, across ZIP codes 92821 and 92823, for Whirlpool, GE, Samsung, LG, and built-in Sub-Zero, Wolf, Thermador, and Viking units.</p>
+      <p>Same-day appointments are available when you call before midday, and technicians reach most Brea addresses in 30 to 45 minutes. We also serve nearby <a href="appliance-repair-la-habra-ca.html">La Habra</a>, <a href="appliance-repair-fullerton-ca.html">Fullerton</a>, <a href="appliance-repair-placentia-ca.html">Placentia</a>, and <a href="appliance-repair-yorba-linda-ca.html">Yorba Linda</a>. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
+    </div>
+  </section>
+
   <!-- FAQ -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">FAQ: Brea Appliance Repair</h2>
       <div class="faq-list">
@@ -909,7 +944,7 @@
   </section>
 
   <!-- CTA -->
-  <section class="section section-white" style="padding-top:0;">
+  <section class="section section-gray" style="padding-top:0;">
     <div class="container">
       <div class="cta-box">
         <h2>Need Appliance Repair in Brea?</h2>
