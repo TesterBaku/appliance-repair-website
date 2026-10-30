@@ -3683,6 +3683,12 @@ const REVIEWS_CAP_PAGES = {
   'dishwasher-repair-orange-county': 6,
   'sub-zero-appliance-repair-orange-county': 3,
   'wolf-appliance-repair-orange-county': 3,
+  'appliance-repair-anaheim-ca': 3,
+  'appliance-repair-santa-ana-ca': 4,
+  'appliance-repair-irvine-ca': 3,
+  'appliance-repair-garden-grove-ca': 4,
+  'appliance-repair-westminster-ca': 3,
+  'appliance-repair-costa-mesa-ca': 3,
 };
 for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
   const capped = total >= 4 || slug === 'sub-zero-appliance-repair-orange-county';
