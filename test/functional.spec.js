@@ -3689,6 +3689,12 @@ const REVIEWS_CAP_PAGES = {
   'appliance-repair-garden-grove-ca': 4,
   'appliance-repair-westminster-ca': 3,
   'appliance-repair-costa-mesa-ca': 3,
+  'appliance-repair-fullerton-ca': 3,
+  'appliance-repair-orange-ca': 3,
+  'appliance-repair-tustin-ca': 3,
+  'appliance-repair-fountain-valley-ca': 3,
+  'appliance-repair-buena-park-ca': 3,
+  'appliance-repair-stanton-ca': 3,
 };
 for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
   const capped = total >= 4 || slug === 'sub-zero-appliance-repair-orange-county';
