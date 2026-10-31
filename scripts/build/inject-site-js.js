@@ -36,7 +36,7 @@ const explicitFiles = args.filter((a) => !a.startsWith('--'));
 // An inline interaction <script> is any attribute-less <script> whose body
 // references one of these. None of these appear in gtag config, JSON-LD,
 // the blog filter, or the testimonials filter — so the match is exact.
-const SIGNATURE = /function toggleFaq|querySelectorAll\('\.faq-item'\)|querySelector\('\.nav-drawer'\)|querySelectorAll\('\.nav-dropdown'\)|getElementById\('mobile-nav-drawer'\)/;
+const SIGNATURE = /function toggleFaq|querySelectorAll\('\.faq-item'\)|querySelectorAll\('\.faq-q'\)|querySelector\('\.nav-drawer'\)|querySelectorAll\('\.nav-dropdown'\)|getElementById\('mobile-nav-drawer'\)/;
 const SCRIPT_BLOCK = /[ \t]*<script>[\s\S]*?<\/script>\r?\n?/g;
 const SENTINEL = /[ \t]*<!-- DROPDOWN_JS_INJECTED -->\r?\n?/g;
 const FAQ_BTN = /class="faq-q" onclick="toggleFaq\(this\)"/g;
