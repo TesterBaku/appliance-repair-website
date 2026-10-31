@@ -306,12 +306,24 @@
     return null;
   }
   function tableLabel(wrap, table) {
-    var cap = table.querySelector('caption');
-    if (cap && cap.textContent.trim()) return cap.textContent.trim();
-    for (var prev = wrap.previousElementSibling; prev; prev = prev.previousElementSibling) {
-      if (/^H[1-6]$/.test(prev.tagName) && prev.textContent.trim()) return prev.textContent.trim();
+    var text = '';
+    // Nearest preceding heading, looking at earlier siblings of the wrapper and then of each ancestor.
+    for (var el = wrap; !text && el && el !== document.body; el = el.parentElement) {
+      for (var prev = el.previousElementSibling; prev; prev = prev.previousElementSibling) {
+        if (/^H[1-6]$/.test(prev.tagName) && prev.textContent.trim()) { text = prev.textContent.trim(); break; }
+      }
     }
-    return 'Scrollable table';
+    if (!text) {
+      var cap = table.querySelector('caption');
+      text = cap ? cap.textContent.trim() : '';
+    }
+    text = (text || 'Scrollable table').replace(/\s+/g, ' ');
+    if (text.length > 80) {
+      text = text.slice(0, 80);
+      var cut = text.lastIndexOf(' ');
+      text = (cut > 20 ? text.slice(0, cut) : text).replace(/[\s,;:.-]+$/, '');
+    }
+    return text;
   }
   function initScrollableTables() {
     var wraps = [], seen = [];
@@ -326,7 +338,8 @@
       var style = document.createElement('style');
       style.id = 'site-js-table-scroll';
       style.textContent =
-        'html p.table-scroll-hint{display:block;text-align:right;font-size:13px;line-height:1.4;color:#666;margin:0 0 6px}' +
+        'html p.table-scroll-hint{display:block;text-align:right;font-size:13px;line-height:1.4;color:#666;margin:16px 0 6px}' +
+        'html p.table-scroll-hint:not([hidden]) + *{margin-top:6px !important}' +
         'html p.table-scroll-hint[hidden]{display:none !important}' +
         '.table-scrollable:focus-visible{outline:2px solid var(--brand,#e84c1e);outline-offset:2px}';
       document.head.appendChild(style);
