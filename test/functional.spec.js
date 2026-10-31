@@ -3761,3 +3761,51 @@ test.describe('Reviews cap without JavaScript: refrigerator-repair-orange-county
     await expect(page.locator('.reviews-cap-more-row')).not.toBeVisible();
   });
 });
+
+// ─── site.js scrollable tables: a hint appears only while a table overflows its wrapper ───
+test.describe('Scrollable table cue (site.js)', () => {
+  const ARTICLE = '/articles/article-dorm-appliances.html';
+  const settle = async (page) => { await page.evaluate(() => document.fonts && document.fonts.ready); await page.waitForTimeout(250); };
+
+  test('375px: overflowing table gets a visible hint, tabindex 0, region label', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(ARTICLE);
+    await settle(page);
+    const wrap = page.locator('.table-scrollable').first();
+    await expect(wrap).toHaveAttribute('tabindex', '0');
+    await expect(wrap).toHaveAttribute('role', 'region');
+    expect(await wrap.getAttribute('aria-label')).toBeTruthy();
+    const hint = page.locator('.table-scroll-hint.is-on').first();
+    await expect(hint).toBeVisible();
+    expect(await page.locator('.table-scroll-hint').count()).toBe(await page.locator('.table-scrollable').count());
+  });
+
+  test('1280px: no hint where the table fits', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto(ARTICLE);
+    await settle(page);
+    await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(0);
+    await expect(page.locator('.table-scrollable')).toHaveCount(0);
+  });
+
+  test('375px: a table that fits gets no visible hint', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto('/pages/washer-repair-orange-county.html');
+    await settle(page);
+    await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(0);
+  });
+
+  test('resizing from phone to desktop removes the cue without duplicating the hint', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(ARTICLE);
+    await settle(page);
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.waitForTimeout(500);
+    await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(0);
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.waitForTimeout(500);
+    const n = await page.locator('.table-scrollable').count();
+    expect(n).toBeGreaterThan(0);
+    expect(await page.locator('.table-scroll-hint').count()).toBe(n);
+  });
+});
