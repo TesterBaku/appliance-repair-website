@@ -3763,8 +3763,10 @@ test.describe('Reviews cap without JavaScript: refrigerator-repair-orange-county
 });
 
 // ─── site.js scrollable tables: a hint appears only while a table overflows its wrapper ───
+// Most articles load only site.js (not shared.css), so the cue must style and hide itself.
 test.describe('Scrollable table cue (site.js)', () => {
   const ARTICLE = '/articles/article-dorm-appliances.html';
+  const COST = '/articles/article-refrigerator-repair-cost-orange-county.html';
   const settle = async (page) => { await page.evaluate(() => document.fonts && document.fonts.ready); await page.waitForTimeout(250); };
 
   test('375px: overflowing table gets a visible hint, tabindex 0, region label', async ({ page }) => {
@@ -3775,17 +3777,37 @@ test.describe('Scrollable table cue (site.js)', () => {
     await expect(wrap).toHaveAttribute('tabindex', '0');
     await expect(wrap).toHaveAttribute('role', 'region');
     expect(await wrap.getAttribute('aria-label')).toBeTruthy();
-    const hint = page.locator('.table-scroll-hint.is-on').first();
-    await expect(hint).toBeVisible();
+    await expect(page.locator('.table-scroll-hint:not([hidden])').first()).toBeVisible();
     expect(await page.locator('.table-scroll-hint').count()).toBe(await page.locator('.table-scrollable').count());
   });
 
-  test('1280px: no hint where the table fits', async ({ page }) => {
+  test('375px: a cost article without shared.css gets a styled, right-aligned hint and a focusable wrapper', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(COST);
+    await settle(page);
+    const hint = page.locator('.table-scroll-hint');
+    await expect(hint).toHaveCount(1);
+    await expect(hint).toBeVisible();
+    const css = await hint.evaluate((el) => { const c = getComputedStyle(el); return { size: c.fontSize, color: c.color, align: c.textAlign }; });
+    expect(css).toEqual({ size: '13px', color: 'rgb(102, 102, 102)', align: 'right' });
+    const wrap = page.locator('.table-scrollable');
+    await expect(wrap).toHaveCount(1);
+    await expect(wrap).toHaveAttribute('tabindex', '0');
+    await wrap.focus();
+    await expect(wrap).toBeFocused();
+  });
+
+  test('1280px: no hint where the table fits, and the attributes site.js added are removed', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(ARTICLE);
     await settle(page);
     await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(0);
     await expect(page.locator('.table-scrollable')).toHaveCount(0);
+    await page.goto(COST);
+    await settle(page);
+    await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(0);
+    await expect(page.locator('.table-scrollable')).toHaveCount(0);
+    await expect(page.locator('.cost-table-wrap')).not.toHaveAttribute('tabindex', /.*/);
   });
 
   test('375px: a table that fits gets no visible hint', async ({ page }) => {
@@ -3795,17 +3817,36 @@ test.describe('Scrollable table cue (site.js)', () => {
     await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(0);
   });
 
-  test('resizing from phone to desktop removes the cue without duplicating the hint', async ({ page }) => {
+  test('a static author hint is hidden when the table no longer overflows, even under its own @media display:block', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(ARTICLE);
+    await settle(page);
+    await expect(page.locator('.table-scroll-hint')).toBeVisible();
+    // Make the table fit without changing the viewport (the page's own hint rule keys off width <= 560px).
+    await page.evaluate(() => {
+      document.querySelector('.table-scrollable table').style.display = 'none';
+      window.dispatchEvent(new Event('resize'));
+    });
+    await page.waitForTimeout(400);
+    await expect(page.locator('.table-scroll-hint')).toBeHidden();
+    await expect(page.locator('.table-scrollable')).toHaveCount(0);
+    // The authored attributes on that wrapper are left alone.
+    await expect(page.locator('div[aria-label="Quick comparison table"]')).toHaveAttribute('tabindex', '0');
+  });
+
+  test('resizing from phone to desktop removes the cue without duplicating the hint', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(COST);
     await settle(page);
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.waitForTimeout(500);
     await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(0);
+    await expect(page.locator('.cost-table-wrap')).not.toHaveAttribute('tabindex', /.*/);
     await page.setViewportSize({ width: 375, height: 812 });
     await page.waitForTimeout(500);
     const n = await page.locator('.table-scrollable').count();
     expect(n).toBeGreaterThan(0);
     expect(await page.locator('.table-scroll-hint').count()).toBe(n);
+    await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(n);
   });
 });
