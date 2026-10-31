@@ -52,8 +52,15 @@
     .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: var(--bg); border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
+    .hb-bc { background: #f7fafc; border-bottom: 1px solid #eee; padding: 10px 24px; }
+    .hb-bc-in { max-width: 1100px; margin: 0 auto; font-size: 12px; color: #666; }
+    .hb-bc-sep { margin: 0 6px; }
+    @media (max-width: 480px) {
+      .hb-bc { padding: 10px 12px; }
+      .hb-bc-in { font-size: 11px; }
+      .hb-bc-sep { margin: 0 4px; }
+    }
+
 
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
@@ -616,20 +623,84 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <div style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
-    <div style="max-width:1100px;margin:0 auto;font-size:12px;color:#666;">
+  <div class="hb-bc">
+    <div class="hb-bc-in">
       <a href="../" style="color:#666;text-decoration:none;">Home</a>
-      <span style="margin:0 6px;">›</span>
+      <span class="hb-bc-sep">›</span>
       <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
-      <span style="margin:0 6px;">›</span>
+      <span class="hb-bc-sep">›</span>
       <span style="color:#333;">Appliance Repair Newport Beach, CA</span>
     </div>
   </div>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. serves Newport Beach, California, providing same-day appliance repair for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover Balboa Peninsula, Balboa Island, Newport Heights, West Newport, Eastbluff, Dover Shores, The Port Streets, Newport Center near Fashion Island, and Corona del Mar, across ZIP codes 92657, 92660, 92661, 92662, and 92663. We service Sub-Zero, Wolf, Thermador, Viking, <a href="dcs-appliance-repair-orange-county.html" style="color:var(--brand-text);text-decoration:none;font-weight:600;">DCS</a>, Whirlpool, GE, Samsung, LG, Bosch, and more. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
-  </div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+      <div class="expect-brands" role="group" aria-labelledby="expect-brands-label">
+        <p class="expect-brands-label" id="expect-brands-label">Brands we repair</p>
+        <ul class="expect-brands-list">
+          <li><img src="../images/brands/samsung.svg" alt="Samsung" width="85" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/lg.svg" alt="LG" width="48" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/whirlpool.svg" alt="Whirlpool" width="66" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/ge.svg" alt="GE" width="83" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/electrolux.svg" alt="Electrolux" width="83" height="19" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/frigidaire.svg" alt="Frigidaire" width="107" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/miele.svg" alt="Miele" width="65" height="16" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/kitchenaid.svg" alt="KitchenAid" width="114" height="10" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/wolf.svg" alt="Wolf" width="70" height="18" loading="eager" decoding="async"></li>
+        </ul>
+        <p class="expect-brands-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Our Customers Say</h2>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
+      <div class="testimonials-grid reviews-cap">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">LR</div>
+          <div class="testimonial-name">Lilya Raupova · Sub-Zero refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"This guy is wonderful. Not only fixed the fridge. He took time and no rush. He cleaned everything and even before he left we heard the sound of making ice cubes. On top of that he fixed the gas flow of the burner as a courtesy."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MI</div>
+          <div class="testimonial-name">Molla Islam · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"My cooktop burners kept clicking and sparking. We didn't feel that it was safe to use. Called AG and he quickly diagnosed the problem as a bad spark module, came out the same day, ordered the part and fixed it the next day, as soon as the part came in. He was fast, efficient, with fair pricing. He was a great communicator and kept me in the loop the whole time. Highly recommended and will use again. Thanks, AJ!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">SD</div>
+          <div class="testimonial-name">Steve D · Cooktop repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div class="reviews-cap-more-row">
+        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
+      </div>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- NEIGHBORHOODS -->
   <section class="section section-gray">
@@ -773,41 +844,6 @@
           <div class="step-title">Repair &amp; Warranty</div>
           <div class="step-desc">Most repairs finish in a single visit. All work carries a warranty on parts and labor.</div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="section section-gray" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">What Our Customers Say</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
-      <div class="testimonials-grid">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">LR</div>
-          <div class="testimonial-name">Lilya Raupova · Sub-Zero refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"This guy is wonderful. Not only fixed the fridge. He took time and no rush. He cleaned everything and even before he left we heard the sound of making ice cubes. On top of that he fixed the gas flow of the burner as a courtesy."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">MI</div>
-          <div class="testimonial-name">Molla Islam · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"My cooktop burners kept clicking and sparking. We didn't feel that it was safe to use. Called AG and he quickly diagnosed the problem as a bad spark module, came out the same day, ordered the part and fixed it the next day, as soon as the part came in. He was fast, efficient, with fair pricing. He was a great communicator and kept me in the loop the whole time. Highly recommended and will use again. Thanks, AJ!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">SD</div>
-          <div class="testimonial-name">Steve D · Cooktop repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-      </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
       </div>
     </div>
   </section>
@@ -1060,7 +1096,7 @@
   <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page">Newport Beach Service Area Details</h2>
-      <p style="font-size:14px;color:#666;line-height:1.75;max-width:760px;">Newport Beach is a coastal city in south Orange County, roughly a 25 to 35 minute drive from our Stanton base via the 55 freeway. We reach Newport Heights and the Newport Center area first; Corona del Mar, Balboa Island, and Newport Coast are a few minutes further along the coast. Same-day appointments are available across the Newport ZIP codes for calls received before noon, with a two-hour arrival window.</p>
+      <p style="font-size:14px;color:#666;line-height:1.75;max-width:760px;">Newport Beach is a coastal city in south Orange County, roughly a 20 to 30 minute drive from our Stanton base via the 55 freeway. We reach Newport Heights and the Newport Center area first; Corona del Mar, Balboa Island, and Newport Coast are a few minutes further along the coast. Same-day appointments are available across the Newport ZIP codes for calls received before noon, with a two-hour arrival window.</p>
       <div style="background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:24px;max-width:760px;">
         <picture>
           <source srcset="../images/maps/appliance-repair-newport-beach-ca-map-800w.webp 800w, ../images/maps/appliance-repair-newport-beach-ca-map.webp 1520w" type="image/webp" sizes="(max-width: 768px) 100vw, 760px">
@@ -1075,12 +1111,21 @@
   </section>
 
   <!-- PRICING LINE -->
-  <section class="section section-white" style="padding-top:0;padding-bottom:40px;">
+  <section class="section section-white" style="display:flow-root;padding-top:0;padding-bottom:40px;">
     <div class="container">
       <div class="city-pricing-line">
         <strong>$99 diagnostic fee</strong>, applied toward your repair · <strong>20% off labor</strong> for seniors 60+ &amp; repeat customers.
         <span class="city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. <a href="appliance-repair-cost-orange-county.html">Full pricing guide &rarr;</a></span>
       </div>
+    </div>
+  </section>
+
+  <!-- SERVICE AREA -->
+  <section class="section section-gray service-area" aria-labelledby="service-area-title">
+    <div class="container">
+      <h2 id="service-area-title">Appliance repair across Newport Beach</h2>
+      <p>Universal Appliances Repair Group Inc. provides same-day appliance repair in Newport Beach, California, for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover Balboa Peninsula, Balboa Island, Newport Heights, West Newport, Eastbluff, Dover Shores, The Port Streets, Newport Center near Fashion Island, and Corona del Mar, across ZIP codes 92657, 92660, 92661, 92662, and 92663.</p>
+      <p>We also serve nearby <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>, <a href="appliance-repair-irvine-ca.html">Irvine</a>, <a href="appliance-repair-huntington-beach-ca.html">Huntington Beach</a>, and <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
     </div>
   </section>
 
