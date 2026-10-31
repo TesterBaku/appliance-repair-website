@@ -50,8 +50,14 @@
     .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: var(--bg); border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
+    .hb-bc { background: #f7fafc; border-bottom: 1px solid #eee; padding: 10px 24px; }
+    .hb-bc-in { max-width: 1100px; margin: 0 auto; font-size: 12px; color: #666; }
+    .hb-bc-sep { margin: 0 6px; }
+    @media (max-width: 480px) {
+      .hb-bc { padding: 10px 12px; }
+      .hb-bc-in { font-size: 11px; }
+      .hb-bc-sep { margin: 0 4px; }
+    }
 
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
@@ -215,7 +221,7 @@
       {
         "@type": "Question",
         "name": "Do you offer same-day appliance repair in Mission Viejo, CA?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Same-day appliance repair is available in Mission Viejo when you call before noon. We dispatch from Stanton and can typically reach Mission Viejo within 30 to 50 minutes depending on traffic and your neighborhood. Call (949) 629-5365 to check same-day availability." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Same-day appliance repair is available in Mission Viejo when you call before noon. We dispatch from Stanton and can typically reach Mission Viejo within 30 to 40 minutes depending on traffic and your neighborhood. Call (949) 629-5365 to check same-day availability." }
       },
       {
         "@type": "Question",
@@ -230,7 +236,7 @@
       {
         "@type": "Question",
         "name": "How quickly can a technician reach Mission Viejo from your base in Stanton?",
-        "acceptedAnswer": { "@type": "Answer", "text": "From Stanton, Mission Viejo is typically a 30 to 50 minute drive depending on traffic and the I-5 or Oso Pkwy corridor. For same-day calls received before noon, we aim to have a technician at your door the same afternoon with a two-hour arrival window. We call when the technician is on the way." }
+        "acceptedAnswer": { "@type": "Answer", "text": "From Stanton, Mission Viejo is typically a 30 to 40 minute drive depending on traffic and the I-5 or Oso Pkwy corridor. For same-day calls received before noon, we aim to have a technician at your door the same afternoon with a two-hour arrival window. We call when the technician is on the way." }
       },
       {
         "@type": "Question",
@@ -576,20 +582,84 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <div style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
-    <div style="max-width:1100px;margin:0 auto;font-size:12px;color:#666;">
+  <div class="hb-bc">
+    <div class="hb-bc-in">
       <a href="../" style="color:#666;text-decoration:none;">Home</a>
-      <span style="margin:0 6px;">›</span>
+      <span class="hb-bc-sep">›</span>
       <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
-      <span style="margin:0 6px;">›</span>
+      <span class="hb-bc-sep">›</span>
       <span style="color:#333;">Appliance Repair Mission Viejo, CA</span>
     </div>
   </div>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. serves Mission Viejo, California, providing same-day appliance repair for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover all Mission Viejo neighborhoods, including Casta del Sol, La Paz, Cordova, Galicia, Barcelona, O'Neill Ranch, and Aegean Hills, across ZIP codes 92691 and 92692. We service Whirlpool, GE, Samsung, LG, KitchenAid, Bosch, Sub-Zero, and more. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
-  </div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+      <div class="expect-brands" role="group" aria-labelledby="expect-brands-label">
+        <p class="expect-brands-label" id="expect-brands-label">Brands we repair</p>
+        <ul class="expect-brands-list">
+          <li><img src="../images/brands/samsung.svg" alt="Samsung" width="85" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/lg.svg" alt="LG" width="48" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/whirlpool.svg" alt="Whirlpool" width="66" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/ge.svg" alt="GE" width="83" height="22" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/electrolux.svg" alt="Electrolux" width="83" height="19" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/frigidaire.svg" alt="Frigidaire" width="107" height="13" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/miele.svg" alt="Miele" width="65" height="16" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/kitchenaid.svg" alt="KitchenAid" width="114" height="10" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/wolf.svg" alt="Wolf" width="70" height="18" loading="eager" decoding="async"></li>
+        </ul>
+        <p class="expect-brands-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;">What Orange County Customers Say</h2>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
+      <div class="testimonials-grid reviews-cap">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"They saved Christmas entertaining by coming before Christmas (though it took a couple trips)! Thank you for a job well done!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">RC</div>
+          <div class="testimonial-name">Robert Clemmons · Dishwasher repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear &#8212; we will call him again when another appliance needs repair."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">KS</div>
+          <div class="testimonial-name">Katie Anne Salen · Dryer repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JM</div>
+          <div class="testimonial-name">Joellyn Meadows · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div class="reviews-cap-more-row">
+        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
+      </div>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- NEIGHBORHOODS -->
   <section class="section section-gray">
@@ -763,41 +833,6 @@
       </div>
     </div>
   </section>
-  <!-- TESTIMONIALS -->
-  <section class="section section-gray" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">What Mission Viejo Customers Say</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
-      <div class="testimonials-grid">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"They saved Christmas entertaining by coming before Christmas (though it took a couple trips)! Thank you for a job well done!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">RC</div>
-          <div class="testimonial-name">Robert Clemmons · Dishwasher repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"We've received fast and high quality service on our dryer each time we've needed it. The repairman is courteous and clear &#8212; we will call him again when another appliance needs repair."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">KS</div>
-          <div class="testimonial-name">Katie Anne Salen · Dryer repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JM</div>
-          <div class="testimonial-name">Joellyn Meadows · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-      </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
-      </div>
-    </div>
-  </section>
-
   <!-- COMMON ISSUES -->
   <section class="section section-gray">
     <div class="container-lg">
@@ -828,12 +863,21 @@
   </section>
 
   <!-- PRICING LINE -->
-  <section class="section section-white" style="padding-top:0;padding-bottom:40px;">
+  <section class="section section-white" style="display:flow-root;padding-top:0;padding-bottom:40px;">
     <div class="container">
       <div class="city-pricing-line">
         <strong>$99 diagnostic fee</strong>, applied toward your repair &middot; <strong>20% off labor</strong> for seniors 60+ &amp; repeat customers.
         <span class="city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. <a href="appliance-repair-cost-orange-county.html">Full pricing guide &rarr;</a></span>
       </div>
+    </div>
+  </section>
+
+  <!-- SERVICE AREA -->
+  <section class="section section-gray service-area" aria-labelledby="service-area-title">
+    <div class="container">
+      <h2 id="service-area-title">Appliance repair across Mission Viejo</h2>
+      <p>Universal Appliances Repair Group Inc. provides same-day appliance repair in Mission Viejo, California, for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover Casta del Sol, La Paz, Cordova, Galicia, Barcelona, O'Neill Ranch, and Aegean Hills, across ZIP codes 92691 and 92692.</p>
+      <p>We also serve nearby <a href="appliance-repair-lake-forest-ca.html">Lake Forest</a>, <a href="appliance-repair-laguna-niguel-ca.html">Laguna Niguel</a>, <a href="appliance-repair-aliso-viejo-ca.html">Aliso Viejo</a>, and <a href="appliance-repair-san-juan-capistrano-ca.html">San Juan Capistrano</a>. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
     </div>
   </section>
 
@@ -845,7 +889,7 @@
 
         <div class="faq-item">
           <button class="faq-q">Do you offer same-day appliance repair in Mission Viejo, CA?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Same-day appliance repair is available in Mission Viejo when you call before noon. We dispatch from Stanton and can typically reach Mission Viejo within 30 to 50 minutes depending on traffic and your neighborhood. Call (949) 629-5365 to check same-day availability.</div>
+          <div class="faq-a">Yes. Same-day appliance repair is available in Mission Viejo when you call before noon. We dispatch from Stanton and can typically reach Mission Viejo within 30 to 40 minutes depending on traffic and your neighborhood. Call (949) 629-5365 to check same-day availability.</div>
         </div>
 
         <div class="faq-item">
@@ -860,7 +904,7 @@
 
         <div class="faq-item">
           <button class="faq-q">How quickly can a technician reach Mission Viejo from your base in Stanton?<span class="icon">+</span></button>
-          <div class="faq-a">From Stanton, Mission Viejo is typically a 30 to 50 minute drive depending on traffic and the I-5 or Oso Pkwy corridor. For same-day calls received before noon, we aim to have a technician at your door the same afternoon with a two-hour arrival window. We call when the technician is on the way.</div>
+          <div class="faq-a">From Stanton, Mission Viejo is typically a 30 to 40 minute drive depending on traffic and the I-5 or Oso Pkwy corridor. For same-day calls received before noon, we aim to have a technician at your door the same afternoon with a two-hour arrival window. We call when the technician is on the way.</div>
         </div>
 
         <div class="faq-item">
@@ -979,7 +1023,6 @@
     <a href="tel:+19496295365" class="sticky-call"><span aria-hidden="true">📞</span> Call Now</a>
     <a href="contact.html" class="sticky-book">Book Repair</a>
   </div>
-
 
   <script defer src="../site.js"></script>
   <script defer src="../analytics.js"></script>
