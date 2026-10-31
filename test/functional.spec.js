@@ -1804,7 +1804,6 @@ test.describe('Service areas page', () => {
   });
 });
 
-// ─── 404 page ─────────────────────────────────────────────────────────────────
 // ─── analytics.js: seen / interacted diagnostics ─────────────────────────────
 // lp_seen_2s and lp_interact split ad clicks into "loaded unseen", "seen, left"
 // and "interacted". Each must fire at most once, and lp_seen_2s must not count
@@ -1824,14 +1823,21 @@ test.describe('analytics.js: lp_seen_2s and lp_interact', () => {
     await page.clock.runFor(5000);
     expect(await count(page, 'lp_seen_2s')).toBe(0);
 
-    await page.evaluate(() => { window.__vis = 'visible'; document.dispatchEvent(new Event('visibilitychange')); });
+    // Visible 1.5s, hidden, visible 1.5s again: 3s in total but never 2s in a
+    // row, so the timer must have restarted and nothing fires yet.
+    const show = () => page.evaluate(() => { window.__vis = 'visible'; document.dispatchEvent(new Event('visibilitychange')); });
+    const hide = () => page.evaluate(() => { window.__vis = 'hidden'; document.dispatchEvent(new Event('visibilitychange')); });
+    await show();
+    await page.clock.runFor(1500);
+    await hide();
+    await show();
     await page.clock.runFor(1500);
     expect(await count(page, 'lp_seen_2s')).toBe(0);
     await page.clock.runFor(600);
     expect(await count(page, 'lp_seen_2s')).toBe(1);
 
-    await page.evaluate(() => { window.__vis = 'hidden'; document.dispatchEvent(new Event('visibilitychange')); });
-    await page.evaluate(() => { window.__vis = 'visible'; document.dispatchEvent(new Event('visibilitychange')); });
+    await hide();
+    await show();
     await page.clock.runFor(3000);
     expect(await count(page, 'lp_seen_2s')).toBe(1);
   });
@@ -1849,6 +1855,7 @@ test.describe('analytics.js: lp_seen_2s and lp_interact', () => {
   });
 });
 
+// ─── 404 page ─────────────────────────────────────────────────────────────────
 test.describe('404 page', () => {
   test('has a link back to homepage', async ({ page }) => {
     await page.goto('/404.html');
