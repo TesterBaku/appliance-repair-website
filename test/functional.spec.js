@@ -1804,6 +1804,57 @@ test.describe('Service areas page', () => {
   });
 });
 
+// ─── analytics.js: seen / interacted diagnostics ─────────────────────────────
+// lp_seen_2s and lp_interact split ad clicks into "loaded unseen", "seen, left"
+// and "interacted". Each must fire at most once, and lp_seen_2s must not count
+// time the page spent hidden (an app prefetching the page in the background).
+test.describe('analytics.js: lp_seen_2s and lp_interact', () => {
+  const PAGE = '/pages/refrigerator-repair-orange-county.html';
+  const count = (page, name) => page.evaluate((n) =>
+    (window.dataLayer || []).filter((e) => e && e[0] === 'event' && e[1] === n).length, name);
+
+  test('lp_seen_2s waits for 2s of visibility, ignores hidden time, fires once', async ({ page }) => {
+    await page.clock.install();
+    await page.addInitScript(() => {
+      window.__vis = 'hidden';
+      Object.defineProperty(document, 'visibilityState', { get: () => window.__vis });
+    });
+    await page.goto(PAGE);
+    await page.clock.runFor(5000);
+    expect(await count(page, 'lp_seen_2s')).toBe(0);
+
+    // Visible 1.5s, hidden, visible 1.5s again: 3s in total but never 2s in a
+    // row, so the timer must have restarted and nothing fires yet.
+    const show = () => page.evaluate(() => { window.__vis = 'visible'; document.dispatchEvent(new Event('visibilitychange')); });
+    const hide = () => page.evaluate(() => { window.__vis = 'hidden'; document.dispatchEvent(new Event('visibilitychange')); });
+    await show();
+    await page.clock.runFor(1500);
+    await hide();
+    await show();
+    await page.clock.runFor(1500);
+    expect(await count(page, 'lp_seen_2s')).toBe(0);
+    await page.clock.runFor(600);
+    expect(await count(page, 'lp_seen_2s')).toBe(1);
+
+    await hide();
+    await show();
+    await page.clock.runFor(3000);
+    expect(await count(page, 'lp_seen_2s')).toBe(1);
+  });
+
+  test('lp_interact does not fire on load, then fires once on the first key or wheel', async ({ page }) => {
+    await page.goto(PAGE);
+    expect(await count(page, 'lp_interact')).toBe(0);
+    await page.keyboard.press('Shift');
+    await page.mouse.wheel(0, 200);
+    await page.keyboard.press('Shift');
+    const events = await page.evaluate(() =>
+      (window.dataLayer || []).filter((e) => e && e[0] === 'event' && e[1] === 'lp_interact'));
+    expect(events.length).toBe(1);
+    expect(events[0][2].interaction_type).toBe('keydown');
+  });
+});
+
 // ─── 404 page ─────────────────────────────────────────────────────────────────
 test.describe('404 page', () => {
   test('has a link back to homepage', async ({ page }) => {
