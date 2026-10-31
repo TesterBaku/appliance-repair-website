@@ -13,6 +13,8 @@
  *   4. capped job grid: "Show all N" button that reveals cards hidden on phones.
  *   5. capped review row: "Show N more reviews" button that reveals review cards
  *                       beyond the first two on phones.
+ *   6. scrollable tables: a sideways-scrolling table wrapper gets a "Swipe sideways"
+ *                       hint, keyboard focusability and a region label, only while it overflows.
  *
  * Page-specific filters (blog search/filter, testimonials filter) stay
  * inline on their one page — they are singletons, not a drift class.
@@ -291,9 +293,99 @@
     });
   }
 
+  // 6. Scrollable tables. Some tables scroll sideways inside their own overflow-x wrapper, which
+  // hides the right-hand columns (often the price) with no cue. For every such wrapper that actually
+  // overflows: label it, make it keyboard-scrollable, and show one hint above it. Re-evaluated on resize
+  // so rotating a phone adds or removes the cue. Wrappers are found by computed style, so no page markup
+  // is needed. The hint element is created once per wrapper and only toggled afterwards.
+  function scrollWrapperOf(table) {
+    for (var el = table.parentElement; el && el !== document.body; el = el.parentElement) {
+      var ox = getComputedStyle(el).overflowX;
+      if (ox === 'auto' || ox === 'scroll') return el;
+    }
+    return null;
+  }
+  function tableLabel(wrap, table) {
+    var text = '';
+    // Nearest preceding heading, looking at earlier siblings of the wrapper and then of each ancestor.
+    for (var el = wrap; !text && el && el !== document.body; el = el.parentElement) {
+      for (var prev = el.previousElementSibling; prev; prev = prev.previousElementSibling) {
+        if (/^H[1-6]$/.test(prev.tagName) && prev.textContent.trim()) { text = prev.textContent.trim(); break; }
+      }
+    }
+    if (!text) {
+      var cap = table.querySelector('caption');
+      text = cap ? cap.textContent.trim() : '';
+    }
+    text = (text || 'Scrollable table').replace(/\s+/g, ' ');
+    if (text.length > 80) {
+      text = text.slice(0, 80);
+      var cut = text.lastIndexOf(' ');
+      text = (cut > 20 ? text.slice(0, cut) : text).replace(/[\s,;:.-]+$/, '');
+    }
+    return text;
+  }
+  function initScrollableTables() {
+    var wraps = [], seen = [];
+    document.querySelectorAll('table').forEach(function (table) {
+      var wrap = scrollWrapperOf(table);
+      if (wrap && seen.indexOf(wrap) === -1) { seen.push(wrap); wraps.push({ el: wrap, table: table }); }
+    });
+    if (!wraps.length) return;
+    // Self-contained styling: most articles load only this file, not shared.css. Injected once, only
+    // when a wrapper exists. The "html p" prefix outranks article body-copy rules such as ".article-body p"; [hidden] is !important so a page's own display rule cannot defeat it.
+    if (!document.getElementById('site-js-table-scroll')) {
+      var style = document.createElement('style');
+      style.id = 'site-js-table-scroll';
+      style.textContent =
+        'html p.table-scroll-hint{display:block;text-align:right;font-size:13px;line-height:1.4;color:#666;margin:16px 0 6px}' +
+        'html p.table-scroll-hint:not([hidden]) + *{margin-top:6px !important}' +
+        'html p.table-scroll-hint[hidden]{display:none !important}' +
+        '.table-scrollable:focus-visible{outline:2px solid var(--brand,#e84c1e);outline-offset:2px}';
+      document.head.appendChild(style);
+    }
+    var ADDED = 'data-table-scroll-attrs'; // names of the attributes this script added (never the page's own)
+    function update() {
+      wraps.forEach(function (w) {
+        var wrap = w.el;
+        var over = wrap.scrollWidth > wrap.clientWidth + 1;
+        var hint = wrap.previousElementSibling;
+        var hasHint = !!hint && hint.classList.contains('table-scroll-hint');
+        if (over && !hasHint) {
+          hint = document.createElement('p');
+          hint.className = 'table-scroll-hint';
+          hint.setAttribute('aria-hidden', 'true');
+          hint.textContent = 'Swipe sideways to see the whole table →';
+          wrap.parentNode.insertBefore(hint, wrap);
+          hasHint = true;
+        }
+        wrap.classList.toggle('table-scrollable', over);
+        if (hasHint) hint.hidden = !over;
+        if (over) {
+          if (wrap.hasAttribute(ADDED)) return;
+          var added = [];
+          if (!wrap.hasAttribute('tabindex')) { wrap.setAttribute('tabindex', '0'); added.push('tabindex'); }
+          if (!wrap.hasAttribute('role')) { wrap.setAttribute('role', 'region'); added.push('role'); }
+          if (!wrap.hasAttribute('aria-label') && !wrap.hasAttribute('aria-labelledby')) { wrap.setAttribute('aria-label', tableLabel(wrap, w.table)); added.push('aria-label'); }
+          if (added.length) wrap.setAttribute(ADDED, added.join(' '));
+        } else if (wrap.hasAttribute(ADDED)) {
+          wrap.getAttribute(ADDED).split(' ').forEach(function (name) { wrap.removeAttribute(name); });
+          wrap.removeAttribute(ADDED);
+        }
+      });
+    }
+    var resizeTimer;
+    window.addEventListener('resize', function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(update, 150); });
+    // Measure again once fonts and images settle; their metrics change table width.
+    window.addEventListener('load', update);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
+    update();
+  }
+
   initDropdowns();
   initDrawer();
   initFaq();
   initJobGridCap();
   initReviewsCap();
+  initScrollableTables();
 })();
