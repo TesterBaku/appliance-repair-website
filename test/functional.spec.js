@@ -3763,6 +3763,12 @@ const REVIEWS_CAP_PAGES = {
   'appliance-repair-dana-point-ca': 3,
   'appliance-repair-san-clemente-ca': 3,
   'appliance-repair-san-juan-capistrano-ca': 3,
+  'appliance-repair-long-beach-ca': 3,
+  'appliance-repair-whittier-ca': 3,
+  'appliance-repair-montebello-ca': 3,
+  'appliance-repair-riverside-ca': 3,
+  'appliance-repair-palm-springs-ca': 3,
+  'appliance-repair-chino-hills-ca': 3,
 };
 for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
   const capped = total >= 4 || slug === 'sub-zero-appliance-repair-orange-county';
