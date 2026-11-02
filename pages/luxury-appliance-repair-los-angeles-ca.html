@@ -50,8 +50,14 @@
     .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    .ai-block { background: var(--bg); border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
+    .hb-bc { background: #f7fafc; border-bottom: 1px solid #eee; padding: 10px 24px; }
+    .hb-bc-in { max-width: 1100px; margin: 0 auto; font-size: 12px; color: #666; }
+    .hb-bc-sep { margin: 0 6px; }
+    @media (max-width: 480px) {
+      .hb-bc { padding: 10px 12px; }
+      .hb-bc-in { font-size: 11px; }
+      .hb-bc-sep { margin: 0 4px; }
+    }
 
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 22px 24px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
@@ -598,97 +604,41 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <nav aria-label="Breadcrumb" style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
-    <div style="max-width:1100px;margin:0 auto;font-size:12px;color:#666;">
+  <nav aria-label="Breadcrumb" class="hb-bc">
+    <div class="hb-bc-in">
       <a href="../" style="color:#666;text-decoration:none;">Home</a>
-      <span style="margin:0 6px;">&#8250;</span>
+      <span class="hb-bc-sep">&#8250;</span>
       <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
-      <span style="margin:0 6px;">&#8250;</span>
+      <span class="hb-bc-sep">&#8250;</span>
       <span style="color:#333;">Luxury Appliance Repair, Los Angeles</span>
     </div>
   </nav>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. provides luxury appliance repair in Los Angeles, servicing premium brands in Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach. In these four cities we service premium brands only: Sub-Zero, Viking, Wolf, Miele, Thermador, Dacor, DCS, and the Bosch premium lines. Work covers built-in refrigeration columns, professional ranges, rangetops and cooktops, wall ovens, panel-ready dishwashers, wine coolers, and freezers. Orange County remains our primary service area. We have a technician based in Los Angeles, so same-day appointments in these four cities are available when that schedule is open, and next-available otherwise, usually within a day or two. The diagnostic fee is a flat $99, credited toward the repair. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
-  </div>
-
-  <!-- PREMIUM CITIES -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-page">Where Our Premium Service Runs</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:720px;">These four cities share something that matters more than a ZIP code: the kitchens are built around integrated, professional-grade appliances that a general repair call is not equipped for. A panel-ready Sub-Zero column or a Wolf dual-fuel range needs a technician who has pulled one before. We have a technician based in Los Angeles covering all four.</p>
-      <div class="neighborhoods-grid">
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Beverly Hills</div>
-          <div class="neighborhood-zip">The Flats &middot; Trousdale Estates &middot; hillside Sunset</div>
-          <div class="neighborhood-note">From the Flats north of Santa Monica Boulevard up into Trousdale Estates and the hillside streets above Sunset. Full Sub-Zero and Wolf suites are the norm here, often installed as a matched set during a remodel, which means a single failed control board can take out a column and a wine cooler at once. <a href="luxury-appliance-repair-beverly-hills-ca.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Beverly Hills appliance repair &rarr;</a></div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Santa Monica</div>
-          <div class="neighborhood-zip">North of Montana &middot; Ocean Park &middot; Sunset Park</div>
-          <div class="neighborhood-note">North of Montana, Ocean Park, Sunset Park, and the Wilshire-Montana corridor. Ocean air is hard on condensers and on stainless trim, so we see more coil fouling and more corrosion-related refrigeration faults here than anywhere else on this list. <a href="luxury-appliance-repair-santa-monica-ca.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Santa Monica appliance repair &rarr;</a></div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Pasadena</div>
-          <div class="neighborhood-zip">Bungalow Heaven &middot; Madison Heights &middot; Oak Knoll</div>
-          <div class="neighborhood-note">Bungalow Heaven, Madison Heights, Oak Knoll, and the Linda Vista side of the Arroyo. Older homes with beautifully remodeled kitchens, which usually means a professional range dropped into a tight historic alcove. Access and clearance are half the job before a wrench comes out. <a href="luxury-appliance-repair-pasadena-ca.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Pasadena appliance repair &rarr;</a></div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Manhattan Beach</div>
-          <div class="neighborhood-zip">Sand &middot; Tree &middot; Hill &middot; Dune Sections</div>
-          <div class="neighborhood-note">The Sand Section, the Tree Section, the Hill Section, and the Dune Section. Newer construction on narrow lots, with galley kitchens where the built-in refrigerator sits flush between cabinet runs and has to come straight out without touching the millwork. <a href="luxury-appliance-repair-manhattan-beach-ca.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Manhattan Beach appliance repair &rarr;</a></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BRANDS -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Premium Brands We Service</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">These are the brands we take in Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach. Open any one to see the faults we see most often on it, the parts involved, and how the repair usually goes.</p>
-      <div class="brands-group">
-        <div class="brands-list">
-          <a href="sub-zero-appliance-repair-orange-county.html" class="brand-pill premium">Sub-Zero</a>
-          <a href="viking-appliance-repair-orange-county.html" class="brand-pill premium">Viking</a>
-          <a href="wolf-appliance-repair-orange-county.html" class="brand-pill premium">Wolf</a>
-          <a href="miele-appliance-repair-orange-county.html" class="brand-pill premium">Miele</a>
-          <a href="thermador-appliance-repair-orange-county.html" class="brand-pill premium">Thermador</a>
-          <a href="dacor-appliance-repair-orange-county.html" class="brand-pill premium">Dacor</a>
-          <a href="dcs-appliance-repair-orange-county.html" class="brand-pill premium">DCS</a>
-          <a href="bosch-appliance-repair-orange-county.html" class="brand-pill premium">Bosch Premium</a>
-        </div>
-      </div>
-      <p class="scope-note">These four cities are <strong>premium-brand only</strong>. If your appliance is one of these, the diagnostic is a flat <strong>$99</strong> credited toward the repair, and same-day is often open. With Bosch we take the premium built-in lines, Benchmark included, so if you're not sure which Bosch you have, read us the model number and we'll check it with you. If it's a Whirlpool, LG, or Samsung, we'll tell you on the phone rather than after a visit.</p>
-      <p style="font-size:13px;color:#666;margin-top:24px;line-height:1.7;text-align:center;max-width:680px;margin-left:auto;margin-right:auto;">We service these brands and make no claim of factory authorization. If your appliance is still under manufacturer warranty, call the brand first, because authorized warranty work should cost you nothing.</p>
-    </div>
-  </section>
-
-  <!-- COMMON SYMPTOMS -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Faults We See on Premium Appliances</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:640px;text-align:center;margin:12px auto 0;">Professional-grade appliances fail differently than mass-market ones. These are the calls that come in most often.</p>
-      <div class="symptoms-list">
-        <div class="symptom-item">Sub-Zero fresh-food side running warm while the freezer stays cold</div>
-        <div class="symptom-item">Built-in refrigerator icing up behind the rear panel</div>
-        <div class="symptom-item">Condenser fouled with dust or coastal salt film, unit running constantly</div>
-        <div class="symptom-item">Viking burner clicking but not lighting, or lighting then dropping out</div>
-        <div class="symptom-item">Wolf oven not holding temperature or drifting well off setpoint</div>
-        <div class="symptom-item">Wolf or Dacor convection fan grinding, rattling, or dead</div>
-        <div class="symptom-item">Thermador cooktop igniter still sparking after the flame is lit</div>
-        <div class="symptom-item">Miele dishwasher stopping mid-cycle with water in the tub</div>
-        <div class="symptom-item">Panel-ready dishwasher door sagging or out of alignment with the cabinet</div>
-        <div class="symptom-item">Oven door hinge springs failed, door heavy or hanging open</div>
-        <div class="symptom-item">Dual-zone wine cooler holding one zone but not the other</div>
-        <div class="symptom-item">Built-in ice maker producing nothing or dropping hollow cubes</div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+      <div class="expect-brands" role="group" aria-labelledby="expect-brands-label">
+        <p class="expect-brands-label" id="expect-brands-label">Brands we repair</p>
+        <ul class="expect-brands-list">
+          <li><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/wolf.svg" alt="Wolf" width="70" height="18" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/miele.svg" alt="Miele" width="65" height="16" loading="eager" decoding="async"></li>
+        </ul>
+        <p class="expect-brands-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
       </div>
     </div>
   </section>
 
   <!-- RECENT JOB PHOTOS -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container">
       <h2 class="h2-page" style="text-align:center;">Premium-Brand Work We Have Completed</h2>
       <p style="text-align:center;color:var(--text-sub);font-size:13px;margin-top:8px;margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Viking and Dacor repairs our technicians completed in Los Angeles County. Every photo is our own work, labeled with the city it was actually taken in. We are building the same record in Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach, and we will show those jobs here as they happen.</p>
@@ -731,6 +681,80 @@
         </div>
       </div>
       <p style="text-align:center;margin-top:24px;"><a href="recent-repairs.html" class="job-see-all">See all recent repairs <span aria-hidden="true">&rarr;</span></a></p>
+    </div>
+  </section>
+
+  <!-- PREMIUM CITIES -->
+  <section class="section section-gray">
+    <div class="container-lg">
+      <h2 class="h2-page">Where Our Premium Service Runs</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:720px;">These four cities share something that matters more than a ZIP code: the kitchens are built around integrated, professional-grade appliances that a general repair call is not equipped for. A panel-ready Sub-Zero column or a Wolf dual-fuel range needs a technician who has pulled one before. We have a technician based in Los Angeles covering all four.</p>
+      <div class="neighborhoods-grid">
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Beverly Hills</div>
+          <div class="neighborhood-zip">The Flats &middot; Trousdale Estates &middot; hillside Sunset</div>
+          <div class="neighborhood-note">From the Flats north of Santa Monica Boulevard up into Trousdale Estates and the hillside streets above Sunset. Full Sub-Zero and Wolf suites are the norm here, often installed as a matched set during a remodel, which means a single failed control board can take out a column and a wine cooler at once. <a href="luxury-appliance-repair-beverly-hills-ca.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Beverly Hills appliance repair &rarr;</a></div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Santa Monica</div>
+          <div class="neighborhood-zip">North of Montana &middot; Ocean Park &middot; Sunset Park</div>
+          <div class="neighborhood-note">North of Montana, Ocean Park, Sunset Park, and the Wilshire-Montana corridor. Ocean air is hard on condensers and on stainless trim, so we see more coil fouling and more corrosion-related refrigeration faults here than anywhere else on this list. <a href="luxury-appliance-repair-santa-monica-ca.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Santa Monica appliance repair &rarr;</a></div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Pasadena</div>
+          <div class="neighborhood-zip">Bungalow Heaven &middot; Madison Heights &middot; Oak Knoll</div>
+          <div class="neighborhood-note">Bungalow Heaven, Madison Heights, Oak Knoll, and the Linda Vista side of the Arroyo. Older homes with beautifully remodeled kitchens, which usually means a professional range dropped into a tight historic alcove. Access and clearance are half the job before a wrench comes out. <a href="luxury-appliance-repair-pasadena-ca.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Pasadena appliance repair &rarr;</a></div>
+        </div>
+        <div class="neighborhood-card">
+          <div class="neighborhood-name">Manhattan Beach</div>
+          <div class="neighborhood-zip">Sand &middot; Tree &middot; Hill &middot; Dune Sections</div>
+          <div class="neighborhood-note">The Sand Section, the Tree Section, the Hill Section, and the Dune Section. Newer construction on narrow lots, with galley kitchens where the built-in refrigerator sits flush between cabinet runs and has to come straight out without touching the millwork. <a href="luxury-appliance-repair-manhattan-beach-ca.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Manhattan Beach appliance repair &rarr;</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <section class="section section-white">
+    <div class="container-lg">
+      <h2 class="h2-page" style="text-align:center;">Premium Brands We Service</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">These are the brands we take in Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach. Open any one to see the faults we see most often on it, the parts involved, and how the repair usually goes.</p>
+      <div class="brands-group">
+        <div class="brands-list">
+          <a href="sub-zero-appliance-repair-orange-county.html" class="brand-pill premium">Sub-Zero</a>
+          <a href="viking-appliance-repair-orange-county.html" class="brand-pill premium">Viking</a>
+          <a href="wolf-appliance-repair-orange-county.html" class="brand-pill premium">Wolf</a>
+          <a href="miele-appliance-repair-orange-county.html" class="brand-pill premium">Miele</a>
+          <a href="thermador-appliance-repair-orange-county.html" class="brand-pill premium">Thermador</a>
+          <a href="dacor-appliance-repair-orange-county.html" class="brand-pill premium">Dacor</a>
+          <a href="dcs-appliance-repair-orange-county.html" class="brand-pill premium">DCS</a>
+          <a href="bosch-appliance-repair-orange-county.html" class="brand-pill premium">Bosch Premium</a>
+        </div>
+      </div>
+      <p class="scope-note">These four cities are <strong>premium-brand only</strong>. If your appliance is one of these, the diagnostic is a flat <strong>$99</strong> credited toward the repair, and same-day is often open. With Bosch we take the premium built-in lines, Benchmark included, so if you're not sure which Bosch you have, read us the model number and we'll check it with you. If it's a Whirlpool, LG, or Samsung, we'll tell you on the phone rather than after a visit.</p>
+      <p style="font-size:13px;color:#666;margin-top:24px;line-height:1.7;text-align:center;max-width:680px;margin-left:auto;margin-right:auto;">We service these brands and make no claim of factory authorization. If your appliance is still under manufacturer warranty, call the brand first, because authorized warranty work should cost you nothing.</p>
+    </div>
+  </section>
+
+  <!-- COMMON SYMPTOMS -->
+  <section class="section section-gray">
+    <div class="container-lg">
+      <h2 class="h2-page" style="text-align:center;">Faults We See on Premium Appliances</h2>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:640px;text-align:center;margin:12px auto 0;">Professional-grade appliances fail differently than mass-market ones. These are the calls that come in most often.</p>
+      <div class="symptoms-list">
+        <div class="symptom-item">Sub-Zero fresh-food side running warm while the freezer stays cold</div>
+        <div class="symptom-item">Built-in refrigerator icing up behind the rear panel</div>
+        <div class="symptom-item">Condenser fouled with dust or coastal salt film, unit running constantly</div>
+        <div class="symptom-item">Viking burner clicking but not lighting, or lighting then dropping out</div>
+        <div class="symptom-item">Wolf oven not holding temperature or drifting well off setpoint</div>
+        <div class="symptom-item">Wolf or Dacor convection fan grinding, rattling, or dead</div>
+        <div class="symptom-item">Thermador cooktop igniter still sparking after the flame is lit</div>
+        <div class="symptom-item">Miele dishwasher stopping mid-cycle with water in the tub</div>
+        <div class="symptom-item">Panel-ready dishwasher door sagging or out of alignment with the cabinet</div>
+        <div class="symptom-item">Oven door hinge springs failed, door heavy or hanging open</div>
+        <div class="symptom-item">Dual-zone wine cooler holding one zone but not the other</div>
+        <div class="symptom-item">Built-in ice maker producing nothing or dropping hollow cubes</div>
+      </div>
     </div>
   </section>
 
@@ -803,7 +827,7 @@
   -->
 
   <!-- PRICING -->
-  <section class="section section-gray" style="padding-bottom:40px;">
+  <section class="section section-gray" style="display:flow-root;padding-bottom:40px;">
     <div class="container">
       <h2 class="h2-page" style="text-align:center;">Premium Los Angeles Pricing</h2>
       <p style="font-size:14px;color:#666;line-height:1.7;max-width:660px;text-align:center;margin:12px auto 0;">In Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach we service premium brands only, and the diagnostic fee is a flat $99, the same rate as Orange County, credited toward your repair if you proceed. Most premium-brand repairs land between $250 and $900. Viking igniter and burner work usually runs $200 to $600, while sealed-system refrigeration work on a Sub-Zero built-in runs $1,200 to $2,500.</p>
@@ -814,8 +838,17 @@
     </div>
   </section>
 
+  <!-- SERVICE AREA -->
+  <section class="section section-white service-area" aria-labelledby="service-area-title">
+    <div class="container">
+      <h2 id="service-area-title">Luxury appliance repair across Los Angeles</h2>
+      <p>Universal Appliances Repair Group Inc. provides luxury appliance repair in Los Angeles, servicing premium brands in <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>, <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>, <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>, and <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>. We repair built-in refrigeration columns, professional ranges, rangetops and cooktops, wall ovens, panel-ready dishwashers, wine coolers, and freezers, and in these four cities we service premium brands only.</p>
+      <p>With a technician based in Los Angeles, same-day service in these four cities is available when that schedule is open, and next-available otherwise, usually within a day or two. The flat $99 diagnostic fee is credited toward the repair. Orange County remains our primary service area. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
+    </div>
+  </section>
+
   <!-- FAQ -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">FAQ: Luxury Appliance Repair in Los Angeles</h2>
       <div class="faq-list">
@@ -865,7 +898,7 @@
   </section>
 
   <!-- CTA -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container">
       <div class="cta-box">
         <h2>Premium Appliance Trouble in Los Angeles?</h2>
