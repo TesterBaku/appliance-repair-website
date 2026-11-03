@@ -22,8 +22,8 @@ Before writing anything, read:
 
 ### 1. Pick the right template
 - **Article**: copy structure from `articles/article-fridge-maintenance.html`
-- **Service hub** (e.g., refrigerator-repair-orange-county): copy from an existing hub page once one exists; otherwise build from `.claude/skills/seo-content/SKILL.md` schema templates
-- **City page**: copy from an existing city page once one exists; otherwise build from the seo-content skill
+- **Service hub** (e.g., refrigerator-repair-orange-county): copy from a redesigned hub of the same type (one carrying `class="expect-strip"`), never from `pages/services.html`; the `hub-redesign` check in `npm test` fails a hub without the strip
+- **City page**: copy from a redesigned city hub (one carrying `class="expect-strip"`, e.g. `pages/appliance-repair-long-beach-ca.html`); the AI answer block goes in a `.service-area` section before the FAQ
 - **Page**: copy from the most similar existing `pages/*.html`
 
 ### 2. Required content blocks

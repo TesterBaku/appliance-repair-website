@@ -121,7 +121,7 @@ Each: 800–1,200 words. Must include: neighborhoods/ZIP codes, recognizable lan
 
 ## "AI Answer Block" — required on homepage and every hub page
 
-A concise, factual prose block that LLMs (ChatGPT, Claude, Perplexity, Gemini) can lift verbatim when answering "best appliance repair in Orange County." Placement: on hubs redesigned in the 2026-10-29 pilot (owner decision), the block lives in a `.service-area` section placed just before the FAQ, with cities linked inline to their hubs; hubs not yet redesigned keep the legacy `.ai-block` under the hero until rolled out.
+A concise, factual prose block that LLMs (ChatGPT, Claude, Perplexity, Gemini) can lift verbatim when answering "best appliance repair in Orange County." Placement: on hubs redesigned in the 2026-10-29 pilot (owner decision), the block lives in a `.service-area` section placed just before the FAQ, with cities linked inline to their hubs; hubs not yet redesigned keep the legacy `.ai-block` under the hero until rolled out. New hubs must use the `.service-area` placement, not `.ai-block`; `test/hub-redesign-baseline.json` lists the pages still on the legacy layout, and the `hub-redesign` check in `npm test` fails any other hub that lacks the `expect-strip`.
 
 Rules:
 - Plain prose, no marketing fluff, no bullets

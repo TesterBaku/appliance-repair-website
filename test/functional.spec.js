@@ -3769,6 +3769,7 @@ const REVIEWS_CAP_PAGES = {
   'appliance-repair-riverside-ca': 3,
   'appliance-repair-palm-springs-ca': 3,
   'appliance-repair-chino-hills-ca': 3,
+  'appliance-repair-pico-rivera-ca': 3,
 };
 for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
   const capped = total >= 4 || slug === 'sub-zero-appliance-repair-orange-county';

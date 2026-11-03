@@ -131,9 +131,6 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
 .expect-brands-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 .expect-brands-list li { display: flex; align-items: center; }
 .expect-brands-list img { display: block; height: auto; max-width: 100%; filter: grayscale(1); opacity: .62; }
-/* One brand on a brand-specific hub: the logo is drawn larger (width/height attributes) and a
-   little darker, because Wolf and Sub-Zero were near-illegible at the multi-logo sizes. */
-.expect-brands--single .expect-brands-list img { opacity: .8; }
 .expect-brands-note { margin: 10px 0 0; font-size: 13px; line-height: 1.45; color: var(--text-soft); }
 .nb { white-space: nowrap; }
 @media (max-width: 768px) {

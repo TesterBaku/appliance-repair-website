@@ -141,9 +141,9 @@ Examples:
 **Goal:** Build the hub page to spec, with all required schemas and the approved outline.
 
 ### Reference template
-- For service hubs: copy structure from `pages/services.html` for nav/footer, then expand the body using the proposal outline.
-- For city hubs: copy from the same file. Both types share the nav/footer/style.
-- Once the first hub page of each type ships, **subsequent hub pages of that type should copy from the most recent one** rather than from `services.html` — they'll have already absorbed the patterns.
+- Copy from the most recent redesigned hub of the same type: a hub whose HTML carries `class="expect-strip"` (for example `pages/appliance-repair-long-beach-ca.html` for city hubs; for a brand hub, copy a redesigned brand hub once one exists and drop its logo block). Never copy from `pages/services.html`; it is not a hub and is on the legacy layout.
+- Then expand the body using the proposal outline. The nav/footer are partials; do not hand-edit them.
+- `npm test` runs the `hub-redesign` ratchet in `test/content-integrity.js`: any tracked page with `class="hub-hero"` but no `class="expect-strip"` fails unless it is listed in `test/hub-redesign-baseline.json`. A new hub must never be added to that baseline.
 
 ### Required `<head>` (production URLs only)
 ```html
@@ -191,18 +191,8 @@ Use the schema templates in `.claude/skills/seo-content/SKILL.md` as the source 
 ### Required content sections (in order)
 
 1. **Hero** — full-width image, H1 (primary keyword), sub-line, primary CTA (Call) + secondary CTA (Book online)
-2. **AI answer block** — plain prose, 60–110 words, names entity / services / area / phone / booking. Use the template in `.claude/skills/seo-content/SKILL.md`, adapted:
-   - **Service hub:** lead with the appliance ("Universal Appliances Repair Group Inc. provides [appliance] repair across Orange County…")
-   - **City hub:** lead with the city ("Universal Appliances Repair Group Inc. serves [city], CA, including [neighborhoods]…")
-3. **[Service hub]** Common symptoms (8+ bulleted symptoms) → **[City hub]** Neighborhoods served (list with ZIPs)
-4. **Brands serviced** (service hub) OR **Services we offer** (city hub) — plain text list, not images
-5. **Repair process** — 3–5 numbered steps from booking to done
-6. **What this typically costs** — *only if cost content is approved for this run* (default: skip per `.claude/skills/seo-content/SKILL.md`)
-7. **FAQ section** — minimum count per type:
-   - Service hub: **8+** FAQs
-   - City hub: **5+** FAQs
-   - Each Q&A becomes a `mainEntity` in FAQPage schema
-8. **Testimonials** — **3 real reviews** pulled from `data/testimonials.json`. Follow the full selection algorithm in `.claude/skills/testimonial-selection/SKILL.md`:
+2. **What to expect strip** (`<section class="expect-strip">`) directly under the hero and breadcrumb, copied from the reference hub. City hubs and service hubs keep the multi-brand logo strip; brand hub pages carry no brand-logo block at all (no "Brands we repair" label, no logos, no trademark note), so their strip ends at the `.expect-trust` line (owner decision 2026-11-02).
+3. **Testimonials** (placed directly under the strip, using the shared `.reviews-cap` pattern) — **3 real reviews** pulled from `data/testimonials.json`. Follow the full selection algorithm in `.claude/skills/testimonial-selection/SKILL.md`:
    - Filter to `bodyStatus: "complete"` entries only
    - Prefer reviews whose `appliance` field matches the hub type (service hub); any appliance is fine for city hubs
    - Apply the ≤2-overlap rule against `tasks/testimonial-usage.md` before picking
@@ -212,7 +202,18 @@ Use the schema templates in `.claude/skills/seo-content/SKILL.md` as the source 
    - After the hub ships, update `tasks/testimonial-usage.md` with the reviews used
    - **Never** fabricate testimonials. If the pool can't supply 3 qualifying reviews, render fewer and note the shortfall in the PR description.
    - **Standard count is 3.** This is the canonical supply-sustainable default across all secondary city hubs.
-9. **CTA box** — same pattern as articles: "Need [appliance] repair in [Orange County | city]? Call (949) 629-5365 or book online."
+4. **[Service hub]** Common symptoms (8+ bulleted symptoms) → **[City hub]** Neighborhoods served (list with ZIPs)
+5. **Brands serviced** (service hub) OR **Services we offer** (city hub) — plain text list, not images
+6. **Repair process** — 3–5 numbered steps from booking to done
+7. **What this typically costs** — *only if cost content is approved for this run* (default: skip per `.claude/skills/seo-content/SKILL.md`)
+8. **AI answer block** as a `.service-area` section placed just before the FAQ (never the legacy `.ai-block` under the hero). Same rules: plain prose, 60–110 words, names entity / services / area / phone / booking, cities linked inline to their existing hubs. Use the template in `.claude/skills/seo-content/SKILL.md`, adapted:
+   - **Service hub:** lead with the appliance ("Universal Appliances Repair Group Inc. provides [appliance] repair across Orange County…")
+   - **City hub:** lead with the city ("Universal Appliances Repair Group Inc. serves [city], CA, including [neighborhoods]…")
+9. **FAQ section** — minimum count per type:
+   - Service hub: **8+** FAQs
+   - City hub: **5+** FAQs
+   - Each Q&A becomes a `mainEntity` in FAQPage schema
+10. **CTA box** — same pattern as articles: "Need [appliance] repair in [Orange County | city]? Call (949) 629-5365 or book online."
 
 ### Mobile compliance (required)
 Apply `.claude/skills/mobile-design/SKILL.md` in full:
