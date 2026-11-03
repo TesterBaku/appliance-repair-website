@@ -1,7 +1,7 @@
 /**
  * content-integrity.js — content/SEO regression guards
  *
- * Thirty enforced checks (EXIT 1 on any failure) plus one informational report
+ * Thirty-one enforced checks (EXIT 1 on any failure) plus one informational report
  * (title-length, never fails). Each enforced check exists because a real bug
  * shipped before it was added:
  *
@@ -437,6 +437,17 @@
  *                    real CSS parser/cascade. Stated explicitly rather than
  *                    left implicit; see the "KNOWN LIMITATION" note on the
  *                    check itself.
+ *
+ *   hub-redesign   — ratchet: every git-tracked .html page containing
+ *                    `class="hub-hero"` must also contain `class="expect-strip"`
+ *                    (the What to expect strip that marks the 2026-10 hub redesign),
+ *                    unless the page is listed in test/hub-redesign-baseline.json
+ *                    (repo-relative path -> short reason). The baseline can only
+ *                    shrink: a listed page that already carries the strip FAILS (prune
+ *                    it), and a listed path that does not exist FAILS. Added 2026-11-02
+ *                    so a new hub cloned from a stale template can no longer ship on the
+ *                    legacy layout unnoticed. Text scan of tracked files only, so a
+ *                    scratch .html in the tree is ignored.
  *
  *   img-dimensions — every `<img>` tag that declares BOTH `width` and `height` attributes
  *                    must have those attributes roughly match the image FILE's real decoded
@@ -4005,6 +4016,55 @@ if (run('testimonial-hub-cap')) {
   }
 }
 
+// ── Check 28: hub-redesign ───────────────────────────────────────────────────
+// See the docblock above. Every tracked page with a `hub-hero` must carry the
+// `expect-strip`, or be listed (with a reason) in test/hub-redesign-baseline.json.
+// The baseline only shrinks: it fails when a listed page has the strip, or does
+// not exist.
+if (run('hub-redesign')) {
+  checked['hub-redesign'] = { hubs: 0, baselined: 0 };
+
+  let tracked;
+  try {
+    tracked = require('child_process')
+      .execFileSync('git', ['ls-files', '*.html'], { cwd: root, encoding: 'utf8' })
+      .split('\n').map(l => l.trim()).filter(Boolean);
+  } catch (e) {
+    tracked = allHtml.map(rel);
+  }
+
+  const BASELINE_PATH = path.join(root, 'test', 'hub-redesign-baseline.json');
+  let baseline = {};
+  try {
+    baseline = JSON.parse(fs.readFileSync(BASELINE_PATH, 'utf8'));
+  } catch (e) {
+    issues.push(`[HUB-REDESIGN] cannot read test/hub-redesign-baseline.json: ${e.message}`);
+  }
+  checked['hub-redesign'].baselined = Object.keys(baseline).length;
+
+  const trackedSet = new Set(tracked);
+  for (const relPath of tracked) {
+    const abs = path.join(root, relPath);
+    if (!fs.existsSync(abs)) continue;
+    const content = fs.readFileSync(abs, 'utf8');
+    if (!content.includes('class="hub-hero"')) continue;
+    checked['hub-redesign'].hubs++;
+    const hasStrip = content.includes('class="expect-strip"');
+    const listed = Object.prototype.hasOwnProperty.call(baseline, relPath);
+    if (!hasStrip && !listed) {
+      issues.push(`[HUB-REDESIGN] ${relPath} has class="hub-hero" but no class="expect-strip" (legacy hub layout). Copy the new hub design from a redesigned hub (see .claude/commands/seo-hub.md), or, for a deliberate hold, add it to test/hub-redesign-baseline.json with a reason.`);
+    }
+    if (hasStrip && listed) {
+      issues.push(`[HUB-REDESIGN] ${relPath} already has class="expect-strip" but is still listed in test/hub-redesign-baseline.json. Remove it from the baseline.`);
+    }
+  }
+  for (const relPath of Object.keys(baseline)) {
+    if (!trackedSet.has(relPath) && !fs.existsSync(path.join(root, relPath))) {
+      issues.push(`[HUB-REDESIGN] ${relPath} is listed in test/hub-redesign-baseline.json but the file does not exist. Remove it from the baseline.`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -4085,5 +4145,6 @@ if (checked['testimonial-hub-cap']) {
   const c = checked['testimonial-hub-cap'];
   parts.push(`testimonial hub-cap + verbatim ratchet held on ${c.reviews} rendered reviews across ${c.hubFiles} hub pages (cap baseline covers ${c.capBaselineCount ?? 0}, verbatim baseline covers ${c.verbatimBaselineCount ?? 0}, see P6-49)`);
 }
+if (checked['hub-redesign'])         parts.push(`hub redesign ratchet held: ${checked['hub-redesign'].hubs} hub pages, ${checked['hub-redesign'].baselined} baselined as not yet redesigned`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
