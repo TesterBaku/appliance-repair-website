@@ -30,7 +30,9 @@ For GBP, choose **Update**, attach the processed JPEG and use **Learn more** wit
 
 Aspect ratio: all four photos are portrait (768x1024, 3:4, except Job 1 photo 3 at 1182x2048, 9:16). GBP's 720x720 recommendation is met on both sides. Instagram's feed may crop portrait images; the owner must preview the crop in the app and adjust manually if the subject is cut off (the exact feed aspect-ratio limits were not re-verified for this draft).
 
-## Policies checked
+## Platform policies (re-check before publishing)
+
+**Precondition for using this copy:** before publishing either post, open the current official Google Business Profile post content policy and Instagram's current hashtag guidance and confirm the rules below still hold. This draft was written against the skill's recorded verifications, not freshly fetched pages, so it has not been validated against today's rules.
 
 Per `.claude/skills/gbp-platform-policy/SKILL.md`: GBP posts are descriptive-only (brand, appliance, job type, city), no phone numbers in body text, no promotional claims, Learn more CTA to a published page, no photo captions. Instagram uses 3 to 5 hashtags (the cap is 5). These rules were taken from the skill's recorded verifications (GBP pages last re-read 2026-08-19, Instagram hashtag cap 2026-09-04); the platform pages were not re-fetched for this draft. Google's post guidelines name auto-generated text, so a human must read and adjust each GBP body before publishing. Yelp's guidelines prohibit AI drafting or revising content; no Yelp copy is included, and this draft text must not be pasted or adapted for Yelp: any Yelp text must be written by a human. No review solicitation anywhere.
 
@@ -79,6 +81,7 @@ KitchenAid refrigerator in Palm Springs, CA. Condenser fan motor replaced.
 ## Publication checklist
 
 - [x] Read platform policies via `.claude/skills/gbp-platform-policy/SKILL.md` (recorded verifications; pages not re-fetched today).
+- [ ] Before publishing: re-check the current official GBP post content policy and Instagram hashtag guidance, and adjust the copy if anything changed.
 - [x] Prepare the job drafts from owner-supplied facts only; no invented parts, causes, times or prices.
 - [ ] Confirm the image files exist in `images/real/business/` and are the processed, metadata-free JPEGs.
 - [ ] Verify the Learn more page is live on the deployed site.
