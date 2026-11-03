@@ -198,6 +198,8 @@ Use the schema templates in `.claude/skills/seo-content/SKILL.md` as the source 
      - Closing CTA box: no fee; one same-day line and the 90-day parts / 30-day labor warranty may stay as the closing reassurance (wrap `90-day` and `30-day` in `<span class="nb">`).
      - Pricing section: states the $99 once, in the paragraph, with any discount as a plain sentence there; the `.city-pricing-line` box holds only the estimate disclaimer and the pricing-guide link.
      - FAQ (visible and FAQPage JSON-LD): keeps its cost, warranty and same-day questions in full.
+     - How It Works steps and policy cards (e.g. a pricing-policy card listing the fee credit, multi-unit rate and discount): may name the fee or warranty where the step or policy explains it; these are not duplicates.
+     - Anywhere else (neighborhood copy, About text, brand sections): do not restate the fee or warranty.
 3. **Testimonials** (placed directly under the strip, using the shared `.reviews-cap` pattern) — **3 real reviews** pulled from `data/testimonials.json`. Follow the full selection algorithm in `.claude/skills/testimonial-selection/SKILL.md`:
    - Filter to `bodyStatus: "complete"` entries only
    - Prefer reviews whose `appliance` field matches the hub type (service hub); any appliance is fine for city hubs
