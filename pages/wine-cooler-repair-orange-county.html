@@ -231,8 +231,6 @@
     .btn-primary { display: inline-block; background: var(--brand-dark); color: var(--surface); font-size: 13px; font-weight: 600; padding: 12px 26px; border-radius: 8px; text-decoration: none; }
     .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.55); }
 
-    .ai-block { background: #f7fafc; border-top: 1px solid #eeeeee; border-bottom: 1px solid #eeeeee; padding: 28px 0; }
-    .ai-block p { font-size: 13.5px; color: #666; line-height: 1.85; max-width: 1100px; margin: 0 auto; padding: 0 24px; text-align: left; }
 
     .symptoms-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 32px; }
     .symptom-item { background: #fff; border-radius: 10px; padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
@@ -641,10 +639,73 @@
     </div>
   </div>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. provides wine cooler repair across Orange County, California, servicing thermoelectric and compressor-based units including Sub-Zero, EuroCave, Liebherr, U-Line, Vinotemp, Viking, KitchenAid, Perlick, Marvel, and all major brands. We repair wine coolers that are not cooling, running too warm, making noise, leaking, or displaying error codes. Serving Irvine, Newport Beach, Anaheim, Huntington Beach, Costa Mesa, and all of Orange County. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
-  </div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+      <div class="expect-brands" role="group" aria-labelledby="expect-brands-label">
+        <p class="expect-brands-label" id="expect-brands-label">Brands we repair</p>
+        <ul class="expect-brands-list">
+          <li><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/kitchenaid.svg" alt="KitchenAid" width="114" height="10" loading="eager" decoding="async"></li>
+          <li><img src="../images/brands/frigidaire.svg" alt="Frigidaire" width="107" height="13" loading="eager" decoding="async"></li>
+        </ul>
+        <p class="expect-brands-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-white">
+    <div class="container">
+      <h2 class="h2-standard" style="text-align:center;">What Our Customers Say</h2>
+      <p style="text-align:center;font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
+      <div class="testimonials-grid reviews-cap">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">AG was awesome! Fast and reliable! He explained everything to me and my machine is working excellent now. Thanks</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JO</div>
+          <div class="testimonial-name">Jovita Osorio · Appliance repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">Prompt, professional, clean, reasonably priced — would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure.</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">RD</div>
+          <div class="testimonial-name">Rick DeAngelo · Appliance repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">Very responsive, timely and professional. Price was reasonable. Would definitely use again.</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">CK</div>
+          <div class="testimonial-name">Cheryl Kirkpatrick · Appliance repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">On time, knowledgeable. Clean work and reliable.</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">NM</div>
+          <div class="testimonial-name">Naoki MacInnes · Appliance repair · Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div class="reviews-cap-more-row">
+        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
+      </div>
+      <div style="margin-top:10px;text-align:center;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
 
   <!-- JOB PHOTOS: Viking wine cooler brazing; Zephyr wine cooler fan -->
@@ -850,8 +911,17 @@
     </div>
   </section>
 
+  <!-- SERVICE AREA -->
+  <section class="section section-gray service-area" aria-labelledby="service-area-title">
+    <div class="container">
+      <h2 id="service-area-title">Wine cooler repair across Orange County</h2>
+      <p>Universal Appliances Repair Group Inc. provides wine cooler repair across Orange County, California, servicing thermoelectric and compressor-based units including Sub-Zero, EuroCave, Liebherr, U-Line, Vinotemp, Viking, KitchenAid, Perlick, Marvel, and all major brands. We repair wine coolers that are not cooling, running too warm, making noise, leaking, or displaying error codes.</p>
+      <p>Our technicians serve <a href="appliance-repair-irvine-ca.html">Irvine</a>, <a href="appliance-repair-newport-beach-ca.html">Newport Beach</a>, <a href="appliance-repair-anaheim-ca.html">Anaheim</a>, <a href="appliance-repair-huntington-beach-ca.html">Huntington Beach</a>, <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>, and all of Orange County, with same-day service available. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a> to schedule a wine cooler repair visit.</p>
+    </div>
+  </section>
+
   <!-- FAQ -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container">
       <h2 class="h2-standard" style="text-align:center;">Wine Cooler Repair: Frequently Asked Questions</h2>
       <div class="faq-list">
@@ -915,48 +985,6 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section section-white">
-    <div class="container">
-      <h2 class="h2-standard" style="text-align:center;">What Our Customers Say</h2>
-      <p style="text-align:center;font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
-      <div class="testimonials-grid">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">AG was awesome! Fast and reliable! He explained everything to me and my machine is working excellent now. Thanks</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JO</div>
-          <div class="testimonial-name">Jovita Osorio · Appliance repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">Prompt, professional, clean, reasonably priced — would definitely recommend him. I would give him more than five stars if I could. Will be using him in the future for sure.</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">RD</div>
-          <div class="testimonial-name">Rick DeAngelo · Appliance repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">Very responsive, timely and professional. Price was reasonable. Would definitely use again.</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">CK</div>
-          <div class="testimonial-name">Cheryl Kirkpatrick · Appliance repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">On time, knowledgeable. Clean work and reliable.</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">NM</div>
-          <div class="testimonial-name">Naoki MacInnes · Appliance repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-      </div>
-      <div style="margin-top:10px;text-align:center;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
-      </div>
-    </div>
-  </section>
-
   <!-- LATEST ARTICLES -->
   <section class="section section-gray">
     <div class="container">
@@ -969,7 +997,7 @@
   </section>
 
   <!-- CTA -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container">
       <div class="cta-box">
         <h2>Wine Cooler Not Cooling in Orange County?</h2>
