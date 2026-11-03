@@ -192,6 +192,14 @@ Use the schema templates in `.claude/skills/seo-content/SKILL.md` as the source 
 
 1. **Hero** — full-width image, H1 (primary keyword), sub-line, primary CTA (Call) + secondary CTA (Book online)
 2. **What to expect strip** (`<section class="expect-strip">`) directly under the hero and breadcrumb, copied from the reference hub. City hubs and service hubs keep the multi-brand logo strip; brand hub pages carry no brand-logo block at all (no "Brands we repair" label, no logos, no trademark note), so their strip ends at the `.expect-trust` line (owner decision 2026-11-02).
+   - **The strip is the canonical statement** of the flat $99 fee, the written quote, the warranty and same-day. Restating them elsewhere is limited per section (owner decision 2026-11-02):
+     - Hero sub-copy: no fee, no warranty; a same-day line is fine.
+     - `.service-area` block: no fee; same-day wording may stay (it is part of the AI answer); no warranty needed.
+     - Closing CTA box: no fee; one same-day line and the 90-day parts / 30-day labor warranty may stay as the closing reassurance (wrap `90-day` and `30-day` in `<span class="nb">`).
+     - Pricing section: states the $99 once, in the paragraph, with any discount as a plain sentence there; the `.city-pricing-line` box holds only the estimate disclaimer and the pricing-guide link.
+     - FAQ (visible and FAQPage JSON-LD): keeps its cost, warranty and same-day questions in full.
+     - How It Works steps and policy cards (e.g. a pricing-policy card listing the fee credit, multi-unit rate and discount): may name the fee or warranty where the step or policy explains it; these are not duplicates.
+     - Anywhere else (neighborhood copy, About text, brand sections): do not restate the fee or warranty.
 3. **Testimonials** (placed directly under the strip, using the shared `.reviews-cap` pattern) — **3 real reviews** pulled from `data/testimonials.json`. Follow the full selection algorithm in `.claude/skills/testimonial-selection/SKILL.md`:
    - Filter to `bodyStatus: "complete"` entries only
    - Prefer reviews whose `appliance` field matches the hub type (service hub); any appliance is fine for city hubs
