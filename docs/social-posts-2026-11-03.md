@@ -20,7 +20,7 @@ What the photos show, nothing more:
 - Job 1, photo 1: a stainless under-counter refrigerator door with its toe-kick grille removed and lying on the floor.
 - Job 1, photo 2: the Sub-Zero control panel, display reading 28 and 58, kick grille on the floor below. The copy does not interpret those readings.
 - Job 1, photo 3: the unit opened up, showing a copper-and-aluminum coil assembly with a fan beside it, wiring, screws and hand tools on the work surface. The photo does not show the leak, and the copy does not link anything visible to the repair.
-- Job 2: a panel-ready built-in refrigerator with its bottom freezer drawer open, in a kitchen beside a built-in wall oven. The oven is not named and the copy does not imply it was serviced.
+- Job 2: a panel-ready built-in refrigerator with its bottom drawer open, in a kitchen beside a built-in wall oven. The oven is not named and the copy does not imply it was serviced.
 
 Observed: no faces, addresses, documents or readable reflections (an observation, not an owner attestation; please confirm before posting). Job 2 shows food items in the open drawer, none identifiable.
 
