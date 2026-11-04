@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-10-24",
+    "lastUpdated": "2026-11-03",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 149,
-        "publishedCount": 149,
-        "capturedCount": 149,
+        "totalReviewsOnListing": 150,
+        "publishedCount": 150,
+        "capturedCount": 150,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-11-03",
+            "note": "TRACK A CAPTURE + TRACK B PUBLISH, same PR (one branch, content/dana-point-bosch-job-and-review-batch-2026-11-03, shared with the Dana Point Bosch job-photo import; no separate chore/review-capture branch was cut): one 5-star Google review transcribed from owner-supplied GBP dashboard screenshot 'new_review_related_with_the_job.png' (SHA-256 22D3736D194E7A462AF1D648CE6805CBEDD0BC6816F51C55C849550CC1566AA5), header 5.0 / 150 reviews, sorted Newest, NEW badge: Catherine Matiasevich ('4 hours ago', 32 words, Bosch dishwasher, no review photo). GBP listing total 149 to 150. capturedCount 149 to 150. publishedCount promoted 149 to 150 by 'npm run build:review-counts -- --publish'. The owner's pending reply to the review is shown in the screenshot and is not rendered anywhere. Catherine clears the quality floor under clause (b) (no photo, 32 words) and is carded on pages/testimonials.html (All 143 to 144). Hub placements by owner decision 2026-11-03: she replaces David Lindley on the Bosch hub (pages/bosch-appliance-repair-orange-county.html) and Katherine Bosboom on the dishwasher hub (pages/dishwasher-repair-orange-county.html), each in the removed card's slot; both hubs keep their card count. Row balance: Bosch hub 43 / 47 / 32 words (spread 1.47x), dishwasher hub row 2 24 / 36 / 32 words (Katherine's 6-word card, which was the thin one, is the card removed). David Lindley and Katherine Bosboom each drop one hub and keep their remaining placements. The new record accounts exactly for the 149 to 150 move in the screenshot header."
+          },
           {
             "date": "2026-10-24",
             "note": "TRACK A CAPTURE + TRACK B PUBLISH, same PR (one branch, content/review-batch-2026-10-24, covers both because both happen the same day; no separate chore/review-capture branch was cut): two 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshot 'Screenshot 2026-10-24 091758.png' (SHA-256 C7C133EDDA2E4FCBFF2BD2288DF7AA09A89F41005AFC6EA8B91E8684BF694B66), header 5.0 / 149 reviews, sorted Newest, both with the NEW badge: Brandy Blackmore ('3 days ago', 2 words, no photo, no appliance or brand) and Carol Spetzman ('5 days ago', 30 words, washer, two photos on her profile attached to this review). GBP listing total 147 to 149. capturedCount 147 to 149. publishedCount promoted 147 to 149 by 'npm run build:review-counts -- --publish'. Brandy Blackmore is below the quality floor (no photo, under 8 words, names no appliance or brand) and is captured for the count only; she is not carded anywhere. Carol Spetzman is quotable under clauses (a) and (b). Review photos: 'review_photo_1.webp' (SHA-256 EB9AA984837EDE002A301A9794E9189847EDE1C453565233CB5FAFD4736DE576) is used for Carol, resized proportionally (no crop) 1270x1119 to 768x677 webp at images/real/reviews/washer-carol-spetzman.webp; 'review_photo_2.webp' (SHA-256 F0738D26854FB7C738CE86779CFE6824D825127EA13DE30886C64946D2E06D1B, the same washer's control panel) is not used. The pool has no multi-photo precedent, so the first photo is the one carded. Placement by owner decision 2026-10-24: Carol is carded with her photo on pages/testimonials.html only, with no hub placement; no uncarded review in the pool clears the quality floor, so the card count is left at 143, one past a multiple of 3, per the testimonial-selection rule rather than padded. The two new records account exactly for the 147 to 149 move in the screenshot header."
@@ -2793,6 +2797,24 @@
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/washer-carol-spetzman.webp",
       "_note": "Source: owner-supplied GBP dashboard screenshot 'Screenshot 2026-10-24 091758.png' (SHA-256 C7C133EDDA2E4FCBFF2BD2288DF7AA09A89F41005AFC6EA8B91E8684BF694B66), header 5.0 / 149 reviews, sorted Newest, NEW badge, 5-star, shown '5 days ago' (screenshot taken 2026-10-24), reviewer Carol Spetzman has 1 review / 2 photos on the profile, both attached to this review. Body copied verbatim (30 words, no typos; the screenshot was zoomed to confirm 'knowledgeable'). Appliance recorded as washer ('fix my washer'). Brand recorded as null by owner decision 2026-10-24: the washer looks like a Kenmore front-loader but no wordmark is legible in either photo. Review photos: 'review_photo_1.webp' (SHA-256 EB9AA984837EDE002A301A9794E9189847EDE1C453565233CB5FAFD4736DE576, front-load washer with the door open and the drum visible), resized proportionally (no crop) 1270x1119 to 768x677 webp at images/real/reviews/washer-carol-spetzman.webp. Her second photo 'review_photo_2.webp' (SHA-256 F0738D26854FB7C738CE86779CFE6824D825127EA13DE30886C64946D2E06D1B, the same washer's control panel) was supplied but is NOT used. Quotable under quality-floor clauses (a) and (b). Metadata shown on the dashboard but not rendered per site convention: Reasonable price, $200-250, Repair wait time 0-1 hr. Location uses the Orange County default: no business job photo matches, so testimonial-selection Exception 2 does not apply. Placed in the 2026-10-24 batch on pages/testimonials.html only, with her photo (owner decision 2026-10-24); no hub placement, so she keeps a full 2-hub allowance."
+    },
+    {
+      "id": "google-catherine-matiasevich-2026-11",
+      "source": "google",
+      "name": "Catherine Matiasevich",
+      "location": "Orange County, CA",
+      "appliance": "dishwasher",
+      "brand": "Bosch",
+      "rating": 5,
+      "approxDate": "2026-11",
+      "dateText": "4 hours ago",
+      "isNew": true,
+      "body": "Ag was incredible! He came on time, knew exactly how to fix our Bosch dishwasher. He even cleaned out the drain that was causing the water to drain slowly. Would def recommend!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: owner-supplied GBP dashboard screenshot 'new_review_related_with_the_job.png' (SHA-256 22D3736D194E7A462AF1D648CE6805CBEDD0BC6816F51C55C849550CC1566AA5), header 5.0 / 150 reviews, sorted Newest, NEW badge, 5-star, shown '4 hours ago' (screenshot taken 2026-11-03), reviewer Catherine Matiasevich has 3 reviews / 0 photos on the profile; no photo is attached to this review. Body copied verbatim (32 words, no typos; informal 'Ag' and 'def' are displayed as written). Appliance recorded as dishwasher and brand as Bosch ('our Bosch dishwasher'). Quotable under quality-floor clause (b). The owner's reply to the review was pending in the screenshot and is not rendered anywhere. Owner (Rufat Malikov) states on 2026-11-03 that this review relates to the Dana Point Bosch dishwasher drain pump job (images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point.jpg). The location label nevertheless stays 'Orange County, CA': the review text names no city and the reviewer attached no photo, so testimonial-selection Exception 2 (a job photo that matches the reviewer's own photo, plus a named, dated attestation) cannot be met, and the owner's statement alone is one source wearing two hats. Placed in the 2026-11-03 batch on pages/testimonials.html and on two hubs, the Bosch brand hub (replacing David Lindley) and the dishwasher service hub (replacing Katherine Bosboom), both OC hubs so the card carries the Orange County, CA label."
     }
   ]
 }

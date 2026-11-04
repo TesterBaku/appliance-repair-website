@@ -59,6 +59,17 @@
       .hb-bc-sep { margin: 0 4px; }
     }
 
+    .local-jobs { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: stretch; margin-top: 32px; }
+    .local-job { background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); flex: 1 1 280px; max-width: 360px; display: flex; flex-direction: column; }
+    .local-job-photo { height: 320px; background: var(--bg); display: flex; align-items: center; justify-content: center; }
+    .local-job-photo picture { display: contents; }
+    .local-job-photo img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; }
+    .local-job-body { padding: 16px 18px 20px; }
+    .local-job-pill { display: inline-block; font-size: 10px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .local-job-title { font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.35; margin: 0 0 6px; }
+    .local-job-caption { font-size: 12.5px; color: var(--text-sub); line-height: 1.65; margin: 0; }
+    .tap-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--brand-text); font-weight: 600; text-decoration: none; }
+
     .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
     .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
     .neighborhood-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
@@ -146,6 +157,7 @@
       div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .cta-box { padding: 36px 24px; }
+      .local-job { max-width: none; flex-basis: 100%; }
       .cta-box h2 { font-size: 22px; }
     }
     @media (max-width: 480px) {
@@ -231,7 +243,7 @@
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "149",
+      "reviewCount": "150",
       "bestRating": "5"
     }
   }
@@ -606,9 +618,9 @@
       <h1>Appliance Repair in<br/>Dana Point, CA</h1>
       <p>Serving Monarch Beach, the Lantern District, Niguel Shores, Capistrano Beach, and the harbor. Same-day service. Licensed and insured.</p>
       <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 149 Google reviews, rated 5 out of 5">
+        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 150 Google reviews, rated 5 out of 5">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 149 Google reviews</span>
+          <span>5.0 &middot; 150 Google reviews</span>
         </a>
       </div>
       <div class="hub-cta-row">
@@ -664,7 +676,7 @@
   <section class="section section-white" style="text-align:center;">
     <div class="container">
       <h2 class="h2-page" style="text-align:center;">What Our Customers Say</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 149 verified 5-star Google reviews</p>
+      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 150 verified 5-star Google reviews</p>
       <div class="testimonials-grid reviews-cap">
 
         <div class="testimonial-card">
@@ -694,7 +706,7 @@
         <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
       </div>
       <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 149 reviews &rarr;</a>
+        <a class="reviews-all-link" href="testimonials.html">Read all 150 reviews &rarr;</a>
       </div>
     </div>
   </section>
@@ -881,8 +893,36 @@
     </div>
   </section>
 
+  <!-- RECENT REPAIR -->
+  <section class="section section-gray">
+    <div class="container">
+      <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Recent Repair in Dana Point</h2>
+      <p style="text-align:center;font-size:13.5px;color:#666;line-height:1.7;max-width:640px;margin:0 auto;">A Bosch dishwasher in Dana Point that was not draining: the drain pump was replaced.</p>
+      <div class="local-jobs">
+
+        <div class="local-job" id="job-bosch-dishwasher-drain-pump-dana-point">
+          <div class="local-job-photo">
+            <picture>
+              <source srcset="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point.webp 768w" type="image/webp" sizes="240px">
+              <img src="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point.jpg" alt="Open Bosch dishwasher in a Dana Point kitchen with the upper and lower racks in place under a veined stone-look countertop" width="768" height="1024" loading="lazy">
+            </picture>
+          </div>
+          <div class="local-job-body">
+            <span class="local-job-pill">Dana Point, CA</span>
+            <h3 class="local-job-title">Bosch Dishwasher Drain Pump Replacement</h3>
+            <p class="local-job-caption">From the Bosch dishwasher drain pump replacement in Dana Point: the dishwasher door open with the upper and lower racks in place under a veined countertop, and the Bosch control strip on the door.</p>
+          </div>
+        </div>
+
+      </div>
+      <div style="text-align:center;margin-top:20px;">
+        <a href="recent-repairs.html?city=dana-point" class="tap-link">See this repair in the gallery &rarr;</a>
+      </div>
+    </div>
+  </section>
+
   <!-- SERVICE AREA -->
-  <section class="section section-gray service-area" aria-labelledby="service-area-title">
+  <section class="section section-white service-area" aria-labelledby="service-area-title">
     <div class="container">
       <h2 id="service-area-title">Appliance repair across Dana Point</h2>
       <p>Universal Appliances Repair Group Inc. provides appliance repair in Dana Point, CA, for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, garbage disposals, and wine coolers. We cover Capistrano Beach, Monarch Beach, the Lantern District, Niguel Shores, and the Dana Point Harbor area, across ZIP codes 92629 and 92624.</p>
@@ -891,7 +931,7 @@
   </section>
 
   <!-- FAQ -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">FAQ: Dana Point Appliance Repair</h2>
       <div class="faq-list">
@@ -931,7 +971,7 @@
   </section>
 
   <!-- CTA -->
-  <section class="section section-white" style="padding-top:0;">
+  <section class="section section-gray" style="padding-top:0;">
     <div class="container">
       <div class="cta-box">
         <h2>Need Appliance Repair in Dana Point?</h2>
