@@ -140,8 +140,10 @@ Reporting detector output under the word "critique" is under-running the gate, n
 ### Which one this PR needs
 
 **The full `/impeccable critique`, with its `/40` score in the PR description. Always.** Every PR
-that touches an `.html` or `.css` file, with no exceptions and no size threshold. `detect.mjs` on
+that touches an `.html` or `.css` file, with no size threshold and one page-level exception only (review-count-sync pages, below). `detect.mjs` on
 its own is never a substitute, however small or invisible the diff looks.
+
+**One owner-defined page-level exception (2026-11-03, PR #940): pages changed only by the review-count sync.** It narrows the "every PR, no exceptions" wording around it to exactly this case. A changed page needs no critique of its own only when both tests pass, and the reviewer re-runs them rather than taking the PR's word: (1) `node scripts/build/sync-review-counts.js --check` exits 0 on the branch (it also runs inside `npm test`); (2) `git diff -U0 master...HEAD -- <page>` shows nothing but a review-count number changing, on a surface `scripts/build/sync-review-counts.js` writes, to the value of `_meta.sources.google.publishedCount` in `data/testimonials.json`. Any other changed character on the page, including a word, punctuation, markup or the sentence around the number, puts that page back in scope. The PR must still critique every page with any other change, plus **one representative count-only page from the same diff** (`index.html` by default), run after the last edit, and its description must name the exemption, the sample and the sample's score. It exempts pages, never a PR: a review batch still runs the full critique. Nothing else qualifies, however small. (Also recorded in AGENTS.md, "Standing Rule — Impeccable for UI/UX Work".)
 
 **The detector-only tier was removed on 2026-08-20 by owner decision**, after PR #759 tried to claim
 it for a one-line `<link rel="preload">` added to `<head>`, arguing the tag has no rendered surface.
@@ -152,7 +154,8 @@ plausible-sounding test ("does it render?") for the written one ("is it a new el
 in the same place as P6-31's 15 mislabelled PRs — the required gate does not run — but behind a
 sentence that reads as reasonable. A tier whose boundary has to be argued will be argued, and the
 arguing reliably runs one direction: toward the cheaper tool. So the boundary is gone. There is one
-tool, and you run it.
+tool, and you run it. (The 2026-11-03 review-count exception above is not a tier: it is a page-level
+carve-out with a re-runnable test, and it never exempts a PR.)
 
 **Two duties the critique does not discharge for you either. Both still apply, every time:**
 

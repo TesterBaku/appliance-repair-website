@@ -41,17 +41,18 @@ If either test fails, the PR is an automatic **FAIL** — do not proceed with th
 ### Step 3b — Run the impeccable gate (UI/UX PRs only)
 **Trigger:** the diff touches any `.html` or `.css` file.
 
-**First, check the author actually ran the critique and reported it honestly.** `/impeccable critique` and `node .agents/skills/impeccable/scripts/detect.mjs` are different: critique is the LLM-driven gate that emits the `??/40` score and runs the detector internally as its Assessment B; the detector alone is the mechanical scanner. Per `.claude/skills/git-workflow/SKILL.md`, the **full critique is required on every PR touching `.html` or `.css`**, with no exceptions and no lighter tier — the copy-only detector exemption was retired 2026-08-20 by owner decision. A degraded critique (a report carrying a `⚠️ DEGRADED: single-context` banner) does not satisfy the gate either.
+**First, check the author actually ran the critique and reported it honestly.** `/impeccable critique` and `node .agents/skills/impeccable/scripts/detect.mjs` are different: critique is the LLM-driven gate that emits the `??/40` score and runs the detector internally as its Assessment B; the detector alone is the mechanical scanner. Per `.claude/skills/git-workflow/SKILL.md`, the **full critique is required on every PR touching `.html` or `.css`**, with no lighter tier and one page-level exception only (review-count-sync pages, below) — the copy-only detector exemption was retired 2026-08-20 by owner decision. A degraded critique (a report carrying a `⚠️ DEGRADED: single-context` banner) does not satisfy the gate either.
 
 You cannot observe what the author ran, only whether their evidence matches their claim. Judge the evidence, and flag as **FAIL**:
 - a PR claiming a critique (or quoting a `??/40` score) whose evidence is a detector findings list or a bare "exit 0" — a real critique reports a heuristics table, cognitive-load and anti-pattern verdicts, and priority issues, so a score with none of that behind it is unevidenced;
 - a PR naming no tool at all, since the rule requires the tool be named;
 - a diff touching any `.html` or `.css` file that reports the detector only, whatever its size.
-- a PR reporting a `⚠️ DEGRADED: single-context` critique score as though it were a clean run.
+- a PR reporting a `⚠️ DEGRADED: single-context` critique score as though it were a clean run;
+- a PR claiming the review-count-sync page exception without naming a critiqued count-only sample from the same diff and its score, or for any page that fails the exception's two tests below.
 
 "Detector only, copy-only diff" is **no longer compliant** on any HTML/CSS PR, including a price or wording change. If you see it, FAIL the PR and ask for the critique.
 
-Then run the full `/impeccable critique` on every HTML page changed — always; there is nothing to choose between. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
+Then run the full `/impeccable critique` on every HTML page changed — always; there is nothing to choose between. The single exception (owner decision 2026-11-03, PR #940; full wording in AGENTS.md, Impeccable standing rule) is a page changed only by the review-count sync. Re-run both tests yourself for every page the PR exempts: (1) `node scripts/build/sync-review-counts.js --check` exits 0; (2) `git diff -U0 master...HEAD -- <page>` shows nothing but a review-count number changing, on a surface `scripts/build/sync-review-counts.js` writes, to `publishedCount` in `data/testimonials.json`. Any other changed character on the page puts it back in scope. Exempt pages are covered by the PR's critique of one representative count-only page from the same diff, run after the last edit, which the PR must name with its score. It exempts pages, never a PR, and nothing else qualifies. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
 
 Key impeccable checks to enforce as blockers:
 - No `border-left` or `border-right` > 1px used as a colored accent (side-stripe ban)
