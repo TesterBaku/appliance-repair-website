@@ -1,6 +1,6 @@
 # Run Tests
 
-Run the three required test commands. **All three must exit 0** before any PR is created or approved.
+Run the three required test commands. **All three must exit 0** before any PR is approved or merged. CI's "Validate site" job runs all three on every PR; per the owner (2026-11-04), use this command only when CI is unavailable or for a targeted local check, not to repeat a CI run.
 
 ## Steps
 

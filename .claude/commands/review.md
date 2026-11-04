@@ -31,12 +31,8 @@ action.
 ### Step 2 — Read the full files, not just the diff
 For any HTML file touched, read the complete `<head>` section and the full page structure. Diffs hide context that breaks things.
 
-### Step 3 — Run the tests
-```bash
-npm test                 # link checker — must exit 0
-npm run test:functional  # functional suite — must exit 0
-```
-If either test fails, the PR is an automatic **FAIL** — do not proceed with the rest of the review.
+### Step 3 — Check the tests
+CI's "Validate site" job (`.github/workflows/deploy.yml`) runs `npm test`, `npm run screenshot` and `npm run test:functional` on every PR. Check it with `gh pr checks <n>` and confirm the passing run is on the PR's current head commit. Do not re-run the suites locally when CI has run them (owner rule 2026-11-04); run a targeted local check only to settle a specific finding. If CI failed, or has not run on the head commit, the PR is an automatic **FAIL** (or **BLOCKED** while it is still pending) — do not proceed with the rest of the review.
 
 ### Step 3b — Run the impeccable gate (UI/UX PRs only)
 **Trigger:** the diff touches any `.html` or `.css` file.

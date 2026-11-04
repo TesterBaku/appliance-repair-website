@@ -379,9 +379,9 @@ The impeccable design system is in `.agents/skills/impeccable/`. Context (brand,
 
 ## Standing Rule — PR on Every Change
 Any request that results in a code or file change must go through the full workflow:
-branch → commit → **all three tests** → PR → review → merge. No exceptions, even for small edits.
+branch → commit → PR → **all three tests** → review → merge. No exceptions, even for small edits.
 
-**Three required tests — all must exit 0 before opening a PR:**
+**Three required tests — all must pass before merge.** CI runs them: the "Validate site" job (`.github/workflows/deploy.yml`) runs all three on every PR into master and again on master before deploy. **Owner rule (2026-11-04): do not run them locally when CI runs them.** Push, open the PR, wait for "Validate site" on the PR's head commit, and cite that run (URL or id plus the head SHA) in the test checklist; after a fix commit, the new CI run on the new head is the re-run. Local runs are for targeted checks while developing (one `--grep` subset for a new test, say) or for when CI is unavailable:
 ```
 npm test                 # link check (every page) + integrity + CSS vars + repo hygiene (large-file guard) + formspree-guard (contact-form route-stub check) + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check
 npm run screenshot       # Playwright batch screenshots
