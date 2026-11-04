@@ -32,7 +32,17 @@ action.
 For any HTML file touched, read the complete `<head>` section and the full page structure. Diffs hide context that breaks things.
 
 ### Step 3 — Check the tests
-CI's "Validate site" job (`.github/workflows/deploy.yml`) runs `npm test`, `npm run screenshot` and `npm run test:functional` on every PR. Check it with `gh pr checks <n>` and confirm the passing run is on the PR's current head commit. Do not re-run the suites locally when CI has run them (owner rule 2026-11-04); run a targeted local check only to settle a specific finding. If CI failed, or has not run on the head commit, the PR is an automatic **FAIL** (or **BLOCKED** while it is still pending) — do not proceed with the rest of the review.
+CI's "Validate site" job (`.github/workflows/deploy.yml`) runs `npm test`, `npm run screenshot` and `npm run test:functional` on every PR. Verify it on the PR's current head commit with one of:
+
+```
+gh pr view <n> --json headRefOid,statusCheckRollup   # compare each check's commit and conclusion to headRefOid
+gh run list --branch <branch> --json headSha,status,conclusion,databaseId
+```
+
+Only a `success` conclusion on the current `headRefOid` counts. A run on an older commit, `cancelled` (the workflow cancels superseded runs per ref) or `skipped` is not green. The `pull_request` run validates the merge with master, which is acceptable. Do not re-run the suites locally when CI has run them (owner rule 2026-11-04); run a targeted local check only to settle a specific finding.
+
+- **CI failed, or missing on the head commit:** automatic **FAIL**; do not proceed with the rest of the review.
+- **CI pending:** finish the rest of the review, then end with `🚫 CHANGES REQUIRED` naming "CI pending on <sha>" as the only open item (no blockers otherwise). A pending run can never produce an approval; the controller re-asks once CI completes.
 
 ### Step 3b — Run the impeccable gate (UI/UX PRs only)
 **Trigger:** the diff touches any `.html` or `.css` file.
@@ -220,8 +230,7 @@ Reviewer: Senior Engineer (independent)
 💬 <question or flag for the implementer>
 
 --- TEST RESULTS ---
-npm test:                PASS / FAIL
-npm run test:functional: PASS / FAIL  (N tests)
+CI Validate site (run <id>, <sha>): PASS / FAIL / PENDING  (covers npm test, npm run screenshot, npm run test:functional)
 impeccable critique:     PASS / WARN / FAIL  (HTML/CSS PRs only; full critique + score, always)
 /visual-review:          PASS / WARN / FAIL  (hub pages only — pages/appliance-repair-*-ca.html, pages/luxury-appliance-repair-*-ca.html)
 
@@ -238,11 +247,11 @@ Always end with one of those two verdicts. No "mostly fine, up to you" — make 
 ## Rules
 
 - Never rubber-stamp a PR. If you did not read every changed line, you did not review it.
-- Passing `npm test` and `npm run test:functional` are necessary but not sufficient for approval.
+- A green CI run (`npm test`, `npm run screenshot`, `npm run test:functional`) is necessary but not sufficient for approval.
 - If the PR touches any `.html` or `.css` file, the full `/impeccable critique` is **required** — not optional, and not substitutable by `detect.mjs` however small the diff looks.
 - An impeccable FAIL is a blocker with the same weight as a broken link. Do not approve until it is fixed.
 - If you find a blocker, stop and report it — do not keep looking for more issues as if one is enough.
 - If the PR description says "no visual changes" but CSS was modified, verify that claim.
 - "It looks fine" is not a review comment. Cite file and line.
-- Never approve a PR that does not show `npm run test:functional: PASS` in the test results.
+- Never approve a PR unless the test results show `CI Validate site: PASS` on the PR's current head commit (the CI run covers `npm run test:functional`).
 - If the PR touches any `pages/appliance-repair-*-ca.html` or `pages/luxury-appliance-repair-*-ca.html` file, running `/visual-review` on that page is **required** — not optional. No visual-review output = automatic FAIL, regardless of impeccable score.

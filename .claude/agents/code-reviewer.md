@@ -55,11 +55,12 @@ MCP browser submitted the real contact form to production Formspree).
 
 ## Required verification
 
-Confirm the PR description shows all three required tests passing: `npm test`,
-`npm run screenshot`, `npm run test:functional`. If `npm run test:functional` is missing from
-the description or not confirmed passing, that alone is an automatic FAIL, per the git-workflow
-skill (`.claude/skills/git-workflow/SKILL.md`) step 6 and step 8 (merge only after `/review`
-outputs an approval).
+Confirm CI "Validate site" (which runs `npm test`, `npm run screenshot` and
+`npm run test:functional`) is green on the PR's head commit, checked as described in
+`.claude/commands/review.md` Step 3, and that the PR description cites that run. A missing or red
+run is an automatic FAIL; a pending run is CHANGES REQUIRED (CI pending), never an approval. This
+follows the git-workflow skill (`.claude/skills/git-workflow/SKILL.md`) step 6 and step 8 (merge
+only after `/review` outputs an approval).
 
 ## Squash-merge consequence
 

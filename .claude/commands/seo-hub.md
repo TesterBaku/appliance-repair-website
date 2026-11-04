@@ -252,6 +252,8 @@ git commit -m "feat(hub): wire internal links to [slug]"
 
 ## Phase 4 — TEST
 
+Run these locally as a pre-PR check (the owner demo needs the screenshot); the merge evidence for all three gates is still the CI "Validate site" run on the PR head (see `AGENTS.md`, PR on Every Change).
+
 ```bash
 npm test            # link checker
 npm run screenshot  # Playwright screenshots

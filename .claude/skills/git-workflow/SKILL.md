@@ -73,9 +73,7 @@ feat(about): add team section with cards
 - Attach before/after screenshots if layout changed
 
 ## Test Checklist
-- [ ] `npm test` — link checker exits 0
-- [ ] `npm run screenshot` — all page screenshots captured
-- [ ] `npm run test:functional` — the functional suite passes (buttons, nav, forms, accordions)
+- [ ] CI "Validate site" green on head <sha> (run <id>): `npm test`, `npm run screenshot`, `npm run test:functional`
 - [ ] Impeccable — full `/impeccable critique` with its `??/40` score. Required on every HTML/CSS PR; there is no detector-only tier. Never report `detect.mjs` output under the critique's name, and never report a `⚠️ DEGRADED: single-context` score as a clean one.
 - [ ] Opened in browser and checked visually
 - [ ] Tested on mobile viewport (375px)
@@ -95,6 +93,7 @@ When a test (`npm test` or `npm run screenshot`) reports a failure, follow this 
 5. **Repeat** until all three test commands exit with code 0
 
 ### Rules
+- The fix loop may use targeted local runs of the failing test; the final evidence is the CI "Validate site" run on the pushed head commit.
 - Never skip validation after a fix — always re-run the test before moving on
 - Never apply the same fix twice; a repeated failure means a different root cause
 - Fix one issue at a time; do not batch unrelated fixes in a single commit

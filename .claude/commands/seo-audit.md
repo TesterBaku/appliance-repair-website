@@ -76,8 +76,10 @@ For any issues that the improvement script can resolve:
 
 1. Run `node scripts/add-seo-improvements.js` to apply schema, OG, and image dimension fixes across all articles
 2. Verify the script ran cleanly (exit code 0)
-3. Run `npm test` to confirm no broken links were introduced
-4. Run `npm run screenshot` to confirm all pages still render
+3. Run `npm test` locally to confirm no broken links were introduced (unattended run, so this is the pre-PR check)
+4. Run `npm run screenshot` locally to confirm all pages still render
+
+The merge evidence for all three gates is still the CI "Validate site" run on the PR head (see `AGENTS.md`, PR on Every Change).
 
 If tests fail after auto-fix: revert the script's changes with `git checkout -- .` and note the failure in the audit report instead of committing broken files.
 

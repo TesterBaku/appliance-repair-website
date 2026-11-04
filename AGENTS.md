@@ -379,7 +379,7 @@ The impeccable design system is in `.agents/skills/impeccable/`. Context (brand,
 
 ## Standing Rule — PR on Every Change
 Any request that results in a code or file change must go through the full workflow:
-branch → commit → PR → **all three tests** → review → merge. No exceptions, even for small edits.
+branch → commit → PR → **all three tests** → review → merge. No exceptions, even for small edits. Workflow phases that need a local artifact, such as the demo screenshots in /seo-blog and /seo-hub, may run that one command; the merge evidence is still the CI run.
 
 **Three required tests — all must pass before merge.** CI runs them: the "Validate site" job (`.github/workflows/deploy.yml`) runs all three on every PR into master and again on master before deploy. **Owner rule (2026-11-04): do not run them locally when CI runs them.** Push, open the PR, wait for "Validate site" on the PR's head commit, and cite that run (URL or id plus the head SHA) in the test checklist; after a fix commit, the new CI run on the new head is the re-run. Local runs are for targeted checks while developing (one `--grep` subset for a new test, say) or for when CI is unavailable:
 ```
@@ -455,8 +455,8 @@ Every new `.html` file — article, hub page, or static page — must include th
 - `/seo-hub` — full hub-page workflow for service and city landing pages. Same shape as `/seo-blog` but **interactive-only and never auto-merges** — hub pages always wait for owner review. Use this for the per-service and per-city hubs in `tasks/backlog.md`.
 - `/seo-audit` — quarterly SEO audit: scan all articles, auto-fix schema/meta gaps, open PR with report
 - `/pr` — generate and create a pull request for the current branch
-- `/review` — review changed files before merging. **Must flag as FAIL if `npm run test:functional` is not confirmed passing. Must run the full `/impeccable critique` on any changed HTML/CSS page (no detector-only tier exists; review-count-sync pages are covered by one critiqued sample, see the Impeccable standing rule), flag impeccable FAILs as merge blockers, and FAIL any PR that names a tool the author did not run or reports a degraded score as a clean one.**
-- `/test` — run all three test commands: `npm test` (links + integrity + partial drift) + `npm run screenshot` + `npm run test:functional`. All must exit 0.
+- `/review` — review changed files before merging. **Must flag as FAIL if CI "Validate site" (which runs `npm run test:functional`) is not confirmed green on the PR's head commit; checks CI instead of re-running it. Must run the full `/impeccable critique` on any changed HTML/CSS page (no detector-only tier exists; review-count-sync pages are covered by one critiqued sample, see the Impeccable standing rule), flag impeccable FAILs as merge blockers, and FAIL any PR that names a tool the author did not run or reports a degraded score as a clean one.**
+- `/test` — the three test commands: `npm test` (links + integrity + partial drift) + `npm run screenshot` + `npm run test:functional`. Run it only when CI is unavailable or for a targeted local check, not to repeat a CI run; the merge evidence is CI "Validate site" green on the PR's head commit.
 - `/impeccable` — design quality tool. Required before any PR that touches HTML or CSS. Fix all FAIL items before opening the PR. See `.agents/skills/impeccable/` for full documentation.
 - `/visual-review` — Playwright MCP-driven deep visual check at desktop + mobile viewports, scoped to touched pages by default. Use after `/test` for any visual/CSS work; auto-invoked by `/seo-hub` Phase 5.
 - `/new-content` — lightweight scaffolder for a single article, hub page, or static page (no research, no test loop — use when you just need a stub)

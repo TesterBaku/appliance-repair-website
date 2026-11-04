@@ -219,7 +219,7 @@ git commit -m "content([slug]): add [short description of topic]"
 
 ## Phase 4 — TEST
 
-Run both test suites and fix any failures before continuing.
+Run both commands locally as a pre-PR check (this phase runs unattended in scheduled mode, and Phase 5 reads the screenshot it writes to `test/screenshots/<slug>.png`). The merge evidence for all three gates is still the CI "Validate site" run on the PR head (see `AGENTS.md`, PR on Every Change). Fix any failures before continuing.
 
 ```bash
 npm test          # link checker
