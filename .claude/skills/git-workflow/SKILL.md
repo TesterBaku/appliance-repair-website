@@ -143,6 +143,8 @@ Reporting detector output under the word "critique" is under-running the gate, n
 that touches an `.html` or `.css` file, with no exceptions and no size threshold. `detect.mjs` on
 its own is never a substitute, however small or invisible the diff looks.
 
+**One owner-defined page-level exception (2026-11-03, PR #940): pages changed only by the review-count sync.** A page needs no critique of its own when every added and removed line on it is a review-count number written by `npm run build:review-counts` (for example 149 to 150 in AggregateRating, hero-rating copy and aria-label, "N verified 5-star", "Read all N reviews"). The PR must still critique every page with any other change, plus **one representative count-only page** (`index.html` by default), and must name the exemption and that sample in its description. The reviewer verifies the boundary from the diff rather than accepting it: one non-count line on a page puts that page back in scope. This exempts pages, never a PR: a review batch still runs the full critique. Nothing else qualifies, however small. (Also recorded in AGENTS.md, "Standing Rule — Impeccable for UI/UX Work".)
+
 **The detector-only tier was removed on 2026-08-20 by owner decision**, after PR #759 tried to claim
 it for a one-line `<link rel="preload">` added to `<head>`, arguing the tag has no rendered surface.
 The reviewer blocked it, correctly: the old rule's bright line was "no new elements", and a `<link>`

@@ -51,7 +51,7 @@ You cannot observe what the author ran, only whether their evidence matches thei
 
 "Detector only, copy-only diff" is **no longer compliant** on any HTML/CSS PR, including a price or wording change. If you see it, FAIL the PR and ask for the critique.
 
-Then run the full `/impeccable critique` on every HTML page changed — always; there is nothing to choose between. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
+Then run the full `/impeccable critique` on every HTML page changed — always; there is nothing to choose between. The single exception is a page whose every added and removed line is a review-count number written by `npm run build:review-counts` (owner decision 2026-11-03, PR #940; full wording in AGENTS.md): such pages are covered by the PR's critique of one representative count-only page, which the PR must name. Verify the boundary from the diff yourself; any other changed line on a page puts it back in scope. Collect the structured PASS / WARN / FAIL report. Any FAIL item is a **blocker** — the PR cannot merge until it is fixed.
 
 Key impeccable checks to enforce as blockers:
 - No `border-left` or `border-right` > 1px used as a colored accent (side-stripe ban)
