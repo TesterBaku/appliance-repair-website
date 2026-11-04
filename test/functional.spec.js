@@ -2762,12 +2762,15 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
       // only a WRONG fee in schema fails here. Tighten to toContain once those two are fixed.
       for (const source of [body, ld]) {
         expect(source).not.toMatch(/\$99\s*(to|-|–)\s*\$?\d/);
-        // A wrong flat fee next to fee wording. Not a blanket ban: repair-cost tables
-        // legitimately start at $150 ("$150 to $300 for a lid lock"), so a $150 or $120
-        // that opens a range is a repair price and is skipped.
-        const flat = '\\$(?:150|120)\\b(?!\\s*(?:to|-|–)\\s*\\$?\\d)';
+        // A wrong fee next to fee wording. Not a blanket ban: repair-cost tables
+        // legitimately start at $150 ("$150 to $300 for a lid lock"). So a $150 or $120
+        // FOLLOWED by fee wording is skipped when it opens a range (a repair price), but
+        // one PRECEDED by fee wording fails even as a range start: "Diagnostic fee:
+        // $150 - $280" is a wrong fee written as a range, not a repair price.
+        const wrong = '\\$(?:150|120)\\b';
+        const flat = wrong + '(?!\\s*(?:to|-|–)\\s*\\$?\\d)';
         const feeWord = '(?:diagnostic|service[- ]call|\\bfee\\b)';
-        expect(source).not.toMatch(new RegExp(feeWord + '[^$]{0,40}' + flat, 'i'));
+        expect(source).not.toMatch(new RegExp(feeWord + '[^$]{0,40}' + wrong, 'i'));
         expect(source).not.toMatch(new RegExp(flat + '[^$]{0,40}' + feeWord, 'i'));
       }
     });
