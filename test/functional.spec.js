@@ -1543,6 +1543,42 @@ test.describe('Newport Beach hub: capped Recent Repairs grid', () => {
   });
 });
 
+// Mainstream brand hubs whose Recent Repairs collections exceed six cards: phones show six behind
+// a "Show all N repairs" button (site.js initJobGridCap), desktop shows every card and no button.
+for (const { brand, file, grid } of [
+  { brand: 'Bosch',      file: 'bosch-appliance-repair-orange-county.html',      grid: 'bosch-job-grid' },
+  { brand: 'GE',         file: 'ge-appliance-repair-orange-county.html',         grid: 'ge-job-grid' },
+  { brand: 'KitchenAid', file: 'kitchenaid-appliance-repair-orange-county.html', grid: 'kitchenaid-job-grid' },
+  { brand: 'LG',         file: 'lg-appliance-repair-orange-county.html',         grid: 'lg-job-grid' },
+  { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html',    grid: 'samsung-job-grid' },
+]) {
+  test.describe(`${brand} hub: capped Recent Repairs grid`, () => {
+    test('phone: six cards, Show all reveals the rest', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(`/pages/${file}`);
+      const cards = page.locator(`#${grid} > div`);
+      const total = await cards.count();
+      expect(total).toBeGreaterThan(6);
+      expect(await visibleChildren(cards)).toBe(6);
+      const btn = page.locator(`#${grid} + .job-grid-more-row .job-grid-more`);
+      await expect(btn).toBeVisible();
+      await expect(btn).toHaveText('Show all ' + total + ' repairs');
+      expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+      await btn.click();
+      expect(await visibleChildren(cards)).toBe(total);
+      await expect(btn).toBeHidden();
+    });
+
+    test('desktop: every card visible and no Show all button', async ({ page }) => {
+      await page.setViewportSize(DESKTOP);
+      await page.goto(`/pages/${file}`);
+      const cards = page.locator(`#${grid} > div`);
+      expect(await visibleChildren(cards)).toBe(await cards.count());
+      await expect(page.locator(`#${grid} + .job-grid-more-row .job-grid-more`)).toBeHidden();
+    });
+  });
+}
+
 test.describe('Recent repairs gallery: ?city= filter', () => {
   test('city set narrows the gallery and Show all cities restores it', async ({ page }) => {
     await page.setViewportSize(MOBILE);
