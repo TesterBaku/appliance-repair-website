@@ -25,24 +25,25 @@
   <meta property="og:description" content="Whirlpool washer, dryer, refrigerator, dishwasher, and range repair in Orange County, CA. F21 drain faults, dryer no-heat, ice maker, control boards." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://fixappliancesfast.com/pages/whirlpool-appliance-repair-orange-county.html" />
-  <meta property="og:image" content="https://fixappliancesfast.com/images/washer-dryer-pair.webp" />
+  <meta property="og:image" content="https://fixappliancesfast.com/images/kitchen-with-washer.webp" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Whirlpool Appliance Repair in Orange County, CA | Universal Appliances Repair" />
   <meta name="twitter:description" content="Whirlpool washer, dryer, refrigerator, dishwasher, and range repair in Orange County, CA. F21 drain faults, dryer no-heat, ice maker, control boards." />
-  <meta name="twitter:image" content="https://fixappliancesfast.com/images/washer-dryer-pair.webp" />
+  <meta name="twitter:image" content="https://fixappliancesfast.com/images/kitchen-with-washer.webp" />
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="preload" href="../shared.css" as="style" />
-  <link rel="preload" as="image" href="../images/washer-dryer-pair.webp" fetchpriority="high" type="image/webp">
+  <link rel="preload" as="image" href="../images/kitchen-with-washer.webp" fetchpriority="high" type="image/webp" media="(min-width: 800.1px), (min-resolution: 2.01dppx)">
+  <link rel="preload" as="image" href="../images/kitchen-with-washer-800w.webp" fetchpriority="high" type="image/webp" media="(max-width: 800px) and (max-resolution: 2dppx)">
   <link rel="stylesheet" href="../shared.css" />
 
   <style>
     /* HUB HERO */
     .hub-hero { position: relative; min-height: 480px; display: flex; align-items: center; text-align: center; padding-top: 52px; overflow: hidden; }
-    .hub-hero-bg { position: absolute; inset: 0; background-image: url('../images/washer-dryer-pair.webp'); background-size: cover; background-position: center 30%; }
+    .hub-hero-bg { position: absolute; inset: 0; background-image: url('../images/kitchen-with-washer.webp'); background-size: cover; background-position: center 35%; }
     .hub-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,18,30,0.68) 0%, rgba(10,18,30,0.80) 100%); }
     .hub-hero-content { position: relative; z-index: 5; padding: 72px 24px 72px; width: 100%; }
     .hub-hero h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.1; color: #fff; max-width: 760px; margin: 0 auto 18px; }
@@ -114,6 +115,10 @@
     .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
 
     /* MOBILE */
+    /* Bandwidth-only swap matching the 800w preload media above (same pattern as the Frigidaire and Maytag hubs). */
+    @media (max-width: 800px) and (max-resolution: 2dppx) {
+      .hub-hero-bg { background-image: url('../images/kitchen-with-washer-800w.webp'); }
+    }
     @media (max-width: 768px) {
       /* P6-62 tap targets: text CTAs that rendered 15-16px. */
       .tap-link { min-height: 44px; display: inline-flex; align-items: center; }
