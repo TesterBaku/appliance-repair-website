@@ -394,7 +394,7 @@ npm run build:sitemap
 git diff --quiet sitemap.xml && echo "PASS" || echo "FAIL — commit the sitemap"
 ```
 
-The `/review` subagent must flag as **FAIL** any PR whose description does not confirm `npm run test:functional` passing.
+The `/review` subagent must flag as **FAIL** any PR whose CI "Validate site" run is not green on the head commit or is not cited in the description (see `.claude/commands/review.md` Step 3; pending is CHANGES REQUIRED, not an approval).
 
 ## Standing Rule — Article modified_time on Every Edit
 

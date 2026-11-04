@@ -1,6 +1,6 @@
 # Run Tests
 
-Run the three required test commands. **All three must exit 0** before any PR is approved or merged. CI's "Validate site" job runs all three on every PR; per the owner (2026-11-04), use this command only when CI is unavailable or for a targeted local check, not to repeat a CI run.
+CI's "Validate site" job runs these three commands on every PR, and a green run on the PR's head commit is the merge evidence (owner rule 2026-11-04). Use this command only when CI is unavailable or for a targeted local check, never to repeat a CI run. When you do run it locally, all three must exit 0.
 
 ## Steps
 
