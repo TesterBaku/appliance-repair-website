@@ -1543,6 +1543,42 @@ test.describe('Newport Beach hub: capped Recent Repairs grid', () => {
   });
 });
 
+// Mainstream brand hubs whose Recent Repairs collections exceed six cards: phones show six behind
+// a "Show all N repairs" button (site.js initJobGridCap), desktop shows every card and no button.
+for (const { brand, file, grid } of [
+  { brand: 'Bosch',      file: 'bosch-appliance-repair-orange-county.html',      grid: 'bosch-job-grid' },
+  { brand: 'GE',         file: 'ge-appliance-repair-orange-county.html',         grid: 'ge-job-grid' },
+  { brand: 'KitchenAid', file: 'kitchenaid-appliance-repair-orange-county.html', grid: 'kitchenaid-job-grid' },
+  { brand: 'LG',         file: 'lg-appliance-repair-orange-county.html',         grid: 'lg-job-grid' },
+  { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html',    grid: 'samsung-job-grid' },
+]) {
+  test.describe(`${brand} hub: capped Recent Repairs grid`, () => {
+    test('phone: six cards, Show all reveals the rest', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(`/pages/${file}`);
+      const cards = page.locator(`#${grid} > div`);
+      const total = await cards.count();
+      expect(total).toBeGreaterThan(6);
+      expect(await visibleChildren(cards)).toBe(6);
+      const btn = page.locator(`#${grid} + .job-grid-more-row .job-grid-more`);
+      await expect(btn).toBeVisible();
+      await expect(btn).toHaveText('Show all ' + total + ' repairs');
+      expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+      await btn.click();
+      expect(await visibleChildren(cards)).toBe(total);
+      await expect(btn).toBeHidden();
+    });
+
+    test('desktop: every card visible and no Show all button', async ({ page }) => {
+      await page.setViewportSize(DESKTOP);
+      await page.goto(`/pages/${file}`);
+      const cards = page.locator(`#${grid} > div`);
+      expect(await visibleChildren(cards)).toBe(await cards.count());
+      await expect(page.locator(`#${grid} + .job-grid-more-row .job-grid-more`)).toBeHidden();
+    });
+  });
+}
+
 test.describe('Recent repairs gallery: ?city= filter', () => {
   test('city set narrows the gallery and Show all cities restores it', async ({ page }) => {
     await page.setViewportSize(MOBILE);
@@ -2618,23 +2654,199 @@ const BRAND_HUBS = [
   { brand: 'Thermador',file: 'thermador-appliance-repair-orange-county.html' },
   { brand: 'DCS',      file: 'dcs-appliance-repair-orange-county.html' },
 ];
-// NOT in this list, deliberately: the 7 MAINSTREAM brand hubs (Whirlpool, GE, Samsung,
-// LG, Maytag, Frigidaire, KitchenAid). Adding Frigidaire here was tried during #708 and
-// failed 5 assertions. FOUR of those are correct-by-design: this list encodes LUXURY-hub
-// decisions the mainstream hubs intentionally do not follow — built article-style with no
-// testimonials (so both testimonial assertions fail, and AggregateRating is absent with
-// them) and carrying an 8-card luxury cross-link grid rather than 6.
+// Mainstream brand hubs: Bosch, Frigidaire, GE, Kenmore, KitchenAid, LG, Maytag, Samsung,
+// Whirlpool. A separate list from BRAND_HUBS because the two take different assertions:
+// BRAND_HUBS encodes the LUXURY hubs' decisions (model grid, issue grid, `Service.brand`
+// match, 6-card cross-links), none of which the mainstream hubs share. The mainstream hubs
+// DO carry testimonials (3+ cards, plus AggregateRating) and there are 9 of them. Adding
+// Frigidaire to BRAND_HUBS during #708 failed 5 assertions; four were luxury-only
+// expectations and one was a real bug (a 186-char meta description). Until this list
+// existed they had no functional coverage, which is how Frigidaire shipped 4 dead `tel:`
+// links.
 //
-// The FIFTH is not a design difference and should not be read as one: Frigidaire's meta
-// description is 186 chars against this suite's 140-165 assertion. That is a real
-// pre-existing bug, unrelated to the luxury/mainstream split, and it is invisible today
-// because content-integrity.js's `meta-desc-len` check only scans articles/, not pages/.
-// #708 did not fix it (out of scope — that PR changed href values only); it is recorded
-// in tasks/action-plan-2026-08-09-analytics.md as M-7.
-//
-// Covering these 7 hubs needs its own list with its own assertions, the same way
-// PREMIUM_HUBS above needed one. Until then they have no functional coverage — which is
-// how Frigidaire shipped 4 dead `tel:` links.
+// Two tiers. The generic block runs on every page. The redesign block (expect-strip, no
+// .ai-block, .service-area, reviews right after the strip) is derived at load time from
+// test/hub-redesign-baseline.json: a page gets it the moment it is removed from that
+// baseline, so redesigning a hub needs no edit here. It is a conditional describe, not a
+// runtime skip, so un-redesigned pages have no such tests rather than hidden skipped ones.
+const MAINSTREAM_HUBS = [
+  { brand: 'Bosch',      file: 'bosch-appliance-repair-orange-county.html' },
+  { brand: 'Frigidaire', file: 'frigidaire-appliance-repair-orange-county.html' },
+  { brand: 'GE',         file: 'ge-appliance-repair-orange-county.html' },
+  { brand: 'Kenmore',    file: 'kenmore-appliance-repair-orange-county.html' },
+  { brand: 'KitchenAid', file: 'kitchenaid-appliance-repair-orange-county.html' },
+  { brand: 'LG',         file: 'lg-appliance-repair-orange-county.html' },
+  { brand: 'Maytag',     file: 'maytag-appliance-repair-orange-county.html' },
+  { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html' },
+  { brand: 'Whirlpool',  file: 'whirlpool-appliance-repair-orange-county.html' },
+];
+const HUB_REDESIGN_BASELINE = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'hub-redesign-baseline.json'), 'utf8')
+);
+
+// Parsed JSON-LD nodes of one @type, in page order.
+async function ldNodes(page, type) {
+  return page.evaluate(t => Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
+    .map(s => { try { return JSON.parse(s.textContent); } catch { return null; } })
+    .filter(j => j && j['@type'] === t), type);
+}
+
+for (const { brand, file } of MAINSTREAM_HUBS) {
+  test.describe(`Mainstream hub: ${brand}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/pages/${file}`);
+    });
+
+    test('page loads with nav and footer', async ({ page }) => {
+      await expect(page.locator('nav.nav')).toBeAttached();
+      await expect(page.locator('footer.footer')).toBeAttached();
+    });
+
+    test('title contains brand name and Orange County', async ({ page }) => {
+      const title = await page.title();
+      expect(title).toContain(brand);
+      expect(title).toContain('Orange County');
+    });
+
+    test('canonical is self-referential', async ({ page }) => {
+      const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+      expect(canonical).toBe(`https://fixappliancesfast.com/pages/${file}`);
+    });
+
+    test('meta description is 140-165 characters', async ({ page }) => {
+      const desc = await page.locator('meta[name="description"]').getAttribute('content');
+      expect(desc).toBeTruthy();
+      expect(desc.length).toBeGreaterThanOrEqual(140);
+      expect(desc.length).toBeLessThanOrEqual(165);
+    });
+
+    test('og:site_name is Universal Appliances Repair', async ({ page }) => {
+      await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute('content', 'Universal Appliances Repair');
+    });
+
+    test('JSON-LD schemas: Service, LocalBusiness, FAQPage, BreadcrumbList all present', async ({ page }) => {
+      for (const t of ['Service', 'LocalBusiness', 'FAQPage', 'BreadcrumbList']) {
+        expect((await ldNodes(page, t)).length, `${t} schema`).toBeGreaterThan(0);
+      }
+    });
+
+    test('LocalBusiness AggregateRating matches the canonical review count', async ({ page }) => {
+      const rated = (await ldNodes(page, 'LocalBusiness')).find(n => n.aggregateRating);
+      expect(rated).toBeTruthy();
+      expect(String(rated.aggregateRating.reviewCount)).toBe(EXPECTED_REVIEW_COUNT);
+      expect(String(rated.aggregateRating.ratingValue)).toBe('5.0');
+    });
+
+    test('FAQPage schema has at least 8 mainEntity entries', async ({ page }) => {
+      const faq = (await ldNodes(page, 'FAQPage'))[0];
+      expect(faq.mainEntity.length).toBeGreaterThanOrEqual(8);
+    });
+
+    // The count guard matters: `[]` equals `[]`, so an empty set would pass. Exact match
+    // rather than includes('9496295365') so a malformed variant cannot slip through.
+    test('every tel: link is the canonical number', async ({ page }) => {
+      const tels = await hrefs(page, 'a[href^="tel:"]');
+      expect(tels.length).toBeGreaterThan(0);
+      expect(tels.filter(h => h !== 'tel:+19496295365')).toEqual([]);
+    });
+
+    // textContent, NOT innerText: the FAQ answers are display:none until opened and state
+    // the fee there; innerText skips collapsed content. JSON-LD is checked too, since a
+    // wrong fee in schema is what Google would surface. Same logic as the premium hubs.
+    test('diagnostic fee is the flat $99, never a $150 or $120 fee or a range', async ({ page }) => {
+      const body = await page.locator('body').evaluate(el => el.textContent);
+      const ld = (await page.locator('script[type="application/ld+json"]').allTextContents()).join(' ');
+      expect(body).toContain('$99');
+      // $99 is not required in the JSON-LD: Frigidaire and Kenmore's FAQPage schema omits
+      // the fee entirely today (2026-11-03). Absence is a content gap, not a wrong fee, so
+      // only a WRONG fee in schema fails here. Tighten to toContain once those two are fixed.
+      for (const source of [body, ld]) {
+        expect(source).not.toMatch(/\$99\s*(to|-|–)\s*\$?\d/);
+        // A wrong flat fee next to fee wording. Not a blanket ban: repair-cost tables
+        // legitimately start at $150 ("$150 to $300 for a lid lock"), so a $150 or $120
+        // that opens a range is a repair price and is skipped.
+        const flat = '\\$(?:150|120)\\b(?!\\s*(?:to|-|–)\\s*\\$?\\d)';
+        const feeWord = '(?:diagnostic|service[- ]call|\\bfee\\b)';
+        expect(source).not.toMatch(new RegExp(feeWord + '[^$]{0,40}' + flat, 'i'));
+        expect(source).not.toMatch(new RegExp(flat + '[^$]{0,40}' + feeWord, 'i'));
+      }
+    });
+
+    test('has at least 3 testimonial cards', async ({ page }) => {
+      expect(await page.locator('.testimonial-card').count()).toBeGreaterThanOrEqual(3);
+    });
+
+    // Count-guarded and polled like the premium job-card check: the imgs sit below the
+    // fold and are lazy, so from a cold cache they are not `complete` at goto() time.
+    // A page with no real-job photos has nothing to check.
+    test('real-job photos all resolve (no broken images)', async ({ page }) => {
+      const imgs = page.locator('img[src*="images/real/business/"]');
+      const n = await imgs.count();
+      if (n === 0) return;
+      for (let i = 0; i < n; i++) await imgs.nth(i).scrollIntoViewIfNeeded();
+      await expect.poll(() => imgs.evaluateAll(
+        a => a.filter(i => !i.complete || i.naturalWidth === 0).map(i => i.currentSrc || i.src)
+      )).toEqual([]);
+    });
+  });
+
+  if (`pages/${file}` in HUB_REDESIGN_BASELINE) continue;
+
+  test.describe(`Mainstream hub redesign: ${brand}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/pages/${file}`);
+    });
+
+    test('expect-strip is the single trust strip: fee, warranty, trust line, no logo', async ({ page }) => {
+      const strip = page.locator('section.expect-strip');
+      await expect(strip).toHaveCount(1);
+      const text = await strip.textContent();
+      expect(text).toContain('$99');
+      expect(text).toContain('90-day');
+      expect(text).toContain('30-day');
+      expect(await strip.locator('img').count()).toBe(0);
+      const lastIsTrust = await strip.evaluate(el => {
+        const inner = el.querySelector('.expect-inner') || el;
+        return inner.lastElementChild.classList.contains('expect-trust');
+      });
+      expect(lastIsTrust).toBe(true);
+    });
+
+    test('no legacy .ai-block', async ({ page }) => {
+      await expect(page.locator('.ai-block')).toHaveCount(0);
+    });
+
+    test('reviews come right after the strip: strip < first review < service-area < FAQ', async ({ page }) => {
+      const order = await page.evaluate(() => {
+        const before = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+        const strip = document.querySelector('section.expect-strip');
+        const review = document.querySelector('.testimonial-card');
+        const area = document.querySelector('section.service-area');
+        const faq = document.querySelector('#faq, .faq-list');
+        if (!strip || !review || !area || !faq) return null;
+        return { stripBeforeReview: before(strip, review), reviewBeforeArea: before(review, area), areaBeforeFaq: before(area, faq) };
+      });
+      expect(order).toEqual({ stripBeforeReview: true, reviewBeforeArea: true, areaBeforeFaq: true });
+    });
+
+    test('service-area section: 60-110 words, phone and contact links, no prices', async ({ page }) => {
+      const area = page.locator('section.service-area');
+      await expect(area).toHaveCount(1);
+      const text = (await area.textContent()).trim();
+      const words = text.split(/\s+/).filter(Boolean).length;
+      expect(words).toBeGreaterThanOrEqual(60);
+      expect(words).toBeLessThanOrEqual(110);
+      expect(text).not.toContain('$');
+      expect(await area.locator('a[href="tel:+19496295365"]').count()).toBeGreaterThan(0);
+      expect(await area.locator('a[href$="contact.html"]').count()).toBeGreaterThan(0);
+    });
+
+    test('hero paragraph states no price', async ({ page }) => {
+      const p = await page.locator('.hub-hero-content p').first().textContent();
+      expect(p).not.toContain('$');
+    });
+  });
+}
 
 for (const { brand, file } of BRAND_HUBS) {
   test.describe(`Brand hub: ${brand}`, () => {
