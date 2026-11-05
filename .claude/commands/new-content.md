@@ -55,7 +55,7 @@ Every new file must include:
 ### 5. Pre-merge verification
 - Confirm file is at the correct path
 - List all files created/modified
-- Run `/test` to verify no broken links and no rendering failures
+- Run `/test` only as a targeted local check; CI "Validate site" on the PR head is the merge evidence for links and rendering
 - Run Schema Markup Validator on the new page (paste URL or HTML)
 - Confirm no leftover template strings (`My Blog`, `Lorem`, `TODO`)
 - Confirm canonical and OG URLs use `fixappliancesfast.com`

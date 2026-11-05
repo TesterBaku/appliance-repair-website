@@ -252,12 +252,13 @@ git commit -m "feat(hub): wire internal links to [slug]"
 
 ## Phase 4 — TEST
 
+Run only the screenshot locally, because the owner demo in Phase 5 needs it. Do not run `npm test` or `npm run test:functional` locally: CI's "Validate site" job runs all three on the PR head, and that green run is the merge evidence (see `AGENTS.md`, PR on Every Change).
+
 ```bash
-npm test            # link checker
-npm run screenshot  # Playwright screenshots
+npm run screenshot  # Playwright screenshots, for the Phase 5 demo
 ```
 
-Apply the Bug Fix Workflow from `.claude/skills/git-workflow/SKILL.md`. Do not proceed until both commands exit 0.
+Apply the Bug Fix Workflow from `.claude/skills/git-workflow/SKILL.md` to any CI failure on the PR. Do not proceed until the screenshot command exits 0.
 
 Additional checks specific to hubs:
 - Run the new page through Google's [Rich Results Test](https://search.google.com/test/rich-results) (paste URL or HTML) — `Service`, `LocalBusiness`, `BreadcrumbList`, `FAQPage` should all be eligible.
