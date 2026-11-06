@@ -237,11 +237,16 @@
     .hw-table tbody th { background: #fff; font-size: 13px; font-weight: 600; color: #111; text-transform: none; letter-spacing: 0; white-space: normal; border-bottom: none; }
     .hw-table .src { display: block; font-size: 12px; color: #666; line-height: 1.4; margin-top: 2px; }
     .hw-table .hw-fig { font-size: 16px; font-weight: 700; color: #111; }
-    .hw-table .hw-label { display: inline-block; font-size: 12px; font-weight: 600; line-height: 1.3; padding: 1px 8px; border-radius: 999px; margin-left: 4px; }
+    .hw-table .hw-label { display: inline-block; font-size: 12px; font-weight: 600; line-height: 1.3; padding: 1px 8px; border-radius: 999px; margin-left: 4px; white-space: nowrap; }
+    .hw-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+    .hw-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid #e5e7eb; border-radius: 999px; font-size: 14px; font-weight: 600; color: #111; background: #fff; text-decoration: none; }
+    .hw-jump a:hover, .hw-jump a:focus-visible { border-color: #e84c1e; }
+    .hw-jump a:focus-visible { outline: 2px solid #e84c1e; outline-offset: 2px; }
+    .hw-table tbody th[id] { scroll-margin-top: 88px; }
     .hw-table .hw-very { background: #fde8e1; color: #7a2200; }
     .hw-table .hw-hard { background: #fff1d6; color: #6b4200; }
     .hw-table .hw-mod { background: #e3f1e6; color: #1f5130; }
-    @media (max-width: 480px) { .hw-table th, .hw-table td { padding: 8px; } .hw-table thead th:first-child { width: 22%; } }
+    @media (max-width: 480px) { .hw-table th, .hw-table td { padding: 8px 6px; } .hw-table .hw-label { margin-left: 0; padding: 1px 6px; } .hw-table thead th:first-child { width: 22%; } }
 
     .inline-cta { background: linear-gradient(135deg, #cc3d12, #aa3210); border-radius: 16px; padding: 32px; margin: 40px 0; color: #fff; text-align: center; }
     .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
@@ -595,6 +600,15 @@
       <p>Here's the part most guides skip. A city name doesn't tell you what comes out of your tap, because many LA County cities are served by more than one water company. Two neighbors in Pico Rivera or Long Beach can be on different systems with very different numbers. The table lists the providers in seven LA County cities we serve.</p>
 
       <p>Lowest on the list: Long Beach's Blended Zone at 4.4 gpg. Highest: Golden State Water's Norwalk system at 18 gpg. Find your provider's name on your water bill, then find its row.</p>
+      <nav class="hw-jump" aria-label="Jump to a city in the table">
+        <a href="#hw-long-beach">Long Beach</a>
+        <a href="#hw-norwalk">Norwalk</a>
+        <a href="#hw-pasadena">Pasadena</a>
+        <a href="#hw-pico-rivera">Pico Rivera</a>
+        <a href="#hw-whittier">Whittier</a>
+        <a href="#hw-montebello">Montebello</a>
+        <a href="#hw-downey">Downey</a>
+      </nav>
       <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Water hardness by city and provider">
         <table class="cost-table hw-table">
           <caption class="sr-only">Average water hardness by city and water provider, in grains per gallon</caption>
@@ -607,7 +621,7 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="rowgroup" rowspan="2">Long Beach</th>
+              <th scope="rowgroup" rowspan="2" id="hw-long-beach">Long Beach</th>
               <td>Long Beach Utilities, Blended Zone<span class="src">2025 Annual Water Quality Report, 2025 data</span></td>
               <td><span class="hw-fig">4.4</span> gpg <span class="hw-label hw-mod">Moderately hard</span><span class="src">range 3.9&ndash;5.8</span></td>
             </tr>
@@ -618,9 +632,9 @@
           </tbody>
           <tbody>
             <tr>
-              <th scope="rowgroup" rowspan="3">Norwalk</th>
+              <th scope="rowgroup" rowspan="3" id="hw-norwalk">Norwalk</th>
               <td>City of Norwalk Municipal Water<span class="src">2025 Consumer Confidence Report, 2025 data</span></td>
-              <td><span class="hw-fig">15.0</span> gpg groundwater<br><span class="hw-fig">13.7</span> gpg imported MWD water<br><span class="hw-label hw-very">Very hard</span></td>
+              <td><span class="hw-fig">15.0</span> gpg<span class="src">groundwater</span><span class="hw-fig">13.7</span> gpg<span class="src">imported</span><span class="hw-label hw-very">Very hard</span></td>
             </tr>
             <tr>
               <td>Golden State Water, Norwalk system<span class="src">2025 report, 2025 data</span></td>
@@ -628,19 +642,19 @@
             </tr>
             <tr>
               <td>Liberty Utilities, Bellflower/Norwalk<span class="src">2025 report, 2025 data</span></td>
-              <td><span class="hw-fig">13.7</span> gpg imported<br><span class="hw-fig">14.8</span> gpg groundwater<br><span class="hw-label hw-very">Very hard</span><span class="src">62% imported in 2025</span></td>
+              <td><span class="hw-fig">13.7</span> gpg<span class="src">imported</span><span class="hw-fig">14.8</span> gpg<span class="src">groundwater</span><span class="hw-label hw-very">Very hard</span><span class="src">62% imported in 2025</span></td>
             </tr>
           </tbody>
           <tbody>
             <tr>
-              <th scope="rowgroup">Pasadena</th>
+              <th scope="rowgroup" id="hw-pasadena">Pasadena</th>
               <td>Pasadena Water and Power<span class="src">2026 Annual Drinking Water Quality Report, 2025 data</span></td>
               <td><span class="hw-fig">13</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 12&ndash;15</span></td>
             </tr>
           </tbody>
           <tbody>
             <tr>
-              <th scope="rowgroup" rowspan="2">Pico Rivera</th>
+              <th scope="rowgroup" rowspan="2" id="hw-pico-rivera">Pico Rivera</th>
               <td>Pico Rivera Water Authority<span class="src">2025 Consumer Confidence Report, 2025 data</span></td>
               <td><span class="hw-fig">9.2</span> gpg <span class="hw-label hw-hard">Hard</span><span class="src">range 5.2&ndash;12.4</span></td>
             </tr>
@@ -651,7 +665,7 @@
           </tbody>
           <tbody>
             <tr>
-              <th scope="rowgroup" rowspan="2">Whittier</th>
+              <th scope="rowgroup" rowspan="2" id="hw-whittier">Whittier</th>
               <td>City of Whittier<span class="src">2025 report, sampled 2023&ndash;2024</span></td>
               <td><span class="hw-fig">14.6</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 13.5&ndash;15.8</span></td>
             </tr>
@@ -662,7 +676,7 @@
           </tbody>
           <tbody>
             <tr>
-              <th scope="rowgroup" rowspan="3">Montebello</th>
+              <th scope="rowgroup" rowspan="3" id="hw-montebello">Montebello</th>
               <td>San Gabriel Valley Water Co., north of Whittier Blvd (groundwater)<span class="src">Consumer Confidence Report, Year 2024</span></td>
               <td><span class="hw-fig">13.7</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 5.4&ndash;19.8</span></td>
             </tr>
@@ -677,14 +691,14 @@
           </tbody>
           <tbody>
             <tr>
-              <th scope="rowgroup">Downey</th>
+              <th scope="rowgroup" id="hw-downey">Downey</th>
               <td>City of Downey<span class="src">2024 Annual Water Quality Report, 2024 data</span></td>
               <td><span class="hw-fig">15.7</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 7.9&ndash;21.5</span></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p class="table-note">Montebello is also served in part by California Water Service and South Montebello Irrigation District, which aren't listed here. Every figure is a system average taken from that provider's own annual water quality report; the number in parentheses is the range the provider reported. Your tap can sit anywhere in that range, so check the provider name on your water bill and look up its newest report.</p>
+      <p class="table-note">Montebello is also served in part by California Water Service and South Montebello Irrigation District, which aren't listed here. Every figure is a system average taken from that provider's own annual water quality report; the range shown under each figure is the range the provider reported. Report years differ: the Downey and Montebello figures come from 2024 reports, the rest from 2025 or 2026 reports. Your tap can sit anywhere in that range, so check the provider name on your water bill and look up its newest report.</p>
 
       <h2 id="why-it-varies">Why Hardness Varies So Much Across the County</h2>
 
