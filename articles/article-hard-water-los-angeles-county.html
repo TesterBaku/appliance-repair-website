@@ -223,14 +223,25 @@
     .cost-table td { font-size: 13px; color: #444; padding: 12px 16px; border-bottom: 1px solid #f8f8f8; vertical-align: top; }
     .cost-table tr:last-child td { border-bottom: none; }
     .cost-table td:first-child { font-weight: 600; color: #111; white-space: nowrap; }
-    .table-scroll-hint { display: none; font-size: 13px; color: #666; margin: 0 0 8px; }
-    @media (max-width: 560px) { .table-scroll-hint { display: block; } }
     .cost-table-wrap:focus-visible { outline: 2px solid #e84c1e; outline-offset: 2px; }
     .cost-table td:first-child { white-space: normal; }
     .cost-table td, .cost-table th { white-space: normal; }
     .cost-table .num { white-space: nowrap; font-weight: 600; color: #111; }
     .table-note { font-size: 13px; color: #555; line-height: 1.7; margin: 6px 0 24px; }
-    .price-disclaimer { font-size: 12px; color: #666; font-style: italic; margin: 8px 0 28px; padding: 10px 14px; background: #f9fafb; border-left: 3px solid #d1d5db; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .hw-table { min-width: 0; width: 100%; }
+    .hw-table th, .hw-table td { vertical-align: top; }
+    .hw-table td:first-child { font-weight: 400; color: #444; }
+    .hw-table thead th:first-child { width: 22%; }
+    .hw-table tbody + tbody { border-top: 2px solid #e5e7eb; }
+    .hw-table tbody th { background: #fff; font-size: 13px; font-weight: 600; color: #111; text-transform: none; letter-spacing: 0; white-space: normal; border-bottom: none; }
+    .hw-table .src { display: block; font-size: 12px; color: #666; line-height: 1.4; margin-top: 2px; }
+    .hw-table .hw-fig { font-size: 16px; font-weight: 700; color: #111; }
+    .hw-table .hw-label { display: inline-block; font-size: 12px; font-weight: 600; line-height: 1.3; padding: 1px 8px; border-radius: 999px; margin-left: 4px; }
+    .hw-table .hw-very { background: #fde8e1; color: #7a2200; }
+    .hw-table .hw-hard { background: #fff1d6; color: #6b4200; }
+    .hw-table .hw-mod { background: #e3f1e6; color: #1f5130; }
+    @media (max-width: 480px) { .hw-table th, .hw-table td { padding: 8px; } .hw-table thead th:first-child { width: 22%; } }
 
     .inline-cta { background: linear-gradient(135deg, #cc3d12, #aa3210); border-radius: 16px; padding: 32px; margin: 40px 0; color: #fff; text-align: center; }
     .inline-cta h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
@@ -583,116 +594,92 @@
 
       <p>Here's the part most guides skip. A city name doesn't tell you what comes out of your tap, because many LA County cities are served by more than one water company. Two neighbors in Pico Rivera or Long Beach can be on different systems with very different numbers. The table lists the providers in seven LA County cities we serve.</p>
 
-      <p class="table-scroll-hint">Swipe the table sideways to see all columns.</p>
-      <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Water hardness by city and provider, scrollable table">
-        <table class="cost-table">
+      <p>Lowest on the list: Long Beach's Blended Zone at 4.4 gpg. Highest: Golden State Water's Norwalk system at 18 gpg. Find your provider's name on your water bill, then find its row.</p>
+      <div class="cost-table-wrap" tabindex="0" role="region" aria-label="Water hardness by city and provider">
+        <table class="cost-table hw-table">
+          <caption class="sr-only">Average water hardness by city and water provider, in grains per gallon</caption>
           <thead>
             <tr>
-              <th>City</th>
-              <th>Water provider</th>
-              <th>Average hardness (gpg)</th>
-              <th>USGS label</th>
-              <th>Source (report, data year)</th>
+              <th scope="col">City</th>
+              <th scope="col">Water provider</th>
+              <th scope="col">Hardness</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Long Beach</td>
-              <td>Long Beach Utilities, Blended Zone</td>
-              <td class="num">4.4 (3.9&ndash;5.8)</td>
-              <td>Moderately hard</td>
-              <td>2025 Annual Water Quality Report, 2025 data</td>
+              <th scope="rowgroup" rowspan="2">Long Beach</th>
+              <td>Long Beach Utilities, Blended Zone<span class="src">2025 Annual Water Quality Report, 2025 data</span></td>
+              <td><span class="hw-fig">4.4</span> gpg <span class="hw-label hw-mod">Moderately hard</span><span class="src">range 3.9&ndash;5.8</span></td>
             </tr>
             <tr>
-              <td>Long Beach</td>
-              <td>Long Beach Utilities, MWD Zone (mostly imported water)</td>
-              <td class="num">12.8 (5.8&ndash;17.5)</td>
-              <td>Very hard</td>
-              <td>Same report</td>
+              <td>Long Beach Utilities, MWD Zone (mostly imported water)<span class="src">2025 Annual Water Quality Report, 2025 data</span></td>
+              <td><span class="hw-fig">12.8</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 5.8&ndash;17.5</span></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th scope="rowgroup" rowspan="3">Norwalk</th>
+              <td>City of Norwalk Municipal Water<span class="src">2025 Consumer Confidence Report, 2025 data</span></td>
+              <td><span class="hw-fig">15.0</span> gpg groundwater<br><span class="hw-fig">13.7</span> gpg imported MWD water<br><span class="hw-label hw-very">Very hard</span></td>
             </tr>
             <tr>
-              <td>Norwalk</td>
-              <td>City of Norwalk Municipal Water</td>
-              <td class="num">15.0 groundwater; 13.7 imported MWD water</td>
-              <td>Very hard</td>
-              <td>2025 Consumer Confidence Report, 2025 data</td>
+              <td>Golden State Water, Norwalk system<span class="src">2025 report, 2025 data</span></td>
+              <td><span class="hw-fig">18</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 8&ndash;30</span></td>
             </tr>
             <tr>
-              <td>Norwalk</td>
-              <td>Golden State Water, Norwalk system</td>
-              <td class="num">18 (8&ndash;30)</td>
-              <td>Very hard</td>
-              <td>2025 report, 2025 data</td>
+              <td>Liberty Utilities, Bellflower/Norwalk<span class="src">2025 report, 2025 data</span></td>
+              <td><span class="hw-fig">13.7</span> gpg imported<br><span class="hw-fig">14.8</span> gpg groundwater<br><span class="hw-label hw-very">Very hard</span><span class="src">62% imported in 2025</span></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th scope="rowgroup">Pasadena</th>
+              <td>Pasadena Water and Power<span class="src">2026 Annual Drinking Water Quality Report, 2025 data</span></td>
+              <td><span class="hw-fig">13</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 12&ndash;15</span></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th scope="rowgroup" rowspan="2">Pico Rivera</th>
+              <td>Pico Rivera Water Authority<span class="src">2025 Consumer Confidence Report, 2025 data</span></td>
+              <td><span class="hw-fig">9.2</span> gpg <span class="hw-label hw-hard">Hard</span><span class="src">range 5.2&ndash;12.4</span></td>
             </tr>
             <tr>
-              <td>Norwalk</td>
-              <td>Liberty Utilities, Bellflower/Norwalk</td>
-              <td class="num">13.7 imported; 14.8 groundwater (62% imported in 2025)</td>
-              <td>Very hard</td>
-              <td>2025 report, 2025 data</td>
+              <td>Pico Water District<span class="src">2026 Water Quality Report, sampled 2023&ndash;2025</span></td>
+              <td><span class="hw-fig">14.8</span> gpg <span class="hw-label hw-very">Very hard</span></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th scope="rowgroup" rowspan="2">Whittier</th>
+              <td>City of Whittier<span class="src">2025 report, sampled 2023&ndash;2024</span></td>
+              <td><span class="hw-fig">14.6</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 13.5&ndash;15.8</span></td>
             </tr>
             <tr>
-              <td>Pasadena</td>
-              <td>Pasadena Water and Power</td>
-              <td class="num">13 (12&ndash;15)</td>
-              <td>Very hard</td>
-              <td>2026 Annual Drinking Water Quality Report, 2025 data</td>
+              <td>Suburban Water Systems, Whittier system<span class="src">2025 report, 2025 data</span></td>
+              <td><span class="hw-fig">14.1</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 12.4&ndash;14.5</span></td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <th scope="rowgroup" rowspan="3">Montebello</th>
+              <td>San Gabriel Valley Water Co., north of Whittier Blvd (groundwater)<span class="src">Consumer Confidence Report, Year 2024</span></td>
+              <td><span class="hw-fig">13.7</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 5.4&ndash;19.8</span></td>
             </tr>
             <tr>
-              <td>Pico Rivera</td>
-              <td>Pico Rivera Water Authority</td>
-              <td class="num">9.2 (5.2&ndash;12.4)</td>
-              <td>Hard</td>
-              <td>2025 Consumer Confidence Report, 2025 data</td>
+              <td>San Gabriel Valley Water Co., south of Whittier Blvd (imported MWD water)<span class="src">Consumer Confidence Report, Year 2024</span></td>
+              <td><span class="hw-fig">15.9</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 14.1&ndash;17.7</span></td>
             </tr>
             <tr>
-              <td>Pico Rivera</td>
-              <td>Pico Water District</td>
-              <td class="num">14.8</td>
-              <td>Very hard</td>
-              <td>2026 Water Quality Report, sampled 2023&ndash;2025</td>
+              <td>Montebello Land and Water Co.<span class="src">2024 Annual Water Quality Report, tested 2022&ndash;2024</span></td>
+              <td><span class="hw-fig">12.3</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 10.5&ndash;15.2</span></td>
             </tr>
+          </tbody>
+          <tbody>
             <tr>
-              <td>Whittier</td>
-              <td>City of Whittier</td>
-              <td class="num">14.6 (13.5&ndash;15.8)</td>
-              <td>Very hard</td>
-              <td>2025 report, sampled 2023&ndash;2024</td>
-            </tr>
-            <tr>
-              <td>Whittier</td>
-              <td>Suburban Water Systems, Whittier system</td>
-              <td class="num">14.1 (12.4&ndash;14.5)</td>
-              <td>Very hard</td>
-              <td>2025 report, 2025 data</td>
-            </tr>
-            <tr>
-              <td>Montebello</td>
-              <td>San Gabriel Valley Water Co., north of Whittier Blvd (groundwater)</td>
-              <td class="num">13.7 (5.4&ndash;19.8)</td>
-              <td>Very hard</td>
-              <td>Consumer Confidence Report, Year 2024</td>
-            </tr>
-            <tr>
-              <td>Montebello</td>
-              <td>San Gabriel Valley Water Co., south of Whittier Blvd (imported MWD water)</td>
-              <td class="num">15.9 (14.1&ndash;17.7)</td>
-              <td>Very hard</td>
-              <td>Same report</td>
-            </tr>
-            <tr>
-              <td>Montebello</td>
-              <td>Montebello Land and Water Co.</td>
-              <td class="num">12.3 (10.5&ndash;15.2)</td>
-              <td>Very hard</td>
-              <td>2024 Annual Water Quality Report, tested 2022&ndash;2024</td>
-            </tr>
-            <tr>
-              <td>Downey</td>
-              <td>City of Downey</td>
-              <td class="num">15.7 (7.9&ndash;21.5)</td>
-              <td>Very hard</td>
-              <td>2024 Annual Water Quality Report, 2024 data</td>
+              <th scope="rowgroup">Downey</th>
+              <td>City of Downey<span class="src">2024 Annual Water Quality Report, 2024 data</span></td>
+              <td><span class="hw-fig">15.7</span> gpg <span class="hw-label hw-very">Very hard</span><span class="src">range 7.9&ndash;21.5</span></td>
             </tr>
           </tbody>
         </table>
