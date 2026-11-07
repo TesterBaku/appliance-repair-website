@@ -259,25 +259,26 @@
     });
   }
 
-  // 4b. Brand logo chips: on phones show the first six chips and a "Show all N brands" button.
-  // shared.css hides chips 7+ only once the list carries data-cap-ready (set here), so without JS
-  // every chip stays visible. Desktop never caps.
+  // 4b. Brand logo chips: on phones show the first five brand chips plus a "+N more" chip as the sixth
+  // grid cell. shared.css hides brand chips 6+ (and shows the more chip) only once the list carries
+  // data-cap-ready (set here), so without JS every chip stays visible and the more chip stays hidden.
+  // Lists of six or fewer brands are never capped. Desktop never caps.
   function initBrandCap() {
     document.querySelectorAll('.brand-chips-list').forEach(function (list) {
-      var count = list.children.length;
-      if (count <= 6 || list.hasAttribute('data-cap-ready')) return;
-      var row = list.nextElementSibling;
-      if (!row || !row.classList.contains('brand-chips-more-row')) return;
-      var btn = row.querySelector('.brand-chips-more');
-      if (!btn) return;
-      btn.textContent = 'Show all ' + count + ' brands';
+      var btn = list.querySelector('.brand-chips-more');
+      if (!btn || list.hasAttribute('data-cap-ready')) return;
+      var count = list.children.length - 1;
+      if (count <= 6) return;
+      btn.textContent = '+' + (count - 5) + ' more';
+      btn.setAttribute('aria-label', 'Show all ' + count + ' brands');
       list.setAttribute('data-cap-ready', '');
       btn.addEventListener('click', function () {
+        btn.setAttribute('aria-expanded', 'true');
         list.setAttribute('data-expanded', '');
-        // The button disappears, so hand focus to the first newly revealed chip.
-        var chip = list.children[6].querySelector('a');
+        // The more chip disappears, so hand focus to the first newly revealed brand chip (the sixth).
+        var chip = list.children[5].querySelector('a');
         if (!chip) {
-          chip = list.children[6].firstElementChild;
+          chip = list.children[5].firstElementChild;
           chip.setAttribute('tabindex', '-1');
         }
         chip.focus();
