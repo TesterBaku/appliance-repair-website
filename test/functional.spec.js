@@ -1226,11 +1226,16 @@ const PREMIUM_HUBS = [
   'luxury-appliance-repair-manhattan-beach-ca',
 ];
 
-// 'Bosch Premium', not bare 'Bosch': mainstream Bosch is not a premium-tier brand (see
-// .claude/skills/seo-content/SKILL.md), and only the Bosch premium built-in lines are in scope
-// in the LA premium cities. The label deliberately covers the whole premium tier, not
-// just Benchmark, so a panel-ready 800-series owner does not self-select out.
-const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS', 'Bosch Premium'];
+// Bosch must stay qualified as premium, never bare 'Bosch': mainstream Bosch is not a
+// premium-tier brand (see .claude/skills/seo-content/SKILL.md), and only the Bosch premium
+// built-in lines are in scope in the LA premium cities. The qualifier covers the whole
+// premium tier, not just Benchmark, so a panel-ready 800-series owner does not self-select
+// out. Since PR #953 (owner decision 2026-11-07) the brands are the logo chips in the
+// .brand-chips strip, not a .brand-pill row, so the names are read from each chip's
+// aria-label (the visible content is a logo image).
+const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS'];
+const premiumChipNames = page => page.locator('.brand-chips a.brand-chip')
+  .evaluateAll(els => els.map(e => (e.getAttribute('aria-label') || '').trim()));
 
 for (const slug of PREMIUM_HUBS) {
   test.describe(`Premium hub: ${slug}`, () => {
@@ -1249,15 +1254,17 @@ for (const slug of PREMIUM_HUBS) {
     });
 
     test('all 8 premium brands are named as links', async ({ page }) => {
-      const pills = await page.locator('.brand-pill.premium').allTextContents();
+      const names = await premiumChipNames(page);
       for (const b of PREMIUM_BRANDS) {
-        expect(pills.some(p => p.trim() === b)).toBe(true);
+        expect(names.some(n => n.startsWith(`${b} `))).toBe(true);
       }
-      expect(pills.length).toBe(8);
+      expect(names.some(n => /^Bosch premium\b/i.test(n))).toBe(true);
+      expect(names.some(n => /^Bosch appliance/i.test(n))).toBe(false);
+      expect(names.length).toBe(8);
     });
 
-    test('every brand pill points at a real brand hub', async ({ page }) => {
-      const links = await hrefs(page, '.brand-pill.premium');
+    test('every brand chip points at a real brand hub', async ({ page }) => {
+      const links = await hrefs(page, '.brand-chips a.brand-chip');
       expect(links.length).toBe(8);
       expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
     });

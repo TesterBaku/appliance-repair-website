@@ -65,11 +65,6 @@
     .neighborhood-zip { font-size: 12px; color: var(--text-sub); }
     .neighborhood-note { font-size: 13px; color: var(--text-sub); margin-top: 8px; line-height: 1.65; }
 
-    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; }
-    .brands-group { margin-top: 24px; }
-    .brand-pill { background: var(--surface); border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: var(--text-soft); text-decoration: none; display: inline-block; }
-    .brand-pill.premium { border: 1.5px solid #c03a14; color: var(--text-primary); }
-    .brand-pill.premium:hover { background: #fff5f2; }
 
     .symptoms-list { margin-top: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 800px; margin-left: auto; margin-right: auto; }
     .symptom-item { background: var(--surface); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--text-soft); border: 1px solid var(--border); display: flex; align-items: flex-start; gap: 10px; }
@@ -154,7 +149,6 @@
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .job-grid { grid-template-columns: 1fr; max-width: 360px; }
       .nav-cta { display: none; }
-      .brand-pill { min-height: 44px; display: inline-flex; align-items: center; }
       .hero-rating { min-height: 44px; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
@@ -628,7 +622,7 @@
       </ul>
       <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
       <div class="brand-chips" role="group" aria-labelledby="brand-chips-label">
-        <p class="brand-chips-label" id="brand-chips-label">Some of the premium brands we repair</p>
+        <p class="brand-chips-label" id="brand-chips-label">Premium brands we repair</p>
         <ul class="brand-chips-list" id="brand-chips-list">
           <li><a class="brand-chip" href="sub-zero-appliance-repair-orange-county.html" aria-label="Sub-Zero appliance repair"><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></a></li>
           <li><a class="brand-chip" href="viking-appliance-repair-orange-county.html" aria-label="Viking appliance repair"><img src="../images/brands/viking.svg" alt="Viking" width="80" height="19" loading="eager" decoding="async"></a></li>
@@ -637,7 +631,7 @@
           <li><a class="brand-chip" href="thermador-appliance-repair-orange-county.html" aria-label="Thermador appliance repair"><img src="../images/brands/thermador.svg" alt="Thermador" width="90" height="18" loading="eager" decoding="async"></a></li>
           <li><a class="brand-chip" href="dacor-appliance-repair-orange-county.html" aria-label="Dacor appliance repair"><img src="../images/brands/dacor.svg" alt="Dacor" width="70" height="17" loading="eager" decoding="async"></a></li>
           <li><a class="brand-chip" href="dcs-appliance-repair-orange-county.html" aria-label="DCS appliance repair"><img src="../images/brands/dcs.svg" alt="DCS" width="44" height="22" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="bosch-appliance-repair-orange-county.html" aria-label="Bosch appliance repair"><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></a></li>
+          <li><a class="brand-chip" href="bosch-appliance-repair-orange-county.html" aria-label="Bosch premium lines appliance repair"><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></a></li>
           <li class="brand-chips-more-item"><button type="button" class="brand-chip brand-chips-more" aria-controls="brand-chips-list" aria-expanded="false">More brands</button></li>
         </ul>
         <p class="brand-chips-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
@@ -726,20 +720,8 @@
   <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Premium Brands We Service</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">These are the brands we take in Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach. Open any one to see the faults we see most often on it, the parts involved, and how the repair usually goes.</p>
-      <div class="brands-group">
-        <div class="brands-list">
-          <a href="sub-zero-appliance-repair-orange-county.html" class="brand-pill premium">Sub-Zero</a>
-          <a href="viking-appliance-repair-orange-county.html" class="brand-pill premium">Viking</a>
-          <a href="wolf-appliance-repair-orange-county.html" class="brand-pill premium">Wolf</a>
-          <a href="miele-appliance-repair-orange-county.html" class="brand-pill premium">Miele</a>
-          <a href="thermador-appliance-repair-orange-county.html" class="brand-pill premium">Thermador</a>
-          <a href="dacor-appliance-repair-orange-county.html" class="brand-pill premium">Dacor</a>
-          <a href="dcs-appliance-repair-orange-county.html" class="brand-pill premium">DCS</a>
-          <a href="bosch-appliance-repair-orange-county.html" class="brand-pill premium">Bosch Premium</a>
-        </div>
-      </div>
-      <p class="scope-note">These four cities are <strong>premium-brand only</strong>. If your appliance is one of these, the diagnostic is a flat <strong>$99</strong> credited toward the repair, and same-day is often open. With Bosch we take the premium built-in lines, Benchmark included, so if you're not sure which Bosch you have, read us the model number and we'll check it with you. If it's a Whirlpool, LG, or Samsung, we'll tell you on the phone rather than after a visit.</p>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">These are the eight brands we take in Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach: Sub-Zero, Viking, Wolf, Miele, Thermador, Dacor, DCS, and Bosch premium built-in lines. Choose a logo in the <a href="#brand-chips-label" style="color:var(--brand-text);font-weight:600;text-decoration:underline;text-underline-offset:2px;">brand row at the top of this page</a> to see the faults we see most often on that brand, the parts involved, and how the repair usually goes.</p>
+      <p class="scope-note">These four cities are <strong>premium-brand only</strong>. If your appliance is one of these eight, the diagnostic is a flat <strong>$99</strong> credited toward the repair, and same-day is often open. With Bosch we take the premium built-in lines, Benchmark included, so if you're not sure which Bosch you have, read us the model number and we'll check it with you. If it's a Whirlpool, LG, or Samsung, we'll tell you on the phone rather than after a visit.</p>
       <p style="font-size:13px;color:#666;margin-top:24px;line-height:1.7;text-align:center;max-width:680px;margin-left:auto;margin-right:auto;">We service these brands and make no claim of factory authorization. If your appliance is still under manufacturer warranty, call the brand first, because authorized warranty work should cost you nothing.</p>
     </div>
   </section>

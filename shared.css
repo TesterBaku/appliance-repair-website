@@ -151,13 +151,14 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
 
 /* BRAND LOGO CHIPS (hub "Brands we repair" strip as clickable logo buttons). New class names on
    purpose: the .expect-brands* rules above stay only for pages not yet converted to chips and are
-   removed in PR 3 of the rollout. Desktop shows every chip inline beside the label. On phones the list
+   removed in PR 3 of the rollout. Desktop shows every chip, with the label on its own row above them
+   (an inline label stole width and orphaned the last chip of the 8-chip luxury lists). On phones the list
    is a 2-column grid (logos then render at their attribute size) and, once site.js has marked it
    data-cap-ready, shows the first five chips plus a "+N more" chip as the sixth cell (three rows);
    without JS every chip stays visible and the more chip never shows. Linked chips are bordered
    buttons; unlinked ones (span.brand-chip: Electrolux, Speed Queen, U-Line) are plain labels. */
 .brand-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0 0; }
-.brand-chips-label { margin: 0 6px 0 0; font-size: 13px; font-weight: 600; color: var(--text-soft); }
+.brand-chips-label { flex-basis: 100%; margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--text-soft); }
 .brand-chips-list { list-style: none; margin: 0; padding: 0; display: flex; flex: 1 1 0; min-width: 0; flex-wrap: wrap; gap: 8px; }
 .brand-chip { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 44px; padding: 0 18px; background: var(--surface); border: 1px solid #d5dde5; border-radius: 999px; }
 .brand-chip img { display: block; max-width: 100%; height: auto; filter: grayscale(1); opacity: .85; }
