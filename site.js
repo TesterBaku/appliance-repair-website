@@ -269,8 +269,8 @@
       if (!btn || list.hasAttribute('data-cap-ready')) return;
       var count = list.children.length - 1;
       if (count <= 6) return;
-      btn.textContent = '+' + (count - 5) + ' more';
-      btn.setAttribute('aria-label', 'Show all ' + count + ' brands');
+      // Visible text is the whole accessible name (WCAG 2.5.3 label-in-name): no aria-label.
+      btn.textContent = '+' + (count - 5) + ' more brands';
       list.setAttribute('data-cap-ready', '');
       btn.addEventListener('click', function () {
         btn.setAttribute('aria-expanded', 'true');
