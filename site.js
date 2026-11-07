@@ -259,6 +259,32 @@
     });
   }
 
+  // 4b. Brand logo chips: on phones show the first six chips and a "Show all N brands" button.
+  // shared.css hides chips 7+ only once the list carries data-cap-ready (set here), so without JS
+  // every chip stays visible. Desktop never caps.
+  function initBrandCap() {
+    document.querySelectorAll('.brand-chips-list').forEach(function (list) {
+      var count = list.children.length;
+      if (count <= 6 || list.hasAttribute('data-cap-ready')) return;
+      var row = list.nextElementSibling;
+      if (!row || !row.classList.contains('brand-chips-more-row')) return;
+      var btn = row.querySelector('.brand-chips-more');
+      if (!btn) return;
+      btn.textContent = 'Show all ' + count + ' brands';
+      list.setAttribute('data-cap-ready', '');
+      btn.addEventListener('click', function () {
+        list.setAttribute('data-expanded', '');
+        // The button disappears, so hand focus to the first newly revealed chip.
+        var chip = list.children[6].querySelector('a');
+        if (!chip) {
+          chip = list.children[6].firstElementChild;
+          chip.setAttribute('tabindex', '-1');
+        }
+        chip.focus();
+      });
+    });
+  }
+
   // 5. Capped review row: shared.css hides cards 3+ on phones only once the grid carries
   // data-cap-ready (set here), so without JS every review stays visible. Only grids of 4+ cards
   // are capped by default: hiding a single card behind a button costs more than it saves, so 3 or fewer
@@ -386,6 +412,7 @@
   initDrawer();
   initFaq();
   initJobGridCap();
+  initBrandCap();
   initReviewsCap();
   initScrollableTables();
 })();

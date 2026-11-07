@@ -149,6 +149,34 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
   .expect-brands-note { margin-top: 8px; font-size: 12px; line-height: 1.38; }
 }
 
+/* BRAND LOGO CHIPS (hub "Brands we repair" strip as clickable logo buttons). New class names on
+   purpose: the .expect-brands* rules above stay only for pages not yet converted to chips and are
+   removed in PR 3 of the rollout. Desktop shows every chip. On phones the list is a 3-column grid
+   and, once site.js has marked it data-cap-ready, shows the first six chips plus a "Show all N brands"
+   button; without JS every chip stays visible and there is no button. */
+.brand-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0 0; }
+.brand-chips-label { margin: 0 6px 0 0; font-size: 13px; font-weight: 600; color: var(--text-soft); }
+.brand-chips-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.brand-chip { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 44px; padding: 0 18px; background: var(--surface); border: 1px solid #d5dde5; border-radius: 999px; }
+.brand-chip img { display: block; max-width: 100%; height: auto; filter: grayscale(1); opacity: .85; }
+.brand-chip-text { font-size: 13.5px; font-weight: 700; color: var(--text-soft); letter-spacing: .01em; white-space: nowrap; }
+a.brand-chip { text-decoration: none; transition: border-color .15s; }
+a.brand-chip:hover { border-color: var(--brand-text); }
+a.brand-chip:hover img { opacity: 1; }
+a.brand-chip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.brand-chips-more-row { display: none; }
+.brand-chips-note { flex-basis: 100%; margin: 4px 0 0; font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+@media (max-width: 768px) {
+  .brand-chips { display: block; margin-top: 10px; }
+  .brand-chips-label { margin: 0 0 6px; font-size: 12.5px; }
+  .brand-chips-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .brand-chip { display: flex; width: 100%; padding: 0 8px; border-radius: 10px; }
+  .brand-chips-list[data-cap-ready]:not([data-expanded]) > li:nth-child(n+7) { display: none; }
+  .brand-chips-list[data-cap-ready]:not([data-expanded]) ~ .brand-chips-more-row { display: block; text-align: center; margin-top: 8px; }
+  .brand-chips-more { min-height: 44px; padding: 0 18px; font: inherit; font-size: 13px; font-weight: 600; color: var(--brand-text); background: var(--surface); border: 1.5px solid var(--brand-text); border-radius: 8px; cursor: pointer; }
+  .brand-chips-note { margin-top: 8px; font-size: 12px; }
+}
+
 /* SECTIONS */
 .section { padding: 80px 24px; }
 .section-white { background: var(--surface); }
