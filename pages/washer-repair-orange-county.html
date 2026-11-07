@@ -106,6 +106,46 @@
     .btn-white { display: inline-block; background: var(--surface); color:var(--brand-text); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
     .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
 
+    /* RECENT JOB PHOTOS */
+    /* Six half-tracks, each card spanning two, so the rendered geometry matches a 3-up grid while
+       a trailing row of one or two can still be centered, which whole tracks cannot express.
+       Replaces the earlier hardcoded 4-card/5-card rules (now that this section holds 7 cards)
+       with the count-agnostic formula already used on the Samsung and GE brand hubs: it keys off
+       the last-card's position modulo 3, so it keeps working unchanged as cards are added or
+       removed, rather than needing a new hardcoded rule at every new count. Must stay ABOVE the
+       @media block below, which repeats the same selectors to reset them on mobile. */
+    .job-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
+    .job-grid:has(.job-card:nth-child(3n+1):last-child) .job-card:last-child { grid-column: 3 / span 2; }
+    .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:nth-last-child(2) { grid-column: 2 / span 2; }
+    .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:last-child { grid-column: 4 / span 2; }
+    .job-card { grid-column: span 2; position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
+    .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
+    .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
+    .job-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
+    .job-card-body { padding: 16px 18px 20px; }
+    /* Kicker is a label, not an action, so it must not take the brand-text token. DESIGN.md
+       reserves orange for things that are clickable or critical, and a static brand name is
+       neither. Uppercase + 700 + letter-spacing already carry the hierarchy. */
+    .job-card-kicker { font-size: 10px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .job-card-title { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.35; }
+    .job-card-loc { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+    .job-card-link { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
+    .job-card-link:hover { text-decoration: underline; }
+    /* Stretched link: the whole card becomes the hit area, so the mobile tap target is the
+       full ~296x373px card instead of a 15px-tall text run (.claude/rules/mobile-design.md
+       requires >=44x44px). Also gives the card the hover feedback its affordance implies.
+       Requires .job-card { position: relative } above and no other interactive child.
+       Known trade-off (same as Bootstrap's .stretched-link): the overlay sits above the card
+       text, so that text is no longer selectable, and a right-click lands on the link rather
+       than the photo. Accepted here because the card carries three short lines that are all
+       repeated in the link text and image alt.
+       If selectable body text is ever wanted, constrain the overlay to the photo band with
+       `inset: 0 0 auto 0; height: 260px` - measured: the photo stays clickable and the title
+       becomes selectable. Do NOT reach for `.job-card-body { position: relative }`: that only
+       re-parents the overlay's containing block, so the overlay stops covering the photo while
+       still covering (and blocking selection of) the body text - measured, worst of both. */
+    .job-card-link::after { content: ''; position: absolute; inset: 0; }
+
     /* MOBILE */
     @media (max-width: 768px) {
       .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
@@ -116,6 +156,14 @@
       .brands-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: repeat(2, 1fr); }
       .hub-page .testimonials-grid { grid-template-columns: 1fr; }
+      /* These resets must repeat the full desktop selectors. A bare `.job-card { grid-column:
+         auto }` is LOWER specificity than `.job-grid:has(...) .job-card:last-child` and would
+         silently lose, leaving the 6-track placement live on phones. */
+      .job-grid { grid-template-columns: 1fr; max-width: 360px; }
+      .job-grid .job-card,
+      .job-grid:has(.job-card:nth-child(3n+1):last-child) .job-card:last-child,
+      .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:nth-last-child(2),
+      .job-grid:has(.job-card:nth-child(3n+2):last-child) .job-card:last-child { grid-column: auto; }
       .cta-box { padding: 36px 24px; }
       .cta-box h2 { font-size: 22px; }
     }
@@ -888,10 +936,10 @@
   <section class="section section-gray">
     <div class="container">
       <h2 style="font-size:22px;font-weight:700;color:#111;letter-spacing:-0.3px;margin-bottom:20px;text-align:center;">Recent Washer Repairs</h2>
-      <div class="job-grid-cap" id="washer-job-grid" data-more-label="repairs" style="max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:20px;">
-        <div id="job-washer-maytag-lid-lock-stanton" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+      <div class="job-grid job-grid-cap" id="washer-job-grid" data-more-label="repairs">
+        <div class="job-card" id="job-washer-maytag-lid-lock-stanton" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-maytag-lid-lock-stanton-480w.webp 480w, ../images/real/business/completed-repair-washer-maytag-lid-lock-stanton.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-maytag-lid-lock-stanton-480w.webp 480w, ../images/real/business/completed-repair-washer-maytag-lid-lock-stanton.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-maytag-lid-lock-stanton.jpg" alt="Silver Maytag top-load washer with the lid closed and the control display lit, in a Stanton laundry room" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;object-position:50% 23%;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -902,16 +950,16 @@
             <a href="recent-repairs.html#job-washer-maytag-lid-lock-stanton" class="tap-link" aria-label="See this repair: Maytag washer lid lock replacement, Stanton, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
           </div>
         </div>
-        <div id="job-lg-washer-drain-pump-newport-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" id="job-lg-washer-drain-pump-newport-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach.jpg" alt="Silver LG front-load washer under a white counter in a Newport Beach laundry area" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;"><div style="font-size:10px;font-weight:700;color:var(--brand-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">LG &middot; Washer</div><div style="font-size:14px;font-weight:700;color:#111;line-height:1.35;">Drain Pump Replacement</div><div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div><p style="font-size:13px;color:#555;line-height:1.7;margin-top:10px;">Drain pump replaced on this LG front-load washer in Newport Beach.</p><a href="recent-repairs.html#job-lg-washer-drain-pump-newport-beach" class="tap-link" aria-label="See this repair: LG washer drain pump replacement, Newport Beach, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a></div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-maytag-control-board-corona-del-mar-480w.webp 480w, ../images/real/business/completed-repair-washer-maytag-control-board-corona-del-mar.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-maytag-control-board-corona-del-mar-480w.webp 480w, ../images/real/business/completed-repair-washer-maytag-control-board-corona-del-mar.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-maytag-control-board-corona-del-mar.jpg" alt="White Maytag Commercial Technology top-load washer with the lid open in a Corona del Mar laundry alcove during a control-board service call" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -922,9 +970,9 @@
             <a href="appliance-repair-newport-beach-ca.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Newport Beach &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.webp 1024w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.jpg" alt="Graphite LG front-load washer and dryer side by side in a Foothill Ranch laundry room during a maintenance visit" width="1024" height="768" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -935,9 +983,9 @@
             <a href="appliance-repair-lake-forest-ca.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Lake Forest &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-whirlpool-boot-seal-detail-aliso-viejo-480w.webp 480w, ../images/real/business/completed-repair-washer-whirlpool-boot-seal-detail-aliso-viejo.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-whirlpool-boot-seal-detail-aliso-viejo-480w.webp 480w, ../images/real/business/completed-repair-washer-whirlpool-boot-seal-detail-aliso-viejo.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-whirlpool-boot-seal-detail-aliso-viejo.jpg" alt="Technician seating a new rubber door boot gasket around the drum opening of a Whirlpool front-load washer to stop a door leak" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -948,9 +996,9 @@
             <a href="appliance-repair-aliso-viejo-ca.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Aliso Viejo &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-suspension-rods-inspection-480w.webp 480w, ../images/real/business/completed-repair-washer-suspension-rods-inspection.webp 750w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-suspension-rods-inspection-480w.webp 480w, ../images/real/business/completed-repair-washer-suspension-rods-inspection.webp 750w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-suspension-rods-inspection.jpg" alt="Interior view of a washer cabinet showing the rubber shock absorber boots and suspension rods during an inspection" width="750" height="1000" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -960,9 +1008,9 @@
             <a href="recent-repairs.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See more real repairs &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-whirlpool-duet-electronics-480w.webp 480w, ../images/real/business/completed-repair-washer-whirlpool-duet-electronics.webp 562w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-whirlpool-duet-electronics-480w.webp 480w, ../images/real/business/completed-repair-washer-whirlpool-duet-electronics.webp 562w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-whirlpool-duet-electronics.jpg" alt="Whirlpool Duet washer with the top panel removed, exposing the control board and wiring harness, in a laundry closet" width="562" height="1000" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -972,9 +1020,9 @@
             <a href="recent-repairs.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See more real repairs &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch.webp 1024w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch.jpg" alt="LG front-load washer with the top and control panel removed, exposing the circuit boards, wiring harness, and drum, with tools spread on the tile floor beside a matching LG dryer in a Ladera Ranch laundry room" width="1024" height="768" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -985,9 +1033,9 @@
             <a href="recent-repairs.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See more real repairs &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-dispenser-orange-detail-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-dispenser-orange-detail.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-dispenser-orange-detail-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-dispenser-orange-detail.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-lg-dispenser-orange-detail.jpg" alt="Close view into the open top of an LG front-load washer showing the old detergent dispenser housing tilted out with hardened build-up caked inside, beside the clean white replacement assembly, in Orange, CA" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -998,9 +1046,9 @@
             <a href="appliance-repair-orange-ca.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Orange &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-samsung-shaking-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-washer-samsung-shaking-mission-viejo.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-washer-samsung-shaking-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-washer-samsung-shaking-mission-viejo.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-samsung-shaking-mission-viejo.jpg" alt="White Samsung top-load washer with a digital cycle panel, standing beside a white dryer in a Mission Viejo garage laundry area after a repair for violent shaking during the spin cycle" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -1011,9 +1059,9 @@
             <a href="appliance-repair-mission-viejo-ca.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Mission Viejo &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-door-lock-cypress-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-lock-cypress.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-door-lock-cypress-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-lock-cypress.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-lg-door-lock-cypress.jpg" alt="Open grey door of an LG front-load washer in Cypress, showing the door hook on the door frame after the door hook and door lock were replaced" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -1024,9 +1072,9 @@
             <a href="recent-repairs.html#job-washer-lg-door-lock-cypress" class="tap-link" aria-label="See this repair: LG washer door lock and door hook replacement, Cypress, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-door-lock-parts-cypress-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-lock-parts-cypress.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-door-lock-parts-cypress-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-lock-parts-cypress.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-lg-door-lock-parts-cypress.jpg" alt="Old parts removed from an LG front-load washer in Cypress, laid out on a white surface: the door lock assembly, a small spring, the door hook and its pin" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;object-position:50% 35%;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
@@ -1037,9 +1085,9 @@
             <a href="recent-repairs.html#job-washer-lg-door-lock-parts-cypress" class="tap-link" aria-label="See this repair: LG washer old door lock and door hook parts, Cypress, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+        <div class="job-card" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 280px">
             <img src="../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills.jpg" alt="LG front-load washer in Beverly Hills with a door gasket resting on top and a gasket fitted in the door opening, during a door gasket replacement" width="768" height="1024" loading="lazy" style="width:100%;height:280px;object-fit:cover;object-position:center 10%;display:block;">
           </picture>
           <div style="padding:16px 20px 22px;">
