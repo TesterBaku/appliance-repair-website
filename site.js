@@ -263,18 +263,37 @@
   // grid cell. shared.css hides brand chips 6+ (and shows the more chip) only once the list carries
   // data-cap-ready (set here), so without JS every chip stays visible and the more chip stays hidden.
   // Lists of six or fewer brands are never capped. Desktop never caps.
+  // A link that points into a .brand-chips block (the luxury pages' "brand row at the top of this page"
+  // link targets #brand-chips-label) opens the full list, so it never lands on five chips and a button.
+  function expandBrandList(list) {
+    var btn = list.querySelector('.brand-chips-more');
+    if (!btn || !list.hasAttribute('data-cap-ready')) return;
+    btn.setAttribute('aria-expanded', 'true');
+    list.setAttribute('data-expanded', '');
+  }
+  function expandBrandsForHash(hash) {
+    var id = (hash || '').slice(1);
+    // A malformed escape (e.g. "#%E0%A4%A") makes decodeURIComponent throw; this runs during init,
+    // so a throw here would stop the scripts initialised after it. Fall back to the raw id.
+    try { id = decodeURIComponent(id); } catch (e) { /* keep the raw id */ }
+    var target = id && document.getElementById(id);
+    var group = target && target.closest && target.closest('.brand-chips');
+    var list = group && group.querySelector('.brand-chips-list');
+    if (list) expandBrandList(list);
+  }
   function initBrandCap() {
+    var capped = false;
     document.querySelectorAll('.brand-chips-list').forEach(function (list) {
       var btn = list.querySelector('.brand-chips-more');
       if (!btn || list.hasAttribute('data-cap-ready')) return;
       var count = list.children.length - 1;
       if (count <= 6) return;
+      capped = true;
       // Visible text is the whole accessible name (WCAG 2.5.3 label-in-name): no aria-label.
       btn.textContent = '+' + (count - 5) + ' more brands';
       list.setAttribute('data-cap-ready', '');
       btn.addEventListener('click', function () {
-        btn.setAttribute('aria-expanded', 'true');
-        list.setAttribute('data-expanded', '');
+        expandBrandList(list);
         // The more chip disappears, so hand focus to the first newly revealed brand chip (the sixth).
         var chip = list.children[5].querySelector('a');
         if (!chip) {
@@ -284,7 +303,18 @@
         chip.focus();
       });
     });
+    if (!capped || brandHashWired) return;
+    brandHashWired = true;
+    expandBrandsForHash(location.hash);
+    window.addEventListener('hashchange', function () { expandBrandsForHash(location.hash); });
+    // A click on a link to the hash already in the URL fires no hashchange, so catch the click too.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (!a || a.pathname !== location.pathname || a.host !== location.host) return;
+      expandBrandsForHash(a.hash);
+    });
   }
+  var brandHashWired = false;
 
   // 5. Capped review row: shared.css hides cards 3+ on phones only once the grid carries
   // data-cap-ready (set here), so without JS every review stays visible. Only grids of 4+ cards

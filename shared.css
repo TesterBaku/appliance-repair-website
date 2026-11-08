@@ -163,6 +163,9 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .brand-chips-more { font: inherit; font-size: 13px; font-weight: 600; color: var(--text-soft); cursor: pointer; }
 /* flex-basis 100% forces the note onto its own line; a max-width would shrink that basis and let it sit beside the list, so the 80ch measure is applied as right padding instead. */
 .brand-chips-note { flex-basis: 100%; box-sizing: border-box; padding-right: max(0px, calc(100% - 80ch)); margin: 4px 0 0; font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+/* City hubs: the local brand line (moved up from the retired lower "Brands We Service" section, 2026-11-08). */
+.brand-chips-intro { flex-basis: 100%; box-sizing: border-box; padding-right: max(0px, calc(100% - 80ch)); margin: 6px 0 0; font-size: 13.5px; color: var(--text-soft); line-height: 1.55; }
+.brand-chips-intro a { color: var(--brand-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 @media (max-width: 768px) {
   .brand-chips { display: block; margin-top: 10px; }
   .brand-chips-label { margin: 0 0 6px; font-size: 12.5px; }
@@ -171,6 +174,11 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .brand-chips-list[data-cap-ready]:not([data-expanded]) > li:nth-child(n+6):not(.brand-chips-more-item) { display: none; }
   .brand-chips-list[data-cap-ready]:not([data-expanded]) > .brand-chips-more-item { display: block; }
   .brand-chips-note { padding-right: 0; margin-top: 8px; font-size: 12px; }
+  .brand-chips-intro { padding-right: 0; margin-top: 10px; font-size: 13.5px; }
+  /* Two logos read small at their attribute size in a 2-column chip: GE's wordmark sits beside a round
+     monogram (about 6px text at 83px wide) and KitchenAid is a 10px-tall script. Widen just those two. */
+  .brand-chip img[src$="/ge.svg"] { width: 128px; }
+  .brand-chip img[src$="/kitchenaid.svg"] { width: 146px; }
   /* An odd brand count leaves the last brand alone in the left cell of the 2-column grid. Centre it on its own
      row at a single chip's width (half the grid minus half the 6px gap). The last brand is second-to-last in the
      list because the more-chip item is always last; while the list is capped that brand is hidden, and the more
