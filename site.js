@@ -273,7 +273,10 @@
   }
   function expandBrandsForHash(hash) {
     var id = (hash || '').slice(1);
-    var target = id && document.getElementById(decodeURIComponent(id));
+    // A malformed escape (e.g. "#%E0%A4%A") makes decodeURIComponent throw; this runs during init,
+    // so a throw here would stop the scripts initialised after it. Fall back to the raw id.
+    try { id = decodeURIComponent(id); } catch (e) { /* keep the raw id */ }
+    var target = id && document.getElementById(id);
     var group = target && target.closest && target.closest('.brand-chips');
     var list = group && group.querySelector('.brand-chips-list');
     if (list) expandBrandList(list);

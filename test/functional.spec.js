@@ -1263,6 +1263,17 @@ test('phone: GE and KitchenAid brand logos render at their enlarged width', asyn
   expect(await width('KitchenAid')).toBeGreaterThanOrEqual(140);
 });
 
+// site.js decodes the URL hash during init to find a link target inside the brand strip; a malformed
+// escape must not throw there, or the scripts initialised after it never run (PR #956 review).
+test('a malformed URL hash does not break site.js init', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html#%E0%A4%A');
+  await expect(page.locator('.brand-chips-list')).toHaveAttribute('data-cap-ready', '');
+  expect(errors).toEqual([]);
+});
+
 for (const slug of PREMIUM_HUBS) {
   test.describe(`Premium hub: ${slug}`, () => {
     test.beforeEach(async ({ page }) => {
