@@ -910,7 +910,8 @@ for (const slug of CITY_HUBS) {
         return;
       }
       await expect(page.locator('.brand-chips a.brand-chip')).toHaveCount(14);
-      await expect(page.locator('.brand-chips .brand-chip')).toHaveCount(15);
+      // 15 brands; the "+N more brands" button also carries .brand-chip, so count list items instead.
+      await expect(page.locator('.brand-chips-list > li:not(.brand-chips-more-item)')).toHaveCount(15);
       const links = await hrefs(page, '.brand-chips a.brand-chip');
       expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
       await expect(page.locator('.brand-pill, .brands-group')).toHaveCount(0);
