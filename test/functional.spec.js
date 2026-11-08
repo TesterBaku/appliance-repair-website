@@ -900,12 +900,22 @@ for (const slug of CITY_HUBS) {
       expect(count).toBeGreaterThanOrEqual(8);
     });
 
-    test('brand section has Premium & Luxury tier label', async ({ page }) => {
-      await expect(page.locator('.brands-group-label', { hasText: /Premium/i })).toBeAttached();
-    });
-
-    test('brand section has All Major Brands tier label', async ({ page }) => {
-      await expect(page.locator('.brands-group-label', { hasText: /All Major Brands/i })).toBeAttached();
+    // Since owner decision 2026-11-07 the city hubs show their brands once, as the .brand-chips logo
+    // strip (15 chips, Electrolux unlinked), not as a lower Premium / All Major Brands pill list. Corona
+    // is parked and still carries the legacy pill groups, so it keeps the old assertions.
+    test('brand section: logo chip strip with no duplicate pill list (Corona: legacy pill groups)', async ({ page }) => {
+      if (slug === 'appliance-repair-corona-ca') {
+        await expect(page.locator('.brands-group-label', { hasText: /Premium/i })).toBeAttached();
+        await expect(page.locator('.brands-group-label', { hasText: /All Major Brands/i })).toBeAttached();
+        return;
+      }
+      await expect(page.locator('.brand-chips a.brand-chip')).toHaveCount(14);
+      // 15 brands; the "+N more brands" button also carries .brand-chip, so count list items instead.
+      await expect(page.locator('.brand-chips-list > li:not(.brand-chips-more-item)')).toHaveCount(15);
+      const links = await hrefs(page, '.brand-chips a.brand-chip');
+      expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
+      await expect(page.locator('.brand-pill, .brands-group')).toHaveCount(0);
+      await expect(page.locator('a[href="#brand-chips-label"]')).toBeAttached();
     });
 
     test('clicking first service link navigates to a hub page', async ({ page }) => {

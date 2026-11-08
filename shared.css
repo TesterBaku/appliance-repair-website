@@ -126,12 +126,6 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
 .expect-list strong { display: block; font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.3; margin-bottom: 5px; }
 .expect-list li > span { display: block; font-size: 12.5px; color: var(--text-sub); line-height: 1.5; }
 .expect-trust { margin: 14px 0 0; font-size: 13px; font-weight: 600; color: var(--text-soft); line-height: 1.5; }
-.expect-brands { margin: 14px 0 0; }
-.expect-brands-label { margin: 0 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--text-soft); }
-.expect-brands-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
-.expect-brands-list li { display: flex; align-items: center; }
-.expect-brands-list img { display: block; height: auto; max-width: 100%; filter: grayscale(1); opacity: .62; }
-.expect-brands-note { margin: 10px 0 0; font-size: 13px; line-height: 1.45; color: var(--text-soft); }
 .nb { white-space: nowrap; }
 @media (max-width: 768px) {
   /* Phone compaction: the strip sits between the hero and the reviews, so every pixel here
@@ -143,15 +137,10 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
   .expect-list strong { font-size: 13.5px; line-height: 1.25; margin-bottom: 2px; }
   .expect-list li > span { font-size: 12px; line-height: 1.38; }
   .expect-trust { margin-top: 10px; font-size: 12.5px; line-height: 1.4; }
-  .expect-brands { margin-top: 10px; }
-  .expect-brands-label { margin-bottom: 6px; }
-  .expect-brands-list { gap: 8px 16px; }
-  .expect-brands-note { margin-top: 8px; font-size: 12px; line-height: 1.38; }
 }
 
 /* BRAND LOGO CHIPS (hub "Brands we repair" strip as clickable logo buttons). New class names on
-   purpose: the .expect-brands* rules above stay only for pages not yet converted to chips and are
-   removed in PR 3 of the rollout. Desktop shows every chip, with the label on its own row above them
+   purpose: they replaced the old plain logo strip, now removed. Desktop shows every chip, with the label on its own row above them
    (an inline label stole width and orphaned the last chip of the 8-chip luxury lists). On phones the list
    is a 2-column grid (logos then render at their attribute size) and, once site.js has marked it
    data-cap-ready, shows the first five chips plus a "+N more" chip as the sixth cell (three rows);
@@ -164,7 +153,7 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
 .brand-chip img { display: block; max-width: 100%; height: auto; filter: grayscale(1); opacity: .85; }
 .brand-chip-text { font-size: 13.5px; font-weight: 700; color: var(--text-soft); letter-spacing: .01em; white-space: nowrap; }
 span.brand-chip { background: transparent; border-color: transparent; cursor: default; }
-a.brand-chip { text-decoration: none; transition: border-color .15s; }
+a.brand-chip { color: var(--text-soft); text-decoration: none; transition: border-color .15s; }
 a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 @media (hover: hover) {
   a.brand-chip:hover { border-color: var(--brand-text); }
@@ -182,6 +171,11 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .brand-chips-list[data-cap-ready]:not([data-expanded]) > li:nth-child(n+6):not(.brand-chips-more-item) { display: none; }
   .brand-chips-list[data-cap-ready]:not([data-expanded]) > .brand-chips-more-item { display: block; }
   .brand-chips-note { padding-right: 0; margin-top: 8px; font-size: 12px; }
+  /* An odd brand count leaves the last brand alone in the left cell of the 2-column grid. Centre it on its own
+     row at a single chip's width (half the grid minus half the 6px gap). The last brand is second-to-last in the
+     list because the more-chip item is always last; while the list is capped that brand is hidden, and the more
+     chip sits in the sixth cell, so this only ever shows on a fully visible list (expanded, uncapped or no JS). */
+  .brand-chips-list > li:nth-last-child(2):nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 3px); }
 }
 
 /* SECTIONS */
