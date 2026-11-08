@@ -901,7 +901,7 @@ for (const slug of CITY_HUBS) {
     });
 
     // Since owner decision 2026-11-07 the city hubs show their brands once, as the .brand-chips logo
-    // strip (15 chips, Electrolux unlinked), not as a lower Premium / All Major Brands pill list. Corona
+    // strip (15 chips, all linked), not as a lower Premium / All Major Brands pill list. Corona
     // is parked and still carries the legacy pill groups, so it keeps the old assertions.
     test('brand section: logo chip strip with no duplicate pill list (Corona: legacy pill groups)', async ({ page }) => {
       if (slug === 'appliance-repair-corona-ca') {
@@ -909,7 +909,7 @@ for (const slug of CITY_HUBS) {
         await expect(page.locator('.brands-group-label', { hasText: /All Major Brands/i })).toBeAttached();
         return;
       }
-      await expect(page.locator('.brand-chips a.brand-chip')).toHaveCount(14);
+      await expect(page.locator('.brand-chips a.brand-chip')).toHaveCount(15);
       // 15 brands; the "+N more brands" button also carries .brand-chip, so count list items instead.
       await expect(page.locator('.brand-chips-list > li:not(.brand-chips-more-item)')).toHaveCount(15);
       const links = await hrefs(page, '.brand-chips a.brand-chip');
@@ -2712,11 +2712,11 @@ const BRAND_HUBS = [
   { brand: 'Thermador',file: 'thermador-appliance-repair-orange-county.html' },
   { brand: 'DCS',      file: 'dcs-appliance-repair-orange-county.html' },
 ];
-// Mainstream brand hubs: Bosch, Frigidaire, GE, Kenmore, KitchenAid, LG, Maytag, Samsung,
+// Mainstream brand hubs: Bosch, Electrolux, Frigidaire, GE, Kenmore, KitchenAid, LG, Maytag, Samsung,
 // Whirlpool. A separate list from BRAND_HUBS because the two take different assertions:
 // BRAND_HUBS encodes the LUXURY hubs' decisions (model grid, issue grid, `Service.brand`
 // match, 6-card cross-links), none of which the mainstream hubs share. The mainstream hubs
-// DO carry testimonials (3+ cards, plus AggregateRating) and there are 9 of them. Adding
+// DO carry testimonials (3+ cards, plus AggregateRating) and there are 10 of them. Adding
 // Frigidaire to BRAND_HUBS during #708 failed 5 assertions; four were luxury-only
 // expectations and one was a real bug (a 186-char meta description). Until this list
 // existed they had no functional coverage, which is how Frigidaire shipped 4 dead `tel:`
@@ -2729,6 +2729,7 @@ const BRAND_HUBS = [
 // runtime skip, so un-redesigned pages have no such tests rather than hidden skipped ones.
 const MAINSTREAM_HUBS = [
   { brand: 'Bosch',      file: 'bosch-appliance-repair-orange-county.html' },
+  { brand: 'Electrolux', file: 'electrolux-appliance-repair-orange-county.html' },
   { brand: 'Frigidaire', file: 'frigidaire-appliance-repair-orange-county.html' },
   { brand: 'GE',         file: 'ge-appliance-repair-orange-county.html' },
   { brand: 'Kenmore',    file: 'kenmore-appliance-repair-orange-county.html' },

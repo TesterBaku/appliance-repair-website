@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 126 |
-| On exactly 1 hub (1 free slot each) | 23 |
-| On exactly 2 hubs (at cap) | 99 |
+| Distinct reviews currently on >=1 hub | 127 |
+| On exactly 1 hub (1 free slot each) | 22 |
+| On exactly 2 hubs (at cap) | 101 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **23** |
+| **Free hub-slots available now** | **22** |
 | Approx. new city hubs supportable @ 3/hub | **~7** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 23 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 22 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -46,11 +46,10 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Cindi Nichols | whittier |
 | Craig Tudor | garden-grove |
 | Daniel Eichkhoff | whittier |
-| David Lindley | dryer-repair-cost-hub |
 | Elvin Mammadov | wolf-hub |
 | Henry Lo | brea |
 | Javier Tellez | maytag-hub |
-| Jesus Mendoza | palm-springs |
+| Jayson Hawley | maytag-hub |
 | Julianna Gamulao | oven-stove-repair-hub |
 | Katherine Bosboom | cost-hub |
 | Laurie Summers | wolf-hub |
@@ -87,6 +86,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Dana McNeill | fountain-valley, rancho-santa-margarita |
 | Danette Vanover | aliso-viejo, washer-repair-hub |
 | Daniel Rojas | dcs-hub, washer-repair-cost-hub |
+| David Lindley | dryer-repair-cost-hub, electrolux-hub |
 | Darina Martirosyan | brea, tustin |
 | Dave Brisbin | irvine, refrigerator-repair-hub |
 | Dena Fisher | buena-park, dryer-repair-hub |
@@ -107,6 +107,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | James Wehrman | stanton, frigidaire-hub |
 | Jeff C | san-juan-capistrano, refrigerator-repair-cost-hub |
 | Jeff Lane Songs | kitchenaid-hub, samsung-hub |
+| Jesus Mendoza | palm-springs, electrolux-hub |
 | Jennifer Trette | costa-mesa, cypress |
 | John Dinger | cost-hub, dana-point |
 | John Suveges | montebello, dishwasher-repair-hub |
@@ -125,7 +126,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Kim Bowen | downey, dryer-repair-hub |
 | Lale | santa-ana, refrigerator-repair-hub |
 | Laman Anvarli | fullerton, freezer-repair-hub |
-| LethKris B&H | ge-hub, maytag-hub |
+| LethKris B&H | ge-hub, electrolux-hub |
 | Leticia Caro | downey, maytag-hub |
 | Linda B. | laguna-niguel, lake-forest |
 | Marcy Kucik | anaheim, refrigerator-repair-hub |
