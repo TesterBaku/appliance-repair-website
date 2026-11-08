@@ -87,13 +87,6 @@
     .neighborhood-zip { font-size: 12px; color: var(--text-sub); }
     .neighborhood-note { font-size: 12px; color: var(--text-sub); margin-top: 6px; line-height: 1.5; }
 
-    .brands-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; justify-content: center; }
-    .brands-group { margin-top: 24px; }
-    .brands-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #666666; margin-bottom: 10px; text-align: center; }
-    .brand-pill { background: var(--surface); border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: var(--text-soft); text-decoration: none; display: inline-block; }
-    .brand-pill.premium { border: 1.5px solid #c03a14; color: var(--text-primary); }
-    .brand-pill.premium:hover { background: #fff5f2; }
-
     .symptoms-list { margin-top: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 760px; margin-left: auto; margin-right: auto; }
     .symptom-item { background: var(--surface); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--text-soft); border: 1px solid var(--border); display: flex; align-items: flex-start; gap: 10px; }
     .symptom-item::before { content: ''; width: 8px; height: 8px; min-width: 8px; border-radius: 50%; background: var(--brand); margin-top: 4px; }
@@ -168,8 +161,6 @@
          the rendered box instead of trusting the rule. */
       .services-links-grid a[href] { min-height: 44px; display: flex; align-items: center; }
       .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-      /* P6-50 tap target: the brand pill rendered 34px tall (padding: 8px 18px). */
-      .brand-pill { min-height: 44px; display: inline-flex; align-items: center; }
       .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
       .hub-hero p { font-size: 14px; }
       .hub-hero-content { padding: 48px 16px 56px; }
@@ -881,34 +872,7 @@
   <section class="section section-white">
     <div class="container-lg">
       <h2 class="h2-page" style="text-align:center;">Brands We Service in Pico Rivera</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">Pico Rivera kitchens run the full range, from everyday Whirlpool and LG to built-in Viking and Dacor. We handle standard residential units and premium luxury brands alike.</p>
-      <div class="brands-group">
-        <div class="brands-group-label">Premium &amp; Luxury Brands</div>
-        <div class="brands-list">
-          <a href="sub-zero-appliance-repair-orange-county.html" class="brand-pill premium">Sub-Zero</a>
-          <a href="wolf-appliance-repair-orange-county.html" class="brand-pill premium">Wolf</a>
-          <a href="viking-appliance-repair-orange-county.html" class="brand-pill premium">Viking</a>
-          <a href="thermador-appliance-repair-orange-county.html" class="brand-pill premium">Thermador</a>
-          <a href="miele-appliance-repair-orange-county.html" class="brand-pill premium">Miele</a>
-          <a href="dacor-appliance-repair-orange-county.html" class="brand-pill premium">Dacor</a>
-          <a href="dcs-appliance-repair-orange-county.html" class="brand-pill premium">DCS</a>
-        
-        </div>
-      </div>
-      <div class="brands-group">
-        <div class="brands-group-label">All Major Brands</div>
-        <div class="brands-list">
-          <a href="whirlpool-appliance-repair-orange-county.html" class="brand-pill">Whirlpool</a>
-          <a href="bosch-appliance-repair-orange-county.html" class="brand-pill">Bosch</a>
-          <a href="ge-appliance-repair-orange-county.html" class="brand-pill">GE</a>
-          <a href="samsung-appliance-repair-orange-county.html" class="brand-pill">Samsung</a>
-          <a href="lg-appliance-repair-orange-county.html" class="brand-pill">LG</a>
-                    <a href="kitchenaid-appliance-repair-orange-county.html" class="brand-pill">KitchenAid</a>
-          <a href="maytag-appliance-repair-orange-county.html" class="brand-pill">Maytag</a>
-          <a href="frigidaire-appliance-repair-orange-county.html" class="brand-pill">Frigidaire</a>
-          <a href="kenmore-appliance-repair-orange-county.html" class="brand-pill">Kenmore</a>
-        </div>
-      </div>
+      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">Pico Rivera kitchens run the full range, from everyday Whirlpool and LG to built-in Viking and Dacor. We handle standard residential units and premium luxury brands alike. Select any brand in the <a href="#brand-chips-label" style="color:var(--brand-text);font-weight:600;text-decoration:underline;text-underline-offset:2px;">brand row at the top of this page</a> for the faults we see most often on it; we also cover <a href="dacor-appliance-repair-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:underline;text-underline-offset:2px;">Dacor</a> and <a href="dcs-appliance-repair-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:underline;text-underline-offset:2px;">DCS</a>.</p>
       <p style="font-size:13px;color:#666;margin-top:20px;line-height:1.7;text-align:center;">We service these brands but make no claim of factory authorization unless stated. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
     </div>
   </section>

@@ -171,6 +171,11 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .brand-chips-list[data-cap-ready]:not([data-expanded]) > li:nth-child(n+6):not(.brand-chips-more-item) { display: none; }
   .brand-chips-list[data-cap-ready]:not([data-expanded]) > .brand-chips-more-item { display: block; }
   .brand-chips-note { padding-right: 0; margin-top: 8px; font-size: 12px; }
+  /* An odd brand count leaves the last brand alone in the left cell of the 2-column grid. Centre it on its own
+     row at a single chip's width (half the grid minus half the 6px gap). The last brand is second-to-last in the
+     list because the more-chip item is always last; while the list is capped that brand is hidden, and the more
+     chip sits in the sixth cell, so this only ever shows on a fully visible list (expanded, uncapped or no JS). */
+  .brand-chips-list > li:nth-last-child(2):nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 3px); }
 }
 
 /* SECTIONS */
