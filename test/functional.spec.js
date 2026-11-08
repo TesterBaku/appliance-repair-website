@@ -915,7 +915,12 @@ for (const slug of CITY_HUBS) {
       const links = await hrefs(page, '.brand-chips a.brand-chip');
       expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
       await expect(page.locator('.brand-pill, .brands-group')).toHaveCount(0);
-      await expect(page.locator('a[href="#brand-chips-label"]')).toBeAttached();
+      // Owner decision 2026-11-08: the lower "Brands We Service in <City>" section is gone; its local
+      // line now sits in the strip itself (Downey never had one).
+      await expect(page.locator('h2', { hasText: /^Brands We Service/ })).toHaveCount(0);
+      if (slug !== 'appliance-repair-downey-ca') {
+        await expect(page.locator('.brand-chips .brand-chips-intro')).toHaveCount(1);
+      }
     });
 
     test('clicking first service link navigates to a hub page', async ({ page }) => {
@@ -1247,6 +1252,17 @@ const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dac
 const premiumChipNames = page => page.locator('.brand-chips a.brand-chip')
   .evaluateAll(els => els.map(e => (e.getAttribute('aria-label') || '').trim()));
 
+// GE (monogram + tiny wordmark) and KitchenAid (10px script) read small at their attribute size in the
+// 2-column phone grid, so shared.css widens just those two there (2026-11-08). Measured on a city hub.
+test('phone: GE and KitchenAid brand logos render at their enlarged width', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  await page.locator('.brand-chips-more').click();
+  const width = alt => page.locator(`.brand-chip img[alt="${alt}"]`).evaluate(i => i.getBoundingClientRect().width);
+  expect(await width('GE')).toBeGreaterThanOrEqual(120);
+  expect(await width('KitchenAid')).toBeGreaterThanOrEqual(140);
+});
+
 for (const slug of PREMIUM_HUBS) {
   test.describe(`Premium hub: ${slug}`, () => {
     test.beforeEach(async ({ page }) => {
@@ -1277,6 +1293,20 @@ for (const slug of PREMIUM_HUBS) {
       const links = await hrefs(page, '.brand-chips a.brand-chip');
       expect(links.length).toBe(8);
       expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
+    });
+
+    // On phones the strip shows 5 chips and "+3 more brands"; the lower copy links up to it, and
+    // following that link must show the whole list, not the capped one (2026-11-08).
+    test('phone: link to the brand row opens the capped strip', async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.reload();
+      const list = page.locator('.brand-chips-list');
+      await expect(list).toHaveAttribute('data-cap-ready', '');
+      await expect(list).not.toHaveAttribute('data-expanded', /.*/);
+      await page.locator('a[href="#brand-chips-label"]').first().click();
+      await expect(list).toHaveAttribute('data-expanded', '');
+      await expect(page.locator('.brand-chips-more')).toHaveAttribute('aria-expanded', 'true');
+      await expect(page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').last()).toBeVisible();
     });
 
     test('scope note states premium-brand only', async ({ page }) => {
