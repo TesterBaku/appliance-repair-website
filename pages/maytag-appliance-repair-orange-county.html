@@ -90,7 +90,10 @@
     .faq-list { margin-top: 36px; max-width: 760px; margin-left: auto; margin-right: auto; }
 
     /* TESTIMONIALS */
-    .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; align-items: stretch; }
+    /* start, not stretch: row 2 (Javier Tellez, Tog Valizada, Leticia Caro) carries 68-100 word quotes, and
+       stretching left 160-200px of dead space in the shorter cards (impeccable critique P2, 2026-11-08). Same
+       fix as the Sub-Zero hub. */
+    .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; align-items: start; }
     .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
     .hub-page .stars { color: var(--star-on-light); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
@@ -201,7 +204,7 @@
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "150",
+      "reviewCount": "153",
       "bestRating": "5"
     }
   }
@@ -232,6 +235,27 @@
         "author": { "@type": "Person", "name": "Steph WW" },
         "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
         "reviewBody": "AG was wonderful - quick and easy! Loved working with him. Highly recommend :)",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Javier Tellez" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Universal Appliances Repair Group fixed our Maytag quickly and professionally. They were easy to schedule, arrived on time, and diagnosed the problem right away. The technician explained what was wrong and gave us a fair price up front. The repair took more than one visit, but they kept us updated, got the right part, and followed through. Our appliance works like new again. Communication was clear from start to finish, and the work area was left clean. I'd gladly use them again and recommend them to anyone who needs appliance repair.",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Tog Valizada" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Excellent experience from start to finish! The team did a fantastic job repairing our Sub Zero refrigerator. They were able to locate the original parts needed, complete the repair, and get everything installed very quickly, which meant very little downtime for us. They were punctual, communicated clearly throughout the entire process, and the work was extremely clean and professional. Everything was handled efficiently and the finished result exceeded my expectations. It's not always easy to find a company that is reliable, knowledgeable, and gets the job done right the first time. Highly recommend them for any appliance repair or installation!",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Leticia Caro" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "I had my dryer vent cleaned and was very happy with the service. The technician was professional, friendly, and took the time to thoroughly clean the vent and explain what was being done. I noticed a difference in the dryer’s performance afterward, and I feel much better knowing the vent is clean and properly maintained. I would definitely recommend this service to anyone needing their dryer vent cleaned!",
         "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
       }
     ]
@@ -589,9 +613,9 @@
       <h1>Maytag Washer, Dryer &amp; Kitchen Appliance Repair in Orange County</h1>
       <p>Bravos washers that won't lock or spin, F5 E2 lid-lock errors, dryers that won't heat, and worn tub bearings. We know Maytag, and the Whirlpool platforms it is built on. Same-day service available.</p>
       <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 150 Google reviews, rated 5 out of 5">
+        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 153 Google reviews, rated 5 out of 5">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 150 Google reviews</span>
+          <span>5.0 &middot; 153 Google reviews</span>
         </a>
       </div>
       <div class="hub-cta-row">
@@ -630,7 +654,7 @@
   <section class="section section-white" style="text-align:center;">
     <div class="container">
       <h2 class="h2-standard">What Our Customers Say</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 150 verified 5-star Google reviews</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 153 verified 5-star Google reviews</p>
       <div class="testimonials-grid testimonials-grid--stack-768 reviews-cap">
 
         <div class="testimonial-card">
@@ -652,6 +676,27 @@
           <p class="testimonial-quote">"AG was wonderful - quick and easy! Loved working with him. Highly recommend :)"</p>
           <div class="t-initial" aria-hidden="true" style="background:#444444;">SW</div>
           <div class="testimonial-name">Steph WW, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Universal Appliances Repair Group fixed our Maytag quickly and professionally. They were easy to schedule, arrived on time, and diagnosed the problem right away. The technician explained what was wrong and gave us a fair price up front. The repair took more than one visit, but they kept us updated, got the right part, and followed through. Our appliance works like new again. Communication was clear from start to finish, and the work area was left clean. I'd gladly use them again and recommend them to anyone who needs appliance repair."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">JT</div>
+          <div class="testimonial-name">Javier Tellez, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Excellent experience from start to finish! The team did a fantastic job repairing our Sub Zero refrigerator. They were able to locate the original parts needed, complete the repair, and get everything installed very quickly, which meant very little downtime for us.<br><br>They were punctual, communicated clearly throughout the entire process, and the work was extremely clean and professional. Everything was handled efficiently and the finished result exceeded my expectations.<br><br>It's not always easy to find a company that is reliable, knowledgeable, and gets the job done right the first time. Highly recommend them for any appliance repair or installation!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">TV</div>
+          <div class="testimonial-name">Tog Valizada, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"I had my dryer vent cleaned and was very happy with the service. The technician was professional, friendly, and took the time to thoroughly clean the vent and explain what was being done. I noticed a difference in the dryer’s performance afterward, and I feel much better knowing the vent is clean and properly maintained. I would definitely recommend this service to anyone needing their dryer vent cleaned!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">LC</div>
+          <div class="testimonial-name">Leticia Caro, Orange&nbsp;County,&nbsp;CA</div>
         </div>
 
       </div>
