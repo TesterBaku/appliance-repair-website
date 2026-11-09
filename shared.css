@@ -71,14 +71,20 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
    Scoped to body-content containers only; nav/footer/CTA buttons have their own styles.
    Existing inline `style="color:..."` overrides on individual <a> still take precedence. */
 .article-body a:link, .article-body a:visited,
-.article-intro a:link, .article-intro a:visited,
-.faq-a a:link, .faq-a a:visited {
+.article-intro a:link, .article-intro a:visited {
   color: var(--brand);
   text-decoration: none;
 }
 .article-body a:hover, .article-body a:focus-visible,
-.article-intro a:hover, .article-intro a:focus-visible,
-.faq-a a:hover, .faq-a a:focus-visible {
+.article-intro a:hover, .article-intro a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* FAQ answer links sit in grey 13-14px text, where var(--brand) is under 4.5:1 and colour alone barely
+   separates a link from the words around it (WCAG 1.4.3 / 1.4.1). So they use the AA ember and keep a
+   permanent underline, which touch screens need because they never show a hover state. */
+.faq-a a:link, .faq-a a:visited {
+  color: var(--brand-text);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
