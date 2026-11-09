@@ -286,6 +286,7 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .service-area p:last-child { margin-bottom: 0; }
 .service-area p a:link, .service-area p a:visited { color: var(--brand-text); text-decoration: underline; text-underline-offset: 2px; }
 .service-area p a:hover, .service-area p a:focus-visible { color: var(--brand-deeper); }
+.service-area a[href^="tel:"] { white-space: nowrap; }
 .h2-sm       { font-size: 26px; font-weight: 700; color: var(--text-primary); }
 .h2-xs       { font-size: 22px; font-weight: 700; color: var(--text-primary); }
 

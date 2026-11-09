@@ -2789,6 +2789,34 @@ const MAINSTREAM_HUBS = [
   { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html' },
   { brand: 'Whirlpool',  file: 'whirlpool-appliance-repair-orange-county.html' },
 ];
+// Site-wide: a phone number in a .service-area paragraph must never split across two lines.
+// 58 hubs carried the number unwrapped, so it split wherever the line happened to break. Measured in the
+// browser (getClientRects), not inferred from CSS. Page list derived from the filesystem.
+const SERVICE_AREA_PAGES = fs
+  .readdirSync(path.join(__dirname, '..', 'pages'))
+  .filter(name => name.endsWith('.html'))
+  .filter(name => /<section[^>]*class="[^"]*service-area/.test(
+    fs.readFileSync(path.join(__dirname, '..', 'pages', name), 'utf8')))
+  .sort();
+
+test('service-area phone links render on one line at 320px (site-wide)', async ({ page }) => {
+  test.setTimeout(180000);
+  expect(SERVICE_AREA_PAGES.length).toBeGreaterThan(0);
+  await page.setViewportSize({ width: 320, height: 700 });
+  const failures = [];
+  for (const name of SERVICE_AREA_PAGES) {
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const r = await page.evaluate(() => {
+      const links = Array.from(document.querySelectorAll('section.service-area a[href^="tel:"]'));
+      return { count: links.length, split: links.filter(a => a.getClientRects().length !== 1).length };
+    });
+    if (r.count === 0) failures.push(`${name}: no tel link in .service-area`);
+    else if (r.split > 0) failures.push(`${name}: ${r.split} phone link(s) split across lines`);
+  }
+  expect(failures).toEqual([]);
+});
+
 const HUB_REDESIGN_BASELINE = JSON.parse(
   fs.readFileSync(path.join(__dirname, 'hub-redesign-baseline.json'), 'utf8')
 );
@@ -2804,6 +2832,12 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
   test.describe(`Mainstream hub: ${brand}`, () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`/pages/${file}`);
+    });
+
+    test('hero CTA row has the call and contact links', async ({ page }) => {
+      const row = page.locator('.hub-hero .hub-cta-row').first();
+      expect(await row.locator('a[href="tel:+19496295365"]').count()).toBeGreaterThan(0);
+      expect(await row.locator('a[href="contact.html"]').count()).toBeGreaterThan(0);
     });
 
     test('page loads with nav and footer', async ({ page }) => {
@@ -2907,6 +2941,11 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
   test.describe(`Mainstream hub redesign: ${brand}`, () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`/pages/${file}`);
+    });
+
+    test('service-area section names the brand', async ({ page }) => {
+      const text = await page.locator('section.service-area').first().textContent();
+      expect(text).toContain(brand);
     });
 
     test('expect-strip is the single trust strip: fee, warranty, trust line, no logo', async ({ page }) => {
