@@ -928,6 +928,16 @@ for (const slug of CITY_HUBS) {
       await page.waitForURL(/refrigerator/);
     });
 
+    // FAQ answer links carry a permanent underline in the AA ember (2026-11-08). An inline
+    // text-decoration:none on a copied link once hid it, leaving colour as the only cue on touch screens.
+    test('FAQ answer links are underlined in the AA ember', async ({ page }) => {
+      const links = await page.locator('.faq-a a').evaluateAll(as => as.map(a => {
+        const cs = getComputedStyle(a);
+        return `${cs.textDecorationLine} ${cs.color}`;
+      }));
+      expect(links.every(s => s === 'underline rgb(170, 50, 16)'), links.join(' | ')).toBe(true);
+    });
+
     test('city pricing line present', async ({ page }) => {
       await expect(page.locator('.city-pricing-line')).toBeAttached();
     });
