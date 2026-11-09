@@ -160,7 +160,9 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   a.brand-chip:hover img { opacity: 1; }
 }
 .brand-chips-more-item { display: none; }
-.brand-chips-more { font: inherit; font-size: 13px; font-weight: 600; color: var(--text-soft); cursor: pointer; }
+/* The more/fewer toggle borrows the site's other "Show more" buttons (.job-grid-more, .reviews-cap-more):
+   ember text and border, so it reads as an action and not as one more grey brand chip. */
+.brand-chips-more { font: inherit; font-size: 13px; font-weight: 600; color: var(--brand-text); border-color: var(--brand-text); background: #fff; cursor: pointer; }
 /* flex-basis 100% forces the note onto its own line; a max-width would shrink that basis and let it sit beside the list, so the 80ch measure is applied as right padding instead. */
 .brand-chips-note { flex-basis: 100%; box-sizing: border-box; padding-right: max(0px, calc(100% - 80ch)); margin: 4px 0 0; font-size: 12px; color: var(--text-muted); line-height: 1.45; }
 /* City hubs: the local brand line (moved up from the retired lower "Brands We Service" section, 2026-11-08). */
@@ -172,18 +174,20 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .brand-chips-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
   .brand-chip { display: flex; width: 100%; padding: 0 8px; border-radius: 10px; }
   .brand-chips-list[data-cap-ready]:not([data-expanded]) > li:nth-child(n+6):not(.brand-chips-more-item) { display: none; }
-  .brand-chips-list[data-cap-ready]:not([data-expanded]) > .brand-chips-more-item { display: block; }
+  .brand-chips-list[data-cap-ready] > .brand-chips-more-item { display: block; }
   .brand-chips-note { padding-right: 0; margin-top: 8px; font-size: 12px; }
   .brand-chips-intro { padding-right: 0; margin-top: 10px; font-size: 13.5px; }
   /* Two logos read small at their attribute size in a 2-column chip: GE's wordmark sits beside a round
      monogram (about 6px text at 83px wide) and KitchenAid is a 10px-tall script. Widen just those two. */
   .brand-chip img[src$="/ge.svg"] { width: 128px; }
   .brand-chip img[src$="/kitchenaid.svg"] { width: 146px; }
-  /* An odd brand count leaves the last brand alone in the left cell of the 2-column grid. Centre it on its own
-     row at a single chip's width (half the grid minus half the 6px gap). The last brand is second-to-last in the
-     list because the more-chip item is always last; while the list is capped that brand is hidden, and the more
-     chip sits in the sixth cell, so this only ever shows on a fully visible list (expanded, uncapped or no JS). */
-  .brand-chips-list > li:nth-last-child(2):nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 3px); }
+  /* Whatever sits alone in the left cell of the last grid row is centred on that row at a single chip's width
+     (half the grid minus half the 6px gap). The toggle item is always last in the list. On a list with no
+     toggle (uncapped or no JS) the lone cell is an odd last brand, which is second-to-last in the DOM. On an
+     expanded list the toggle ("Show fewer brands") is visible after the brands, so it is the lone cell when
+     the brand count is even, and an odd last brand pairs with it instead. */
+  .brand-chips-list:not([data-cap-ready]) > li:nth-last-child(2):nth-child(odd),
+  .brand-chips-list[data-expanded] > .brand-chips-more-item:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 3px); }
 }
 
 /* SECTIONS */

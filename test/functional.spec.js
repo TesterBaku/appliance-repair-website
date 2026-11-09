@@ -1263,6 +1263,46 @@ test('phone: GE and KitchenAid brand logos render at their enlarged width', asyn
   expect(await width('KitchenAid')).toBeGreaterThanOrEqual(140);
 });
 
+// The phone brand strip's "+N more brands" button stays visible as "Show fewer brands" once the list is
+// open, and collapses it again (2026-11-08).
+test('phone: brand strip expands and collapses again', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  const list = page.locator('.brand-chips-list');
+  const btn = page.locator('.brand-chips-more');
+  const lastBrand = page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').last();
+  await expect(btn).toHaveText('+10 more brands');
+  await btn.click();
+  await expect(btn).toHaveText('Show fewer brands');
+  await expect(btn).toHaveAttribute('aria-expanded', 'true');
+  await expect(lastBrand).toBeVisible();
+  await btn.click();
+  await expect(list).not.toHaveAttribute('data-expanded', /.*/);
+  await expect(btn).toHaveText('+10 more brands');
+  await expect(btn).toHaveAttribute('aria-expanded', 'false');
+  await expect(lastBrand).toBeHidden();
+  await expect(btn).toBeFocused();
+});
+
+// Between the phone grid and wide desktops the strip wraps as a flex row; site.js rebalances it whenever
+// one chip would sit alone on the last row (15 city chips at 1000px were 7+7+1, 8 luxury chips 7+1).
+test('tablet/desktop: no brand chip sits alone on the last row', async ({ page }) => {
+  for (const path of ['/pages/appliance-repair-irvine-ca.html', '/pages/luxury-appliance-repair-pasadena-ca.html']) {
+    for (const width of [900, 1000, 1009]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(path);
+      await page.evaluate(() => document.fonts.ready);
+      const rows = await page.locator('.brand-chips-list').evaluate(l => {
+        const tops = {};
+        [...l.children].filter(li => getComputedStyle(li).display !== 'none')
+          .forEach(li => { const t = Math.round(li.getBoundingClientRect().top); tops[t] = (tops[t] || 0) + 1; });
+        return Object.values(tops);
+      });
+      expect(rows.length === 1 || rows[rows.length - 1] > 1, `${path} at ${width}px: rows ${rows}`).toBe(true);
+    }
+  }
+});
+
 // site.js decodes the URL hash during init to find a link target inside the brand strip; a malformed
 // escape must not throw there, or the scripts initialised after it never run (PR #956 review).
 test('a malformed URL hash does not break site.js init', async ({ page }) => {
