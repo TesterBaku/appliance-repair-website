@@ -427,7 +427,7 @@ test.describe('Contact page', () => {
   // The city select shipped Orange-County-only long after the business added LA and
   // Riverside coverage. Guard the county groups so a future edit cannot silently
   // narrow the form back to one county.
-  for (const county of ['Orange County', 'Los Angeles County', 'Riverside & San Bernardino Counties']) {
+  for (const county of ['Orange County', 'Los Angeles County', 'Coachella Valley & San Bernardino County']) {
     test(`city select offers the "${county}" group`, async ({ page }) => {
       await expect(page.locator(`form [name="city"] optgroup[label="${county}"]`)).toBeAttached();
     });
