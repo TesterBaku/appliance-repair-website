@@ -2826,11 +2826,11 @@ if (run('area-served-parity')) {
     }
 
     const cardNamesNorm = new Set(cardNames.map(norm));
-    // Owner decision 2026-10-12: Corona, Norco and Eastvale are parked. Their cards and every
+    // Owner decision 2026-10-12: Corona, Norco and Eastvale are parked; Riverside joined them 2026-11-10 (hub kept live with noindex). Their cards and every
     // visible mention were removed, but the areaServed arrays were deliberately left untouched
     // in that same decision, so these three entries are card-less on purpose. Remove this set
     // when the owner reverses the decision or the arrays are cleaned.
-    const PARKED_CITIES = new Set(['corona', 'norco', 'eastvale']);
+    const PARKED_CITIES = new Set(['corona', 'norco', 'eastvale', 'riverside']);
     for (const entry of new Set(areaServed)) {
       const trimmed = entry.trim();
       if (/county,\s*ca$/i.test(trimmed)) continue;   // region-level, card-less by design
