@@ -65,7 +65,9 @@
     .vp-h2 { text-align: center; font-size: 28px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; margin-bottom: 10px; }
 
     /* TESTIMONIALS */
-    .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; align-items: stretch; }
+    /* start, not stretch: the three quotes run 6, 14 and about 80 words, and stretching left the two short
+       cards half empty (impeccable critique, 2026-11-11). Same fix as the Maytag and Sub-Zero hubs. */
+    .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; align-items: start; }
     .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
     .hub-page .stars { color: var(--star-on-light); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
     .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
@@ -78,18 +80,21 @@
     .vp-jobs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 840px; margin: 32px auto 0; }
     .vp-job { background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); text-align: left; }
     .vp-job img { width: 100%; height: 260px; object-fit: cover; display: block; }
+    /* Portrait photo in a landscape slot: bias the crop upward so the handle stays in frame. */
+    .vp-job img.vp-img-top { object-position: center 15%; }
     .vp-job-body { padding: 18px 20px 20px; }
     .vp-job-kicker { font-size: 10px; font-weight: 700; color: var(--brand-text); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
     .vp-job-title { font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.35; }
     .vp-job p { font-size: 13px; color: var(--text-soft); line-height: 1.7; margin-top: 8px; }
-    .vp-job .tap-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; font-size: 12.5px; font-weight: 600; color: var(--brand-text); text-decoration: underline; text-underline-offset: 2px; }
+    .vp-jobs-more { text-align: center; margin-top: 12px; }
+    .vp-jobs-more .tap-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; font-size: 12.5px; font-weight: 600; color: var(--brand-text); text-decoration: underline; text-underline-offset: 2px; }
 
     /* PROBLEMS */
     .issues-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 32px; }
     .issue-item { background: var(--surface); border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
     .issue-text { font-size: 13px; color: var(--text-soft); line-height: 1.65; }
     .issue-text strong { color: var(--text-primary); display: block; margin-bottom: 4px; font-size: 14px; }
-    .vp-more { text-align: center; font-size: 13.5px; color: var(--text-soft); margin-top: 24px; line-height: 1.7; }
+    .vp-more { text-align: center; font-size: 13.5px; color: var(--text-soft); max-width: 640px; margin: 24px auto 0; line-height: 1.7; }
 
     /* PROCESS */
     .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
@@ -650,21 +655,22 @@
             <div class="vp-job-kicker">Viking &middot; Range</div>
             <div class="vp-job-title">Range Not Turning On</div>
             <p>A graphite Viking Professional gas range with a griddle and a double oven that would not power on. We diagnosed and repaired it, and the burners and both ovens work again.</p>
-            <a href="recent-repairs.html?city=pico-rivera" class="tap-link">See more Pico Rivera repairs &rarr;</a>
           </div>
         </div>
         <div class="vp-job">
           <picture>
             <source srcset="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.webp 768w" type="image/webp" sizes="(max-width:768px) calc(100vw - 32px), 410px">
-            <img src="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.jpg" alt="Graphite Viking built-in dishwasher with a stainless pro-style handle, serviced for a drainage fault in a Pico Rivera kitchen" width="768" height="1024" loading="lazy">
+            <img src="../images/real/business/completed-repair-dishwasher-viking-not-draining-pico-rivera.jpg" alt="Graphite Viking built-in dishwasher with a stainless pro-style handle, serviced for a drainage fault in a Pico Rivera kitchen" width="768" height="1024" loading="lazy" class="vp-img-top">
           </picture>
           <div class="vp-job-body">
             <div class="vp-job-kicker">Viking &middot; Dishwasher</div>
             <div class="vp-job-title">Dishwasher Not Draining</div>
             <p>A graphite Viking built-in dishwasher that would not drain. We cleared and repaired it, and now it empties fully at the end of the cycle.</p>
-            <a href="recent-repairs.html?city=pico-rivera" class="tap-link">See more Pico Rivera repairs &rarr;</a>
           </div>
         </div>
+      </div>
+      <div class="vp-jobs-more">
+        <a href="recent-repairs.html?city=pico-rivera" class="tap-link">See more Pico Rivera repairs &rarr;</a>
       </div>
     </div>
   </section>
