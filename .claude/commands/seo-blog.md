@@ -219,18 +219,17 @@ git commit -m "content([slug]): add [short description of topic]"
 
 ## Phase 4 — TEST
 
-Run both test suites and fix any failures before continuing.
+Run only the screenshot locally, because Phase 5 reads the file it writes to `test/screenshots/<slug>.png`. Do not run `npm test` or `npm run test:functional` locally: CI's "Validate site" job runs all three on the PR head, the green run is the merge evidence, and an auto-merge must wait for it (see `AGENTS.md`, PR on Every Change). Fix any failures before continuing.
 
 ```bash
-npm test          # link checker
-npm run screenshot  # Playwright screenshots
+npm run screenshot  # Playwright screenshots, read by Phase 5
 ```
 
 Apply the Bug Fix Workflow from `.claude/skills/git-workflow/SKILL.md`:
 - Fix one issue at a time
 - Re-run the failing test after each fix
 - Commit each fix separately: `fix([scope]): [description]`
-- Do not proceed to Phase 5 until both commands exit 0
+- Do not proceed to Phase 5 until the screenshot command exits 0; fix any CI failure on the PR the same way
 
 ---
 

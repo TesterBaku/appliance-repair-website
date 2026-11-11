@@ -73,9 +73,7 @@ feat(about): add team section with cards
 - Attach before/after screenshots if layout changed
 
 ## Test Checklist
-- [ ] `npm test` — link checker exits 0
-- [ ] `npm run screenshot` — all page screenshots captured
-- [ ] `npm run test:functional` — the functional suite passes (buttons, nav, forms, accordions)
+- [ ] CI "Validate site" green on head <sha> (run <id>): `npm test`, `npm run screenshot`, `npm run test:functional`
 - [ ] Impeccable — full `/impeccable critique` with its `??/40` score. Required on every HTML/CSS PR; there is no detector-only tier. Never report `detect.mjs` output under the critique's name, and never report a `⚠️ DEGRADED: single-context` score as a clean one.
 - [ ] Opened in browser and checked visually
 - [ ] Tested on mobile viewport (375px)
@@ -95,6 +93,7 @@ When a test (`npm test` or `npm run screenshot`) reports a failure, follow this 
 5. **Repeat** until all three test commands exit with code 0
 
 ### Rules
+- The fix loop may use targeted local runs of the failing test; the final evidence is the CI "Validate site" run on the pushed head commit.
 - Never skip validation after a fix — always re-run the test before moving on
 - Never apply the same fix twice; a repeated failure means a different root cause
 - Fix one issue at a time; do not batch unrelated fixes in a single commit
@@ -108,7 +107,7 @@ npm run test:functional  # functional — verifies buttons, nav, forms, accordio
 npm run test:all         # runs all three above in sequence
 ```
 
-**All three must exit 0 before a PR is created or approved.**
+**All three must pass before a PR is approved or merged.** CI's "Validate site" job (`.github/workflows/deploy.yml`) runs them on every PR. Per the owner (2026-11-04), do not repeat them locally: cite the green CI run on the PR's head commit instead.
 
 ### Common Failure Patterns
 | Test | Symptom | Likely Cause |
@@ -217,14 +216,14 @@ Every request that results in any code or file change — however small — must
 
 1. Create a branch off `master`
 2. Make the change and commit it
-3. Run **all three** test commands — all must exit 0:
+3. Push and create a PR
+4. Wait for CI's "Validate site" job to pass on the PR's head commit. It runs **all three** test commands (do not run them locally as well; owner rule 2026-11-04):
    - `npm test` — link checker
    - `npm run screenshot` — page screenshots
    - `npm run test:functional` — the functional suite (buttons, nav, forms, accordions)
-4. Create a PR
 5. **Run `/review` as an independent subagent** — spawn a fresh Agent with no context from the implementation conversation. The reviewer must not be the same agent that wrote the code.
-6. The `/review` subagent **must verify** that the PR description shows all three tests passing. Flag as **FAIL** if `npm run test:functional` is missing from the checklist or not confirmed passing.
-7. Fix any blockers the reviewer raises, re-run all three tests, then re-run `/review`
+6. The `/review` subagent **must verify** that all three tests passed: a green "Validate site" run on the PR's head commit (`gh pr checks <n>`) is the evidence, and the PR description should cite it. Flag as **FAIL** if no green "Validate site" run exists on the PR's current head commit (that one run covers `npm test`, `npm run screenshot` and `npm run test:functional`), or if the PR description's checklist does not cite it. A checklist that uses the single CI "Validate site" line from the template above is correct; do not fail it for lacking a separate `npm run test:functional` line.
+7. Fix any blockers the reviewer raises, push, wait for CI to pass again on the new head, then re-run `/review`
 8. Merge only after the reviewer outputs `✅ APPROVED`
 
 No direct commits to `master`. No skipping steps for "small" changes. No self-merging without a reviewer verdict.

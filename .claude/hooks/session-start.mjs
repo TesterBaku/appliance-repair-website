@@ -20,9 +20,11 @@
  */
 process.stdout.write(`Repo non-negotiables (SessionStart hook; canonical text in AGENTS.md):
 
-1. Every change goes branch -> commit -> ALL THREE tests -> PR -> /review -> merge.
-   The three: \`npm test\`, \`npm run screenshot\`, \`npm run test:functional\`. All exit 0
-   BEFORE the PR is opened. Pushing master is blocked by .husky/pre-push; committing
+1. Every change goes branch -> commit -> PR -> ALL THREE tests -> /review -> merge.
+   The three: \`npm test\`, \`npm run screenshot\`, \`npm run test:functional\`. CI's
+   "Validate site" job runs them on every PR; do NOT repeat them locally (owner,
+   2026-11-04). Merge only when CI is green on the PR's head commit. Pushing master
+   is blocked by .husky/pre-push; committing
    on master locally is not, so branch FIRST.
 2. Added, removed or renamed an .html file? Run \`npm run build:sitemap\` and commit it.
    Nothing checks sitemap freshness.
