@@ -222,7 +222,7 @@ Every request that results in any code or file change — however small — must
    - `npm run screenshot` — page screenshots
    - `npm run test:functional` — the functional suite (buttons, nav, forms, accordions)
 5. **Run `/review` as an independent subagent** — spawn a fresh Agent with no context from the implementation conversation. The reviewer must not be the same agent that wrote the code.
-6. The `/review` subagent **must verify** that all three tests passed: a green "Validate site" run on the PR's head commit (`gh pr checks <n>`) is the evidence, and the PR description should cite it. Flag as **FAIL** if `npm run test:functional` is missing from the checklist or not confirmed passing.
+6. The `/review` subagent **must verify** that all three tests passed: a green "Validate site" run on the PR's head commit (`gh pr checks <n>`) is the evidence, and the PR description should cite it. Flag as **FAIL** if no green "Validate site" run exists on the PR's current head commit (that one run covers `npm test`, `npm run screenshot` and `npm run test:functional`), or if the PR description's checklist does not cite it. A checklist that uses the single CI "Validate site" line from the template above is correct; do not fail it for lacking a separate `npm run test:functional` line.
 7. Fix any blockers the reviewer raises, push, wait for CI to pass again on the new head, then re-run `/review`
 8. Merge only after the reviewer outputs `✅ APPROVED`
 
