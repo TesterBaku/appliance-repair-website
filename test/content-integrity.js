@@ -588,8 +588,10 @@
  *                    same reason: a hand-maintained list drifts): every file under
  *                    pages/ whose basename matches `^appliance-repair-.*-ca\.html$`
  *                    (city hubs), `^luxury-appliance-repair-.*-ca\.html$` (luxury city
- *                    hubs), or ends in `-orange-county.html` (service/brand/cost hubs,
- *                    including appliance-repair-cost-orange-county.html). 69 pages
+ *                    hubs), ends in `-orange-county.html` (service/brand/cost hubs,
+ *                    including appliance-repair-cost-orange-county.html), or is a
+ *                    brand x city page (`<brand>-appliance-repair-<city>-ca.html`,
+ *                    not starting with `appliance-repair-` or `luxury-`). 70 pages
  *                    qualify today. The homepage (index.html) and pages/testimonials.html
  *                    do NOT count toward the cap, per the rule itself, and neither
  *                    matches any hub pattern, so they are excluded automatically rather
@@ -3853,6 +3855,11 @@ if (run('testimonial-hub-cap')) {
     /^appliance-repair-.*-ca\.html$/,
     /^luxury-appliance-repair-.*-ca\.html$/,
     /-orange-county\.html$/,
+    // Brand x city pages (`<brand>-appliance-repair-<city>-ca.html`, e.g.
+    // viking-appliance-repair-pico-rivera-ca.html). They end in `-ca.html` but do not
+    // start with `appliance-repair-` or `luxury-`, so none of the patterns above reach
+    // them. The negative lookahead keeps this from re-matching those two families.
+    /^(?!appliance-repair-|luxury-)[a-z0-9-]+-appliance-repair-[a-z0-9-]+-ca\.html$/,
   ];
   const hubFiles = pages.filter(f => HUB_NAME_PATTERNS.some(re => re.test(path.basename(f))));
   // debugFile is already resolved to an absolute path above, so this dedupe

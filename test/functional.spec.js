@@ -2999,6 +2999,85 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
   });
 }
 
+// ─── Brand x city pages (`<brand>-appliance-repair-<city>-ca.html`) ───────────
+// Derived from the filesystem like CITY_HUBS, never a hand-kept list. The negative lookahead
+// is what keeps this from swallowing the other two `-ca.html` families
+// (`appliance-repair-*-ca.html` city hubs and `luxury-appliance-repair-*-ca.html`), and the
+// mandatory `-ca.html` tail keeps it off every `*-orange-county.html` page.
+const BRAND_CITY_RE = /^(?!appliance-repair-|luxury-)([a-z0-9-]+)-appliance-repair-([a-z0-9-]+)-ca\.html$/;
+const BRAND_CITY_HUBS = fs
+  .readdirSync(path.join(__dirname, '..', 'pages'))
+  .map(name => ({ name, m: name.match(BRAND_CITY_RE) }))
+  .filter(({ m }) => m)
+  .map(({ name, m }) => ({ file: name, brandSlug: m[1], citySlug: m[2] }))
+  .sort((a, b) => a.file.localeCompare(b.file));
+
+for (const { file, brandSlug, citySlug } of BRAND_CITY_HUBS) {
+  const words = s => s.replace(/-/g, ' ').toLowerCase();
+  test.describe(`Brand x city page: ${brandSlug} in ${citySlug}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/pages/${file}`);
+    });
+
+    test('expect-strip is present and carries no brand-logo block', async ({ page }) => {
+      const strip = page.locator('section.expect-strip');
+      await expect(strip).toHaveCount(1);
+      expect(await strip.locator('img, .brand-chips, .brand-chips-list').count()).toBe(0);
+    });
+
+    test('every tel: link is the canonical number', async ({ page }) => {
+      const tels = await hrefs(page, 'a[href^="tel:"]');
+      expect(tels.length).toBeGreaterThan(0);
+      expect(tels.filter(h => h !== 'tel:+19496295365')).toEqual([]);
+    });
+
+    test('hero CTA row has the call and contact links', async ({ page }) => {
+      const row = page.locator('.hub-hero .hub-cta-row').first();
+      expect(await row.locator('a[href="tel:+19496295365"]').count()).toBeGreaterThan(0);
+      expect(await row.locator('a[href="contact.html"]').count()).toBeGreaterThan(0);
+    });
+
+    test('service-area block names the brand and the city, with phone and contact links', async ({ page }) => {
+      const area = page.locator('section.service-area');
+      await expect(area).toHaveCount(1);
+      const text = words(await area.textContent());
+      expect(text).toContain(words(brandSlug));
+      expect(text).toContain(words(citySlug));
+      expect(await area.locator('a[href="tel:+19496295365"]').count()).toBeGreaterThan(0);
+      expect(await area.locator('a[href$="contact.html"]').count()).toBeGreaterThan(0);
+    });
+
+    test('links to the parent brand hub and the parent city hub, and both exist', async ({ page }) => {
+      const brandHub = `${brandSlug}-appliance-repair-orange-county.html`;
+      const cityHub = `appliance-repair-${citySlug}-ca.html`;
+      for (const parent of [brandHub, cityHub]) {
+        expect(fs.existsSync(path.join(__dirname, '..', 'pages', parent)), `${parent} exists`).toBe(true);
+        expect(await page.locator(`main a[href="${parent}"]`).count(), `link to ${parent}`).toBeGreaterThan(0);
+      }
+    });
+
+    test('a job photo for this brand and city renders', async ({ page }) => {
+      const imgs = page.locator(`img[src*="${brandSlug}"][src*="${citySlug}"]`);
+      expect(await imgs.count()).toBeGreaterThan(0);
+      await imgs.first().scrollIntoViewIfNeeded();
+      await expect.poll(() => imgs.first().evaluate(i => i.complete && i.naturalWidth)).toBeGreaterThan(0);
+    });
+
+    test('FAQ accordion opens on click', async ({ page }) => {
+      const q = page.locator('.faq-item .faq-q').nth(1);
+      await expect(q).toHaveAttribute('aria-expanded', 'false');
+      await q.click();
+      await expect(q).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    // Encodes the owner's 2026-11-11 ruling: brand x city pages carry no cost table (the
+    // brand hub owns the price ranges, and this page links to it instead of repeating them).
+    test('has no cost table', async ({ page }) => {
+      await expect(page.locator('table')).toHaveCount(0);
+    });
+  });
+}
+
 for (const { brand, file } of BRAND_HUBS) {
   test.describe(`Brand hub: ${brand}`, () => {
     test.beforeEach(async ({ page }) => {

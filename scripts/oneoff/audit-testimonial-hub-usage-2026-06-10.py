@@ -25,6 +25,10 @@ def is_hub(path):
     # city hubs: appliance-repair-<city>-ca.html (but NOT the cost hub which is -orange-county)
     if re.match(r"appliance-repair-.*-ca\.html$", base):
         return True
+    # brand x city pages: <brand>-appliance-repair-<city>-ca.html (same pattern as
+    # HUB_NAME_PATTERNS in test/content-integrity.js; luxury pages stay out, as before)
+    if re.match(r"(?!appliance-repair-|luxury-)[a-z0-9-]+-appliance-repair-[a-z0-9-]+-ca\.html$", base):
+        return True
     # service / brand / cost hubs: *-orange-county.html
     if base.endswith("-orange-county.html"):
         return True
