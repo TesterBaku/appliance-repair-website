@@ -57,7 +57,7 @@ If arguments are missing, ask the user:
    - `"[appliance] repair [city|Orange County] site:reddit.com OR people also ask"`
    - Extract 8–12 candidate FAQ questions. We'll trim later.
 
-5. **Brand intel** (service hub only) — list which brands the top competitors prominently service. Cross-reference with our supported list in `.claude/skills/seo-content/SKILL.md` (Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, Dacor). Pick **6–10 brands to feature on the page**, with a short note on common issues for the top 3 (e.g., "Sub-Zero compressor sealed-system repairs", "Samsung ice-maker recall").
+5. **Brand intel** (service hub only) — list which brands the top competitors prominently service. Cross-reference with our supported list in `.claude/skills/seo-content/SKILL.md` (Whirlpool, GE, Samsung, LG, Sub-Zero, Wolf, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Electrolux, Thermador, Miele, Dacor). Pick **6–10 brands to feature on the page**, with a short note on common issues for the top 3 (e.g., "Sub-Zero compressor sealed-system repairs", "Samsung ice-maker recall").
 
 6. **Neighborhood / ZIP intel** (city hub only) — pull the city's neighborhoods, key ZIP codes, and 2–3 recognizable landmarks. Source these from a quick `WebSearch` like `"[city] CA neighborhoods ZIP codes"`. We need real names, not generic filler.
 

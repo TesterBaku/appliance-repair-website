@@ -427,7 +427,7 @@ test.describe('Contact page', () => {
   // The city select shipped Orange-County-only long after the business added LA and
   // Riverside coverage. Guard the county groups so a future edit cannot silently
   // narrow the form back to one county.
-  for (const county of ['Orange County', 'Los Angeles County', 'Riverside & San Bernardino Counties']) {
+  for (const county of ['Orange County', 'Los Angeles County', 'Coachella Valley & San Bernardino County']) {
     test(`city select offers the "${county}" group`, async ({ page }) => {
       await expect(page.locator(`form [name="city"] optgroup[label="${county}"]`)).toBeAttached();
     });
@@ -900,17 +900,42 @@ for (const slug of CITY_HUBS) {
       expect(count).toBeGreaterThanOrEqual(8);
     });
 
-    test('brand section has Premium & Luxury tier label', async ({ page }) => {
-      await expect(page.locator('.brands-group-label', { hasText: /Premium/i })).toBeAttached();
-    });
-
-    test('brand section has All Major Brands tier label', async ({ page }) => {
-      await expect(page.locator('.brands-group-label', { hasText: /All Major Brands/i })).toBeAttached();
+    // Since owner decision 2026-11-07 the city hubs show their brands once, as the .brand-chips logo
+    // strip (15 chips, all linked), not as a lower Premium / All Major Brands pill list. Corona
+    // is parked and still carries the legacy pill groups, so it keeps the old assertions.
+    test('brand section: logo chip strip with no duplicate pill list (Corona: legacy pill groups)', async ({ page }) => {
+      if (slug === 'appliance-repair-corona-ca') {
+        await expect(page.locator('.brands-group-label', { hasText: /Premium/i })).toBeAttached();
+        await expect(page.locator('.brands-group-label', { hasText: /All Major Brands/i })).toBeAttached();
+        return;
+      }
+      await expect(page.locator('.brand-chips a.brand-chip')).toHaveCount(15);
+      // 15 brands; the "+N more brands" button also carries .brand-chip, so count list items instead.
+      await expect(page.locator('.brand-chips-list > li:not(.brand-chips-more-item)')).toHaveCount(15);
+      const links = await hrefs(page, '.brand-chips a.brand-chip');
+      expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
+      await expect(page.locator('.brand-pill, .brands-group')).toHaveCount(0);
+      // Owner decision 2026-11-08: the lower "Brands We Service in <City>" section is gone; its local
+      // line now sits in the strip itself (Downey never had one).
+      await expect(page.locator('h2', { hasText: /^Brands We Service/ })).toHaveCount(0);
+      if (slug !== 'appliance-repair-downey-ca') {
+        await expect(page.locator('.brand-chips .brand-chips-intro')).toHaveCount(1);
+      }
     });
 
     test('clicking first service link navigates to a hub page', async ({ page }) => {
       await page.locator('.services-links-grid a').first().click();
       await page.waitForURL(/refrigerator/);
+    });
+
+    // FAQ answer links carry a permanent underline in the AA ember (2026-11-08). An inline
+    // text-decoration:none on a copied link once hid it, leaving colour as the only cue on touch screens.
+    test('FAQ answer links are underlined in the AA ember', async ({ page }) => {
+      const links = await page.locator('.faq-a a').evaluateAll(as => as.map(a => {
+        const cs = getComputedStyle(a);
+        return `${cs.textDecorationLine} ${cs.color}`;
+      }));
+      expect(links.every(s => s === 'underline rgb(170, 50, 16)'), links.join(' | ')).toBe(true);
     });
 
     test('city pricing line present', async ({ page }) => {
@@ -1226,11 +1251,78 @@ const PREMIUM_HUBS = [
   'luxury-appliance-repair-manhattan-beach-ca',
 ];
 
-// 'Bosch Premium', not bare 'Bosch': mainstream Bosch is not a premium-tier brand (see
-// .claude/skills/seo-content/SKILL.md), and only the Bosch premium built-in lines are in scope
-// in the LA premium cities. The label deliberately covers the whole premium tier, not
-// just Benchmark, so a panel-ready 800-series owner does not self-select out.
-const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS', 'Bosch Premium'];
+// Bosch must stay qualified as premium, never bare 'Bosch': mainstream Bosch is not a
+// premium-tier brand (see .claude/skills/seo-content/SKILL.md), and only the Bosch premium
+// built-in lines are in scope in the LA premium cities. The qualifier covers the whole
+// premium tier, not just Benchmark, so a panel-ready 800-series owner does not self-select
+// out. Since PR #953 (owner decision 2026-11-07) the brands are the logo chips in the
+// .brand-chips strip, not a .brand-pill row, so the names are read from each chip's
+// aria-label (the visible content is a logo image).
+const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS'];
+const premiumChipNames = page => page.locator('.brand-chips a.brand-chip')
+  .evaluateAll(els => els.map(e => (e.getAttribute('aria-label') || '').trim()));
+
+// GE (monogram + tiny wordmark) and KitchenAid (10px script) read small at their attribute size in the
+// 2-column phone grid, so shared.css widens just those two there (2026-11-08). Measured on a city hub.
+test('phone: GE and KitchenAid brand logos render at their enlarged width', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  await page.locator('.brand-chips-more').click();
+  const width = alt => page.locator(`.brand-chip img[alt="${alt}"]`).evaluate(i => i.getBoundingClientRect().width);
+  expect(await width('GE')).toBeGreaterThanOrEqual(120);
+  expect(await width('KitchenAid')).toBeGreaterThanOrEqual(140);
+});
+
+// The phone brand strip's "+N more brands" button stays visible as "Show fewer brands" once the list is
+// open, and collapses it again (2026-11-08).
+test('phone: brand strip expands and collapses again', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  const list = page.locator('.brand-chips-list');
+  const btn = page.locator('.brand-chips-more');
+  const lastBrand = page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').last();
+  await expect(btn).toHaveText('+10 more brands');
+  await btn.click();
+  await expect(btn).toHaveText('Show fewer brands');
+  await expect(btn).toHaveAttribute('aria-expanded', 'true');
+  await expect(lastBrand).toBeVisible();
+  await btn.click();
+  await expect(list).not.toHaveAttribute('data-expanded', /.*/);
+  await expect(btn).toHaveText('+10 more brands');
+  await expect(btn).toHaveAttribute('aria-expanded', 'false');
+  await expect(lastBrand).toBeHidden();
+  await expect(btn).toBeFocused();
+});
+
+// Between the phone grid and wide desktops the strip wraps as a flex row; site.js rebalances it whenever
+// one chip would sit alone on the last row (15 city chips at 1000px were 7+7+1, 8 luxury chips 7+1).
+test('tablet/desktop: no brand chip sits alone on the last row', async ({ page }) => {
+  for (const path of ['/pages/appliance-repair-irvine-ca.html', '/pages/luxury-appliance-repair-pasadena-ca.html']) {
+    for (const width of [900, 1000, 1009]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(path);
+      await page.evaluate(() => document.fonts.ready);
+      const rows = await page.locator('.brand-chips-list').evaluate(l => {
+        const tops = {};
+        [...l.children].filter(li => getComputedStyle(li).display !== 'none')
+          .forEach(li => { const t = Math.round(li.getBoundingClientRect().top); tops[t] = (tops[t] || 0) + 1; });
+        return Object.values(tops);
+      });
+      expect(rows.length === 1 || rows[rows.length - 1] > 1, `${path} at ${width}px: rows ${rows}`).toBe(true);
+    }
+  }
+});
+
+// site.js decodes the URL hash during init to find a link target inside the brand strip; a malformed
+// escape must not throw there, or the scripts initialised after it never run (PR #956 review).
+test('a malformed URL hash does not break site.js init', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/pages/appliance-repair-irvine-ca.html#%E0%A4%A');
+  await expect(page.locator('.brand-chips-list')).toHaveAttribute('data-cap-ready', '');
+  expect(errors).toEqual([]);
+});
 
 for (const slug of PREMIUM_HUBS) {
   test.describe(`Premium hub: ${slug}`, () => {
@@ -1249,17 +1341,33 @@ for (const slug of PREMIUM_HUBS) {
     });
 
     test('all 8 premium brands are named as links', async ({ page }) => {
-      const pills = await page.locator('.brand-pill.premium').allTextContents();
+      const names = await premiumChipNames(page);
       for (const b of PREMIUM_BRANDS) {
-        expect(pills.some(p => p.trim() === b)).toBe(true);
+        expect(names.some(n => n.startsWith(`${b} `))).toBe(true);
       }
-      expect(pills.length).toBe(8);
+      expect(names.some(n => /^Bosch premium\b/i.test(n))).toBe(true);
+      expect(names.some(n => /^Bosch appliance/i.test(n))).toBe(false);
+      expect(names.length).toBe(8);
     });
 
-    test('every brand pill points at a real brand hub', async ({ page }) => {
-      const links = await hrefs(page, '.brand-pill.premium');
+    test('every brand chip points at a real brand hub', async ({ page }) => {
+      const links = await hrefs(page, '.brand-chips a.brand-chip');
       expect(links.length).toBe(8);
       expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
+    });
+
+    // On phones the strip shows 5 chips and "+3 more brands"; the lower copy links up to it, and
+    // following that link must show the whole list, not the capped one (2026-11-08).
+    test('phone: link to the brand row opens the capped strip', async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.reload();
+      const list = page.locator('.brand-chips-list');
+      await expect(list).toHaveAttribute('data-cap-ready', '');
+      await expect(list).not.toHaveAttribute('data-expanded', /.*/);
+      await page.locator('a[href="#brand-chips-label"]').first().click();
+      await expect(list).toHaveAttribute('data-expanded', '');
+      await expect(page.locator('.brand-chips-more')).toHaveAttribute('aria-expanded', 'true');
+      await expect(page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').last()).toBeVisible();
     });
 
     test('scope note states premium-brand only', async ({ page }) => {
@@ -1542,6 +1650,42 @@ test.describe('Newport Beach hub: capped Recent Repairs grid', () => {
     await expect(page.locator('.job-grid-more')).toBeHidden();
   });
 });
+
+// Mainstream brand hubs whose Recent Repairs collections exceed six cards: phones show six behind
+// a "Show all N repairs" button (site.js initJobGridCap), desktop shows every card and no button.
+for (const { brand, file, grid } of [
+  { brand: 'Bosch',      file: 'bosch-appliance-repair-orange-county.html',      grid: 'bosch-job-grid' },
+  { brand: 'GE',         file: 'ge-appliance-repair-orange-county.html',         grid: 'ge-job-grid' },
+  { brand: 'KitchenAid', file: 'kitchenaid-appliance-repair-orange-county.html', grid: 'kitchenaid-job-grid' },
+  { brand: 'LG',         file: 'lg-appliance-repair-orange-county.html',         grid: 'lg-job-grid' },
+  { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html',    grid: 'samsung-job-grid' },
+]) {
+  test.describe(`${brand} hub: capped Recent Repairs grid`, () => {
+    test('phone: six cards, Show all reveals the rest', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(`/pages/${file}`);
+      const cards = page.locator(`#${grid} > div`);
+      const total = await cards.count();
+      expect(total).toBeGreaterThan(6);
+      expect(await visibleChildren(cards)).toBe(6);
+      const btn = page.locator(`#${grid} + .job-grid-more-row .job-grid-more`);
+      await expect(btn).toBeVisible();
+      await expect(btn).toHaveText('Show all ' + total + ' repairs');
+      expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+      await btn.click();
+      expect(await visibleChildren(cards)).toBe(total);
+      await expect(btn).toBeHidden();
+    });
+
+    test('desktop: every card visible and no Show all button', async ({ page }) => {
+      await page.setViewportSize(DESKTOP);
+      await page.goto(`/pages/${file}`);
+      const cards = page.locator(`#${grid} > div`);
+      expect(await visibleChildren(cards)).toBe(await cards.count());
+      await expect(page.locator(`#${grid} + .job-grid-more-row .job-grid-more`)).toBeHidden();
+    });
+  });
+}
 
 test.describe('Recent repairs gallery: ?city= filter', () => {
   test('city set narrows the gallery and Show all cities restores it', async ({ page }) => {
@@ -2618,23 +2762,242 @@ const BRAND_HUBS = [
   { brand: 'Thermador',file: 'thermador-appliance-repair-orange-county.html' },
   { brand: 'DCS',      file: 'dcs-appliance-repair-orange-county.html' },
 ];
-// NOT in this list, deliberately: the 7 MAINSTREAM brand hubs (Whirlpool, GE, Samsung,
-// LG, Maytag, Frigidaire, KitchenAid). Adding Frigidaire here was tried during #708 and
-// failed 5 assertions. FOUR of those are correct-by-design: this list encodes LUXURY-hub
-// decisions the mainstream hubs intentionally do not follow — built article-style with no
-// testimonials (so both testimonial assertions fail, and AggregateRating is absent with
-// them) and carrying an 8-card luxury cross-link grid rather than 6.
+// Mainstream brand hubs: Bosch, Electrolux, Frigidaire, GE, Kenmore, KitchenAid, LG, Maytag, Samsung,
+// Whirlpool. A separate list from BRAND_HUBS because the two take different assertions:
+// BRAND_HUBS encodes the LUXURY hubs' decisions (model grid, issue grid, `Service.brand`
+// match, 6-card cross-links), none of which the mainstream hubs share. The mainstream hubs
+// DO carry testimonials (3+ cards, plus AggregateRating) and there are 10 of them. Adding
+// Frigidaire to BRAND_HUBS during #708 failed 5 assertions; four were luxury-only
+// expectations and one was a real bug (a 186-char meta description). Until this list
+// existed they had no functional coverage, which is how Frigidaire shipped 4 dead `tel:`
+// links.
 //
-// The FIFTH is not a design difference and should not be read as one: Frigidaire's meta
-// description is 186 chars against this suite's 140-165 assertion. That is a real
-// pre-existing bug, unrelated to the luxury/mainstream split, and it is invisible today
-// because content-integrity.js's `meta-desc-len` check only scans articles/, not pages/.
-// #708 did not fix it (out of scope — that PR changed href values only); it is recorded
-// in tasks/action-plan-2026-08-09-analytics.md as M-7.
-//
-// Covering these 7 hubs needs its own list with its own assertions, the same way
-// PREMIUM_HUBS above needed one. Until then they have no functional coverage — which is
-// how Frigidaire shipped 4 dead `tel:` links.
+// Two tiers. The generic block runs on every page. The redesign block (expect-strip, no
+// .ai-block, .service-area, reviews right after the strip) is derived at load time from
+// test/hub-redesign-baseline.json: a page gets it the moment it is removed from that
+// baseline, so redesigning a hub needs no edit here. It is a conditional describe, not a
+// runtime skip, so un-redesigned pages have no such tests rather than hidden skipped ones.
+const MAINSTREAM_HUBS = [
+  { brand: 'Bosch',      file: 'bosch-appliance-repair-orange-county.html' },
+  { brand: 'Electrolux', file: 'electrolux-appliance-repair-orange-county.html' },
+  { brand: 'Frigidaire', file: 'frigidaire-appliance-repair-orange-county.html' },
+  { brand: 'GE',         file: 'ge-appliance-repair-orange-county.html' },
+  { brand: 'Kenmore',    file: 'kenmore-appliance-repair-orange-county.html' },
+  { brand: 'KitchenAid', file: 'kitchenaid-appliance-repair-orange-county.html' },
+  { brand: 'LG',         file: 'lg-appliance-repair-orange-county.html' },
+  { brand: 'Maytag',     file: 'maytag-appliance-repair-orange-county.html' },
+  { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html' },
+  { brand: 'Whirlpool',  file: 'whirlpool-appliance-repair-orange-county.html' },
+];
+// Site-wide: a phone number in a .service-area paragraph must never split across two lines.
+// 58 hubs carried the number unwrapped, so it split wherever the line happened to break. Measured in the
+// browser (getClientRects), not inferred from CSS. Page list derived from the filesystem.
+const SERVICE_AREA_PAGES = fs
+  .readdirSync(path.join(__dirname, '..', 'pages'))
+  .filter(name => name.endsWith('.html'))
+  .filter(name => /<section[^>]*class="[^"]*service-area/.test(
+    fs.readFileSync(path.join(__dirname, '..', 'pages', name), 'utf8')))
+  .sort();
+
+test('service-area phone links render on one line at 320px (site-wide)', async ({ page }) => {
+  test.setTimeout(180000);
+  expect(SERVICE_AREA_PAGES.length).toBeGreaterThan(0);
+  await page.setViewportSize({ width: 320, height: 700 });
+  const failures = [];
+  for (const name of SERVICE_AREA_PAGES) {
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const r = await page.evaluate(() => {
+      const links = Array.from(document.querySelectorAll('section.service-area a[href^="tel:"]'));
+      return { count: links.length, split: links.filter(a => a.getClientRects().length !== 1).length };
+    });
+    if (r.count === 0) failures.push(`${name}: no tel link in .service-area`);
+    else if (r.split > 0) failures.push(`${name}: ${r.split} phone link(s) split across lines`);
+  }
+  expect(failures).toEqual([]);
+});
+
+const HUB_REDESIGN_BASELINE = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'hub-redesign-baseline.json'), 'utf8')
+);
+
+// Parsed JSON-LD nodes of one @type, in page order.
+async function ldNodes(page, type) {
+  return page.evaluate(t => Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
+    .map(s => { try { return JSON.parse(s.textContent); } catch { return null; } })
+    .filter(j => j && j['@type'] === t), type);
+}
+
+for (const { brand, file } of MAINSTREAM_HUBS) {
+  test.describe(`Mainstream hub: ${brand}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/pages/${file}`);
+    });
+
+    test('hero CTA row has the call and contact links', async ({ page }) => {
+      const row = page.locator('.hub-hero .hub-cta-row').first();
+      expect(await row.locator('a[href="tel:+19496295365"]').count()).toBeGreaterThan(0);
+      expect(await row.locator('a[href="contact.html"]').count()).toBeGreaterThan(0);
+    });
+
+    test('page loads with nav and footer', async ({ page }) => {
+      await expect(page.locator('nav.nav')).toBeAttached();
+      await expect(page.locator('footer.footer')).toBeAttached();
+    });
+
+    test('title contains brand name and Orange County', async ({ page }) => {
+      const title = await page.title();
+      expect(title).toContain(brand);
+      expect(title).toContain('Orange County');
+    });
+
+    test('canonical is self-referential', async ({ page }) => {
+      const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+      expect(canonical).toBe(`https://fixappliancesfast.com/pages/${file}`);
+    });
+
+    test('meta description is 140-165 characters', async ({ page }) => {
+      const desc = await page.locator('meta[name="description"]').getAttribute('content');
+      expect(desc).toBeTruthy();
+      expect(desc.length).toBeGreaterThanOrEqual(140);
+      expect(desc.length).toBeLessThanOrEqual(165);
+    });
+
+    test('og:site_name is Universal Appliances Repair', async ({ page }) => {
+      await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute('content', 'Universal Appliances Repair');
+    });
+
+    test('JSON-LD schemas: Service, LocalBusiness, FAQPage, BreadcrumbList all present', async ({ page }) => {
+      for (const t of ['Service', 'LocalBusiness', 'FAQPage', 'BreadcrumbList']) {
+        expect((await ldNodes(page, t)).length, `${t} schema`).toBeGreaterThan(0);
+      }
+    });
+
+    test('LocalBusiness AggregateRating matches the canonical review count', async ({ page }) => {
+      const rated = (await ldNodes(page, 'LocalBusiness')).find(n => n.aggregateRating);
+      expect(rated).toBeTruthy();
+      expect(String(rated.aggregateRating.reviewCount)).toBe(EXPECTED_REVIEW_COUNT);
+      expect(String(rated.aggregateRating.ratingValue)).toBe('5.0');
+    });
+
+    test('FAQPage schema has at least 8 mainEntity entries', async ({ page }) => {
+      const faq = (await ldNodes(page, 'FAQPage'))[0];
+      expect(faq.mainEntity.length).toBeGreaterThanOrEqual(8);
+    });
+
+    // The count guard matters: `[]` equals `[]`, so an empty set would pass. Exact match
+    // rather than includes('9496295365') so a malformed variant cannot slip through.
+    test('every tel: link is the canonical number', async ({ page }) => {
+      const tels = await hrefs(page, 'a[href^="tel:"]');
+      expect(tels.length).toBeGreaterThan(0);
+      expect(tels.filter(h => h !== 'tel:+19496295365')).toEqual([]);
+    });
+
+    // textContent, NOT innerText: the FAQ answers are display:none until opened and state
+    // the fee there; innerText skips collapsed content. JSON-LD is checked too, since a
+    // wrong fee in schema is what Google would surface. Same logic as the premium hubs.
+    test('diagnostic fee is the flat $99, never a $150 or $120 fee or a range', async ({ page }) => {
+      const body = await page.locator('body').evaluate(el => el.textContent);
+      const ld = (await page.locator('script[type="application/ld+json"]').allTextContents()).join(' ');
+      expect(body).toContain('$99');
+      // $99 is not required in the JSON-LD: Frigidaire and Kenmore's FAQPage schema omits
+      // the fee entirely today (2026-11-03). Absence is a content gap, not a wrong fee, so
+      // only a WRONG fee in schema fails here. Tighten to toContain once those two are fixed.
+      for (const source of [body, ld]) {
+        expect(source).not.toMatch(/\$99\s*(to|-|–)\s*\$?\d/);
+        // A wrong fee next to fee wording. Not a blanket ban: repair-cost tables
+        // legitimately start at $150 ("$150 to $300 for a lid lock"). So a $150 or $120
+        // FOLLOWED by fee wording is skipped when it opens a range (a repair price), but
+        // one PRECEDED by fee wording fails even as a range start: "Diagnostic fee:
+        // $150 - $280" is a wrong fee written as a range, not a repair price.
+        const wrong = '\\$(?:150|120)\\b';
+        const flat = wrong + '(?!\\s*(?:to|-|–)\\s*\\$?\\d)';
+        const feeWord = '(?:diagnostic|service[- ]call|\\bfee\\b)';
+        expect(source).not.toMatch(new RegExp(feeWord + '[^$]{0,40}' + wrong, 'i'));
+        expect(source).not.toMatch(new RegExp(flat + '[^$]{0,40}' + feeWord, 'i'));
+      }
+    });
+
+    test('has at least 3 testimonial cards', async ({ page }) => {
+      expect(await page.locator('.testimonial-card').count()).toBeGreaterThanOrEqual(3);
+    });
+
+    // Count-guarded and polled like the premium job-card check: the imgs sit below the
+    // fold and are lazy, so from a cold cache they are not `complete` at goto() time.
+    // A page with no real-job photos has nothing to check.
+    test('real-job photos all resolve (no broken images)', async ({ page }) => {
+      const imgs = page.locator('img[src*="images/real/business/"]');
+      const n = await imgs.count();
+      if (n === 0) return;
+      for (let i = 0; i < n; i++) await imgs.nth(i).scrollIntoViewIfNeeded();
+      await expect.poll(() => imgs.evaluateAll(
+        a => a.filter(i => !i.complete || i.naturalWidth === 0).map(i => i.currentSrc || i.src)
+      )).toEqual([]);
+    });
+  });
+
+  if (`pages/${file}` in HUB_REDESIGN_BASELINE) continue;
+
+  test.describe(`Mainstream hub redesign: ${brand}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/pages/${file}`);
+    });
+
+    test('service-area section names the brand', async ({ page }) => {
+      const text = await page.locator('section.service-area').first().textContent();
+      expect(text).toContain(brand);
+    });
+
+    test('expect-strip is the single trust strip: fee, warranty, trust line, no logo', async ({ page }) => {
+      const strip = page.locator('section.expect-strip');
+      await expect(strip).toHaveCount(1);
+      const text = await strip.textContent();
+      expect(text).toContain('$99');
+      expect(text).toContain('90-day');
+      expect(text).toContain('30-day');
+      expect(await strip.locator('img').count()).toBe(0);
+      const lastIsTrust = await strip.evaluate(el => {
+        const inner = el.querySelector('.expect-inner') || el;
+        return inner.lastElementChild.classList.contains('expect-trust');
+      });
+      expect(lastIsTrust).toBe(true);
+    });
+
+    test('no legacy .ai-block', async ({ page }) => {
+      await expect(page.locator('.ai-block')).toHaveCount(0);
+    });
+
+    test('reviews come right after the strip: strip < first review < service-area < FAQ', async ({ page }) => {
+      const order = await page.evaluate(() => {
+        const before = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+        const strip = document.querySelector('section.expect-strip');
+        const review = document.querySelector('.testimonial-card');
+        const area = document.querySelector('section.service-area');
+        const faq = document.querySelector('#faq, .faq-list');
+        if (!strip || !review || !area || !faq) return null;
+        return { stripBeforeReview: before(strip, review), reviewBeforeArea: before(review, area), areaBeforeFaq: before(area, faq) };
+      });
+      expect(order).toEqual({ stripBeforeReview: true, reviewBeforeArea: true, areaBeforeFaq: true });
+    });
+
+    test('service-area section: 60-110 words, phone and contact links, no prices', async ({ page }) => {
+      const area = page.locator('section.service-area');
+      await expect(area).toHaveCount(1);
+      const text = (await area.textContent()).trim();
+      const words = text.split(/\s+/).filter(Boolean).length;
+      expect(words).toBeGreaterThanOrEqual(60);
+      expect(words).toBeLessThanOrEqual(110);
+      expect(text).not.toContain('$');
+      expect(await area.locator('a[href="tel:+19496295365"]').count()).toBeGreaterThan(0);
+      expect(await area.locator('a[href$="contact.html"]').count()).toBeGreaterThan(0);
+    });
+
+    test('hero paragraph states no price', async ({ page }) => {
+      const p = await page.locator('.hub-hero-content p').first().textContent();
+      expect(p).not.toContain('$');
+    });
+  });
+}
 
 for (const { brand, file } of BRAND_HUBS) {
   test.describe(`Brand hub: ${brand}`, () => {

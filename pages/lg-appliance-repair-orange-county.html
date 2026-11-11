@@ -51,10 +51,6 @@
     .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    /* AI ANSWER BLOCK */
-    .ai-block { background: #f0f4f8; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
-
     /* MODELS GRID */
     .models-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 32px; }
     .model-card { background: var(--surface); border-radius: 10px; padding: 18px 20px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
@@ -116,8 +112,48 @@
     .btn-white { display: inline-block; background: var(--surface); color: var(--brand-text); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
     .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
 
+    /* RECENT JOB PHOTOS GRID */
+    /* Fixed 3-up that collapses straight to 1-up (an auto-fit grid would pass through a
+       2-column stage and strand a card). Six half-tracks, each card spanning two, so the
+       geometry equals a 3-up grid ((900 - 5*20) / 6 * 2 + 20 = 286.7px per card) while a
+       trailing row of one or two cards can be centred. Keyed on the count remainder, so
+       adding a card never reopens this:
+         N mod 3 == 1 -> one trailing card,  centred across tracks 3-4
+         N mod 3 == 2 -> two trailing cards, centred across tracks 2-3 and 4-5
+       These rules must stay ABOVE the @media block: media queries add no specificity. */
+    .job-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+    .job-grid > div { grid-column: span 2; }
+    .job-grid:has(> div:nth-child(3n+1):last-child) > div:last-child { grid-column: 3 / span 2; }
+    .job-grid:has(> div:nth-child(3n+2):last-child) > div:nth-last-child(2) { grid-column: 2 / span 2; }
+    .job-grid:has(> div:nth-child(3n+2):last-child) > div:last-child { grid-column: 4 / span 2; }
+
+    /* ON THIS PAGE JUMP ROW (chips mirror .region-jump on service-areas.html) */
+    .page-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 0 32px; }
+    .page-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: #fff; border: 1px solid #e2e8f0; border-radius: 22px; color: var(--brand-text); font-size: 13px; font-weight: 600; text-decoration: none; transition: border-color 0.15s; }
+    .page-jump a:hover { border-color: #e84c1e; }
+
+    /* CTA ROW AFTER THE COST TABLE */
+    .cost-cta { text-align: center; margin-top: 32px; }
+    .cost-cta p { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 14px; }
+    .cost-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cost-cta-btns a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+    .cost-cta-btns .btn-outline { font-size: 13px; font-weight: 600; }
+
+    /* JOB SECTION INTRO LINK + CLOSING PROOF LINE */
+    .jobs-more-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 13.5px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
+    .cta-box .cta-proof { font-weight: 600; margin: -14px 0 24px; }
+
     /* MOBILE */
     @media (max-width: 768px) {
+      /* The resets must repeat the full desktop selectors, or the higher-specificity
+         :has() placements win and leave the 6-track layout live on phones. */
+      .job-grid { grid-template-columns: 1fr; max-width: 360px; }
+      /* Shorter phone photos: the inline 260px height needs !important to lose; object-position stays. */
+      .job-grid img { height: 200px !important; }
+      .job-grid > div,
+      .job-grid:has(> div:nth-child(3n+1):last-child) > div:last-child,
+      .job-grid:has(> div:nth-child(3n+2):last-child) > div:nth-last-child(2),
+      .job-grid:has(> div:nth-child(3n+2):last-child) > div:last-child { grid-column: auto; }
       /* P6-62 tap targets: text CTAs that rendered 15-16px. */
       .tap-link { min-height: 44px; display: inline-flex; align-items: center; }
       .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
@@ -204,7 +240,7 @@
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "5.0",
-            "reviewCount": "150",
+            "reviewCount": "156",
             "bestRating": "5"
           }
         }
@@ -390,6 +426,7 @@
                   <a href="maytag-appliance-repair-orange-county.html">Maytag</a>
                   <a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
                   <a href="kenmore-appliance-repair-orange-county.html">Kenmore</a>
+                  <a href="electrolux-appliance-repair-orange-county.html">Electrolux</a>
                 </div>
               </div>
               <a href="services.html#brands" class="dropdown-all">All Brands &rarr;</a>
@@ -448,14 +485,11 @@
                     <a href="appliance-repair-long-beach-ca.html">Long Beach</a>
                     <a href="appliance-repair-montebello-ca.html">Montebello</a>
                     <a href="appliance-repair-whittier-ca.html">Whittier</a>
+                    <a href="appliance-repair-downey-ca.html">Downey</a>
                     <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>
                     <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>
                     <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>
                     <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>
-                  </div>
-                  <div role="group" aria-labelledby="nav-region-riverside-county">
-                    <span id="nav-region-riverside-county" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 18px 6px;">Riverside County</span>
-                    <a href="appliance-repair-riverside-ca.html">Riverside</a>
                   </div>
                   <div role="group" aria-labelledby="nav-region-coachella-valley">
                     <span id="nav-region-coachella-valley" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 18px 6px;">Coachella Valley</span>
@@ -519,6 +553,7 @@
         <a href="maytag-appliance-repair-orange-county.html">Maytag</a>
         <a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
         <a href="kenmore-appliance-repair-orange-county.html">Kenmore</a>
+        <a href="electrolux-appliance-repair-orange-county.html">Electrolux</a>
         <a href="services.html#brands" class="drawer-all">All Brands &rarr;</a>
       </details>
       <details>
@@ -562,12 +597,11 @@
         <a href="appliance-repair-long-beach-ca.html">Long Beach</a>
         <a href="appliance-repair-montebello-ca.html">Montebello</a>
         <a href="appliance-repair-whittier-ca.html">Whittier</a>
+        <a href="appliance-repair-downey-ca.html">Downey</a>
         <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>
         <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>
         <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>
         <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>
-        <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">Riverside County</span>
-        <a href="appliance-repair-riverside-ca.html">Riverside</a>
         <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">Coachella Valley</span>
         <a href="appliance-repair-palm-springs-ca.html">Palm Springs</a>
         <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">San Bernardino County</span>
@@ -591,9 +625,9 @@
       <h1>LG Washer, Dryer, Refrigerator &amp; Range Repair in Orange County</h1>
       <p>Refrigerators that stop cooling, washers throwing LE, OE, and UE codes, and dryers that won't heat. We know LG's direct-drive washers and its linear-compressor refrigerators inside out. Same-day service available.</p>
       <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 150 Google reviews, rated 5 out of 5">
+        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 156 Google reviews, rated 5 out of 5">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 150 Google reviews</span>
+          <span>5.0 &middot; 156 Google reviews</span>
         </a>
       </div>
       <div class="hub-cta-row">
@@ -614,14 +648,65 @@
     </div>
   </div>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. provides LG appliance repair across Orange County, California. We service LG front-load and top-load washers, electric and gas dryers, French-door and side-by-side refrigerators, dishwashers, and gas and electric ranges. Common repairs include LG linear-compressor cooling failures, the LE motor error, the OE drain error, and the UE unbalanced-spin error on LG washers, plus dryers that will not heat. We serve Santa Ana, Irvine, Anaheim, Huntington Beach, Fountain Valley, and surrounding Orange County cities. Call <a href="tel:+19496295365" style="color:var(--brand-text);text-decoration:none;font-weight:600;">(949) 629-5365</a> or <a href="contact.html" style="color:var(--brand-text);text-decoration:none;font-weight:600;">book online</a> for same-day service.</p>
-  </div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Our Customers Say</h2>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 156 verified 5-star Google reviews</p>
+      <div class="testimonials-grid testimonials-grid--stack-768 reviews-cap">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG was wonderful - quick and easy! Loved working with him. Highly recommend :)"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">SW</div>
+          <div class="testimonial-name">Steph WW, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Called AG and received a quick response. Was polite and efficient. Very reasonable and honest. Fixed my stove top and freezer."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">OG</div>
+          <div class="testimonial-name">Olga Garcia, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Fast and professional good service on my dryer"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">WB</div>
+          <div class="testimonial-name">Who-Bangin Sports Talk, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div class="reviews-cap-more-row">
+        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
+      </div>
+    </div>
+  </section>
 
   <!-- LG PRODUCT LINES -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
+      <nav class="page-jump" aria-label="On this page">
+        <a href="#common-problems">Common problems</a>
+        <a href="#repair-costs">Repair costs</a>
+        <a href="#service-area-title">Service area</a>
+        <a href="#faq">FAQ</a>
+        <a href="#recent-repairs">Recent repairs</a>
+      </nav>
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">Refrigerators, Washers, Dryers, and Ranges: Every LG We Repair</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.7;">LG builds some of the most popular kitchens and laundry rooms in Orange County, from InstaView refrigerators to direct-drive front-loaders. We service the full lineup, and we know the parts and codes specific to each. For refrigerators, our <a href="../articles/article-lg-refrigerator-error-codes.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">LG refrigerator error code guide</a> explains what the display is telling you, and for washers, our <a href="../articles/article-lg-washer-repair-aliso-viejo.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">LG washer repair guide</a> covers the common codes and fixes.</p>
       <div class="models-grid">
@@ -661,7 +746,7 @@
   </section>
 
   <!-- COMMON ISSUES -->
-  <section class="section section-gray">
+  <section class="section section-white" id="common-problems">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">Compressor Failures, Error Codes, and LG's Known Weak Points</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">LG appliances fail in specific, recognizable ways. These are the repairs our technicians handle most often on Orange County homes.</p>
@@ -728,7 +813,7 @@
   </section>
 
   <!-- LINEAR COMPRESSOR EXPLAINER -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:16px;">The LG Linear Compressor: Why LG Refrigerators Stop Cooling</h2>
       <div class="explainer-wrap">
@@ -740,7 +825,7 @@
   </section>
 
   <!-- REPAIR PROCESS -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">From Call to Fixed: How an LG Repair Works</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7;">Here is exactly what happens from your first call to a fully working LG appliance.</p>
@@ -763,14 +848,14 @@
         <div class="process-step">
           <div class="step-number">4</div>
           <div class="step-title">Repair &amp; Warranty</div>
-          <div class="step-desc">Common LG pumps, dampers, and elements ride in the van, so most repairs finish the same day. Every repair includes a parts and labor warranty: if the same fault returns, we come back at no charge.</div>
+          <div class="step-desc">Common LG pumps, dampers, and elements ride in the van, so most repairs finish the same day. Every repair carries a <span class="nb">90-day</span> parts and <span class="nb">30-day</span> labor warranty: if the same problem returns within 30 days, we come back at no charge.</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- COST RANGES -->
-  <section class="section section-white">
+  <section class="section section-gray" id="repair-costs">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">LG Repair Costs: What to Expect in Orange County</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7;">A new LG washer or dryer runs roughly $700 to $1,300, so for most faults repair is the clear financial choice. These are typical Orange County ranges, not quotes.</p>
@@ -824,11 +909,27 @@
         </table>
         <p style="font-size:12px;color:var(--text-sub);margin-top:14px;line-height:1.6;">Our company diagnostic fee is a flat $99 in Orange County, credited toward the repair if you proceed. A failed LG linear compressor is often still covered under LG's 10-year parts warranty, which can reduce your out-of-pocket cost significantly. See our <a href="appliance-repair-cost-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">full appliance repair cost guide</a> for broader Orange County pricing context.</p>
       </div>
+      <div class="cost-cta">
+        <p>Ready to schedule your LG repair?</p>
+        <div class="cost-cta-btns">
+          <a href="contact.html" class="btn-primary">Book a Repair</a>
+          <a href="tel:+19496295365" class="btn-outline"><span class="nb">Call (949) 629-5365</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE AREA -->
+  <section class="section section-white service-area" aria-labelledby="service-area-title">
+    <div class="container">
+      <h2 id="service-area-title">LG repair across Orange County</h2>
+      <p>Universal Appliances Repair Group Inc. provides LG appliance repair across Orange County, California, including front-load and top-load washers, electric and gas dryers, French-door and side-by-side refrigerators, dishwashers, and gas and electric ranges. Common repairs include linear-compressor cooling failures, the LE motor, OE drain and UE unbalanced-spin washer errors, and dryers that will not heat.</p>
+      <p>We serve <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>, <a href="appliance-repair-irvine-ca.html">Irvine</a>, <a href="appliance-repair-anaheim-ca.html">Anaheim</a>, <a href="appliance-repair-huntington-beach-ca.html">Huntington Beach</a>, <a href="appliance-repair-fountain-valley-ca.html">Fountain Valley</a>, and surrounding cities, with same-day service available. Call <a href="tel:+19496295365"><span class="nb">(949) 629-5365</span></a> or <a href="contact.html">book online</a> to schedule an LG repair visit.</p>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="section section-white" id="faq">
+  <section class="section section-gray" id="faq">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">What Orange County LG Owners Ask Us</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;line-height:1.7;">The most common questions from LG owners across Santa Ana, Irvine, Huntington Beach, Fountain Valley, and surrounding Orange County cities.</p>
@@ -910,47 +1011,27 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section section-gray" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-standard">What Our Customers Say</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 150 verified 5-star Google reviews</p>
-      <div class="testimonials-grid testimonials-grid--stack-768">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG was wonderful - quick and easy! Loved working with him. Highly recommend :)"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">SW</div>
-          <div class="testimonial-name">Steph WW, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Called AG and received a quick response. Was polite and efficient. Very reasonable and honest. Fixed my stove top and freezer."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">OG</div>
-          <div class="testimonial-name">Olga Garcia, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Fast and professional good service on my dryer"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">WB</div>
-          <div class="testimonial-name">Who-Bangin Sports Talk, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
   <!-- RECENT JOB PHOTO -->
-  <section class="section section-gray" style="padding-top:0;">
+  <section class="section section-white" id="recent-repairs" style="padding-top:0;">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;padding-top:64px;">Recent LG Repairs</h2>
-       <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Recent LG jobs include a no-heat dryer repair in Anaheim, a no-heat dryer repair in Chino, a washer drain pump replacement in Tustin, a washer door lock and door hook replacement in Cypress, a washer door gasket replacement in Beverly Hills and ice maker replacements in Mission Viejo and Orange, alongside earlier laundry and refrigerator service calls across Orange County.</p>
-       <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:720px;margin:0 auto;">
-        <div id="job-lg-dryer-not-heating-anaheim" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+       <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Real LG repairs our technicians completed recently, with the city of each job. <a href="recent-repairs.html" class="jobs-more-link">See all recent repairs &rarr;</a></p>
+      <div class="job-grid job-grid-cap" id="lg-job-grid" data-more-label="repairs">
+        <div id="job-dryer-lg-belt-long-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-anaheim-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-anaheim.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-dryer-lg-belt-long-beach-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-belt-long-beach.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
+            <img src="../images/real/business/completed-repair-dryer-lg-belt-long-beach.jpg" alt="Stacked LG front-load washer and dryer pair in a dim Long Beach laundry closet" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
+          </picture>
+          <div style="padding:16px 18px 20px;">
+            <div style="font-size:10px;font-weight:700;color:var(--brand-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">LG &middot; Dryer</div>
+            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Dryer Belt Replacement</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">Long Beach, CA</div>
+            <a href="appliance-repair-long-beach-ca.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Long Beach &rarr;</a>
+          </div>
+        </div>
+        <div id="job-lg-dryer-not-heating-anaheim" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-anaheim-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-anaheim.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-dryer-lg-not-heating-anaheim.jpg" alt="White LG front-load dryer with a SmartThinQ-style control panel beside an LG top-load washer in an Anaheim laundry closet" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -960,9 +1041,9 @@
             <a href="appliance-repair-anaheim-ca.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Anaheim &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-tustin-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-tustin.webp 1200w" type="image/webp" sizes="(max-width:400px) calc(100vw - 32px), 340px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-tustin-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-tustin.webp 1200w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-washer-lg-drain-pump-tustin.jpg" alt="LG front-load washer with its front cabinet open during a drain pump repair in Tustin" width="1200" height="1410" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -972,16 +1053,16 @@
             <a href="washer-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our washer repair service &rarr;</a>
           </div>
         </div>
-        <div id="job-lg-washer-drain-pump-newport-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div id="job-lg-washer-drain-pump-newport-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-washer-lg-drain-pump-newport-beach.jpg" alt="Silver LG front-load washer under a white counter in a Newport Beach laundry area" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;"><div style="font-size:10px;font-weight:700;color:var(--brand-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">LG &middot; Washer</div><div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Drain Pump Replacement</div><div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div><a href="washer-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our washer repair service &rarr;</a></div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.webp 1024w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.webp 1024w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-washer-dryer-lg-maintenance-foothill-ranch.jpg" alt="Graphite LG front-load washer and dryer side by side in a Foothill Ranch laundry room during a maintenance visit" width="1024" height="768" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -991,9 +1072,9 @@
             <a href="appliance-repair-lake-forest-ca.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair near Foothill Ranch &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-shock-absorbers-fountain-valley-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-shock-absorbers-fountain-valley.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-shock-absorbers-fountain-valley-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-shock-absorbers-fountain-valley.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-washer-lg-shock-absorbers-fountain-valley.jpg" alt="LG front-load washer shock absorbers replaced by a Universal Appliances Repair technician in Fountain Valley, Orange County" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1003,9 +1084,9 @@
             <a href="washer-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our washer repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch.webp 1024w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch.webp 1024w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-washer-lg-drain-pump-ladera-ranch.jpg" alt="LG front-load washer with the top and control panel removed, exposing the circuit boards and drum, beside a matching LG dryer in a Ladera Ranch laundry room" width="1024" height="768" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1015,9 +1096,9 @@
             <a href="washer-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our washer repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-dispenser-orange-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-dispenser-orange.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-dispenser-orange-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-dispenser-orange.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-washer-lg-dispenser-orange.jpg" alt="Graphite LG front-load washer in an Orange, CA laundry closet with its top panel removed and the old detergent dispenser housing lifted out, the white replacement assembly resting on top" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:top;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1027,9 +1108,9 @@
             <a href="washer-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our washer repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-lg-compressor-new-part-orange-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-compressor-new-part-orange.webp 1024w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-refrigerator-lg-compressor-new-part-orange-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-compressor-new-part-orange.webp 1024w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-refrigerator-lg-compressor-new-part-orange.jpg" alt="The failed LG FC75LBNA compressor next to the new FL80YLANA replacement on a workbench after an Orange, CA refrigerator repair" width="1024" height="768" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1039,9 +1120,9 @@
             <a href="refrigerator-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our refrigerator repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-newport-beach.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-dryer-lg-not-heating-newport-beach.jpg" alt="White LG front-load electric dryer standing in a Newport Beach garage laundry area, connected to its exhaust duct against the wall" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1051,9 +1132,9 @@
             <a href="dryer-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our dryer repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-lg-water-filter-housing-rancho-santa-margarita-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-water-filter-housing-rancho-santa-margarita.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-refrigerator-lg-water-filter-housing-rancho-santa-margarita-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-water-filter-housing-rancho-santa-margarita.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-refrigerator-lg-water-filter-housing-rancho-santa-margarita.jpg" alt="LG French-door refrigerator with a through-door ice and water dispenser panel, standing in a Rancho Santa Margarita kitchen with cream cabinetry, after a water filter and water filter housing replacement" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1063,9 +1144,9 @@
             <a href="refrigerator-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our refrigerator repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-chino-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-chino.webp 1200w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-chino-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-chino.webp 1200w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-dryer-lg-not-heating-chino.jpg" alt="White LG dryer with its control display lit, standing beside a matching washer in a Chino laundry room" width="1200" height="1600" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:50% 0%;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1075,9 +1156,9 @@
             <a href="dryer-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our dryer repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo.jpg" alt="Black stainless LG French-door refrigerator with a door dispenser and two bottom drawers, set between white cabinets in a Mission Viejo kitchen" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1087,9 +1168,9 @@
             <a href="refrigerator-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our refrigerator repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.jpg" alt="Stainless LG French-door refrigerator with a door dispenser, set into cream cabinets in an Orange, CA kitchen with a wood-look floor" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:50% 45%;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1099,9 +1180,9 @@
             <a href="refrigerator-repair-orange-county.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our refrigerator repair service &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-door-lock-cypress-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-lock-cypress.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-door-lock-cypress-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-lock-cypress.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-washer-lg-door-lock-cypress.jpg" alt="Open grey door of an LG front-load washer in Cypress, showing the door hook on the door frame after the door hook and door lock were replaced" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1111,9 +1192,9 @@
             <a href="appliance-repair-cypress-ca.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Cypress &rarr;</a>
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);flex:1 1 300px;max-width:340px;">
+        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills.webp 768w" type="image/webp" sizes="(max-width:400px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills-480w.webp 480w, ../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-washer-lg-door-gasket-beverly-hills.jpg" alt="LG front-load washer in Beverly Hills with a door gasket resting on top and a gasket fitted in the door opening, during a door gasket replacement" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:center 10%;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -1123,6 +1204,9 @@
             <a href="luxury-appliance-repair-beverly-hills-ca.html" class="tap-link" style="margin-top:12px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">Appliance repair in Beverly Hills &rarr;</a>
           </div>
         </div>
+      </div>
+      <div class="job-grid-more-row">
+        <button type="button" class="job-grid-more btn-outline" aria-controls="lg-job-grid">Show all repairs</button>
       </div>
       <p style="text-align:center;font-size:12.5px;color:var(--text-muted);margin-top:24px;line-height:1.7;">Chasing a cooling problem? See our <a href="refrigerator-repair-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Orange County refrigerator repair service</a>, or our <a href="dryer-repair-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">dryer repair service</a>.</p>
     </div>
@@ -1186,6 +1270,7 @@
       <div class="cta-box">
         <h2>Need LG Repair in Orange County?</h2>
         <p>Same-day service available. Call now or book online; a technician will confirm your appointment within the hour.</p>
+        <p class="cta-proof">Backed by 156 verified 5-star Google reviews.</p>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
           <a href="tel:+19496295365" class="btn-white">Call (949) 629-5365</a>
           <a href="contact.html" class="btn-white-outline">Book Online</a>

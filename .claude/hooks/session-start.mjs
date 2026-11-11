@@ -48,9 +48,9 @@ process.stdout.write(`Repo non-negotiables (SessionStart hook; canonical text in
    statement (the Riverside \$120 tier was retired 2026-08-22). Scheduling follows
    coverage, never distance: same-day service may be stated plainly (no "when the schedule is open" hedge
    required, owner 2026-10-29; never promise a same-day REPAIR) in Orange County, LA
-   County, Riverside city and the Coachella Valley, and Chino / Chino Hills. Corona, Norco
-   and Eastvale are PARKED (owner, 2026-10-12): never name them as served in visible copy,
-   a city card, a form option or llms.txt; the Corona hub stays offline (noindex); the
+   County, the Coachella Valley, and Chino / Chino Hills. Corona, Norco, Eastvale and
+   Riverside are PARKED (owner, 2026-10-12; Riverside 2026-11-10): never name them as served in visible copy,
+   a city card, a form option or llms.txt; the Corona and Riverside hubs stay offline (noindex); the
    areaServed JSON-LD arrays still list them and are left alone on purpose. Nothing checks fee or scheduling copy for accuracy. Full rules:
    .claude/skills/seo-content/SKILL.md.
 9. Never invent a reviewer name, quote, or rating. Testimonials come only from

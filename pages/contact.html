@@ -99,6 +99,8 @@
        center its (possibly shorter) content, so the post-submit success state does
        not collapse to a short card with empty space beside it at desktop widths. */
     .contact-grid > .card { display: flex; flex-direction: column; justify-content: center; }
+    /* Form card padding lives here, not inline, so phones can narrow it: at 375px the old 40px side padding left the fields only 231px wide. */
+    .form-card { padding: 36px 40px; }
     .form-group { margin-bottom: 16px; }
     .form-label { display: block; font-size: 12px; font-weight: 600; color: #555; margin-bottom: 6px; }
     .form-input { width: 100%; padding: 11px 14px; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 13px; font-family: 'Inter', sans-serif; color: #111; background: #fff; outline: none; transition: border-color 0.15s; }
@@ -118,6 +120,7 @@
       .name-grid { grid-template-columns: 1fr; }
       .form-input { font-size: 16px; }
       .form-submit { min-height: 44px; width: 100%; font-size: 15px; }
+      .form-card { padding: 28px 20px; }
     }
     .contact-pricing-callout { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; text-align: center; }
     .callout-pill { display: inline-block; background: #1a0a02; color: #fff; font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px; margin-bottom: 8px; }
@@ -177,6 +180,7 @@
                   <a href="maytag-appliance-repair-orange-county.html">Maytag</a>
                   <a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
                   <a href="kenmore-appliance-repair-orange-county.html">Kenmore</a>
+                  <a href="electrolux-appliance-repair-orange-county.html">Electrolux</a>
                 </div>
               </div>
               <a href="services.html#brands" class="dropdown-all">All Brands &rarr;</a>
@@ -235,14 +239,11 @@
                     <a href="appliance-repair-long-beach-ca.html">Long Beach</a>
                     <a href="appliance-repair-montebello-ca.html">Montebello</a>
                     <a href="appliance-repair-whittier-ca.html">Whittier</a>
+                    <a href="appliance-repair-downey-ca.html">Downey</a>
                     <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>
                     <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>
                     <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>
                     <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>
-                  </div>
-                  <div role="group" aria-labelledby="nav-region-riverside-county">
-                    <span id="nav-region-riverside-county" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 18px 6px;">Riverside County</span>
-                    <a href="appliance-repair-riverside-ca.html">Riverside</a>
                   </div>
                   <div role="group" aria-labelledby="nav-region-coachella-valley">
                     <span id="nav-region-coachella-valley" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 18px 6px;">Coachella Valley</span>
@@ -306,6 +307,7 @@
         <a href="maytag-appliance-repair-orange-county.html">Maytag</a>
         <a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
         <a href="kenmore-appliance-repair-orange-county.html">Kenmore</a>
+        <a href="electrolux-appliance-repair-orange-county.html">Electrolux</a>
         <a href="services.html#brands" class="drawer-all">All Brands &rarr;</a>
       </details>
       <details>
@@ -349,12 +351,11 @@
         <a href="appliance-repair-long-beach-ca.html">Long Beach</a>
         <a href="appliance-repair-montebello-ca.html">Montebello</a>
         <a href="appliance-repair-whittier-ca.html">Whittier</a>
+        <a href="appliance-repair-downey-ca.html">Downey</a>
         <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>
         <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>
         <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>
         <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>
-        <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">Riverside County</span>
-        <a href="appliance-repair-riverside-ca.html">Riverside</a>
         <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">Coachella Valley</span>
         <a href="appliance-repair-palm-springs-ca.html">Palm Springs</a>
         <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">San Bernardino County</span>
@@ -382,7 +383,7 @@
       <div class="contact-grid">
 
         <!-- FORM -->
-        <div class="card" style="padding:36px 40px;">
+        <div class="card form-card">
           <h2 id="form-heading" class="h2-xs" style="margin-bottom:6px;">Request a Repair</h2>
           <p id="form-intro" style="font-size:13px;color:#666;margin-bottom:28px;line-height:1.6;">Fill out the form below and one of our technicians will reach out to schedule your repair.</p>
 
@@ -397,16 +398,16 @@
             <div class="name-grid">
               <div class="form-group">
                 <label class="form-label" for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="John" required />
+                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="John" autocomplete="given-name" required />
               </div>
               <div class="form-group">
                 <label class="form-label" for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Smith" required />
+                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Smith" autocomplete="family-name" required />
               </div>
             </div>
             <div class="form-group">
               <label class="form-label" for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" class="form-input" placeholder="(949) 000-0000" required />
+              <input type="tel" id="phone" name="phone" class="form-input" placeholder="(949) 000-0000" autocomplete="tel" required />
             </div>
             <div class="form-group">
               <label class="form-label" for="city">City</label>
@@ -458,12 +459,10 @@
                   <option>Whittier</option>
                   <option>Other (Los Angeles County)</option>
                 </optgroup>
-                <optgroup label="Riverside &amp; San Bernardino Counties">
+                <optgroup label="Coachella Valley &amp; San Bernardino County">
                   <option>Chino</option>
                   <option>Chino Hills</option>
                   <option>Palm Springs</option>
-                  <option>Riverside</option>
-                  <option>Other (Riverside County)</option>
                 </optgroup>
                 <option>Other / not listed</option>
               </select>
@@ -489,7 +488,7 @@
             </div>
             <div class="form-group">
               <label class="form-label" for="email">Email Address</label>
-              <input type="email" id="email" name="email" class="form-input" placeholder="john@email.com" />
+              <input type="email" id="email" name="email" class="form-input" placeholder="john@email.com" autocomplete="email" />
             </div>
             <button type="submit" id="form-submit" class="btn-primary form-submit" style="width:100%;text-align:center;cursor:pointer;border:none;font-family:'Inter',sans-serif;">Send Message</button>
           </form>

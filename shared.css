@@ -71,14 +71,20 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
    Scoped to body-content containers only; nav/footer/CTA buttons have their own styles.
    Existing inline `style="color:..."` overrides on individual <a> still take precedence. */
 .article-body a:link, .article-body a:visited,
-.article-intro a:link, .article-intro a:visited,
-.faq-a a:link, .faq-a a:visited {
+.article-intro a:link, .article-intro a:visited {
   color: var(--brand);
   text-decoration: none;
 }
 .article-body a:hover, .article-body a:focus-visible,
-.article-intro a:hover, .article-intro a:focus-visible,
-.faq-a a:hover, .faq-a a:focus-visible {
+.article-intro a:hover, .article-intro a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* FAQ answer links sit in grey 13-14px text, where var(--brand) is under 4.5:1 and colour alone barely
+   separates a link from the words around it (WCAG 1.4.3 / 1.4.1). So they use the AA ember and keep a
+   permanent underline, which touch screens need because they never show a hover state. */
+.faq-a a:link, .faq-a a:visited {
+  color: var(--brand-text);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -126,12 +132,6 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
 .expect-list strong { display: block; font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.3; margin-bottom: 5px; }
 .expect-list li > span { display: block; font-size: 12.5px; color: var(--text-sub); line-height: 1.5; }
 .expect-trust { margin: 14px 0 0; font-size: 13px; font-weight: 600; color: var(--text-soft); line-height: 1.5; }
-.expect-brands { margin: 14px 0 0; }
-.expect-brands-label { margin: 0 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--text-soft); }
-.expect-brands-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
-.expect-brands-list li { display: flex; align-items: center; }
-.expect-brands-list img { display: block; height: auto; max-width: 100%; filter: grayscale(1); opacity: .62; }
-.expect-brands-note { margin: 10px 0 0; font-size: 13px; line-height: 1.45; color: var(--text-soft); }
 .nb { white-space: nowrap; }
 @media (max-width: 768px) {
   /* Phone compaction: the strip sits between the hero and the reviews, so every pixel here
@@ -143,10 +143,57 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
   .expect-list strong { font-size: 13.5px; line-height: 1.25; margin-bottom: 2px; }
   .expect-list li > span { font-size: 12px; line-height: 1.38; }
   .expect-trust { margin-top: 10px; font-size: 12.5px; line-height: 1.4; }
-  .expect-brands { margin-top: 10px; }
-  .expect-brands-label { margin-bottom: 6px; }
-  .expect-brands-list { gap: 8px 16px; }
-  .expect-brands-note { margin-top: 8px; font-size: 12px; line-height: 1.38; }
+}
+
+/* BRAND LOGO CHIPS (hub "Brands we repair" strip as clickable logo buttons). New class names on
+   purpose: they replaced the old plain logo strip, now removed. Desktop shows every chip, with the label on its own row above them
+   (an inline label stole width and orphaned the last chip of the 8-chip luxury lists). On phones the list
+   is a 2-column grid (logos then render at their attribute size) and, once site.js has marked it
+   data-cap-ready, shows the first five chips plus a "+N more" chip as the sixth cell (three rows);
+   without JS every chip stays visible and the more chip never shows. Linked chips are bordered
+   buttons; unlinked ones (span.brand-chip: Electrolux, Speed Queen, U-Line) are plain labels. */
+.brand-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0 0; }
+.brand-chips-label { flex-basis: 100%; margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--text-soft); }
+.brand-chips-list { list-style: none; margin: 0; padding: 0; display: flex; flex: 1 1 0; min-width: 0; flex-wrap: wrap; gap: 8px; }
+.brand-chip { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 44px; padding: 0 18px; background: var(--surface); border: 1px solid #d5dde5; border-radius: 999px; }
+.brand-chip img { display: block; max-width: 100%; height: auto; filter: grayscale(1); opacity: .85; }
+.brand-chip-text { font-size: 13.5px; font-weight: 700; color: var(--text-soft); letter-spacing: .01em; white-space: nowrap; }
+span.brand-chip { background: transparent; border-color: transparent; cursor: default; }
+a.brand-chip { color: var(--text-soft); text-decoration: none; transition: border-color .15s; }
+a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+@media (hover: hover) {
+  a.brand-chip:hover { border-color: var(--brand-text); }
+  a.brand-chip:hover img { opacity: 1; }
+}
+.brand-chips-more-item { display: none; }
+/* The more/fewer toggle borrows the site's other "Show more" buttons (.job-grid-more, .reviews-cap-more):
+   ember text and border, so it reads as an action and not as one more grey brand chip. */
+.brand-chips-more { font: inherit; font-size: 13px; font-weight: 600; color: var(--brand-text); border-color: var(--brand-text); background: #fff; cursor: pointer; }
+/* flex-basis 100% forces the note onto its own line; a max-width would shrink that basis and let it sit beside the list, so the 80ch measure is applied as right padding instead. */
+.brand-chips-note { flex-basis: 100%; box-sizing: border-box; padding-right: max(0px, calc(100% - 80ch)); margin: 4px 0 0; font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+/* City hubs: the local brand line (moved up from the retired lower "Brands We Service" section, 2026-11-08). */
+.brand-chips-intro { flex-basis: 100%; box-sizing: border-box; padding-right: max(0px, calc(100% - 80ch)); margin: 6px 0 0; font-size: 13.5px; color: var(--text-soft); line-height: 1.55; }
+.brand-chips-intro a { color: var(--brand-text); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+@media (max-width: 768px) {
+  .brand-chips { display: block; margin-top: 10px; }
+  .brand-chips-label { margin: 0 0 6px; font-size: 12.5px; }
+  .brand-chips-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .brand-chip { display: flex; width: 100%; padding: 0 8px; border-radius: 10px; }
+  .brand-chips-list[data-cap-ready]:not([data-expanded]) > li:nth-child(n+6):not(.brand-chips-more-item) { display: none; }
+  .brand-chips-list[data-cap-ready] > .brand-chips-more-item { display: block; }
+  .brand-chips-note { padding-right: 0; margin-top: 8px; font-size: 12px; }
+  .brand-chips-intro { padding-right: 0; margin-top: 10px; font-size: 13.5px; }
+  /* Two logos read small at their attribute size in a 2-column chip: GE's wordmark sits beside a round
+     monogram (about 6px text at 83px wide) and KitchenAid is a 10px-tall script. Widen just those two. */
+  .brand-chip img[src$="/ge.svg"] { width: 128px; }
+  .brand-chip img[src$="/kitchenaid.svg"] { width: 146px; }
+  /* Whatever sits alone in the left cell of the last grid row is centred on that row at a single chip's width
+     (half the grid minus half the 6px gap). The toggle item is always last in the list. On a list with no
+     toggle (uncapped or no JS) the lone cell is an odd last brand, which is second-to-last in the DOM. On an
+     expanded list the toggle ("Show fewer brands") is visible after the brands, so it is the lone cell when
+     the brand count is even, and an odd last brand pairs with it instead. */
+  .brand-chips-list:not([data-cap-ready]) > li:nth-last-child(2):nth-child(odd),
+  .brand-chips-list[data-expanded] > .brand-chips-more-item:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 3px); }
 }
 
 /* SECTIONS */
@@ -239,6 +286,7 @@ button { font-family: inherit; } /* buttons do not inherit font-family; without 
 .service-area p:last-child { margin-bottom: 0; }
 .service-area p a:link, .service-area p a:visited { color: var(--brand-text); text-decoration: underline; text-underline-offset: 2px; }
 .service-area p a:hover, .service-area p a:focus-visible { color: var(--brand-deeper); }
+.service-area a[href^="tel:"] { white-space: nowrap; }
 .h2-sm       { font-size: 26px; font-weight: 700; color: var(--text-primary); }
 .h2-xs       { font-size: 22px; font-weight: 700; color: var(--text-primary); }
 

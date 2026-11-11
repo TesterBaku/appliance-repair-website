@@ -77,6 +77,8 @@
     .region-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: #fff; border: 1px solid #e2e8f0; border-radius: 22px; color: #aa3210; font-size: 13px; font-weight: 600; text-decoration: none; transition: border-color 0.15s; }
     .region-jump a:hover { border-color: #e84c1e; }
     .cities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    /* A region with exactly four cities: one row of four on desktop, so no card sits alone on a second row. The tablet and phone rules below still apply. */
+    .cities-grid--four { grid-template-columns: repeat(4, 1fr); }
     .city-card { background: #fff; border-radius: 10px; border: 1px solid #eee; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; transition: box-shadow 0.15s, border-color 0.15s; }
     .city-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-color: #e84c1e; }
     .city-name { font-size: 13.5px; font-weight: 600; color: #111; }
@@ -161,7 +163,7 @@
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "150",
+      "reviewCount": "156",
       "bestRating": "5"
     }
   }
@@ -224,7 +226,7 @@
       {
         "@type": "Question",
         "name": "Do you serve Riverside County?",
-        "acceptedAnswer": { "@type": "Answer", "text": "In part. Orange County is our primary service area. In Riverside County we serve the city of Riverside and the Coachella Valley, including Palm Springs, Cathedral City, Rancho Mirage and Palm Desert. We also serve neighboring Chino and Chino Hills in San Bernardino County. Same-day visits are available in all of these areas whenever the schedule is still open." }
+        "acceptedAnswer": { "@type": "Answer", "text": "In part. Orange County is our primary service area. In Riverside County we serve the Coachella Valley, including Palm Springs, Cathedral City, Rancho Mirage and Palm Desert. We also serve neighboring Chino and Chino Hills in San Bernardino County. Same-day visits are available in all of these areas whenever the schedule is still open." }
       }
     ]
   }
@@ -283,6 +285,7 @@
                   <a href="maytag-appliance-repair-orange-county.html">Maytag</a>
                   <a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
                   <a href="kenmore-appliance-repair-orange-county.html">Kenmore</a>
+                  <a href="electrolux-appliance-repair-orange-county.html">Electrolux</a>
                 </div>
               </div>
               <a href="services.html#brands" class="dropdown-all">All Brands &rarr;</a>
@@ -341,14 +344,11 @@
                     <a href="appliance-repair-long-beach-ca.html">Long Beach</a>
                     <a href="appliance-repair-montebello-ca.html">Montebello</a>
                     <a href="appliance-repair-whittier-ca.html">Whittier</a>
+                    <a href="appliance-repair-downey-ca.html">Downey</a>
                     <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>
                     <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>
                     <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>
                     <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>
-                  </div>
-                  <div role="group" aria-labelledby="nav-region-riverside-county">
-                    <span id="nav-region-riverside-county" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 18px 6px;">Riverside County</span>
-                    <a href="appliance-repair-riverside-ca.html">Riverside</a>
                   </div>
                   <div role="group" aria-labelledby="nav-region-coachella-valley">
                     <span id="nav-region-coachella-valley" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 18px 6px;">Coachella Valley</span>
@@ -412,6 +412,7 @@
         <a href="maytag-appliance-repair-orange-county.html">Maytag</a>
         <a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
         <a href="kenmore-appliance-repair-orange-county.html">Kenmore</a>
+        <a href="electrolux-appliance-repair-orange-county.html">Electrolux</a>
         <a href="services.html#brands" class="drawer-all">All Brands &rarr;</a>
       </details>
       <details>
@@ -455,12 +456,11 @@
         <a href="appliance-repair-long-beach-ca.html">Long Beach</a>
         <a href="appliance-repair-montebello-ca.html">Montebello</a>
         <a href="appliance-repair-whittier-ca.html">Whittier</a>
+        <a href="appliance-repair-downey-ca.html">Downey</a>
         <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>
         <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>
         <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>
         <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>
-        <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">Riverside County</span>
-        <a href="appliance-repair-riverside-ca.html">Riverside</a>
         <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">Coachella Valley</span>
         <a href="appliance-repair-palm-springs-ca.html">Palm Springs</a>
         <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">San Bernardino County</span>
@@ -504,7 +504,7 @@
       <div id="service-map" role="region" aria-label="Map of the Orange County cities we serve">
         <noscript><div style="padding:40px;text-align:center;font-size:14px;color:#666;">Interactive map requires JavaScript. See city list below.</div></noscript>
       </div>
-      <p class="map-caption">Map shows our Orange County cities. Los Angeles County, Riverside County, the Coachella Valley, Chino and Chino Hills are listed below.</p>
+      <p class="map-caption">Map shows our Orange County cities. Los Angeles County, the Coachella Valley, Chino and Chino Hills are listed below.</p>
       <script>
         setTimeout(function() {
           if (!window._mapLoaded) {
@@ -530,7 +530,7 @@
         <a href="#region-la-county">LA County</a>
         <a href="#region-la-premium">LA premium brands</a>
         <a href="#region-chino">San Bernardino County</a>
-        <a href="#region-coachella-valley">Riverside &amp; the Coachella Valley</a>
+        <a href="#region-coachella-valley">The Coachella Valley</a>
       </nav>
 
       <!-- Coastal OC -->
@@ -695,7 +695,10 @@
             <div><div class="city-name">Whittier</div></div>
             <span class="city-arrow">→</span>
           </a>
-          <div class="city-card city-card--info"><div><div class="city-name">Downey</div></div></div>
+          <a href="appliance-repair-downey-ca.html" class="city-card primary-city">
+            <div><div class="city-name">Downey</div></div>
+            <span class="city-arrow">→</span>
+          </a>
           <a href="appliance-repair-long-beach-ca.html" class="city-card primary-city">
             <div><div class="city-name">Long Beach</div></div>
             <span class="city-arrow">→</span>
@@ -753,18 +756,14 @@
         </div>
       </div>
 
-      <!-- Riverside city + Coachella Valley (Riverside County, eastern half; our Riverside
-           technician is based in Riverside city itself and runs regular routes east through the
-           valley, so same-day is available in both when that schedule is open) -->
+      <!-- Coachella Valley (Riverside County, eastern half; our Coachella Valley technician is based
+           in Palm Springs and covers the nearby desert cities, so same-day is available when that
+           schedule is open). The city of Riverside is parked (owner, 2026-11-10): no card. -->
       <div class="region-block" style="border-top:1px solid #eee;padding-top:40px;">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#666;margin-bottom:8px;">Beyond Orange County</div>
-        <h3 class="region-title" id="region-coachella-valley">Riverside &amp; the Coachella Valley</h3>
-        <p style="font-size:13px;color:#666;line-height:1.7;margin:0 0 16px;max-width:640px;">Our Riverside County technician is based on the Riverside side of the county and works east through the Coachella Valley on regular routes. Summer heat and hard groundwater make refrigerator, freezer and ice maker work the bulk of what we do throughout this stretch.</p>
-        <div class="cities-grid">
-          <a href="appliance-repair-riverside-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Riverside</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
+        <h3 class="region-title" id="region-coachella-valley">The Coachella Valley</h3>
+        <p style="font-size:13px;color:#666;line-height:1.7;margin:0 0 16px;max-width:640px;">Our Coachella Valley technician is based in Palm Springs and covers the nearby desert cities. Summer heat and hard groundwater make refrigerator, freezer and ice maker work the bulk of what we do throughout this stretch.</p>
+        <div class="cities-grid cities-grid--four">
           <a href="appliance-repair-palm-springs-ca.html" class="city-card primary-city">
             <div><div class="city-name">Palm Springs</div></div>
             <span class="city-arrow">&rarr;</span>
@@ -826,7 +825,7 @@
 
         <div class="faq-item">
           <button class="faq-q">Do you serve Riverside County?<span class="icon">+</span></button>
-          <div class="faq-a">In part. Orange County is our primary service area. In Riverside County we serve the city of Riverside and the Coachella Valley, including Palm Springs, Cathedral City, Rancho Mirage and Palm Desert. We also serve neighboring Chino and Chino Hills in San Bernardino County. Same-day visits are available in all of these areas whenever the schedule is still open.</div>
+          <div class="faq-a">In part. Orange County is our primary service area. In Riverside County we serve the Coachella Valley, including Palm Springs, Cathedral City, Rancho Mirage and Palm Desert. We also serve neighboring Chino and Chino Hills in San Bernardino County. Same-day visits are available in all of these areas whenever the schedule is still open.</div>
         </div>
 
       </div>
@@ -837,7 +836,7 @@
   <section class="section section-gray" style="text-align:center;">
     <div class="container">
       <h2 class="h2-standard">Ready to schedule a repair?</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:12px;line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto;">Same-day service across Orange County. Licensed technicians, flat diagnostic fee, warranty on parts and labor.</p>
+      <p style="font-size:13.5px;color:#666;margin-top:12px;line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto;">Same-day service across Orange County. Licensed technicians, flat diagnostic fee, 90-day parts / 30-day labor warranty.</p>
       <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
         <a href="contact.html" class="btn-outline">Book Online</a>

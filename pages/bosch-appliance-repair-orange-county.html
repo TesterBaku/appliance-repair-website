@@ -51,10 +51,6 @@
     .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
     .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-    /* AI ANSWER BLOCK */
-    .ai-block { background: #f0f4f8; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
-
     /* MODELS GRID */
     .models-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 32px; }
     .model-card { background: var(--surface); border-radius: 10px; padding: 18px 20px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
@@ -116,8 +112,30 @@
     .btn-white { display: inline-block; background: var(--surface); color: var(--brand-text); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
     .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
 
+    /* RECENT JOB PHOTOS GRID */
+    /* Fixed 3-up that collapses straight to 1-up (an auto-fit grid would pass through a
+       2-column stage and strand a card). Six half-tracks, each card spanning two, so the
+       geometry equals a 3-up grid ((900 - 5*20) / 6 * 2 + 20 = 286.7px per card) while a
+       trailing row of one or two cards can be centred. Keyed on the count remainder, so
+       adding a card never reopens this:
+         N mod 3 == 1 -> one trailing card,  centred across tracks 3-4
+         N mod 3 == 2 -> two trailing cards, centred across tracks 2-3 and 4-5
+       These rules must stay ABOVE the @media block: media queries add no specificity. */
+    .job-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+    .job-grid > div { grid-column: span 2; }
+    .job-grid:has(> div:nth-child(3n+1):last-child) > div:last-child { grid-column: 3 / span 2; }
+    .job-grid:has(> div:nth-child(3n+2):last-child) > div:nth-last-child(2) { grid-column: 2 / span 2; }
+    .job-grid:has(> div:nth-child(3n+2):last-child) > div:last-child { grid-column: 4 / span 2; }
+
     /* MOBILE */
     @media (max-width: 768px) {
+      /* The resets must repeat the full desktop selectors, or the higher-specificity
+         :has() placements win and leave the 6-track layout live on phones. */
+      .job-grid { grid-template-columns: 1fr; max-width: 360px; }
+      .job-grid > div,
+      .job-grid:has(> div:nth-child(3n+1):last-child) > div:last-child,
+      .job-grid:has(> div:nth-child(3n+2):last-child) > div:nth-last-child(2),
+      .job-grid:has(> div:nth-child(3n+2):last-child) > div:last-child { grid-column: auto; }
       /* P6-62 tap targets: text CTAs that rendered 15-16px. */
       .tap-link { min-height: 44px; display: inline-flex; align-items: center; }
       .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
@@ -204,7 +222,7 @@
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5.0",
-      "reviewCount": "150",
+      "reviewCount": "156",
       "bestRating": "5"
     }
   }
@@ -389,6 +407,7 @@
                   <a href="maytag-appliance-repair-orange-county.html">Maytag</a>
                   <a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
                   <a href="kenmore-appliance-repair-orange-county.html">Kenmore</a>
+                  <a href="electrolux-appliance-repair-orange-county.html">Electrolux</a>
                 </div>
               </div>
               <a href="services.html#brands" class="dropdown-all">All Brands &rarr;</a>
@@ -447,14 +466,11 @@
                     <a href="appliance-repair-long-beach-ca.html">Long Beach</a>
                     <a href="appliance-repair-montebello-ca.html">Montebello</a>
                     <a href="appliance-repair-whittier-ca.html">Whittier</a>
+                    <a href="appliance-repair-downey-ca.html">Downey</a>
                     <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>
                     <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>
                     <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>
                     <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>
-                  </div>
-                  <div role="group" aria-labelledby="nav-region-riverside-county">
-                    <span id="nav-region-riverside-county" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 18px 6px;">Riverside County</span>
-                    <a href="appliance-repair-riverside-ca.html">Riverside</a>
                   </div>
                   <div role="group" aria-labelledby="nav-region-coachella-valley">
                     <span id="nav-region-coachella-valley" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 18px 6px;">Coachella Valley</span>
@@ -518,6 +534,7 @@
         <a href="maytag-appliance-repair-orange-county.html">Maytag</a>
         <a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a>
         <a href="kenmore-appliance-repair-orange-county.html">Kenmore</a>
+        <a href="electrolux-appliance-repair-orange-county.html">Electrolux</a>
         <a href="services.html#brands" class="drawer-all">All Brands &rarr;</a>
       </details>
       <details>
@@ -561,12 +578,11 @@
         <a href="appliance-repair-long-beach-ca.html">Long Beach</a>
         <a href="appliance-repair-montebello-ca.html">Montebello</a>
         <a href="appliance-repair-whittier-ca.html">Whittier</a>
+        <a href="appliance-repair-downey-ca.html">Downey</a>
         <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>
         <a href="luxury-appliance-repair-pasadena-ca.html">Pasadena</a>
         <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>
         <a href="luxury-appliance-repair-manhattan-beach-ca.html">Manhattan Beach</a>
-        <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">Riverside County</span>
-        <a href="appliance-repair-riverside-ca.html">Riverside</a>
         <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">Coachella Valley</span>
         <a href="appliance-repair-palm-springs-ca.html">Palm Springs</a>
         <span class="drawer-region" style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#666;padding:12px 0 2px;">San Bernardino County</span>
@@ -590,9 +606,9 @@
       <h1>Bosch Dishwasher, Oven &amp; Laundry Repair in Orange County</h1>
       <p>Dishwashers that won't drain or dry, E15 and E24 faults, wall ovens, induction cooktops, and compact 24" laundry. We know Bosch. Same-day service available.</p>
       <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 150 Google reviews, rated 5 out of 5">
+        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 156 Google reviews, rated 5 out of 5">
           <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 150 Google reviews</span>
+          <span>5.0 &middot; 156 Google reviews</span>
         </a>
       </div>
       <div class="hub-cta-row">
@@ -613,13 +629,60 @@
     </div>
   </div>
 
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Universal Appliances Repair Group Inc. provides Bosch appliance repair across Orange County, California. We service Bosch dishwashers (100, 300, 500, 800, and Benchmark series), wall ovens, induction and gas cooktops, and compact 24-inch washers and heat-pump dryers. Common repairs include a dishwasher that will not drain (E24 or E25), an E15 flood-float lockout, poor drying on condensation-dry models, and a dishwasher with no power. We are not a Bosch factory-authorized center; we are an independent repair company that services Bosch regularly. We serve Irvine, Anaheim, Huntington Beach, Santa Ana, Costa Mesa, and surrounding Orange County cities. Call <a href="tel:+19496295365" style="color:var(--brand-text);text-decoration:none;font-weight:600;">(949) 629-5365</a> or <a href="contact.html" style="color:var(--brand-text);text-decoration:none;font-weight:600;">book online</a> for same-day service.</p>
-  </div>
+  <!-- WHAT TO EXPECT -->
+  <section class="expect-strip" aria-labelledby="expect-title">
+    <div class="expect-inner">
+      <h2 class="expect-title" id="expect-title">What to expect</h2>
+      <ul class="expect-list">
+        <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
+        <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
+        <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
+        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+      </ul>
+      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section section-white" style="text-align:center;">
+    <div class="container">
+      <h2 class="h2-standard">What Our Customers Say</h2>
+      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 156 verified 5-star Google reviews</p>
+      <div class="testimonials-grid testimonials-grid--stack-768 reviews-cap">
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"AG came and fixed my oven so fast! He is extremely knowledgeable, he was able to accurately diagnose the problem in minutes. As he has the parts with him, he replaced the necessary part and cleaned up everything immediately. Thank you so much!!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">MB</div>
+          <div class="testimonial-name">Marie Bennett, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"We had a cooktop installed, and the wiring was a little short on the model we bought and the workmen had to get additional wiring to complete the job and did a wonderful job installing the cooktop. His price was so considerate I gave him a tip."</p>
+          <div class="t-initial" aria-hidden="true" style="background:#0e7490;">WL</div>
+          <div class="testimonial-name">William L., Anaheim,&nbsp;CA</div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="testimonial-quote">"Ag was incredible! He came on time, knew exactly how to fix our Bosch dishwasher. He even cleaned out the drain that was causing the water to drain slowly. Would def recommend!"</p>
+          <div class="t-initial" aria-hidden="true" style="background:#444444;">CM</div>
+          <div class="testimonial-name">Catherine Matiasevich, Orange&nbsp;County,&nbsp;CA</div>
+        </div>
+
+      </div>
+      <div class="reviews-cap-more-row">
+        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
+      </div>
+      <div style="margin-top:10px;">
+        <a class="reviews-all-link" href="testimonials.html">Read all 156 reviews &rarr;</a>
+      </div>
+    </div>
+  </section>
 
   <!-- BOSCH PRODUCT LINES -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">Dishwashers, Ovens, Cooktops, and Compact Laundry: Every Bosch We Repair</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.7;">Bosch is best known for the quietest dishwashers in the country, but the lineup runs from built-in ovens to space-saving 24-inch laundry. We service all of it, and the same German engineering patterns show up across the range.</p>
@@ -660,7 +723,7 @@
   </section>
 
   <!-- COMMON ISSUES -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">Drain Faults, Flood Lockouts, and Bosch's Known Weak Points</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Bosch appliances fail in specific, recognizable ways. These are the repairs our technicians handle most often on Orange County kitchens.</p>
@@ -727,7 +790,7 @@
   </section>
 
   <!-- DRYING EXPLAINER -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:16px;">Why Your Bosch Dishwasher Leaves Plastics Wet (and When It's Actually Broken)</h2>
       <div class="explainer-wrap">
@@ -739,7 +802,7 @@
   </section>
 
   <!-- REPAIR PROCESS -->
-  <section class="section section-gray">
+  <section class="section section-white">
     <div class="container-lg">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">From Call to Fixed: How a Bosch Repair Works</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7;">Here is exactly what happens from your first call to a fully working Bosch appliance.</p>
@@ -762,14 +825,14 @@
         <div class="process-step">
           <div class="step-number">4</div>
           <div class="step-title">Repair &amp; Warranty</div>
-          <div class="step-desc">Common drain pumps, latches, and control parts ride in the van, so most repairs finish the same day. Every repair includes a parts and labor warranty: if the same fault returns, we come back at no charge.</div>
+          <div class="step-desc">Common drain pumps, latches, and control parts ride in the van, so most repairs finish the same day. Every repair carries a <span class="nb">90-day</span> parts and <span class="nb">30-day</span> labor warranty: if the same problem returns within 30 days, we come back at no charge.</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- COST RANGES -->
-  <section class="section section-white">
+  <section class="section section-gray">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">Bosch Repair Costs: What to Expect in Orange County</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7;">A new Bosch dishwasher runs roughly $800 to $1,400, so for most faults repair is the clear financial choice. These are typical Orange County ranges, not quotes.</p>
@@ -826,8 +889,17 @@
     </div>
   </section>
 
+  <!-- SERVICE AREA -->
+  <section class="section section-white service-area" aria-labelledby="service-area-title">
+    <div class="container">
+      <h2 id="service-area-title">Bosch repair across Orange County</h2>
+      <p>Universal Appliances Repair Group Inc. provides Bosch appliance repair across Orange County, California, including dishwashers (100, 300, 500, 800 and Benchmark series), wall ovens, induction and gas cooktops, and compact 24-inch washers and heat-pump dryers. Common repairs include drain faults (E24 or E25), the E15 flood-float lockout, poor drying on condensation-dry models, and no-power dishwashers. We are an independent repair company, not a Bosch factory-authorized center.</p>
+      <p>We serve <a href="appliance-repair-irvine-ca.html">Irvine</a>, <a href="appliance-repair-anaheim-ca.html">Anaheim</a>, <a href="appliance-repair-huntington-beach-ca.html">Huntington Beach</a>, <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>, <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>, and surrounding cities, with same-day service available. Call <a href="tel:+19496295365"><span class="nb">(949) 629-5365</span></a> or <a href="contact.html">book online</a> to schedule a Bosch repair visit.</p>
+    </div>
+  </section>
+
   <!-- FAQ -->
-  <section class="section section-white" id="faq">
+  <section class="section section-gray" id="faq">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;">What Orange County Bosch Owners Ask Us</h2>
       <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;line-height:1.7;">The most common questions from Bosch owners across Irvine, Huntington Beach, Anaheim, and surrounding Orange County cities.</p>
@@ -910,14 +982,14 @@
   </section>
 
   <!-- RECENT JOB PHOTO -->
-  <section class="section section-gray" style="padding-top:0;">
+  <section class="section section-white" style="padding-top:0;">
     <div class="container">
       <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;padding-top:64px;">Recent Bosch Repairs</h2>
       <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Recent Bosch work our technician completed in Orange County includes a dishwasher drain-pump replacement in Dana Point, another in Laguna Beach shown open and closed, a double oven display/power board replacement in Newport Beach, plus refrigerator and other dishwasher jobs in Orange County kitchens.</p>
-      <div style="max-width:340px;margin:0 auto;display:flex;flex-direction:column;gap:20px;">
+      <div class="job-grid job-grid-cap" id="bosch-job-grid" data-more-label="repairs">
         <div id="job-bosch-dishwasher-drain-pump-dana-point" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-dana-point.jpg" alt="Open Bosch dishwasher in a Dana Point kitchen with the upper and lower racks in place under a veined stone-look countertop" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:50% 45%;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -929,7 +1001,7 @@
         </div>
         <div id="job-bosch-dishwasher-drain-pump-laguna-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach.jpg" alt="Open stainless Bosch dishwasher under a beige countertop with brown cabinets in a Laguna Beach kitchen" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -941,7 +1013,7 @@
         </div>
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach-front-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach-front.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach-front-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach-front.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-dishwasher-bosch-drain-pump-laguna-beach-front.jpg" alt="Closed stainless Bosch dishwasher under a beige countertop with brown cabinets in the same Laguna Beach kitchen" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -962,7 +1034,7 @@
         </div>
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-not-draining-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-not-draining-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-not-draining-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-not-draining-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-dishwasher-bosch-not-draining-newport-beach.jpg" alt="Panel-ready Bosch dishwasher with the door open, showing the empty racks and control panel along the top edge of the door, with a red indicator beam on the kitchen floor tile" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -974,7 +1046,7 @@
         </div>
         <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-spray-arm-irvine-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-spray-arm-irvine.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-dishwasher-bosch-spray-arm-irvine-480w.webp 480w, ../images/real/business/completed-repair-dishwasher-bosch-spray-arm-irvine.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-dishwasher-bosch-spray-arm-irvine.jpg" alt="Stainless Bosch built-in dishwasher with a SilencePlus 50 dBA control panel, set under a quartz countertop on a tile floor in an Irvine kitchen after a spray arm replacement" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -986,7 +1058,7 @@
         </div>
         <div id="job-bosch-double-oven-display-power-board-newport-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
           <picture>
-            <source srcset="../images/real/business/completed-repair-oven-bosch-double-display-power-board-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-oven-bosch-double-display-power-board-newport-beach.webp 840w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
+            <source srcset="../images/real/business/completed-repair-oven-bosch-double-display-power-board-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-oven-bosch-double-display-power-board-newport-beach.webp 840w" type="image/webp" sizes="(max-width:768px) min(100vw, 360px), 287px">
             <img src="../images/real/business/completed-repair-oven-bosch-double-display-power-board-newport-beach.jpg" alt="Bosch built-in double wall oven pulled forward with its service panel open in a Newport Beach kitchen" width="840" height="1600" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
           </picture>
           <div style="padding:16px 18px 20px;">
@@ -997,42 +1069,10 @@
           </div>
         </div>
       </div>
+      <div class="job-grid-more-row">
+        <button type="button" class="job-grid-more btn-outline" aria-controls="bosch-job-grid">Show all repairs</button>
+      </div>
       <p style="text-align:center;font-size:12.5px;color:var(--text-muted);margin-top:24px;line-height:1.7;">Chasing a dishwasher error code instead? Read our guides on <a href="../articles/article-bosch-dishwasher-error-codes.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Bosch dishwasher error codes</a> and <a href="../articles/article-bosch-dishwasher-repair-lake-forest.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">Bosch dishwasher repair in Lake Forest</a>.</p>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="section section-white" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-standard">What Our Customers Say</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 150 verified 5-star Google reviews</p>
-      <div class="testimonials-grid testimonials-grid--stack-768">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG came and fixed my oven so fast! He is extremely knowledgeable, he was able to accurately diagnose the problem in minutes. As he has the parts with him, he replaced the necessary part and cleaned up everything immediately. Thank you so much!!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">MB</div>
-          <div class="testimonial-name">Marie Bennett, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"We had a cooktop installed, and the wiring was a little short on the model we bought and the workmen had to get additional wiring to complete the job and did a wonderful job installing the cooktop. His price was so considerate I gave him a tip."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#0e7490;">WL</div>
-          <div class="testimonial-name">William L., Anaheim,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Ag was incredible! He came on time, knew exactly how to fix our Bosch dishwasher. He even cleaned out the drain that was causing the water to drain slowly. Would def recommend!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">CM</div>
-          <div class="testimonial-name">Catherine Matiasevich, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-      </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 150 reviews &rarr;</a>
-      </div>
     </div>
   </section>
 
