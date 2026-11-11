@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-11-08",
+    "lastUpdated": "2026-11-10",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 153,
-        "publishedCount": 153,
-        "capturedCount": 153,
+        "totalReviewsOnListing": 156,
+        "publishedCount": 156,
+        "capturedCount": 156,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-11-10",
+            "note": "TRACK A CAPTURE (branch content/photos-reviews-2026-11-10, shared with the 2026-11-10 job-photo import; no separate chore/review-capture branch was cut): three 5-star Google reviews read on 2026-11-10 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session, header 5.0 / 156 reviews. There is NO screenshot file and no SHA-256 for this batch. All three NEW, no review photo: Richard Vincent ('4 hours ago', 23 words, Dacor oven, $400-450), Maaddiie Machar ('a day ago', 13 words, no appliance or brand named, wait 0-1 hr) and Rosalyn Darling ('a day ago', 19 words, refrigerator; profile line shows 1 photo but none is attached to the review). GBP listing total 153 to 156. capturedCount 153 to 156. publishedCount stays 153 until the publish step. All three clear quality-floor clause (b). Owner statements of 2026-11-10 linking each to a business job photo (Seal Beach Dacor oven, Newport Beach GE oven, Laguna Beach Amana refrigerator) are recorded in each record's _note only; they do not set location, appliance or brand. The three new records account exactly for the 153 to 156 move in the listing header. PUBLISH, same branch: publishedCount promoted 153 to 156 by 'npm run build:review-counts -- --publish' (72 pages rewritten beyond the ones already open). Hub placements by owner decision 2026-11-10: Richard Vincent replaces Kathy Calderon on the Dacor hub and Steve D on the oven/stove hub; Rosalyn Darling replaces Marcy Kucik on the refrigerator hub; Maaddiie Machar is testimonials-page only. testimonials.html All 146 to 149 (trailing row left short per the multiples-of-3 rule)."
+          },
           {
             "date": "2026-11-08",
             "note": "TRACK A CAPTURE + TRACK B PUBLISH, same PR (branch content/review-batch-2026-11-08; no separate chore/review-capture branch was cut): three 5-star Google reviews transcribed from owner-supplied GBP dashboard screenshots 'new_reviews.png' (SHA-256 68AC3472F874C4272E6E977B61E8147817EDCA14F7FDF3B545405F7326981BFA), header 5.0 / 153 reviews, sorted Newest, both NEW: Julianna Gamulao ('13 hours ago', 14 words, dishwasher and oven) and Javier Tellez ('Yesterday', 91 words, Maytag, $250-300); and 'new_reviews_2.png' (SHA-256 639ADF3EFCCE2F724CA9C2B9F936659A80D5622826A77DB49F6FC94F4FCBEA6D), NEW: Brenda Chance ('2 days ago', 7 words). GBP listing total 150 to 153. capturedCount 150 to 153. publishedCount promoted 150 to 153 by 'npm run build:review-counts -- --publish'. Brenda Chance is below the quality floor (no photo, under 8 words, no appliance or brand) and is captured for the count only. Julianna and Javier clear clause (b) and are carded on pages/testimonials.html (All 144 to 146; no uncarded quotable review exists to top the count up to 147, so the trailing pair is accepted per the multiples-of-3 rule). Hub placements by owner decision 2026-11-08: the Maytag hub goes from 3 to 6 cards with a new second row of Javier Tellez (91 words), Tog Valizada (100 words) and Leticia Caro (68 words), spread 1.47x, Tog and Leticia each using their last free hub slot; Julianna replaces Roger Antonie (5 words) on the oven/stove hub in his slot. The three new records account exactly for the 150 to 153 move in the screenshot header."
@@ -2873,6 +2877,60 @@
       "profilePhoto": null,
       "reviewPhoto": null,
       "_note": "Source: owner-supplied GBP dashboard screenshot 'new_reviews_2.png' (SHA-256 639ADF3EFCCE2F724CA9C2B9F936659A80D5622826A77DB49F6FC94F4FCBEA6D), NEW badge, 5-star, shown '2 days ago' (screenshot taken 2026-11-08; this crop shows no listing header, the 153 total comes from 'new_reviews.png' (SHA-256 68AC3472F874C4272E6E977B61E8147817EDCA14F7FDF3B545405F7326981BFA)), reviewer Brenda Chance has 1 review / 0 photos on the profile. Body copied verbatim (7 words, no typos). Names no appliance or brand. BELOW the quality floor (no photo, under 8 words, no listed appliance or brand), so it is captured and counted but not quotable and not carded anywhere. The owner's reply shown in the screenshot is not rendered anywhere. Location uses the Orange County default."
+    },
+    {
+      "id": "google-richard-vincent-2026-11",
+      "source": "google",
+      "name": "Richard Vincent",
+      "location": "Orange County, CA",
+      "appliance": "oven",
+      "brand": "Dacor",
+      "rating": 5,
+      "approxDate": "2026-11",
+      "dateText": "4 hours ago",
+      "isNew": true,
+      "body": "AG fixed our 20 year old Dacor oven in one quick afternoon. The work was done quickly and professionally. We are very pleased.",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: read on 2026-11-10 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session; header 5.0 / 156 reviews. There is NO screenshot file and no SHA-256 for this batch (read live, not from an owner-supplied image). NEW badge, 5-star, shown '4 hours ago' (read 2026-11-10); no reviewer review-count line shown; no photo is attached. Body copied verbatim (23 words, no typos). Appliance recorded as oven and brand as Dacor ('20 year old Dacor oven'). Quotable under quality-floor clause (b) (no photo, 23 words). Metadata shown on the dashboard but not rendered per site convention: price $400-450. Owner (Rufat Malikov) states on 2026-11-10 that this review relates to the Seal Beach Dacor oven thermostat job (images/real/business/completed-repair-oven-dacor-thermostat-seal-beach.jpg). The location label stays 'Orange County, CA': the review text names no city and no reviewer photo is attached, so testimonial-selection Exception 2 (a job photo that matches the reviewer's own photo, plus a named, dated attestation) cannot be met, and the owner's statement alone is one source wearing two hats. Placed in the 2026-11-10 batch (owner decision 2026-11-10) on pages/testimonials.html and on two hubs: the Dacor brand hub (pages/dacor-appliance-repair-orange-county.html), replacing Kathy Calderon in her slot, and the oven/stove service hub (pages/oven-stove-repair-orange-county.html), replacing Steve D in his slot. Both are OC hubs so the card carries the Orange County, CA label. No hub slots left."
+    },
+    {
+      "id": "google-maaddiie-machar-2026-11",
+      "source": "google",
+      "name": "Maaddiie Machar",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-11",
+      "dateText": "a day ago",
+      "isNew": true,
+      "body": "Agey came and immediately helped! very professional and met all of my needs!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: read on 2026-11-10 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session; header 5.0 / 156 reviews. There is NO screenshot file and no SHA-256 for this batch (read live, not from an owner-supplied image). NEW badge, 5-star, shown 'a day ago' (read 2026-11-10); no reviewer review-count line shown; no photo is attached. Body copied verbatim (13 words; 'Agey' and the lowercase 'very' after the exclamation mark are as written). Names no appliance or brand, so appliance and brand are null. Quotable under quality-floor clause (b) (no photo, 13 words). Metadata shown on the dashboard but not rendered per site convention: repair wait time 0-1 hr. Owner (Rufat Malikov) states on 2026-11-10 that this review relates to the Newport Beach GE oven cooling fan motor job (images/real/business/completed-repair-oven-ge-cooling-fan-motor-newport-beach.jpg); that statement is recorded here only and does not set appliance or brand, because the review text names neither. The location label stays 'Orange County, CA': the review text names no city and no reviewer photo is attached, so testimonial-selection Exception 2 (a job photo that matches the reviewer's own photo, plus a named, dated attestation) cannot be met, and the owner's statement alone is one source wearing two hats. Placed in the 2026-11-10 batch on pages/testimonials.html only (owner decision 2026-11-10); no hub placement, two hub slots left."
+    },
+    {
+      "id": "google-rosalyn-darling-2026-11",
+      "source": "google",
+      "name": "Rosalyn Darling",
+      "location": "Orange County, CA",
+      "appliance": "refrigerator",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-11",
+      "dateText": "a day ago",
+      "isNew": true,
+      "body": "AG was very professional and on time ! He immediately took care of my refrigerator needs and am so happy!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: read on 2026-11-10 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session; header 5.0 / 156 reviews. There is NO screenshot file and no SHA-256 for this batch (read live, not from an owner-supplied image). NEW badge, 5-star, shown 'a day ago' (read 2026-11-10); the reviewer's profile line reads '1 review, 1 photo' but no photo is attached to this review as displayed, so reviewPhoto is null. Body copied verbatim (19 words; the space before the first exclamation mark is as written). Appliance recorded as refrigerator ('my refrigerator needs'); no brand named. Quotable under quality-floor clause (b) (no photo, 19 words). Owner (Rufat Malikov) states on 2026-11-10 that this review relates to the Laguna Beach Amana refrigerator evaporator fan motor job (images/real/business/completed-repair-refrigerator-amana-evaporator-fan-motor-laguna-beach.jpg); the brand is NOT recorded on the review because the review text names none. The location label stays 'Orange County, CA': the review text names no city and no reviewer photo is attached, so testimonial-selection Exception 2 (a job photo that matches the reviewer's own photo, plus a named, dated attestation) cannot be met, and the owner's statement alone is one source wearing two hats. Placed in the 2026-11-10 batch (owner decision 2026-11-10) on pages/testimonials.html and on the refrigerator service hub (pages/refrigerator-repair-orange-county.html), replacing Marcy Kucik in her slot; the OC hub card carries the Orange County, CA label. One hub slot left."
     }
   ]
 }
