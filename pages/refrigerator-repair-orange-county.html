@@ -36,106 +36,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
     <link rel="preload" href="../shared.css" as="style" />
-  <link rel="preload" as="image" href="../images/fridge-sidebyside.webp" fetchpriority="high" type="image/webp">
+  <link rel="preload" as="image" type="image/webp" imagesrcset="../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine.webp 1208w" imagesizes="(max-width:768px) 100vw, 440px" href="../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine.webp" fetchpriority="high">
 <link rel="stylesheet" href="../shared.css" />
 
-  <style>
-    /* HUB HERO */
-    .hub-hero { position: relative; min-height: 480px; display: flex; align-items: center; text-align: center; padding-top: 52px; overflow: hidden; }
-    .hub-hero-bg { position: absolute; inset: 0; background-image: url('../images/fridge-sidebyside.webp'); background-size: cover; background-position: center; }
-    .hub-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,18,30,0.68) 0%, rgba(10,18,30,0.78) 100%); }
-    .hub-hero-content { position: relative; z-index: 5; padding: 72px 24px 72px; width: 100%; }
-    .hub-hero h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.1; color: #fff; max-width: 720px; margin: 0 auto 18px; }
-    .hub-hero p { color: rgba(255,255,255,0.82); font-size: 16px; line-height: 1.65; max-width: 540px; margin: 0 auto 32px; }
-    .hub-cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-outline-white { display: inline-block; background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
-    .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
-
-    /* SYMPTOMS */
-    .symptoms-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 32px; }
-    .symptom-item { background: #fff; border-radius: 10px; padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
-    .symptom-icon { color: var(--brand); font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-    .symptom-text { font-size: 13px; color: var(--text-soft); line-height: 1.55; font-weight: 500; }
-
-    /* BRANDS */
-    .brands-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
-    .brand-card { background: #fff; border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
-    .brand-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-    .brand-name a { color: var(--brand-text); text-decoration: none; }
-    .brand-name a:hover { text-decoration: underline; }
-    .brand-issues { font-size: 12.5px; color: var(--text-sub); line-height: 1.6; }
-
-    /* PROCESS */
-    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
-    .process-step { text-align: center; }
-    .step-number { width: 48px; height: 48px; background: var(--brand); color: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; margin: 0 auto 14px; }
-    .step-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-    .step-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; }
-
-    /* REPAIR VS REPLACE */
-    .rule-box { background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 10px; padding: 20px 24px; margin-top: 24px; }
-    .rule-box p { font-size: 14px; color: var(--text-soft); line-height: 1.75; margin: 0; }
-
-    /* FAQ */
-    .faq-list { margin-top: 36px; max-width: 760px; margin-left: auto; margin-right: auto; }
-
-    /* TESTIMONIALS */
-    .testimonials-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
-    .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; align-items: stretch; }
-    .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
-    .hub-page .stars { color: var(--star-on-light); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
-    .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
-    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
-    .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
-    @media (max-width: 900px) { .hub-page .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
-
-    /* CTA BOX */
-    .cta-box { background: linear-gradient(135deg, #cc3d12 0%, #aa3210 100%); border-radius: 16px; padding: 48px 40px; text-align: center; margin-top: 0; }
-    .cta-box h2 { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: -0.4px; }
-    .cta-box p { font-size: 14px; color: #fff; margin-bottom: 28px; line-height: 1.65; }
-    .btn-white { display: inline-block; background: var(--surface); color:var(--brand-text); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
-    .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-      /* P6-62 tap targets: text CTAs that rendered 15-16px. */
-      .tap-link { min-height: 44px; display: inline-flex; align-items: center; }
-      .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-      .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
-      .hub-hero p { font-size: 14px; }
-      .hub-hero-content { padding: 48px 16px 56px; }
-      .symptoms-grid { grid-template-columns: 1fr; }
-      .brands-grid { grid-template-columns: 1fr; }
-      .process-steps { grid-template-columns: repeat(2, 1fr); }
-      .testimonials-row { grid-template-columns: 1fr; }
-      .hub-page .testimonials-grid { grid-template-columns: 1fr; }
-      .cta-box { padding: 36px 24px; }
-      .cta-box h2 { font-size: 22px; }
-    }
-    @media (max-width: 480px) {
-      .hub-hero h1 { font-size: 28px; }
-      .process-steps { grid-template-columns: 1fr; }
-    }
-    .pricing-policy-card { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 14px; padding: 28px 30px; max-width: 760px; margin: 0 auto; }
-    .pricing-policy-card h3 { font-size: 18px; font-weight: 800; color: #1a0a02; margin-bottom: 14px; }
-    .policy-list { list-style: none; padding: 0; margin: 0; }
-    .policy-list li { font-size: 13.5px; color: #333; line-height: 1.7; padding: 8px 0; border-bottom: 1px solid #fde6cd; }
-    .policy-list li:last-child { border-bottom: none; }
-    .policy-list strong { color: #9a3412; font-weight: 700; }
-    .policy-disclaimer { font-size: 12px; color: var(--text-sub); margin-top: 14px; line-height: 1.6; }
-    .policy-disclaimer a { color: #9a3412; font-weight: 600; text-decoration: underline; }
-    @media (max-width: 480px) { .pricing-policy-card { padding: 22px 20px; } }
-    .cost-table-wrap { max-width: 720px; margin: 28px auto 0; }
-    .cost-table { width: 100%; border-collapse: collapse; }
-    .cost-table th { background: var(--brand-dark); color: #fff; font-size: 12.5px; font-weight: 700; padding: 11px 16px; text-align: left; }
-    .cost-table td { font-size: 13px; color: var(--text-soft); padding: 11px 16px; border-bottom: 1px solid var(--border); line-height: 1.5; }
-    .cost-table tr:last-child td { border-bottom: none; }
-    .cost-table tr:nth-child(even) td { background: #f8fafc; }
-    .cost-disclaimer { font-size: 12.5px; color: var(--text-sub); font-style: italic; margin-bottom: 18px; line-height: 1.65; }
-    .cost-range { font-weight: 600; color: var(--text-primary); white-space: nowrap; }
-    @media (max-width: 480px) { .cost-table th, .cost-table td { padding: 10px 12px; font-size: 12px; } }
-  </style>
 
   <!-- SCHEMA: Service -->
   <script type="application/ld+json">
@@ -586,706 +489,740 @@
       <a href="contact.html" class="nav-drawer-cta">Request a Repair</a>
     </div>
   </nav>
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1" class="v2">
+  <svg class="v2-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="v2-phone" viewBox="0 0 24 24"><path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a14 14 0 0 1-7-7l2-2-2-5Z"/></symbol>
+    <symbol id="v2-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="v2-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </defs></svg>
 
-  <!-- HERO -->
-  <section class="hub-hero">
-    <div class="hub-hero-bg"></div>
-    <div class="hub-hero-overlay"></div>
-    <div class="hub-hero-content">
-      <h1>Refrigerator Repair in<br/>Orange County, CA</h1>
-      <p>Same-day service on all major brands. Your food can't wait; neither do we.</p>
-      <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 156 Google reviews, rated 5 out of 5">
-          <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 156 Google reviews</span>
-        </a>
-      </div>
-      <div class="hub-cta-row">
-        <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
-        <a href="contact.html" class="btn-outline-white">Request a Repair</a>
+  <section class="v2-hero" aria-labelledby="hero-title">
+    <div class="v2-wrap">
+      <nav class="v2-crumbs" aria-label="Breadcrumb">
+        <a href="../">Home</a><span aria-hidden="true">/</span>
+        <a href="services.html">Services</a><span aria-hidden="true">/</span>
+        <span>Refrigerator Repair Orange County</span>
+      </nav>
+      <div class="v2-hero-grid">
+        <div>
+          <h1 id="hero-title">Refrigerator Repair in Orange County, CA</h1>
+          <p class="v2-hero-lead">Same-day service on all major brands. Your food can't wait; neither do we.</p>
+          <a href="testimonials.html" class="v2-rating" aria-label="5.0, 156 Google reviews, rated 5 out of 5">
+            <span class="v2-stars" aria-hidden="true">★★★★★</span>
+            <span>5.0 &middot; 156 Google reviews</span>
+          </a>
+          <div class="v2-hero-cta">
+            <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
+            <a href="contact.html" class="v2-btn v2-btn--ghost">Request a Repair</a>
+          </div>
+          <p class="v2-hero-note">Mon–Sat, 8am–7pm. You don't need to know which part failed; tell us what the refrigerator is doing.</p>
+        </div>
+        <figure class="v2-hero-photo">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine.webp 1208w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <img src="../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine.jpg" alt="Stainless built-in GE Monogram refrigerator with long handles in an Irvine kitchen" width="1208" height="2048" fetchpriority="high" style="object-position:50% 40%;">
+          </picture>
+          <figcaption>Our job: GE Monogram refrigerator, Irvine</figcaption>
+        </figure>
       </div>
     </div>
   </section>
 
-  <!-- BREADCRUMB -->
-  <div style="background:#f7fafc;border-bottom:1px solid #eee;padding:10px 24px;">
-    <div style="max-width:1100px;margin:0 auto;font-size:12px;color:var(--text-muted);">
-      <a href="../" style="color:var(--text-muted);text-decoration:none;">Home</a>
-      <span style="margin:0 6px;">›</span>
-      <a href="services.html" style="color:var(--text-muted);text-decoration:none;">Services</a>
-      <span style="margin:0 6px;">›</span>
-      <span style="color:#333;">Refrigerator Repair Orange County</span>
-    </div>
-  </div>
-
-  <!-- WHAT TO EXPECT -->
-  <section class="expect-strip" aria-labelledby="expect-title">
-    <div class="expect-inner">
-      <h2 class="expect-title" id="expect-title">What to expect</h2>
-      <ul class="expect-list">
+  <section class="v2-facts" aria-labelledby="expect-title">
+    <div class="v2-wrap">
+      <h2 id="expect-title" class="sr-only">What to expect</h2>
+      <ul>
         <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
         <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
         <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
-        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+        <li><strong>Same-day service</strong><span>Call or request online.</span></li>
       </ul>
-      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
-      <div class="brand-chips" role="group" aria-labelledby="brand-chips-label">
-        <p class="brand-chips-label" id="brand-chips-label">Brands we repair</p>
-        <ul class="brand-chips-list" id="brand-chips-list">
-          <li><a class="brand-chip" href="samsung-appliance-repair-orange-county.html" aria-label="Samsung appliance repair"><img src="../images/brands/samsung.svg" alt="Samsung" width="85" height="13" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="lg-appliance-repair-orange-county.html" aria-label="LG appliance repair"><img src="../images/brands/lg.svg" alt="LG" width="48" height="22" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="whirlpool-appliance-repair-orange-county.html" aria-label="Whirlpool appliance repair"><img src="../images/brands/whirlpool.svg" alt="Whirlpool" width="66" height="22" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="ge-appliance-repair-orange-county.html" aria-label="GE appliance repair"><img src="../images/brands/ge.svg" alt="GE" width="83" height="22" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip brand-chip-text" href="maytag-appliance-repair-orange-county.html" aria-label="Maytag appliance repair">Maytag</a></li>
-          <li><a class="brand-chip" href="frigidaire-appliance-repair-orange-county.html" aria-label="Frigidaire appliance repair"><img src="../images/brands/frigidaire.svg" alt="Frigidaire" width="107" height="13" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="bosch-appliance-repair-orange-county.html" aria-label="Bosch appliance repair"><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="kitchenaid-appliance-repair-orange-county.html" aria-label="KitchenAid appliance repair"><img src="../images/brands/kitchenaid.svg" alt="KitchenAid" width="114" height="10" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="sub-zero-appliance-repair-orange-county.html" aria-label="Sub-Zero appliance repair"><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="viking-appliance-repair-orange-county.html" aria-label="Viking appliance repair"><img src="../images/brands/viking.svg" alt="Viking" width="80" height="19" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="dacor-appliance-repair-orange-county.html" aria-label="Dacor appliance repair"><img src="../images/brands/dacor.svg" alt="Dacor" width="70" height="17" loading="eager" decoding="async"></a></li>
-          <li class="brand-chips-more-item"><button type="button" class="brand-chip brand-chips-more" aria-controls="brand-chips-list" aria-expanded="false">More brands</button></li>
-        </ul>
-        <p class="brand-chips-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
+      <p class="v2-facts-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+    </div>
+  </section>
+
+  <section class="v2-sec" aria-labelledby="jobs-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="jobs-title">Recent Refrigerator Repairs</h2>
+        <p>Our latest refrigerator jobs include, in Palm Springs, a Sub-Zero under-counter evaporator leak repair and a KitchenAid condenser fan motor replacement, plus scheduled maintenance on a built-in Sub-Zero side-by-side in Newport Beach, ice maker replacements on LG French-door refrigerators in Mission Viejo and Orange and a damper control replacement on a Frigidaire side-by-side in Chino Hills that had stopped cooling. Others include a door gasket replacement on a KitchenAid French-door refrigerator in San Clemente, a water leak repair on a KitchenAid built-in in Brea and two separate GE Monogram repairs in Irvine: replacement of a control board and thermistors, and replacement of a condenser fan motor. We also completed JennAir maintenance in Fullerton and a Viking evaporator fan replacement in Costa Mesa. More refrigerator jobs are shown below.</p>
+      </div>
+      <div class="v2-jobs">
+        <article class="v2-job" id="job-refrigerator-amana-evaporator-fan-motor-laguna-beach">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-amana-evaporator-fan-motor-laguna-beach-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-amana-evaporator-fan-motor-laguna-beach.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-amana-evaporator-fan-motor-laguna-beach.jpg" alt="Closed stainless-steel built-in refrigerator with a bottom drawer, set in dark wood cabinetry in a Laguna Beach kitchen" width="768" height="1024" loading="lazy" style="object-position:50% 40%;">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Laguna Beach, CA</p>
+            <h3>Amana Evaporator Fan Motor Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html#job-refrigerator-amana-evaporator-fan-motor-laguna-beach" aria-label="See this repair: Amana refrigerator evaporator fan motor replacement, Laguna Beach, CA">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job" id="job-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs.webp 1182w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs.jpg" alt="The opened-up Sub-Zero under-counter refrigerator in Palm Springs, showing a copper-and-aluminum coil assembly with a fan beside it, wiring, and screws and hand tools on the white work surface" width="1182" height="2048" loading="lazy" style="object-position:50% 45%;">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Palm Springs, CA</p>
+            <h3>Sub-Zero Evaporator Leak Repair</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html#job-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs" aria-label="See this repair: Sub-Zero under-counter refrigerator evaporator leak repair, Palm Springs, CA">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job" id="job-refrigerator-kitchenaid-condenser-fan-motor-palm-springs">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-condenser-fan-motor-palm-springs-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-condenser-fan-motor-palm-springs.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-condenser-fan-motor-palm-springs.jpg" alt="A panel-ready built-in refrigerator in a Palm Springs kitchen with its bottom drawer open, standing beside a built-in wall oven" width="768" height="1024" loading="lazy" style="object-position:50% 85%;">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Palm Springs, CA</p>
+            <h3>KitchenAid Condenser Fan Motor Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html#job-refrigerator-kitchenaid-condenser-fan-motor-palm-springs" aria-label="See this repair: KitchenAid refrigerator condenser fan motor replacement, Palm Springs, CA">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job" id="job-refrigerator-kitchenaid-control-board-palm-springs">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-control-board-palm-springs-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-control-board-palm-springs.webp 1024w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-control-board-palm-springs.jpg" alt="A hand holding up a green circuit board in front of a stainless built-in refrigerator set into wood cabinetry in Palm Springs, with the top grille removed and the top machine compartment open, showing wiring, a yellow transformer and sound insulation" width="1024" height="768" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Palm Springs, CA</p>
+            <h3>KitchenAid Control Board Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html#job-refrigerator-kitchenaid-control-board-palm-springs" aria-label="See this repair: KitchenAid refrigerator control board replacement, Palm Springs, CA">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-sub-zero-maintenance-coil-cleaning-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-sub-zero-maintenance-coil-cleaning-newport-beach.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-sub-zero-maintenance-coil-cleaning-newport-beach.jpg" alt="Built-in Sub-Zero side-by-side refrigerator with cream custom door panels and a stainless top grille, Newport Beach" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Newport Beach, CA</p>
+            <h3>Sub-Zero Evaporator Coil Cleaning</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="sub-zero-appliance-repair-orange-county.html">See our Sub-Zero appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo.jpg" alt="Black stainless LG French-door refrigerator with a door dispenser and two bottom drawers, set between white cabinets in a Mission Viejo kitchen" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Mission Viejo, CA</p>
+            <h3>LG Ice Maker Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="lg-appliance-repair-orange-county.html">See our LG appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.jpg" alt="Stainless LG French-door refrigerator with a door dispenser, set into cream cabinets in an Orange, CA kitchen with a wood-look floor" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Orange, CA</p>
+            <h3>LG Ice Maker Replacement, Freezer Side</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="lg-appliance-repair-orange-county.html">See our LG appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-freezer-orange-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-freezer-orange.webp 1024w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-lg-ice-maker-freezer-orange.jpg" alt="LG refrigerator in Orange, CA with its bottom freezer drawer removed, showing the empty white freezer compartment and drawer rails, with a cordless drill and an open bit case on the floor" width="1024" height="768" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Orange, CA</p>
+            <h3>LG Ice Maker Job: Freezer Drawer Out</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="lg-appliance-repair-orange-county.html">See our LG appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <details class="v2-more">
+        <summary class="v2-btn v2-btn--ghost">Show all 25 refrigerator repairs</summary>
+        <div class="v2-jobs">
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.jpg" alt="Stainless Frigidaire side-by-side refrigerator with a through-door ice and water dispenser, standing in a garage in Chino Hills" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Chino Hills, CA</p>
+            <h3>Frigidaire Damper Control Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="frigidaire-appliance-repair-orange-county.html">See our Frigidaire appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-door-gasket-san-clemente-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-door-gasket-san-clemente.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-door-gasket-san-clemente.jpg" alt="Stainless KitchenAid French-door refrigerator set into white cabinetry in a San Clemente kitchen" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">San Clemente, CA</p>
+            <h3>KitchenAid Door Gasket Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="kitchenaid-appliance-repair-orange-county.html">See our KitchenAid appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-water-leak-brea-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-water-leak-brea.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-water-leak-brea.jpg" alt="Stainless KitchenAid built-in side-by-side refrigerator with its water and ice dispenser panel removed, in a Brea kitchen during a water leak repair" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Brea, CA</p>
+            <h3>KitchenAid Water Leak Repair</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="kitchenaid-appliance-repair-orange-county.html">See our KitchenAid appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-control-board-thermistors-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-control-board-thermistors-irvine.webp 736w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-ge-monogram-control-board-thermistors-irvine.jpg" alt="Stainless GE Monogram side-by-side refrigerator with a door dispenser in an Irvine kitchen" width="736" height="980" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Irvine, CA</p>
+            <h3>GE Monogram Control Board &amp; Thermistors Replaced</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html#job-refrigerator-ge-monogram-control-board-thermistors-irvine" aria-label="See this repair: GE Monogram refrigerator control board &amp; thermistors replaced, Irvine, CA">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine.webp 1208w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine.jpg" alt="Stainless built-in GE Monogram refrigerator with long handles in an Irvine kitchen" width="1208" height="2048" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Irvine, CA</p>
+            <h3>GE Monogram Condenser Fan Motor Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html#job-refrigerator-ge-monogram-condenser-fan-irvine" aria-label="See this repair: GE Monogram refrigerator condenser fan motor replacement, Irvine, CA">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-maintenance-refrigerator-jennair-fullerton-480w.webp 480w, ../images/real/business/completed-maintenance-refrigerator-jennair-fullerton.webp 1200w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-maintenance-refrigerator-jennair-fullerton.jpg" alt="Stainless built-in JennAir refrigerator in white cabinetry at a Fullerton home" width="1200" height="1600" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Fullerton, CA</p>
+            <h3>JennAir Refrigerator Maintenance</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html#job-refrigerator-jennair-fullerton" aria-label="See this repair: JennAir refrigerator maintenance, Fullerton, CA">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-viking-evaporator-fan-costa-mesa-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-viking-evaporator-fan-costa-mesa.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-viking-evaporator-fan-costa-mesa.jpg" alt="Stainless Viking French-door refrigerator with a bottom freezer in a Costa Mesa kitchen" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Costa Mesa, CA</p>
+            <h3>Viking Evaporator Fan Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html#job-refrigerator-viking-evaporator-fan-costa-mesa" aria-label="See this repair: Viking refrigerator evaporator fan replacement, Costa Mesa, CA">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <img src="../images/real/business/completed-repair-refrigerator-sub-zero-water-leak-drain-line-clean-san-clemente-480w.webp" alt="Stainless built-in Sub-Zero refrigerator in a white-cabinet kitchen" width="480" height="640" loading="lazy">
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">San Clemente, CA</p>
+            <h3>Sub-Zero Water Leak &amp; Drain Line Cleaning</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="sub-zero-appliance-repair-orange-county.html">See our Sub-Zero appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <img src="../images/real/business/completed-repair-refrigerator-lg-compressor-orange-480w.webp" alt="LG refrigerator with the lower access panel removed revealing the failed FC75LBNA linear compressor during an Orange, CA repair by Universal Appliances Repair" width="480" height="640" loading="lazy">
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Orange, CA</p>
+            <h3>LG Compressor Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="lg-appliance-repair-orange-county.html">See our LG appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <img src="../images/real/business/completed-repair-refrigerator-builtin-pullout.webp" alt="Built-in wood-paneled refrigerator column pulled partway out of its kitchen cabinet enclosure, with a step ladder set up beside it" width="390" height="510" loading="lazy">
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <h3>Built-In Refrigerator Access</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html">See more real repairs <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <img src="../images/real/business/completed-repair-refrigerator-compressor-area.webp" alt="Close-up of a refrigerator's compressor compartment showing the compressor, copper tubing, and wiring harness" width="680" height="494" loading="lazy">
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <h3>Compressor Compartment Access</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html">See more real repairs <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <img src="../images/real/business/completed-repair-refrigerator-marine-drawer-unit.jpg" alt="Open drawer-style marine refrigerator and freezer built into a boat's cabinetry, with both drawers pulled out" width="750" height="1000" loading="lazy">
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <h3>Marine Drawer Refrigerator Service</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="recent-repairs.html">See more real repairs <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <img src="../images/real/business/completed-repair-refrigerator-samsung-condenser-coil-garden-grove-480w.webp" alt="Stainless Samsung French-door refrigerator standing slightly forward of its cabinet alcove in a Garden Grove kitchen after a condenser coil cleaning" width="480" height="640" loading="lazy">
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Garden Grove, CA</p>
+            <h3>Samsung Condenser Coil Cleaning</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="samsung-appliance-repair-orange-county.html">See our Samsung appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <img src="../images/real/business/completed-repair-refrigerator-lg-water-filter-housing-rancho-santa-margarita-480w.webp" alt="LG French-door refrigerator with a through-door ice and water dispenser panel, standing in a Rancho Santa Margarita kitchen with cream cabinetry, after a water filter and water filter housing replacement" width="480" height="640" loading="lazy">
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Rancho Santa Margarita, CA</p>
+            <h3>LG Water Filter &amp; Housing Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="lg-appliance-repair-orange-county.html">See our LG appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim.jpg" alt="Stainless Monogram refrigerator with the upper service compartment open, showing wiring and electrical components in Anaheim, CA" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Anaheim, CA</p>
+            <h3>Monogram Control &amp; Inverter Board Replacements</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="ge-appliance-repair-orange-county.html">See our GE appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-main-control-board-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-main-control-board-irvine.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-ge-monogram-main-control-board-irvine.jpg" alt="Stainless built-in GE Monogram side-by-side refrigerator with the upper service compartment open, exposing the water filter and wiring, in Irvine, CA" width="768" height="1024" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Irvine, CA</p>
+            <h3>Monogram Main Control Board Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="ge-appliance-repair-orange-county.html">See our GE appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-coil-compressor-replacement-san-diego-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-coil-compressor-replacement-san-diego.webp 1200w" type="image/webp" sizes="(max-width:960px) 100vw, 230px">
+            <img src="../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-coil-compressor-replacement-san-diego.jpg" alt="New evaporator coil installed in a Sub-Zero built-in refrigerator after a refrigerant leak, San Diego" width="1200" height="1600" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">San Diego, CA: one-off job outside our service area</p>
+            <h3>Sub-Zero Evaporator Coil and Compressor Replacement</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="sub-zero-appliance-repair-orange-county.html">See our Sub-Zero appliance repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
+        </div>
+      </details>
+      <div class="v2-foot">
+        <p class="v2-prose">See more real repairs on our <a href="recent-repairs.html">recent repairs gallery</a>.</p>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section section-white" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-standard">What Refrigerator Repair Customers Say</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:8px;">From our 156 verified 5-star Google reviews</p>
-      <div class="testimonials-grid testimonials-grid--stack-768 reviews-cap">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">LR</div>
-          <div class="testimonial-name">Lilya Raupova, Sub-Zero refrigerator repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">LA</div>
-          <div class="testimonial-name">Lale, GE Monogram refrigerator repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JM</div>
-          <div class="testimonial-name">Joellyn Meadows, Refrigerator repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"This guy is wonderful. Not only fixed the fridge. He took time and no rush. He cleaned everything and even before he left we heard the sound of making ice cubes. On top of that he fixed the gas flow of the burner as a courtesy. Nice guy. Very friendly and professional as well."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">MI</div>
-          <div class="testimonial-name">Molla Islam, Refrigerator &amp; cooktop repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG was very professional and on time ! He immediately took care of my refrigerator needs and am so happy!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">RD</div>
-          <div class="testimonial-name">Rosalyn Darling, Refrigerator repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Our repairman was great! On time, personable, knowledgeable, and fixed our problem. Looking to him to repair another appliance as well. We'll be back!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">DB</div>
-          <div class="testimonial-name">Dave Brisbin, Refrigerator &amp; freezer repair, Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
+  <section class="v2-sec v2-sec--ice" aria-labelledby="reviews-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="reviews-title">What Refrigerator Repair Customers Say</h2>
+        <p>From our 156 verified 5-star Google reviews</p>
       </div>
-      <div class="reviews-cap-more-row">
-        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
+      <div class="v2-reviews v2-reviews--3">
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>Thank you for fixing my Sub-Zero refrigerator. AG was on time. Changed fan motor. Fast service. I will call them again if I need something repaired!</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Lilya Raupova</strong> · Sub-Zero refrigerator repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>AG fixed my old GE Monogram refrigerator. Very friendly, fast and good service. Recommend</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Lale</strong> · GE Monogram refrigerator repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs.</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Joellyn Meadows</strong> · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>This guy is wonderful. Not only fixed the fridge. He took time and no rush. He cleaned everything and even before he left we heard the sound of making ice cubes. On top of that he fixed the gas flow of the burner as a courtesy. Nice guy. Very friendly and professional as well.</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Molla Islam</strong> · Refrigerator &amp; cooktop repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>AG was very professional and on time ! He immediately took care of my refrigerator needs and am so happy!</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Rosalyn Darling</strong> · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>Our repairman was great! On time, personable, knowledgeable, and fixed our problem. Looking to him to repair another appliance as well. We'll be back!</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Dave Brisbin</strong> · Refrigerator &amp; freezer repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
       </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 156 reviews &rarr;</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- COMMON SYMPTOMS -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-hub" style="text-align:center;">Problems We Fix</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7;">Your fridge is showing symptoms; here's what we diagnose and repair every day across Orange County.</p>
-      <div class="symptoms-grid">
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Refrigerator not cooling or warming up unexpectedly</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Ice maker stopped producing ice or is making hollow cubes</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Water leaking onto the floor or pooling inside the fridge</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Loud humming, clicking, rattling, or grinding noises</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Frost or ice buildup in the freezer compartment</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Compressor runs constantly but temperature stays off</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Door seal worn, cracked, or not closing properly</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Water dispenser not working or dispensing slowly</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Freezer works but the refrigerator section is warm</span>
-        </div>
-        <div class="symptom-item">
-          <span class="symptom-icon">●</span>
-          <span class="symptom-text">Control panel or display not responding</span>
+      <div class="v2-foot">
+        <a href="https://www.google.com/maps?cid=6142328803939874574" class="v2-rating" aria-label="5.0, 156 Google reviews, rated 5 out of 5. Opens Google">
+          <span class="v2-stars" aria-hidden="true">★★★★★</span>
+          <span>5.0 &middot; 156 Google reviews</span>
+        </a>
+        <div class="v2-foot-actions">
+          <button type="button" class="v2-btn v2-btn--ghost v2-reviews-more" aria-expanded="false" hidden>Show more reviews</button>
+          <a class="v2-btn v2-btn--ghost" href="testimonials.html">More customer reviews <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BRANDS WE SERVICE -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-hub" style="text-align:center;">Brands We Repair</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7;">We service every major brand, from everyday workhorses to high-end built-ins.</p>
-      <div class="brands-grid">
-        <div class="brand-card">
-          <div class="brand-name"><a href="samsung-appliance-repair-orange-county.html">Samsung</a></div>
-          <div class="brand-issues">Ice maker failures and cooling issues in French-door models are the most frequent calls we get. Samsung's ice maker module is a known weak point; we carry the common replacement parts.</div>
+  <section class="v2-sec v2-sec--ink" aria-labelledby="process-title">
+    <div class="v2-wrap v2-split">
+      <div>
+        <h2 id="process-title">How It Works</h2>
+        <p>From your first call to a fully working fridge: here's what to expect.</p>
+        <a href="contact.html" class="v2-btn">Request a Repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+      </div>
+      <ol class="v2-steps">
+        <li><h3>Call or Request Online</h3>Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> or submit the contact form. Tell us the brand, model, and symptoms.</li>
+        <li><h3>On-Site Diagnosis</h3>A technician arrives in a 2-hour window, inspects the fridge, and identifies the root cause.</li>
+        <li><h3>Upfront Quote</h3>You get a clear quote before we touch anything. The $99 diagnostic fee is applied toward the repair if you proceed.</li>
+        <li><h3>Repair &amp; Warranty</h3>Most repairs are finished the same day. Every repair carries a 90-day parts and 30-day labor warranty.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="v2-sec" aria-labelledby="pricing-title">
+    <div class="v2-wrap">
+      <div class="v2-split">
+        <div>
+          <h2 id="pricing-title">Pricing &amp; Discounts</h2>
+          <ul class="v2-policy">
+            <li><strong>$99 diagnostic fee</strong>: applied toward your repair if you approve the work. If you decide not to proceed, the $99 covers the visit.</li>
+            <li><strong>30-day diagnostic credit</strong>: call us back within 30 days and your $99 is credited toward the repair estimate.</li>
+            <li><strong>Multi-unit visits</strong>: first unit $99, each additional unit on the same visit $49.</li>
+            <li><strong>20% off labor</strong> for repeat customers and seniors 60+ (cannot combine with other offers).</li>
+          </ul>
+          <p class="v2-fine v2-prose">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair. <a href="appliance-repair-cost-orange-county.html">See full pricing guide →</a></p>
         </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="lg-appliance-repair-orange-county.html">LG</a></div>
-          <div class="brand-issues">LG linear compressors in French-door models fail earlier than expected in OC's climate. We also frequently repair the drain line in the freezer drawer, which ices over and causes water to pool under the crisper.</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="sub-zero-appliance-repair-orange-county.html">Sub-Zero</a></div>
-          <div class="brand-issues">Sub-Zero's sealed-system repairs (compressor, condenser, evaporator) require experience with high-end units. Clogged drain tubes causing water under the bottom drawer are the most common call we receive. <a href="sub-zero-appliance-repair-orange-county.html" style="color:var(--brand-text);text-decoration:none;font-weight:600;">See our Sub-Zero repair page.</a></div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="whirlpool-appliance-repair-orange-county.html">Whirlpool</a></div>
-          <div class="brand-issues">Whirlpool fridges are among the most reliable, but thermostat and ice maker issues do come up. Control board replacements are also common in older Whirlpool French-door units.</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="ge-appliance-repair-orange-county.html">GE &amp; GE Profile</a></div>
-          <div class="brand-issues">GE ice maker modules and defrost heaters are the repairs we see most often. GE Profile units can develop control board issues after several years; we diagnose before recommending a board swap.</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a></div>
-          <div class="brand-issues">Frigidaire compressors and door gaskets are the most common service requests. Older Gallery and Professional series models sometimes develop electronic control failures that look like a dead unit but are an easy fix.</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="kitchenaid-appliance-repair-orange-county.html">KitchenAid</a></div>
-          <div class="brand-issues">KitchenAid built-in and counter-depth fridges frequently need water inlet valve replacements and ice dispenser motor repairs. We work on all KitchenAid configurations including French door and side-by-side.</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="bosch-appliance-repair-orange-county.html">Bosch</a></div>
-          <div class="brand-issues">Bosch refrigerators tend to be reliable, but evaporator fan motor failures and control board issues do occur. We service all Bosch 800 and Benchmark series configurations.</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="maytag-appliance-repair-orange-county.html">Maytag</a></div>
-          <div class="brand-issues">Maytag defrost timers and condenser fans wear out over time. Ice maker problems in Maytag side-by-side units are also common; most are resolved in a single visit.</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="viking-appliance-repair-orange-county.html">Viking</a></div>
-          <div class="brand-issues">Viking professional refrigerators occasionally develop sealed-system and temperature control issues. We service Viking built-in column and French-door units throughout Orange County.</div>
-        </div>
-        <div class="brand-card">
-          <div class="brand-name"><a href="dacor-appliance-repair-orange-county.html">Dacor</a></div>
-          <div class="brand-issues">Dacor built-in and freestanding refrigerators occasionally develop cooling and ice maker issues. We provide <a href="dacor-appliance-repair-orange-county.html" style="color:var(--brand-text);text-decoration:none;font-weight:600;">Dacor refrigerator repair</a> across Orange County.</div>
+        <div class="v2-price">
+          <div class="v2-price-top"><span>Diagnostic visit</span><strong><sup>$</sup>99</strong></div>
+          <ul>
+            <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Applied toward the repair when you approve the work</li>
+            <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Itemized written quote before any work starts</li>
+            <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>You decide whether to proceed</li>
+          </ul>
+          <a href="contact.html" class="v2-btn">Request a diagnostic visit</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- REPAIR VS REPLACE -->
-  <section class="section section-gray">
-    <div class="container">
-      <h2 class="h2-hub" style="text-align:center;">Repair or Replace?</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;line-height:1.75;text-align:center;max-width:620px;margin-left:auto;margin-right:auto;">You don't have to figure this out alone. Here's the honest rule of thumb we share with every customer before we start any work.</p>
-      <div class="rule-box">
-        <p><strong>The 11-year / 50% rule:</strong> If your refrigerator is under 11 years old and the repair cost is less than half the price of a comparable new unit, repair is almost always the right call. Check availability and delivery timing for a comparable replacement before deciding.</p>
+  <section class="v2-sec v2-sec--ice" aria-labelledby="problems-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="problems-title">Problems We Fix</h2>
+        <p>Your fridge is showing symptoms; here's what we diagnose and repair every day across Orange County.</p>
       </div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:20px;line-height:1.75;max-width:700px;margin-left:auto;margin-right:auto;text-align:center;">For high-end brands (Sub-Zero, Viking, Thermador) the economics lean even more toward repair. A new unit costs 3–6× what a repair does, and well-maintained premium fridges regularly last 20+ years. We'll tell you exactly what's wrong and give you the information to make the call yourself. See our <a href="refrigerator-repair-cost-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">refrigerator repair cost guide</a> for typical Orange County price ranges.</p>
+      <ul class="v2-checks">
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Refrigerator not cooling or warming up unexpectedly</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Ice maker stopped producing ice or is making hollow cubes</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Water leaking onto the floor or pooling inside the fridge</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Loud humming, clicking, rattling, or grinding noises</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Frost or ice buildup in the freezer compartment</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Compressor runs constantly but temperature stays off</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Door seal worn, cracked, or not closing properly</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Water dispenser not working or dispensing slowly</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Freezer works but the refrigerator section is warm</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Control panel or display not responding</li>
+      </ul>
     </div>
   </section>
 
-  <!-- REPAIR PROCESS -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-hub" style="text-align:center;">How It Works</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;text-align:center;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7;">From your first call to a fully working fridge: here's what to expect.</p>
-      <div class="process-steps">
-        <div class="process-step">
-          <div class="step-number">1</div>
-          <div class="step-title">Call or Request Online</div>
-          <div class="step-desc">Reach us at (949) 629-5365 or submit the contact form. Tell us the brand, model, and symptoms; we'll get you on the schedule the same day if possible.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">2</div>
-          <div class="step-title">On-Site Diagnosis</div>
-          <div class="step-desc">A technician arrives in a 2-hour window, inspects the fridge, and identifies the root cause. We check everything before recommending any parts.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">3</div>
-          <div class="step-title">Upfront Quote</div>
-          <div class="step-desc">You get a clear quote before we touch anything. No surprise charges. The $99 diagnostic fee is applied toward the repair if you proceed; if you decide not to proceed, you pay only the diagnostic fee.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">4</div>
-          <div class="step-title">Repair &amp; Warranty</div>
-          <div class="step-desc">Most repairs are finished the same day. Every repair carries a 90-day parts and 30-day labor warranty: if the same issue returns within 30 days, we come back at no charge.</div>
-        </div>
+  <section class="v2-sec" aria-labelledby="brands-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="brands-title">Brands We Repair</h2>
+        <p>We service every major brand, from everyday workhorses to high-end built-ins.</p>
+      </div>
+      <ul class="v2-brands v2-brands--4">
+        <li><a href="samsung-appliance-repair-orange-county.html">Samsung</a></li>
+        <li><a href="lg-appliance-repair-orange-county.html">LG</a></li>
+        <li><a href="whirlpool-appliance-repair-orange-county.html">Whirlpool</a></li>
+        <li><a href="ge-appliance-repair-orange-county.html">GE</a></li>
+        <li><a href="maytag-appliance-repair-orange-county.html">Maytag</a></li>
+        <li><a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a></li>
+        <li><a href="bosch-appliance-repair-orange-county.html">Bosch</a></li>
+        <li><a href="kitchenaid-appliance-repair-orange-county.html">KitchenAid</a></li>
+        <li><a href="sub-zero-appliance-repair-orange-county.html">Sub-Zero</a></li>
+        <li><a href="viking-appliance-repair-orange-county.html">Viking</a></li>
+        <li><a href="dacor-appliance-repair-orange-county.html">Dacor</a></li>
+        <li><a class="v2-brands-all" href="services.html#brands">All brands</a></li>
+      </ul>
+      <p class="v2-fine">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
+      <div class="v2-table-wrap">
+        <dl class="v2-defs">
+          <div><dt>Samsung</dt><dd class="v2-prose">Ice maker failures and cooling issues in French-door models are the most frequent calls we get. Samsung's ice maker module is a known weak point; we carry the common replacement parts.</dd></div>
+          <div><dt>LG</dt><dd class="v2-prose">LG linear compressors in French-door models fail earlier than expected in OC's climate. We also frequently repair the drain line in the freezer drawer, which ices over and causes water to pool under the crisper.</dd></div>
+          <div><dt>Sub-Zero</dt><dd class="v2-prose">Sub-Zero's sealed-system repairs (compressor, condenser, evaporator) require experience with high-end units. Clogged drain tubes causing water under the bottom drawer are the most common call we receive. <a href="sub-zero-appliance-repair-orange-county.html">See our Sub-Zero repair page.</a></dd></div>
+          <div><dt>Whirlpool</dt><dd class="v2-prose">Whirlpool fridges are among the most reliable, but thermostat and ice maker issues do come up. Control board replacements are also common in older Whirlpool French-door units.</dd></div>
+          <div><dt>GE &amp; GE Profile</dt><dd class="v2-prose">GE ice maker modules and defrost heaters are the repairs we see most often. GE Profile units can develop control board issues after several years; we diagnose before recommending a board swap.</dd></div>
+          <div><dt>Frigidaire</dt><dd class="v2-prose">Frigidaire compressors and door gaskets are the most common service requests. Older Gallery and Professional series models sometimes develop electronic control failures that look like a dead unit but are an easy fix.</dd></div>
+          <div><dt>KitchenAid</dt><dd class="v2-prose">KitchenAid built-in and counter-depth fridges frequently need water inlet valve replacements and ice dispenser motor repairs. We work on all KitchenAid configurations including French door and side-by-side.</dd></div>
+          <div><dt>Bosch</dt><dd class="v2-prose">Bosch refrigerators tend to be reliable, but evaporator fan motor failures and control board issues do occur. We service all Bosch 800 and Benchmark series configurations.</dd></div>
+          <div><dt>Maytag</dt><dd class="v2-prose">Maytag defrost timers and condenser fans wear out over time. Ice maker problems in Maytag side-by-side units are also common; most are resolved in a single visit.</dd></div>
+          <div><dt>Viking</dt><dd class="v2-prose">Viking professional refrigerators occasionally develop sealed-system and temperature control issues. We service Viking built-in column and French-door units throughout Orange County.</dd></div>
+          <div><dt>Dacor</dt><dd class="v2-prose">Dacor built-in and freestanding refrigerators occasionally develop cooling and ice maker issues. We provide <a href="dacor-appliance-repair-orange-county.html">Dacor refrigerator repair</a> across Orange County.</dd></div>
+        </dl>
       </div>
     </div>
   </section>
 
-  <!-- PRICING POLICIES (compact) -->
-  <section class="section section-gray">
-    <div class="container">
-      <div class="pricing-policy-card">
-        <h3>Pricing &amp; Discounts</h3>
-        <ul class="policy-list">
-          <li><strong>$99 diagnostic fee</strong>: applied toward your repair if you approve the work. If you decide not to proceed, the $99 covers the visit.</li>
-          <li><strong>30-day diagnostic credit</strong>: call us back within 30 days and your $99 is credited toward the repair estimate.</li>
-          <li><strong>Multi-unit visits</strong>: first unit $99, each additional unit on the same visit $49.</li>
-          <li><strong>20% off labor</strong> for repeat customers and seniors 60+ (cannot combine with other offers).</li>
-        </ul>
-        <p class="policy-disclaimer">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair. <a href="appliance-repair-cost-orange-county.html">See full pricing guide →</a></p>
+  <section class="v2-sec v2-sec--ice" aria-labelledby="replace-title">
+    <div class="v2-wrap v2-split">
+      <div>
+        <h2 id="replace-title">Repair or Replace?</h2>
+        <p>You don't have to figure this out alone. Here's the honest rule of thumb we share with every customer before we start any work.</p>
       </div>
-        <div class="cost-table-wrap">
-          <h3 style="text-align:center;font-size:18px;font-weight:800;color:var(--text-primary);letter-spacing:-0.3px;margin:0 0 8px;">Typical Refrigerator Repair Costs in Orange County</h3>
-          <p class="cost-disclaimer" style="text-align:center;">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</p>
-          <table class="cost-table">
-            <thead>
-              <tr><th>Repair Type</th><th>Typical Range</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Service call / diagnostic: Orange County market average (often credited toward repair)</td><td class="cost-range">$75 – $100</td></tr>
-              <tr><td>Evaporator / condenser fan motor</td><td class="cost-range">$200 – $400</td></tr>
-              <tr><td>Defrost heater / thermostat / timer</td><td class="cost-range">$180 – $360</td></tr>
-              <tr><td>Start relay / capacitor</td><td class="cost-range">$130 – $260</td></tr>
-              <tr><td>Water inlet valve</td><td class="cost-range">$150 – $300</td></tr>
-              <tr><td>Ice maker assembly</td><td class="cost-range">$250 – $450</td></tr>
-              <tr><td>Main control board</td><td class="cost-range">$280 – $500</td></tr>
-              <tr><td>Compressor</td><td class="cost-range">$450 – $900</td></tr>
-            </tbody>
-          </table>
-          <p style="font-size:12px;color:var(--text-sub);margin-top:14px;line-height:1.6;text-align:center;">See our <a href="appliance-repair-cost-orange-county.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">full appliance repair cost guide</a> for broader Orange County pricing context.</p>
-        </div>
+      <div class="v2-prose">
+        <p class="v2-panel"><strong>The 11-year / 50% rule:</strong> If your refrigerator is under 11 years old and the repair cost is less than half the price of a comparable new unit, repair is almost always the right call. Check availability and delivery timing for a comparable replacement before deciding.</p>
+        <p>For high-end brands (Sub-Zero, Viking, Thermador) the economics lean even more toward repair. A new unit costs 3–6× what a repair does, and well-maintained premium fridges regularly last 20+ years. We'll tell you exactly what's wrong and give you the information to make the call yourself. See our <a href="refrigerator-repair-cost-orange-county.html">refrigerator repair cost guide</a> for typical Orange County price ranges.</p>
+      </div>
+      <details class="v2-disc v2-span">
+        <summary>Typical Refrigerator Repair Costs in Orange County</summary>
+        <div>
+        <p class="v2-fine">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.</p>
+        <table class="v2-table">
+          <thead>
+            <tr><th>Repair Type</th><th>Typical Range</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Service call / diagnostic: Orange County market average (often credited toward repair)</td><td>$75 – $100</td></tr>
+            <tr><td>Evaporator / condenser fan motor</td><td>$200 – $400</td></tr>
+            <tr><td>Defrost heater / thermostat / timer</td><td>$180 – $360</td></tr>
+            <tr><td>Start relay / capacitor</td><td>$130 – $260</td></tr>
+            <tr><td>Water inlet valve</td><td>$150 – $300</td></tr>
+            <tr><td>Ice maker assembly</td><td>$250 – $450</td></tr>
+            <tr><td>Main control board</td><td>$280 – $500</td></tr>
+            <tr><td>Compressor</td><td>$450 – $900</td></tr>
+          </tbody>
+        </table>
+        <p class="v2-fine v2-prose">See our <a href="appliance-repair-cost-orange-county.html">full appliance repair cost guide</a> for broader Orange County pricing context.</p>
+      </div>
+      </details>
     </div>
   </section>
 
-  <!-- SERVICE AREA -->
-  <section class="section section-white service-area" aria-labelledby="service-area-title">
-    <div class="container">
+  <section class="v2-sec service-area" aria-labelledby="service-area-title">
+    <div class="v2-wrap v2-split">
       <h2 id="service-area-title">Refrigerator repair across Orange County</h2>
-      <p>Universal Appliances Repair Group Inc. provides refrigerator repair across Orange County, California, including French door, side-by-side, bottom-freezer, and built-in models from Samsung, LG, Sub-Zero, Whirlpool, GE, Frigidaire, KitchenAid, Bosch, Maytag, and Viking.</p>
-      <p>We serve <a href="appliance-repair-irvine-ca.html">Irvine</a>, <a href="appliance-repair-anaheim-ca.html">Anaheim</a>, <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>, <a href="appliance-repair-huntington-beach-ca.html">Huntington Beach</a>, <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>, <a href="appliance-repair-fullerton-ca.html">Fullerton</a>, <a href="appliance-repair-garden-grove-ca.html">Garden Grove</a>, <a href="appliance-repair-tustin-ca.html">Tustin</a>, and all nearby OC cities, with same-day service available. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a> to schedule a refrigerator repair visit.</p>
+      <div class="v2-prose">
+        <p>Universal Appliances Repair Group Inc. provides refrigerator repair across Orange County, California, including French door, side-by-side, bottom-freezer, and built-in models from Samsung, LG, Sub-Zero, Whirlpool, GE, Frigidaire, KitchenAid, Bosch, Maytag, and Viking.</p>
+        <p>We serve <a href="appliance-repair-irvine-ca.html">Irvine</a>, <a href="appliance-repair-anaheim-ca.html">Anaheim</a>, <a href="appliance-repair-santa-ana-ca.html">Santa Ana</a>, <a href="appliance-repair-huntington-beach-ca.html">Huntington Beach</a>, <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>, <a href="appliance-repair-fullerton-ca.html">Fullerton</a>, <a href="appliance-repair-garden-grove-ca.html">Garden Grove</a>, <a href="appliance-repair-tustin-ca.html">Tustin</a>, and all nearby OC cities, with same-day service available. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a> to schedule a refrigerator repair visit.</p>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="section section-gray" id="faq" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-hub">Frequently Asked Questions</h2>
-      <p style="font-size:13.5px;color:var(--text-muted);margin-top:10px;line-height:1.7;">Real questions from Orange County homeowners, answered straight.</p>
+  <section class="v2-sec v2-sec--ice" id="faq" aria-labelledby="faq-title">
+    <div class="v2-wrap v2-split">
+      <div class="v2-sticky">
+        <h2 id="faq-title">Frequently Asked Questions</h2>
+        <p>Still have a question? Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a>.</p>
+      </div>
       <div class="faq-list">
+
         <div class="faq-item open">
-          <button class="faq-q" aria-expanded="false">
-            Why is my refrigerator not cooling?
-            <span class="faq-icon">+</span>
-          </button>
+          <button class="faq-q" aria-expanded="false">Why is my refrigerator not cooling?<span class="icon">+</span></button>
           <div class="faq-a">The most common culprits are dirty condenser coils, a failing compressor, a blocked evaporator fan, or a faulty thermostat. If you hear the compressor running but the fridge stays warm, dirty coils or a refrigerant leak are likely. A technician can diagnose the exact cause in one visit.</div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">
-            Why is my ice maker not working?
-            <span class="faq-icon">+</span>
-          </button>
+          <button class="faq-q" aria-expanded="false">Why is my ice maker not working?<span class="icon">+</span></button>
           <div class="faq-a">Ice maker failures usually come down to a frozen water supply line, a clogged water filter, a failed water inlet valve, or a faulty ice maker module. Samsung and LG French-door fridges are especially prone to ice maker issues. Most are fixed in a single service call.</div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">
-            What causes water to leak from a refrigerator?
-            <span class="faq-icon">+</span>
-          </button>
+          <button class="faq-q" aria-expanded="false">What causes water to leak from a refrigerator?<span class="icon">+</span></button>
           <div class="faq-a">Water on the floor under your fridge almost always traces to a clogged defrost drain or a cracked drain pan. Water inside the fridge typically means a blocked or frozen defrost drain tube. A broken water inlet valve can also cause leaks near the back of the unit.</div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">
-            Do you offer same-day refrigerator repair in Orange County?
-            <span class="faq-icon">+</span>
-          </button>
-          <div class="faq-a">Yes. When a technician is available, we schedule same-day service across Orange County. Call (949) 629-5365 in the morning for the best chance at an afternoon appointment. A broken fridge can't wait; we prioritize cooling issues.</div>
+          <button class="faq-q" aria-expanded="false">Do you offer same-day refrigerator repair in Orange County?<span class="icon">+</span></button>
+          <div class="faq-a">Yes. When a technician is available, we schedule same-day service across Orange County. Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> in the morning for the best chance at an afternoon appointment. A broken fridge can't wait; we prioritize cooling issues.</div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">
-            Which refrigerator brands do you repair?
-            <span class="faq-icon">+</span>
-          </button>
+          <button class="faq-q" aria-expanded="false">Which refrigerator brands do you repair?<span class="icon">+</span></button>
           <div class="faq-a">We repair Samsung, LG, Sub-Zero, Whirlpool, GE, Frigidaire, KitchenAid, Bosch, Maytag, Viking, and all other major brands. French door, side-by-side, bottom-freezer, top-freezer, counter-depth, and built-in models are all in scope.</div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">
-            Do you repair high-end brands like Sub-Zero and Viking?
-            <span class="faq-icon">+</span>
-          </button>
+          <button class="faq-q" aria-expanded="false">Do you repair high-end brands like Sub-Zero and Viking?<span class="icon">+</span></button>
           <div class="faq-a">Yes. Sub-Zero and Viking repairs are some of the most common service calls we handle in Orange County. Sub-Zero sealed-system issues and drain tube clogs are our most frequent Sub-Zero repairs. Viking temperature control and compressor issues are close behind.</div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">
-            When should I repair my refrigerator instead of replacing it?
-            <span class="faq-icon">+</span>
-          </button>
+          <button class="faq-q" aria-expanded="false">When should I repair my refrigerator instead of replacing it?<span class="icon">+</span></button>
           <div class="faq-a">The rule of thumb: if the repair cost is less than half the price of a comparable new fridge and the appliance is under 11 years old, repair is almost always the right call. We give you an honest diagnosis before any work starts; no pressure, just the facts.</div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false">
-            How long does a refrigerator repair take?
-            <span class="faq-icon">+</span>
-          </button>
+          <button class="faq-q" aria-expanded="false">How long does a refrigerator repair take?<span class="icon">+</span></button>
           <div class="faq-a">Most repairs (thermostat replacement, evaporator fan swap, ice maker module, drain clearing) are done in the same visit. Sealed-system repairs and jobs that need special-order parts may take 1–3 additional days once the part arrives.</div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- LATEST ARTICLES -->
-  <section class="section section-white">
-    <div class="container">
-      <h2 style="font-size:22px;font-weight:700;color:#111;letter-spacing:-0.3px;margin-bottom:20px;">Latest Guides</h2>
-      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;">
-        <li><a href="../articles/article-ge-monogram-refrigerator-repairs-orange-county.html" style="font-size:14px;font-weight:600;color:var(--brand-text);text-decoration:none;">Inside Five GE Monogram Refrigerator Repairs in Orange County</a></li>
-        <li><a href="../articles/article-refrigerator-not-cooling-long-beach.html" style="font-size:14px;font-weight:600;color:var(--brand-text);text-decoration:none;">Refrigerator Not Cooling in Long Beach? 5 Common Causes and What Repair Typically Costs</a></li>
-        <li><a href="../articles/article-built-in-refrigerator-repair-orange-county.html" style="font-size:14px;font-weight:600;color:var(--brand-text);text-decoration:none;">Built-In Refrigerator Repair in Orange County: Sub-Zero, Thermador &amp; Miele Guide</a></li>
-        <li><a href="../articles/article-sub-zero-not-cooling-orange-county.html" style="font-size:14px;font-weight:600;color:var(--brand-text);text-decoration:none;">Sub-Zero Refrigerator Not Cooling? 5 Causes and What to Do in Orange County</a></li>
-        <li><a href="../articles/article-sub-zero-repair-cost-orange-county.html" style="font-size:14px;font-weight:600;color:var(--brand-text);text-decoration:none;">Sub-Zero Repair Cost in Orange County: What to Budget</a></li>
-        <li><a href="../articles/article-sub-zero-repair-vs-replace.html" style="font-size:14px;font-weight:600;color:var(--brand-text);text-decoration:none;">Sub-Zero: Repair or Replace? An Honest Decision Guide</a></li>
-        <li><a href="../articles/article-fridge-not-cooling-fountain-valley.html" style="font-size:14px;font-weight:600;color:var(--brand-text);text-decoration:none;">Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes</a></li>
-        <li><a href="../articles/article-wine-cooler-not-cooling-seal-beach.html" style="font-size:14px;font-weight:600;color:var(--brand-text);text-decoration:none;">Wine Cooler Not Cooling in Seal Beach? Causes and Fixes</a></li>
+  <section class="v2-sec" aria-labelledby="guides-title">
+    <div class="v2-wrap v2-split">
+      <h2 id="guides-title">Latest Guides</h2>
+      <ul class="v2-guides">
+        <li><a href="../articles/article-ge-monogram-refrigerator-repairs-orange-county.html">Inside Five GE Monogram Refrigerator Repairs in Orange County <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></li>
+        <li><a href="../articles/article-refrigerator-not-cooling-long-beach.html">Refrigerator Not Cooling in Long Beach? 5 Common Causes and What Repair Typically Costs <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></li>
+        <li><a href="../articles/article-built-in-refrigerator-repair-orange-county.html">Built-In Refrigerator Repair in Orange County: Sub-Zero, Thermador &amp; Miele Guide <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></li>
+        <li><a href="../articles/article-sub-zero-not-cooling-orange-county.html">Sub-Zero Refrigerator Not Cooling? 5 Causes and What to Do in Orange County <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></li>
+        <li><a href="../articles/article-sub-zero-repair-cost-orange-county.html">Sub-Zero Repair Cost in Orange County: What to Budget <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></li>
+        <li><a href="../articles/article-sub-zero-repair-vs-replace.html">Sub-Zero: Repair or Replace? An Honest Decision Guide <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></li>
+        <li><a href="../articles/article-fridge-not-cooling-fountain-valley.html">Refrigerator Not Cooling in Fountain Valley? 6 Common Causes &amp; Fixes <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></li>
+        <li><a href="../articles/article-wine-cooler-not-cooling-seal-beach.html">Wine Cooler Not Cooling in Seal Beach? Causes and Fixes <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></li>
       </ul>
     </div>
   </section>
 
-  <!-- RECENT REPAIR PHOTO -->
-  <section class="section section-white" style="padding-top:0;">
-    <div class="container">
-      <h2 style="text-align:center;font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:-0.5px;margin-bottom:10px;padding-top:64px;">Recent Refrigerator Repairs</h2>
-      <p style="text-align:center;font-size:13.5px;color:var(--text-muted);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7;">Our latest refrigerator jobs include, in Palm Springs, a Sub-Zero under-counter evaporator leak repair and a KitchenAid condenser fan motor replacement, plus scheduled maintenance on a built-in Sub-Zero side-by-side in Newport Beach, ice maker replacements on LG French-door refrigerators in Mission Viejo and Orange and a damper control replacement on a Frigidaire side-by-side in Chino Hills that had stopped cooling. Others include a door gasket replacement on a KitchenAid French-door refrigerator in San Clemente, a water leak repair on a KitchenAid built-in in Brea and two separate GE Monogram repairs in Irvine: replacement of a control board and thermistors, and replacement of a condenser fan motor. We also completed JennAir maintenance in Fullerton and a Viking evaporator fan replacement in Costa Mesa. More refrigerator jobs are shown below.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:1080px;margin:0 auto;">
-        <div id="job-refrigerator-amana-evaporator-fan-motor-laguna-beach" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-amana-evaporator-fan-motor-laguna-beach-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-amana-evaporator-fan-motor-laguna-beach.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-amana-evaporator-fan-motor-laguna-beach.jpg" alt="Closed stainless-steel built-in refrigerator with a bottom drawer, set in dark wood cabinetry in a Laguna Beach kitchen" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:50% 40%;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Amana &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Evaporator Fan Motor Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Laguna Beach, CA</div>
-            <a href="recent-repairs.html#job-refrigerator-amana-evaporator-fan-motor-laguna-beach" class="tap-link" aria-label="See this repair: Amana refrigerator evaporator fan motor replacement, Laguna Beach, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
-          </div>
+  <section class="v2-sec v2-sec--ice" aria-labelledby="cta-title">
+    <div class="v2-wrap">
+      <div class="v2-cta">
+        <div>
+          <h2 id="cta-title">Need Refrigerator Repair in Orange County?</h2>
+          <p>Same-day service available. Call now or book online; a technician will confirm your appointment within the hour.</p>
         </div>
-        <div id="job-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs.webp 1182w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs.jpg" alt="The opened-up Sub-Zero under-counter refrigerator in Palm Springs, showing a copper-and-aluminum coil assembly with a fan beside it, wiring, and screws and hand tools on the white work surface" width="1182" height="2048" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:50% 45%;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Sub-Zero &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Evaporator Leak Repair</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Palm Springs, CA</div>
-            <a href="recent-repairs.html#job-refrigerator-sub-zero-evaporator-leak-coil-assembly-palm-springs" class="tap-link" aria-label="See this repair: Sub-Zero under-counter refrigerator evaporator leak repair, Palm Springs, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
-          </div>
-        </div>
-        <div id="job-refrigerator-kitchenaid-condenser-fan-motor-palm-springs" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-condenser-fan-motor-palm-springs-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-condenser-fan-motor-palm-springs.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-condenser-fan-motor-palm-springs.jpg" alt="A panel-ready built-in refrigerator in a Palm Springs kitchen with its bottom drawer open, standing beside a built-in wall oven" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;object-position:50% 85%;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">KitchenAid &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Condenser Fan Motor Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Palm Springs, CA</div>
-            <a href="recent-repairs.html#job-refrigerator-kitchenaid-condenser-fan-motor-palm-springs" class="tap-link" aria-label="See this repair: KitchenAid refrigerator condenser fan motor replacement, Palm Springs, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
-          </div>
-        </div>
-        <div id="job-refrigerator-kitchenaid-control-board-palm-springs" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-control-board-palm-springs-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-control-board-palm-springs.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-control-board-palm-springs.jpg" alt="A hand holding up a green circuit board in front of a stainless built-in refrigerator set into wood cabinetry in Palm Springs, with the top grille removed and the top machine compartment open, showing wiring, a yellow transformer and sound insulation" width="1024" height="768" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">KitchenAid &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Control Board Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Palm Springs, CA</div>
-            <a href="recent-repairs.html#job-refrigerator-kitchenaid-control-board-palm-springs" class="tap-link" aria-label="See this repair: KitchenAid refrigerator control board replacement, Palm Springs, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-sub-zero-maintenance-coil-cleaning-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-sub-zero-maintenance-coil-cleaning-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-sub-zero-maintenance-coil-cleaning-newport-beach.jpg" alt="Built-in Sub-Zero side-by-side refrigerator with cream custom door panels and a stainless top grille, Newport Beach" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Sub-Zero &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Evaporator Coil Cleaning</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Newport Beach, CA</div>
-            <a href="sub-zero-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our Sub-Zero appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-lg-ice-maker-mission-viejo.jpg" alt="Black stainless LG French-door refrigerator with a door dispenser and two bottom drawers, set between white cabinets in a Mission Viejo kitchen" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">LG &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Ice Maker Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Mission Viejo, CA</div>
-            <a href="lg-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our LG appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-lg-ice-maker-orange.jpg" alt="Stainless LG French-door refrigerator with a door dispenser, set into cream cabinets in an Orange, CA kitchen with a wood-look floor" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">LG &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Ice Maker Replacement, Freezer Side</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Orange, CA</div>
-            <a href="lg-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our LG appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-lg-ice-maker-freezer-orange-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-lg-ice-maker-freezer-orange.webp 1024w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-lg-ice-maker-freezer-orange.jpg" alt="LG refrigerator in Orange, CA with its bottom freezer drawer removed, showing the empty white freezer compartment and drawer rails, with a cordless drill and an open bit case on the floor" width="1024" height="768" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">LG &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Ice Maker Job: Freezer Drawer Out</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Orange, CA</div>
-            <a href="lg-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our LG appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-frigidaire-damper-control-chino-hills.jpg" alt="Stainless Frigidaire side-by-side refrigerator with a through-door ice and water dispenser, standing in a garage in Chino Hills" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Frigidaire &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Damper Control Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Chino Hills, CA</div>
-            <a href="frigidaire-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our Frigidaire appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-door-gasket-san-clemente-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-door-gasket-san-clemente.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-door-gasket-san-clemente.jpg" alt="Stainless KitchenAid French-door refrigerator set into white cabinetry in a San Clemente kitchen" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">KitchenAid &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Door Gasket Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">San Clemente, CA</div>
-            <a href="kitchenaid-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our KitchenAid appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-kitchenaid-water-leak-brea-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-kitchenaid-water-leak-brea.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-kitchenaid-water-leak-brea.jpg" alt="Stainless KitchenAid built-in side-by-side refrigerator with its water and ice dispenser panel removed, in a Brea kitchen during a water leak repair" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">KitchenAid &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Water Leak Repair</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Brea, CA</div>
-            <a href="kitchenaid-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our KitchenAid appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-control-board-thermistors-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-control-board-thermistors-irvine.webp 736w" type="image/webp" sizes="(max-width:400px) calc(100vw - 32px), 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-ge-monogram-control-board-thermistors-irvine.jpg" alt="Stainless GE Monogram side-by-side refrigerator with a door dispenser in an Irvine kitchen" width="736" height="980" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">GE Monogram &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Control Board &amp; Thermistors Replaced</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Irvine, CA</div>
-            <a href="recent-repairs.html#job-refrigerator-ge-monogram-control-board-thermistors-irvine" class="tap-link" aria-label="See this repair: GE Monogram refrigerator control board &amp; thermistors replaced, Irvine, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine.webp 1208w" type="image/webp" sizes="(max-width:400px) calc(100vw - 32px), 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-ge-monogram-condenser-fan-irvine.jpg" alt="Stainless built-in GE Monogram refrigerator with long handles in an Irvine kitchen" width="1208" height="2048" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">GE Monogram &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Condenser Fan Motor Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Irvine, CA</div>
-            <a href="recent-repairs.html#job-refrigerator-ge-monogram-condenser-fan-irvine" class="tap-link" aria-label="See this repair: GE Monogram refrigerator condenser fan motor replacement, Irvine, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-maintenance-refrigerator-jennair-fullerton-480w.webp 480w, ../images/real/business/completed-maintenance-refrigerator-jennair-fullerton.webp 1200w" type="image/webp" sizes="(max-width:400px) calc(100vw - 32px), 340px">
-            <img src="../images/real/business/completed-maintenance-refrigerator-jennair-fullerton.jpg" alt="Stainless built-in JennAir refrigerator in white cabinetry at a Fullerton home" width="1200" height="1600" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">JennAir &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Refrigerator Maintenance</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Fullerton, CA</div>
-            <a href="recent-repairs.html#job-refrigerator-jennair-fullerton" class="tap-link" aria-label="See this repair: JennAir refrigerator maintenance, Fullerton, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-viking-evaporator-fan-costa-mesa-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-viking-evaporator-fan-costa-mesa.webp 768w" type="image/webp" sizes="(max-width:400px) calc(100vw - 32px), 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-viking-evaporator-fan-costa-mesa.jpg" alt="Stainless Viking French-door refrigerator with a bottom freezer in a Costa Mesa kitchen" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Viking &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Evaporator Fan Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Costa Mesa, CA</div>
-            <a href="recent-repairs.html#job-refrigerator-viking-evaporator-fan-costa-mesa" class="tap-link" aria-label="See this repair: Viking refrigerator evaporator fan replacement, Costa Mesa, CA" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See this repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <img src="../images/real/business/completed-repair-refrigerator-sub-zero-water-leak-drain-line-clean-san-clemente-480w.webp" alt="Stainless built-in Sub-Zero refrigerator in a white-cabinet kitchen" width="480" height="640" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Sub-Zero &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Water Leak &amp; Drain Line Cleaning</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">San Clemente, CA</div>
-            <a href="sub-zero-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our Sub-Zero appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <img src="../images/real/business/completed-repair-refrigerator-lg-compressor-orange-480w.webp" alt="LG refrigerator with the lower access panel removed revealing the failed FC75LBNA linear compressor during an Orange, CA repair by Universal Appliances Repair" width="480" height="640" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">LG · Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Compressor Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Orange, CA</div>
-            <a href="lg-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our LG appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <img src="../images/real/business/completed-repair-refrigerator-builtin-pullout.webp" alt="Built-in wood-paneled refrigerator column pulled partway out of its kitchen cabinet enclosure, with a step ladder set up beside it" width="390" height="510" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Built-In Refrigerator Access</div>
-            <a href="recent-repairs.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See more real repairs &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <img src="../images/real/business/completed-repair-refrigerator-compressor-area.webp" alt="Close-up of a refrigerator's compressor compartment showing the compressor, copper tubing, and wiring harness" width="680" height="494" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Compressor Compartment Access</div>
-            <a href="recent-repairs.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See more real repairs &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <img src="../images/real/business/completed-repair-refrigerator-marine-drawer-unit.jpg" alt="Open drawer-style marine refrigerator and freezer built into a boat's cabinetry, with both drawers pulled out" width="750" height="1000" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Marine Drawer Refrigerator Service</div>
-            <a href="recent-repairs.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See more real repairs &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <img src="../images/real/business/completed-repair-refrigerator-samsung-condenser-coil-garden-grove-480w.webp" alt="Stainless Samsung French-door refrigerator standing slightly forward of its cabinet alcove in a Garden Grove kitchen after a condenser coil cleaning" width="480" height="640" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Samsung · Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Condenser Coil Cleaning</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Garden Grove, CA</div>
-            <a href="samsung-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our Samsung appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <img src="../images/real/business/completed-repair-refrigerator-lg-water-filter-housing-rancho-santa-margarita-480w.webp" alt="LG French-door refrigerator with a through-door ice and water dispenser panel, standing in a Rancho Santa Margarita kitchen with cream cabinetry, after a water filter and water filter housing replacement" width="480" height="640" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">LG · Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Water Filter &amp; Housing Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Rancho Santa Margarita, CA</div>
-            <a href="lg-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our LG appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-monogram-control-inverter-boards-anaheim.jpg" alt="Stainless Monogram refrigerator with the upper service compartment open, showing wiring and electrical components in Anaheim, CA" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Monogram &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Control &amp; Inverter Board Replacements</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Anaheim, CA</div>
-            <a href="ge-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our GE appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-main-control-board-irvine-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-main-control-board-irvine.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-ge-monogram-main-control-board-irvine.jpg" alt="Stainless built-in GE Monogram side-by-side refrigerator with the upper service compartment open, exposing the water filter and wiring, in Irvine, CA" width="768" height="1024" loading="lazy" style="width:100%;height:260px;object-fit:cover;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Monogram &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Main Control Board Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">Irvine, CA</div>
-            <a href="ge-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our GE appliance repair &rarr;</a>
-          </div>
-        </div>
-        <div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-coil-compressor-replacement-san-diego-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-coil-compressor-replacement-san-diego.webp 1200w" type="image/webp" sizes="(max-width:768px) 100vw, 340px">
-            <img src="../images/real/business/completed-repair-refrigerator-sub-zero-evaporator-coil-compressor-replacement-san-diego.jpg" alt="New evaporator coil installed in a Sub-Zero built-in refrigerator after a refrigerant leak, San Diego" width="1200" height="1600" loading="lazy" style="width:100%;height:260px;object-fit:contain;background:#f6f7f8;display:block;">
-          </picture>
-          <div style="padding:16px 18px 20px;">
-            <div style="font-size:10px;font-weight:700;color:var(--text-sub);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Sub-Zero &middot; Refrigerator</div>
-            <div style="font-size:13px;font-weight:700;color:#111;line-height:1.35;">Evaporator Coil and Compressor Replacement</div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">San Diego, CA: one-off job outside our service area</div>
-            <a href="sub-zero-appliance-repair-orange-county.html" class="tap-link" style="display:inline-flex;align-items:center;min-height:44px;margin-top:4px;font-size:12px;font-weight:600;color:var(--brand-text);text-decoration:none;">See our Sub-Zero appliance repair &rarr;</a>
-          </div>
-        </div>
-      </div>
-      <p style="text-align:center;font-size:12.5px;color:var(--text-muted);margin-top:24px;line-height:1.7;">See more real repairs on our <a href="recent-repairs.html" style="color:var(--brand-text);font-weight:600;text-decoration:none;">recent repairs gallery</a>.</p>
-    </div>
-  </section>
-
-  <!-- CTA BOX -->
-  <section class="section section-gray">
-    <div class="container">
-      <div class="cta-box">
-        <h2>Need Refrigerator Repair in Orange County?</h2>
-        <p>Same-day service available. Call now or book online; a technician will confirm your appointment within the hour.</p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-          <a href="tel:+19496295365" class="btn-white">Call (949) 629-5365</a>
-          <a href="contact.html" class="btn-white-outline">Request a Repair</a>
+        <div class="v2-cta-actions">
+          <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
+          <a href="contact.html" class="v2-btn v2-btn--onink">Request a Repair</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
 </main>
   <footer class="footer">
     <div class="footer-grid">

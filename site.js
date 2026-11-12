@@ -15,6 +15,9 @@
  *                       beyond the first two on phones.
  *   6. scrollable tables: a sideways-scrolling table wrapper gets a "Swipe sideways"
  *                       hint, keyboard focusability and a region label, only while it overflows.
+ *   7. hub v2 review grids (.v2-reviews): three reviews on desktop and two on tablets and phones,
+ *                       a reversible "Show N more reviews" button, and every quote held to five lines
+ *                       with a "Read full review" toggle.
  *
  * Page-specific filters (blog search/filter, testimonials filter) stay
  * inline on their one page — they are singletons, not a drift class.
@@ -496,6 +499,66 @@
     update();
   }
 
+  // 7. Hub v2 review grids. Each .v2-reviews grid shows 3 cards on desktop and 2 at (max-width: 960px);
+  // the rest sit behind a reversible "Show N more reviews" button found in the same section. Every
+  // quote is held to five lines (class is-clamped, added here, so with JS off every review and full quote
+  // is visible) with a "Read full review" toggle that only appears when a quote is actually cut.
+  // Measured again whenever the grid resizes and after fonts load, since Inter changes line breaks.
+  function initV2Reviews() {
+    document.querySelectorAll('.v2-reviews').forEach(function (grid) {
+      if (grid.hasAttribute('data-v2-ready') || !grid.children.length) return;
+      grid.setAttribute('data-v2-ready', '');
+      var cards = Array.prototype.slice.call(grid.children);
+      var section = grid.closest('section') || grid.parentNode;
+      var more = section.querySelector('.v2-reviews-more');
+      var narrow = window.matchMedia('(max-width: 960px)');
+      var expanded = false;
+
+      function measure() {
+        cards.forEach(function (card) {
+          var q = card.querySelector('blockquote'), b = card.querySelector('.v2-review-more');
+          if (!q || !b || card.hidden) return;
+          if (card.classList.contains('is-open')) { b.hidden = false; return; }
+          card.classList.add('is-clamped');
+          var cut = q.scrollHeight > q.clientHeight + 2;
+          b.hidden = !cut;
+          if (!cut) card.classList.remove('is-clamped');
+        });
+      }
+      function apply() {
+        var cap = narrow.matches ? 2 : 3;
+        var extra = cards.length - cap;
+        cards.forEach(function (card, i) { card.hidden = !expanded && i >= cap; });
+        if (more) {
+          more.hidden = extra <= 0;
+          more.textContent = expanded ? 'Show fewer reviews' : 'Show ' + extra + ' more review' + (extra === 1 ? '' : 's');
+          more.setAttribute('aria-expanded', String(expanded));
+        }
+        measure();
+      }
+      cards.forEach(function (card) {
+        var b = card.querySelector('.v2-review-more');
+        if (!b) return;
+        b.addEventListener('click', function () {
+          var open = card.classList.toggle('is-open');
+          card.classList.toggle('is-clamped', !open);
+          b.textContent = open ? 'Show less' : 'Read full review';
+          b.setAttribute('aria-expanded', String(open));
+        });
+      });
+      if (more) more.addEventListener('click', function () {
+        expanded = !expanded;
+        apply();
+        if (!expanded) grid.scrollIntoView({ block: 'nearest' });
+      });
+      if (narrow.addEventListener) narrow.addEventListener('change', apply);
+      if (window.ResizeObserver) new ResizeObserver(measure).observe(grid);
+      else window.addEventListener('resize', measure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      apply();
+    });
+  }
+
   initDropdowns();
   initDrawer();
   initFaq();
@@ -504,4 +567,5 @@
   initBrandRows();
   initReviewsCap();
   initScrollableTables();
+  initV2Reviews();
 })();

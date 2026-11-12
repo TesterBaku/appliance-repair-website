@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-11-11** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-11-12** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -16,13 +16,13 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 | Metric | Value |
 |---|---|
 | Distinct reviews currently on >=1 hub | 129 |
-| On exactly 1 hub (1 free slot each) | 23 |
-| On exactly 2 hubs (at cap) | 102 |
+| On exactly 1 hub (1 free slot each) | 25 |
+| On exactly 2 hubs (at cap) | 100 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **23** |
-| Approx. new city hubs supportable @ 3/hub | **~7** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **25** |
+| Approx. new city hubs supportable @ 3/hub | **~8** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 23 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 25 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -52,6 +52,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Jayson Hawley | maytag-hub |
 | Katherine Bosboom | cost-hub |
 | Kathy Calderon | aliso-viejo |
+| Laman Anvarli | fullerton |
 | Laurie Summers | wolf-hub |
 | Marcy Kucik | anaheim |
 | Mark Rivera | lake-forest |
@@ -61,6 +62,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Satara Armstrong Charlson | viking-hub |
 | Stacey Etnire | chino-hills |
 | T G | san-juan-capistrano |
+| William Nugent | la-habra |
 | dodoleej | downey |
 | nicole tomlin | palm-springs |
 | ronney collosi | chino-hills |
@@ -126,7 +128,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Kenan Ken | westminster, oven-stove-repair-hub |
 | Kim Bowen | downey, dryer-repair-hub |
 | Lale | santa-ana, refrigerator-repair-hub |
-| Laman Anvarli | fullerton, freezer-repair-hub |
 | LethKris B&H | electrolux-hub, ge-hub |
 | Leticia Caro | downey, maytag-hub |
 | Linda B. | laguna-niguel, lake-forest |
@@ -163,7 +164,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Wendy Henderson | los-alamitos, pico-rivera |
 | Who-Bangin Sports Talk | lg-hub, samsung-hub |
 | William L. | bosch-hub, dacor-hub |
-| William Nugent | la-habra, freezer-repair-hub |
 | andrea hall | cost-hub, freezer-repair-hub |
 | atlindacity | kitchenaid-hub, whirlpool-hub |
 | cheryl lemire | san-clemente, dryer-repair-hub |
