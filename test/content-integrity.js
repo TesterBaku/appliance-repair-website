@@ -1297,8 +1297,8 @@ if (run('testimonial-label-format')) {
   const LABEL_RE = /<([a-z0-9]+)\b[^>]*class="testimonial-name"[^>]*>([\s\S]*?)<\/\1>/g;
   const EM_DASH_RE = /\u2014|&mdash;|&#8212;|&#x2014;/i;
   const LOC_RE = /([A-Z][A-Za-z.'-]*(?:(?: |&nbsp;)[A-Z][A-Za-z.'-]*)*),(?: |&nbsp;)CA\s*$/;
-  // v2: any whitespace (not only U+0020) may sit between words or after the comma, and several may stack.
-  const V2_LOC_RE = /([A-Z][A-Za-z.'-]*(?:(?:\s|&nbsp;)[A-Z][A-Za-z.'-]*)*),(?:\s|&nbsp;)*CA\s*$/;
+  // v2: a run of one or more whitespace / &nbsp; (not only U+0020) may sit between words or after the comma.
+  const V2_LOC_RE = /([A-Z][A-Za-z.'-]*(?:(?:\s|&nbsp;)+[A-Z][A-Za-z.'-]*)*),(?:\s|&nbsp;)*CA\s*$/;
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
     let touched = false;

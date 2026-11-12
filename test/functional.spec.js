@@ -2003,69 +2003,6 @@ test.describe('Newport Beach hub: capped Recent Repairs grid', () => {
   });
 });
 
-// Mainstream brand hubs whose Recent Repairs collections exceed six cards. Old template: phones show six
-// behind a "Show all N repairs" button (site.js initJobGridCap), desktop shows every card and no button.
-// v2 template: the gallery shows eight tiles and keeps the rest inside `details.v2-more` whose summary
-// names the total (a gallery of eight or fewer has no disclosure), at every viewport.
-for (const { brand, file, grid } of [
-  { brand: 'Bosch',      file: 'bosch-appliance-repair-orange-county.html',      grid: 'bosch-job-grid' },
-  { brand: 'GE',         file: 'ge-appliance-repair-orange-county.html',         grid: 'ge-job-grid' },
-  { brand: 'KitchenAid', file: 'kitchenaid-appliance-repair-orange-county.html', grid: 'kitchenaid-job-grid' },
-  { brand: 'LG',         file: 'lg-appliance-repair-orange-county.html',         grid: 'lg-job-grid' },
-  { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html',    grid: 'samsung-job-grid' },
-]) {
-  // v2 gallery assertions, shared by the phone and desktop tests.
-  const expectV2Gallery = async (page) => {
-    await page.evaluate(() => document.fonts.ready);
-    const tiles = page.locator('.v2-jobs > article.v2-job');
-    const total = await tiles.count();
-    expect(total).toBeGreaterThan(6);
-    const more = page.locator('details.v2-more');
-    if (total <= 8) {
-      await expect(more).toHaveCount(0);
-      expect(await v2VisibleTiles(tiles)).toBe(total);
-      return;
-    }
-    await expect(more).toHaveCount(1);
-    expect(await v2VisibleTiles(tiles)).toBe(8);
-    expect(await more.locator('article.v2-job').count()).toBe(total - 8);
-    const summary = more.locator('> summary');
-    await expect(summary).toBeVisible();
-    await expect(summary).toContainText('Show all ' + total);
-    expect((await summary.boundingBox()).height).toBeGreaterThanOrEqual(44);
-    await summary.click();
-    await expect(more).toHaveJSProperty('open', true);
-    expect(await v2VisibleTiles(tiles)).toBe(total);
-  };
-  test.describe(`${brand} hub: capped Recent Repairs grid`, () => {
-    test('phone: six cards, Show all reveals the rest', async ({ page }) => {
-      await page.setViewportSize(MOBILE);
-      await page.goto(`/pages/${file}`);
-      if (await isV2(page)) { await expectV2Gallery(page); return; }
-      const cards = page.locator(`#${grid} > div`);
-      const total = await cards.count();
-      expect(total).toBeGreaterThan(6);
-      expect(await visibleChildren(cards)).toBe(6);
-      const btn = page.locator(`#${grid} + .job-grid-more-row .job-grid-more`);
-      await expect(btn).toBeVisible();
-      await expect(btn).toHaveText('Show all ' + total + ' repairs');
-      expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
-      await btn.click();
-      expect(await visibleChildren(cards)).toBe(total);
-      await expect(btn).toBeHidden();
-    });
-
-    test('desktop: every card visible and no Show all button', async ({ page }) => {
-      await page.setViewportSize(DESKTOP);
-      await page.goto(`/pages/${file}`);
-      if (await isV2(page)) { await expectV2Gallery(page); return; }
-      const cards = page.locator(`#${grid} > div`);
-      expect(await visibleChildren(cards)).toBe(await cards.count());
-      await expect(page.locator(`#${grid} + .job-grid-more-row .job-grid-more`)).toBeHidden();
-    });
-  });
-}
-
 test.describe('Recent repairs gallery: ?city= filter', () => {
   test('city set narrows the gallery and Show all cities restores it', async ({ page }) => {
     await page.setViewportSize(MOBILE);
@@ -3174,11 +3111,10 @@ const MAINSTREAM_HUBS = [
 // Brand hubs exist in two templates while they migrate (old `.hub-hero` markup, v2 `main.v2`). Every
 // brand-hub assertion below asserts the SAME FACT on both, selected by what the page actually contains
 // (`isV2`), so a page needs no edit here when it migrates. The v2 sections are found by the
-// `aria-labelledby` ids the migrated pages share. The issues section has two ids in the wild
-// (`issues-title` on Sub-Zero, `problems-title` on LG); both are accepted until the brief standardises one.
+// `aria-labelledby` ids the migrated pages share (`models-title`, `issues-title`, `costs-title`).
 const BRAND_V2 = {
   models: 'section[aria-labelledby="models-title"]',
-  issues: 'section[aria-labelledby="issues-title"], section[aria-labelledby="problems-title"]',
+  issues: 'section[aria-labelledby="issues-title"]',
   costs: 'section[aria-labelledby="costs-title"]',
 };
 // The `div`s of the single `dl.v2-defs` in a v2 brand section. The section count guard is what keeps a
@@ -3196,6 +3132,142 @@ const v2VisibleTiles = loc => loc.evaluateAll(els => els.filter(e => {
   const d = e.closest('details.v2-more');
   return !(d && !d.open) && e.getClientRects().length > 0;
 }).length);
+
+// Brand-hub Recent Repairs galleries, all 17 hubs. Old template: phones show six behind a "Show all N
+// repairs" button (site.js initJobGridCap), desktop shows every card and no button. v2 template: the job
+// count is READ FROM THE PAGE and the pattern follows it: 1 to 4 jobs sit in a `.v2-grid2`; 5 to 8 in one
+// `.v2-jobs--brand` grid with no disclosure; 9 or more show eight and keep the rest in `details.v2-more`
+// whose summary names the total. Electrolux and Kenmore have no job photos at all (none on master either,
+// verified 2026-11-12 with git show), so they are the only pages allowed zero tiles; every other page must
+// have at least one.
+const BRAND_GALLERY_PAGES = [
+  ...BRAND_HUBS, ...MAINSTREAM_HUBS, { brand: 'Dacor', file: 'dacor-appliance-repair-orange-county.html' },
+];
+const NO_GALLERY = new Set(['electrolux-appliance-repair-orange-county.html', 'kenmore-appliance-repair-orange-county.html']);
+const OLD_GRID_IDS = { Bosch: 'bosch-job-grid', GE: 'ge-job-grid', KitchenAid: 'kitchenaid-job-grid', LG: 'lg-job-grid', Samsung: 'samsung-job-grid' };
+
+test('brand gallery: all 17 brand hubs are covered', () => {
+  expect(new Set(BRAND_GALLERY_PAGES.map(h => h.file)).size).toBe(17);
+});
+
+for (const { brand, file } of BRAND_GALLERY_PAGES) {
+  // v2 gallery assertions, shared by the phone and desktop tests.
+  const expectV2Gallery = async (page) => {
+    await page.evaluate(() => document.fonts.ready);
+    const tiles = page.locator('article.v2-job');
+    const total = await tiles.count();
+    if (NO_GALLERY.has(file)) {
+      expect(total, 'this page has no job photos').toBe(0);
+      await expect(page.locator('details.v2-more')).toHaveCount(0);
+      return;
+    }
+    expect(total, 'there are job tiles to check').toBeGreaterThan(0);
+    const more = page.locator('details.v2-more');
+    if (total <= 8) {
+      await expect(more).toHaveCount(0);
+      expect(await v2VisibleTiles(tiles)).toBe(total);
+      if (total <= 4) {
+        await expect(page.locator('.v2-grid2 > article.v2-job')).toHaveCount(total);
+      } else {
+        await expect(page.locator('.v2-jobs.v2-jobs--brand > article.v2-job')).toHaveCount(total);
+      }
+      return;
+    }
+    await expect(more).toHaveCount(1);
+    expect(await v2VisibleTiles(tiles)).toBe(8);
+    expect(await more.locator('article.v2-job').count()).toBe(total - 8);
+    const summary = more.locator('> summary');
+    await expect(summary).toBeVisible();
+    await expect(summary).toContainText('Show all ' + total);
+    expect((await summary.boundingBox()).height).toBeGreaterThanOrEqual(44);
+    await summary.click();
+    await expect(more).toHaveJSProperty('open', true);
+    expect(await v2VisibleTiles(tiles)).toBe(total);
+  };
+  test.describe(`${brand} hub: Recent Repairs gallery`, () => {
+    test('phone: gallery matches the job count (disclosure only past eight)', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(`/pages/${file}`);
+      if (await isV2(page)) { await expectV2Gallery(page); return; }
+      const grid = OLD_GRID_IDS[brand];
+      expect(grid, 'old-template page has a known capped grid').toBeTruthy();
+      const cards = page.locator(`#${grid} > div`);
+      const total = await cards.count();
+      expect(total).toBeGreaterThan(6);
+      expect(await visibleChildren(cards)).toBe(6);
+      const btn = page.locator(`#${grid} + .job-grid-more-row .job-grid-more`);
+      await expect(btn).toBeVisible();
+      await expect(btn).toHaveText('Show all ' + total + ' repairs');
+      expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+      await btn.click();
+      expect(await visibleChildren(cards)).toBe(total);
+      await expect(btn).toBeHidden();
+    });
+
+    test('desktop: gallery matches the job count (disclosure only past eight)', async ({ page }) => {
+      await page.setViewportSize(DESKTOP);
+      await page.goto(`/pages/${file}`);
+      if (await isV2(page)) { await expectV2Gallery(page); return; }
+      const grid = OLD_GRID_IDS[brand];
+      expect(grid, 'old-template page has a known capped grid').toBeTruthy();
+      const cards = page.locator(`#${grid} > div`);
+      expect(await visibleChildren(cards)).toBe(await cards.count());
+      await expect(page.locator(`#${grid} + .job-grid-more-row .job-grid-more`)).toBeHidden();
+    });
+  });
+}
+
+
+// All 17 brand hubs, v2 facts that differ page to page. The counts are pinned per page on purpose (a
+// regression pin, not derived), and each is guarded so a renamed class cannot turn it into a pass on zero.
+//  - Reviews: 3 cards, except Maytag 6, KitchenAid 4, Samsung 4.
+//  - Cross-link cards (`ul.v2-cross > li`): mainstream 8; the six BRAND_HUBS luxury pages 6 (asserted in
+//    their own block above); Dacor 5 plus a sentence linking to Miele (`p.v2-prose`). Dacor stays out of
+//    BRAND_HUBS because that block's "exactly 6 cards" test is a luxury-six rule it does not follow.
+const BRAND_REVIEW_COUNTS = { maytag: 6, kitchenaid: 4, samsung: 4 };
+const MAINSTREAM_CROSS_CARDS = 8;
+for (const { brand, file } of BRAND_GALLERY_PAGES) {
+  const slug = file.split('-appliance-repair-')[0];
+  const luxury = BRAND_HUBS.some(h => h.file === file);
+  test.describe(`Brand hub v2 counts: ${brand}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`/pages/${file}`);
+    });
+
+    test('is on the v2 template', async ({ page }) => {
+      expect(await isV2(page)).toBe(true);
+    });
+
+    test('review cards: the expected count', async ({ page }) => {
+      const want = BRAND_REVIEW_COUNTS[slug] || 3;
+      await expect(page.locator('.v2-reviews figure.v2-review')).toHaveCount(want);
+    });
+
+    test('cross-link cards: the expected count, never the own page, every href resolves', async ({ page }) => {
+      const cards = page.locator('ul.v2-cross > li');
+      const n = await cards.count();
+      expect(n, 'there are cross-link cards').toBeGreaterThan(0);
+      if (luxury) expect(n).toBe(6);
+      else if (slug === 'dacor') expect(n).toBe(5);
+      else expect(n).toBe(MAINSTREAM_CROSS_CARDS);
+      const links = await hrefs(page, 'ul.v2-cross > li > a');
+      expect(links.length).toBe(n);
+      expect(links, 'no card links to the page itself').not.toContain(file);
+      for (const h of links) expect(fs.existsSync(path.join(PAGES_DIR, h.split('#')[0])), `${h} exists`).toBe(true);
+    });
+  });
+}
+
+test('Dacor hub: five cross-link cards without Miele, plus a sentence that links to Miele', async ({ page }) => {
+  await page.goto('/pages/dacor-appliance-repair-orange-county.html');
+  const miele = 'miele-appliance-repair-orange-county.html';
+  const links = await hrefs(page, 'ul.v2-cross > li > a');
+  expect(links.length).toBe(5);
+  expect(links, 'Miele is the sentence link, not a card').not.toContain(miele);
+  const sentence = page.locator(`p.v2-prose a[href="${miele}"]`);
+  await expect(sentence).toHaveCount(1);
+  expect((await sentence.textContent()).trim()).toMatch(/Miele/);
+});
 
 // Site-wide: a phone number in a .service-area paragraph must never split across two lines.
 // 58 hubs carried the number unwrapped, so it split wherever the line happened to break. Measured in the
