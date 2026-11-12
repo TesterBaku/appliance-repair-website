@@ -331,6 +331,9 @@ Brand hub pages use the same template. Section order: hero, four fact cards, rec
 - **`.v2-table--plain`**: modifier on `.v2-table` for non-cost tables (error codes, model prefixes): left-aligned wrapping last column, bold ink first column.
 - **Open cost table**: a `.v2-table-wrap` directly after a `.v2-head` has no extra top margin, and a `p.v2-fine` after it sits 16px below.
 - **Video job tiles**: a `<video>` in `.v2-job-photo` covers the photo area exactly as an `img` does.
+- **`.v2-jobs--brand`**: modifier on `.v2-jobs` for brand-hub galleries whose tile titles run to three lines; the link row gets 12px of top padding so a long title never touches it. Appliance pages do not use it.
+- **`.v2-sticky p + p`**: a second paragraph in the FAQ left column sits 12px below the first (the page intro, then "Still have a question? Call ..." as two separate paragraphs).
+- **Brand-hub conventions** (exemplars: LG, Sub-Zero; the rules are in `progress/brands-v2-brief.md`): one `faq-item open` carries `aria-expanded="true"` in the markup (every other button `false`), so the state is right with and without JavaScript; review footers join name, the old card's label (only if it had one) and location with `&nbsp;·` before each dot so a dot never starts a wrapped line; the job-tile h3 is brand, appliance word, old title, with the appliance word left out when the title already contains it; the "See all recent repairs" foot button exists only when the old jobs section linked to `recent-repairs.html`; the cost disclaimer and the old cost-guide or $99 paragraph are two separate `p.v2-fine v2-prose` after the table, in the old order.
 
 ### Rules
 
