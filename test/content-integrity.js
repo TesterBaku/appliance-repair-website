@@ -490,7 +490,9 @@
  *                    remote/`data:` sources are skipped — nothing to decode locally.
  *
  *   faq-cost-table-parity, P6-34's second half (tasks/backlog.md): on any page carrying
- *                    BOTH FAQPage JSON-LD and a `.cost-table`, a dollar figure or range
+ *                    BOTH FAQPage JSON-LD and a cost table (an old-template `.cost-table`, or a v2-template
+ *                    `<table class="v2-table">` whose header names a cost/range column, found by
+ *                    findCostTables()), a dollar figure or range
  *                    inside a FAQ answer that names a part/job also priced in that page's
  *                    `.cost-table` must fall within the UNION of the matching table row(s)
  *                    (the "bake element vs broil element" trap: one FAQ phrase can
@@ -2118,7 +2120,7 @@ if (run('brand-tier')) {
   // "each additional unit ... $49" phrasing is not actually reached; this entry is
   // belt-and-braces for a page that does word it as a fee.)
   const FEES = new Set(['99', '49']);
-  checked['brand-tier'] = { pages: 0, lists: 0, fees: 0, costTableFlatFees: 0 };
+  checked['brand-tier'] = { pages: 0, lists: 0, fees: 0, costTableFlatFees: 0, costTables: 0 };
 
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
@@ -2152,6 +2154,7 @@ if (run('brand-tier')) {
       }
     }
 
+    // Widened 2026-11-12: covers v2-template cost tables too (findCostTables()).
     // Widened 2026-09-30: a .cost-table row must never state the company's own
     // flat fee as a bare single dollar figure. seo-content.md's tiered rule keeps
     // two contexts strictly separate — a cost-table row is always a brand-tiered
@@ -2176,8 +2179,9 @@ if (run('brand-tier')) {
     const COST_TABLE_FEE_LABEL_RE = /\bdiagnostic\b|\bservice[- ]?call\b|\bflat fee\b/i;
     const ROW_HAS_RANGE_RE = /\$[\d,]+\s*(?:to|and|–|—|-)\s*\$[\d,]+/i;
     const ROW_DOLLAR_RE = /\$[\d,]+/g;
-    for (const tbl of content.matchAll(/<table\b[^>]*\bclass="[^"]*\bcost-table\b[^"]*"[^>]*>([\s\S]*?)<\/table>/g)) {
-      for (const row of tbl[1].matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)) {
+    for (const tblHtml of findCostTables(content)) {
+      checked['brand-tier'].costTables++;
+      for (const row of tblHtml.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)) {
         const rowText = row[1]
           .replace(/&ndash;|&#8211;|&#x2013;/gi, '-')
           .replace(/<[^>]+>/g, ' ')
@@ -2266,6 +2270,29 @@ if (run('tel-target')) {
     distinct: byTarget.size,
     canonical: wellFormed.length ? wellFormed[0][0] : null
   };
+}
+
+// ── Shared cost-table finder (brand-tier fee-in-row rule and check 25) ─────────
+// Returns the inner HTML of every market cost table on a page. Two templates:
+//   - the old template: any <table> whose class list has the `cost-table` token
+//     (taken on the class alone, exactly as before);
+//   - the v2 service template (2026-11): `<table class="v2-table">` inside a
+//     `details.v2-disc`. `v2-table` is also used by non-cost tables (error-code
+//     and model-prefix tables), so a v2-table counts only when its header row
+//     names a cost or range column, the same /cost|range/i test pickColumns()
+//     applies to decide whether a table has a price column at all.
+function findCostTables(content) {
+  const tables = [];
+  for (const t of content.matchAll(/<table\b[^>]*\bclass="([^"]*)"[^>]*>([\s\S]*?)<\/table>/g)) {
+    const classes = t[1].split(/\s+/);
+    if (classes.includes('cost-table')) { tables.push(t[2]); continue; }
+    if (!classes.includes('v2-table')) continue;
+    const thead = t[2].match(/<thead[^>]*>([\s\S]*?)<\/thead>/);
+    if (!thead) continue;
+    const ths = [...thead[1].matchAll(/<th[^>]*>([\s\S]*?)<\/th>/g)].map(x => x[1].replace(/<[^>]+>/g, ''));
+    if (ths.some(h => /cost|range/i.test(h))) tables.push(t[2]);
+  }
+  return tables;
 }
 
 // ── Shared dollar-range helpers (checks 20 and 25) ─────────────────────────────
@@ -3529,8 +3556,7 @@ if (run('faq-cost-table-parity')) {
   // 2026-09-03, see this check's docblock above).
   function extractCostTableRows(content) {
     const rows = [];
-    for (const t of content.matchAll(/<table\b[^>]*\bclass="[^"]*\bcost-table\b[^"]*"[^>]*>([\s\S]*?)<\/table>/g)) {
-      const tableHtml = t[1];
+    for (const tableHtml of findCostTables(content)) {
       const theadMatch = tableHtml.match(/<thead[^>]*>([\s\S]*?)<\/thead>/);
       const cols = pickColumns(theadMatch ? theadMatch[1] : null);
       if (!cols) continue; // no discernible price column, skip this table
@@ -4215,7 +4241,7 @@ if (checked['faq-jsonld-parity']) {
   parts.push(`FAQ/JSON-LD parity ratchet held on ${c.pairs} Q&A pairs across ${c.files} pages (debt measured ${c.measuredFields} fields in ${c.measuredFiles} files, baseline declares ${c.baselineFields}/${c.baselineFiles}, see P6-12)`);
 }
 if (checked['gallery-parity'])       parts.push(`ImageGallery schema matches rendered photos exactly on ${checked['gallery-parity'].pages} page(s) (${checked['gallery-parity'].images} listed images)`);
-if (checked['brand-tier'])           parts.push(`brand tiers + fee values match seo-content.md across ${checked['brand-tier'].pages} pages (${checked['brand-tier'].lists} premium lists, ${checked['brand-tier'].fees} fee statements, ${checked['brand-tier'].costTableFlatFees} cost-table rows flagged for stating a flat fee instead of a range)`);
+if (checked['brand-tier'])           parts.push(`brand tiers + fee values match seo-content.md across ${checked['brand-tier'].pages} pages (${checked['brand-tier'].lists} premium lists, ${checked['brand-tier'].fees} fee statements, ${checked['brand-tier'].costTableFlatFees} cost-table rows flagged for stating a flat fee instead of a range, across ${checked['brand-tier'].costTables} cost tables incl. v2-table)`);
 if (checked['tel-target'])           parts.push(`all ${checked['tel-target'].links} tel: links dial ${checked['tel-target'].canonical} (${checked['tel-target'].distinct} distinct target${checked['tel-target'].distinct === 1 ? '' : 's'})`);
 if (checked['umbrella-range'])       parts.push(`umbrella price ranges hold on ${checked['umbrella-range'].rangesChecked} itemized range(s) against ${checked['umbrella-range'].governingRanges} governing range(s) across ${checked['umbrella-range'].blocks} FAQ/AI-answer blocks in ${checked['umbrella-range'].files} files`);
 if (checked['srcset-width'])         parts.push(`srcset width descriptors match decoded pixel width on ${checked['srcset-width'].checkedEntries} entries across ${checked['srcset-width'].files} files (${checked['srcset-width'].skippedDensity} x-density + ${checked['srcset-width'].skippedImplicit1x} implicit-1x + ${checked['srcset-width'].skippedSvg} svg + ${checked['srcset-width'].skippedRemote} remote/data skipped)`);
@@ -4234,7 +4260,7 @@ if (checked['img-dimensions']) {
 }
 if (checked['faq-cost-table-parity']) {
   const c = checked['faq-cost-table-parity'];
-  parts.push(`FAQ/cost-table parity ratchet held on ${c.instancesChecked} matched FAQ figure(s) across ${c.blocks} FAQ answers in ${c.files} files with both FAQPage + .cost-table (baseline covers ${c.baselineCount ?? 0} page|phrase keys, see P6-34)`);
+  parts.push(`FAQ/cost-table parity ratchet held on ${c.instancesChecked} matched FAQ figure(s) across ${c.blocks} FAQ answers in ${c.files} files with both FAQPage + cost table, old .cost-table or v2-table (baseline covers ${c.baselineCount ?? 0} page|phrase keys, see P6-34)`);
 }
 if (checked['mojibake'])             parts.push(`no BOM or cp1252-double-encoding signatures across ${checked['mojibake'].files} files`);
 if (checked['testimonial-hub-cap']) {
