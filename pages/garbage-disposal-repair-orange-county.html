@@ -172,6 +172,37 @@
   </script>
 
 
+  <!-- SCHEMA: Reviews -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Jonra Babiracki" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Ag was great did a wonderful job. Was an amazing guy highly recommend",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Elliot Trout" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "AJ was great and explained everything to us and was an easy fix. Highly recommend",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      },
+      {
+        "@type": "Review",
+        "author": { "@type": "Person", "name": "Sam Sippl" },
+        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+        "reviewBody": "Great experience, arrived early in window, provided adequate notice before arrival, was courteous and completed the repair without issue. A professional!",
+        "itemReviewed": { "@id": "https://fixappliancesfast.com/#business" }
+      }
+    ]
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
     <link rel="preload" href="../shared.css" as="style" />
@@ -489,7 +520,7 @@
             <h3>Under-Sink Disposal Installation</h3>
             <p>A garbage disposal installed under the kitchen sink, with the drain trap and dishwasher hose connected and tools still out on the cabinet floor.</p>
             <div class="v2-job-links">
-              <a class="v2-link" href="recent-repairs.html" aria-label="See this repair: under-sink garbage disposal installation">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+              <a class="v2-link" href="recent-repairs.html" aria-label="See more real repairs: under-sink garbage disposal installation">See more real repairs <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
             </div>
           </div>
         </article>
@@ -505,7 +536,7 @@
             <h3>Disposal Replacement</h3>
             <p>The old disposal came out and a new KitchenAid unit went in, photographed on the counter still in its packaging before installation.</p>
             <div class="v2-job-links">
-              <a class="v2-link" href="recent-repairs.html" aria-label="See this repair: KitchenAid garbage disposal replacement">See this repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+              <a class="v2-link" href="recent-repairs.html" aria-label="See more real repairs: KitchenAid garbage disposal replacement">See more real repairs <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
             </div>
           </div>
         </article>
@@ -513,6 +544,45 @@
       <div class="v2-foot">
         <span></span>
         <a href="recent-repairs.html" class="v2-btn v2-btn--ghost">See all recent repairs <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="v2-sec v2-sec--ice" aria-labelledby="reviews-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="reviews-title">What Our Customers Say</h2>
+        <p>From our 156 verified 5-star Google reviews</p>
+      </div>
+      <div class="v2-reviews v2-reviews--3">
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>Ag was great did a wonderful job. Was an amazing guy highly recommend</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Jonra Babiracki</strong> · Appliance repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>AJ was great and explained everything to us and was an easy fix. Highly recommend</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Elliot Trout</strong> · Appliance repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>Great experience, arrived early in window, provided adequate notice before arrival, was courteous and completed the repair without issue. A professional!</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Sam Sippl</strong> · Appliance repair · Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+      </div>
+      <div class="v2-foot">
+        <a href="https://www.google.com/maps?cid=6142328803939874574" class="v2-rating" aria-label="5.0, 156 Google reviews, rated 5 out of 5. Opens Google">
+          <span class="v2-stars" aria-hidden="true">★★★★★</span>
+          <span>5.0 &middot; 156 Google reviews</span>
+        </a>
+        <div class="v2-foot-actions">
+          <button type="button" class="v2-btn v2-btn--ghost v2-reviews-more" aria-expanded="false" hidden>Show more reviews</button>
+          <a class="v2-btn v2-btn--ghost" href="testimonials.html">More customer reviews <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+        </div>
       </div>
     </div>
   </section>
@@ -692,53 +762,53 @@
       <div class="faq-list">
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-1">Why is my garbage disposal humming but not grinding anything?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-1">A humming disposal that won't spin has a jammed flywheel. A bone fragment, pit, or piece of silverware has lodged between the impeller and the grinding ring, and the motor is stalled against it. The motor runs, but the flywheel will not rotate. You can sometimes free it with the hex wrench that fits the access port on the bottom of the unit. If the jam is tight or the object is sharp, a technician can clear it safely without damaging the grinding components.</div>
+          <button class="faq-q">Why is my garbage disposal humming but not grinding anything?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">A humming disposal that won't spin has a jammed flywheel. A bone fragment, pit, or piece of silverware has lodged between the impeller and the grinding ring, and the motor is stalled against it. The motor runs, but the flywheel will not rotate. You can sometimes free it with the hex wrench that fits the access port on the bottom of the unit. If the jam is tight or the object is sharp, a technician can clear it safely without damaging the grinding components.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-2">How do I reset a garbage disposal that stopped working?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-2">Look for the red or black reset button on the bottom of the unit under the sink and press it firmly. If it has popped out, pressing it in resets the thermal overload and the disposal should run again. Let the unit cool for a few minutes first. If it trips again immediately or repeatedly, there is an underlying jam, a wiring issue, or the motor is failing and the reset is just masking the real problem.</div>
+          <button class="faq-q">How do I reset a garbage disposal that stopped working?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Look for the red or black reset button on the bottom of the unit under the sink and press it firmly. If it has popped out, pressing it in resets the thermal overload and the disposal should run again. Let the unit cool for a few minutes first. If it trips again immediately or repeatedly, there is an underlying jam, a wiring issue, or the motor is failing and the reset is just masking the real problem.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-3">My garbage disposal is completely dead with no sound at all. What is wrong?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-3">A silent disposal usually means one of three things: the reset button has tripped (check the bottom of the unit), the GFCI outlet the disposal is plugged into has tripped (check the outlet for its own reset button), or the wall switch has failed. Less commonly, the wiring has worked loose at the junction box. If all of those check out and the disposal still does not respond, the motor has burned out.</div>
+          <button class="faq-q">My garbage disposal is completely dead with no sound at all. What is wrong?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">A silent disposal usually means one of three things: the reset button has tripped (check the bottom of the unit), the GFCI outlet the disposal is plugged into has tripped (check the outlet for its own reset button), or the wall switch has failed. Less commonly, the wiring has worked loose at the junction box. If all of those check out and the disposal still does not respond, the motor has burned out.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-4">Why does my garbage disposal keep tripping the circuit breaker?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-4">A disposal that repeatedly trips the breaker is drawing too much current. This usually means a partial jam forcing the motor to run at high load continuously, a short circuit in the motor windings, or water intrusion into the motor housing from a leak above the unit. A disposal that trips the breaker after just a few seconds of use has likely reached end of life. A technician can tell you whether it is a fixable jam or a failed motor.</div>
+          <button class="faq-q">Why does my garbage disposal keep tripping the circuit breaker?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">A disposal that repeatedly trips the breaker is drawing too much current. This usually means a partial jam forcing the motor to run at high load continuously, a short circuit in the motor windings, or water intrusion into the motor housing from a leak above the unit. A disposal that trips the breaker after just a few seconds of use has likely reached end of life. A technician can tell you whether it is a fixable jam or a failed motor.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-5">Is it worth repairing a garbage disposal or should I replace it?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-5">It depends on what failed. Jams, reset trips, drain clogs, and flange leaks are worth fixing on any unit because the repair is inexpensive. If the motor has burned out on a budget unit ($60–$130 new), replacement is almost always the better choice. For mid-range and premium units over $200, motor repairs and most parts replacements make financial sense. We give you the honest comparison before any work starts.</div>
+          <button class="faq-q">Is it worth repairing a garbage disposal or should I replace it?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">It depends on what failed. Jams, reset trips, drain clogs, and flange leaks are worth fixing on any unit because the repair is inexpensive. If the motor has burned out on a budget unit ($60–$130 new), replacement is almost always the better choice. For mid-range and premium units over $200, motor repairs and most parts replacements make financial sense. We give you the honest comparison before any work starts.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-6">How much does garbage disposal repair cost in Orange County?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-6">Most disposal repairs range from $99 to $250. Typical ranges: jam clearing and reset $99–$160 (a simple clear is covered by the diagnostic fee); sink flange leak repair $120–$240; splash guard replacement $100–$150; drain or dishwasher-inlet fitting leak $130–$250; motor replacement $150–$250. On budget units a replacement disposal is usually the better value, and a new unit installed runs $200–$400. The $99 diagnostic fee applies toward repair when you approve. Estimates vary by brand, part availability, and diagnosis. Final quote provided before repair.</div>
+          <button class="faq-q">How much does garbage disposal repair cost in Orange County?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Most disposal repairs range from $99 to $250. Typical ranges: jam clearing and reset $99–$160 (a simple clear is covered by the diagnostic fee); sink flange leak repair $120–$240; splash guard replacement $100–$150; drain or dishwasher-inlet fitting leak $130–$250; motor replacement $150–$250. On budget units a replacement disposal is usually the better value, and a new unit installed runs $200–$400. The $99 diagnostic fee applies toward repair when you approve. Estimates vary by brand, part availability, and diagnosis. Final quote provided before repair.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-7">Why does my disposal leak from the bottom versus the side?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-7">Where it leaks identifies what failed. A leak from the bottom of the unit body means the internal motor seal has failed. This seal is not serviceable and the unit needs replacement. A leak from the top (around the sink flange) is usually failed plumber's putty at the mounting ring and is repairable. A leak from the side at the drain elbow means the drain gasket has failed, which is also repairable.</div>
+          <button class="faq-q">Why does my disposal leak from the bottom versus the side?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Where it leaks identifies what failed. A leak from the bottom of the unit body means the internal motor seal has failed. This seal is not serviceable and the unit needs replacement. A leak from the top (around the sink flange) is usually failed plumber's putty at the mounting ring and is repairable. A leak from the side at the drain elbow means the drain gasket has failed, which is also repairable.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-8">Why does my garbage disposal smell bad even after cleaning it?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-8">Bad smell almost always comes from biofilm on the underside of the rubber splash guard and on the grinding ring. The rubber flap traps food residue that topside cleaning does not reach. Lift the flap and scrub the underside with a dish brush. An ice plus rock salt grind followed by citrus peels can also help. If smell persists after thorough cleaning, the splash guard may need replacement.</div>
+          <button class="faq-q">Why does my garbage disposal smell bad even after cleaning it?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Bad smell almost always comes from biofilm on the underside of the rubber splash guard and on the grinding ring. The rubber flap traps food residue that topside cleaning does not reach. Lift the flap and scrub the underside with a dish brush. An ice plus rock salt grind followed by citrus peels can also help. If smell persists after thorough cleaning, the splash guard may need replacement.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-9">How long should a garbage disposal last?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-9">A standard garbage disposal lasts 8–15 years depending on brand, horsepower, and usage. InSinkErator Evolution Series units reliably reach 12–15 years with proper care. Budget units typically run 5–8 years. Signs of end-of-life: frequent resets, grinding that was previously fast but is now slow, persistent leaks from the body, and loud metal-on-metal noise from worn bearings.</div>
+          <button class="faq-q">How long should a garbage disposal last?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">A standard garbage disposal lasts 8–15 years depending on brand, horsepower, and usage. InSinkErator Evolution Series units reliably reach 12–15 years with proper care. Budget units typically run 5–8 years. Signs of end-of-life: frequent resets, grinding that was previously fast but is now slow, persistent leaks from the body, and loud metal-on-metal noise from worn bearings.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-10">What should never go in a garbage disposal?<span class="icon" aria-hidden="true">+</span></button>
-          <div class="faq-a" id="faq-a-10">Items that jam or damage disposals include large bones, fibrous vegetables (celery, artichoke leaves), expandable starches (pasta, rice), grease and cooking oil, coffee grounds in large quantities, and hard fruit pits (peach, avocado). Orange County water is moderately hard; grease combined with hard water accelerates grinding ring corrosion and drain buildup. Running cold water before, during, and after use extends the life of any disposal.</div>
+          <button class="faq-q">What should never go in a garbage disposal?<span class="icon" aria-hidden="true">+</span></button>
+          <div class="faq-a">Items that jam or damage disposals include large bones, fibrous vegetables (celery, artichoke leaves), expandable starches (pasta, rice), grease and cooking oil, coffee grounds in large quantities, and hard fruit pits (peach, avocado). Orange County water is moderately hard; grease combined with hard water accelerates grinding ring corrosion and drain buildup. Running cold water before, during, and after use extends the life of any disposal.</div>
         </div>
       </div>
     </div>
