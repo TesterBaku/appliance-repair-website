@@ -621,11 +621,13 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 /* ---- Cross-links: uniform link cards with a name and one line of text (brand hubs use this instead of .v2-brands) ---- */
 .v2-cross { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .v2-cross li { display: flex; }
-.v2-cross a { display: block; flex: 1; font-weight: 400; min-height: 64px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+.v2-cross a { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px; align-items: center; flex: 1; font-weight: 400; min-height: 64px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+.v2-cross a::after { content: "\2192"; grid-column: 2; grid-row: 1 / span 2; color: var(--muted); font-size: 16px; font-weight: 400; transition: transform .15s, color .15s; }
 .v2-cross strong { display: block; color: var(--ink); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; transition: color .15s; }
 .v2-cross span { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.5; }
 .v2-cross a:hover { border-color: var(--ember); box-shadow: 0 2px 12px rgba(20, 48, 59, .08); }
 .v2-cross a:hover strong { color: var(--ember-dark); }
+.v2-cross a:hover::after { color: var(--ember); transform: translateX(3px); }
 .v2-cross + .v2-fine { margin-top: 24px; }
 
 /* ---- Checklist (problems) ---- */
@@ -857,6 +859,8 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .v2-defs > div { padding: 16px 0; }
   .v2-table th, .v2-table td { padding: 12px 14px; font-size: 14px; }
   .v2-cross { grid-template-columns: minmax(0, 1fr); }
+  .v2-cross a { grid-template-columns: minmax(0, 1fr); }
+  .v2-cross a::after { content: none; }
   .v2-table.v2-table--plain th, .v2-table.v2-table--plain td { padding: 12px 10px; }
   .v2 .faq-q { font-size: 16px; }
   .v2 .faq-a { padding-right: 8px; }
@@ -868,6 +872,18 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .v2 h1 { font-size: 30px; }
   .v2-price-top strong { font-size: 54px; }
   .v2-job-body { padding: 20px 20px 12px; }
+}
+
+/* Three-column plain tables (Electrolux error codes): the same column widths in every table on the page */
+.v2-table--3col { table-layout: fixed; }
+.v2-table--3col th:nth-child(1) { width: 14%; }
+.v2-table--3col th:nth-child(2) { width: 28%; }
+.v2-table--3col td:first-child { white-space: normal; }
+/* A lone sentence-link under a card grid (Dacor "We also service Miele"): keep it a 44px target */
+.v2-cross + .v2-foot > p.v2-prose > a:only-child { display: inline-flex; align-items: center; min-height: 44px; }
+@media (max-width: 768px) {
+  .v2-table--3col th:nth-child(1) { width: 24%; }
+  .v2-table--3col th:nth-child(2) { width: 30%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

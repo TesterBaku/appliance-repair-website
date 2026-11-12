@@ -328,6 +328,11 @@ Hero, four fact cards, recent repairs, reviews, process (dark band), Pricing & D
 Brand hub pages use the same template. Section order: hero, four fact cards, recent repairs (if the page has jobs), reviews under "What Our Customers Say", process band with the page's own four steps, Pricing & Discounts, models, known issues, explainer prose, repair costs with the table shown open, service area, FAQ, cross-links, guides, closing CTA.
 
 - **`.v2-cross`**: two-column grid of white link cards (name in `strong`, one line in `span`), one column at 768px and below, hover matches `.v2-brands`. Brand hubs use `.v2-cross` instead of `.v2-brands`.
+- **`.v2-cross` arrow**: each card is a two-column grid (text, then a trailing arrow centred on both lines) with the same arrow, colour and 3px hover nudge as `.v2-brands a::after`; the arrow is hidden at 768px and below, as on the brand cards.
+- **`.v2-table--3col`**: modifier for three-column plain tables (Electrolux error codes): fixed layout with 14% and 28% first columns (24% and 30% at 768px and below) so the two tables on a page share column edges; the first column may wrap.
+- **Lone sentence link**: `.v2-cross + .v2-foot > p.v2-prose > a:only-child` (Dacor, "We also service Miele") is an inline-flex 44px target.
+- **Stock hero photos**: Kenmore and Electrolux have no real job photo, so they use a neutral stock kitchen (`kitchen-modern-fridge`, `kitchen-with-washer`) with no caption; never a close-up of tools or a different brand.
+- **h1 line break**: brand hub h1s use a plain space before "in Orange County", never `<br/>` (it orphaned "CA" at 1280 and 375).
 - **`.v2-table--plain`**: modifier on `.v2-table` for non-cost tables (error codes, model prefixes): left-aligned wrapping last column, bold ink first column.
 - **Open cost table**: a `.v2-table-wrap` directly after a `.v2-head` has no extra top margin, and a `p.v2-fine` after it sits 16px below.
 - **Video job tiles**: a `<video>` in `.v2-job-photo` covers the photo area exactly as an `img` does.
