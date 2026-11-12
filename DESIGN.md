@@ -194,7 +194,7 @@ This system uses **ambient shadows** rather than hard-edged or tonal layering. D
 Three variants; clear hierarchy. Firm, gently curved edges (8px radius).
 
 - **Primary** (`btn-primary`): Craftsman's Ember fill, Surface text, 12px 26px padding, 13px 600-weight text. The only orange element that is also a button. Hover shifts to Ember Deep in 150ms.
-- **Dark** (`btn-dark`): Pressed Steel fill, Surface text, 10px 22px padding, 12.5px 500-weight text. Secondary conversion action (e.g. "Book a Repair" below the hero). Hover shifts to `#222`.
+- **Dark** (`btn-dark`): Pressed Steel fill, Surface text, 10px 22px padding, 12.5px 500-weight text. Secondary conversion action (e.g. "Request a Repair" below the hero). Hover shifts to `#222`.
 - **Outline** (`btn-outline`): Transparent fill, Pressed Steel text, 1.5px Linen border. Tertiary or "Discover More" actions that must not compete with the primary. Border shifts to Ghost on hover.
 - **Mobile tap targets:** All buttons grow to `min-height: 44px` at 768px, enforced via shared breakpoint rule.
 
@@ -210,10 +210,10 @@ Cards are the primary surface of this system. Corner radius signals importance t
 - **Brand Tags** (8px radius, `#e2e8f0` 1.5px border): Pill-adjacent tags for brand names. White surface, `#1e293b` text — slightly navy, not Pressed Steel. No shadow.
 
 ### Navigation
-- **Desktop**: Fixed 70px header (homepage) or 52px (inner pages) with `rgba(255,255,255,0.92)` + `backdrop-filter: blur(10px)`. Brand logo left, nav links center-left (13px 500-weight), phone number + "Book a Repair" CTA right.
+- **Desktop**: Fixed 70px header (homepage) or 52px (inner pages) with `rgba(255,255,255,0.92)` + `backdrop-filter: blur(10px)`. Brand logo left, nav links center-left (13px 500-weight), phone number + "Request a Repair" CTA right.
 - **Dropdowns**: Appear on hover AND keyboard focus. Surface background, Linen 1px border, 10px radius, `0 8px 28px rgba(0,0,0,0.1)` shadow. `aria-expanded` is toggled and Escape closes them.
 - **Mobile (≤768px)**: Nav links and CTA hidden; hamburger button (44×44px minimum) opens a full-width drawer with 15px 500-weight links. Details/summary accordion for sub-menus.
-- **Sticky Mobile Bar**: `position: fixed; bottom: 0; height: 56px`. Left half: Craftsman's Ember, "Call Now" with phone icon. Right half: Pressed Steel, "Book Repair". Always visible below 768px; hidden on desktop. Body gets `padding-bottom: 64px` to prevent content overlap.
+- **Sticky Mobile Bar**: `position: fixed; bottom: 0; height: 56px`. Left half: Craftsman's Ember, "Call Now" with phone icon. Right half: Pressed Steel, "Request Repair". Always visible below 768px; hidden on desktop. Body gets `padding-bottom: 64px` to prevent content overlap.
 
 ### Signature Component: The Dark Section CTA
 The only section that breaks the light theme. Background: `linear-gradient(145deg, #1a0a02, #3d1a08, #0f0503)` — a rich brown-black with subtle gradient depth. Contains the letter card (white), a contact form CTA quote in white, and an orange "Schedule a Repair" button. The warm dark tone connects to Craftsman's Ember rather than reading as a generic dark section.

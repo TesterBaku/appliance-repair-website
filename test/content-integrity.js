@@ -129,7 +129,7 @@
  *                    Added 2026-06-04 after two hubs shipped date-only.
  *
  *   article-mobile-chrome — every articles/article-*.html must (a) hide the header
- *                    "Book a Repair" button (`.nav-cta { display: none }`) at
+ *                    "Request a Repair" button (`.nav-cta { display: none }`) at
  *                    <=768px so the mobile header does not cram, and (b) include the
  *                    sticky bottom Call/Book bar (`class="sticky-mobile-bar"`), the
  *                    primary mobile booking CTA. Articles carry their own inline nav
@@ -1211,7 +1211,7 @@ if (run('iso8601-timestamps')) {
 }
 
 // ── Check 11: article-mobile-chrome ───────────────────────────────────────────
-// Every article must (a) hide the header "Book a Repair" button (.nav-cta) at
+// Every article must (a) hide the header "Request a Repair" button (.nav-cta) at
 // <=768px so the mobile header does not cram, and (b) include the sticky bottom
 // Call/Book bar — the primary mobile booking CTA once the header button is hidden.
 // Articles carry their OWN inline nav CSS (no shared.css), so this drifts silently
