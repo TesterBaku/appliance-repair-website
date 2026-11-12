@@ -248,7 +248,9 @@
  *                    files, all one root cause. #e84c1e (craftsmans-ember) is
  *                    3.83:1 against white in BOTH directions, so it cannot carry
  *                    small text as a background OR as a foreground, and it was
- *                    doing both. LIMITATION: literal hex only. var()/rgba() rules
+ *                    doing both. The v2 hub tokens live on `.v2 { }`, not :root, and
+ *                    resolve for selectors that are `.v2` or `.v2-…` only (2026-11).
+ *                    LIMITATION: literal hex only. var()/rgba() rules
  *                    need runtime resolution and are covered by the in-browser
  *                    probes in test/functional.spec.js; the deferred count is
  *                    printed in the summary so the gap stays a known number.
@@ -430,6 +432,14 @@
  *                    pages/services.html was found regressed: its
  *                    .hub-hero-bg rule loads ../images/hero-homepage.webp
  *                    but its only preload is for shared.css.
+ *                    v2 hub template (2026-11): a page with a `<section
+ *                    class="v2-hero">` has a <picture> hero, not a CSS one. Its
+ *                    `.v2-hero-photo` webp <source srcset> must be matched by a
+ *                    <head> preload whose imagesrcset/href URLs (resolved against
+ *                    the page's directory) are all candidates of that source,
+ *                    include its largest candidate, and whose imagesizes equals
+ *                    the source's sizes; the hero <img> must not be
+ *                    loading="lazy". v2 pages are counted in the summary.
  *                    KNOWN LIMITATION: a hero image reached only through a
  *                    CSS custom property (`background-image:
  *                    var(--hero-img)`) is invisible to this check — a text
@@ -444,7 +454,13 @@
  *                    unless the page is listed in test/hub-redesign-baseline.json
  *                    (repo-relative path -> short reason). The baseline can only
  *                    shrink: a listed page that already carries the strip FAILS (prune
- *                    it), and a listed path that does not exist FAILS. Added 2026-11-02
+ *                    it), and a listed path that does not exist FAILS. A page with a
+ *                    `class="v2-hero"` section (the 2026-11 v2 hub template, which has no
+ *                    hub-hero or expect-strip) is a hub too, counted in the summary and
+ *                    redesigned by definition: it needs no strip, FAILS if it is still in
+ *                    the baseline, and FAILS if it also carries `class="hub-hero"`
+ *                    (half-migrated). The v2 match is a class token, so `v2-hero-grid`
+ *                    and `v2-hero-photo` do not count. Added 2026-11-02
  *                    so a new hub cloned from a stale template can no longer ship on the
  *                    legacy layout unnoticed. Text scan of tracked files only, so a
  *                    scratch .html in the tree is ignored.
@@ -1806,12 +1822,23 @@ if (run('contrast-aa')) {
     const rootBlock = (css.match(/:root\s*\{([\s\S]*?)\}/) || [, ''])[1];
     for (const d of rootBlock.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) TOKENS[d[1]] = d[2].trim();
   }
-  const deref = (v, depth = 0) => {
+  // The v2 hub template declares its own tokens on `.v2 { ... }`, not :root, so
+  // they resolve only for rules that render inside .v2: a selector that is `.v2`
+  // or `.v2-…` (components that only ever sit inside <main class="v2">). Every
+  // other rule keeps resolving against :root alone, so no non-v2 result moves.
+  const V2_TOKENS = Object.assign({}, TOKENS);
+  {
+    const css = fs.readFileSync(path.join(root, 'shared.css'), 'utf8');
+    const v2Block = (css.match(/(?:^|\n)\.v2\s*\{([\s\S]*?)\}/) || [, ''])[1];
+    for (const d of v2Block.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) V2_TOKENS[d[1]] = d[2].replace(/\/\*[\s\S]*?\*\//g, '').trim();
+  }
+  const isV2Selector = (sel) => sel.split(',').every(p => /^\.v2(?![\w])|^\.v2-/.test(p.trim()));
+  const deref = (v, depth = 0, table = TOKENS) => {
     if (depth > 6) return v;                       // cycle guard
     const m = v.match(/var\(\s*(--[\w-]+)\s*(?:,\s*([^)]+))?\)/);
     if (!m) return v;
-    const resolved = TOKENS[m[1]] !== undefined ? TOKENS[m[1]] : (m[2] || '');
-    return resolved ? deref(v.replace(m[0], resolved.trim()), depth + 1) : v;
+    const resolved = table[m[1]] !== undefined ? table[m[1]] : (m[2] || '');
+    return resolved ? deref(v.replace(m[0], resolved.trim()), depth + 1, table) : v;
   };
 
   for (const filePath of allHtml.concat([path.join(root, 'shared.css')])) {
@@ -1823,7 +1850,22 @@ if (run('contrast-aa')) {
       const cm = body.match(/(?:^|[;{\s])color\s*:\s*([^;]+)/);
       const bm = body.match(/(?:^|[;{\s])background(?:-color)?\s*:\s*([^;]+)/);
       if (!cm || !bm) continue;
-      const cRaw = deref(cm[1].trim()), bRaw = deref(bm[1].trim());
+      // Naming the rule accurately matters: a CI failure that says
+      // "@media (max-width:768px)" instead of ".zz-probe" is needlessly hard to find.
+      // For the FIRST rule inside an at-rule, the flat regex captures the at-rule as
+      // the prelude and swallows the real selector into the body, so recover it from
+      // the last `… {` inside the body.
+      const nested = body.match(/([^{};]+)\{[^{}]*$/);
+      const preludeLines = m[1].trim().split('\n').map(x => x.trim()).filter(Boolean);
+      let sel = preludeLines[preludeLines.length - 1] || '';
+      if (/^@/.test(sel)) {
+        const inner = body.match(/([^{};\n]+)\s*\{/);
+        sel = inner ? `${inner[1].trim()}  [in ${sel}]` : `${sel} (first rule in block)`;
+      }
+      if (nested && !/^@/.test(sel)) sel = nested[1].trim() || sel;
+      sel = sel.slice(0, 70);
+      const table = isV2Selector(sel) ? V2_TOKENS : TOKENS;
+      const cRaw = deref(cm[1].trim(), 0, table), bRaw = deref(bm[1].trim(), 0, table);
       if (!HEXRE.test(cRaw) || !HEXRE.test(bRaw)) {
         checked['contrast-aa'].skippedVar++;       // still unresolvable: rgba(), keywords, image
         continue;
@@ -1840,20 +1882,6 @@ if (run('contrast-aa')) {
       const weight = parseInt((body.match(/font-weight\s*:\s*(\d+)/) || [, '400'])[1], 10);
       const large = size >= 24 || (size >= 18.66 && weight >= 700);
       const need = large ? 3 : 4.5;
-      // Naming the rule accurately matters: a CI failure that says
-      // "@media (max-width:768px)" instead of ".zz-probe" is needlessly hard to find.
-      // For the FIRST rule inside an at-rule, the flat regex captures the at-rule as
-      // the prelude and swallows the real selector into the body, so recover it from
-      // the last `… {` inside the body.
-      const nested = body.match(/([^{};]+)\{[^{}]*$/);
-      const preludeLines = m[1].trim().split('\n').map(x => x.trim()).filter(Boolean);
-      let sel = preludeLines[preludeLines.length - 1] || '';
-      if (/^@/.test(sel)) {
-        const inner = body.match(/([^{};\n]+)\s*\{/);
-        sel = inner ? `${inner[1].trim()}  [in ${sel}]` : `${sel} (first rule in block)`;
-      }
-      if (nested && !/^@/.test(sel)) sel = nested[1].trim() || sel;
-      sel = sel.slice(0, 70);
       for (const bHex of bHexes) {          // a gradient is checked at EVERY stop
         let r;
         try { r = contrast(cHex, bHex); } catch { continue; }
@@ -2918,7 +2946,9 @@ if (run('area-served-parity')) {
 // already-declared background (no url() of its own) contributes nothing
 // and is not an error — that is legitimate CSS, not a missing hero image.
 if (run('hero-preload')) {
-  checked['hero-preload'] = { files: 0 };
+  checked['hero-preload'] = { files: 0, v2: 0 };
+  // `<section class="v2-hero">` as a class TOKEN (not v2-hero-grid / v2-hero-photo).
+  const V2_HERO_SECTION_RE = /<section\b[^>]*\bclass="(?:[^"]*\s)?v2-hero(?:\s[^"]*)?"/;
 
   // Boundary-matched: the literal ".hub-hero-bg" substring is only ever
   // preceded by the class selector's own leading ".", and the lookahead
@@ -2949,7 +2979,8 @@ if (run('hero-preload')) {
       const body = content.slice(openBrace + 1, bodyClose);
       for (const m of body.matchAll(URL_RE)) imageUrls.add(m[1]);
     }
-    if (!imageUrls.size) continue;
+    const isV2 = V2_HERO_SECTION_RE.test(content);
+    if (!imageUrls.size && !isV2) continue;
 
     checked['hero-preload'].files++;
     const fileDir = path.dirname(filePath);
@@ -2958,6 +2989,49 @@ if (run('hero-preload')) {
     // one today) shouldn't satisfy this check.
     const headMatch = content.match(/<head\b[^>]*>([\s\S]*?)<\/head>/);
     const headContent = headMatch ? headMatch[1] : content;
+
+    // v2 hub template: the hero is a <picture> in `.v2-hero-photo`, not a CSS
+    // background. See the v2 note in the docblock above.
+    if (isV2) {
+      checked['hero-preload'].v2++;
+      const attr = (tag, name) => { const a = tag.match(new RegExp(`\\s${name}="([^"]*)"`)); return a ? a[1] : null; };
+      const parseSet = (srcset) => srcset.split(',').map(s => s.trim()).filter(Boolean).map(s => {
+        const [u, d] = s.split(/\s+/);
+        return { abs: path.resolve(fileDir, u), w: parseInt(d, 10) || 0, u };
+      });
+      const fig = content.match(/<figure\b[^>]*\bclass="[^"]*\bv2-hero-photo\b[^"]*"[^>]*>([\s\S]*?)<\/figure>/);
+      const pic = fig && fig[1].match(/<picture\b[^>]*>([\s\S]*?)<\/picture>/);
+      const srcTag = pic && (pic[1].match(/<source\b[^>]*>/g) || []).find(t => attr(t, 'type') === 'image/webp' && attr(t, 'srcset'));
+      const imgTag = pic && pic[1].match(/<img\b[^>]*>/);
+      if (!srcTag) {
+        issues.push(`[HERO-PRELOAD] ${rel(filePath)}: .v2-hero has no <picture> with a webp <source srcset> inside .v2-hero-photo, so the hero preload cannot be verified.`);
+      } else {
+        if (imgTag && /\sloading="lazy"/.test(imgTag[0])) {
+          issues.push(`[HERO-PRELOAD] ${rel(filePath)}: the .v2-hero <img> has loading="lazy"; the LCP hero must load eagerly.`);
+        }
+        const cands = parseSet(attr(srcTag, 'srcset'));
+        const candSet = new Set(cands.map(c => c.abs));
+        const largest = cands.reduce((a, b) => (b.w > a.w ? b : a), cands[0]);
+        const sizes = attr(srcTag, 'sizes');
+        let ok = false;
+        for (const linkTag of headContent.matchAll(PRELOAD_LINK_RE)) {
+          const tag = linkTag[0];
+          if (!/\brel="preload"/.test(tag) || !/\bas="image"/.test(tag)) continue;
+          const preSet = attr(tag, 'imagesrcset');
+          const preHref = attr(tag, 'href');
+          const urls = preSet ? parseSet(preSet).map(c => c.abs) : (preHref ? [path.resolve(fileDir, preHref)] : []);
+          if (!urls.length || !urls.every(u => candSet.has(u))) continue;
+          if (preHref && !candSet.has(path.resolve(fileDir, preHref))) continue;
+          if (!urls.includes(largest.abs)) continue;
+          if (preSet && attr(tag, 'imagesizes') !== sizes) continue;
+          ok = true;
+          break;
+        }
+        if (!ok) {
+          issues.push(`[HERO-PRELOAD] ${rel(filePath)}: the .v2-hero <picture> webp <source> (${cands.map(c => c.u).join(', ')}; sizes="${sizes}") has no matching <link rel="preload" as="image"> in <head>: every imagesrcset/href URL must be one of the source's candidates, the largest (${largest.u}) must be present, and imagesizes must equal the source's sizes.`);
+        }
+      }
+    }
 
     const preloadTargets = [];
     for (const linkTag of headContent.matchAll(PRELOAD_LINK_RE)) {
@@ -4029,7 +4103,10 @@ if (run('testimonial-hub-cap')) {
 // The baseline only shrinks: it fails when a listed page has the strip, or does
 // not exist.
 if (run('hub-redesign')) {
-  checked['hub-redesign'] = { hubs: 0, baselined: 0 };
+  checked['hub-redesign'] = { hubs: 0, baselined: 0, v2: 0 };
+  // A v2 hub (2026-11 template, `<main class="v2">`) is a class TOKEN match: exact
+  // `v2-hero`, never `v2-hero-grid` / `v2-hero-photo` / `v2-hero-lead`.
+  const V2_HERO_RE = /\bclass="(?:[^"]*\s)?v2-hero(?:\s[^"]*)?"/;
 
   let tracked;
   try {
@@ -4054,10 +4131,22 @@ if (run('hub-redesign')) {
     const abs = path.join(root, relPath);
     if (!fs.existsSync(abs)) continue;
     const content = fs.readFileSync(abs, 'utf8');
-    if (!content.includes('class="hub-hero"')) continue;
+    const hasLegacy = content.includes('class="hub-hero"');
+    const hasV2 = V2_HERO_RE.test(content);
+    if (!hasLegacy && !hasV2) continue;
     checked['hub-redesign'].hubs++;
-    const hasStrip = content.includes('class="expect-strip"');
     const listed = Object.prototype.hasOwnProperty.call(baseline, relPath);
+    if (hasV2) {
+      checked['hub-redesign'].v2++;
+      if (hasLegacy) {
+        issues.push(`[HUB-REDESIGN] ${relPath} has BOTH class="hub-hero" and a v2-hero section (half-migrated). A v2 page carries the v2 hero only; remove the legacy hub-hero markup.`);
+      }
+      if (listed) {
+        issues.push(`[HUB-REDESIGN] ${relPath} uses the v2 hub template (v2-hero) but is still listed in test/hub-redesign-baseline.json. Remove it from the baseline.`);
+      }
+      continue;
+    }
+    const hasStrip = content.includes('class="expect-strip"');
     if (!hasStrip && !listed) {
       issues.push(`[HUB-REDESIGN] ${relPath} has class="hub-hero" but no class="expect-strip" (legacy hub layout). Copy the new hub design from a redesigned hub (see .claude/commands/seo-hub.md), or, for a deliberate hold, add it to test/hub-redesign-baseline.json with a reason.`);
     }
@@ -4131,7 +4220,7 @@ if (checked['tel-target'])           parts.push(`all ${checked['tel-target'].lin
 if (checked['umbrella-range'])       parts.push(`umbrella price ranges hold on ${checked['umbrella-range'].rangesChecked} itemized range(s) against ${checked['umbrella-range'].governingRanges} governing range(s) across ${checked['umbrella-range'].blocks} FAQ/AI-answer blocks in ${checked['umbrella-range'].files} files`);
 if (checked['srcset-width'])         parts.push(`srcset width descriptors match decoded pixel width on ${checked['srcset-width'].checkedEntries} entries across ${checked['srcset-width'].files} files (${checked['srcset-width'].skippedDensity} x-density + ${checked['srcset-width'].skippedImplicit1x} implicit-1x + ${checked['srcset-width'].skippedSvg} svg + ${checked['srcset-width'].skippedRemote} remote/data skipped)`);
 if (checked['area-served-parity'])   parts.push(`areaServed JSON-LD matches ${checked['area-served-parity'].cities} rendered city cards across ${checked['area-served-parity'].pages} city-card grid page(s) (County, CA region entries exempt)`);
-if (checked['hero-preload'])         parts.push(`.hub-hero-bg preload <link> present + resolves to the CSS image on all ${checked['hero-preload'].files} pages with a hero background-image`);
+if (checked['hero-preload'])         parts.push(`hero preload <link> present + resolves to the hero image on all ${checked['hero-preload'].files} pages with a hero (${checked['hero-preload'].v2} v2 <picture> heroes matched on srcset + sizes, eager-loaded)`);
 if (checked['img-dimensions']) {
   const c = checked['img-dimensions'];
   // Two distinct units, both stated explicitly so neither reads as the other:
@@ -4152,6 +4241,6 @@ if (checked['testimonial-hub-cap']) {
   const c = checked['testimonial-hub-cap'];
   parts.push(`testimonial hub-cap + verbatim ratchet held on ${c.reviews} rendered reviews across ${c.hubFiles} hub pages (cap baseline covers ${c.capBaselineCount ?? 0}, verbatim baseline covers ${c.verbatimBaselineCount ?? 0}, see P6-49)`);
 }
-if (checked['hub-redesign'])         parts.push(`hub redesign ratchet held: ${checked['hub-redesign'].hubs} hub pages, ${checked['hub-redesign'].baselined} baselined as not yet redesigned`);
+if (checked['hub-redesign'])         parts.push(`hub redesign ratchet held: ${checked['hub-redesign'].hubs} hub pages (${checked['hub-redesign'].v2} on the v2 template), ${checked['hub-redesign'].baselined} baselined as not yet redesigned`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);

@@ -29,6 +29,14 @@ async function hrefs(page, selector) {
   return page.locator(selector).evaluateAll(els => els.map(a => a.getAttribute('href')));
 }
 
+// Two hub templates coexist while the redesign rolls out: the old one (.hub-hero, .reviews-cap,
+// .pricing-policy-card) and "v2" (<main class="v2">). Tests that apply to both branch on what
+// the page actually contains, so a page that migrates is covered with no further spec edit.
+const PAGES_DIR = path.join(__dirname, '..', 'pages');
+const isV2Source = html => /<main\b[^>]*\bclass="[^"]*\bv2\b/.test(html);
+const isV2File = name => isV2Source(fs.readFileSync(path.join(PAGES_DIR, name), 'utf8'));
+const isV2 = async page => (await page.locator('main.v2').count()) > 0;
+
 // ─── Homepage ─────────────────────────────────────────────────────────────────
 test.describe('Homepage (index.html)', () => {
   test.beforeEach(async ({ page }) => {
@@ -798,6 +806,7 @@ test.describe('About page', () => {
 // ─── Service hubs ─────────────────────────────────────────────────────────────
 const SERVICE_HUBS = [
   { slug: 'refrigerator-repair-orange-county', appliance: 'refrigerator' },
+  { slug: 'freezer-repair-orange-county',      appliance: 'freezer'       },
   { slug: 'washer-repair-orange-county',       appliance: 'washer'        },
   { slug: 'dryer-repair-orange-county',        appliance: 'dryer'         },
   { slug: 'dishwasher-repair-orange-county',   appliance: 'dishwasher'    },
@@ -827,6 +836,12 @@ for (const { slug } of SERVICE_HUBS) {
     });
 
     test('compact pricing policy block present', async ({ page }) => {
+      if (await isV2(page)) {
+        // v2 equivalent: the policy list plus the $99 price card.
+        await expect(page.locator('.v2-policy')).toBeAttached();
+        await expect(page.locator('.v2-price')).toBeAttached();
+        return;
+      }
       await expect(page.locator('.pricing-policy-card')).toBeAttached();
     });
 
@@ -836,7 +851,9 @@ for (const { slug } of SERVICE_HUBS) {
     });
 
     test('pricing disclaimer links to cost hub', async ({ page }) => {
-      const href = await page.locator('.policy-disclaimer a').getAttribute('href');
+      // v2: the disclaimer is the .v2-fine line under the policy list.
+      const sel = (await isV2(page)) ? '.v2-policy ~ .v2-fine a' : '.policy-disclaimer a';
+      const href = await page.locator(sel).first().getAttribute('href');
       expect(href).toMatch(/cost/);
     });
 
@@ -845,6 +862,327 @@ for (const { slug } of SERVICE_HUBS) {
       await dropdown.hover();
       await expect(dropdown.locator('.nav-dropdown-menu')).toBeVisible();
     });
+  });
+}
+
+// ─── v2 hub template (<main class="v2">) ──────────────────────────────────────
+// Discovered from the filesystem, so each page that migrates to v2 is covered the moment its
+// markup changes. These are the v2 equivalents of the old-template hero / breadcrumb / trust
+// strip / brand / FAQ / CTA assertions above and in the brand and city blocks.
+const V2_PAGES = fs.readdirSync(PAGES_DIR).filter(n => n.endsWith('.html') && isV2File(n)).sort();
+
+test('v2 template: at least the freezer and refrigerator pages are discovered', () => {
+  for (const n of ['freezer-repair-orange-county.html', 'refrigerator-repair-orange-county.html']) {
+    expect(V2_PAGES, n + ' no longer carries <main class="v2">').toContain(n);
+  }
+});
+
+for (const name of V2_PAGES) {
+  test.describe(`v2 hub: ${name}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.setViewportSize(DESKTOP);
+      await page.goto(`/pages/${name}`);
+    });
+
+    test('hero: one h1, rating link with the canonical review count, call and request buttons', async ({ page }) => {
+      const hero = page.locator('.v2-hero');
+      await expect(hero.locator('h1')).toHaveCount(1);
+      expect((await hero.locator('h1').textContent()).trim().length).toBeGreaterThan(0);
+      const rating = hero.locator('a.v2-rating');
+      await expect(rating).toHaveAttribute('href', 'testimonials.html');
+      expect(await rating.textContent()).toContain(EXPECTED_REVIEW_COUNT + ' Google reviews');
+      expect(await rating.getAttribute('aria-label')).toContain(EXPECTED_REVIEW_COUNT + ' Google reviews');
+      const cta = hero.locator('.v2-hero-cta');
+      await expect(cta.locator('a.v2-btn[href="tel:+19496295365"]')).toHaveCount(1);
+      const req = cta.locator('a.v2-btn--ghost[href="contact.html"]');
+      await expect(req).toHaveCount(1);
+      expect((await req.textContent()).trim()).toBe('Request a Repair');
+    });
+
+    test('breadcrumb has Home and Services links', async ({ page }) => {
+      const crumbs = page.locator('nav.v2-crumbs');
+      await expect(crumbs).toHaveAttribute('aria-label', 'Breadcrumb');
+      await expect(crumbs.locator('a[href="../"]')).toHaveCount(1);
+      await expect(crumbs.locator('a[href="services.html"]')).toHaveCount(1);
+    });
+
+    test('fact cards: four, with the $99 fee and 90-day / 30-day warranty, a trust line, no brand logos', async ({ page }) => {
+      const facts = page.locator('section.v2-facts');
+      await expect(facts).toHaveCount(1);
+      await expect(facts.locator('li')).toHaveCount(4);
+      const text = await facts.textContent();
+      expect(text).toContain('$99');
+      expect(text).toContain('90-day');
+      expect(text).toContain('30-day');
+      const trust = facts.locator('.v2-facts-trust');
+      await expect(trust).toHaveCount(1);
+      expect((await trust.textContent()).trim().length).toBeGreaterThan(0);
+      expect(await facts.locator('img, .brand-chips, .brand-chips-list').count()).toBe(0);
+    });
+
+    test('every brand card link resolves to an existing page; an unlinked card is plain text', async ({ page }) => {
+      const brands = page.locator('ul.v2-brands');
+      await expect(brands).toHaveCount(1);
+      const hrefList = await hrefs(page, 'ul.v2-brands a');
+      expect(hrefList.length).toBeGreaterThan(0);
+      for (const h of hrefList) {
+        const file = h.split('#')[0];
+        expect(fs.existsSync(path.join(PAGES_DIR, file)), `${h} exists`).toBe(true);
+      }
+      await expect(brands.locator('a.v2-brands-all')).toHaveCount(1);
+      for (const t of await brands.locator('li > span').allTextContents()) {
+        expect(t.trim().length, 'unlinked brand card has a name').toBeGreaterThan(0);
+      }
+    });
+
+    test('FAQ accordion opens and closes with aria-expanded kept in sync', async ({ page }) => {
+      const items = page.locator('.faq-list .faq-item');
+      expect(await items.count()).toBeGreaterThan(1);
+      // Second item: the first is pre-opened on some pages.
+      const item = items.nth(1);
+      const q = item.locator('button.faq-q');
+      await expect(item).not.toHaveClass(/\bopen\b/);
+      await expect(q).toHaveAttribute('aria-expanded', 'false');
+      await q.click();
+      await expect(item).toHaveClass(/\bopen\b/);
+      await expect(q).toHaveAttribute('aria-expanded', 'true');
+      await expect(item.locator('.faq-a')).toBeVisible();
+      await q.click();
+      await expect(item).not.toHaveClass(/\bopen\b/);
+      await expect(q).toHaveAttribute('aria-expanded', 'false');
+    });
+
+    test('closing CTA has the call and request buttons', async ({ page }) => {
+      const cta = page.locator('.v2-cta');
+      await expect(cta.locator('a[href="tel:+19496295365"]')).toHaveCount(1);
+      const req = cta.locator('a[href="contact.html"]');
+      await expect(req).toHaveCount(1);
+      expect((await req.textContent()).trim()).toBe('Request a Repair');
+    });
+
+    test('every tel: link is the canonical number', async ({ page }) => {
+      const tels = await hrefs(page, 'a[href^="tel:"]');
+      expect(tels.length).toBeGreaterThan(0);
+      expect(tels.filter(h => h !== 'tel:+19496295365')).toEqual([]);
+    });
+
+    test('phone: sticky mobile bar shows Call Now and Request Repair', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(`/pages/${name}`);
+      const bar = page.locator('.sticky-mobile-bar');
+      await expect(bar).toBeVisible();
+      await expect(bar.locator('a.sticky-call[href="tel:+19496295365"]')).toBeVisible();
+      const book = bar.locator('a.sticky-book[href="contact.html"]');
+      await expect(book).toBeVisible();
+      expect((await book.textContent()).trim()).toBe('Request Repair');
+    });
+  });
+}
+
+// ─── v2 reviews (site.js initV2Reviews) ───────────────────────────────────────
+// Every v2 page with a .v2-reviews grid. Counts are read from the page. Caps: 3 on desktop, 2 at
+// (max-width: 960px). A quote is clamped to five lines only when JS runs, and "Read full review"
+// shows only on cards whose quote is really cut.
+const V2_REVIEW_PAGES = V2_PAGES.filter(n =>
+  fs.readFileSync(path.join(PAGES_DIR, n), 'utf8').includes('class="v2-reviews'));
+const V2_PHONE = { width: 390, height: 844 };
+const v2Cap = vp => (vp.width <= 960 ? 2 : 3);
+const moreLabel = n => 'Show ' + n + ' more review' + (n === 1 ? '' : 's');
+const clipped = el => el.scrollHeight > el.clientHeight + 2;
+const visibleCount = cards => cards.evaluateAll(els => els.filter(e => e.getClientRects().length > 0).length);
+
+test('v2 reviews: at least the refrigerator page is discovered', () => {
+  expect(V2_REVIEW_PAGES).toContain('refrigerator-repair-orange-county.html');
+});
+
+// Serial so one worker runs every page and both viewports in order and the shared counters below are
+// meaningful (fullyParallel would scatter them across workers).
+let v2ReadFullExercised = 0;
+let v2ReadFullRuns = 0;
+test.describe.serial('v2 reviews: suite-level checks', () => {
+for (const name of V2_REVIEW_PAGES) {
+  test.describe(`v2 reviews: ${name}`, () => {
+    const url = `/pages/${name}`;
+    const open = async (page, vp) => {
+      await page.setViewportSize(vp);
+      await page.goto(url);
+      await page.evaluate(() => document.fonts.ready);
+      return {
+        cards: page.locator('.v2-reviews > .v2-review'),
+        more: page.locator('.v2-reviews-more'),
+      };
+    };
+
+    for (const [label, vp] of [['desktop', DESKTOP], ['phone', V2_PHONE]]) {
+      test(`${label}: cap, Show more label, expand and collapse`, async ({ page }) => {
+        const { cards, more } = await open(page, vp);
+        const total = await cards.count();
+        expect(total).toBeGreaterThan(0);
+        const cap = v2Cap(vp);
+        expect(await visibleCount(cards)).toBe(Math.min(cap, total));
+        if (total <= cap) {
+          await expect(more).toBeHidden();
+          return;
+        }
+        const extra = total - cap;
+        await expect(more).toBeVisible();
+        await expect(more).toHaveText(moreLabel(extra));
+        await expect(more).toHaveAttribute('aria-expanded', 'false');
+        expect((await more.boundingBox()).height).toBeGreaterThanOrEqual(44);
+        await more.click();
+        expect(await visibleCount(cards)).toBe(total);
+        await expect(more).toHaveText('Show fewer reviews');
+        await expect(more).toHaveAttribute('aria-expanded', 'true');
+        await more.click();
+        expect(await visibleCount(cards)).toBe(cap);
+        await expect(more).toHaveText(moreLabel(extra));
+        await expect(more).toHaveAttribute('aria-expanded', 'false');
+      });
+
+      test(`${label}: no visible quote is cut without a visible Read full review, and the button un-clips it`, async ({ page }) => {
+        const { cards, more } = await open(page, vp);
+        if (await more.isVisible()) await more.click();   // reveal every card, including the long ones
+        const n = await cards.count();
+        let exercised = 0;
+        for (let i = 0; i < n; i++) {
+          const card = cards.nth(i);
+          const quote = card.locator('blockquote');
+          const btn = card.locator('.v2-review-more');
+          // Let the ResizeObserver / fonts pass settle before reading geometry.
+          await expect.poll(async () => {
+            const cut = await quote.evaluate(clipped);
+            return cut ? await btn.isVisible() : true;
+          }, { message: 'card ' + i + ': clipped quote has no visible Read full review' }).toBe(true);
+          if (!(await btn.isVisible())) continue;
+          exercised++;
+          await expect(btn).toHaveText('Read full review');
+          await expect(btn).toHaveAttribute('aria-expanded', 'false');
+          expect(await quote.evaluate(clipped), 'quote is cut before opening').toBe(true);
+          await btn.click();
+          await expect(btn).toHaveText('Show less');
+          await expect(btn).toHaveAttribute('aria-expanded', 'true');
+          expect(await quote.evaluate(clipped), 'quote is whole after opening').toBe(false);
+          await btn.click();
+          await expect(btn).toHaveText('Read full review');
+          expect(await quote.evaluate(clipped), 'quote is cut again after closing').toBe(true);
+        }
+        test.info().annotations.push({ type: 'cards-with-read-full-review', description: String(exercised) });
+        v2ReadFullRuns++;
+        v2ReadFullExercised += exercised;
+      });
+    }
+
+    test('resizing desktop -> phone -> desktop re-applies the right cap', async ({ page }) => {
+      const { cards } = await open(page, DESKTOP);
+      const total = await cards.count();
+      for (const vp of [DESKTOP, V2_PHONE, DESKTOP]) {
+        await page.setViewportSize(vp);
+        await expect.poll(() => visibleCount(cards)).toBe(Math.min(v2Cap(vp), total));
+      }
+    });
+
+    test.describe('without JavaScript', () => {
+      test.use({ javaScriptEnabled: false });
+      test('phone: every card and full quote visible, both buttons hidden', async ({ page }) => {
+        await page.setViewportSize(V2_PHONE);
+        await page.goto(url);
+        const cards = page.locator('.v2-reviews > .v2-review');
+        const total = await cards.count();
+        expect(total).toBeGreaterThan(0);
+        expect(await visibleCount(cards)).toBe(total);
+        for (let i = 0; i < total; i++) {
+          expect(await cards.nth(i).locator('blockquote').evaluate(clipped), 'quote ' + i + ' is whole').toBe(false);
+        }
+        await expect(page.locator('.v2-review-more:visible')).toHaveCount(0);
+        await expect(page.locator('.v2-reviews-more:visible')).toHaveCount(0);
+      });
+    });
+  });
+}
+
+// Each page only exercises the Read-full-review open/close path if one of its quotes exceeds five lines,
+// and a page without a long quote is fine. But if NO page on NO viewport had one, the open/close
+// assertions above never ran and the test would pass vacuously. So require at least one card overall.
+// Skipped when a --grep filter kept the exercising tests from running at all.
+test('the Read full review open/close path was exercised on at least one card', () => {
+  test.skip(v2ReadFullRuns === 0, 'the per-page quote tests did not run in this invocation');
+  expect(v2ReadFullExercised, 'no quote on any v2 page and viewport exceeded five lines, so the open/close assertions never ran').toBeGreaterThan(0);
+});
+});
+
+// ─── v2 gallery disclosure (site.js initV2More) ───────────────────────────────
+// The "Show all N repairs" <summary> hides itself once the <details> opens (one-way design), which
+// used to drop keyboard focus to <body>. Focus must land on the first revealed link instead.
+const V2_MORE_PAGES = V2_PAGES.filter(n =>
+  fs.readFileSync(path.join(PAGES_DIR, n), 'utf8').includes('class="v2-more'));
+
+test('v2 gallery: at least the refrigerator page is discovered', () => {
+  expect(V2_MORE_PAGES).toContain('refrigerator-repair-orange-county.html');
+});
+
+for (const name of V2_MORE_PAGES) {
+  test(`v2 gallery: keyboard focus survives "Show all" on ${name}`, async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const summary = page.locator('details.v2-more > summary').first();
+    await summary.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('details.v2-more').first()).toHaveJSProperty('open', true);
+    // Focus lands on a link inside the revealed gallery, not on <body>.
+    await expect.poll(() => page.evaluate(() => {
+      const a = document.activeElement;
+      return !!(a && a.tagName === 'A' && a.closest('details.v2-more'));
+    })).toBe(true);
+    // Tab continues from there: not back at the top of the page.
+    await page.keyboard.press('Tab');
+    const next = await page.evaluate(() => {
+      const a = document.activeElement;
+      return {
+        tag: a ? a.tagName : null,
+        inChrome: !!(a && a.closest('nav, header, .nav-drawer, .skip-link')),
+        y: a ? a.getBoundingClientRect().top + window.scrollY : 0,
+      };
+    });
+    expect(next.tag).not.toBe('BODY');
+    expect(next.inChrome, 'Tab went back to the site nav').toBe(false);
+    expect(next.y).toBeGreaterThan(500);
+  });
+
+  // A mouse click also focuses the summary, but must not move focus (or scroll) onto the first tile.
+  test(`v2 gallery: a mouse click on "Show all" does not move focus or scroll on ${name}`, async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const details = page.locator('details.v2-more').first();
+    const summary = details.locator('> summary');
+    await summary.scrollIntoViewIfNeeded();
+    const before = await page.evaluate(() => window.scrollY);
+    await summary.click();
+    await expect(details).toHaveJSProperty('open', true);
+    await page.waitForTimeout(150);   // let the toggle event (and any focus move) run
+    const after = await page.evaluate(() => ({
+      y: window.scrollY,
+      onTile: !!(document.activeElement && document.activeElement.tagName === 'A' &&
+        document.activeElement.closest('details.v2-more')),
+    }));
+    expect(Math.abs(after.y - before), 'page scrolled after a mouse click').toBeLessThanOrEqual(4);
+    expect(after.onTile, 'focus was moved onto a tile link by a mouse click').toBe(false);
+  });
+
+  // A screen reader's virtual cursor activates the summary with a bare `click`: no keydown, no pointerdown.
+  // Focus must still land on the first revealed link, not be lost with the hidden summary.
+  test(`v2 gallery: a bare click (screen-reader activation) moves focus into the gallery on ${name}`, async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const details = page.locator('details.v2-more').first();
+    await page.evaluate(() => document.querySelector('details.v2-more > summary').click());
+    await expect(details).toHaveJSProperty('open', true);
+    await expect.poll(() => page.evaluate(() => {
+      const a = document.activeElement;
+      return !!(a && a.tagName === 'A' && a.closest('details.v2-more'));
+    })).toBe(true);
   });
 }
 
@@ -3573,6 +3911,10 @@ test('mobile 375px: every discrete link clears the 44px tap target, site-wide', 
         // to be named explicitly because `.breadcrumb` is a flex container, which
         // blockifies its children, so its links never compute as `display: inline`.
         if (el.closest('.breadcrumb')) continue;
+        // Same case in the v2 hub template: `nav.v2-crumbs` is a flex container too (its links
+        // measure 21px and never compute as inline). Named exactly like `.breadcrumb`; no other
+        // v2 class is exempt.
+        if (el.closest('.v2-crumbs')) continue;
 
         n++;
         if (r.height >= min) continue;
@@ -3808,12 +4150,16 @@ test('every FAQ question shows a hover tint, site-wide', async ({ page }) => {
     const btn = page.locator('button.faq-q').nth(idx);
     await btn.scrollIntoViewIfNeeded();
     await page.mouse.move(1, 1);
-    const bg = () => btn.evaluate(el => getComputedStyle(el).backgroundColor);
+    // The v2 template deliberately has no row tint (`.v2 .faq-q:hover { background: none }`); its hover
+    // cue is a text-colour change. Pages on the old template still must change background.
+    const v2 = await isV2(page);
+    const prop = v2 ? 'color' : 'backgroundColor';
+    const bg = () => btn.evaluate((el, p) => getComputedStyle(el)[p], prop);
     const before = await bg();
     await btn.hover();
     const after = await bg();
     measured++;
-    if (before === after) failures.push(url + ': background stays ' + before + ' on hover');
+    if (before === after) failures.push(url + ': ' + (v2 ? 'text colour' : 'background') + ' stays ' + before + ' on hover');
   }
   expect(measured, 'swept every page but found no rendered button.faq-q').toBeGreaterThan(50);
   expect(
@@ -4171,7 +4517,6 @@ test('mobile 375px: hero text clears the fixed nav, tables fit, callout paragrap
 const REVIEWS_CAP_PAGES = {
   'washer-repair-orange-county': 3,
   'appliance-repair-huntington-beach-ca': 3,
-  'refrigerator-repair-orange-county': 6,
   'dryer-repair-orange-county': 5,
   'dishwasher-repair-orange-county': 6,
   'sub-zero-appliance-repair-orange-county': 3,
@@ -4213,7 +4558,10 @@ const REVIEWS_CAP_PAGES = {
   'appliance-repair-chino-hills-ca': 3,
   'appliance-repair-pico-rivera-ca': 3,
 };
-for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
+// Pages on the v2 template use .v2-reviews instead (covered by "v2 reviews" above), so they drop out
+// of this old-template loop by themselves when they migrate; no edit to the map is needed.
+const OLD_REVIEW_PAGES = Object.entries(REVIEWS_CAP_PAGES).filter(([slug]) => !isV2File(slug + '.html'));
+for (const [slug, total] of OLD_REVIEW_PAGES) {
   const capped = total >= 4 || slug === 'sub-zero-appliance-repair-orange-county';
   test.describe('Reviews cap: ' + slug, () => {
     if (capped) {
@@ -4261,17 +4609,23 @@ for (const [slug, total] of Object.entries(REVIEWS_CAP_PAGES)) {
 }
 
 // With JavaScript off the cap is never armed, so every review stays visible and the button row stays hidden.
-test.describe('Reviews cap without JavaScript: refrigerator-repair-orange-county', () => {
-  test.use({ javaScriptEnabled: false });
-  test('phone: every review visible, Show more row hidden', async ({ page }) => {
-    await page.setViewportSize(MOBILE);
-    await page.goto('/pages/refrigerator-repair-orange-county.html');
-    const cards = page.locator('.reviews-cap > .testimonial-card');
-    expect(await cards.count()).toBe(6);
-    expect(await visibleChildren(cards)).toBe(6);
-    await expect(page.locator('.reviews-cap-more-row')).not.toBeVisible();
+// The subject is the old .reviews-cap markup, so it runs on the first capped page that still has it
+// (the refrigerator page moved to v2; its no-JS behaviour is covered by "v2 reviews ... without JavaScript").
+const OLD_NOJS = OLD_REVIEW_PAGES.find(([, total]) => total >= 4);
+if (OLD_NOJS) {
+  const [noJsSlug, noJsTotal] = OLD_NOJS;
+  test.describe('Reviews cap without JavaScript: ' + noJsSlug, () => {
+    test.use({ javaScriptEnabled: false });
+    test('phone: every review visible, Show more row hidden', async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto('/pages/' + noJsSlug + '.html');
+      const cards = page.locator('.reviews-cap > .testimonial-card');
+      expect(await cards.count()).toBe(noJsTotal);
+      expect(await visibleChildren(cards)).toBe(noJsTotal);
+      await expect(page.locator('.reviews-cap-more-row')).not.toBeVisible();
+    });
   });
-});
+}
 
 // ─── site.js scrollable tables: a hint appears only while a table overflows its wrapper ───
 // Most articles load only site.js (not shared.css), so the cue must style and hide itself.

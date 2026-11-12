@@ -70,6 +70,13 @@ const emdashFiles  = allHtml.concat(
 // editing an em dash out of one would falsify the quote.
 const REVIEW_TEXT = /"(?:reviewBody|previousBody)"|class="(?:testimonial-quote|t-quote)"/;
 
+// v2 hub review cards (`figure.v2-review`) render the quote as a one-line
+// `<blockquote>...</blockquote>` directly after the card's stars span. Exempt exactly
+// that shape (the line before must be the card's `v2-stars` span), so a blockquote
+// anywhere else in v2 copy is still checked.
+const V2_REVIEW_PREV  = /class="v2-stars" role="img"/;
+const V2_REVIEW_QUOTE = /^\s*<blockquote>.*<\/blockquote>\s*$/;
+
 const issues = [];
 let   doctypeChecked = 0;
 let   emdashChecked  = 0;
@@ -131,6 +138,7 @@ if (mode === 'all' || mode === 'emdash') {
     lines.forEach((line, i) => {
       if (!line.includes('—')) return;
       if (REVIEW_TEXT.test(line)) return;   // verbatim customer review, exempt
+      if (V2_REVIEW_QUOTE.test(line) && V2_REVIEW_PREV.test(lines[i - 1] || '')) return;   // v2 review card quote, exempt
       issues.push(`[EM-DASH] ${rel}:${i + 1} — ${line.trim().slice(0, 80)}`);
     });
   }

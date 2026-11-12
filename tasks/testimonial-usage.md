@@ -1,6 +1,6 @@
 # Testimonial Hub-Usage Tracker
 
-> **Auto-generated from live HTML on 2026-11-11** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
+> **Auto-generated from live HTML on 2026-11-12** by `scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py`
 > (parses `Review.author.name` JSON-LD across every hub page). Do not hand-edit the tables below —
 > re-run the script (`python scripts/oneoff/audit-testimonial-hub-usage-2026-06-10.py --emit-tracker`)
 > after any hub testimonial change so this stays ground-truth, not a drifted hand-log.
@@ -15,14 +15,14 @@ The **homepage** and the **testimonials page** are NOT hubs and do NOT count tow
 
 | Metric | Value |
 |---|---|
-| Distinct reviews currently on >=1 hub | 129 |
-| On exactly 1 hub (1 free slot each) | 23 |
-| On exactly 2 hubs (at cap) | 102 |
+| Distinct reviews currently on >=1 hub | 131 |
+| On exactly 1 hub (1 free slot each) | 31 |
+| On exactly 2 hubs (at cap) | 96 |
 | On 3 hubs (grandfathered exceptions) | 4 |
-| **Free hub-slots available now** | **23** |
-| Approx. new city hubs supportable @ 3/hub | **~7** (before appliance-match / brand-variety / row-balance filters) |
+| **Free hub-slots available now** | **31** |
+| Approx. new city hubs supportable @ 3/hub | **~10** (before appliance-match / brand-variety / row-balance filters) |
 
-The pool is **not** exhausted: the 23 reviews sitting on a single hub each have a free
+The pool is **not** exhausted: the 31 reviews sitting on a single hub each have a free
 second slot. Allocate from the "1 free slot" list below when building new hubs.
 
 ## Accepted exceptions (3 hubs each — grandfathered, DO NOT move)
@@ -46,23 +46,31 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Cindi Nichols | whittier |
 | Craig Tudor | garden-grove |
 | Daniel Eichkhoff | whittier |
+| Elliot Trout | garbage-disposal-repair-hub |
 | Elvin Mammadov | wolf-hub |
 | Henry Lo | brea |
 | Javier Tellez | maytag-hub |
 | Jayson Hawley | maytag-hub |
+| Justine Shaw | buena-park |
 | Katherine Bosboom | cost-hub |
 | Kathy Calderon | aliso-viejo |
+| Laman Anvarli | fullerton |
 | Laurie Summers | wolf-hub |
 | Marcy Kucik | anaheim |
 | Mark Rivera | lake-forest |
+| Matt Snyder | pico-rivera |
 | Naoki MacInnes | wine-cooler-repair-hub |
 | Patricio Jr Villanueva | la-habra |
 | Rosalyn Darling | refrigerator-repair-hub |
+| Sam Sippl | garbage-disposal-repair-hub |
 | Satara Armstrong Charlson | viking-hub |
 | Stacey Etnire | chino-hills |
+| Stephen Stephen | cypress |
 | T G | san-juan-capistrano |
+| William Nugent | la-habra |
 | dodoleej | downey |
 | nicole tomlin | palm-springs |
+| rick deangelo | orange |
 | ronney collosi | chino-hills |
 
 ## Reviews at cap (on 2 hubs) — do not add to a 3rd hub
@@ -117,7 +125,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Jovita Osorio | placentia, wine-cooler-repair-hub |
 | Julianna Gamulao | oven-stove-repair-hub, viking-pico-rivera |
 | Julie L. | huntington-beach, dryer-repair-cost-hub |
-| Justine Shaw | buena-park, garbage-disposal-repair-hub |
 | Kat Tesh | brea, viking-hub |
 | Kathleen Street | chino-hills, riverside |
 | Katie Holst | fullerton, dishwasher-repair-hub |
@@ -126,7 +133,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Kenan Ken | westminster, oven-stove-repair-hub |
 | Kim Bowen | downey, dryer-repair-hub |
 | Lale | santa-ana, refrigerator-repair-hub |
-| Laman Anvarli | fullerton, freezer-repair-hub |
 | LethKris B&H | electrolux-hub, ge-hub |
 | Leticia Caro | downey, maytag-hub |
 | Linda B. | laguna-niguel, lake-forest |
@@ -135,7 +141,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Mark Lauria | san-clemente, sub-zero-hub |
 | Marla Katz | santa-ana, kitchenaid-hub |
 | Matt Semonza | kitchenaid-hub, whirlpool-hub |
-| Matt Snyder | pico-rivera, garbage-disposal-repair-hub |
 | Melissa | dryer-repair-cost-hub, whirlpool-hub |
 | Michele Ohanian | ge-hub, refrigerator-repair-cost-hub |
 | Muhammed Nusratli | kenmore-hub, oven-repair-cost-hub |
@@ -151,7 +156,6 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Russell Kadota | laguna-beach, washer-repair-hub |
 | Shawne King | cost-hub, cypress |
 | Steph WW | lg-hub, maytag-hub |
-| Stephen Stephen | cypress, garbage-disposal-repair-hub |
 | Steve D | newport-beach, viking-pico-rivera |
 | Surma Karimova | dana-point, tustin |
 | Susan Ryan | orange, oven-stove-repair-hub |
@@ -163,14 +167,12 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Wendy Henderson | los-alamitos, pico-rivera |
 | Who-Bangin Sports Talk | lg-hub, samsung-hub |
 | William L. | bosch-hub, dacor-hub |
-| William Nugent | la-habra, freezer-repair-hub |
 | andrea hall | cost-hub, freezer-repair-hub |
 | atlindacity | kitchenaid-hub, whirlpool-hub |
 | cheryl lemire | san-clemente, dryer-repair-hub |
 | mike bonilla | brea, lake-forest |
 | mrs d. | aliso-viejo, dacor-hub |
 | paul guns | cost-hub, seal-beach |
-| rick deangelo | orange, wine-cooler-repair-hub |
 
 ## Name-normalization note
 
