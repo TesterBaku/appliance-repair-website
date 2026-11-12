@@ -323,6 +323,18 @@ Hero, four fact cards, recent repairs, reviews, process (dark band), Pricing & D
 - **Buttons:** `.v2-btn` (ember fill, white text, 50px minimum, 8px radius), `.v2-btn--ghost` (white fill, ink text, `--ghost-line` border), `.v2-btn--onink` (transparent, white text, `--dark-ring` border; for the dark band and CTA panel).
 - **Text links:** `.v2-link` (ink, 600, 44px minimum, underline on hover, hover colour `--ember-dark`); `.v2-prose a` (ember-dark, underlined); any bare `<a>` with no class inside `.v2` falls back to the same ember-dark, 600, underlined (white on the ink band and CTA panel) through a zero-specificity `:where()` rule, so a link can never render browser-default blue and every component rule still wins; `.v2-tel` (phone numbers: inherit colour, 600, no wrap, underline in ember; white on the dark band and CTA panel).
 
+### Brand hubs
+
+Brand hub pages use the same template. Section order: hero, four fact cards, recent repairs (if the page has jobs), reviews under "What Our Customers Say", process band with the page's own four steps, Pricing & Discounts, models, known issues, explainer prose, repair costs with the table shown open, service area, FAQ, cross-links, guides, closing CTA.
+
+- **`.v2-cross`**: two-column grid of white link cards (name in `strong`, one line in `span`), one column at 768px and below, hover matches `.v2-brands`. Brand hubs use `.v2-cross` instead of `.v2-brands`.
+- **`.v2-table--plain`**: modifier on `.v2-table` for non-cost tables (error codes, model prefixes): left-aligned wrapping last column, bold ink first column.
+- **Open cost table**: a `.v2-table-wrap` directly after a `.v2-head` has no extra top margin, and a `p.v2-fine` after it sits 16px below.
+- **Video job tiles**: a `<video>` in `.v2-job-photo` covers the photo area exactly as an `img` does.
+- **`.v2-jobs--brand`**: modifier on `.v2-jobs` for brand-hub galleries whose tile titles run to three lines; the link row gets 12px of top padding so a long title never touches it. Appliance pages do not use it.
+- **`.v2-sticky p + p`**: a second paragraph in the FAQ left column sits 12px below the first (the page intro, then "Still have a question? Call ..." as two separate paragraphs).
+- **Brand-hub conventions** (exemplars: LG, Sub-Zero; the rules are in `progress/brands-v2-brief.md`): one `faq-item open` carries `aria-expanded="true"` in the markup (every other button `false`), so the state is right with and without JavaScript; review footers join name, the old card's label (only if it had one) and location with `&nbsp;·` before each dot so a dot never starts a wrapped line; the job-tile h3 is brand, appliance word, old title, with the appliance word left out when the title already contains it; the "See all recent repairs" foot button exists only when the old jobs section linked to `recent-repairs.html`; the cost disclaimer and the old cost-guide or $99 paragraph are two separate `p.v2-fine v2-prose` after the table, in the old order.
+
 ### Rules
 
 - **Brands:** uniform text cards, no logos. Each links to its brand hub. A brand without a hub is an unlinked card (a `span`) and goes last.
