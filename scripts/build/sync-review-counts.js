@@ -34,6 +34,13 @@
  *   - "N Google reviews" hero-rating copy AND the matching aria-label
  *     (aria-label="5.0, N Google reviews, rated 5 out of 5"; it starts with the
  *     visible "5.0 · N Google reviews" text so the accessible name contains the label)
+ *     The v2 hub template (`<main class="v2">`) is covered by these same two regexes:
+ *     its hero `a.v2-rating` (aria-label="5.0, N Google reviews, rated 5 out of 5" and
+ *     `<span>5.0 &middot; N Google reviews</span>`), the `a.v2-rating` under the reviews
+ *     (aria-label ending ". Opens Google", same span) and the "From our N verified
+ *     5-star Google reviews" heading line. Verified by corrupting each one on
+ *     pages/freezer-repair-orange-county.html: --check named it, apply restored it.
+ *     v2 pages carry no "Read all N reviews" link.
  *   - "Read all N reviews" link text
  *   - the testimonials-page "Verified Google Reviews" stat number
  *

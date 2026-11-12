@@ -283,14 +283,14 @@ Contrast ratios below were computed from the hex values with the WCAG relative-l
 | `--dark-hover` | `#1f4250` | Hover fill of the on-dark button | 10.75:1 white text on it |
 | `--ghost-line` | `#b3c3cb` | Outline (ghost) button border | 1.81:1 on white |
 | `--ghost-line-hover` | `#8fa3ad` | Ghost button border on hover | not computed |
-| `--focus` | `#1479a8` | Focus ring | 4.85:1 on white; 4.45:1 on ice; 2.86:1 on ink |
+| `--focus` | `#1479a8` | Focus ring | 4.85:1 on white; 4.45:1 on ice; 2.86:1 on ink, so `#fff` (13.86:1) is used there |
 | `--scrim` | `rgba(20, 48, 59, .9)` | Photo caption chip background (white 12px text on it) | not computed (alpha over a photo) |
 
 Other tokens: `--r` 10px (the one radius), `--gut` 24px (16px between 769px and 1099px, matching the nav's side padding), `--max` 1052px, `--pad` `clamp(44px, 5.2vw, 68px)` (44px on phones), `--col-gap` `clamp(32px, 6vw, 96px)`.
 
 Roles to keep straight:
 - **Ink** is for headings and the one dark band. **Ice** is the only tint; there is no second tinted background. **Ember is for actions only** (buttons, the check and arrow icons, the FAQ and disclosure plus sign, the `.v2-tel` underline); it is never a section background or decorative fill.
-- **Open contrast items, stated rather than implied:** (a) the focus ring (`--focus`) measures 2.86:1 on the ink band, under the 3:1 non-text floor, so keyboard focus on the dark band's buttons and phone link relies on the 3px width and offset more than on colour; (b) `--ghost-line` is 1.81:1 on white, so the ghost button's boundary is carried by its text and fill, not its border; (c) the stylesheet's own comment calls `--text` 8.6:1 on white, while the computed value is 8.82:1. Use the table, not the comments.
+- **Open contrast items, stated rather than implied:** (a) resolved: the focus ring is white on ink surfaces (see the Focus ring rule in the template rules); (b) `--ghost-line` is 1.81:1 on white, so the ghost button's boundary is carried by its text and fill, not its border; (c) the stylesheet's own comment calls `--text` 8.6:1 on white, while the computed value is 8.82:1. Use the table, not the comments.
 
 ### The one grid
 
@@ -330,6 +330,6 @@ Hero, four fact cards, recent repairs, reviews, process (dark band), Pricing & D
 - **Phone numbers:** every phone number is a tap-to-call `tel:` link (`.v2-tel`), including inside prose.
 - **Button wording:** "Request a Repair" (header, drawer, footer, page buttons); the sticky mobile bar reads "Request Repair". Never "Book a Repair", "Book Online" or "Book Now".
 - **Tap targets:** 44px minimum for every link and button on a phone (`.v2-link`, `.v2-rating`, `.v2-review-more` and the FAQ and disclosure rows all carry it; `.v2-btn` is 50px).
-- **Focus ring:** `a:focus-visible` and `button:focus-visible` inside `.v2` draw a 3px solid `--focus` outline with 3px offset. Do not remove it or replace it with a colour that is not a token.
+- **Focus ring:** `a:focus-visible` and `button:focus-visible` inside `.v2` draw a 3px solid `--focus` outline with 3px offset. Do not remove it or replace it with a colour that is not a token. On the ink surfaces (`.v2-sec--ink` and `.v2-cta`) `--focus` is redefined to `#fff` (13.86:1 on ink) because `#1479a8` is only 2.86:1 there and WCAG 1.4.11 needs 3:1.
 - **Motion:** every v2 transition is disabled under `prefers-reduced-motion: reduce`.
 - **Still true from section 6:** no em dashes in copy, no gradient text, no nested cards, no side-stripe borders.
