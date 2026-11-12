@@ -617,6 +617,16 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-brands + .v2-note { margin-top: 24px; }
 .v2-fine { margin-top: 16px; max-width: 86ch; font-size: 13px; line-height: 1.6; color: var(--muted); }
 
+/* ---- Cross-links: uniform link cards with a name and one line of text (brand hubs use this instead of .v2-brands) ---- */
+.v2-cross { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.v2-cross li { display: flex; }
+.v2-cross a { display: block; flex: 1; font-weight: 400; min-height: 64px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+.v2-cross strong { display: block; color: var(--ink); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; transition: color .15s; }
+.v2-cross span { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.v2-cross a:hover { border-color: var(--ember); box-shadow: 0 2px 12px rgba(20, 48, 59, .08); }
+.v2-cross a:hover strong { color: var(--ember-dark); }
+.v2-cross + .v2-fine { margin-top: 24px; }
+
 /* ---- Checklist (problems) ---- */
 .v2-checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; border-top: 1px solid var(--line); }
 .v2-checks li { display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--line); color: var(--ink); font-weight: 500; }
@@ -626,6 +636,7 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-job { display: grid; grid-template-columns: 42% minmax(0, 1fr); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: #fff; }
 .v2-job-photo { position: relative; min-height: 320px; background: var(--ice); }
 .v2-job-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.v2-job-photo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .v2-job-body { display: flex; flex-direction: column; align-items: flex-start; padding: 26px 24px 18px; }
 .v2-job-loc { font-size: 14px; color: var(--muted); }
 .v2-job-body h3 { margin-top: 8px; font-size: 22px; letter-spacing: -0.02em; line-height: 1.2; }
@@ -707,6 +718,14 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-table td { padding: 14px 20px; border-top: 1px solid var(--line); font-size: 15px; }
 .v2-table th:last-child, .v2-table td:last-child { text-align: right; white-space: nowrap; }
 .v2-table td:last-child { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+/* Non-cost table (error codes, model prefixes): undo the right-aligned, nowrap, bold last column */
+.v2-table.v2-table--plain th:last-child, .v2-table.v2-table--plain td:last-child { text-align: left; white-space: normal; }
+.v2-table.v2-table--plain td:last-child { color: var(--text); font-weight: 400; font-variant-numeric: normal; }
+.v2-table.v2-table--plain td:first-child { color: var(--ink); font-weight: 700; white-space: nowrap; }
+/* A cost table shown open straight under a section head: the head already carries the gap. A footnote after it sits 16px below. */
+.v2-head + .v2-table-wrap { margin-top: 0; }
+.v2-head + .v2-table-wrap > .v2-table:first-child { margin-top: 0; }
+.v2-table-wrap + .v2-fine { margin-top: 16px; }
 
 /* ---- Panel used for the guideline box ---- */
 .v2-panel { margin-top: 20px; padding: 20px 22px; border: 1px solid var(--line); border-radius: var(--r); background: var(--ice); font-size: 15px; }
@@ -835,6 +854,8 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .v2-more > summary { width: 100%; }
   .v2-defs > div { padding: 16px 0; }
   .v2-table th, .v2-table td { padding: 12px 14px; font-size: 14px; }
+  .v2-cross { grid-template-columns: minmax(0, 1fr); }
+  .v2-table.v2-table--plain th, .v2-table.v2-table--plain td { padding: 12px 10px; }
   .v2 .faq-q { font-size: 16px; }
   .v2 .faq-a { padding-right: 8px; }
   .v2-cta { row-gap: 24px; }
