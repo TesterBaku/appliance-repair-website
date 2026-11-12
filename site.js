@@ -568,8 +568,21 @@
     document.querySelectorAll('details.v2-more').forEach(function (d) {
       if (d.hasAttribute('data-v2-more-ready')) return;
       d.setAttribute('data-v2-more-ready', '');
+      // Only keyboard activation moves focus: a mouse click also focuses the summary, and moving focus
+      // (even with preventScroll off-screen) can scroll the page under a mouse user.
+      var sum = d.querySelector(':scope > summary');
+      var byKey = false;
+      if (sum) {
+        sum.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') byKey = true;
+        });
+        sum.addEventListener('pointerdown', function () { byKey = false; });
+      }
       d.addEventListener('toggle', function () {
         if (!d.open) return;
+        var fromKey = byKey;
+        byKey = false;
+        if (!fromKey) return;
         var a = document.activeElement;
         if (a && a !== document.body && a !== document.documentElement && a.tagName !== 'SUMMARY' && a.getClientRects().length) return;
         var link = d.querySelector('a[href]');
