@@ -562,27 +562,25 @@
   }
 
   // 8. Hub v2 gallery disclosure. The "Show all N" <summary> of a details.v2-more hides itself once the
-  // details opens (CSS, one-way by design), which would drop keyboard focus to <body>. When it opens and
-  // focus is no longer on a real element, move it to the first link in the revealed content.
+  // details opens (CSS, one-way by design), which would drop focus to <body>. Whenever it opens and focus
+  // is no longer on a real element, move it to the first link in the revealed content, UNLESS the open was
+  // pointer-initiated: a mouse click also focuses the summary, and moving focus (even with preventScroll
+  // off-screen) can scroll the page under a mouse user. Everything else (Enter, Space, a screen reader's
+  // virtual-cursor click, which fires a bare `click` with no keydown or pointerdown) gets the move.
   function initV2More() {
     document.querySelectorAll('details.v2-more').forEach(function (d) {
       if (d.hasAttribute('data-v2-more-ready')) return;
       d.setAttribute('data-v2-more-ready', '');
-      // Only keyboard activation moves focus: a mouse click also focuses the summary, and moving focus
-      // (even with preventScroll off-screen) can scroll the page under a mouse user.
       var sum = d.querySelector(':scope > summary');
-      var byKey = false;
+      var byPointer = false;
       if (sum) {
-        sum.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') byKey = true;
-        });
-        sum.addEventListener('pointerdown', function () { byKey = false; });
+        sum.addEventListener('pointerdown', function () { byPointer = true; });
+        sum.addEventListener('keydown', function () { byPointer = false; });
       }
       d.addEventListener('toggle', function () {
-        if (!d.open) return;
-        var fromKey = byKey;
-        byKey = false;
-        if (!fromKey) return;
+        var fromPointer = byPointer;
+        byPointer = false;
+        if (!d.open || fromPointer) return;
         var a = document.activeElement;
         if (a && a !== document.body && a !== document.documentElement && a.tagName !== 'SUMMARY' && a.getClientRects().length) return;
         var link = d.querySelector('a[href]');

@@ -675,9 +675,17 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 /* A definition list straight after the brand grid or its fine print (no .v2-table-wrap around it) */
 .v2-brands + .v2-defs, .v2-fine + .v2-defs { margin-top: 32px; }
 .v2 p + .v2-defs { margin-top: 16px; }
+/* A tier list that spans the whole wrap as a direct child of .v2-split, with the guideline panel after it */
+.v2-split > .v2-defs.v2-span { margin-top: clamp(28px, 3.5vw, 40px); }
+.v2-split > .v2-panel.v2-span { margin-top: 20px; }
 /* Variants. --1: one column, for long prose or an odd item count. --3: exactly three items side by side on desktop. */
 .v2-defs--1 { grid-template-columns: minmax(0, 1fr); }
 .v2-defs--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* ---- Service-area section: the legacy .service-area rules (old template) still match it, so match a normal v2 prose block ---- */
+.v2 .service-area h2 { margin-bottom: 0; }
+.v2 .service-area p { max-width: none; font-size: inherit; line-height: inherit; color: inherit; margin-bottom: 0; }
+.v2 .service-area p a:link, .v2 .service-area p a:visited, .v2 .service-area p a:hover, .v2 .service-area p a:focus-visible { color: var(--ember-dark); font-weight: 600; text-underline-offset: 3px; }
 
 /* ---- Pricing ---- */
 .v2-policy { margin-top: 20px; border-top: 1px solid var(--line); }
@@ -771,6 +779,13 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-disc > div { padding-bottom: 24px; }
 .v2-disc .v2-table { margin-top: 0; }
 
+/* A lone last card ("All brands") spans its row; desktop grids are 5 columns, or 4 with --4 */
+@media (min-width: 769px) {
+  .v2-brands li:last-child:nth-child(5n+1) { grid-column: 1 / -1; }
+  .v2-brands--4 li:last-child:nth-child(5n+1) { grid-column: auto; }
+  .v2-brands--4 li:last-child:nth-child(4n+1) { grid-column: 1 / -1; }
+}
+
 @media (max-width: 960px) {
   .v2-job { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .v2-reviews--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -788,6 +803,7 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .v2-head { row-gap: 12px; margin-bottom: 24px; }
   .v2-head > p { padding-top: 0; }
   .v2-split { row-gap: 24px; }
+  .v2-split > .v2-defs.v2-span, .v2-split > .v2-panel.v2-span { margin-top: 0; }
   .v2-sticky { position: static; }
   .v2-grid2 { gap: 20px; }
   .v2-hero { padding-top: 14px; padding-bottom: 16px; }
@@ -804,6 +820,7 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .v2-brands a, .v2-brands span { justify-content: center; min-height: 52px; padding: 6px; font-size: 14px; letter-spacing: -0.01em; text-align: center; }
   .v2-brands a::after { content: none; }
   .v2-brands .v2-brands-all { font-size: 13px; }
+  .v2-brands li:last-child:nth-child(3n+1) { grid-column: 1 / -1; }
   .v2-checks li { padding: 14px 0; }
   .v2-reviews, .v2-reviews--3 { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .v2-foot-actions { width: 100%; }

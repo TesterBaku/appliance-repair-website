@@ -1169,6 +1169,21 @@ for (const name of V2_MORE_PAGES) {
     expect(Math.abs(after.y - before), 'page scrolled after a mouse click').toBeLessThanOrEqual(4);
     expect(after.onTile, 'focus was moved onto a tile link by a mouse click').toBe(false);
   });
+
+  // A screen reader's virtual cursor activates the summary with a bare `click`: no keydown, no pointerdown.
+  // Focus must still land on the first revealed link, not be lost with the hidden summary.
+  test(`v2 gallery: a bare click (screen-reader activation) moves focus into the gallery on ${name}`, async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const details = page.locator('details.v2-more').first();
+    await page.evaluate(() => document.querySelector('details.v2-more > summary').click());
+    await expect(details).toHaveJSProperty('open', true);
+    await expect.poll(() => page.evaluate(() => {
+      const a = document.activeElement;
+      return !!(a && a.tagName === 'A' && a.closest('details.v2-more'));
+    })).toBe(true);
+  });
 }
 
 // ─── City hubs ────────────────────────────────────────────────────────────────
