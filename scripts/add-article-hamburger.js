@@ -48,7 +48,7 @@ const NAV_DRAWER = `
     <a href="../pages/contact.html">Contact</a>
     <a href="../pages/blog.html">Blog</a>
     <a href="tel:+19496295365" class="nav-drawer-cta">Call (949) 629-5365</a>
-    <a href="../pages/contact.html" class="nav-drawer-cta nav-drawer-cta--outline">Book a Repair</a>
+    <a href="../pages/contact.html" class="nav-drawer-cta nav-drawer-cta--outline">Request a Repair</a>
   </div>`;
 
 const files = fs.readdirSync(articlesDir).filter(f => f.endsWith('.html'));
@@ -67,9 +67,9 @@ for (const file of files) {
   // 1. Insert hamburger CSS before </style>
   html = html.replace('</style>', HAMBURGER_CSS + '\n  </style>');
 
-  // 2. Add hamburger button after the "Book a Repair" nav-cta link
+  // 2. Add hamburger button after the "Request a Repair" nav-cta link
   html = html.replace(
-    /(<a href="\.\.\/pages\/contact\.html" class="nav-cta">Book a Repair<\/a>)/,
+    /(<a href="\.\.\/pages\/contact\.html" class="nav-cta">Request a Repair<\/a>)/,
     '$1\n      ' + HAMBURGER_BUTTON
   );
 

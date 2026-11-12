@@ -151,7 +151,7 @@ Articles are self-contained (no `shared.css`), so both the CSS and the HTML must
   <!-- STICKY MOBILE CALL/BOOK BAR -->
   <div class="sticky-mobile-bar">
     <a href="tel:+19496295365" class="sticky-call">📞 Call Now</a>
-    <a href="../pages/contact.html" class="sticky-book">Book Repair</a>
+    <a href="../pages/contact.html" class="sticky-book">Request Repair</a>
   </div>
 ```
 

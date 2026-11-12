@@ -147,7 +147,7 @@ test.describe('Homepage (index.html)', () => {
     }
   });
 
-  // The homepage hero "Book a Repair" points at an in-page #contact anchor, so it
+  // The homepage hero "Request a Repair" points at an in-page #contact anchor, so it
   // only fires book_repair_click if the tracker keys on link text, not destination.
   test('the "#contact" hero CTA fires book_repair_click', async ({ page }) => {
     await page.locator('a[href="#contact"]').first().click();
@@ -3461,7 +3461,7 @@ for (const { brand, file } of BRAND_HUBS) {
 // sizes"). Nothing in this repo had ever checked it — tasks/backlog.md P6-50 said
 // so outright — and the gap shipped a live conversion bug (P6-61): the mobile rule
 // `.btn-white, .btn-white-outline { min-height: 44px; ... }` was copied into 69
-// pages, while the class on the primary "Book a Repair Visit" / "Book Online" CTAs
+// pages, while the class on the primary "Request a Repair Visit" / "Request a Repair" CTAs
 // is `.btn-outline-white`. The words are transposed, so the rule matched nothing.
 //
 // WHY THIS IS A BROWSER TEST AND NOT A STATIC CSS CHECK. It was first written as a
