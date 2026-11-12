@@ -247,3 +247,89 @@ Question buttons use `aria-expanded` (true/false) and `aria-controls` pointing t
   - ⚠️ **This rule is currently violated on the homepage, and this bullet used to hide that.** It read "The feature section now uses a mixed highlight-plus-list layout", stated as settled fact. It is not: `index.html`'s `.why-highlights` section is six uniform icon-heading-text cards (`index.html:1074`), and the `.features-grid` / `.feature-card` rules the sentence described are declared in the CSS but referenced by **zero** elements in the markup. Found in the `/review` of PR #765, by a reviewer reading this file against the page. A design doc that claims a fix which was never shipped is worse than one that admits the debt, because it retires the item in everyone's head. Tracked as **P6-63**; the rule above stands for all new work.
 - **Don't** write body copy with em dashes. Use commas, semicolons, colons, and periods. Em dashes register as editorial voice the brand doesn't have.
 - **Don't** make the footer dark with cold blacks or generic navy. The Night Workshop tone (`#090909`) has brown warmth; replacing it with `#000` or a blue-shifted dark strips the connection to the brand orange.
+
+---
+
+## 7. v2 Hub Template (rollout in progress)
+
+Owner-approved 2026-11-11/12. The v2 template is being rolled out in releases: the 8 appliance service pages first, then brand pages, city pages, the homepage and static pages, and finally the nav, footer and sticky bar restyle. Source of truth for every value below is the v2 stylesheet; approved markup is the freezer and refrigerator fragments from the redesign preview.
+
+### Which palette applies where during the rollout
+
+Sections 1 to 6 above remain in force. v2 does not replace them; it overrides them only inside the v2 scope.
+
+- **Inside `.v2` (the `<main>` of a migrated page):** the ink palette in this section.
+- **Everywhere else:** the existing Ember and Mist palette from section 2. That means pages not yet migrated, and, on migrated pages too, the nav, the footer and the sticky mobile bar, until their own release.
+- All v2 tokens are custom properties declared on `.v2`, so they cannot leak into the nav, footer or sticky bar. Do not move them to `:root`.
+- One shared value: v2's `--ember` (`#cc3d12`) is the same value as Ember Deep above, and `--ember-dark` (`#aa3210`) is the same value as Ember Deeper. v2 never uses `#e84c1e`.
+
+### Ink palette (tokens on `.v2`)
+
+Contrast ratios below were computed from the hex values with the WCAG relative-luminance formula, not copied from CSS comments. Each names its pair.
+
+| Token | Value | Role | Computed contrast |
+|---|---|---|---|
+| `--ink` | `#14303b` | Headings (h1 to h3), dark band and CTA panel background (`--dark` aliases it) | 13.86:1 on white; 12.72:1 on ice |
+| `--text` | `#3b4d56` | Body copy | 8.82:1 on white; 8.09:1 on ice |
+| `--muted` | `#55676f` | Secondary copy, metadata, table headers | 5.91:1 on white; 5.42:1 on ice |
+| `--line` | `#dbe4e8` | Every border and divider | 1.29:1 on white (decorative, never carries meaning) |
+| `--ice` | `#f1f6f8` | Every tinted background | n/a |
+| `--ember` | `#cc3d12` | Actions only: button fill, icons | 4.95:1 white text on it; 4.95:1 on white and 4.54:1 on ice as an icon or text colour |
+| `--ember-dark` | `#aa3210` | Action hover, small accent text (prose links, "Read full review", hover states) | 6.62:1 on white (and white text on it); 6.08:1 on ice |
+| `--star` | `#b45309` | Rating stars on light | 5.02:1 on white; 4.61:1 on ice |
+| `--on-dark` | `#c6d3d9` | Copy on the dark band | 9.05:1 on ink |
+| `--dark-line` | `#44606c` | Dividers on dark, the step connector | 2.07:1 on ink (decorative) |
+| `--dark-ring` | `#7d95a0` | Step circle border, outline button border on dark | 4.41:1 on ink |
+| `--dark-hover` | `#1f4250` | Hover fill of the on-dark button | 10.75:1 white text on it |
+| `--ghost-line` | `#b3c3cb` | Outline (ghost) button border | 1.81:1 on white |
+| `--ghost-line-hover` | `#8fa3ad` | Ghost button border on hover | not computed |
+| `--focus` | `#1479a8` | Focus ring | 4.85:1 on white; 4.45:1 on ice; 2.86:1 on ink, so `#fff` (13.86:1) is used there |
+| `--scrim` | `rgba(20, 48, 59, .9)` | Photo caption chip background (white 12px text on it) | not computed (alpha over a photo) |
+
+Other tokens: `--r` 10px (the one radius), `--gut` 24px (16px between 769px and 1099px, matching the nav's side padding), `--max` 1052px, `--pad` `clamp(44px, 5.2vw, 68px)` (44px on phones), `--col-gap` `clamp(32px, 6vw, 96px)`.
+
+Roles to keep straight:
+- **Ink** is for headings and the one dark band. **Ice** is the only tint; there is no second tinted background. **Ember is for actions only** (buttons, the check and arrow icons, the FAQ and disclosure plus sign, the `.v2-tel` underline); it is never a section background or decorative fill.
+- **Open contrast items, stated rather than implied:** (a) resolved: the focus ring is white on ink surfaces (see the Focus ring rule in the template rules); (b) `--ghost-line` is 1.81:1 on white, so the ghost button's boundary is carried by its text and fill, not its border; (c) the stylesheet's own comment calls `--text` 8.6:1 on white, while the computed value is 8.82:1. Use the table, not the comments.
+
+### The one grid
+
+- **One wrap.** `.v2-wrap` is `max-width: 1052px`, the same as `.nav-inner`, so the logo and the page content share one left edge. Every section uses it.
+- **Heading left, content right.** `.v2-head` and `.v2-split` are a two-column grid at `5fr / 7fr` with `--col-gap` between. A section's heading (and its short lead) sits in the left column; the content sits in the right. The hero is the inverse split (`7fr / 5fr`), and the closing CTA panel is also `7fr / 5fr`.
+- **Nothing is centred.** Text, headings and cards are left-aligned. (The only centred strings are phone-width brand cards and the CTA panel's small print.)
+- **One line colour, one radius.** Every border and divider is `--line`; every card, panel, photo and table is `--r` (10px). Buttons are 8px. Do not introduce a second radius or a second line colour.
+- **Phones (768px and below):** every split collapses to one column; brands go to three columns, facts to two, the job gallery to two; reviews to one column; `.v2-sticky` becomes static.
+
+### Section order
+
+Hero, four fact cards, recent repairs, reviews, process (dark band), Pricing & Discounts, problems, types, brands, repair-or-replace (market cost table behind a disclosure), service area, FAQ, guides, closing CTA. Sections alternate white and `v2-sec--ice`, separated by a `--line` top border; the process band (`v2-sec--ink`) has no top border.
+
+### Components
+
+- **Hero** (`.v2-hero`, `.v2-hero-grid`): ice background, breadcrumb (`.v2-crumbs`), h1, lead (`.v2-hero-lead`), rating link (`.v2-rating`), two buttons (`.v2-hero-cta`), note, and a photo (`.v2-hero-photo`) with a caption chip (`figcaption`, `--scrim` background, white 12px text). The photo is 4:3 on phones.
+- **Four fact cards** (`.v2-facts`): the old "What to expect" strip. Four white cards (two columns on phones), bold label plus one supporting line, with `.v2-facts-trust` beneath.
+- **Recent-repair cards** (`.v2-job`, `.v2-job-photo`, `.v2-job-body`, `.v2-job-loc`, `.v2-job-links`): photo left (42%) and text right; below 960px they stack. **Two-up variant:** two cards in `.v2-grid2`. **Gallery variant** (`.v2-jobs`): four columns (three below 960px, two on phones) of compact tiles with the caption hidden, for pages with many jobs; the first eight show and the rest sit behind `.v2-more` (a `<details>`).
+- **Review cards** (`.v2-reviews`, `.v2-reviews--3`, `.v2-review`, `.v2-stars`, `.v2-review-more`): white cards, stars, blockquote, reviewer footer. `.is-clamped` holds the quote to five lines until "Read full review" opens it.
+- **Process band** (`.v2-sec--ink`, `.v2-steps`): the one dark section. Heading, lead and action on the left; numbered steps on the right, each in a 36px circle (`--dark-ring` border) joined by a 1px `--dark-line` connector.
+- **Pricing panel** (`.v2-price`, `.v2-price-top`): large price figure (64px, 54px on small phones), checklist, full-width button. Beside it `.v2-policy` rows. `.v2-panel` is the guideline box.
+- **Checklist** (`.v2-checks`): the problems list; two columns, ruled rows, ember check icon.
+- **Definition rows** (`.v2-defs`, `dt` / `dd`): the types list; two columns, ruled rows.
+- **Brand cards** (`.v2-brands`, `.v2-brands--4`, `.v2-brands-all`): uniform text cards, five columns (four with `--4`, three on phones), 60px minimum height, arrow on desktop. `.v2-brands-all` is the link to all brands.
+- **Note panel** (`.v2-note`, `.v2-fine`): ice panel with `--line` border (white inside an ice section); `.v2-fine` is 13px fine print.
+- **Disclosure** (`.v2-disc`): a `<details>` with a 64px summary row and an ember plus that rotates 45 degrees when open. Holds the market cost table (`.v2-table-wrap`, `.v2-table`, right-aligned bold tabular prices).
+- **FAQ**: keeps the `site.js` hooks (`.faq-item`, `button.faq-q`, `.faq-a`), restyled under `.v2` as ruled rows with an ember plus icon. Do not rename these classes.
+- **Guides list** (`.v2-guides`): ruled link rows, 60px minimum, ember arrow icon.
+- **Closing CTA panel** (`.v2-cta`, `.v2-cta-actions`): ink panel, 7fr / 5fr, heading and copy left, stacked actions right, small print centred under them.
+- **Buttons:** `.v2-btn` (ember fill, white text, 50px minimum, 8px radius), `.v2-btn--ghost` (white fill, ink text, `--ghost-line` border), `.v2-btn--onink` (transparent, white text, `--dark-ring` border; for the dark band and CTA panel).
+- **Text links:** `.v2-link` (ink, 600, 44px minimum, underline on hover, hover colour `--ember-dark`); `.v2-prose a` (ember-dark, underlined); `.v2-tel` (phone numbers: inherit colour, 600, no wrap, underline in ember; white on the dark band and CTA panel).
+
+### Rules
+
+- **Brands:** uniform text cards, no logos. Each links to its brand hub. A brand without a hub is an unlinked card (a `span`) and goes last.
+- **Reviews:** under an appliance heading, show only reviews about that appliance. Quotes are held to five lines with "Read full review". Show 3 on desktop and 2 on phones; the rest sit behind a reversible "Show N more reviews" button (`.v2-reviews-more`, toggled by the `hidden` attribute). The rating line under the reviews links to Google, and the button beside it reads "More customer reviews". Review text is still copied verbatim from `data/testimonials.json`.
+- **Phone numbers:** every phone number is a tap-to-call `tel:` link (`.v2-tel`), including inside prose.
+- **Button wording:** "Request a Repair" (header, drawer, footer, page buttons); the sticky mobile bar reads "Request Repair". Never "Book a Repair", "Book Online" or "Book Now".
+- **Tap targets:** 44px minimum for every link and button on a phone (`.v2-link`, `.v2-rating`, `.v2-review-more` and the FAQ and disclosure rows all carry it; `.v2-btn` is 50px).
+- **Focus ring:** `a:focus-visible` and `button:focus-visible` inside `.v2` draw a 3px solid `--focus` outline with 3px offset. Do not remove it or replace it with a colour that is not a token. On the ink surfaces (`.v2-sec--ink` and `.v2-cta`) `--focus` is redefined to `#fff` (13.86:1 on ink) because `#1479a8` is only 2.86:1 there and WCAG 1.4.11 needs 3:1.
+- **Motion:** every v2 transition is disabled under `prefers-reduced-motion: reduce`.
+- **Still true from section 6:** no em dashes in copy, no gradient text, no nested cards, no side-stripe borders.
