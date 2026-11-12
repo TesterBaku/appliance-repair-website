@@ -920,18 +920,32 @@ for (const name of V2_PAGES) {
       expect(await facts.locator('img, .brand-chips, .brand-chips-list').count()).toBe(0);
     });
 
-    test('every brand card link resolves to an existing page; an unlinked card is plain text', async ({ page }) => {
+    // Service pages carry one `ul.v2-brands` grid; brand hubs carry one `ul.v2-cross` grid of cards instead
+    // (`li > a > strong + span`). Exactly one of the two, never both and never neither.
+    test('every cross-link card resolves to an existing page; on service pages an unlinked brand card is plain text', async ({ page }) => {
       const brands = page.locator('ul.v2-brands');
-      await expect(brands).toHaveCount(1);
-      const hrefList = await hrefs(page, 'ul.v2-brands a');
-      expect(hrefList.length).toBeGreaterThan(0);
-      for (const h of hrefList) {
-        const file = h.split('#')[0];
-        expect(fs.existsSync(path.join(PAGES_DIR, file)), `${h} exists`).toBe(true);
+      const cross = page.locator('ul.v2-cross');
+      expect(await brands.count() + await cross.count(), 'exactly one of ul.v2-brands or ul.v2-cross').toBe(1);
+      const resolves = (h) => fs.existsSync(path.join(PAGES_DIR, h.split('#')[0]));
+      if (await brands.count()) {
+        const hrefList = await hrefs(page, 'ul.v2-brands a');
+        expect(hrefList.length).toBeGreaterThan(0);
+        for (const h of hrefList) expect(resolves(h), `${h} exists`).toBe(true);
+        await expect(brands.locator('a.v2-brands-all')).toHaveCount(1);
+        for (const t of await brands.locator('li > span').allTextContents()) {
+          expect(t.trim().length, 'unlinked brand card has a name').toBeGreaterThan(0);
+        }
+        return;
       }
-      await expect(brands.locator('a.v2-brands-all')).toHaveCount(1);
-      for (const t of await brands.locator('li > span').allTextContents()) {
-        expect(t.trim().length, 'unlinked brand card has a name').toBeGreaterThan(0);
+      const cards = cross.locator('> li');
+      expect(await cards.count()).toBeGreaterThanOrEqual(4);
+      for (const card of await cards.all()) {
+        await expect(card.locator('> a')).toHaveCount(1);
+        const h = await card.locator('> a').getAttribute('href');
+        expect(h && h !== '#', 'card has a real href').toBeTruthy();
+        expect(resolves(h), `${h} exists`).toBe(true);
+        expect((await card.locator('a > strong').textContent()).trim().length, 'card has a name').toBeGreaterThan(0);
+        expect((await card.locator('a > span').textContent()).trim().length, 'card has a description').toBeGreaterThan(0);
       }
     });
 
@@ -1989,8 +2003,10 @@ test.describe('Newport Beach hub: capped Recent Repairs grid', () => {
   });
 });
 
-// Mainstream brand hubs whose Recent Repairs collections exceed six cards: phones show six behind
-// a "Show all N repairs" button (site.js initJobGridCap), desktop shows every card and no button.
+// Mainstream brand hubs whose Recent Repairs collections exceed six cards. Old template: phones show six
+// behind a "Show all N repairs" button (site.js initJobGridCap), desktop shows every card and no button.
+// v2 template: the gallery shows eight tiles and keeps the rest inside `details.v2-more` whose summary
+// names the total (a gallery of eight or fewer has no disclosure), at every viewport.
 for (const { brand, file, grid } of [
   { brand: 'Bosch',      file: 'bosch-appliance-repair-orange-county.html',      grid: 'bosch-job-grid' },
   { brand: 'GE',         file: 'ge-appliance-repair-orange-county.html',         grid: 'ge-job-grid' },
@@ -1998,10 +2014,34 @@ for (const { brand, file, grid } of [
   { brand: 'LG',         file: 'lg-appliance-repair-orange-county.html',         grid: 'lg-job-grid' },
   { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html',    grid: 'samsung-job-grid' },
 ]) {
+  // v2 gallery assertions, shared by the phone and desktop tests.
+  const expectV2Gallery = async (page) => {
+    await page.evaluate(() => document.fonts.ready);
+    const tiles = page.locator('.v2-jobs > article.v2-job');
+    const total = await tiles.count();
+    expect(total).toBeGreaterThan(6);
+    const more = page.locator('details.v2-more');
+    if (total <= 8) {
+      await expect(more).toHaveCount(0);
+      expect(await v2VisibleTiles(tiles)).toBe(total);
+      return;
+    }
+    await expect(more).toHaveCount(1);
+    expect(await v2VisibleTiles(tiles)).toBe(8);
+    expect(await more.locator('article.v2-job').count()).toBe(total - 8);
+    const summary = more.locator('> summary');
+    await expect(summary).toBeVisible();
+    await expect(summary).toContainText('Show all ' + total);
+    expect((await summary.boundingBox()).height).toBeGreaterThanOrEqual(44);
+    await summary.click();
+    await expect(more).toHaveJSProperty('open', true);
+    expect(await v2VisibleTiles(tiles)).toBe(total);
+  };
   test.describe(`${brand} hub: capped Recent Repairs grid`, () => {
     test('phone: six cards, Show all reveals the rest', async ({ page }) => {
       await page.setViewportSize(MOBILE);
       await page.goto(`/pages/${file}`);
+      if (await isV2(page)) { await expectV2Gallery(page); return; }
       const cards = page.locator(`#${grid} > div`);
       const total = await cards.count();
       expect(total).toBeGreaterThan(6);
@@ -2018,6 +2058,7 @@ for (const { brand, file, grid } of [
     test('desktop: every card visible and no Show all button', async ({ page }) => {
       await page.setViewportSize(DESKTOP);
       await page.goto(`/pages/${file}`);
+      if (await isV2(page)) { await expectV2Gallery(page); return; }
       const cards = page.locator(`#${grid} > div`);
       expect(await visibleChildren(cards)).toBe(await cards.count());
       await expect(page.locator(`#${grid} + .job-grid-more-row .job-grid-more`)).toBeHidden();
@@ -3099,6 +3140,8 @@ const BRAND_HUBS = [
   { brand: 'Viking',   file: 'viking-appliance-repair-orange-county.html' },
   { brand: 'Thermador',file: 'thermador-appliance-repair-orange-county.html' },
   { brand: 'DCS',      file: 'dcs-appliance-repair-orange-county.html' },
+  // Dacor is deliberately absent (checked 2026-11-12): it passes every assertion below except "cross-link
+  // grid has 6 cards" (it links 5: DCS, Sub-Zero, Wolf, Viking, Thermador; Miele is missing).
 ];
 // Mainstream brand hubs: Bosch, Electrolux, Frigidaire, GE, Kenmore, KitchenAid, LG, Maytag, Samsung,
 // Whirlpool. A separate list from BRAND_HUBS because the two take different assertions:
@@ -3127,6 +3170,33 @@ const MAINSTREAM_HUBS = [
   { brand: 'Samsung',    file: 'samsung-appliance-repair-orange-county.html' },
   { brand: 'Whirlpool',  file: 'whirlpool-appliance-repair-orange-county.html' },
 ];
+
+// Brand hubs exist in two templates while they migrate (old `.hub-hero` markup, v2 `main.v2`). Every
+// brand-hub assertion below asserts the SAME FACT on both, selected by what the page actually contains
+// (`isV2`), so a page needs no edit here when it migrates. The v2 sections are found by the
+// `aria-labelledby` ids the migrated pages share. The issues section has two ids in the wild
+// (`issues-title` on Sub-Zero, `problems-title` on LG); both are accepted until the brief standardises one.
+const BRAND_V2 = {
+  models: 'section[aria-labelledby="models-title"]',
+  issues: 'section[aria-labelledby="issues-title"], section[aria-labelledby="problems-title"]',
+  costs: 'section[aria-labelledby="costs-title"]',
+};
+// The `div`s of the single `dl.v2-defs` in a v2 brand section. The section count guard is what keeps a
+// renamed id from turning every loop below into a vacuous pass over zero items.
+async function v2DefRows(page, sectionSel) {
+  const sec = page.locator(sectionSel);
+  await expect(sec, `${sectionSel}: exactly one section`).toHaveCount(1);
+  const rows = sec.locator('dl.v2-defs > div');
+  await expect(rows.first(), `${sectionSel}: has dl.v2-defs rows`).toBeAttached();
+  return rows;
+}
+// A job tile counts as visible only when it is not inside a closed details.v2-more (a closed
+// disclosure's contents are skipped by layout, but do not rely on that: say it in the predicate).
+const v2VisibleTiles = loc => loc.evaluateAll(els => els.filter(e => {
+  const d = e.closest('details.v2-more');
+  return !(d && !d.open) && e.getClientRects().length > 0;
+}).length);
+
 // Site-wide: a phone number in a .service-area paragraph must never split across two lines.
 // 58 hubs carried the number unwrapped, so it split wherever the line happened to break. Measured in the
 // browser (getClientRects), not inferred from CSS. Page list derived from the filesystem.
@@ -3173,7 +3243,7 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
     });
 
     test('hero CTA row has the call and contact links', async ({ page }) => {
-      const row = page.locator('.hub-hero .hub-cta-row').first();
+      const row = (await isV2(page)) ? page.locator('.v2-hero .v2-hero-cta').first() : page.locator('.hub-hero .hub-cta-row').first();
       expect(await row.locator('a[href="tel:+19496295365"]').count()).toBeGreaterThan(0);
       expect(await row.locator('a[href="contact.html"]').count()).toBeGreaterThan(0);
     });
@@ -3257,13 +3327,17 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
     });
 
     test('has at least 3 testimonial cards', async ({ page }) => {
-      expect(await page.locator('.testimonial-card').count()).toBeGreaterThanOrEqual(3);
+      const cards = (await isV2(page)) ? 'figure.v2-review' : '.testimonial-card';
+      expect(await page.locator(cards).count()).toBeGreaterThanOrEqual(3);
     });
 
     // Count-guarded and polled like the premium job-card check: the imgs sit below the
     // fold and are lazy, so from a cold cache they are not `complete` at goto() time.
     // A page with no real-job photos has nothing to check.
     test('real-job photos all resolve (no broken images)', async ({ page }) => {
+      // v2: most tiles sit in a closed details.v2-more, and a hidden image can be neither scrolled to nor
+      // loaded, so open every disclosure first (the property, not a click: only the photos matter here).
+      if (await isV2(page)) await page.evaluate(() => document.querySelectorAll('details.v2-more').forEach(d => { d.open = true; }));
       const imgs = page.locator('img[src*="images/real/business/"]');
       const n = await imgs.count();
       if (n === 0) return;
@@ -3274,9 +3348,19 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
     });
   });
 
-  if (`pages/${file}` in HUB_REDESIGN_BASELINE) continue;
+}
 
-  test.describe(`Mainstream hub redesign: ${brand}`, () => {
+// The redesign block asserts the redesigned-hub facts (trust strip, no .ai-block, service-area block,
+// order, no price in the hero). Mainstream hubs get it unless baselined; a premium hub gets it once it is
+// on the v2 template (derived from its file, so migrating one needs no edit here). On v2 the trust strip is
+// `section.v2-facts`, the review cards are `figure.v2-review` and the hero lead is `.v2-hero-lead`.
+const REDESIGN_HUBS = [
+  ...MAINSTREAM_HUBS.map(h => ({ ...h, kind: 'Mainstream' })),
+  ...BRAND_HUBS.filter(h => isV2File(h.file)).map(h => ({ ...h, kind: 'Premium' })),
+].filter(({ file }) => !(`pages/${file}` in HUB_REDESIGN_BASELINE));
+
+for (const { brand, file, kind } of REDESIGN_HUBS) {
+  test.describe(`${kind} hub redesign: ${brand}`, () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`/pages/${file}`);
     });
@@ -3287,6 +3371,21 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
     });
 
     test('expect-strip is the single trust strip: fee, warranty, trust line, no logo', async ({ page }) => {
+      if (await isV2(page)) {
+        const facts = page.locator('section.v2-facts');
+        await expect(facts).toHaveCount(1);
+        const text = await facts.textContent();
+        expect(text).toContain('$99');
+        expect(text).toContain('90-day');
+        expect(text).toContain('30-day');
+        expect(await facts.locator('img').count()).toBe(0);
+        const lastIsTrust = await facts.evaluate(el => {
+          const inner = el.querySelector('.v2-wrap') || el;
+          return inner.lastElementChild.classList.contains('v2-facts-trust');
+        });
+        expect(lastIsTrust).toBe(true);
+        return;
+      }
       const strip = page.locator('section.expect-strip');
       await expect(strip).toHaveCount(1);
       const text = await strip.textContent();
@@ -3306,15 +3405,16 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
     });
 
     test('reviews come right after the strip: strip < first review < service-area < FAQ', async ({ page }) => {
-      const order = await page.evaluate(() => {
+      const v2 = await isV2(page);
+      const order = await page.evaluate((v2) => {
         const before = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
-        const strip = document.querySelector('section.expect-strip');
-        const review = document.querySelector('.testimonial-card');
+        const strip = document.querySelector(v2 ? 'section.v2-facts' : 'section.expect-strip');
+        const review = document.querySelector(v2 ? 'figure.v2-review' : '.testimonial-card');
         const area = document.querySelector('section.service-area');
         const faq = document.querySelector('#faq, .faq-list');
         if (!strip || !review || !area || !faq) return null;
         return { stripBeforeReview: before(strip, review), reviewBeforeArea: before(review, area), areaBeforeFaq: before(area, faq) };
-      });
+      }, v2);
       expect(order).toEqual({ stripBeforeReview: true, reviewBeforeArea: true, areaBeforeFaq: true });
     });
 
@@ -3331,7 +3431,8 @@ for (const { brand, file } of MAINSTREAM_HUBS) {
     });
 
     test('hero paragraph states no price', async ({ page }) => {
-      const p = await page.locator('.hub-hero-content p').first().textContent();
+      const sel = (await isV2(page)) ? '.v2-hero-lead' : '.hub-hero-content p';
+      const p = await page.locator(sel).first().textContent();
       expect(p).not.toContain('$');
     });
   });
@@ -3547,7 +3648,8 @@ for (const { brand, file } of BRAND_HUBS) {
 
     // ── Breadcrumb ────────────────────────────────────────────────────────────
     test('breadcrumb has Home and Services links', async ({ page }) => {
-      const breadcrumbLinks = await hrefs(page, 'a[href="../"], a[href*="services.html"]');
+      const scope = (await isV2(page)) ? 'nav.v2-crumbs ' : '';
+      const breadcrumbLinks = await hrefs(page, `${scope}a[href="../"], ${scope}a[href*="services.html"]`);
       expect(breadcrumbLinks.some(h => h === '../')).toBe(true);
       expect(breadcrumbLinks.some(h => h && h.includes('services'))).toBe(true);
     });
@@ -3566,6 +3668,15 @@ for (const { brand, file } of BRAND_HUBS) {
 
     // ── Hero ─────────────────────────────────────────────────────────────────
     test('hero section has H1 and two CTAs', async ({ page }) => {
+      if (await isV2(page)) {
+        await expect(page.locator('.v2-hero h1')).toBeAttached();
+        const cta = page.locator('.v2-hero .v2-hero-cta');
+        await expect(cta.locator('a[href="tel:+19496295365"]')).toHaveCount(1);
+        const req = cta.locator('a[href="contact.html"]');
+        await expect(req).toHaveCount(1);
+        expect((await req.textContent()).trim()).toBe('Request a Repair');
+        return;
+      }
       await expect(page.locator('.hub-hero h1')).toBeAttached();
       const ctaLinks = await hrefs(page, '.hub-cta-row a');
       expect(ctaLinks.some(h => h && h.startsWith('tel:'))).toBe(true);
@@ -3573,47 +3684,68 @@ for (const { brand, file } of BRAND_HUBS) {
     });
 
     test('H1 contains brand name', async ({ page }) => {
-      const h1 = await page.locator('.hub-hero h1').textContent();
+      const h1 = await page.locator((await isV2(page)) ? '.v2-hero h1' : '.hub-hero h1').textContent();
       expect(h1).toContain(brand);
     });
 
     // ── Models section ────────────────────────────────────────────────────────
+    // v2: `dl.v2-defs` rows (`div > dt + dd`) in the models section.
     test('models grid has at least 4 cards', async ({ page }) => {
-      const models = await page.locator('.model-card').count();
+      const models = (await isV2(page)) ? await (await v2DefRows(page, BRAND_V2.models)).count()
+        : await page.locator('.model-card').count();
       expect(models).toBeGreaterThanOrEqual(4);
     });
 
     test('each model card has a name and description', async ({ page }) => {
-      const cards = await page.locator('.model-card').all();
+      const v2 = await isV2(page);
+      const cards = await (v2 ? await v2DefRows(page, BRAND_V2.models) : page.locator('.model-card')).all();
+      expect(cards.length, 'there are model cards to check').toBeGreaterThan(0);
       for (const card of cards) {
-        const name = await card.locator('.model-name').textContent();
-        const desc = await card.locator('.model-desc').textContent();
+        const name = await card.locator(v2 ? 'dt' : '.model-name').textContent();
+        const desc = await card.locator(v2 ? 'dd' : '.model-desc').textContent();
         expect(name.trim().length).toBeGreaterThan(0);
         expect(desc.trim().length).toBeGreaterThan(0);
       }
     });
 
     // ── Common issues section ─────────────────────────────────────────────────
+    // v2: the bold lead is the `dt`; the description is the `dd`.
     test('issues grid has at least 6 items', async ({ page }) => {
-      const items = await page.locator('.issue-item').count();
+      const items = (await isV2(page)) ? await (await v2DefRows(page, BRAND_V2.issues)).count()
+        : await page.locator('.issue-item').count();
       expect(items).toBeGreaterThanOrEqual(6);
     });
 
     test('each issue item has a heading and description', async ({ page }) => {
-      const items = await page.locator('.issue-item').all();
+      const v2 = await isV2(page);
+      const items = await (v2 ? await v2DefRows(page, BRAND_V2.issues) : page.locator('.issue-item')).all();
+      expect(items.length, 'there are issue items to check').toBeGreaterThan(0);
       for (const item of items) {
-        const strong = await item.locator('strong').textContent();
+        const strong = await item.locator(v2 ? 'dt' : 'strong').textContent();
         expect(strong.trim().length).toBeGreaterThan(0);
+        if (v2) expect((await item.locator('dd').textContent()).trim().length).toBeGreaterThan(0);
       }
     });
 
     // ── Repair process ────────────────────────────────────────────────────────
+    // v2: `ol.v2-steps > li > h3`, numbered by the ordered list itself.
     test('repair process has exactly 4 steps', async ({ page }) => {
-      const steps = await page.locator('.process-step').count();
+      const steps = await page.locator((await isV2(page)) ? 'ol.v2-steps > li' : '.process-step').count();
       expect(steps).toBe(4);
     });
 
     test('each process step has a number, title, and description', async ({ page }) => {
+      if (await isV2(page)) {
+        const steps = await page.locator('ol.v2-steps > li').all();
+        expect(steps.length).toBe(4);
+        for (const step of steps) {
+          const title = (await step.locator('> h3').textContent()).trim();
+          const all = (await step.textContent()).trim();
+          expect(title.length).toBeGreaterThan(0);
+          expect(all.slice(title.length).trim().length, 'step text after its title').toBeGreaterThan(0);
+        }
+        return;
+      }
       const steps = await page.locator('.process-step').all();
       for (const step of steps) {
         const num = await step.locator('.step-number').textContent();
@@ -3626,19 +3758,34 @@ for (const { brand, file } of BRAND_HUBS) {
     });
 
     // ── Cost table ────────────────────────────────────────────────────────────
+    // v2: `table.v2-table` in the costs section, shown open, then `p.v2-fine` carrying the disclaimer.
+    const costTable = async (page) => {
+      if (!(await isV2(page))) return page.locator('table.cost-table');
+      const sec = page.locator(BRAND_V2.costs);
+      await expect(sec, 'exactly one costs section').toHaveCount(1);
+      return sec.locator('table.v2-table');
+    };
+
     test('has cost table with disclaimer', async ({ page }) => {
-      await expect(page.locator('table.cost-table')).toBeAttached();
+      const table = await costTable(page);
+      await expect(table).toBeAttached();
+      if (await isV2(page)) {
+        await expect(table, 'the v2 cost table is shown open, not inside a disclosure').toBeVisible();
+        const fine = await page.locator(`${BRAND_V2.costs} p.v2-fine`).allTextContents();
+        expect(fine.join(' ')).toMatch(/Estimates vary by brand/i);
+        return;
+      }
       const disclaimer = await page.locator('.cost-disclaimer').textContent();
       expect(disclaimer).toMatch(/Estimates vary by brand/i);
     });
 
     test('cost table has at least 5 rows including diagnostic fee row', async ({ page }) => {
-      const rows = await page.locator('table.cost-table tbody tr').count();
+      const rows = await (await costTable(page)).locator('tbody tr').count();
       expect(rows).toBeGreaterThanOrEqual(5);
     });
 
     test('cost table has diagnostic fee row', async ({ page }) => {
-      const tableText = await page.locator('table.cost-table').textContent();
+      const tableText = await (await costTable(page)).textContent();
       expect(tableText).toMatch(/diagnostic/i);
       // Premium hubs: $95 – $150; standard hubs: $75 – $100 or $99
       expect(tableText).toMatch(/\$(?:75|95|99)/);
@@ -3675,12 +3822,24 @@ for (const { brand, file } of BRAND_HUBS) {
     });
 
     // ── Testimonials ──────────────────────────────────────────────────────────
+    // v2: `figure.v2-review` (`.v2-stars`, `blockquote`, `footer > strong` for the name). The v2 card has
+    // no initial avatar, so that one element has no v2 counterpart.
     test('has exactly 3 testimonial cards', async ({ page }) => {
-      const cards = await page.locator('.testimonial-card').count();
+      const cards = await page.locator((await isV2(page)) ? 'figure.v2-review' : '.testimonial-card').count();
       expect(cards).toBe(3);
     });
 
     test('each testimonial card has stars, quote, initial, and name', async ({ page }) => {
+      if (await isV2(page)) {
+        const reviews = await page.locator('figure.v2-review').all();
+        expect(reviews.length).toBe(3);
+        for (const card of reviews) {
+          await expect(card.locator('.v2-stars')).toBeAttached();
+          expect((await card.locator('blockquote').textContent()).trim().length).toBeGreaterThan(5);
+          expect((await card.locator('footer > strong').textContent()).trim().length).toBeGreaterThan(0);
+        }
+        return;
+      }
       const cards = await page.locator('.testimonial-card').all();
       expect(cards.length).toBe(3);
       for (const card of cards) {
@@ -3694,16 +3853,19 @@ for (const { brand, file } of BRAND_HUBS) {
     });
 
     // ── Luxury brands cross-link ──────────────────────────────────────────────
+    // v2: `ul.v2-cross > li > a > strong + span`; the link is the `li`'s anchor.
     test('luxury brands cross-link grid has 6 cards', async ({ page }) => {
-      const cards = await page.locator('.luxury-brand-card').count();
+      const cards = await page.locator((await isV2(page)) ? 'ul.v2-cross > li' : '.luxury-brand-card').count();
       expect(cards).toBe(6);
     });
 
     test('each luxury brand card has a name, description, and valid href', async ({ page }) => {
-      const cards = await page.locator('.luxury-brand-card').all();
+      const v2 = await isV2(page);
+      const cards = await page.locator(v2 ? 'ul.v2-cross > li > a' : '.luxury-brand-card').all();
+      expect(cards.length, 'there are cross-link cards to check').toBeGreaterThan(0);
       for (const card of cards) {
-        const name = await card.locator('.lb-name').textContent();
-        const desc = await card.locator('.lb-desc').textContent();
+        const name = await card.locator(v2 ? 'strong' : '.lb-name').textContent();
+        const desc = await card.locator(v2 ? 'span' : '.lb-desc').textContent();
         const href = await card.getAttribute('href');
         expect(name.trim().length).toBeGreaterThan(0);
         expect(desc.trim().length).toBeGreaterThan(0);
@@ -3714,20 +3876,26 @@ for (const { brand, file } of BRAND_HUBS) {
     });
 
     test('current brand is NOT linked in its own cross-link grid', async ({ page }) => {
-      const cards = await page.locator('.luxury-brand-card').all();
-      const names = await Promise.all(cards.map(c => c.locator('.lb-name').textContent()));
+      const v2 = await isV2(page);
+      const cards = await page.locator(v2 ? 'ul.v2-cross > li > a' : '.luxury-brand-card').all();
+      expect(cards.length, 'there are cross-link cards to check').toBeGreaterThan(0);
+      const names = await Promise.all(cards.map(c => c.locator(v2 ? 'strong' : '.lb-name').textContent()));
       expect(names.map(n => n.trim())).not.toContain(brand);
+      if (v2) {
+        const linked = await Promise.all(cards.map(c => c.getAttribute('href')));
+        expect(linked, "no card links to the brand's own hub").not.toContain(file);
+      }
     });
 
     // ── CTA box ───────────────────────────────────────────────────────────────
     test('CTA box links to tel: and contact', async ({ page }) => {
-      const ctaLinks = await hrefs(page, '.cta-box a');
+      const ctaLinks = await hrefs(page, (await isV2(page)) ? '.v2-cta a' : '.cta-box a');
       expect(ctaLinks.some(h => h && h.startsWith('tel:'))).toBe(true);
       expect(ctaLinks.some(h => h && h.includes('contact'))).toBe(true);
     });
 
     test('CTA box heading contains brand name or repair', async ({ page }) => {
-      const heading = await page.locator('.cta-box h2').textContent();
+      const heading = await page.locator((await isV2(page)) ? '.v2-cta h2' : '.cta-box h2').textContent();
       expect(heading).toMatch(/repair|Repair/i);
     });
 
