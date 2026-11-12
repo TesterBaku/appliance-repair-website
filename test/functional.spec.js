@@ -995,6 +995,11 @@ test('v2 reviews: at least the refrigerator page is discovered', () => {
   expect(V2_REVIEW_PAGES).toContain('refrigerator-repair-orange-county.html');
 });
 
+// Serial so one worker runs every page and both viewports in order and the shared counters below are
+// meaningful (fullyParallel would scatter them across workers).
+let v2ReadFullExercised = 0;
+let v2ReadFullRuns = 0;
+test.describe.serial('v2 reviews: suite-level checks', () => {
 for (const name of V2_REVIEW_PAGES) {
   test.describe(`v2 reviews: ${name}`, () => {
     const url = `/pages/${name}`;
@@ -1062,6 +1067,8 @@ for (const name of V2_REVIEW_PAGES) {
           expect(await quote.evaluate(clipped), 'quote is cut again after closing').toBe(true);
         }
         test.info().annotations.push({ type: 'cards-with-read-full-review', description: String(exercised) });
+        v2ReadFullRuns++;
+        v2ReadFullExercised += exercised;
       });
     }
 
@@ -1092,6 +1099,16 @@ for (const name of V2_REVIEW_PAGES) {
     });
   });
 }
+
+// Each page only exercises the Read-full-review open/close path if one of its quotes exceeds five lines,
+// and a page without a long quote is fine. But if NO page on NO viewport had one, the open/close
+// assertions above never ran and the test would pass vacuously. So require at least one card overall.
+// Skipped when a --grep filter kept the exercising tests from running at all.
+test('the Read full review open/close path was exercised on at least one card', () => {
+  test.skip(v2ReadFullRuns === 0, 'the per-page quote tests did not run in this invocation');
+  expect(v2ReadFullExercised, 'no quote on any v2 page and viewport exceeded five lines, so the open/close assertions never ran').toBeGreaterThan(0);
+});
+});
 
 // ─── v2 gallery disclosure (site.js initV2More) ───────────────────────────────
 // The "Show all N repairs" <summary> hides itself once the <details> opens (one-way design), which
@@ -1130,6 +1147,27 @@ for (const name of V2_MORE_PAGES) {
     expect(next.tag).not.toBe('BODY');
     expect(next.inChrome, 'Tab went back to the site nav').toBe(false);
     expect(next.y).toBeGreaterThan(500);
+  });
+
+  // A mouse click also focuses the summary, but must not move focus (or scroll) onto the first tile.
+  test(`v2 gallery: a mouse click on "Show all" does not move focus or scroll on ${name}`, async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const details = page.locator('details.v2-more').first();
+    const summary = details.locator('> summary');
+    await summary.scrollIntoViewIfNeeded();
+    const before = await page.evaluate(() => window.scrollY);
+    await summary.click();
+    await expect(details).toHaveJSProperty('open', true);
+    await page.waitForTimeout(150);   // let the toggle event (and any focus move) run
+    const after = await page.evaluate(() => ({
+      y: window.scrollY,
+      onTile: !!(document.activeElement && document.activeElement.tagName === 'A' &&
+        document.activeElement.closest('details.v2-more')),
+    }));
+    expect(Math.abs(after.y - before), 'page scrolled after a mouse click').toBeLessThanOrEqual(4);
+    expect(after.onTile, 'focus was moved onto a tile link by a mouse click').toBe(false);
   });
 }
 
