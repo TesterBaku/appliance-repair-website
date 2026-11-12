@@ -1093,6 +1093,46 @@ for (const name of V2_REVIEW_PAGES) {
   });
 }
 
+// ─── v2 gallery disclosure (site.js initV2More) ───────────────────────────────
+// The "Show all N repairs" <summary> hides itself once the <details> opens (one-way design), which
+// used to drop keyboard focus to <body>. Focus must land on the first revealed link instead.
+const V2_MORE_PAGES = V2_PAGES.filter(n =>
+  fs.readFileSync(path.join(PAGES_DIR, n), 'utf8').includes('class="v2-more'));
+
+test('v2 gallery: at least the refrigerator page is discovered', () => {
+  expect(V2_MORE_PAGES).toContain('refrigerator-repair-orange-county.html');
+});
+
+for (const name of V2_MORE_PAGES) {
+  test(`v2 gallery: keyboard focus survives "Show all" on ${name}`, async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const summary = page.locator('details.v2-more > summary').first();
+    await summary.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('details.v2-more').first()).toHaveJSProperty('open', true);
+    // Focus lands on a link inside the revealed gallery, not on <body>.
+    await expect.poll(() => page.evaluate(() => {
+      const a = document.activeElement;
+      return !!(a && a.tagName === 'A' && a.closest('details.v2-more'));
+    })).toBe(true);
+    // Tab continues from there: not back at the top of the page.
+    await page.keyboard.press('Tab');
+    const next = await page.evaluate(() => {
+      const a = document.activeElement;
+      return {
+        tag: a ? a.tagName : null,
+        inChrome: !!(a && a.closest('nav, header, .nav-drawer, .skip-link')),
+        y: a ? a.getBoundingClientRect().top + window.scrollY : 0,
+      };
+    });
+    expect(next.tag).not.toBe('BODY');
+    expect(next.inChrome, 'Tab went back to the site nav').toBe(false);
+    expect(next.y).toBeGreaterThan(500);
+  });
+}
+
 // ─── City hubs ────────────────────────────────────────────────────────────────
 // Derived from the filesystem rather than hand-maintained: a hardcoded list drifts, and
 // drift is not hypothetical here. `appliance-repair-long-beach-ca` shipped 2026-07-08 with

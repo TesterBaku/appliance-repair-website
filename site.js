@@ -18,6 +18,8 @@
  *   7. hub v2 review grids (.v2-reviews): three reviews on desktop and two on tablets and phones,
  *                       a reversible "Show N more reviews" button, and every quote held to five lines
  *                       with a "Read full review" toggle.
+ *   8. hub v2 gallery disclosure (details.v2-more): keeps keyboard focus when the one-way
+ *                       "Show all N" summary hides itself, by moving it to the first revealed link.
  *
  * Page-specific filters (blog search/filter, testimonials filter) stay
  * inline on their one page — they are singletons, not a drift class.
@@ -559,6 +561,26 @@
     });
   }
 
+  // 8. Hub v2 gallery disclosure. The "Show all N" <summary> of a details.v2-more hides itself once the
+  // details opens (CSS, one-way by design), which would drop keyboard focus to <body>. When it opens and
+  // focus is no longer on a real element, move it to the first link in the revealed content.
+  function initV2More() {
+    document.querySelectorAll('details.v2-more').forEach(function (d) {
+      if (d.hasAttribute('data-v2-more-ready')) return;
+      d.setAttribute('data-v2-more-ready', '');
+      d.addEventListener('toggle', function () {
+        if (!d.open) return;
+        var a = document.activeElement;
+        if (a && a !== document.body && a !== document.documentElement && a.tagName !== 'SUMMARY' && a.getClientRects().length) return;
+        var link = d.querySelector('a[href]');
+        if (!link) return;
+        var r = link.getBoundingClientRect();
+        var inView = r.top >= 0 && r.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+        link.focus(inView ? { preventScroll: true } : undefined);
+      });
+    });
+  }
+
   initDropdowns();
   initDrawer();
   initFaq();
@@ -568,4 +590,5 @@
   initReviewsCap();
   initScrollableTables();
   initV2Reviews();
+  initV2More();
 })();
