@@ -2030,6 +2030,139 @@ test.describe('Testimonials page', () => {
       document.querySelector('section.section-white').getBoundingClientRect().bottom);
     expect(gap).toBeLessThanOrEqual(48);
   });
+
+  // Unified card shape: five-line clamp with "Read more", photo in the footer row, tap to enlarge.
+  // Everything is derived from the DOM, so a weekly review batch cannot make these stale.
+  const revealAll = async (page) => {
+    const btn = page.locator('#reviews-more');
+    while (await btn.isVisible()) await btn.click();
+    await page.evaluate(() => document.fonts.ready);
+  };
+  const clampState = (page) => page.evaluate(() => [...document.querySelectorAll('#reviews-grid .t-card:not([hidden])')]
+    .filter(c => c.querySelector('.t-quote')).map(c => {
+      const q = c.querySelector('.t-quote');
+      const lh = parseFloat(getComputedStyle(q).lineHeight);
+      return { h: q.getBoundingClientRect().height, lh, over: q.scrollHeight > q.clientHeight + 1,
+               btn: !!c.querySelector('.t-more'), open: q.classList.contains('is-open') };
+    }));
+
+  for (const [label, vp] of [['mobile', MOBILE], ['desktop', DESKTOP]]) {
+    test(`clamp (${label}): collapsed quotes show at most 5 lines, Read more only where text is cut`, async ({ page }) => {
+      await page.setViewportSize(vp);
+      await revealAll(page);
+      const state = await clampState(page);
+      expect(state.length).toBeGreaterThan(100);
+      for (const s of state) {
+        expect(s.h).toBeLessThanOrEqual(5 * s.lh + 1);
+        expect(s.btn).toBe(s.over);
+      }
+      expect(state.some(s => s.btn)).toBe(true);
+    });
+  }
+
+  test('Read more expands one quote, Show less restores it; the button is a 44px target', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.evaluate(() => document.fonts.ready);
+    const btn = page.locator('#reviews-grid .t-card:not([hidden]) .t-more').first();
+    await expect(btn).toHaveAttribute('aria-expanded', 'false');
+    await expect(btn).toHaveText('Read more');
+    expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+    const quote = btn.locator('xpath=preceding-sibling::p[contains(@class,"t-quote")][1]');
+    await expect(btn).toHaveAttribute('aria-controls', await quote.getAttribute('id'));
+    const collapsed = (await quote.boundingBox()).height;
+    await btn.click();
+    await expect(btn).toHaveAttribute('aria-expanded', 'true');
+    await expect(btn).toHaveText('Show less');
+    expect((await quote.boundingBox()).height).toBeGreaterThan(collapsed);
+    await btn.click();
+    await expect(btn).toHaveAttribute('aria-expanded', 'false');
+    expect((await quote.boundingBox()).height).toBeCloseTo(collapsed, 0);
+  });
+
+  test('every review photo is a 56px thumbnail in the footer; only images worth enlarging get a 44px link', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await revealAll(page);
+    // Wait for the lazy images so natural widths are real, not 0.
+    await page.evaluate(() => Promise.all([...document.querySelectorAll('#reviews-grid .t-review-photo')].map(img => {
+      img.loading = 'eager';
+      return img.complete ? null : new Promise(res => { img.onload = img.onerror = res; });
+    })));
+    const rows = await page.evaluate(() => [...document.querySelectorAll('#reviews-grid .t-review-photo')].map(img => {
+      const a = img.closest('.t-photo-link');
+      const r = a && a.getBoundingClientRect();
+      const ir = img.getBoundingClientRect();
+      return { inFooter: !!img.closest('.t-footer'), iw: ir.width, ih: ir.height, natural: img.naturalWidth, linked: !!a,
+        same: !!a && new URL(a.getAttribute('href'), location.href).href === img.src, w: r && r.width, h: r && r.height,
+        focusable: !!a && a.tabIndex >= 0, imgFocusable: img.tabIndex >= 0 };
+    }));
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.some(r => r.linked)).toBe(true);
+    expect(rows.some(r => !r.linked)).toBe(true);
+    for (const r of rows) {
+      expect(r.inFooter).toBe(true);
+      expect(r.iw).toBe(56);
+      expect(r.ih).toBe(56);
+      expect(r.natural).toBeGreaterThan(0);
+      // Linked if and only if the source is big enough to be worth enlarging.
+      expect(r.linked).toBe(r.natural >= 300);
+      expect(r.imgFocusable).toBe(false);
+      if (!r.linked) continue;
+      expect(r.same).toBe(true);
+      expect(r.w).toBeGreaterThanOrEqual(44);
+      expect(r.h).toBeGreaterThanOrEqual(44);
+    }
+  });
+
+  test('With photos pill: count equals the cards with a photo and the status line says so', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    const pill = page.locator('.filter-pill[data-filter="photos"]');
+    const n = Number((await pill.innerText()).match(/\((\d+)\)\s*$/)[1]);
+    expect(n).toBe(await page.locator('#reviews-grid .t-card:has(.t-review-photo)').count());
+    await pill.click();
+    await expect(page.locator('#review-status')).toHaveText(
+      n <= 24 ? 'Showing all ' + n + ' reviews with photos.' : 'Showing 24 of ' + n + ' reviews with photos.');
+    expect(await visibleCards(page).count()).toBe(Math.min(24, n));
+  });
+
+  test('tapping a photo opens the enlarged view; Escape closes it and returns focus to the link', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    const link = page.locator('#reviews-grid .t-card:not([hidden]) .t-photo-link:not([data-caption])').first();
+    const name = await link.locator('xpath=ancestor::div[contains(@class,"t-card")]').locator('.t-name').innerText();
+    const alt = await link.locator('img').getAttribute('alt');
+    await link.click();
+    const dialog = page.locator('#t-lightbox');
+    await expect(dialog).toBeVisible();
+    expect(await dialog.locator('img').evaluate(i => i.src)).toBe(await link.evaluate(a => a.href));
+    await expect(dialog.locator('img')).toHaveAttribute('alt', alt);
+    await expect(page.locator('#t-lightbox-caption')).toHaveText('Photo from ' + name + '’s review');
+    const closeBox = await page.locator('#t-lightbox-close').boundingBox();
+    expect(closeBox.width).toBeGreaterThanOrEqual(44);
+    expect(closeBox.height).toBeGreaterThanOrEqual(44);
+    // The close button sits in a header row above the photo and must never cover it.
+    const imgBox = await dialog.locator('img').boundingBox();
+    const overlaps = closeBox.x < imgBox.x + imgBox.width && closeBox.x + closeBox.width > imgBox.x &&
+      closeBox.y < imgBox.y + imgBox.height && closeBox.y + closeBox.height > imgBox.y;
+    expect(overlaps).toBe(false);
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+    await expect(link).toBeFocused();
+    // Our own photo carries its credit as the caption instead.
+    const ours = page.locator('#reviews-grid .t-photo-link[data-caption]');
+    await revealAll(page);
+    await ours.click();
+    await expect(page.locator('#t-lightbox-caption')).toHaveText(await ours.getAttribute('data-caption'));
+  });
+
+  test('without JS nothing is clamped and there are no Read more buttons', async ({ browser }) => {
+    const ctx = await browser.newContext({ javaScriptEnabled: false, viewport: MOBILE });
+    const page = await ctx.newPage();
+    await page.goto('/pages/testimonials.html');
+    await expect(page.locator('.t-more')).toHaveCount(0);
+    const longest = await page.evaluate(() => Math.max(...[...document.querySelectorAll('.t-quote')].map(q => {
+      const r = q.getBoundingClientRect(); return r.height / parseFloat(getComputedStyle(q).lineHeight); })));
+    expect(longest).toBeGreaterThan(5.5);
+    await ctx.close();
+  });
 });
 
 // ─── Capped job grid + gallery city filter ───────────────────────────────────
