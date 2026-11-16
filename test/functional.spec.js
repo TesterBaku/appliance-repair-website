@@ -1001,6 +1001,11 @@ const V2_REVIEW_PAGES = V2_PAGES.filter(n =>
   fs.readFileSync(path.join(PAGES_DIR, n), 'utf8').includes('class="v2-reviews'));
 const V2_PHONE = { width: 390, height: 844 };
 const v2Cap = vp => (vp.width <= 960 ? 2 : 3);
+// A single review is never hidden (site.js initV2Reviews): when the cap would hide exactly one card, every
+// card shows and the "Show N more" button stays hidden. Otherwise the cap applies.
+const v2Shown = (vp, total) => (total - v2Cap(vp) === 1 ? total : Math.min(v2Cap(vp), total));
+let v2LoneRuleExercised = 0;
+let v2CapRuns = 0;
 const moreLabel = n => 'Show ' + n + ' more review' + (n === 1 ? '' : 's');
 const clipped = el => el.scrollHeight > el.clientHeight + 2;
 const visibleCount = cards => cards.evaluateAll(els => els.filter(e => e.getClientRects().length > 0).length);
@@ -1032,13 +1037,22 @@ for (const name of V2_REVIEW_PAGES) {
         const { cards, more } = await open(page, vp);
         const total = await cards.count();
         expect(total).toBeGreaterThan(0);
+        v2CapRuns++;
         const cap = v2Cap(vp);
-        expect(await visibleCount(cards)).toBe(Math.min(cap, total));
-        if (total <= cap) {
+        const shown = v2Shown(vp, total);
+        expect(await visibleCount(cards)).toBe(shown);
+        if (shown === total) {
+          // Nothing is hidden, so there is nothing to reveal: no button. When the cap alone would have
+          // hidden exactly one review, this is the "never hide a single review" rule.
           await expect(more).toBeHidden();
+          if (total - cap === 1) {
+            v2LoneRuleExercised++;
+            for (let i = 0; i < total; i++) await expect(cards.nth(i)).toBeVisible();
+          }
           return;
         }
         const extra = total - cap;
+        expect(extra, 'a button that would reveal exactly one review must not exist').toBeGreaterThan(1);
         await expect(more).toBeVisible();
         await expect(more).toHaveText(moreLabel(extra));
         await expect(more).toHaveAttribute('aria-expanded', 'false');
@@ -1048,7 +1062,7 @@ for (const name of V2_REVIEW_PAGES) {
         await expect(more).toHaveText('Show fewer reviews');
         await expect(more).toHaveAttribute('aria-expanded', 'true');
         await more.click();
-        expect(await visibleCount(cards)).toBe(cap);
+        expect(await visibleCount(cards)).toBe(shown);
         await expect(more).toHaveText(moreLabel(extra));
         await expect(more).toHaveAttribute('aria-expanded', 'false');
       });
@@ -1091,7 +1105,7 @@ for (const name of V2_REVIEW_PAGES) {
       const total = await cards.count();
       for (const vp of [DESKTOP, V2_PHONE, DESKTOP]) {
         await page.setViewportSize(vp);
-        await expect.poll(() => visibleCount(cards)).toBe(Math.min(v2Cap(vp), total));
+        await expect.poll(() => visibleCount(cards)).toBe(v2Shown(vp, total));
       }
     });
 
@@ -1118,6 +1132,11 @@ for (const name of V2_REVIEW_PAGES) {
 // and a page without a long quote is fine. But if NO page on NO viewport had one, the open/close
 // assertions above never ran and the test would pass vacuously. So require at least one card overall.
 // Skipped when a --grep filter kept the exercising tests from running at all.
+test('the never-hide-a-single-review rule was exercised on at least one page and viewport', () => {
+  test.skip(v2CapRuns === 0, 'the per-page cap tests did not run in this invocation');
+  expect(v2LoneRuleExercised, 'no page and viewport had exactly one review beyond the cap, so the lone-review assertions never ran').toBeGreaterThan(0);
+});
+
 test('the Read full review open/close path was exercised on at least one card', () => {
   test.skip(v2ReadFullRuns === 0, 'the per-page quote tests did not run in this invocation');
   expect(v2ReadFullExercised, 'no quote on any v2 page and viewport exceeded five lines, so the open/close assertions never ran').toBeGreaterThan(0);
@@ -3077,8 +3096,9 @@ const BRAND_HUBS = [
   { brand: 'Viking',   file: 'viking-appliance-repair-orange-county.html' },
   { brand: 'Thermador',file: 'thermador-appliance-repair-orange-county.html' },
   { brand: 'DCS',      file: 'dcs-appliance-repair-orange-county.html' },
-  // Dacor is deliberately absent (checked 2026-11-12): it passes every assertion below except "cross-link
-  // grid has 6 cards" (it links 5: DCS, Sub-Zero, Wolf, Viking, Thermador; Miele is missing).
+  // Dacor is absent only because it was added to the suite separately (checked 2026-11-12: it passed every
+  // assertion below except "cross-link grid has 6 cards", then 5 cards; it has had the Miele card since
+  // 2026-11-15 and is covered by the "Brand hub v2 counts" and Dacor blocks further down).
 ];
 // Mainstream brand hubs: Bosch, Electrolux, Frigidaire, GE, Kenmore, KitchenAid, LG, Maytag, Samsung,
 // Whirlpool. A separate list from BRAND_HUBS because the two take different assertions:
@@ -3135,9 +3155,10 @@ const v2VisibleTiles = loc => loc.evaluateAll(els => els.filter(e => {
 
 // Brand-hub Recent Repairs galleries, all 17 hubs. Old template: phones show six behind a "Show all N
 // repairs" button (site.js initJobGridCap), desktop shows every card and no button. v2 template: the job
-// count is READ FROM THE PAGE and the pattern follows it: 1 to 4 jobs sit in a `.v2-grid2`; 5 to 8 in one
-// `.v2-jobs--brand` grid with no disclosure; 9 or more show eight and keep the rest in `details.v2-more`
-// whose summary names the total. Electrolux and Kenmore have no job photos at all (none on master either,
+// count is READ FROM THE PAGE and the pattern follows it. Big two-up cards (`.v2-grid2`) hold 1 to 4 jobs,
+// all visible, no disclosure. The small-tile gallery (`.v2-jobs--brand`) shows the FIRST FOUR tiles on
+// desktop and phones alike (owner rule, 2026-11-15) and keeps the rest in `details.v2-more` whose summary
+// names the total ("Show all N <Brand> repairs"); with four tiles or fewer there is no disclosure. Electrolux and Kenmore have no job photos at all (none on master either,
 // verified 2026-11-12 with git show), so they are the only pages allowed zero tiles; every other page must
 // have at least one.
 const BRAND_GALLERY_PAGES = [
@@ -3163,29 +3184,44 @@ for (const { brand, file } of BRAND_GALLERY_PAGES) {
     }
     expect(total, 'there are job tiles to check').toBeGreaterThan(0);
     const more = page.locator('details.v2-more');
-    if (total <= 8) {
+    if (await page.locator('.v2-grid2 > article.v2-job').count() > 0) {
+      // Two-up big cards: every tile is in the grid, all visible, never a disclosure.
+      expect(total, 'a two-up grid holds at most four jobs').toBeLessThanOrEqual(4);
+      await expect(page.locator('.v2-grid2 > article.v2-job')).toHaveCount(total);
       await expect(more).toHaveCount(0);
       expect(await v2VisibleTiles(tiles)).toBe(total);
-      if (total <= 4) {
-        await expect(page.locator('.v2-grid2 > article.v2-job')).toHaveCount(total);
-      } else {
-        await expect(page.locator('.v2-jobs.v2-jobs--brand > article.v2-job')).toHaveCount(total);
+      // Odd-count rule: an odd last card is never stretched across the row, so every card has the same
+      // width (a single card, Whirlpool, is as wide as one cell of the two-up grid, not the full row).
+      const widths = await page.locator('.v2-grid2 > article.v2-job').evaluateAll(els => els.map(e => Math.round(e.getBoundingClientRect().width)));
+      for (const w of widths) expect(Math.abs(w - widths[0]), 'job cards differ in width: ' + widths.join(', ')).toBeLessThanOrEqual(1);
+      if (widths.length === 1 && page.viewportSize().width > 768) {
+        const grid = await page.locator('.v2-grid2').evaluate(e => Math.round(e.getBoundingClientRect().width));
+        expect(widths[0], 'the single card spans the whole grid').toBeLessThan(grid * 0.6);
       }
       return;
     }
+    // Small-tile gallery: four first, the rest behind "Show all N".
+    if (total <= 4) {
+      await expect(page.locator('.v2-jobs.v2-jobs--brand > article.v2-job')).toHaveCount(total);
+      await expect(more).toHaveCount(0);
+      expect(await v2VisibleTiles(tiles)).toBe(total);
+      return;
+    }
+    // The first grid is a direct child of the section wrap; the one inside details.v2-more is not.
+    await expect(page.locator('.v2-wrap > .v2-jobs.v2-jobs--brand > article.v2-job')).toHaveCount(4);
     await expect(more).toHaveCount(1);
-    expect(await v2VisibleTiles(tiles)).toBe(8);
-    expect(await more.locator('article.v2-job').count()).toBe(total - 8);
+    expect(await v2VisibleTiles(tiles)).toBe(4);
+    expect(await more.locator('article.v2-job').count()).toBe(total - 4);
     const summary = more.locator('> summary');
     await expect(summary).toBeVisible();
-    await expect(summary).toContainText('Show all ' + total);
+    await expect(summary).toHaveText('Show all ' + total + ' ' + brand + ' repairs');
     expect((await summary.boundingBox()).height).toBeGreaterThanOrEqual(44);
     await summary.click();
     await expect(more).toHaveJSProperty('open', true);
     expect(await v2VisibleTiles(tiles)).toBe(total);
   };
   test.describe(`${brand} hub: Recent Repairs gallery`, () => {
-    test('phone: gallery matches the job count (disclosure only past eight)', async ({ page }) => {
+    test('phone: gallery matches the job count (four first, disclosure past four)', async ({ page }) => {
       await page.setViewportSize(MOBILE);
       await page.goto(`/pages/${file}`);
       if (await isV2(page)) { await expectV2Gallery(page); return; }
@@ -3204,7 +3240,7 @@ for (const { brand, file } of BRAND_GALLERY_PAGES) {
       await expect(btn).toBeHidden();
     });
 
-    test('desktop: gallery matches the job count (disclosure only past eight)', async ({ page }) => {
+    test('desktop: gallery matches the job count (four first, disclosure past four)', async ({ page }) => {
       await page.setViewportSize(DESKTOP);
       await page.goto(`/pages/${file}`);
       if (await isV2(page)) { await expectV2Gallery(page); return; }
@@ -3220,11 +3256,12 @@ for (const { brand, file } of BRAND_GALLERY_PAGES) {
 
 // All 17 brand hubs, v2 facts that differ page to page. The counts are pinned per page on purpose (a
 // regression pin, not derived), and each is guarded so a renamed class cannot turn it into a pass on zero.
-//  - Reviews: 3 cards, except Maytag 6, KitchenAid 4, Samsung 4.
+//  - Reviews: 3 cards, except Maytag 6.
 //  - Cross-link cards (`ul.v2-cross > li`): mainstream 8; the six BRAND_HUBS luxury pages 6 (asserted in
-//    their own block above); Dacor 5 plus a sentence linking to Miele (`p.v2-prose`). Dacor stays out of
-//    BRAND_HUBS because that block's "exactly 6 cards" test is a luxury-six rule it does not follow.
-const BRAND_REVIEW_COUNTS = { maytag: 6, kitchenaid: 4, samsung: 4 };
+//    their own block above); Dacor 6, the sixth being Miele (it was a sentence link until 2026-11-15).
+//    Dacor stays out of BRAND_HUBS only because it was added to this suite separately; it now follows the
+//    luxury-six rule.
+const BRAND_REVIEW_COUNTS = { maytag: 6 };
 const MAINSTREAM_CROSS_CARDS = 8;
 for (const { brand, file } of BRAND_GALLERY_PAGES) {
   const slug = file.split('-appliance-repair-')[0];
@@ -3248,7 +3285,7 @@ for (const { brand, file } of BRAND_GALLERY_PAGES) {
       const n = await cards.count();
       expect(n, 'there are cross-link cards').toBeGreaterThan(0);
       if (luxury) expect(n).toBe(6);
-      else if (slug === 'dacor') expect(n).toBe(5);
+      else if (slug === 'dacor') expect(n).toBe(6);
       else expect(n).toBe(MAINSTREAM_CROSS_CARDS);
       const links = await hrefs(page, 'ul.v2-cross > li > a');
       expect(links.length).toBe(n);
@@ -3258,15 +3295,14 @@ for (const { brand, file } of BRAND_GALLERY_PAGES) {
   });
 }
 
-test('Dacor hub: five cross-link cards without Miele, plus a sentence that links to Miele', async ({ page }) => {
+test('Dacor hub: six cross-link cards including Miele, and no separate Miele sentence link', async ({ page }) => {
   await page.goto('/pages/dacor-appliance-repair-orange-county.html');
   const miele = 'miele-appliance-repair-orange-county.html';
   const links = await hrefs(page, 'ul.v2-cross > li > a');
-  expect(links.length).toBe(5);
-  expect(links, 'Miele is the sentence link, not a card').not.toContain(miele);
-  const sentence = page.locator(`p.v2-prose a[href="${miele}"]`);
-  await expect(sentence).toHaveCount(1);
-  expect((await sentence.textContent()).trim()).toMatch(/Miele/);
+  expect(links.length).toBe(6);
+  expect(links, 'Miele is a card').toContain(miele);
+  expect(await page.locator(`main a[href="${miele}"]`).count(), 'the Miele card is the only Miele link in main').toBe(1);
+  await expect(page.locator('ul.v2-cross > li', { hasText: 'Miele' }).locator('strong')).toHaveText('Miele');
 });
 
 // Site-wide: a phone number in a .service-area paragraph must never split across two lines.

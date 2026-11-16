@@ -529,6 +529,9 @@
       }
       function apply() {
         var cap = narrow.matches ? 2 : 3;
+        // Never hide a single review: a button that reveals exactly one card adds a tap for nothing, so
+        // when only one would be hidden every card shows and the button stays hidden.
+        if (cards.length - cap === 1) cap = cards.length;
         var extra = cards.length - cap;
         cards.forEach(function (card, i) { card.hidden = !expanded && i >= cap; });
         if (more) {

@@ -448,6 +448,13 @@
  *                    left implicit; see the "KNOWN LIMITATION" note on the
  *                    check itself.
  *
+ *   brand-tile-links: on a v2 brand hub (`ul.v2-cross`), a recent-repairs tile whose
+ *                    photo has an entry WITH an id on pages/recent-repairs.html must link
+ *                    to `recent-repairs.html#<that id>`, label "See this repair". Matched
+ *                    on the image filename stem (a trailing -480w/-800w/-1024w is ignored).
+ *                    Added 2026-11-15 after the PR #975 review found Bosch, Viking and DCS
+ *                    tiles linking to a service page instead. Appliance service pages are
+ *                    out of scope on purpose: they link a brand's tile to that brand's hub.
  *   hub-redesign   — ratchet: every git-tracked .html page containing
  *                    `class="hub-hero"` must also contain `class="expect-strip"`
  *                    (the What to expect strip that marks the 2026-10 hub redesign),
@@ -4220,6 +4227,40 @@ if (run('hub-redesign')) {
   }
 }
 
+// ── Check 29: brand-tile-links ───────────────────────────────────────────────
+// See the docblock above.
+if (run('brand-tile-links')) {
+  checked['brand-tile-links'] = { pages: 0, tiles: 0, linked: 0 };
+  const rrSrc = fs.readFileSync(path.join(root, 'pages', 'recent-repairs.html'), 'utf8').replace(/\r\n/g, '\n');
+  const stemOf = u => u.split('/').pop().replace(/\.(?:jpg|png|webp)$/, '').replace(/-(?:480w|800w|1024w)$/, '');
+  const idByStem = {};
+  for (const c of rrSrc.matchAll(/<div class="repair-card"([^>]*)>([\s\S]*?)(?=<div class="repair-card"|<\/section>|<\/main>)/g)) {
+    const id = (c[1].match(/id="([^"]+)"/) || [])[1];
+    if (!id) continue;
+    for (const m of c[2].matchAll(/src="([^"]+\.(?:jpg|png|webp))"/g)) {
+      const st = stemOf(m[1]);
+      if (!idByStem[st]) idByStem[st] = id;
+    }
+  }
+  for (const f of pages) {
+    const src = fs.readFileSync(f, 'utf8').replace(/\r\n/g, '\n');
+    if (!/class="v2-cross"/.test(src)) continue;
+    checked['brand-tile-links'].pages++;
+    for (const t of src.match(/<article class="v2-job[\s\S]*?<\/article>/g) || []) {
+      const im = t.match(/<img[^>]*src="([^"]+)"/);
+      if (!im) continue;
+      checked['brand-tile-links'].tiles++;
+      const id = idByStem[stemOf(im[1])];
+      if (!id) continue;
+      const a = t.match(/<a class="v2-link" href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/);
+      const want = 'recent-repairs.html#' + id;
+      if (!a || a[1] !== want || !/^See this repair\b/.test(a[2].trim())) {
+        issues.push(`[BRAND-TILE-LINKS] ${rel(f)}: the tile for ${stemOf(im[1])} has an entry on pages/recent-repairs.html (#${id}) but links to ${a ? a[1] : 'nothing'}; it must link to ${want} with the label "See this repair".`);
+      } else checked['brand-tile-links'].linked++;
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -4301,5 +4342,6 @@ if (checked['testimonial-hub-cap']) {
   parts.push(`testimonial hub-cap + verbatim ratchet held on ${c.reviews} rendered reviews across ${c.hubFiles} hub pages (cap baseline covers ${c.capBaselineCount ?? 0}, verbatim baseline covers ${c.verbatimBaselineCount ?? 0}, see P6-49)`);
 }
 if (checked['hub-redesign'])         parts.push(`hub redesign ratchet held: ${checked['hub-redesign'].hubs} hub pages (${checked['hub-redesign'].v2} on the v2 template), ${checked['hub-redesign'].baselined} baselined as not yet redesigned`);
+if (checked['brand-tile-links'])     parts.push(`brand-hub job tiles whose photo has a recent-repairs entry link to it: ${checked['brand-tile-links'].linked} of ${checked['brand-tile-links'].tiles} tiles on ${checked['brand-tile-links'].pages} brand hubs`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
