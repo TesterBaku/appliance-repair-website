@@ -1144,8 +1144,9 @@ test('the Read full review open/close path was exercised on at least one card', 
 });
 
 // ─── v2 gallery disclosure (site.js initV2More) ───────────────────────────────
-// The "Show all N repairs" <summary> hides itself once the <details> opens (one-way design), which
-// used to drop keyboard focus to <body>. Focus must land on the first revealed link instead.
+// The "Show all N repairs" <summary> hides itself once the <details> opens, which used to drop keyboard
+// focus to <body>. Focus must land on the first revealed link instead. A "Show fewer repairs" button after
+// the revealed tiles closes it again.
 const V2_MORE_PAGES = V2_PAGES.filter(n =>
   fs.readFileSync(path.join(PAGES_DIR, n), 'utf8').includes('class="v2-more'));
 
@@ -1154,6 +1155,41 @@ test('v2 gallery: at least the refrigerator page is discovered', () => {
 });
 
 for (const name of V2_MORE_PAGES) {
+  // The way back: until 2026-11-16 an opened gallery could not be closed (up to 22 tiles, about 4,000px on a
+  // phone, with no exit). Checked on a phone, where the scroll is longest, by mouse and by keyboard.
+  test(`v2 gallery: "Show fewer repairs" closes it and returns to the summary on ${name}`, async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const details = page.locator('details.v2-more');
+    const summary = details.locator('> summary');
+    const close = details.locator('> button.v2-more-close');
+    const tiles = page.locator('article.v2-job');
+    const firstCount = await v2VisibleTiles(tiles);
+    await expect(close).toHaveCount(1);
+    await expect(close).toBeHidden();                       // closed disclosure: no stray button
+    for (const how of ['click', 'keyboard']) {
+      await summary.click();
+      await expect(details).toHaveJSProperty('open', true);
+      await expect(close).toBeVisible();
+      await expect(close).toHaveText('Show fewer repairs');
+      // After every revealed tile, and a full tap target.
+      const lastTile = await details.locator('article.v2-job').last().boundingBox();
+      const box = await close.boundingBox();
+      expect(box.y).toBeGreaterThanOrEqual(lastTile.y + lastTile.height);
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      if (how === 'click') await close.click();
+      else { await close.focus(); await page.keyboard.press('Enter'); }
+      await expect(details).toHaveJSProperty('open', false);
+      expect(await v2VisibleTiles(tiles)).toBe(firstCount);
+      // Focus is on the summary again and the summary is on screen, clear of the sticky bar.
+      await expect(summary).toBeFocused();
+      const s = await summary.boundingBox();
+      expect(s.y).toBeGreaterThanOrEqual(0);
+      expect(s.y + s.height).toBeLessThanOrEqual(MOBILE.height - 56);
+    }
+  });
+
   test(`v2 gallery: keyboard focus survives "Show all" on ${name}`, async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto(`/pages/${name}`);

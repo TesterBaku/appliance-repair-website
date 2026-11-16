@@ -677,6 +677,7 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-more > summary { width: fit-content; list-style: none; cursor: pointer; }
 .v2-more > summary::-webkit-details-marker { display: none; }
 .v2-more[open] > summary { display: none; }
+.v2-more-close { margin-top: 24px; } /* "Show fewer repairs", added by site.js after the revealed tiles */
 
 /* ---- Process: the one dark band ---- */
 .v2-sec--ink { background: var(--dark); border-top: 0; color: var(--on-dark); }
@@ -869,7 +870,7 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .v2-jobs .v2-job-body { padding: 12px 12px 4px; }
   .v2-jobs .v2-job-body h3 { font-size: 15px; }
   .v2-jobs .v2-link { font-size: 14px; }
-  .v2-more > summary { width: 100%; }
+  .v2-more > summary, .v2-more-close { width: 100%; }
   .v2-defs > div { padding: 16px 0; }
   .v2-table th, .v2-table td { padding: 12px 14px; font-size: 14px; }
   .v2-cross { grid-template-columns: minmax(0, 1fr); }
