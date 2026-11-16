@@ -2079,7 +2079,7 @@ test.describe('Testimonials page', () => {
     expect((await quote.boundingBox()).height).toBeCloseTo(collapsed, 0);
   });
 
-  test('every review photo is a 56px thumbnail in the footer; only images worth enlarging get a 44px link', async ({ page }) => {
+  test('every review photo is a 72px thumbnail in the footer; only images worth enlarging get a 44px link', async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await revealAll(page);
     // Wait for the lazy images so natural widths are real, not 0.
@@ -2100,8 +2100,8 @@ test.describe('Testimonials page', () => {
     expect(rows.some(r => !r.linked)).toBe(true);
     for (const r of rows) {
       expect(r.inFooter).toBe(true);
-      expect(r.iw).toBe(56);
-      expect(r.ih).toBe(56);
+      expect(r.iw).toBe(72);
+      expect(r.ih).toBe(72);
       expect(r.natural).toBeGreaterThan(0);
       // Linked if and only if the source is big enough to be worth enlarging.
       expect(r.linked).toBe(r.natural >= 300);
@@ -2111,6 +2111,92 @@ test.describe('Testimonials page', () => {
       expect(r.w).toBeGreaterThanOrEqual(44);
       expect(r.h).toBeGreaterThanOrEqual(44);
     }
+  });
+
+  test('filter pills: one sideways-scrolling row on a phone, the chosen pill is scrolled fully into view', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.evaluate(() => document.fonts.ready);
+    const m = await page.evaluate(() => {
+      const bar = document.querySelector('.filter-bar');
+      const pills = [...bar.querySelectorAll('.filter-pill')];
+      return { tops: pills.map(p => Math.round(p.getBoundingClientRect().top)), heights: pills.map(p => p.getBoundingClientRect().height),
+        scrollW: bar.scrollWidth, clientW: bar.clientWidth, docOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth };
+    });
+    expect(new Set(m.tops).size).toBe(1);
+    for (const h of m.heights) expect(h).toBeGreaterThanOrEqual(44);
+    expect(m.scrollW).toBeGreaterThan(m.clientW);
+    expect(m.docOverflow).toBeLessThanOrEqual(0);
+
+    const last = page.locator('.filter-pill').last();
+    await last.click();
+    // The scroll is smooth unless reduced motion is on: wait for it to settle.
+    await expect.poll(async () => page.evaluate(() => {
+      const r = document.querySelector('.filter-pill:last-child').getBoundingClientRect();
+      return r.left >= 0 && r.right <= document.documentElement.clientWidth;
+    })).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+  });
+
+  test('filter pills: Tab keeps each focused pill fully on screen and the edge fade follows the scroll position', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.evaluate(() => document.fonts.ready);
+    const fade = () => page.evaluate(() => {
+      const bar = document.querySelector('.filter-bar');
+      return { start: bar.hasAttribute('data-fade-start'), end: bar.hasAttribute('data-fade-end'), mask: getComputedStyle(bar).maskImage || getComputedStyle(bar).webkitMaskImage };
+    });
+    const first = await fade();
+    expect(first.end).toBe(true);
+    expect(first.start).toBe(false);
+    expect(first.mask).not.toBe('none');
+
+    await page.locator('.filter-pill').first().focus();
+    const count = await page.locator('.filter-pill').count();
+    expect(count).toBe(9);
+    for (let i = 0; i < count; i++) {
+      if (i > 0) await page.keyboard.press('Tab');
+      const r = await page.evaluate(() => {
+        const a = document.activeElement.getBoundingClientRect();
+        return { cls: document.activeElement.className, left: a.left, right: a.right, iw: window.innerWidth };
+      });
+      expect(r.cls).toContain('filter-pill');
+      expect(r.left).toBeGreaterThanOrEqual(0);
+      expect(r.right).toBeLessThanOrEqual(r.iw);
+    }
+    await expect.poll(async () => (await fade()).end).toBe(false);
+    expect((await fade()).start).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+
+    await page.setViewportSize(DESKTOP);
+    const desk = await page.evaluate(() => { const s = getComputedStyle(document.querySelector('.filter-bar')); return s.maskImage || s.webkitMaskImage || 'none'; });
+    expect(desk).toBe('none');
+  });
+
+  test('Read more grows only the opened card; row neighbours keep their height; collapsing restores the row', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.evaluate(() => document.fonts.ready);
+    const state = () => page.evaluate(() => {
+      const cards = [...document.querySelectorAll('#reviews-grid .t-card:not([hidden])')];
+      const btn = [...document.querySelectorAll('#reviews-grid .t-card:not([hidden]) .t-more')][0];
+      const open = btn.closest('.t-card');
+      const row = cards.filter(c => c.offsetTop === open.offsetTop);
+      return { n: row.length, openIdx: row.indexOf(open), heights: row.map(c => c.getBoundingClientRect().height),
+        inline: cards.filter(c => c.style.height).length, locked: cards.filter(c => c.classList.contains('t-card--locked')).length };
+    });
+    const before = await state();
+    expect(before.n).toBeGreaterThan(1);
+    expect(before.inline).toBe(0);
+    expect(new Set(before.heights.map(h => Math.round(h))).size).toBe(1);
+    await page.locator('#reviews-grid .t-card:not([hidden]) .t-more').first().click();
+    const during = await state();
+    during.heights.forEach((h, i) => {
+      if (i === during.openIdx) expect(h).toBeGreaterThan(before.heights[i] + 1);
+      else expect(Math.abs(h - before.heights[i])).toBeLessThanOrEqual(1);
+    });
+    await page.locator('#reviews-grid .t-card:not([hidden]) .t-more').first().click();
+    const after = await state();
+    expect(after.inline).toBe(0);
+    expect(after.locked).toBe(0);
+    after.heights.forEach((h, i) => expect(Math.abs(h - before.heights[i])).toBeLessThanOrEqual(1));
   });
 
   test('With photos pill: count equals the cards with a photo and the status line says so', async ({ page }) => {

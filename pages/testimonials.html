@@ -977,10 +977,10 @@
     .t-more { display: inline-flex; align-items: center; align-self: flex-start; min-height: 44px; margin: 0; padding: 0 12px 0 0; background: none; border: 0; font: inherit; font-size: 12.5px; font-weight: 600; color: var(--brand-text); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
     .t-more:focus-visible, .t-photo-link:focus-visible, .t-lightbox-close:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
     /* The photo sits at the right end of the footer row, so a photo card has the same shape as any other. */
-    .t-review-photo { display: block; flex-shrink: 0; margin-left: auto; width: 56px; height: 56px; border-radius: 8px; object-fit: cover; }
-    .t-photo-link { display: block; flex-shrink: 0; margin-left: auto; position: relative; width: 56px; height: 56px; border-radius: 8px; }
+    .t-review-photo { display: block; flex-shrink: 0; margin-left: auto; width: 72px; height: 72px; border-radius: 8px; object-fit: cover; }
+    .t-photo-link { display: block; flex-shrink: 0; margin-left: auto; position: relative; width: 72px; height: 72px; border-radius: 8px; }
     .t-photo-link .t-review-photo { margin-left: 0; }
-    .t-footer { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 20px; min-height: 76px; box-sizing: border-box; }
+    .t-footer { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 20px; min-height: 92px; box-sizing: border-box; }
     .t-footer > :not(.t-avatar):not(.t-photo-link) { min-width: 0; }
     .t-lightbox { margin: auto; max-width: 92vw; padding: 0; border: 0; border-radius: 12px; background: #fff; overflow: hidden; }
     .t-lightbox::backdrop { background: rgba(0,0,0,0.7); }
@@ -995,7 +995,9 @@
       .t-lightbox img { width: 100%; max-height: calc(100vh - 140px); }
     }
     /* Decorative "enlarge" cue; the link's aria-label already names the action. */
-    .t-photo-link::after { content: ''; position: absolute; right: 3px; bottom: 3px; width: 20px; height: 20px; border-radius: 6px; background: rgba(17,17,17,0.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='4' fill='none' stroke='white' stroke-width='1.6'/%3E%3Cpath d='M11.5 11.5L15 15' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 20px 20px no-repeat; pointer-events: none; }
+    .t-photo-link::after { content: ''; position: absolute; right: 3px; bottom: 3px; width: 24px; height: 24px; border-radius: 6px; background: rgba(17,17,17,0.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='4' fill='none' stroke='white' stroke-width='1.6'/%3E%3Cpath d='M11.5 11.5L15 15' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 24px 24px no-repeat; pointer-events: none; }
+    /* Open-row lock: while a card is expanded, its row neighbours keep their collapsed height and the row aligns to the top. */
+    .t-card--locked { align-self: start; }
     .t-photo-note { font-size: 11px; color: #666666; margin-top: 2px; }
     .t-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; background: #444444; flex-shrink: 0; }
     .t-name { font-size: 13px; font-weight: 700; color: #111; }
@@ -1044,7 +1046,16 @@
     @media (max-width: 1024px) { .testimonials-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 640px) {
       .testimonials-grid { grid-template-columns: 1fr; }
-      .filter-pill { font-size: 12px; padding: 7px 14px; }
+      .filter-pill { font-size: 12px; padding: 7px 14px; flex: 0 0 auto; white-space: nowrap; scroll-margin-inline: 24px; }
+      /* One sideways-scrolling row instead of five wrapped ones. It bleeds to the screen edges (section 16px + container 16px = 32px) so a
+         partly cut-off pill signals more; vertical padding keeps the focus ring from being clipped. */
+      .filter-bar { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; margin-left: -32px; margin-right: -32px; padding: 4px 32px; scroll-padding-inline: 32px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .filter-bar::-webkit-scrollbar { display: none; }
+      /* Edge fade: the script sets data-fade-start / data-fade-end while more pills lie that way. The 28px fade is narrower than the
+         32px scroll padding, so a pill scrolled into view always sits clear of it. */
+      .filter-bar { --fade-l: 0px; --fade-r: 0px; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%); }
+      .filter-bar[data-fade-start] { --fade-l: 28px; }
+      .filter-bar[data-fade-end] { --fade-r: 28px; }
       .review-status { font-size: 13px; }
     }
   </style>
@@ -1725,7 +1736,7 @@
               <div class="t-name">LethKris B&amp;H</div>
               <div class="t-role">Dryer Repair</div>
             </div>
-            <img class="t-review-photo" src="../images/real/reviews/dryer-electrolux-lethkris.webp" alt="Photo from LethKris B&amp;H's review showing the white Electrolux dryer that was repaired" width="125" height="125" loading="lazy">
+            <a class="t-photo-link" href="../images/real/reviews/dryer-electrolux-lethkris.webp" aria-label="View the photo from LethKris B&amp;H&#39;s review"><img class="t-review-photo" src="../images/real/reviews/dryer-electrolux-lethkris.webp" alt="Photo from LethKris B&amp;H's review showing the white Electrolux dryer that was repaired" width="768" height="339" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="washer">
@@ -1738,7 +1749,7 @@
               <div class="t-name">Adriana Lopez</div>
               <div class="t-role">Washer Repair</div>
             </div>
-            <img class="t-review-photo" src="../images/real/reviews/washer-lg-adriana-lopez.webp" alt="Photo from Adriana Lopez's review showing her LG front-load washer" width="125" height="125" loading="lazy">
+            <a class="t-photo-link" href="../images/real/reviews/washer-lg-adriana-lopez.webp" aria-label="View the photo from Adriana Lopez&#39;s review"><img class="t-review-photo" src="../images/real/reviews/washer-lg-adriana-lopez.webp" alt="Photo from Adriana Lopez's review showing her LG front-load washer" width="768" height="339" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="oven-stove">
@@ -1751,7 +1762,7 @@
               <div class="t-name">Pat Sepulveda-Garcia</div>
               <div class="t-role">Oven Repair</div>
             </div>
-            <img class="t-review-photo" src="../images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp" alt="Photo from Pat Sepulveda-Garcia's review showing her Dacor professional gas range" width="125" height="125" loading="lazy">
+            <a class="t-photo-link" href="../images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp" aria-label="View the photo from Pat Sepulveda-Garcia&#39;s review"><img class="t-review-photo" src="../images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp" alt="Photo from Pat Sepulveda-Garcia's review showing her Dacor professional gas range" width="768" height="339" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
@@ -1764,7 +1775,7 @@
               <div class="t-name">Aghasahib Zarbaliyev</div>
               <div class="t-role">Refrigerator Repair</div>
             </div>
-            <img class="t-review-photo" src="../images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp" alt="Photo from Aghasahib Zarbaliyev's review showing his stainless refrigerator" width="125" height="125" loading="lazy">
+            <a class="t-photo-link" href="../images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp" aria-label="View the photo from Aghasahib Zarbaliyev&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp" alt="Photo from Aghasahib Zarbaliyev's review showing his stainless refrigerator" width="768" height="339" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="dishwasher">
@@ -3100,6 +3111,27 @@
             q.classList.toggle('is-open', open);
             btn.setAttribute('aria-expanded', open ? 'true' : 'false');
             btn.textContent = open ? 'Show less' : 'Read more';
+            relayoutOpenRows();
+          }
+          // Opening one review must not stretch its row neighbours. The grid stretches every card in a
+          // row to the tallest, so for each row that holds an open card the other cards are pinned to
+          // the height they have with everything collapsed, and the row aligns to the top. All reads
+          // happen before any write, in one task, so nothing flashes. Collapsing releases every lock.
+          function relayoutOpenRows() {
+            var vis = cards.filter(function (c) { return !c.hidden; });
+            cards.forEach(function (c) { c.style.height = ''; c.classList.remove('t-card--locked'); });
+            var open = vis.filter(function (c) { return c.querySelector('.t-quote.is-open'); });
+            if (!open.length) return;
+            var openQuotes = open.map(function (c) { return c.querySelector('.t-quote'); });
+            openQuotes.forEach(function (q) { q.classList.remove('is-open'); });
+            var rows = vis.map(function (c) { return { c: c, top: Math.round(c.offsetTop), h: c.getBoundingClientRect().height, open: open.indexOf(c) !== -1 }; });
+            openQuotes.forEach(function (q) { q.classList.add('is-open'); });
+            var openTops = rows.filter(function (r) { return r.open; }).map(function (r) { return r.top; });
+            rows.forEach(function (r) {
+              if (openTops.indexOf(r.top) === -1) return;
+              r.c.classList.add('t-card--locked');
+              if (!r.open) r.c.style.height = r.h + 'px';
+            });
           }
           function measureVisible() {
             var todo = cards.filter(function (c) { return !c.hidden && c.querySelector('.t-quote'); });
@@ -3126,12 +3158,12 @@
               }
             });
           }
-          if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureVisible);
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measureVisible(); relayoutOpenRows(); });
           var lastWidth = grid.clientWidth, resizeTimer;
           window.addEventListener('resize', function () {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function () {
-              if (grid.clientWidth !== lastWidth) { lastWidth = grid.clientWidth; measureVisible(); }
+              if (grid.clientWidth !== lastWidth) { lastWidth = grid.clientWidth; measureVisible(); relayoutOpenRows(); }
             }, 150);
           });
 
@@ -3187,6 +3219,7 @@
             moreRow.hidden = remaining <= 0;
             moreBtn.textContent = 'Show more reviews (' + remaining + ' left)';
             measureVisible();
+            relayoutOpenRows();
 
             if (focusIndex != null && matched[focusIndex]) {
               matched[focusIndex].setAttribute('tabindex', '-1');
@@ -3205,8 +3238,34 @@
               filter = pill.dataset.filter;
               limit = BATCH; // a new filter starts again at the first batch of its own matches
               render();
+              // On a phone the pills scroll sideways: keep the chosen one in view.
+              if (pill.scrollIntoView) {
+                var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                pill.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: calm ? 'auto' : 'smooth' });
+              }
             });
           });
+
+          // Phone filter row: keep a keyboard-focused pill fully in view (Chrome only scrolls a pill that is
+          // entirely off-screen), and mark which edges still have pills beyond them so the CSS can fade them.
+          // Pointer focus is skipped so the click handler's smooth scroll above stays in charge.
+          var bar = document.querySelector('.filter-bar');
+          if (bar) {
+            bar.addEventListener('focusin', function (e) {
+              var t = e.target;
+              if (t.scrollIntoView && t.matches && t.matches(':focus-visible')) t.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'auto' });
+            });
+            var syncFade = function () {
+              var max = bar.scrollWidth - bar.clientWidth;
+              var narrow = max > 1;
+              bar.toggleAttribute('data-fade-start', narrow && bar.scrollLeft > 1);
+              bar.toggleAttribute('data-fade-end', narrow && bar.scrollLeft < max - 1);
+            };
+            bar.addEventListener('scroll', syncFade, { passive: true });
+            window.addEventListener('resize', syncFade);
+            syncFade();
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncFade);
+          }
 
           moreBtn.addEventListener('click', function () {
             var before = Math.min(limit, cards.filter(function (c) { return matches(c, filter); }).length);
