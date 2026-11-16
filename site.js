@@ -20,7 +20,7 @@
  *                       with a "Read full review" toggle.
  *   8. hub v2 gallery disclosure (details.v2-more): keeps keyboard focus when the "Show all N"
  *                       summary hides itself, by moving it to the first revealed link, and adds a
- *                       "Show fewer repairs" button after the revealed tiles that closes it again.
+ *                       "Show fewer repairs" text button after the revealed tiles that closes it again.
  *   9. hub v2 job video (.v2-video-toggle): a pause/play button for an autoplaying, looping job video;
  *                       the video starts paused when the visitor prefers reduced motion.
  *
@@ -603,7 +603,7 @@
       if (!sum) return;
       var close = document.createElement('button');
       close.type = 'button';
-      close.className = 'v2-btn v2-btn--ghost v2-more-close';
+      close.className = 'v2-more-close';
       close.textContent = 'Show fewer repairs';
       d.appendChild(close);
       close.addEventListener('click', function () {

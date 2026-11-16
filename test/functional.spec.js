@@ -1178,6 +1178,9 @@ for (const name of V2_MORE_PAGES) {
       const box = await close.boundingBox();
       expect(box.y).toBeGreaterThanOrEqual(lastTile.y + lastTile.height);
       expect(box.height).toBeGreaterThanOrEqual(44);
+      // A text button, not a boxed one: it must not look like the ghost "See all recent repairs" button
+      // that follows it on the brand hubs (one collapses the list, the other leaves the page).
+      expect(await close.evaluate(b => { const c = getComputedStyle(b); return c.borderTopWidth + ' ' + c.backgroundColor; })).toBe('0px rgba(0, 0, 0, 0)');
       if (how === 'click') await close.click();
       else { await close.focus(); await page.keyboard.press('Enter'); }
       await expect(details).toHaveJSProperty('open', false);
