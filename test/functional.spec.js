@@ -2137,6 +2137,40 @@ test.describe('Testimonials page', () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
   });
 
+  test('filter pills: Tab keeps each focused pill fully on screen and the edge fade follows the scroll position', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.evaluate(() => document.fonts.ready);
+    const fade = () => page.evaluate(() => {
+      const bar = document.querySelector('.filter-bar');
+      return { start: bar.hasAttribute('data-fade-start'), end: bar.hasAttribute('data-fade-end'), mask: getComputedStyle(bar).maskImage || getComputedStyle(bar).webkitMaskImage };
+    });
+    const first = await fade();
+    expect(first.end).toBe(true);
+    expect(first.start).toBe(false);
+    expect(first.mask).not.toBe('none');
+
+    await page.locator('.filter-pill').first().focus();
+    const count = await page.locator('.filter-pill').count();
+    expect(count).toBe(9);
+    for (let i = 0; i < count; i++) {
+      if (i > 0) await page.keyboard.press('Tab');
+      const r = await page.evaluate(() => {
+        const a = document.activeElement.getBoundingClientRect();
+        return { cls: document.activeElement.className, left: a.left, right: a.right, iw: window.innerWidth };
+      });
+      expect(r.cls).toContain('filter-pill');
+      expect(r.left).toBeGreaterThanOrEqual(0);
+      expect(r.right).toBeLessThanOrEqual(r.iw);
+    }
+    await expect.poll(async () => (await fade()).end).toBe(false);
+    expect((await fade()).start).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+
+    await page.setViewportSize(DESKTOP);
+    const desk = await page.evaluate(() => { const s = getComputedStyle(document.querySelector('.filter-bar')); return s.maskImage || s.webkitMaskImage || 'none'; });
+    expect(desk).toBe('none');
+  });
+
   test('Read more grows only the opened card; row neighbours keep their height; collapsing restores the row', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.evaluate(() => document.fonts.ready);

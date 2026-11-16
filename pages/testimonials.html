@@ -1051,6 +1051,11 @@
          partly cut-off pill signals more; vertical padding keeps the focus ring from being clipped. */
       .filter-bar { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; margin-left: -32px; margin-right: -32px; padding: 4px 32px; scroll-padding-inline: 32px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
       .filter-bar::-webkit-scrollbar { display: none; }
+      /* Edge fade: the script sets data-fade-start / data-fade-end while more pills lie that way. The 28px fade is narrower than the
+         32px scroll padding, so a pill scrolled into view always sits clear of it. */
+      .filter-bar { --fade-l: 0px; --fade-r: 0px; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%); }
+      .filter-bar[data-fade-start] { --fade-l: 28px; }
+      .filter-bar[data-fade-end] { --fade-r: 28px; }
       .review-status { font-size: 13px; }
     }
   </style>
@@ -3240,6 +3245,27 @@
               }
             });
           });
+
+          // Phone filter row: keep a keyboard-focused pill fully in view (Chrome only scrolls a pill that is
+          // entirely off-screen), and mark which edges still have pills beyond them so the CSS can fade them.
+          // Pointer focus is skipped so the click handler's smooth scroll above stays in charge.
+          var bar = document.querySelector('.filter-bar');
+          if (bar) {
+            bar.addEventListener('focusin', function (e) {
+              var t = e.target;
+              if (t.scrollIntoView && t.matches && t.matches(':focus-visible')) t.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'auto' });
+            });
+            var syncFade = function () {
+              var max = bar.scrollWidth - bar.clientWidth;
+              var narrow = max > 1;
+              bar.toggleAttribute('data-fade-start', narrow && bar.scrollLeft > 1);
+              bar.toggleAttribute('data-fade-end', narrow && bar.scrollLeft < max - 1);
+            };
+            bar.addEventListener('scroll', syncFade, { passive: true });
+            window.addEventListener('resize', syncFade);
+            syncFade();
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncFade);
+          }
 
           moreBtn.addEventListener('click', function () {
             var before = Math.min(limit, cards.filter(function (c) { return matches(c, filter); }).length);
