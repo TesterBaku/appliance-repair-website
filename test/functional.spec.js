@@ -2079,17 +2079,34 @@ test.describe('Testimonials page', () => {
     expect((await quote.boundingBox()).height).toBeCloseTo(collapsed, 0);
   });
 
-  test('every review photo sits in the footer inside a 44px link to the same image', async ({ page }) => {
+  test('every review photo is a 56px thumbnail in the footer; only images worth enlarging get a 44px link', async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await revealAll(page);
+    // Wait for the lazy images so natural widths are real, not 0.
+    await page.evaluate(() => Promise.all([...document.querySelectorAll('#reviews-grid .t-review-photo')].map(img => {
+      img.loading = 'eager';
+      return img.complete ? null : new Promise(res => { img.onload = img.onerror = res; });
+    })));
     const rows = await page.evaluate(() => [...document.querySelectorAll('#reviews-grid .t-review-photo')].map(img => {
-      const a = img.closest('.t-footer .t-photo-link');
+      const a = img.closest('.t-photo-link');
       const r = a && a.getBoundingClientRect();
-      return { linked: !!a, same: !!a && new URL(a.getAttribute('href'), location.href).href === img.src, w: r && r.width, h: r && r.height };
+      const ir = img.getBoundingClientRect();
+      return { inFooter: !!img.closest('.t-footer'), iw: ir.width, ih: ir.height, natural: img.naturalWidth, linked: !!a,
+        same: !!a && new URL(a.getAttribute('href'), location.href).href === img.src, w: r && r.width, h: r && r.height,
+        focusable: !!a && a.tabIndex >= 0, imgFocusable: img.tabIndex >= 0 };
     }));
     expect(rows.length).toBeGreaterThan(0);
+    expect(rows.some(r => r.linked)).toBe(true);
+    expect(rows.some(r => !r.linked)).toBe(true);
     for (const r of rows) {
-      expect(r.linked).toBe(true);
+      expect(r.inFooter).toBe(true);
+      expect(r.iw).toBe(56);
+      expect(r.ih).toBe(56);
+      expect(r.natural).toBeGreaterThan(0);
+      // Linked if and only if the source is big enough to be worth enlarging.
+      expect(r.linked).toBe(r.natural >= 300);
+      expect(r.imgFocusable).toBe(false);
+      if (!r.linked) continue;
       expect(r.same).toBe(true);
       expect(r.w).toBeGreaterThanOrEqual(44);
       expect(r.h).toBeGreaterThanOrEqual(44);
