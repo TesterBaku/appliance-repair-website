@@ -969,13 +969,34 @@
     .t-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 20px rgba(0,0,0,0.07); padding: 28px 26px; display: flex; flex-direction: column; }
     .t-stars { color: var(--star-on-light); font-size: 15px; letter-spacing: 2px; margin-bottom: 8px; }
     .t-source { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #666666; margin-bottom: 14px; }
-    .t-quote { font-size: 13.5px; color: #444; line-height: 1.8; font-style: italic; flex: 1; }
-    .t-card--no-quote .t-footer { margin-top: auto; }
-    .t-review-photo { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin: 4px 0 14px; }
-    /* Visible provenance label. Used only where the thumbnail is OUR job photo rather than one the
-       reviewer supplied, so a sighted visitor sees the distinction that alt text alone would hide. */
-    .t-photo-credit { font-size: 11px; color: #666666; margin: -10px 0 14px; }
-    .t-footer { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+    .t-quote { font-size: 13.5px; color: #444; line-height: 1.8; font-style: italic; }
+    /* Five-line clamp, only once the script has run (.js is set in the head): without JS the whole
+       text shows. The footer, not the quote, takes the spare height (margin-top: auto), because a
+       stretched flex child would let a clamped box show extra lines. */
+    .js .t-quote:not(.is-open) { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; line-clamp: 5; overflow: hidden; }
+    .t-more { display: inline-flex; align-items: center; align-self: flex-start; min-height: 44px; margin: 0; padding: 0 12px 0 0; background: none; border: 0; font: inherit; font-size: 12.5px; font-weight: 600; color: var(--brand-text); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .t-more:focus-visible, .t-photo-link:focus-visible, .t-lightbox-close:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    /* The photo sits at the right end of the footer row, so a photo card has the same shape as any other. */
+    .t-photo-link { display: block; flex-shrink: 0; margin-left: auto; width: 56px; height: 56px; border-radius: 8px; overflow: hidden; }
+    .t-review-photo { display: block; width: 56px; height: 56px; object-fit: cover; }
+    .t-footer { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 20px; min-height: 76px; box-sizing: border-box; }
+    .t-footer > :not(.t-avatar):not(.t-photo-link) { min-width: 0; }
+    .t-lightbox { margin: auto; max-width: 92vw; padding: 0; border: 0; border-radius: 12px; background: #fff; overflow: hidden; }
+    .t-lightbox::backdrop { background: rgba(0,0,0,0.7); }
+    .t-lightbox-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 16px; }
+    .t-lightbox-figure { padding: 0 16px 16px; }
+    .t-lightbox img { display: block; max-width: 100%; max-height: min(80vh, calc(100vh - 120px)); width: auto; height: auto; object-fit: contain; margin: 0 auto; }
+    .t-lightbox-caption { margin: 0; font-size: 13px; line-height: 1.5; color: #444; min-width: 0; }
+    .t-lightbox-close { flex-shrink: 0; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0; background: #fff; border: 0; border-radius: 50%; font-size: 24px; line-height: 1; color: #111; cursor: pointer; }
+    @media (max-width: 640px) {
+      .t-lightbox { width: calc(100vw - 16px); max-width: none; }
+      .t-lightbox-figure { padding: 0; }
+      .t-lightbox img { width: 100%; max-height: calc(100vh - 140px); }
+    }
+    /* Decorative "enlarge" cue; the link's aria-label already names the action. */
+    .t-photo-link { position: relative; }
+    .t-photo-link::after { content: ''; position: absolute; right: 3px; bottom: 3px; width: 20px; height: 20px; border-radius: 6px; background: rgba(17,17,17,0.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='4' fill='none' stroke='white' stroke-width='1.6'/%3E%3Cpath d='M11.5 11.5L15 15' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 20px 20px no-repeat; pointer-events: none; }
+    .t-photo-note { font-size: 11px; color: #666666; margin-top: 2px; }
     .t-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; background: #444444; flex-shrink: 0; }
     .t-name { font-size: 13px; font-weight: 700; color: #111; }
     .t-role { font-size: 11.5px; color: #666; margin-top: 2px; }
@@ -1304,7 +1325,7 @@
     <div class="container-lg">
 
       <!-- Filter pills -->
-      <div class="filter-bar" role="group" aria-label="Filter reviews by appliance">
+      <div class="filter-bar" role="group" aria-label="Filter reviews">
         <button type="button" class="filter-pill active" data-filter="all" aria-pressed="true">All (149)</button>
         <button type="button" class="filter-pill" data-filter="washer" aria-pressed="false">Washer</button>
         <button type="button" class="filter-pill" data-filter="dryer" aria-pressed="false">Dryer</button>
@@ -1313,6 +1334,7 @@
         <button type="button" class="filter-pill" data-filter="oven-stove" aria-pressed="false">Oven &amp; Stove</button>
         <button type="button" class="filter-pill" data-filter="wine-cooler" aria-pressed="false">Wine Cooler</button>
         <button type="button" class="filter-pill" data-filter="general" aria-pressed="false">General</button>
+        <button type="button" class="filter-pill" data-filter="photos" aria-pressed="false">With photos</button>
       </div>
 
       <!-- Live status: the counts are written by the script from the cards and the stat above, so
@@ -1337,8 +1359,7 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Sep 2026</div>
           <p class="t-quote">&ldquo;Excellent experience from start to finish! The team did a fantastic job repairing our Sub Zero refrigerator. They were able to locate the original parts needed, complete the repair, and get everything installed very quickly, which meant very little downtime for us.<br><br>They were punctual, communicated clearly throughout the entire process, and the work was extremely clean and professional. Everything was handled efficiently and the finished result exceeded my expectations.<br><br>It&#39;s not always easy to find a company that is reliable, knowledgeable, and gets the job done right the first time. Highly recommend them for any appliance repair or installation!&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-sub-zero-tog-valizada.webp" alt="Photo from Tog Valizada&#39;s review showing the built-in Sub-Zero refrigerator we repaired" width="768" height="338" loading="lazy">
-          <div class="t-footer"><div class="t-avatar" aria-hidden="true">TV</div><div><div class="t-name">Tog Valizada</div><div class="t-role">Sub-Zero Refrigerator Repair</div></div></div>
+          <div class="t-footer"><div class="t-avatar" aria-hidden="true">TV</div><div><div class="t-name">Tog Valizada</div><div class="t-role">Sub-Zero Refrigerator Repair</div></div><a class="t-photo-link" href="../images/real/reviews/refrigerator-sub-zero-tog-valizada.webp" aria-label="View the photo from Tog Valizada&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-sub-zero-tog-valizada.webp" alt="Photo from Tog Valizada&#39;s review showing the built-in Sub-Zero refrigerator we repaired" width="768" height="338" loading="lazy"></a></div>
         </div>
         <div class="t-card" data-category="refrigerator">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
@@ -1362,15 +1383,13 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;Ag has done great work, highly recommend him.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/dishwasher-bosch-chinese-student-association.webp" alt="Photo from Chinese Student Association&#39;s review showing the open Bosch dishwasher we repaired" width="768" height="338" loading="lazy">
-          <div class="t-footer"><div class="t-avatar" aria-hidden="true">CS</div><div><div class="t-name">Chinese Student Association</div><div class="t-role">Bosch Dishwasher Repair</div></div></div>
+          <div class="t-footer"><div class="t-avatar" aria-hidden="true">CS</div><div><div class="t-name">Chinese Student Association</div><div class="t-role">Bosch Dishwasher Repair</div></div><a class="t-photo-link" href="../images/real/reviews/dishwasher-bosch-chinese-student-association.webp" aria-label="View the photo from Chinese Student Association&#39;s review"><img class="t-review-photo" src="../images/real/reviews/dishwasher-bosch-chinese-student-association.webp" alt="Photo from Chinese Student Association&#39;s review showing the open Bosch dishwasher we repaired" width="768" height="338" loading="lazy"></a></div>
         </div>
         <div class="t-card" data-category="refrigerator">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;AG showed up on time and instantly knew what the problem was. This was the second time he has been to our house and each time he has done a good job for us.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-sub-zero-mark-lauria.webp" alt="Photo from Mark Lauria&#39;s review showing the built-in Sub-Zero refrigerator we repaired in San Clemente" width="768" height="338" loading="lazy">
-          <div class="t-footer"><div class="t-avatar" aria-hidden="true">ML</div><div><div class="t-name">Mark Lauria</div><div class="t-role">Sub-Zero Refrigerator Repair</div></div></div>
+          <div class="t-footer"><div class="t-avatar" aria-hidden="true">ML</div><div><div class="t-name">Mark Lauria</div><div class="t-role">Sub-Zero Refrigerator Repair</div></div><a class="t-photo-link" href="../images/real/reviews/refrigerator-sub-zero-mark-lauria.webp" aria-label="View the photo from Mark Lauria&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-sub-zero-mark-lauria.webp" alt="Photo from Mark Lauria&#39;s review showing the built-in Sub-Zero refrigerator we repaired in San Clemente" width="768" height="338" loading="lazy"></a></div>
         </div>
         <div class="t-card" data-category="refrigerator">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
@@ -1400,13 +1419,13 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;Great service and very informative&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/washer-samsung-stacey-etnire.webp" alt="Photo from Stacey Etnire&#39;s review showing the white top panel and service label of the Samsung washer we repaired" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">SE</div>
             <div>
               <div class="t-name">Stacey Etnire</div>
               <div class="t-role">Samsung Washer Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/washer-samsung-stacey-etnire.webp" aria-label="View the photo from Stacey Etnire&#39;s review"><img class="t-review-photo" src="../images/real/reviews/washer-samsung-stacey-etnire.webp" alt="Photo from Stacey Etnire&#39;s review showing the white top panel and service label of the Samsung washer we repaired" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="general">
@@ -1425,39 +1444,39 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;AG fixed my Samsung dryer. Good service!&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/dryer-kathleen-street.webp" alt="Photo from Kathleen Street's review showing the top-load dryer we repaired" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">KS</div>
             <div>
               <div class="t-name">Kathleen Street</div>
               <div class="t-role">Dryer Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/dryer-kathleen-street.webp" aria-label="View the photo from Kathleen Street&#39;s review"><img class="t-review-photo" src="../images/real/reviews/dryer-kathleen-street.webp" alt="Photo from Kathleen Street's review showing the top-load dryer we repaired" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="washer">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;Water leak problem. AG fixed. Thank you!&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/washer-lg-ahmed-el-korashy.webp" alt="Photo from Ahmed El Korashy's review showing the stainless LG front-load washer we repaired, with its fill hose running down the side of the cabinet" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">AK</div>
             <div>
               <div class="t-name">Ahmed El Korashy</div>
               <div class="t-role">LG Washer Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/washer-lg-ahmed-el-korashy.webp" aria-label="View the photo from Ahmed El Korashy&#39;s review"><img class="t-review-photo" src="../images/real/reviews/washer-lg-ahmed-el-korashy.webp" alt="Photo from Ahmed El Korashy's review showing the stainless LG front-load washer we repaired, with its fill hose running down the side of the cabinet" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;Our refrigerator KitchenAid ice maker not working. AG fixed same day. Recommend+++++&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-kitchenaid-eleonora-abukova.webp" alt="Photo from Eleonora Abukova's review showing the stainless steel side-by-side refrigerator we serviced, beside the KitchenAid wall oven" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">EA</div>
             <div>
               <div class="t-name">Eleonora Abukova</div>
               <div class="t-role">KitchenAid Refrigerator Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/refrigerator-kitchenaid-eleonora-abukova.webp" aria-label="View the photo from Eleonora Abukova&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-kitchenaid-eleonora-abukova.webp" alt="Photo from Eleonora Abukova's review showing the stainless steel side-by-side refrigerator we serviced, beside the KitchenAid wall oven" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
@@ -1488,13 +1507,13 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;Excellent service.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/range-thermador-rachel-padilla.webp" alt="Photo from Rachel Padilla's review showing the stainless pro-style gas range we serviced, its backguard raised above the star-shaped cast-iron burner grates" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">RP</div>
             <div>
               <div class="t-name">Rachel Padilla</div>
               <div class="t-role">Thermador Range Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/range-thermador-rachel-padilla.webp" aria-label="View the photo from Rachel Padilla&#39;s review"><img class="t-review-photo" src="../images/real/reviews/range-thermador-rachel-padilla.webp" alt="Photo from Rachel Padilla's review showing the stainless pro-style gas range we serviced, its backguard raised above the star-shaped cast-iron burner grates" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="general">
@@ -1525,40 +1544,40 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;AG did a great job in quickly repairing our freezer.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/freezer-donna-barnett-corwin.webp" alt="Photo from Donna Barnett Corwin's review showing the stainless French-door refrigerator and freezer we serviced" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">DC</div>
             <div>
               <div class="t-name">Donna Barnett Corwin</div>
               <div class="t-role">KitchenAid Freezer Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/freezer-donna-barnett-corwin.webp" aria-label="View the photo from Donna Barnett Corwin&#39;s review"><img class="t-review-photo" src="../images/real/reviews/freezer-donna-barnett-corwin.webp" alt="Photo from Donna Barnett Corwin's review showing the stainless French-door refrigerator and freezer we serviced" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="oven-stove">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Aug 2026</div>
           <p class="t-quote">&ldquo;New oven install. Great price. Thanks&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/business/completed-repair-oven-samsung-double-wall-install-newport-beach.jpg" alt="Our photo of the Samsung double wall oven installation in Newport Beach that Muhammed Nusratli's review describes" width="768" height="1024" loading="lazy">
-          <p class="t-photo-credit">Our photo of this installation</p>
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">MN</div>
             <div>
               <div class="t-name">Muhammed Nusratli</div>
               <div class="t-role">Samsung Oven Installation</div>
+              <div class="t-photo-note">Our photo of this installation</div>
             </div>
+            <a class="t-photo-link" href="../images/real/business/completed-repair-oven-samsung-double-wall-install-newport-beach.jpg" data-caption="Our photo of this installation" aria-label="View our photo of this installation"><img class="t-review-photo" src="../images/real/business/completed-repair-oven-samsung-double-wall-install-newport-beach.jpg" alt="Our photo of the Samsung double wall oven installation in Newport Beach that Muhammed Nusratli's review describes" width="768" height="1024" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="oven-stove">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Jul 2026</div>
           <p class="t-quote">&ldquo;AG was great. Incredible installation&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/oven-kitchenaid-alexander-battaglia.webp" alt="Photo from Alexander Battaglia's review showing the KitchenAid double wall oven that was installed" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">AB</div>
             <div>
               <div class="t-name">Alexander Battaglia</div>
               <div class="t-role">Double Wall Oven Installation</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/oven-kitchenaid-alexander-battaglia.webp" aria-label="View the photo from Alexander Battaglia&#39;s review"><img class="t-review-photo" src="../images/real/reviews/oven-kitchenaid-alexander-battaglia.webp" alt="Photo from Alexander Battaglia's review showing the KitchenAid double wall oven that was installed" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
@@ -1613,26 +1632,26 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Jul 2026</div>
           <p class="t-quote">&ldquo;AG was wonderful - quick and easy! Loved working with him. Highly recommend :)&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-lg-steph-ww.webp" alt="Photo from Steph WW's review showing the LG refrigerator that was repaired" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">SW</div>
             <div>
               <div class="t-name">Steph WW</div>
               <div class="t-role">Refrigerator Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/refrigerator-lg-steph-ww.webp" aria-label="View the photo from Steph WW&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-lg-steph-ww.webp" alt="Photo from Steph WW's review showing the LG refrigerator that was repaired" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Jul 2026</div>
           <p class="t-quote">&ldquo;AJ was professional, fast, and honest!!&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-matt-semonza.webp" alt="Photo from Matt Semonza's review showing the Frigidaire refrigerator that was repaired" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">MS</div>
             <div>
               <div class="t-name">Matt Semonza</div>
               <div class="t-role">Refrigerator Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/refrigerator-matt-semonza.webp" aria-label="View the photo from Matt Semonza&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-matt-semonza.webp" alt="Photo from Matt Semonza's review showing the Frigidaire refrigerator that was repaired" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="oven-stove">
@@ -1663,13 +1682,13 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · Jul 2026</div>
           <p class="t-quote">&ldquo;AG came and fixed my oven so fast! He is extremely knowledgeable, he was able to accurately diagnose the problem in minutes. As he has the parts with him, he replaced the necessary part and cleaned up everything immediately. Thank you so much!!&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/oven-marie-bennett.webp" alt="Photo from Marie Bennett's review showing the black gas cooktop that was repaired" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">MB</div>
             <div>
               <div class="t-name">Marie Bennett</div>
               <div class="t-role">Oven Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/oven-marie-bennett.webp" aria-label="View the photo from Marie Bennett&#39;s review"><img class="t-review-photo" src="../images/real/reviews/oven-marie-bennett.webp" alt="Photo from Marie Bennett's review showing the black gas cooktop that was repaired" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
@@ -1700,52 +1719,52 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · Jul 2026</div>
           <p class="t-quote">&ldquo;AG fixed my Electrolux dryer and was very professional. He was efficient, genuine, and had great customer service. I highly recommend him and would definitely use his superb technical service again!&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/dryer-electrolux-lethkris.webp" alt="Photo from LethKris B&amp;H's review showing the white Electrolux dryer that was repaired" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">LB</div>
             <div>
               <div class="t-name">LethKris B&amp;H</div>
               <div class="t-role">Dryer Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/dryer-electrolux-lethkris.webp" aria-label="View the photo from LethKris B&amp;H&#39;s review"><img class="t-review-photo" src="../images/real/reviews/dryer-electrolux-lethkris.webp" alt="Photo from LethKris B&amp;H's review showing the white Electrolux dryer that was repaired" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="washer">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · Jun 2026</div>
           <p class="t-quote">&ldquo;AG, replaced the drain pump and even ran the washer with an antibacterial spray. Very pleased and highly recommend.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/washer-lg-adriana-lopez.webp" alt="Photo from Adriana Lopez's review showing her LG front-load washer" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">AL</div>
             <div>
               <div class="t-name">Adriana Lopez</div>
               <div class="t-role">Washer Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/washer-lg-adriana-lopez.webp" aria-label="View the photo from Adriana Lopez&#39;s review"><img class="t-review-photo" src="../images/real/reviews/washer-lg-adriana-lopez.webp" alt="Photo from Adriana Lopez's review showing her LG front-load washer" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="oven-stove">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · Jun 2026</div>
           <p class="t-quote">&ldquo;Incredible service!! My oven is my emotional lifeline and this tech has saved me a few times!! Excellent service, reasonably priced and very respectful! He is my 100% go to for all things appliances.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp" alt="Photo from Pat Sepulveda-Garcia's review showing her Dacor professional gas range" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">PS</div>
             <div>
               <div class="t-name">Pat Sepulveda-Garcia</div>
               <div class="t-role">Oven Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp" aria-label="View the photo from Pat Sepulveda-Garcia&#39;s review"><img class="t-review-photo" src="../images/real/reviews/oven-dacor-pat-sepulveda-garcia.webp" alt="Photo from Pat Sepulveda-Garcia's review showing her Dacor professional gas range" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · Jun 2026</div>
           <p class="t-quote">&ldquo;My refrigerator stopped keeping food cold, but Universal Appliance Services came out and fixed it quickly. Really happy with the service and glad my food isn't spoiling anymore. Highly recommend them&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp" alt="Photo from Aghasahib Zarbaliyev's review showing his stainless refrigerator" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">AZ</div>
             <div>
               <div class="t-name">Aghasahib Zarbaliyev</div>
               <div class="t-role">Refrigerator Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp" aria-label="View the photo from Aghasahib Zarbaliyev&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-aghasahib-zarbaliyev.webp" alt="Photo from Aghasahib Zarbaliyev's review showing his stainless refrigerator" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="dishwasher">
@@ -1812,39 +1831,39 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · May 2026</div>
           <p class="t-quote">&ldquo;Competent and friendly service. Thank you&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/range-roger-antonie.webp" alt="Photo from Roger Antonie's review showing his Viking professional gas range with red knobs" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">RA</div>
             <div>
               <div class="t-name">Roger Antonie</div>
               <div class="t-role">Stove Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/range-roger-antonie.webp" aria-label="View the photo from Roger Antonie&#39;s review"><img class="t-review-photo" src="../images/real/reviews/range-roger-antonie.webp" alt="Photo from Roger Antonie's review showing his Viking professional gas range with red knobs" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="oven-stove">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · May 2026</div>
           <p class="t-quote">&ldquo;Ag fixed my Geniral Elcteic oven. Fast service!!! Thank you.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/oven-ge-surma-karimova.webp" alt="Photo from Surma Karimova's review showing her GE wall oven" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">SK</div>
             <div>
               <div class="t-name">Surma Karimova</div>
               <div class="t-role">Oven Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/oven-ge-surma-karimova.webp" aria-label="View the photo from Surma Karimova&#39;s review"><img class="t-review-photo" src="../images/real/reviews/oven-ge-surma-karimova.webp" alt="Photo from Surma Karimova's review showing her GE wall oven" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="wine-cooler">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · May 2026</div>
           <p class="t-quote">&ldquo;My old Viking wine cooler work!!! Thank you AG for fixed. Compressor replaced. Recommend.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/wine-cooler-viking-at.webp" alt="Photo from A T's review showing the exterior of the Costa Mesa home where the Viking wine cooler was repaired" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">AT</div>
             <div>
               <div class="t-name">A T</div>
               <div class="t-role">Wine Cooler Repair · Costa Mesa</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/wine-cooler-viking-at.webp" aria-label="View the photo from A T&#39;s review"><img class="t-review-photo" src="../images/real/reviews/wine-cooler-viking-at.webp" alt="Photo from A T's review showing the exterior of the Costa Mesa home where the Viking wine cooler was repaired" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="general">
@@ -2779,13 +2798,13 @@
         <div class="t-card t-card--no-quote" data-category="oven-stove">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review · Feb 2026</div>
-          <img class="t-review-photo" src="../images/real/reviews/range-theresa-robinson.webp" alt="Photo from Theresa Robinson's review" width="125" height="125" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">TR</div>
             <div>
               <div class="t-name">Theresa Robinson</div>
               <div class="t-role">Range Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/range-theresa-robinson.webp" aria-label="View the photo from Theresa Robinson&#39;s review"><img class="t-review-photo" src="../images/real/reviews/range-theresa-robinson.webp" alt="Photo from Theresa Robinson's review" width="125" height="125" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card t-card--no-quote" data-category="washer">
@@ -2803,13 +2822,13 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Sep 2026</div>
           <p class="t-quote">&ldquo;Not only was he able to come same day but his quality of service was exceptional and very reasonably priced&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/dryer-lg-j.webp" alt="Photo from J&#39;s review showing the LG dryer we repaired in Anaheim" width="768" height="303" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">J</div>
             <div>
               <div class="t-name">J</div>
               <div class="t-role">LG Dryer Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/dryer-lg-j.webp" aria-label="View the photo from J&#39;s review"><img class="t-review-photo" src="../images/real/reviews/dryer-lg-j.webp" alt="Photo from J&#39;s review showing the LG dryer we repaired in Anaheim" width="768" height="303" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="oven-stove">
@@ -2828,13 +2847,13 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Sep 2026</div>
           <p class="t-quote">&ldquo;Called for dishwasher repair and AG was very responsive, helped me save money ordering a part and then came back quickly to complete the job. All works well now. Would definitely recommend. Thank you!&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/dishwasher-kitchenaid-marla-katz.webp" alt="Photo from Marla Katz&#39;s review showing the KitchenAid dishwasher we repaired in Santa Ana" width="768" height="1024" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">MK</div>
             <div>
               <div class="t-name">Marla Katz</div>
               <div class="t-role">KitchenAid Dishwasher Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/dishwasher-kitchenaid-marla-katz.webp" aria-label="View the photo from Marla Katz&#39;s review"><img class="t-review-photo" src="../images/real/reviews/dishwasher-kitchenaid-marla-katz.webp" alt="Photo from Marla Katz&#39;s review showing the KitchenAid dishwasher we repaired in Santa Ana" width="768" height="1024" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="general">
@@ -2877,39 +2896,39 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Oct 2026</div>
           <p class="t-quote">&ldquo;Great service. Very communicative. Very professional. Challenging repair on my built in. Working like new again.&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-kitchenaid-henry-lo.webp" alt="Photo from Henry Lo&#39;s review showing the built-in KitchenAid refrigerator we repaired in Brea" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">HL</div>
             <div>
               <div class="t-name">Henry Lo</div>
               <div class="t-role">KitchenAid Refrigerator Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/refrigerator-kitchenaid-henry-lo.webp" aria-label="View the photo from Henry Lo&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-kitchenaid-henry-lo.webp" alt="Photo from Henry Lo&#39;s review showing the built-in KitchenAid refrigerator we repaired in Brea" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Oct 2026</div>
           <p class="t-quote">&ldquo;AG fixed are ice maker Thank you&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-luzelena-cano.webp" alt="Photo from Luzelena Cano&#39;s review showing the built-in refrigerator whose ice maker we repaired" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">LC</div>
             <div>
               <div class="t-name">Luzelena Cano</div>
               <div class="t-role">Ice Maker Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/refrigerator-luzelena-cano.webp" aria-label="View the photo from Luzelena Cano&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-luzelena-cano.webp" alt="Photo from Luzelena Cano&#39;s review showing the built-in refrigerator whose ice maker we repaired" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="refrigerator">
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Oct 2026</div>
           <p class="t-quote">&ldquo;Ag Fixed are Frigidaire refrigerator.Refeigirator side not cooling&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/refrigerator-frigidaire-ronney-collosi.webp" alt="Photo from ronney collosi&#39;s review showing the Frigidaire refrigerator we repaired in Chino Hills" width="768" height="338" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">RC</div>
             <div>
               <div class="t-name">ronney collosi</div>
               <div class="t-role">Frigidaire Refrigerator Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/refrigerator-frigidaire-ronney-collosi.webp" aria-label="View the photo from ronney collosi&#39;s review"><img class="t-review-photo" src="../images/real/reviews/refrigerator-frigidaire-ronney-collosi.webp" alt="Photo from ronney collosi&#39;s review showing the Frigidaire refrigerator we repaired in Chino Hills" width="768" height="338" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="general">
@@ -2964,13 +2983,13 @@
           <div class="t-stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <div class="t-source"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Google Review &middot; Oct 2026</div>
           <p class="t-quote">&ldquo;Excellent service! The technician received the part and came to fix my washer immediately. He was professional, knowledgeable and kind. Fair pricing and great communication throughout the process. Highly recommend!&rdquo;</p>
-          <img class="t-review-photo" src="../images/real/reviews/washer-carol-spetzman.webp" alt="Photo from Carol Spetzman&#39;s review showing the open front-load washer we repaired" width="768" height="677" loading="lazy">
           <div class="t-footer">
             <div class="t-avatar" aria-hidden="true">CS</div>
             <div>
               <div class="t-name">Carol Spetzman</div>
               <div class="t-role">Washer Repair</div>
             </div>
+            <a class="t-photo-link" href="../images/real/reviews/washer-carol-spetzman.webp" aria-label="View the photo from Carol Spetzman&#39;s review"><img class="t-review-photo" src="../images/real/reviews/washer-carol-spetzman.webp" alt="Photo from Carol Spetzman&#39;s review showing the open front-load washer we repaired" width="768" height="677" loading="lazy"></a>
           </div>
         </div>
         <div class="t-card" data-category="dishwasher">
@@ -3019,6 +3038,15 @@
       <!-- Where the reviews come from: filled once by the script (not a live region), empty without JS -->
       <p class="review-source-note" id="review-source-note"></p>
 
+      <!-- Enlarged review photo. Without JS (or showModal) the thumbnail link simply opens the image. -->
+      <dialog class="t-lightbox" id="t-lightbox" aria-label="Review photo">
+        <div class="t-lightbox-head">
+          <p class="t-lightbox-caption" id="t-lightbox-caption"></p>
+          <button type="button" class="t-lightbox-close" id="t-lightbox-close" aria-label="Close photo">&times;</button>
+        </div>
+        <div class="t-lightbox-figure" id="t-lightbox-figure"></div>
+      </dialog>
+
       <script>
         // Filter pills, per-pill counts, status line and "Show more". Everything here is derived from
         // the cards and the stat above, never typed, so a weekly review batch needs no edit to this
@@ -3046,6 +3074,7 @@
 
           // One matching rule, used for the pill counts and for filtering.
           function matches(card, f) {
+            if (f === 'photos') return !!card.querySelector('.t-review-photo');
             var cats = card.dataset.category || '';
             return f === 'all' || cats.split(' ').indexOf(f) !== -1;
           }
@@ -3058,6 +3087,79 @@
             var n = cards.filter(function (c) { return matches(c, f); }).length;
             pill.textContent = pill.dataset.label + ' (' + n + ')';
           });
+
+          // Five-line clamp: a "Read more" button is added only to a card whose text is really cut off.
+          // Hidden (paged-out) cards cannot be measured, so render() measures the ones it just showed.
+          var quoteSeq = 0;
+          cards.forEach(function (c) {
+            var q = c.querySelector('.t-quote');
+            if (q) q.id = 't-quote-' + (++quoteSeq);
+          });
+          function toggleQuote(btn, q) {
+            var open = !q.classList.contains('is-open');
+            q.classList.toggle('is-open', open);
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            btn.textContent = open ? 'Show less' : 'Read more';
+          }
+          function measureVisible() {
+            var todo = cards.filter(function (c) { return !c.hidden && c.querySelector('.t-quote'); });
+            // Read every height first, then change the DOM, so one layout serves the whole pass.
+            var cut = todo.map(function (c) {
+              var q = c.querySelector('.t-quote');
+              return q.classList.contains('is-open') ? null : q.scrollHeight > q.clientHeight + 1;
+            });
+            todo.forEach(function (c, i) {
+              if (cut[i] === null) return;
+              var q = c.querySelector('.t-quote');
+              var btn = c.querySelector('.t-more');
+              if (cut[i] && !btn) {
+                btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 't-more';
+                btn.setAttribute('aria-expanded', 'false');
+                btn.setAttribute('aria-controls', q.id);
+                btn.textContent = 'Read more';
+                btn.addEventListener('click', function () { toggleQuote(btn, q); });
+                q.insertAdjacentElement('afterend', btn);
+              } else if (!cut[i] && btn) {
+                btn.remove();
+              }
+            });
+          }
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureVisible);
+          var lastWidth = grid.clientWidth, resizeTimer;
+          window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+              if (grid.clientWidth !== lastWidth) { lastWidth = grid.clientWidth; measureVisible(); }
+            }, 150);
+          });
+
+          // Tap a photo to enlarge it in a native dialog; without showModal the link opens the image.
+          var box = document.getElementById('t-lightbox');
+          var boxImg = document.createElement('img'); // created here so the page ships no empty-src image
+          boxImg.id = 't-lightbox-img';
+          if (box) document.getElementById('t-lightbox-figure').appendChild(boxImg);
+          var boxCap = document.getElementById('t-lightbox-caption');
+          var opener = null;
+          grid.addEventListener('click', function (e) {
+            var link = e.target.closest ? e.target.closest('.t-photo-link') : null;
+            if (!link || !box || typeof box.showModal !== 'function') return;
+            e.preventDefault();
+            var thumb = link.querySelector('img');
+            var nameEl = link.closest('.t-card').querySelector('.t-name');
+            boxImg.src = link.href;
+            boxImg.alt = thumb ? thumb.alt : '';
+            boxCap.textContent = link.dataset.caption || ('Photo from ' + (nameEl ? nameEl.textContent.trim() : 'a customer') + '’s review');
+            opener = link;
+            box.showModal();
+          });
+          if (box) {
+            document.getElementById('t-lightbox-close').addEventListener('click', function () { box.close(); });
+            // A click on the dialog element itself (not its contents) is a click on the backdrop.
+            box.addEventListener('click', function (e) { if (e.target === box) box.close(); });
+            box.addEventListener('close', function () { if (opener) opener.focus(); });
+          }
 
           function render(focusIndex) {
             var matched = cards.filter(function (c) { return matches(c, filter); });
@@ -3073,6 +3175,8 @@
             if (filter === 'all') {
               // "reviews", not "written reviews": a few cards are star-only Google reviews with no text.
               msg = all + matched.length + ' reviews.';
+            } else if (filter === 'photos') {
+              msg = all + matched.length + ' reviews with photos.';
             } else {
               var label = document.querySelector('.filter-pill[data-filter="' + filter + '"]').dataset.label.toLowerCase();
               msg = all + matched.length + ' ' + label + ' reviews.';
@@ -3082,6 +3186,7 @@
             var remaining = matched.length - shown;
             moreRow.hidden = remaining <= 0;
             moreBtn.textContent = 'Show more reviews (' + remaining + ' left)';
+            measureVisible();
 
             if (focusIndex != null && matched[focusIndex]) {
               matched[focusIndex].setAttribute('tabindex', '-1');
