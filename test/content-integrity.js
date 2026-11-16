@@ -448,6 +448,13 @@
  *                    left implicit; see the "KNOWN LIMITATION" note on the
  *                    check itself.
  *
+ *   brand-tile-links: on a v2 brand hub (`ul.v2-cross`), a recent-repairs tile whose
+ *                    photo has an entry WITH an id on pages/recent-repairs.html must link
+ *                    to `recent-repairs.html#<that id>`, label "See this repair". Matched
+ *                    on the image filename stem (a trailing -480w/-800w/-1024w is ignored).
+ *                    Added 2026-11-15 after the PR #975 review found Bosch, Viking and DCS
+ *                    tiles linking to a service page instead. Appliance service pages are
+ *                    out of scope on purpose: they link a brand's tile to that brand's hub.
  *   hub-redesign   — ratchet: every git-tracked .html page containing
  *                    `class="hub-hero"` must also contain `class="expect-strip"`
  *                    (the What to expect strip that marks the 2026-10 hub redesign),
@@ -1289,11 +1296,16 @@ if (run('sticky-bar-a11y')) {
 //       on most cards) pass untouched.
 // The location regex only matches capitalised words, so a lowercase job word
 // such as "repair," can never be read as part of the location.
+// The same two rules apply to the footer of every v2 review card (`figure.v2-review > footer`), where
+// whitespace after the comma also fails ("County, &nbsp;CA"). Added 2026-11-12: the check used to skip v2
+// footers because they carry no `.testimonial-name`.
 if (run('testimonial-label-format')) {
-  checked['testimonial-label-format'] = { files: 0, labels: 0 };
+  checked['testimonial-label-format'] = { files: 0, labels: 0, v2Labels: 0 };
   const LABEL_RE = /<([a-z0-9]+)\b[^>]*class="testimonial-name"[^>]*>([\s\S]*?)<\/\1>/g;
   const EM_DASH_RE = /\u2014|&mdash;|&#8212;|&#x2014;/i;
   const LOC_RE = /([A-Z][A-Za-z.'-]*(?:(?: |&nbsp;)[A-Z][A-Za-z.'-]*)*),(?: |&nbsp;)CA\s*$/;
+  // v2: a run of one or more whitespace / &nbsp; (not only U+0020) may sit between words or after the comma.
+  const V2_LOC_RE = /([A-Z][A-Za-z.'-]*(?:(?:\s|&nbsp;)+[A-Z][A-Za-z.'-]*)*),(?:\s|&nbsp;)*CA\s*$/;
   for (const filePath of allHtml) {
     const content = fs.readFileSync(filePath, 'utf8');
     let touched = false;
@@ -1311,6 +1323,32 @@ if (run('testimonial-label-format')) {
       const loc = LOC_RE.exec(inner);
       if (loc && / /.test(loc[0].replace(/\s*$/, ''))) {
         issues.push(`[LABEL-FORMAT] ${where} — trailing location "${loc[0].trim()}" contains a plain space; join it with &nbsp; so it never breaks across lines.`);
+      }
+    }
+    // v2 review cards (`figure.v2-review`) carry the label in `<footer>`: "<strong>Name</strong> · service ·
+    // Orange&nbsp;County,&nbsp;CA". Same two rules. Each figure is bounded first, so a figure with no
+    // footer can never borrow the next card's. A whitespace character of ANY kind inside the trailing
+    // location fails, including the one after the comma ("County, &nbsp;CA" lets "CA" wrap alone).
+    const FIGURE_RE = /<figure\b[^>]*\bclass="(?:[^"]*\s)?v2-review(?:\s[^"]*)?"[^>]*>([\s\S]*?)<\/figure>/g;
+    FIGURE_RE.lastIndex = 0;
+    while ((m = FIGURE_RE.exec(content)) !== null) {
+      const foot = m[1].match(/<footer\b[^>]*>([\s\S]*?)<\/footer>/);
+      const line = content.slice(0, m.index).split('\n').length;
+      if (!foot) {
+        issues.push(`[LABEL-FORMAT] ${rel(filePath)}:${line}: a v2 review card has no <footer> reviewer label.`);
+        continue;
+      }
+      touched = true;
+      checked['testimonial-label-format'].labels++;
+      checked['testimonial-label-format'].v2Labels++;
+      const inner = foot[1];
+      const where = `${rel(filePath)}:${line}: ${inner.trim()}`;
+      if (EM_DASH_RE.test(inner)) {
+        issues.push(`[LABEL-FORMAT] ${where}: em dash in a reviewer label (banned in editorial copy); use a middle dot separator.`);
+      }
+      const loc = V2_LOC_RE.exec(inner);
+      if (loc && /\s/.test(loc[0].trim())) {
+        issues.push(`[LABEL-FORMAT] ${where}: trailing location "${loc[0].trim()}" contains a breakable space; join every word, and the comma to "CA", with &nbsp; (Orange&nbsp;County,&nbsp;CA).`);
       }
     }
     if (touched) checked['testimonial-label-format'].files++;
@@ -2276,8 +2314,10 @@ if (run('tel-target')) {
 // Returns the inner HTML of every market cost table on a page. Two templates:
 //   - the old template: any <table> whose class list has the `cost-table` token
 //     (taken on the class alone, exactly as before);
-//   - the v2 service template (2026-11): `<table class="v2-table">` inside a
-//     `details.v2-disc`. `v2-table` is also used by non-cost tables (error-code
+//   - the v2 templates (2026-11): `<table class="v2-table">`, inside a
+//     `details.v2-disc` on the service pages and shown open on the brand hubs
+//     (the finder does not look at the wrapper, so both are covered, proven
+//     2026-11-12 with a probe page). `v2-table` is also used by non-cost tables (error-code
 //     and model-prefix tables), so a v2-table counts only when its header row
 //     names a cost or range column, the same /cost|range/i test pickColumns()
 //     applies to decide whether a table has a price column at all.
@@ -4187,6 +4227,40 @@ if (run('hub-redesign')) {
   }
 }
 
+// ── Check 29: brand-tile-links ───────────────────────────────────────────────
+// See the docblock above.
+if (run('brand-tile-links')) {
+  checked['brand-tile-links'] = { pages: 0, tiles: 0, linked: 0 };
+  const rrSrc = fs.readFileSync(path.join(root, 'pages', 'recent-repairs.html'), 'utf8').replace(/\r\n/g, '\n');
+  const stemOf = u => u.split('/').pop().replace(/\.(?:jpg|png|webp)$/, '').replace(/-(?:480w|800w|1024w)$/, '');
+  const idByStem = {};
+  for (const c of rrSrc.matchAll(/<div class="repair-card"([^>]*)>([\s\S]*?)(?=<div class="repair-card"|<\/section>|<\/main>)/g)) {
+    const id = (c[1].match(/id="([^"]+)"/) || [])[1];
+    if (!id) continue;
+    for (const m of c[2].matchAll(/src="([^"]+\.(?:jpg|png|webp))"/g)) {
+      const st = stemOf(m[1]);
+      if (!idByStem[st]) idByStem[st] = id;
+    }
+  }
+  for (const f of pages) {
+    const src = fs.readFileSync(f, 'utf8').replace(/\r\n/g, '\n');
+    if (!/class="v2-cross"/.test(src)) continue;
+    checked['brand-tile-links'].pages++;
+    for (const t of src.match(/<article class="v2-job[\s\S]*?<\/article>/g) || []) {
+      const im = t.match(/<img[^>]*src="([^"]+)"/);
+      if (!im) continue;
+      checked['brand-tile-links'].tiles++;
+      const id = idByStem[stemOf(im[1])];
+      if (!id) continue;
+      const a = t.match(/<a class="v2-link" href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/);
+      const want = 'recent-repairs.html#' + id;
+      if (!a || a[1] !== want || !/^See this repair\b/.test(a[2].trim())) {
+        issues.push(`[BRAND-TILE-LINKS] ${rel(f)}: the tile for ${stemOf(im[1])} has an entry on pages/recent-repairs.html (#${id}) but links to ${a ? a[1] : 'nothing'}; it must link to ${want} with the label "See this repair".`);
+      } else checked['brand-tile-links'].linked++;
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -4230,7 +4304,7 @@ if (checked['footer-self-contained']) parts.push(`footer self-contained (no var(
 if (checked['iso8601-timestamps'])   parts.push(`Google timestamps ISO 8601 w/ offset: ${checked['iso8601-timestamps'].stamps} stamps across ${checked['iso8601-timestamps'].files} files`);
 if (checked['article-mobile-chrome']) parts.push(`article mobile chrome (.nav-cta hidden + sticky bar) on all ${checked['article-mobile-chrome'].files} articles`);
 if (checked['sticky-bar-a11y']) parts.push(`sticky bar named region + aria-hidden emoji on all ${checked['sticky-bar-a11y'].files} pages with one`);
-if (checked['testimonial-label-format']) parts.push(`${checked['testimonial-label-format'].labels} reviewer labels on ${checked['testimonial-label-format'].files} pages: no em dash, trailing city+state joined with &nbsp;`);
+if (checked['testimonial-label-format']) parts.push(`${checked['testimonial-label-format'].labels} reviewer labels (${checked['testimonial-label-format'].v2Labels} on v2 cards) on ${checked['testimonial-label-format'].files} pages: no em dash, trailing city+state joined with &nbsp;`);
 if (checked['hamburger-cascade'])    parts.push(`hamburger nav cascade order (unconditional rule before @media override) held on ${checked['hamburger-cascade'].files} files with an inline .nav-hamburger rule`);
 if (checked['nav-phone-mobile'])     parts.push(`header .nav-phone class + hide-below-480px rule held on ${checked['nav-phone-mobile'].files} pages with a header tel: link`);
 if (checked['non-person-reviewers']) parts.push(`no do-not-display reviewers on ${checked['non-person-reviewers'].files} pages`);
@@ -4268,5 +4342,6 @@ if (checked['testimonial-hub-cap']) {
   parts.push(`testimonial hub-cap + verbatim ratchet held on ${c.reviews} rendered reviews across ${c.hubFiles} hub pages (cap baseline covers ${c.capBaselineCount ?? 0}, verbatim baseline covers ${c.verbatimBaselineCount ?? 0}, see P6-49)`);
 }
 if (checked['hub-redesign'])         parts.push(`hub redesign ratchet held: ${checked['hub-redesign'].hubs} hub pages (${checked['hub-redesign'].v2} on the v2 template), ${checked['hub-redesign'].baselined} baselined as not yet redesigned`);
+if (checked['brand-tile-links'])     parts.push(`brand-hub job tiles whose photo has a recent-repairs entry link to it: ${checked['brand-tile-links'].linked} of ${checked['brand-tile-links'].tiles} tiles on ${checked['brand-tile-links'].pages} brand hubs`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
