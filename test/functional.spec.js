@@ -1549,6 +1549,11 @@ for (const url of CONTRAST_PAGES) {
     // 6,382–9,105px at 1440 and 10,452–14,021px at 375, all under the 30,000 cap.
     await page.setViewportSize({ width, height: 2000 });
     await page.goto(url);
+    // Open the v2 job-gallery disclosure first. Tiles inside a closed details.v2-more are not rendered, so
+    // the sweep cannot score them, yet they still count in `textOwning`: with four tiles first, the
+    // refrigerator page (21 of 25 tiles hidden) fell to 0.72 coverage and tripped the floor below without
+    // any contrast defect. Opening it also means the hidden tiles' text is measured, not skipped.
+    await page.evaluate(() => document.querySelectorAll('details.v2-more').forEach(d => { d.open = true; }));
     const docH = await page.evaluate(() => document.documentElement.scrollHeight);
     await page.setViewportSize({ width, height: Math.min(Math.max(docH + 200, 2000), 30000) });
     const { rows, sweptScored, textOwning } = await page.evaluate(CONTRAST_PROBE);
