@@ -640,13 +640,22 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-job-photo { position: relative; min-height: 320px; background: var(--ice); }
 .v2-job-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .v2-job-photo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Pause/play button for an autoplaying job video (site.js initV2Video unhides it) */
+.v2-video-toggle { position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: var(--scrim); color: #fff; cursor: pointer; }
+.v2-video-toggle[hidden] { display: none; }
+/* The focus ring lands on the video, where its contrast depends on the frame (measured 1.56:1 on tan wood).
+   A white disc under the ring keeps white on both sides of it, whatever is playing. */
+.v2 .v2-video-toggle:focus-visible { border-radius: 50%; box-shadow: 0 0 0 8px #fff; }
+.v2-video-toggle svg { width: 18px; height: 18px; fill: currentColor; }
+.v2-video-toggle .v2-video-play, .v2-video-toggle[data-paused] .v2-video-pause { display: none; }
+.v2-video-toggle[data-paused] .v2-video-play { display: block; }
 .v2-job-body { display: flex; flex-direction: column; align-items: flex-start; padding: 26px 24px 18px; }
 .v2-job-loc { font-size: 14px; color: var(--muted); }
 .v2-job-body h3 { margin-top: 8px; font-size: 22px; letter-spacing: -0.02em; line-height: 1.2; }
 .v2-job-body p { margin-top: 12px; font-size: 15px; line-height: 1.6; }
 .v2-job-links { display: flex; flex-direction: column; margin-top: auto; padding-top: 12px; }
 
-/* Gallery variant for pages with many jobs: compact tiles, first eight shown */
+/* Gallery variant for pages with many jobs: compact tiles, first four shown */
 .v2-jobs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
 .v2-jobs .v2-job { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; }
 .v2-jobs .v2-job-photo { min-height: 0; aspect-ratio: 4 / 3; }
@@ -658,6 +667,11 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 /* Gallery tiles that carry a body paragraph: wider tiles, three across */
 .v2-jobs--brand .v2-job-links { padding-top: 12px; }
 .v2-jobs--text { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* The first four text tiles (outside the disclosure) fill one row on desktop, never three plus one */
+@media (min-width: 961px) { .v2-wrap > .v2-jobs--text { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Between phone and desktop the gallery is three across, which would strand the fourth of the first four: two across
+   instead, and the tiles behind "Show all" follow so both groups are the same size */
+@media (min-width: 769px) and (max-width: 960px) { .v2-wrap > .v2-jobs:has(+ .v2-more), .v2-more > .v2-jobs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .v2-jobs--text .v2-job-body p { margin-top: 8px; font-size: 14px; line-height: 1.55; }
 .v2-more { margin-top: 24px; }
 .v2-more > summary { width: fit-content; list-style: none; cursor: pointer; }

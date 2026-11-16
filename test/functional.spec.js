@@ -1549,6 +1549,11 @@ for (const url of CONTRAST_PAGES) {
     // 6,382–9,105px at 1440 and 10,452–14,021px at 375, all under the 30,000 cap.
     await page.setViewportSize({ width, height: 2000 });
     await page.goto(url);
+    // Open the v2 job-gallery disclosure first. Tiles inside a closed details.v2-more are not rendered, so
+    // the sweep cannot score them, yet they still count in `textOwning`: with four tiles first, the
+    // refrigerator page (21 of 25 tiles hidden) fell to 0.72 coverage and tripped the floor below without
+    // any contrast defect. Opening it also means the hidden tiles' text is measured, not skipped.
+    await page.evaluate(() => document.querySelectorAll('details.v2-more').forEach(d => { d.open = true; }));
     const docH = await page.evaluate(() => document.documentElement.scrollHeight);
     await page.setViewportSize({ width, height: Math.min(Math.max(docH + 200, 2000), 30000) });
     const { rows, sweptScored, textOwning } = await page.evaluate(CONTRAST_PROBE);
@@ -3250,6 +3255,121 @@ for (const { brand, file } of BRAND_GALLERY_PAGES) {
       expect(await visibleChildren(cards)).toBe(await cards.count());
       await expect(page.locator(`#${grid} + .job-grid-more-row .job-grid-more`)).toBeHidden();
     });
+  });
+}
+
+// Appliance service pages follow the same four-first rule as the brand hubs (owner rule 2026-11-15,
+// applied to these pages 2026-11-16; they showed eight first until then). The pages are DISCOVERED: every
+// v2 "<appliance>-repair-orange-county.html" page whose gallery is the small-tile `.v2-jobs` grid. Pages
+// with two big cards in `.v2-grid2` (freezer, wine cooler, garbage disposal) have no small-tile gallery.
+const APPLIANCE_GALLERY_PAGES = V2_PAGES.filter(n =>
+  /-repair-orange-county\.html$/.test(n) && !/-appliance-repair-/.test(n) &&
+  fs.readFileSync(path.join(PAGES_DIR, n), 'utf8').includes('<div class="v2-jobs'));
+
+test('appliance gallery: the five small-tile appliance pages are discovered', () => {
+  expect(APPLIANCE_GALLERY_PAGES).toEqual([
+    'dishwasher-repair-orange-county.html', 'dryer-repair-orange-county.html',
+    'oven-stove-repair-orange-county.html', 'refrigerator-repair-orange-county.html',
+    'washer-repair-orange-county.html',
+  ]);
+});
+
+for (const name of APPLIANCE_GALLERY_PAGES) {
+  for (const [label, viewport] of [['phone', MOBILE], ['tablet', { width: 820, height: 1000 }], ['desktop', DESKTOP]]) {
+    test(`appliance gallery: four tiles first, the rest behind "Show all N" on ${name} (${label})`, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await page.goto(`/pages/${name}`);
+      await page.evaluate(() => document.fonts.ready);
+      const tiles = page.locator('article.v2-job');
+      const total = await tiles.count();
+      expect(total, 'a page with a disclosure has more than four tiles').toBeGreaterThan(4);
+      const first = page.locator('.v2-wrap > .v2-jobs > article.v2-job');
+      await expect(first).toHaveCount(4);
+      const more = page.locator('details.v2-more');
+      await expect(more).toHaveCount(1);
+      expect(await v2VisibleTiles(tiles)).toBe(4);
+      expect(await more.locator('article.v2-job').count()).toBe(total - 4);
+      // No stranded tile (owner rule: never an odd-looking card). The first four fill complete rows: one row
+      // of four, two rows of two, or a single column. Three plus one is what this guards against: the washer's
+      // text tiles are three across on desktop, and every gallery is three across between 769px and 960px.
+      const tops = await first.evaluateAll(els => els.map(e => Math.round(e.getBoundingClientRect().top)));
+      const rows = Object.values(tops.reduce((m, t) => { m[t] = (m[t] || 0) + 1; return m; }, {}));
+      expect(new Set(rows).size, 'first four tiles sit in uneven rows: ' + tops.join(', ')).toBe(1);
+      if (viewport === DESKTOP) expect(rows, 'desktop shows the first four in one row').toEqual([4]);
+      const summary = more.locator('> summary');
+      await expect(summary).toBeVisible();
+      await expect(summary).toHaveText(new RegExp('^Show all ' + total + ' [a-z ]+ repairs$'));
+      expect((await summary.boundingBox()).height).toBeGreaterThanOrEqual(44);
+      await summary.click();
+      await expect(more).toHaveJSProperty('open', true);
+      expect(await v2VisibleTiles(tiles)).toBe(total);
+      // The revealed tiles are the same width as the first four. The one designed exception: on desktop the
+      // washer's first four text tiles are four across and its revealed ones three across.
+      if (!(viewport === DESKTOP && name.startsWith('washer-'))) {
+        const w = loc => loc.first().evaluate(e => Math.round(e.getBoundingClientRect().width));
+        const [a, b] = [await w(first), await w(more.locator('article.v2-job'))];
+        expect(Math.abs(a - b), `first tiles are ${a}px wide, revealed tiles ${b}px`).toBeLessThanOrEqual(1);
+      }
+    });
+  }
+}
+
+// An autoplaying, looping video must be pausable (WCAG 2.2.2). Discovered from the source so a second
+// autoplay video on any page is covered, and one shipped without the button fails here.
+const AUTOPLAY_VIDEO_PAGES = fs.readdirSync(PAGES_DIR).filter(n => n.endsWith('.html') &&
+  /<video\b[^>]*\bautoplay\b/.test(fs.readFileSync(path.join(PAGES_DIR, n), 'utf8'))).sort();
+
+test('autoplay video: the Thermador hub is discovered', () => {
+  expect(AUTOPLAY_VIDEO_PAGES).toContain('thermador-appliance-repair-orange-county.html');
+});
+
+for (const name of AUTOPLAY_VIDEO_PAGES) {
+  test(`autoplay video: every one has a working pause button on ${name}`, async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto(`/pages/${name}`);
+    const videos = page.locator('video[autoplay]');
+    const n = await videos.count();
+    expect(n).toBeGreaterThan(0);
+    for (let i = 0; i < n; i++) {
+      const video = videos.nth(i);
+      const btn = video.locator('xpath=..').locator('button.v2-video-toggle');
+      await expect(btn, 'an autoplay video needs a pause button beside it').toHaveCount(1);
+      await btn.scrollIntoViewIfNeeded();
+      await expect(btn).toBeVisible();
+      const box = await btn.boundingBox();
+      expect(box.width).toBeGreaterThanOrEqual(44);
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      // The button replaces the native controls it ships with for no-JS visitors.
+      expect(await video.evaluate(v => v.controls)).toBe(false);
+      await expect.poll(() => video.evaluate(v => v.paused), { message: 'the video autoplays' }).toBe(false);
+      await expect(btn).toHaveAttribute('aria-label', 'Pause video');
+      await btn.click();
+      await expect.poll(() => video.evaluate(v => v.paused)).toBe(true);
+      await expect(btn).toHaveAttribute('aria-label', 'Play video');
+      // Keyboard: the button is a real <button>, so Enter toggles it back.
+      await page.keyboard.press('Shift');   // last input was a click: make the browser treat focus as keyboard focus
+      await btn.focus();
+      // The ring is drawn over the video, so it carries its own white halo to contrast with.
+      expect(await btn.evaluate(b => b.matches(':focus-visible') && getComputedStyle(b).boxShadow)).toContain('rgb(255, 255, 255)');
+      await page.keyboard.press('Enter');
+      await expect.poll(() => video.evaluate(v => v.paused)).toBe(false);
+      await expect(btn).toHaveAttribute('aria-label', 'Pause video');
+    }
+  });
+
+  test(`autoplay video: stays paused under prefers-reduced-motion on ${name}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize(MOBILE);
+    await page.goto(`/pages/${name}`);
+    // site.js clears the autoplay attribute here, so find the video through its button.
+    const btn = page.locator('button.v2-video-toggle').first();
+    const video = btn.locator('xpath=..').locator('video');
+    await btn.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);   // give a wrongly autoplaying video time to start
+    expect(await video.evaluate(v => v.paused)).toBe(true);
+    await expect(btn).toHaveAttribute('aria-label', 'Play video');
+    await btn.click();
+    await expect.poll(() => video.evaluate(v => v.paused)).toBe(false);
   });
 }
 

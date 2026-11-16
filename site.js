@@ -20,6 +20,8 @@
  *                       with a "Read full review" toggle.
  *   8. hub v2 gallery disclosure (details.v2-more): keeps keyboard focus when the one-way
  *                       "Show all N" summary hides itself, by moving it to the first revealed link.
+ *   9. hub v2 job video (.v2-video-toggle): a pause/play button for an autoplaying, looping job video;
+ *                       the video starts paused when the visitor prefers reduced motion.
  *
  * Page-specific filters (blog search/filter, testimonials filter) stay
  * inline on their one page — they are singletons, not a drift class.
@@ -595,6 +597,42 @@
     });
   }
 
+  // 9. Hub v2 job video. An autoplaying, looping video needs a way to stop it (WCAG 2.2.2). The markup
+  // ships native `controls` so the video can be paused without JS; here the always-visible
+  // .v2-video-toggle button replaces them. The button follows the video's own play/pause events, so it is
+  // right however playback changes (autoplay blocked, tab hidden, this button). A visitor who prefers
+  // reduced motion gets the video paused on its poster, with the button offering "Play video".
+  function initV2Video() {
+    document.querySelectorAll('.v2-video-toggle').forEach(function (btn) {
+      if (btn.hasAttribute('data-v2-video-ready')) return;
+      var video = btn.parentNode.querySelector('video');
+      if (!video) return;
+      btn.setAttribute('data-v2-video-ready', '');
+      function sync() {
+        if (video.paused) btn.setAttribute('data-paused', '');
+        else btn.removeAttribute('data-paused');
+        btn.setAttribute('aria-label', video.paused ? 'Play video' : 'Pause video');
+      }
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        video.autoplay = false;
+        video.pause();
+      }
+      video.controls = false;
+      btn.hidden = false;
+      video.addEventListener('play', sync);
+      video.addEventListener('pause', sync);
+      sync();
+      btn.addEventListener('click', function () {
+        if (video.paused) {
+          var p = video.play();
+          if (p && p.catch) p.catch(function () {});
+        } else {
+          video.pause();
+        }
+      });
+    });
+  }
+
   initDropdowns();
   initDrawer();
   initFaq();
@@ -605,4 +643,5 @@
   initScrollableTables();
   initV2Reviews();
   initV2More();
+  initV2Video();
 })();
