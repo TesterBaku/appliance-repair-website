@@ -18,8 +18,9 @@
  *   7. hub v2 review grids (.v2-reviews): three reviews on desktop and two on tablets and phones,
  *                       a reversible "Show N more reviews" button, and every quote held to five lines
  *                       with a "Read full review" toggle.
- *   8. hub v2 gallery disclosure (details.v2-more): keeps keyboard focus when the one-way
- *                       "Show all N" summary hides itself, by moving it to the first revealed link.
+ *   8. hub v2 gallery disclosure (details.v2-more): keeps keyboard focus when the "Show all N"
+ *                       summary hides itself, by moving it to the first revealed link, and adds a
+ *                       "Show fewer repairs" text button after the revealed tiles that closes it again.
  *   9. hub v2 job video (.v2-video-toggle): a pause/play button for an autoplaying, looping job video;
  *                       the video starts paused when the visitor prefers reduced motion.
  *
@@ -567,7 +568,7 @@
   }
 
   // 8. Hub v2 gallery disclosure. The "Show all N" <summary> of a details.v2-more hides itself once the
-  // details opens (CSS, one-way by design), which would drop focus to <body>. Whenever it opens and focus
+  // details opens (CSS), which would drop focus to <body>. Whenever it opens and focus
   // is no longer on a real element, move it to the first link in the revealed content, UNLESS the open was
   // pointer-initiated: a mouse click also focuses the summary, and moving focus (even with preventScroll
   // off-screen) can scroll the page under a mouse user. Everything else (Enter, Space, a screen reader's
@@ -593,6 +594,22 @@
         var r = link.getBoundingClientRect();
         var inView = r.top >= 0 && r.bottom <= (window.innerHeight || document.documentElement.clientHeight);
         link.focus(inView ? { preventScroll: true } : undefined);
+      });
+      // The way back. With the summary hidden while open, the revealed tiles could not be collapsed: a long
+      // scroll with no exit (up to 22 tiles). The button sits after the last tile, where the reader is when
+      // they want out. Closing puts focus on the summary, which is visible again, and brings it into view,
+      // so nobody is left at a scroll position that no longer exists. Added here, not in the markup, so it
+      // is single-sourced and absent without JS (where the gallery stays as it was: open is final).
+      if (!sum) return;
+      var close = document.createElement('button');
+      close.type = 'button';
+      close.className = 'v2-more-close';
+      close.textContent = 'Show fewer repairs';
+      d.appendChild(close);
+      close.addEventListener('click', function () {
+        d.open = false;
+        sum.focus({ preventScroll: true });
+        sum.scrollIntoView({ block: 'center' });
       });
     });
   }

@@ -677,6 +677,11 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-more > summary { width: fit-content; list-style: none; cursor: pointer; }
 .v2-more > summary::-webkit-details-marker { display: none; }
 .v2-more[open] > summary { display: none; }
+/* "Show fewer repairs", added by site.js after the revealed tiles. A text button like "Read full review", not a
+   ghost button: on the brand hubs the ghost "See all recent repairs" button follows it, and two look-alike
+   buttons where one collapses the list and the other leaves the page invite the wrong tap. */
+.v2-more-close { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; padding: 0; border: 0; background: none; color: var(--ember-dark); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
+.v2-more-close:hover { text-decoration: underline; text-underline-offset: 4px; }
 
 /* ---- Process: the one dark band ---- */
 .v2-sec--ink { background: var(--dark); border-top: 0; color: var(--on-dark); }
