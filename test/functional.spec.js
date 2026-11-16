@@ -3347,7 +3347,10 @@ for (const name of AUTOPLAY_VIDEO_PAGES) {
       await expect.poll(() => video.evaluate(v => v.paused)).toBe(true);
       await expect(btn).toHaveAttribute('aria-label', 'Play video');
       // Keyboard: the button is a real <button>, so Enter toggles it back.
+      await page.keyboard.press('Shift');   // last input was a click: make the browser treat focus as keyboard focus
       await btn.focus();
+      // The ring is drawn over the video, so it carries its own white halo to contrast with.
+      expect(await btn.evaluate(b => b.matches(':focus-visible') && getComputedStyle(b).boxShadow)).toContain('rgb(255, 255, 255)');
       await page.keyboard.press('Enter');
       await expect.poll(() => video.evaluate(v => v.paused)).toBe(false);
       await expect(btn).toHaveAttribute('aria-label', 'Pause video');

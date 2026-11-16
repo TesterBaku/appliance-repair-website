@@ -643,7 +643,9 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 /* Pause/play button for an autoplaying job video (site.js initV2Video unhides it) */
 .v2-video-toggle { position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: var(--scrim); color: #fff; cursor: pointer; }
 .v2-video-toggle[hidden] { display: none; }
-.v2 .v2-video-toggle:focus-visible { border-radius: 50%; }
+/* The focus ring lands on the video, where its contrast depends on the frame (measured 1.56:1 on tan wood).
+   A white disc under the ring keeps white on both sides of it, whatever is playing. */
+.v2 .v2-video-toggle:focus-visible { border-radius: 50%; box-shadow: 0 0 0 8px #fff; }
 .v2-video-toggle svg { width: 18px; height: 18px; fill: currentColor; }
 .v2-video-toggle .v2-video-play, .v2-video-toggle[data-paused] .v2-video-pause { display: none; }
 .v2-video-toggle[data-paused] .v2-video-play { display: block; }
