@@ -667,6 +667,8 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-jobs--text { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* The first four text tiles (outside the disclosure) fill one row on desktop, never three plus one */
 @media (min-width: 961px) { .v2-wrap > .v2-jobs--text { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Between phone and desktop the gallery is three across, which would strand the fourth of the first four: two by two instead */
+@media (min-width: 769px) and (max-width: 960px) { .v2-wrap > .v2-jobs:has(+ .v2-more) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .v2-jobs--text .v2-job-body p { margin-top: 8px; font-size: 14px; line-height: 1.55; }
 .v2-more { margin-top: 24px; }
 .v2-more > summary { width: fit-content; list-style: none; cursor: pointer; }

@@ -3270,7 +3270,7 @@ test('appliance gallery: the five small-tile appliance pages are discovered', ()
 });
 
 for (const name of APPLIANCE_GALLERY_PAGES) {
-  for (const [label, viewport] of [['phone', MOBILE], ['desktop', DESKTOP]]) {
+  for (const [label, viewport] of [['phone', MOBILE], ['tablet', { width: 820, height: 1000 }], ['desktop', DESKTOP]]) {
     test(`appliance gallery: four tiles first, the rest behind "Show all N" on ${name} (${label})`, async ({ page }) => {
       await page.setViewportSize(viewport);
       await page.goto(`/pages/${name}`);
@@ -3284,11 +3284,13 @@ for (const name of APPLIANCE_GALLERY_PAGES) {
       await expect(more).toHaveCount(1);
       expect(await v2VisibleTiles(tiles)).toBe(4);
       expect(await more.locator('article.v2-job').count()).toBe(total - 4);
-      if (viewport === DESKTOP) {
-        // One complete row: the washer's text tiles would otherwise sit three across and strand the fourth.
-        const tops = await first.evaluateAll(els => els.map(e => Math.round(e.getBoundingClientRect().top)));
-        for (const t of tops) expect(Math.abs(t - tops[0]), 'first four tiles are not in one row: ' + tops.join(', ')).toBeLessThanOrEqual(1);
-      }
+      // No stranded tile (owner rule: never an odd-looking card). The first four fill complete rows: one row
+      // of four, two rows of two, or a single column. Three plus one is what this guards against: the washer's
+      // text tiles are three across on desktop, and every gallery is three across between 769px and 960px.
+      const tops = await first.evaluateAll(els => els.map(e => Math.round(e.getBoundingClientRect().top)));
+      const rows = Object.values(tops.reduce((m, t) => { m[t] = (m[t] || 0) + 1; return m; }, {}));
+      expect(new Set(rows).size, 'first four tiles sit in uneven rows: ' + tops.join(', ')).toBe(1);
+      if (viewport === DESKTOP) expect(rows, 'desktop shows the first four in one row').toEqual([4]);
       const summary = more.locator('> summary');
       await expect(summary).toBeVisible();
       await expect(summary).toHaveText(new RegExp('^Show all ' + total + ' [a-z ]+ repairs$'));
