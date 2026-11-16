@@ -3298,6 +3298,13 @@ for (const name of APPLIANCE_GALLERY_PAGES) {
       await summary.click();
       await expect(more).toHaveJSProperty('open', true);
       expect(await v2VisibleTiles(tiles)).toBe(total);
+      // The revealed tiles are the same width as the first four. The one designed exception: on desktop the
+      // washer's first four text tiles are four across and its revealed ones three across.
+      if (!(viewport === DESKTOP && name.startsWith('washer-'))) {
+        const w = loc => loc.first().evaluate(e => Math.round(e.getBoundingClientRect().width));
+        const [a, b] = [await w(first), await w(more.locator('article.v2-job'))];
+        expect(Math.abs(a - b), `first tiles are ${a}px wide, revealed tiles ${b}px`).toBeLessThanOrEqual(1);
+      }
     });
   }
 }
