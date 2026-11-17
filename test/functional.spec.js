@@ -5413,3 +5413,47 @@ test.describe('Scrollable table cue (site.js)', () => {
     await expect(page.locator('.table-scroll-hint:visible')).toHaveCount(n);
   });
 });
+
+// In-text links and hyphenated tokens on every city hub (phone width). Derived from CITY_HUBS, never a list.
+// 1. A link inside a sentence must not rely on colour alone (WCAG 1.4.1): the area-copy links used to carry
+//    `text-decoration: none` at ~13.5px/600 ember against grey body text.
+// 2. "90-day" and "30-day" must not split at their hyphen ("90-" / "day parts"); they sit in <span class="nb">.
+test.describe('City hubs: in-text links underlined, warranty tokens unbroken (375px)', () => {
+  test('every city hub', async ({ page }) => {
+    test.setTimeout(180000);
+    await page.setViewportSize({ width: 375, height: 812 });
+    const problems = [];
+    for (const slug of CITY_HUBS) {
+      await page.goto(`/pages/${slug}.html`);
+      await page.evaluate(() => document.fonts && document.fonts.ready);
+      const found = await page.evaluate(() => {
+        const out = [];
+        document.querySelectorAll('main a').forEach(a => {
+          if (a.closest('nav, footer, header, .breadcrumb, .sticky-mobile-bar, button') || !a.offsetParent) return;
+          const par = a.parentElement;
+          let other = '';
+          par.childNodes.forEach(n => { if (n.nodeType === 3) other += n.textContent; });
+          if (other.replace(/[\s,.;:()\/|-]/g, '').length < 8) return;
+          if (!getComputedStyle(a).textDecorationLine.includes('underline')) out.push('no underline: ' + a.textContent.trim());
+        });
+        const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        let n;
+        while ((n = tw.nextNode())) {
+          if (!n.parentElement || n.parentElement.closest('script, style, noscript') || !n.parentElement.offsetParent) continue;
+          const re = /\b(90|30)-day\b/g;
+          let m;
+          while ((m = re.exec(n.textContent))) {
+            const r = document.createRange();
+            r.setStart(n, m.index);
+            r.setEnd(n, m.index + m[0].length);
+            const tops = new Set([...r.getClientRects()].filter(x => x.width > 0).map(x => Math.round(x.top)));
+            if (tops.size > 1) out.push('split token: ' + m[0]);
+          }
+        }
+        return out;
+      });
+      found.forEach(f => problems.push(slug + ': ' + f));
+    }
+    expect(problems).toEqual([]);
+  });
+});
