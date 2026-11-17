@@ -232,6 +232,15 @@
       // featured FAQ), and the button's aria-expanded must reflect that from the first
       // paint (WCAG 4.1.2), not only after a user toggles it.
       btn.setAttribute('aria-expanded', String(item.classList.contains('open')));
+      // aria-controls points at the answer panel (id generated when the markup has none), and the "+" icon is
+      // decoration: hidden from assistive tech so the question is not read with a trailing "plus".
+      var panel = item.querySelector('.faq-a');
+      if (panel) {
+        if (!panel.id) panel.id = 'faq-a-' + (Array.prototype.indexOf.call(items, item) + 1);
+        btn.setAttribute('aria-controls', panel.id);
+      }
+      var icon = btn.querySelector('.icon');
+      if (icon) icon.setAttribute('aria-hidden', 'true');
       btn.addEventListener('click', function () {
         var isOpen = item.classList.contains('open');
         items.forEach(function (i) {
@@ -582,6 +591,10 @@
       if (sum) {
         sum.addEventListener('pointerdown', function () { byPointer = true; });
         sum.addEventListener('keydown', function () { byPointer = false; });
+        // A press that never completes on the summary (cancelled, or released elsewhere) must not leave the flag
+        // set, or a later keyboard activation would be read as a pointer one.
+        sum.addEventListener('pointercancel', function () { byPointer = false; });
+        document.addEventListener('pointerup', function (e) { if (byPointer && !sum.contains(e.target)) byPointer = false; }, true);
       }
       d.addEventListener('toggle', function () {
         var fromPointer = byPointer;
