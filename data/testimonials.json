@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-11-10",
+    "lastUpdated": "2026-11-16",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 156,
-        "publishedCount": 156,
-        "capturedCount": 156,
+        "totalReviewsOnListing": 157,
+        "publishedCount": 157,
+        "capturedCount": 157,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-11-16",
+            "note": "TRACK A CAPTURE and PUBLISH (branch content/review-batch-2026-11-16, owner request 2026-11-16): one 5-star Google review read on 2026-11-16 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session, header 5.0 / 157 reviews. There is NO screenshot file and no SHA-256. Sonny Todorovich ('4 days ago', NEW, 8 words, no appliance or brand named, no photo). The next reviews in the Newest list (Richard Vincent, Maaddiie Machar, Rosalyn Darling) were already captured, so this one record accounts exactly for the 156 to 157 move in the listing header. GBP listing total 156 to 157. capturedCount 156 to 157. publishedCount promoted 156 to 157 by 'npm run build:review-counts -- --publish'. Clears quality-floor clause (b). testimonials.html All 149 to 150 (a multiple of 3). No hub placement."
+          },
           {
             "date": "2026-11-10",
             "note": "TRACK A CAPTURE (branch content/photos-reviews-2026-11-10, shared with the 2026-11-10 job-photo import; no separate chore/review-capture branch was cut): three 5-star Google reviews read on 2026-11-10 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session, header 5.0 / 156 reviews. There is NO screenshot file and no SHA-256 for this batch. All three NEW, no review photo: Richard Vincent ('4 hours ago', 23 words, Dacor oven, $400-450), Maaddiie Machar ('a day ago', 13 words, no appliance or brand named, wait 0-1 hr) and Rosalyn Darling ('a day ago', 19 words, refrigerator; profile line shows 1 photo but none is attached to the review). GBP listing total 153 to 156. capturedCount 153 to 156. publishedCount stays 153 until the publish step. All three clear quality-floor clause (b). Owner statements of 2026-11-10 linking each to a business job photo (Seal Beach Dacor oven, Newport Beach GE oven, Laguna Beach Amana refrigerator) are recorded in each record's _note only; they do not set location, appliance or brand. The three new records account exactly for the 153 to 156 move in the listing header. PUBLISH, same branch: publishedCount promoted 153 to 156 by 'npm run build:review-counts -- --publish' (72 pages rewritten beyond the ones already open). Hub placements by owner decision 2026-11-10: Richard Vincent replaces Kathy Calderon on the Dacor hub and Steve D on the oven/stove hub; Rosalyn Darling replaces Marcy Kucik on the refrigerator hub; Maaddiie Machar is testimonials-page only. testimonials.html All 146 to 149 (trailing row left short per the multiples-of-3 rule)."
@@ -2931,6 +2935,24 @@
       "profilePhoto": null,
       "reviewPhoto": null,
       "_note": "Source: read on 2026-11-10 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session; header 5.0 / 156 reviews. There is NO screenshot file and no SHA-256 for this batch (read live, not from an owner-supplied image). NEW badge, 5-star, shown 'a day ago' (read 2026-11-10); the reviewer's profile line reads '1 review, 1 photo' but no photo is attached to this review as displayed, so reviewPhoto is null. Body copied verbatim (19 words; the space before the first exclamation mark is as written). Appliance recorded as refrigerator ('my refrigerator needs'); no brand named. Quotable under quality-floor clause (b) (no photo, 19 words). Owner (Rufat Malikov) states on 2026-11-10 that this review relates to the Laguna Beach Amana refrigerator evaporator fan motor job (images/real/business/completed-repair-refrigerator-amana-evaporator-fan-motor-laguna-beach.jpg); the brand is NOT recorded on the review because the review text names none. The location label stays 'Orange County, CA': the review text names no city and no reviewer photo is attached, so testimonial-selection Exception 2 (a job photo that matches the reviewer's own photo, plus a named, dated attestation) cannot be met, and the owner's statement alone is one source wearing two hats. Placed in the 2026-11-10 batch (owner decision 2026-11-10) on pages/testimonials.html and on the refrigerator service hub (pages/refrigerator-repair-orange-county.html), replacing Marcy Kucik in her slot; the OC hub card carries the Orange County, CA label. One hub slot left."
+    },
+    {
+      "id": "google-sonny-todorovich-2026-11",
+      "source": "google",
+      "name": "Sonny Todorovich",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-11",
+      "dateText": "4 days ago",
+      "isNew": true,
+      "body": "AG Very nice guy good work reasonable price",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: read on 2026-11-16 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session; header 5.0 / 157 reviews. There is NO screenshot file and no SHA-256 for this capture (read live, not from an owner-supplied image). NEW badge, 5-star, shown '4 days ago' (read 2026-11-16); the reviewer's profile line reads '3 reviews'; no review photo. Body copied verbatim (8 words, no punctuation, as written). Names no appliance or brand. Quotable under quality-floor clause (b) (no photo, 8 words). Metadata shown on the listing but not rendered per site convention: price assessment 'Reasonable'. The owner's reply is not rendered anywhere. Location uses the Orange County default. Carded on pages/testimonials.html only (General category); on no hub, so both hub slots are free."
     }
   ]
 }
