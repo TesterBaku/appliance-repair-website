@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-11-16",
+    "lastUpdated": "2026-11-17",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 157,
-        "publishedCount": 157,
-        "capturedCount": 157,
+        "totalReviewsOnListing": 158,
+        "publishedCount": 158,
+        "capturedCount": 158,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-11-17",
+            "note": "TRACK A CAPTURE (branch content/review-batch-2026-11-17): one 5-star Google review read on 2026-11-17 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session, header 5.0 / 158 reviews. There is NO screenshot file and no SHA-256. Karina Cardenas ('2 hours ago', NEW, 31 words, refrigerator ('our fridge'), no brand, no photo). This one record accounts exactly for the 157 to 158 move in the listing header. GBP listing total 157 to 158. capturedCount 157 to 158. publishedCount promoted 157 to 158 by 'npm run build:review-counts -- --publish'. Clears quality-floor clause (b). testimonials.html All 150 to 151 (trailing row left short per the multiples-of-3 rule; no uncarded record clears the floor to top it up). No hub placement."
+          },
           {
             "date": "2026-11-16",
             "note": "TRACK A CAPTURE and PUBLISH (branch content/review-batch-2026-11-16, owner request 2026-11-16): one 5-star Google review read on 2026-11-16 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session, header 5.0 / 157 reviews. There is NO screenshot file and no SHA-256. Sonny Todorovich ('4 days ago', NEW, 8 words, no appliance or brand named, no photo). The next reviews in the Newest list (Richard Vincent, Maaddiie Machar, Rosalyn Darling) were already captured, so this one record accounts exactly for the 156 to 157 move in the listing header. GBP listing total 156 to 157. capturedCount 156 to 157. publishedCount promoted 156 to 157 by 'npm run build:review-counts -- --publish'. Clears quality-floor clause (b). testimonials.html All 149 to 150 (a multiple of 3). No hub placement."
@@ -2953,6 +2957,24 @@
       "profilePhoto": null,
       "reviewPhoto": null,
       "_note": "Source: read on 2026-11-16 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session; header 5.0 / 157 reviews. There is NO screenshot file and no SHA-256 for this capture (read live, not from an owner-supplied image). NEW badge, 5-star, shown '4 days ago' (read 2026-11-16); the reviewer's profile line reads '3 reviews'; no review photo. Body copied verbatim (8 words, no punctuation, as written). Names no appliance or brand. Quotable under quality-floor clause (b) (no photo, 8 words). Metadata shown on the listing but not rendered per site convention: price assessment 'Reasonable'. The owner's reply is not rendered anywhere. Location uses the Orange County default. Carded on pages/testimonials.html only (General category); on no hub, so both hub slots are free."
+    },
+    {
+      "id": "google-karina-cardenas-2026-11",
+      "source": "google",
+      "name": "Karina Cardenas",
+      "location": "Orange County, CA",
+      "appliance": "refrigerator",
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-11",
+      "dateText": "2 hours ago",
+      "isNew": true,
+      "body": "He was amazing! Super quick, efficient, and professional. He checked out our fridge right away and made the whole process so easy. Really appreciate his help and would definitely recommend!",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: read on 2026-11-17 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session; header 5.0 / 158 reviews. There is NO screenshot file and no SHA-256 for this capture (read live, not from an owner-supplied image). NEW badge, 5-star, shown '2 hours ago' (read 2026-11-17); the reviewer's profile line reads '3 reviews'; no review photo. Body copied verbatim (31 words). Appliance recorded as refrigerator ('our fridge'); no brand, technician or city named. Quotable under quality-floor clause (b) (no photo, 31 words). Metadata shown on the listing but not rendered per site convention: price assessment 'Great price'. No owner reply yet. Location uses the Orange County default. Carded on pages/testimonials.html only (Refrigerator category); on no hub, so both hub slots are free."
     }
   ]
 }
