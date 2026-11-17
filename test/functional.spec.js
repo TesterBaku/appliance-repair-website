@@ -1193,6 +1193,32 @@ for (const name of V2_MORE_PAGES) {
     }
   });
 
+  test('v2 gallery: "Show fewer repairs" is underlined at rest, and a cancelled press does not suppress the focus move on ' + name, async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto(`/pages/${name}`);
+    await page.evaluate(() => document.fonts.ready);
+    const details = page.locator('details.v2-more');
+    const summary = details.locator('> summary');
+    const close = details.locator('> button.v2-more-close');
+    await summary.click();
+    await expect(close).toBeVisible();
+    // Underlined at rest so it does not read as plain prose (it is a button, not a link).
+    expect(await close.evaluate(b => getComputedStyle(b).textDecorationLine)).toContain('underline');
+    await close.click();
+    await expect(details).toHaveJSProperty('open', false);
+    await page.evaluate(() => new Promise(r => setTimeout(r, 100)));   // let the close's own toggle event settle first
+    // A pointerdown that is cancelled must not leave the pointer flag set for the next keyboard open.
+    await summary.dispatchEvent('pointerdown');
+    await summary.dispatchEvent('pointercancel');
+    // A bare click (a screen reader's virtual cursor) fires no keydown, so only the cancel can clear the flag.
+    await summary.evaluate(el => el.click());
+    await expect(details).toHaveJSProperty('open', true);
+    await expect.poll(() => page.evaluate(() => {
+      const a = document.activeElement;
+      return !!(a && a.tagName === 'A' && a.closest('details.v2-more'));
+    })).toBe(true);
+  });
+
   test(`v2 gallery: keyboard focus survives "Show all" on ${name}`, async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto(`/pages/${name}`);
@@ -3631,6 +3657,24 @@ for (const name of AUTOPLAY_VIDEO_PAGES) {
   });
 }
 
+
+// FAQ accordion a11y: every button.faq-q points at its answer panel with aria-controls, and the "+" icon is
+// hidden from assistive tech. site.js sets both once for every page, so the v2 hubs (whose markup has neither) are covered.
+for (const name of ['washer-repair-orange-county.html', 'maytag-appliance-repair-orange-county.html']) {
+  test('FAQ buttons carry aria-controls to their panel and an aria-hidden icon on ' + name, async ({ page }) => {
+    await page.goto(`/pages/${name}`);
+    const rows = await page.locator('.faq-item').evaluateAll(items => items.map(item => {
+      const b = item.querySelector('button.faq-q');
+      const panel = b && b.getAttribute('aria-controls') ? document.getElementById(b.getAttribute('aria-controls')) : null;
+      const icon = b && b.querySelector('.icon');
+      return { hasBtn: !!b, panelOk: !!panel && panel === item.querySelector('.faq-a'), iconHidden: !icon || icon.getAttribute('aria-hidden') === 'true' };
+    }));
+    expect(rows.length).toBeGreaterThan(0);
+    for (const r of rows) { expect(r.hasBtn).toBe(true); expect(r.panelOk).toBe(true); expect(r.iconHidden).toBe(true); }
+    const ids = await page.locator('button.faq-q').evaluateAll(bs => bs.map(b => b.getAttribute('aria-controls')));
+    expect(new Set(ids).size, 'aria-controls ids are unique').toBe(ids.length);
+  });
+}
 
 // All 17 brand hubs, v2 facts that differ page to page. The counts are pinned per page on purpose (a
 // regression pin, not derived), and each is guarded so a renamed class cannot turn it into a pass on zero.
