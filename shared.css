@@ -683,7 +683,6 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2-more-close { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; padding: 0; border: 0; background: none; color: var(--ember-dark); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
 .v2-more-close { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .v2-more-close:hover { text-decoration-thickness: 2px; }
-.v2-more-close:focus-visible { outline: 2px solid var(--ember-dark); outline-offset: 2px; }
 
 /* ---- Process: the one dark band ---- */
 .v2-sec--ink { background: var(--dark); border-top: 0; color: var(--on-dark); }
