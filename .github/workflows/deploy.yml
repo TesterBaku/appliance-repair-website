@@ -78,20 +78,24 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # deploy-pages fails unless this run has exactly one "github-pages" artifact.
-      # Two ways to miss that, both hit on 2026-11-20 (runs 44801284180, 44810840166):
-      # a re-run of this job finds the artifact its earlier attempt left behind
-      # ("Multiple artifacts ... Artifact count is 2"), and a first attempt can query
-      # the artifact list before the upload is visible ("Found 0 artifact(s)").
-      # So: clear leftovers before uploading, then wait until the new one is listed.
+      # deploy-pages fails unless it lists exactly one "github-pages" artifact on
+      # this run. Observed on 2026-11-20 (runs 44801284180 and 44810840166, seven
+      # deploy attempts): with no earlier artifact it listed 0 three times, one
+      # second after the upload; on re-runs, which upload a second artifact beside
+      # the one the earlier attempt left, it listed 2 three times and 1 once (the
+      # one success). Inferred, not proven: a fresh upload takes a variable moment
+      # to appear in the list. So: delete what earlier attempts left, upload, then
+      # wait until the list shows exactly one artifact and it is the new one.
       - name: Remove Pages artifacts left by earlier attempts of this run
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          : > "$RUNNER_TEMP/deleted-pages-artifacts.txt"
           gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[] | select(.name == "github-pages") | .id' |
           while read -r id; do
             echo "Deleting leftover artifact $id"
             gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/$id"
+            echo "$id" >> "$RUNNER_TEMP/deleted-pages-artifacts.txt"
           done
 
       - name: Upload site
@@ -103,13 +107,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for attempt in $(seq 1 30); do
-            count=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '[.artifacts[] | select(.name == "github-pages")] | length')
-            echo "attempt $attempt: $count github-pages artifact(s) listed"
-            if [ "$count" = "1" ]; then exit 0; fi
-            sleep 2
+          # Pass only when exactly one is listed AND it is not one deleted above
+          # (a deleted artifact can linger in the list for a moment too).
+          for attempt in $(seq 1 60); do
+            ids=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[] | select(.name == "github-pages") | .id')
+            total=$(printf '%s\n' "$ids" | grep -c . || true)
+            fresh=$(printf '%s\n' "$ids" | grep . | grep -vxFf "$RUNNER_TEMP/deleted-pages-artifacts.txt" | grep -c . || true)
+            echo "attempt $attempt: $total listed, $fresh new"
+            if [ "$total" = "1" ] && [ "$fresh" = "1" ]; then exit 0; fi
+            sleep 3
           done
-          echo "Expected exactly 1 github-pages artifact after 60s, found $count" >&2
+          echo "Expected exactly 1 new github-pages artifact within 180s; last saw $total listed, $fresh new" >&2
           exit 1
 
       - name: Deploy to GitHub Pages
