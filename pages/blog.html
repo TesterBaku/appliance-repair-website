@@ -458,7 +458,7 @@
 
   <!-- ALL POSTS GRID -->
   <section style="padding:36px 24px 80px;max-width:1100px;margin:0 auto;">
-    <div class="grid-head"><h2 id="grid-heading">Latest articles</h2><span id="grid-count" role="status"></span></div>
+    <div class="grid-head"><h2 id="grid-heading">All articles</h2><span id="grid-count" role="status"></span></div>
     <div class="blog-grid">
 
       <!-- Post: Hard Water in Los Angeles County -->
@@ -1890,8 +1890,10 @@
       var heading = document.getElementById('grid-heading');
       var countEl = document.getElementById('grid-count');
       var basePlaceholder = input.getAttribute('placeholder');
+      var emptyMsg = empty.querySelector('p');
+      var baseEmptyMsg = emptyMsg.textContent;
       var currentCat = 'all';
-      var CAT_LABELS = { refrigerator: 'Refrigerator', washer: 'Washer', dryer: 'Dryer', dishwasher: 'Dishwasher', oven: 'Oven and stove', freezer: 'Freezer', other: 'Other' };
+      var CAT_LABELS = { refrigerator: 'Refrigerator', washer: 'Washer', dryer: 'Dryer', dishwasher: 'Dishwasher', oven: 'Oven', freezer: 'Freezer', other: 'Other' };
 
       function setActivePill(pill) {
         pills.forEach(function(p) {
@@ -1966,10 +1968,15 @@
         var q = input.value.trim();
         var filtering = currentCat !== 'all' || q !== '';
         featuredSection.hidden = filtering;
-        if (q) heading.textContent = 'Search results';
-        else if (currentCat === 'other') heading.textContent = 'Other guides';
-        else if (currentCat !== 'all') heading.textContent = CAT_LABELS[currentCat] + ' articles';
-        else heading.textContent = 'Latest articles';
+        // Search inside a category only looks through that category, so say so in the
+        // heading and in the empty state; the placeholder that names the scope
+        // disappears as soon as the reader types.
+        var label = currentCat === 'all' ? '' : CAT_LABELS[currentCat];
+        if (q) heading.textContent = label ? 'Search results in ' + label : 'Search results';
+        else heading.textContent = label ? label + ' articles' : 'All articles';
+        emptyMsg.textContent = label
+          ? 'No ' + label.toLowerCase() + ' articles match your search. Clear the search to look through every category.'
+          : baseEmptyMsg;
         if (total === 0) countEl.textContent = '';
         else if (shown < total) countEl.textContent = 'Showing ' + shown + ' of ' + total;
         else countEl.textContent = total + (total === 1 ? ' article' : ' articles');
@@ -1977,9 +1984,7 @@
           input.setAttribute('placeholder', basePlaceholder);
         } else {
           var catTotal = cards.filter(inCat).length;
-          input.setAttribute('placeholder', currentCat === 'other'
-            ? 'Search ' + catTotal + ' other articles…'
-            : 'Search ' + catTotal + ' ' + CAT_LABELS[currentCat].toLowerCase() + ' articles…');
+          input.setAttribute('placeholder', 'Search ' + catTotal + ' ' + label.toLowerCase() + ' articles…');
         }
         if (loadMore) {
           var remaining = Math.max(0, matched.length - showing);

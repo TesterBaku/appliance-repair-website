@@ -2532,7 +2532,7 @@ test.describe('Blog page', () => {
 
       await page.locator('.cat-pill[data-filter="all"]').click();
       await expect(page.locator('#featured-section')).toBeVisible();
-      await expect(page.locator('#grid-heading')).toHaveText('Latest articles');
+      await expect(page.locator('#grid-heading')).toHaveText('All articles');
       await expect(page).not.toHaveURL(/category=/);
       await expect(page.locator('#blog-search')).toHaveAttribute('placeholder', /^Search \d+ articles/);
     });
@@ -2569,6 +2569,14 @@ test.describe('Blog page', () => {
     await page.locator('#blog-search').fill('dryer');
     await expect(page.locator('#featured-section')).toBeHidden();
     await expect(page.locator('#grid-heading')).toHaveText('Search results');
+    // Inside a category the search only covers that category: the heading and the
+    // empty state must say so, because the scoped placeholder is gone once you type.
+    await page.locator('.cat-pill[data-filter="dryer"]').click();
+    await expect(page.locator('#grid-heading')).toHaveText('Search results in Dryer');
+    await page.locator('#blog-search').fill('zzqqxxnomatch');
+    await expect(page.locator('#search-empty')).toBeVisible();
+    await expect(page.locator('#search-empty p').first()).toContainText('No dryer articles match');
+    await page.locator('.cat-pill[data-filter="all"]').click();
     await page.locator('#blog-search').fill('');
     await expect(page.locator('#featured-section')).toBeVisible();
   });
