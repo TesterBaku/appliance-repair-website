@@ -67,13 +67,13 @@
        pattern. Not in shared.css yet, so declared locally here. */
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
-    /* Hero: shared.css sets padding/border/h1/p; these keep the decorative
-       floats contained and clipped to the hero. */
-    .page-hero { position: relative; overflow: hidden; }
-    .float { position: absolute; }
+    /* Hero: shared.css sets padding/border/h1/p; this tightens the vertical
+       padding so the search box, pills and first cards sit higher on the page. */
+    .page-hero { position: relative; overflow: hidden; padding-top: 84px; padding-bottom: 28px; }
 
     /* Featured post */
-    .featured { position: relative; cursor: pointer; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 32px rgba(0,0,0,0.12); display: grid; grid-template-columns: 1fr 1fr; background: #fff; margin-top: 56px; }
+    .featured { position: relative; cursor: pointer; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 32px rgba(0,0,0,0.12); display: grid; grid-template-columns: 1fr 1fr; background: #fff; margin-top: 16px; }
+    #featured-section[hidden] { display: none; }
     /* overlay resolves against .featured (positioned ancestor): do not add position:relative to .read-more */
     .read-more::after { content: ''; position: absolute; inset: 0; z-index: 1; }
     .featured:focus-within { outline: 2px solid #e84c1e; outline-offset: 4px; }
@@ -82,7 +82,7 @@
        the 12.5px anchor text is suppressed. Missed on the first pass of this fix and
        caught in the /review of PR #766 - same bug, same file, one element short. */
     .featured:focus-within .read-more:focus-visible { outline: none; }
-    .featured-img { width: 100%; height: 100%; min-height: 380px; object-fit: cover; display: block; }
+    .featured-img { width: 100%; height: 100%; min-height: 300px; object-fit: cover; display: block; }
     .featured-body { padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; }
     .featured-tag { display: inline-block; background: #fff7ed; color: #aa3210; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
     .featured-title { margin-top: 0; font-size: 26px; font-weight: 800; color: #111; line-height: 1.25; letter-spacing: -0.5px; margin-bottom: 14px; }
@@ -93,7 +93,10 @@
     .read-more:hover { background: #cc3d12; }
 
     /* Blog grid */
-    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 0; }
+    .grid-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin: 0 0 20px; }
+    .grid-head h2 { font-size: 22px; font-weight: 800; color: #111; letter-spacing: -0.3px; margin: 0; }
+    #grid-count { font-size: 13px; color: #666; }
     .blog-card { position: relative; cursor: pointer; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
     .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
     .blog-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
@@ -117,11 +120,12 @@
     .blog-link:hover { gap: 9px; }
 
     /* Category pills */
+    .cat-pills { margin-top: 16px; }
     .cat-pill { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1.5px solid #e5e7eb; color: #666; background: #fff; text-decoration: none; transition: all 0.15s; }
     .cat-pill:hover, .cat-pill.active { background: #cc3d12; color: #fff; border-color: #cc3d12; }
 
     /* Search */
-    #blog-search { display: block; width: 100%; max-width: 480px; margin: 32px auto 0; padding: 11px 18px; font-size: 14px; font-family: 'Inter', sans-serif; border: 1.5px solid #e5e7eb; border-radius: 10px; outline: none; background: #fff; color: #111; transition: border-color 0.15s; }
+    #blog-search { display: block; width: 100%; max-width: 560px; margin: 22px auto 0; padding: 11px 18px; font-size: 14px; font-family: 'Inter', sans-serif; border: 1.5px solid #e5e7eb; border-radius: 10px; outline: none; background: #fff; color: #111; transition: border-color 0.15s; }
     #blog-search:focus { border-color: #e84c1e; box-shadow: 0 0 0 3px rgba(232,76,30,0.1); }
     /* P6-64: was #bbb (1.92:1 on white, fails 4.5:1). #666 ("Dust", DESIGN.md's
        documented secondary-text floor) measures 5.74:1 on white. */
@@ -135,14 +139,13 @@
        min-height override, which only applies at <=768px. */
     #search-empty .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; cursor: pointer; font-family: 'Inter', sans-serif; }
 
-    /* Load more (mobile only). P6-64: was a bespoke one-off style (that drift is how it
+    /* Load more (pages the grid at every width). P6-64: was a bespoke one-off style (that drift is how it
        slipped below the 44px floor unnoticed); now reuses shared.css's .btn-outline for
        its base look and only overrides layout/visibility here. min-height: the site-wide
        44px tap floor, set explicitly because the CI sweep measures <a> only, not <button>,
        and .btn-outline's own min-height override lives inside shared.css's ≤768px media
        query; this button must clear the floor unconditionally. */
     #blog-load-more { display: block; min-height: 44px; margin: 28px auto 0; cursor: pointer; font-family: 'Inter', sans-serif; }
-    @media (min-width: 769px) { #blog-load-more { display: none !important; } }
 
     /* Dark CTA: shared.css provides gradient/padding; keep blog's centering + sticky note */
     .dark-section { text-align: center; }
@@ -152,10 +155,14 @@
       /* P6-62 tap targets: this secondary CTA rendered 16px. */
       .cta-text-link { min-height: 44px; display: inline-flex; align-items: center; }
       /* P6-62 tap targets: the category filter pills rendered 29px. */
-      .cat-pill { min-height: 44px; display: inline-flex; align-items: center; }
+      .cat-pill { min-height: 44px; display: inline-flex; align-items: center; padding: 0 11px; }
+      .cat-pills { gap: 6px; }
+      /* The intro sentence is dropped on phones to bring the cards up. */
+      .page-hero { padding-top: 72px; padding-bottom: 20px; }
+      .page-hero p { display: none; }
       .blog-grid { grid-template-columns: 1fr; }
       .featured { grid-template-columns: 1fr; }
-      .featured-img { min-height: 220px; }
+      .featured-img { min-height: 180px; max-height: 180px; }
       .featured-body { padding: 28px 24px; }
       #blog-search { font-size: 16px; }
       .cta-sticky-wrap { display: none; }
@@ -408,22 +415,15 @@
 
   <!-- HERO -->
   <div class="page-hero">
-    <!-- Floating accents -->
-    <div class="float" style="top:60px;left:5%;opacity:0.6;">
-      <div style="width:44px;height:44px;background:linear-gradient(135deg,#e84c1e,#aa3210);border-radius:10px;transform:rotate(-18deg);box-shadow:2px 4px 12px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;font-size:20px;">📰</div>
-    </div>
-    <div class="float" style="top:140px;right:3%;opacity:0.5;">
-      <div style="width:32px;height:32px;background:#c9a07a;border-radius:50%;"></div>
-    </div>
-
     <div style="position:relative;z-index:5;">
       <div style="display:inline-block;background:#fff7ed;color:#aa3210;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:5px 14px;border-radius:20px;margin-bottom:18px;">Appliance Tips &amp; Guides</div>
       <h1>Learn. Fix. Save.</h1>
       <p>Practical advice, buying guides, and maintenance tips from the Universal Appliances Repair team in Orange County.</p>
+      <input type="search" id="blog-search" placeholder="Search 81 articles…" aria-label="Search articles" autocomplete="off" />
 
       <!-- Category filters -->
       <h2 class="sr-only">Browse by Category</h2>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px;">
+      <div class="cat-pills" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
         <a href="blog.html" class="cat-pill active" data-filter="all" aria-current="true">All Posts (81)</a>
         <a href="blog/refrigerator.html" class="cat-pill" data-filter="refrigerator">Refrigerator (21)</a>
         <a href="blog/washer.html" class="cat-pill" data-filter="washer">Washer (12)</a>
@@ -437,8 +437,8 @@
   </div>
 
   <!-- FEATURED POST -->
-  <section style="padding:0 24px 0;max-width:1100px;margin:0 auto;">
-    <h2 style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-top:48px;margin-bottom:0;">Featured Post</h2>
+  <section id="featured-section" style="padding:0 24px 0;max-width:1100px;margin:0 auto;">
+    <h2 style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-top:32px;margin-bottom:0;">Featured Post</h2>
     <div class="featured">
       <picture>
         <source srcset="../images/appliance-repair-generic-800w.webp 800w, ../images/appliance-repair-generic.webp 1200w" type="image/webp" sizes="(max-width: 768px) 100vw, 800px">
@@ -457,9 +457,8 @@
   </section>
 
   <!-- ALL POSTS GRID -->
-  <section style="padding:56px 24px 80px;max-width:1100px;margin:0 auto;">
-    <h2 style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.1em;margin-top:0;margin-bottom:0;">All Articles</h2>
-    <input type="search" id="blog-search" placeholder="Search 81 articles…" aria-label="Search articles" autocomplete="off" />
+  <section style="padding:36px 24px 80px;max-width:1100px;margin:0 auto;">
+    <div class="grid-head"><h2 id="grid-heading">Latest articles</h2><span id="grid-count" role="status"></span></div>
     <div class="blog-grid">
 
       <!-- Post: Hard Water in Los Angeles County -->
@@ -1887,7 +1886,12 @@
       var empty = document.getElementById('search-empty');
       var loadMore = document.getElementById('blog-load-more');
       var clearSearch = document.getElementById('clear-search');
+      var featuredSection = document.getElementById('featured-section');
+      var heading = document.getElementById('grid-heading');
+      var countEl = document.getElementById('grid-count');
+      var basePlaceholder = input.getAttribute('placeholder');
       var currentCat = 'all';
+      var CAT_LABELS = { refrigerator: 'Refrigerator', washer: 'Washer', dryer: 'Dryer', dishwasher: 'Dishwasher', oven: 'Oven and stove', freezer: 'Freezer', other: 'Other' };
 
       function setActivePill(pill) {
         pills.forEach(function(p) {
@@ -1898,8 +1902,17 @@
         pill.setAttribute('aria-current', 'true');
       }
 
-      function isMobile() { return window.innerWidth <= 768; }
-      var showing = isMobile() ? BATCH : cards.length;
+      var showing = BATCH;
+
+      // Mirror the search text and the active category into the URL so a filtered
+      // view can be shared and reloaded.
+      function syncUrl() {
+        var url = new URL(location.href);
+        var q = input.value.trim();
+        if (q) url.searchParams.set('q', q); else url.searchParams.delete('q');
+        if (currentCat !== 'all') url.searchParams.set('category', currentCat); else url.searchParams.delete('category');
+        history.replaceState(null, '', url.toString());
+      }
 
       // Map each card to its article pathname (e.g. /articles/article-x.html)
       // so Pagefind result URLs can be matched back to the existing cards.
@@ -1947,6 +1960,27 @@
         cards.forEach(function(c) { c.style.display = 'none'; });
         matched.slice(0, showing).forEach(function(c) { c.style.display = ''; });
         empty.style.display = matched.length === 0 ? 'block' : 'none';
+
+        var total = matched.length;
+        var shown = Math.min(showing, total);
+        var q = input.value.trim();
+        var filtering = currentCat !== 'all' || q !== '';
+        featuredSection.hidden = filtering;
+        if (q) heading.textContent = 'Search results';
+        else if (currentCat === 'other') heading.textContent = 'Other guides';
+        else if (currentCat !== 'all') heading.textContent = CAT_LABELS[currentCat] + ' articles';
+        else heading.textContent = 'Latest articles';
+        if (total === 0) countEl.textContent = '';
+        else if (shown < total) countEl.textContent = 'Showing ' + shown + ' of ' + total;
+        else countEl.textContent = total + (total === 1 ? ' article' : ' articles');
+        if (currentCat === 'all') {
+          input.setAttribute('placeholder', basePlaceholder);
+        } else {
+          var catTotal = cards.filter(inCat).length;
+          input.setAttribute('placeholder', currentCat === 'other'
+            ? 'Search ' + catTotal + ' other articles…'
+            : 'Search ' + catTotal + ' ' + CAT_LABELS[currentCat].toLowerCase() + ' articles…');
+        }
         if (loadMore) {
           var remaining = Math.max(0, matched.length - showing);
           loadMore.style.display = remaining > 0 ? 'block' : 'none';
@@ -1997,21 +2031,16 @@
           currentCat = 'all';
           var allPill = pills.filter(function(p) { return (p.dataset.filter || 'all') === 'all'; })[0];
           if (allPill) setActivePill(allPill);
-          var url = new URL(location.href);
-          url.searchParams.delete('q');
-          history.replaceState(null, '', url.toString());
-          showing = isMobile() ? BATCH : cards.length;
+          syncUrl();
+          showing = BATCH;
           applyFilter();
           input.focus();
         });
       }
 
       input.addEventListener('input', function() {
-        var url = new URL(location.href);
-        var q = this.value.trim();
-        q ? url.searchParams.set('q', q) : url.searchParams.delete('q');
-        history.replaceState(null, '', url.toString());
-        showing = isMobile() ? BATCH : cards.length;
+        syncUrl();
+        showing = BATCH;
         applyFilter();
       });
       // Warm up Pagefind as soon as the user engages the search box.
@@ -2022,25 +2051,21 @@
           e.preventDefault();
           currentCat = this.dataset.filter || 'all';
           setActivePill(this);
-          showing = isMobile() ? BATCH : cards.length;
+          showing = BATCH;
+          syncUrl();
           applyFilter();
         });
       });
 
-      // The batch cap is a phone affordance, and the button that lifts it is hidden by CSS
-      // above 768px. Recompute on a breakpoint crossing, or a phone rotated to landscape
-      // would be stranded at 12 cards with no visible control to load the rest.
-      var wasMobile = isMobile();
-      window.addEventListener('resize', function() {
-        if (isMobile() === wasMobile) return;
-        wasMobile = !wasMobile;
-        showing = wasMobile ? BATCH : cards.length;
-        applyFilter();
-      });
-
-      var q0 = new URLSearchParams(location.search).get('q');
+      var params0 = new URLSearchParams(location.search);
+      var cat0 = params0.get('category');
+      if (cat0) {
+        var catPill = pills.filter(function(p) { return p.dataset.filter === cat0; })[0];
+        if (catPill) { currentCat = cat0; setActivePill(catPill); }
+      }
+      var q0 = params0.get('q');
       if (q0) input.value = q0;
-      // Paint once at load, always: `showing` caps the grid to BATCH on phones, and
+      // Paint once at load, always: `showing` caps the grid to BATCH at every width, and
       // nothing else reaches render() until the user types, filters, or taps Load more.
       // Without this the cap never touched the DOM and all cards shipped on first paint.
       applyFilter();
