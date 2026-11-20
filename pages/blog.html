@@ -98,6 +98,8 @@
     .grid-head h2 { font-size: 22px; font-weight: 800; color: #111; letter-spacing: -0.3px; margin: 0; }
     #grid-count { font-size: 13px; color: #666; }
     .blog-card { position: relative; cursor: pointer; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+    /* Keeps a card scrolled into view clear of the fixed nav and the phone sticky bar. */
+    .blog-card { scroll-margin: 72px 0; }
     .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
     .blog-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
     .blog-card:focus-within { outline: 2px solid #e84c1e; outline-offset: 4px; }
@@ -137,7 +139,8 @@
     /* Explicit min-height regardless of viewport: this control can appear on desktop too
        (search works at any width), so it must not depend on shared.css's .btn-outline
        min-height override, which only applies at <=768px. */
-    #search-empty .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; cursor: pointer; font-family: 'Inter', sans-serif; }
+    #search-empty .btn-outline { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; margin: 0 4px 20px; cursor: pointer; font-family: 'Inter', sans-serif; }
+    #search-all[hidden] { display: none; }
 
     /* Load more (pages the grid at every width). P6-64: was a bespoke one-off style (that drift is how it
        slipped below the 44px floor unnoticed); now reuses shared.css's .btn-outline for
@@ -865,7 +868,7 @@
             <source srcset="../images/oven-stainless-range-800w.webp 800w, ../images/oven-stainless-range.webp 1200w" type="image/webp" sizes="(max-width: 768px) 100vw, 800px">
             <img class="blog-img" src="../images/oven-stainless-range.jpg" alt="Wolf stainless range and oven serviced in Orange County" loading="lazy" width="1200" height="1800" />
           </picture>
-          <span class="blog-cat-badge">Oven Repair</span>
+          <span class="blog-cat-badge">Oven &amp; Stove Repair</span>
         </div>
         <div class="blog-body">
           <div class="blog-date">July 3, 2026</div>
@@ -1454,7 +1457,7 @@
   <source srcset="../images/kitchen-stove-800w.webp 800w, ../images/kitchen-stove.webp 1200w" type="image/webp" sizes="(max-width: 768px) 100vw, 800px">
   <img class="blog-img" src="../images/kitchen-stove.jpg" alt="Oven repair in Santa Ana CA" loading="lazy" width="1200" height="800" />
 </picture>
-          <span class="blog-cat-badge">Oven Repair</span>
+          <span class="blog-cat-badge">Oven &amp; Stove Repair</span>
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated November 2026</div>
@@ -1539,7 +1542,7 @@
   <source srcset="../images/kitchen-stove-800w.webp 800w, ../images/kitchen-stove.webp 1200w" type="image/webp" sizes="(max-width: 768px) 100vw, 800px">
   <img class="blog-img" src="../images/kitchen-stove.jpg" alt="Oven repair in Laguna Niguel CA" loading="lazy" width="1200" height="800" />
 </picture>
-          <span class="blog-cat-badge">Oven Repair</span>
+          <span class="blog-cat-badge">Oven &amp; Stove Repair</span>
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
@@ -1556,7 +1559,7 @@
   <source srcset="../images/wine-cooler-glasses-800w.webp 800w, ../images/wine-cooler-glasses.webp 1200w" type="image/webp" sizes="(max-width: 768px) 100vw, 800px">
   <img class="blog-img" src="../images/wine-cooler-glasses.jpg" alt="Wine cooler repair in Newport Beach CA" loading="lazy" width="1200" height="800" />
 </picture>
-          <span class="blog-cat-badge">Wine Cooler</span>
+          <span class="blog-cat-badge">Wine Cooler Repair</span>
         </div>
         <div class="blog-body">
           <div class="blog-date">April 28, 2026</div>
@@ -1624,7 +1627,7 @@
   <source srcset="../images/kitchen-stove-800w.webp 800w, ../images/kitchen-stove.webp 1200w" type="image/webp" sizes="(max-width: 768px) 100vw, 800px">
   <img class="blog-img" src="../images/kitchen-stove.jpg" alt="Oven not heating in Tustin CA" loading="lazy" width="1200" height="800" />
 </picture>
-          <span class="blog-cat-badge">Oven Repair</span>
+          <span class="blog-cat-badge">Oven &amp; Stove Repair</span>
         </div>
         <div class="blog-body">
           <div class="blog-date">Updated September 2026</div>
@@ -1789,9 +1792,10 @@
 
     </div>
     <button id="blog-load-more" class="btn-outline" style="display:none;" aria-label="Load more articles">Load more</button>
-    <div id="search-empty" role="status">
+    <div id="search-empty">
       <p>No articles match your search. Try a different keyword.</p>
       <button type="button" id="clear-search" class="btn-outline">Clear search</button>
+      <button type="button" id="search-all" class="btn-outline" hidden>Search all articles</button>
       <p>Still can&rsquo;t find what you need? <a href="tel:+19496295365">Call (949) 629-5365</a>.</p>
     </div>
   </section>
@@ -1886,6 +1890,8 @@
       var empty = document.getElementById('search-empty');
       var loadMore = document.getElementById('blog-load-more');
       var clearSearch = document.getElementById('clear-search');
+      var searchAll = document.getElementById('search-all');
+      var focusFrom = null, focusKeyboard = false;
       var featuredSection = document.getElementById('featured-section');
       var heading = document.getElementById('grid-heading');
       var countEl = document.getElementById('grid-count');
@@ -1893,6 +1899,7 @@
       var emptyMsg = empty.querySelector('p');
       var baseEmptyMsg = emptyMsg.textContent;
       var currentCat = 'all';
+      pills.forEach(function(p) { p.dataset.baseText = p.textContent; });
       var CAT_LABELS = { refrigerator: 'Refrigerator', washer: 'Washer', dryer: 'Dryer', dishwasher: 'Dishwasher', oven: 'Oven', freezer: 'Freezer', other: 'Other' };
 
       function setActivePill(pill) {
@@ -1957,6 +1964,17 @@
 
       // Show `matched` (already in display order) AND the active category, sliced to `showing`.
       function render(matched) {
+        // Category button counts follow the search: with a query, each count is the number of
+        // search matches in that category; without one, the original static text returns.
+        var hasQuery = input.value.trim() !== '';
+        pills.forEach(function(p) {
+          var base = p.dataset.baseText;
+          if (!hasQuery) { p.textContent = base; return; }
+          var f = p.dataset.filter || 'all';
+          var n = f === 'all' ? matched.length : matched.filter(function(c) { return (c.dataset.category || '') === f; }).length;
+          p.textContent = base.replace(/\(\d+\)\s*$/, '(' + n + ')');
+        });
+        var anywhere = matched.length;   // search matches before the category filter
         matched = matched.filter(inCat);
         matched.forEach(function(c) { grid.appendChild(c); }); // reorder visible cards to match order
         cards.forEach(function(c) { c.style.display = 'none'; });
@@ -1972,12 +1990,18 @@
         // heading and in the empty state; the placeholder that names the scope
         // disappears as soon as the reader types.
         var label = currentCat === 'all' ? '' : CAT_LABELS[currentCat];
-        if (q) heading.textContent = label ? 'Search results in ' + label : 'Search results';
+        if (total === 0) heading.textContent = label ? 'No results in ' + label : 'No results';
+        else if (q) heading.textContent = label ? 'Search results in ' + label : 'Search results';
         else heading.textContent = label ? label + ' articles' : 'All articles';
-        emptyMsg.textContent = label
-          ? 'No ' + label.toLowerCase() + ' articles match your search. Clear the search to look through every category.'
+        // Widening the search is only offered when another category has a match;
+        // otherwise the button would lead to a second empty state.
+        var canWiden = total === 0 && label && q && anywhere > 0;
+        emptyMsg.textContent = canWiden
+          ? 'No ' + label.toLowerCase() + ' articles match your search. Try a different keyword, or search all articles.'
           : baseEmptyMsg;
-        if (total === 0) countEl.textContent = '';
+        searchAll.hidden = !canWiden;
+        // The count is the page's one live region, so it carries the scope too.
+        if (total === 0) countEl.textContent = label ? '0 ' + label.toLowerCase() + ' articles' : '0 articles';
         else if (shown < total) countEl.textContent = 'Showing ' + shown + ' of ' + total;
         else countEl.textContent = total + (total === 1 ? ' article' : ' articles');
         if (currentCat === 'all') {
@@ -1990,6 +2014,20 @@
           var remaining = Math.max(0, matched.length - showing);
           loadMore.style.display = remaining > 0 ? 'block' : 'none';
           loadMore.textContent = 'Load ' + Math.min(BATCH, remaining) + ' more';
+        }
+        // The new cards sit before the button in tab order, and on the last batch the button
+        // disappears, which used to drop focus to the page body. Move focus to the first new
+        // card for keyboard use, and always when the button is gone.
+        if (focusFrom !== null) {
+          var target = matched[focusFrom];
+          var btnGone = !loadMore || loadMore.style.display === 'none';
+          if ((focusKeyboard || btnGone) && target) {
+            var tl = target.querySelector('.blog-link');
+            // Focus without the browser's own scroll (it aligns to the small link and
+            // leaves the card top under the fixed nav), then bring the whole card in view.
+            if (tl) { tl.focus({ preventScroll: true }); target.scrollIntoView({ block: 'nearest' }); }
+          }
+          focusFrom = null;
         }
       }
 
@@ -2024,7 +2062,9 @@
       }
 
       if (loadMore) {
-        loadMore.addEventListener('click', function() {
+        loadMore.addEventListener('click', function(e) {
+          focusKeyboard = e.detail === 0;
+          focusFrom = showing;
           showing += BATCH;
           applyFilter();
         });
@@ -2033,11 +2073,20 @@
       if (clearSearch) {
         clearSearch.addEventListener('click', function() {
           input.value = '';
+          syncUrl();
+          showing = BATCH;
+          applyFilter();
+          input.focus();
+        });
+      }
+
+      if (searchAll) {
+        searchAll.addEventListener('click', function() {
           currentCat = 'all';
           var allPill = pills.filter(function(p) { return (p.dataset.filter || 'all') === 'all'; })[0];
           if (allPill) setActivePill(allPill);
-          syncUrl();
           showing = BATCH;
+          syncUrl();
           applyFilter();
           input.focus();
         });
@@ -2063,13 +2112,16 @@
       });
 
       var params0 = new URLSearchParams(location.search);
+      // Restore the query first: syncUrl() reads the search box, so it must be filled
+      // before an unknown category is dropped, or the q in the address is lost with it.
+      var q0 = params0.get('q');
+      if (q0) input.value = q0;
       var cat0 = params0.get('category');
       if (cat0) {
         var catPill = pills.filter(function(p) { return p.dataset.filter === cat0; })[0];
         if (catPill) { currentCat = cat0; setActivePill(catPill); }
+        else syncUrl();   // unknown category value: drop it from the address
       }
-      var q0 = params0.get('q');
-      if (q0) input.value = q0;
       // Paint once at load, always: `showing` caps the grid to BATCH at every width, and
       // nothing else reaches render() until the user types, filters, or taps Load more.
       // Without this the cap never touched the DOM and all cards shipped on first paint.
