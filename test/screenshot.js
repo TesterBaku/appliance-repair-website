@@ -42,6 +42,9 @@ if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
     }
     try {
       const p = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+      // Keep screenshot runs out of the production GA4 property: every page carries the
+      // real Google tag, and a page loaded here would otherwise report a page view.
+      await p.route(/^https?:\/\/[^/]*(googletagmanager\.com|google-analytics\.com)\//, (route) => route.abort());
       await p.goto(pathToFileURL(filePath).href);
       const shotName = page.replace(/[\\/]/g, '__');
       await p.screenshot({ path: path.join(outDir, `${shotName}.png`), fullPage: true });
