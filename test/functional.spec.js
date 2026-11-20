@@ -2580,6 +2580,84 @@ test.describe('Blog page', () => {
     await page.locator('#blog-search').fill('');
     await expect(page.locator('#featured-section')).toBeVisible();
   });
+
+  test('zero results says so in the heading and the count', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.reload();
+    await page.locator('.cat-pill[data-filter="dryer"]').click();
+    await page.locator('#blog-search').fill('zzqqxxnomatch');
+    await expect(page.locator('#grid-heading')).toHaveText('No results in Dryer');
+    await expect(page.locator('#grid-count')).toHaveText('0 articles');
+    await expect(page.locator('#search-empty')).toBeVisible();
+    await expect(page.locator('#search-empty')).not.toHaveAttribute('role', /.*/);
+  });
+
+  test('category counts follow the search and restore', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.reload();
+    const totalCards = await page.locator('.blog-card').count();
+    const allPill = page.locator('.cat-pill[data-filter="all"]');
+    await page.locator('#blog-search').fill('dryer');
+    await expect(page.locator('#grid-heading')).toHaveText('Search results');
+    const countText = await page.locator('#grid-count').textContent();
+    const n = Number(countText.match(/(?:of\s+)?(\d+)(?:\s+articles?)?$/)[1]);
+    expect(n).toBeGreaterThan(0);
+    await expect(allPill).toHaveText(new RegExp('\\(' + n + '\\)\\s*$'));
+    await page.locator('#blog-search').fill('');
+    await expect(allPill).toHaveText('All Posts (' + totalCards + ')');
+  });
+
+  test('Clear search keeps the category, Search all widens it', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.reload();
+    const dryer = page.locator('.cat-pill[data-filter="dryer"]');
+    await dryer.click();
+    await page.locator('#blog-search').fill('zzqqxxnomatch');
+    await expect(page.locator('#search-all')).toBeVisible();
+    await page.locator('#clear-search').click();
+    await expect(dryer).toHaveAttribute('aria-current', 'true');
+    await expect(page.locator('#blog-search')).toHaveValue('');
+    await expect(page.locator('#grid-heading')).toHaveText('Dryer articles');
+
+    await page.locator('#blog-search').fill('Sub-Zero');
+    await expect(page.locator('#search-empty')).toBeVisible();
+    await page.locator('#search-all').click();
+    await expect(page.locator('.cat-pill[data-filter="all"]')).toHaveAttribute('aria-current', 'true');
+    await expect(page.locator('#blog-search')).toHaveValue('Sub-Zero');
+    await expect(page.locator('.blog-card:visible').first()).toBeVisible();
+    await expect(page).not.toHaveURL(/category=/);
+  });
+
+  test('Search all button is hidden unless a category search is empty', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.reload();
+    await page.locator('#blog-search').fill('zzqqxxnomatch');
+    await expect(page.locator('#search-empty')).toBeVisible();
+    await expect(page.locator('#search-all')).toBeHidden();
+  });
+
+  test('focus lands on the first new card after the last Load more', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/pages/blog.html?category=refrigerator');
+    const btn = page.locator('#blog-load-more');
+    await expect(btn).toBeVisible();
+    await btn.focus();
+    await page.keyboard.press('Enter');
+    await expect(btn).toBeHidden();
+    const ok = await page.evaluate(() => {
+      const visible = Array.from(document.querySelectorAll('.blog-card')).filter(c => c.style.display !== 'none');
+      const a = document.activeElement;
+      return a !== document.body && a.classList.contains('blog-link') && visible[12] && visible[12].contains(a);
+    });
+    expect(ok).toBe(true);
+  });
+
+  test('unknown category value is dropped from the URL', async ({ page }) => {
+    await page.goto('/pages/blog.html?category=bogus');
+    await expect(page).not.toHaveURL(/category=/);
+    await expect(page.locator('#grid-heading')).toHaveText('All articles');
+    await expect(page.locator('#featured-section')).toBeVisible();
+  });
 });
 
 // ─── Service areas page ───────────────────────────────────────────────────────
