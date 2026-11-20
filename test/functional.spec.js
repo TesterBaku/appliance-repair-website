@@ -2497,23 +2497,88 @@ test.describe('Blog page', () => {
     expect(await visible()).toBe(Math.min(24, total));
   });
 
-  test('desktop: every card paints and Load more stays hidden', async ({ page }) => {
+  test('desktop: first paint is capped to one batch, and Load more extends it', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.reload();
     const total = await page.locator('.blog-card').count();
-    expect(await page.locator('.blog-card:visible').count()).toBe(total);
-    await expect(page.locator('#blog-load-more')).toBeHidden();
+    expect(total).toBeGreaterThan(12);
+    const visible = () => page.locator('.blog-card:visible').count();
+    expect(await visible()).toBe(12);
+    const btn = page.locator('#blog-load-more');
+    await expect(btn).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+    await btn.click();
+    expect(await visible()).toBe(Math.min(24, total));
   });
 
-  // Load more is CSS-hidden above 768px, so a phone rotated to landscape must not be
-  // left holding one batch with no control to lift it.
-  test('crossing the breakpoint re-releases the cards', async ({ page }) => {
+  for (const vp of [{ width: 1280, height: 900 }, { width: 375, height: 812 }]) {
+    test(`category pill brings its articles into focus (${vp.width}px)`, async ({ page }) => {
+      await page.setViewportSize(vp);
+      await page.reload();
+      await page.locator('.cat-pill[data-filter="dryer"]').click();
+      await expect(page.locator('#featured-section')).toBeHidden();
+      await expect(page.locator('#grid-heading')).toHaveText('Dryer articles');
+      const cats = await page.locator('.blog-card:visible').evaluateAll(els => els.map(e => e.dataset.category));
+      expect(cats.length).toBeGreaterThan(0);
+      expect(cats.every(c => c === 'dryer')).toBe(true);
+      await expect(page).toHaveURL(/[?&]category=dryer/);
+      await expect(page.locator('#blog-search')).toHaveAttribute('placeholder', /^Search \d+ dryer articles/);
+      await expect(page.locator('.cat-pill[data-filter="dryer"]')).toHaveAttribute('aria-current', 'true');
+      // The first card must start on the first screen, above the phone sticky bar.
+      await page.evaluate(() => document.fonts.ready);
+      const box = await page.locator('.blog-card:visible').first().boundingBox();
+      expect(box.y).toBeLessThan(vp.height - 56);
+
+      await page.locator('.cat-pill[data-filter="all"]').click();
+      await expect(page.locator('#featured-section')).toBeVisible();
+      await expect(page.locator('#grid-heading')).toHaveText('All articles');
+      await expect(page).not.toHaveURL(/category=/);
+      await expect(page.locator('#blog-search')).toHaveAttribute('placeholder', /^Search \d+ articles/);
+    });
+  }
+
+  // The owner rejected a sideways-scrolling row that hid five of the eight category
+  // buttons on a phone, so all eight must wrap and stay inside the viewport.
+  test('mobile: all eight category pills are visible without sideways scrolling', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.reload();
-    expect(await page.locator('.blog-card:visible').count()).toBe(12);
-    await page.setViewportSize({ width: 900, height: 812 });
-    const total = await page.locator('.blog-card').count();
-    await expect.poll(() => page.locator('.blog-card:visible').count()).toBe(total);
+    const pills = page.locator('.cat-pill');
+    expect(await pills.count()).toBe(8);
+    for (let i = 0; i < 8; i++) {
+      await expect(pills.nth(i)).toBeVisible();
+      const b = await pills.nth(i).boundingBox();
+      expect(b.x).toBeGreaterThanOrEqual(0);
+      expect(b.x + b.width).toBeLessThanOrEqual(375);
+    }
+  });
+
+  test('?category= deep link loads the filtered view', async ({ page }) => {
+    await page.goto('/pages/blog.html?category=washer');
+    await expect(page.locator('#featured-section')).toBeHidden();
+    await expect(page.locator('#grid-heading')).toHaveText('Washer articles');
+    await expect(page.locator('.cat-pill.active')).toHaveAttribute('data-filter', 'washer');
+    const cats = await page.locator('.blog-card:visible').evaluateAll(els => els.map(e => e.dataset.category));
+    expect(cats.length).toBeGreaterThan(0);
+    expect(cats.every(c => c === 'washer')).toBe(true);
+  });
+
+  test('search hides the featured post', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.reload();
+    await page.locator('#blog-search').fill('dryer');
+    await expect(page.locator('#featured-section')).toBeHidden();
+    await expect(page.locator('#grid-heading')).toHaveText('Search results');
+    // Inside a category the search only covers that category: the heading and the
+    // empty state must say so, because the scoped placeholder is gone once you type.
+    await page.locator('.cat-pill[data-filter="dryer"]').click();
+    await expect(page.locator('#grid-heading')).toHaveText('Search results in Dryer');
+    await page.locator('#blog-search').fill('zzqqxxnomatch');
+    await expect(page.locator('#search-empty')).toBeVisible();
+    await expect(page.locator('#search-empty p').first()).toContainText('No dryer articles match');
+    await page.locator('.cat-pill[data-filter="all"]').click();
+    await page.locator('#blog-search').fill('');
+    await expect(page.locator('#featured-section')).toBeVisible();
   });
 });
 
