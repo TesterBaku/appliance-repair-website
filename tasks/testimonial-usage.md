@@ -91,6 +91,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Carol Spetzman | long-beach, whittier |
 | Catherine Matiasevich | bosch-hub, dishwasher-repair-hub |
 | Cheryl Kirkpatrick | seal-beach, wine-cooler-repair-hub |
+| Chinese Student Association | dishwasher-repair-cost-hub |
 | Christian Dorn | los-alamitos, pico-rivera |
 | Cindi Nichols | whittier, maytag-hub |
 | Cindy Montefu | santa-ana, dryer-repair-hub |
@@ -104,8 +105,8 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Dave Brisbin | irvine, refrigerator-repair-hub |
 | David Lindley | dryer-repair-cost-hub, electrolux-hub |
 | Dena Fisher | buena-park, dryer-repair-hub |
-| Donna Barnett Corwin | corona, dishwasher-repair-cost-hub |
-| Eleonora Abukova | montebello, dishwasher-repair-cost-hub |
+| Donna Barnett Corwin | corona |
+| Eleonora Abukova | montebello |
 | Elizabeth Lovejoy | laguna-beach, oven-stove-repair-hub |
 | Emily Bees | stanton, frigidaire-hub |
 | Emily Palmer | laguna-beach, freezer-repair-hub |
@@ -129,6 +130,7 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Jovita Osorio | placentia, wine-cooler-repair-hub |
 | Julianna Gamulao | oven-stove-repair-hub, viking-pico-rivera |
 | Julie L. | huntington-beach, dryer-repair-cost-hub |
+| Karen Myhra | dishwasher-repair-cost-hub |
 | Kat Tesh | brea, viking-hub |
 | Kathleen Street | chino-hills, riverside |
 | Katie Holst | fullerton, dishwasher-repair-hub |
@@ -152,12 +154,13 @@ not as violations to fix. No other review may exceed 2 hubs.
 | Pat Sepulveda-Garcia | corona, dcs-hub |
 | Pawan Deepak | fountain-valley, placentia |
 | Raymond Olinger | garden-grove, samsung-hub |
-| Reuben Johnson | dishwasher-repair-cost-hub, samsung-hub |
+| Reuben Johnson | samsung-hub |
 | Richard Vincent | dacor-hub, oven-stove-repair-hub |
 | Robert Clemmons | mission-viejo, dishwasher-repair-hub |
 | Roger Antonie | la-habra, viking-pico-rivera |
 | Russell Kadota | laguna-beach, washer-repair-hub |
 | Shawne King | cost-hub, cypress |
+| Sonny Todorovich | dishwasher-repair-cost-hub |
 | Steph WW | lg-hub, maytag-hub |
 | Steve D | newport-beach, viking-pico-rivera |
 | Surma Karimova | dana-point, tustin |
