@@ -2587,7 +2587,8 @@ test.describe('Blog page', () => {
     await page.locator('.cat-pill[data-filter="dryer"]').click();
     await page.locator('#blog-search').fill('zzqqxxnomatch');
     await expect(page.locator('#grid-heading')).toHaveText('No results in Dryer');
-    await expect(page.locator('#grid-count')).toHaveText('0 articles');
+    // The count is the only live region, so it names the category as well.
+    await expect(page.locator('#grid-count')).toHaveText('0 dryer articles');
     await expect(page.locator('#search-empty')).toBeVisible();
     await expect(page.locator('#search-empty')).not.toHaveAttribute('role', /.*/);
   });
@@ -2657,6 +2658,14 @@ test.describe('Blog page', () => {
     await expect(page).not.toHaveURL(/category=/);
     await expect(page.locator('#grid-heading')).toHaveText('All articles');
     await expect(page.locator('#featured-section')).toBeVisible();
+  });
+
+  // Dropping a bad category must not take the search out of the address with it.
+  test('unknown category value keeps the search in the URL', async ({ page }) => {
+    await page.goto('/pages/blog.html?category=bogus&q=oven');
+    await expect(page).not.toHaveURL(/category=/);
+    await expect(page).toHaveURL(/[?&]q=oven/);
+    await expect(page.locator('#blog-search')).toHaveValue('oven');
   });
 });
 

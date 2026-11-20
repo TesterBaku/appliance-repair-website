@@ -1994,7 +1994,8 @@
           ? 'No ' + label.toLowerCase() + ' articles match your search. Try a different keyword, or search all articles.'
           : baseEmptyMsg;
         searchAll.hidden = !(total === 0 && label && q);
-        if (total === 0) countEl.textContent = '0 articles';
+        // The count is the page's one live region, so it carries the scope too.
+        if (total === 0) countEl.textContent = label ? '0 ' + label.toLowerCase() + ' articles' : '0 articles';
         else if (shown < total) countEl.textContent = 'Showing ' + shown + ' of ' + total;
         else countEl.textContent = total + (total === 1 ? ' article' : ' articles');
         if (currentCat === 'all') {
@@ -2103,14 +2104,16 @@
       });
 
       var params0 = new URLSearchParams(location.search);
+      // Restore the query first: syncUrl() reads the search box, so it must be filled
+      // before an unknown category is dropped, or the q in the address is lost with it.
+      var q0 = params0.get('q');
+      if (q0) input.value = q0;
       var cat0 = params0.get('category');
       if (cat0) {
         var catPill = pills.filter(function(p) { return p.dataset.filter === cat0; })[0];
         if (catPill) { currentCat = cat0; setActivePill(catPill); }
         else syncUrl();   // unknown category value: drop it from the address
       }
-      var q0 = params0.get('q');
-      if (q0) input.value = q0;
       // Paint once at load, always: `showing` caps the grid to BATCH at every width, and
       // nothing else reaches render() until the user types, filters, or taps Load more.
       // Without this the cap never touched the DOM and all cards shipped on first paint.
