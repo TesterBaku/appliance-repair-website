@@ -53,7 +53,7 @@ If the list ends up empty, fall back to `index.html` and report "No HTML changes
 1. Confirm Playwright MCP is available. The browser tools live under `mcp__playwright__*` (or whatever namespace the user's install exposes — call any browser tool once and inspect the response). If unavailable, abort with: _"Playwright MCP is not loaded. Install it or run `/test` for the smoke-test alternative."_
 
 2. Determine the local serve URL. The site is static, so options are:
-   - **Preferred:** spin up a temporary local server: `python3 -m http.server 8765 --directory .` in the background. Base URL: `http://localhost:8765`
+   - **Preferred:** spin up a temporary local server: `node test/serve.js --port 8765` in the background (it switches Google Analytics off; a plain static server such as `python3 -m http.server` reports test page views to the production GA4 property). Base URL: `http://localhost:8765`
    - **Fallback:** if a server is already running on a known port (check `package.json` for `npm start` or `npm run serve`), use that.
    - **Last resort:** open files via `file://` URLs. Note that this breaks any absolute paths in the HTML and is not representative of production.
 

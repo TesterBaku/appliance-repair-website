@@ -2623,6 +2623,29 @@ test.describe('analytics.js: lp_seen_2s and lp_interact', () => {
   });
 });
 
+// ─── test/serve.js keeps test and preview traffic out of GA4 ─────────────────
+// Every page carries the real Google tag. Before 2026-11-20 nothing stopped it, so test
+// runs and local previews reported page views to the production property as hostname
+// "localhost". test/serve.js now inserts Google's opt-out flag ahead of the tag. This fails
+// if the flag stops being served or a hit reaches google-analytics.com anyway; the tag
+// must still fill window.dataLayer, which the tests above read.
+test.describe('test/serve.js: Google Analytics is switched off', () => {
+  test('served pages carry the opt-out flag and send no hit, even after a tracked click', async ({ page }) => {
+    const hits = [];
+    page.on('request', (r) => { if (/google-analytics\.com/.test(r.url())) hits.push(r.url()); });
+    await page.goto('/pages/faq.html');
+    expect(await page.evaluate(() => window['ga-disable-G-TSFHKJ6ZEK'])).toBe(true);
+    await page.evaluate(() => {
+      document.addEventListener('click', (e) => e.preventDefault(), true);
+      document.querySelector('a[href^="tel:"]').click();
+    });
+    expect(await page.evaluate(() =>
+      (window.dataLayer || []).some((e) => e && e[0] === 'event' && e[1] === 'phone_click'))).toBe(true);
+    await page.waitForLoadState('networkidle');
+    expect(hits).toEqual([]);
+  });
+});
+
 // ─── 404 page ─────────────────────────────────────────────────────────────────
 test.describe('404 page', () => {
   test('has a link back to homepage', async ({ page }) => {

@@ -93,7 +93,7 @@ Static HTML website for an appliance repair service. No framework and no CSS bui
 ## Commands
 
 ```bash
-npm start                  # Serve locally at http://localhost:3000 (via npx serve .)
+npm start                  # Serve locally at http://localhost:3000 (via test/serve.js, which switches Google Analytics off)
 npm test                   # Link check + HTML integrity + content integrity + CSS vars + repo hygiene (large-file guard) + formspree-guard (contact-form route-stub check) + partial drift check (footer/nav) + site.js drift check + blog-count drift check + article-byline drift check + review-count drift check + hub-redesign ratchet
 npm run test:functional    # Playwright functional suite (auto-starts a server on :8788 via test/serve.js)
 npm run screenshot         # Playwright batch screenshots
@@ -340,9 +340,17 @@ starts `node test/serve.js` on 8788 by default (`playwright.config.js:41`, `test
 collision happens whenever a second process also wants 8788 at the same time, such as another
 functional run, or an agent (a critique assessor, a reviewer) starting `node test/serve.js` by hand
 for ad-hoc browser measurements. Give an ad-hoc measurement server a different port instead:
-`npx serve . -l <other-port>`, or `PORT=<n> node test/serve.js` (`test/serve.js` honors `PORT`). If
+`PORT=<n> node test/serve.js`, or `node test/serve.js --port <n>` (`test/serve.js` honors both). If
 a functional run fails with `net::ERR_CONNECTION_REFUSED`, check for a competing process on 8788
 before debugging the code.
+
+**Preview the site only through `test/serve.js` (`npm start`, or the port forms above).** Every page
+carries the real Google tag, so a page opened from `npx serve`, `python -m http.server` or any other
+plain static server reports page views and clicks to the production GA4 property under the hostname
+`localhost`: 62 sessions and 281 page views between October 1 and 26, 2026 came from test runs and
+previews. `test/serve.js` inserts Google's `ga-disable-G-TSFHKJ6ZEK` flag ahead of the tag in every
+HTML response (the files on disk are untouched), and `test/screenshot.js`, which loads `file://`
+pages, blocks the Google hosts instead. A browser pointed at the live site still counts as a visitor.
 
 **`/impeccable critique` and `detect.mjs` are not the same thing and must never be reported as if they were.** `critique` is the gate: an LLM-driven review that emits the `??/40` score (10 Nielsen heuristics × 4 points) the PR template asks for, and which runs `detect.mjs` internally as its Assessment B. `detect.mjs` is that deterministic scanner alone — the same engine behind the per-edit hook. The detector is a *component* of the gate, not a substitute for it.
 
