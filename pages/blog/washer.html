@@ -97,8 +97,8 @@
     /* Hero shortcuts: the article cards sit below a long guide, so offer a jump
        link and a link to the searchable, filtered blog index. */
     .hero-links { display: flex; gap: 8px 24px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
-    .hero-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; color: #aa3210; text-decoration: none; }
-    .hero-links a:hover { text-decoration: underline; }
+    .hero-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; color: #aa3210; text-decoration: underline; text-underline-offset: 3px; }
+    .hero-links a:hover { text-decoration-thickness: 2px; }
     #articles { scroll-margin-top: 72px; }
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; }
     @media (max-width: 768px) {
@@ -364,7 +364,7 @@
     <p>Soaking wet clothes, water on the floor, or a drum that won't spin? Find out what's causing your washing machine problems and when to call a technician in Orange County.</p>
     <div class="hero-links">
       <a href="#articles">Jump to the articles &darr;</a>
-      <a href="../blog.html?category=washer">Search these articles &rarr;</a>
+      <a href="../blog.html?category=washer">Search washer articles &rarr;</a>
     </div>
   </div>
 
