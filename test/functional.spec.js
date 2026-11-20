@@ -2575,7 +2575,7 @@ test.describe('Blog page', () => {
     await expect(page.locator('#grid-heading')).toHaveText('Search results in Dryer');
     await page.locator('#blog-search').fill('zzqqxxnomatch');
     await expect(page.locator('#search-empty')).toBeVisible();
-    await expect(page.locator('#search-empty p').first()).toContainText('No dryer articles match');
+    await expect(page.locator('#grid-heading')).toHaveText('No results in Dryer');
     await page.locator('.cat-pill[data-filter="all"]').click();
     await page.locator('#blog-search').fill('');
     await expect(page.locator('#featured-section')).toBeVisible();
@@ -2614,7 +2614,9 @@ test.describe('Blog page', () => {
     const dryer = page.locator('.cat-pill[data-filter="dryer"]');
     await dryer.click();
     await page.locator('#blog-search').fill('zzqqxxnomatch');
-    await expect(page.locator('#search-all')).toBeVisible();
+    // Nothing matches in any category, so widening the search is not offered.
+    await expect(page.locator('#search-empty')).toBeVisible();
+    await expect(page.locator('#search-all')).toBeHidden();
     await page.locator('#clear-search').click();
     await expect(dryer).toHaveAttribute('aria-current', 'true');
     await expect(page.locator('#blog-search')).toHaveValue('');
@@ -2622,6 +2624,8 @@ test.describe('Blog page', () => {
 
     await page.locator('#blog-search').fill('Sub-Zero');
     await expect(page.locator('#search-empty')).toBeVisible();
+    await expect(page.locator('#search-empty p').first()).toContainText('No dryer articles match');
+    await expect(page.locator('#search-all')).toBeVisible();
     await page.locator('#search-all').click();
     await expect(page.locator('.cat-pill[data-filter="all"]')).toHaveAttribute('aria-current', 'true');
     await expect(page.locator('#blog-search')).toHaveValue('Sub-Zero');

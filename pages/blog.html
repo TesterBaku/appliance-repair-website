@@ -98,6 +98,8 @@
     .grid-head h2 { font-size: 22px; font-weight: 800; color: #111; letter-spacing: -0.3px; margin: 0; }
     #grid-count { font-size: 13px; color: #666; }
     .blog-card { position: relative; cursor: pointer; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+    /* Keeps a card scrolled into view clear of the fixed nav and the phone sticky bar. */
+    .blog-card { scroll-margin: 72px 0; }
     .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
     .blog-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
     .blog-card:focus-within { outline: 2px solid #e84c1e; outline-offset: 4px; }
@@ -1972,6 +1974,7 @@
           var n = f === 'all' ? matched.length : matched.filter(function(c) { return (c.dataset.category || '') === f; }).length;
           p.textContent = base.replace(/\(\d+\)\s*$/, '(' + n + ')');
         });
+        var anywhere = matched.length;   // search matches before the category filter
         matched = matched.filter(inCat);
         matched.forEach(function(c) { grid.appendChild(c); }); // reorder visible cards to match order
         cards.forEach(function(c) { c.style.display = 'none'; });
@@ -1990,10 +1993,13 @@
         if (total === 0) heading.textContent = label ? 'No results in ' + label : 'No results';
         else if (q) heading.textContent = label ? 'Search results in ' + label : 'Search results';
         else heading.textContent = label ? label + ' articles' : 'All articles';
-        emptyMsg.textContent = label
+        // Widening the search is only offered when another category has a match;
+        // otherwise the button would lead to a second empty state.
+        var canWiden = total === 0 && label && q && anywhere > 0;
+        emptyMsg.textContent = canWiden
           ? 'No ' + label.toLowerCase() + ' articles match your search. Try a different keyword, or search all articles.'
           : baseEmptyMsg;
-        searchAll.hidden = !(total === 0 && label && q);
+        searchAll.hidden = !canWiden;
         // The count is the page's one live region, so it carries the scope too.
         if (total === 0) countEl.textContent = label ? '0 ' + label.toLowerCase() + ' articles' : '0 articles';
         else if (shown < total) countEl.textContent = 'Showing ' + shown + ' of ' + total;
@@ -2017,7 +2023,9 @@
           var btnGone = !loadMore || loadMore.style.display === 'none';
           if ((focusKeyboard || btnGone) && target) {
             var tl = target.querySelector('.blog-link');
-            if (tl) tl.focus();
+            // Focus without the browser's own scroll (it aligns to the small link and
+            // leaves the card top under the fixed nav), then bring the whole card in view.
+            if (tl) { tl.focus({ preventScroll: true }); target.scrollIntoView({ block: 'nearest' }); }
           }
           focusFrom = null;
         }
