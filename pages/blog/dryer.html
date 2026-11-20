@@ -94,6 +94,12 @@
     .blog-excerpt { font-size: 12.5px; color: #666; line-height: 1.75; flex: 1; }
     .blog-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #aa3210; text-decoration: none; margin-top: 14px; }
     .blog-link:hover { gap: 9px; }
+    /* Hero shortcuts: the article cards sit below a long guide, so offer a jump
+       link and a link to the searchable, filtered blog index. */
+    .hero-links { display: flex; gap: 8px 24px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+    .hero-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; color: #aa3210; text-decoration: none; }
+    .hero-links a:hover { text-decoration: underline; }
+    #articles { scroll-margin-top: 72px; }
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; }
     @media (max-width: 768px) {
       /* P6-62 tap targets: this callout CTA rendered 33px. */
@@ -356,6 +362,10 @@
     </div>
     <h1>Dryer Repair: Tips, Guides &amp; Common Problems</h1>
     <p>Running two cycles to dry one load, or pulling out cold damp clothes? Learn what's behind the most common dryer problems and when to call a technician in Orange County.</p>
+    <div class="hero-links">
+      <a href="#articles">Jump to the articles &darr;</a>
+      <a href="../blog.html?category=dryer">Search these articles &rarr;</a>
+    </div>
   </div>
 
   <!-- SERVICE HUB CALLOUT -->
@@ -392,7 +402,7 @@
   </div>
 
   <!-- ARTICLES -->
-  <section style="padding: 0 24px 80px; max-width: 1100px; margin: 0 auto;">
+  <section id="articles" style="padding: 0 24px 80px; max-width: 1100px; margin: 0 auto;">
     <div class="section-label">5 Dryer Articles</div>
     <div class="blog-grid">
 
@@ -405,7 +415,7 @@
           <div class="blog-date">July 16, 2026</div>
           <div class="blog-title">Dryer Not Heating in Lake Forest? 6 Causes and Fixes</div>
           <div class="blog-excerpt">Drum spins but the clothes come out cold? The 6 reasons a dryer runs without heat in Lake Forest, from a clogged vent and blown thermal fuse to a bad heating element or igniter, and which you can fix yourself.</div>
-          <a href="../../articles/article-dryer-not-heating-lake-forest.html" class="blog-link" aria-label="Read more: Dryer Not Heating in Lake Forest? 6 Causes and Fixes">Read more &rarr;</a>
+          <a href="../../articles/article-dryer-not-heating-lake-forest.html" class="blog-link" aria-label="Read Article: Dryer Not Heating in Lake Forest? 6 Causes and Fixes">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -421,7 +431,7 @@
           <div class="blog-date">May 3, 2026</div>
           <div class="blog-title">Whirlpool Dryer Repair in Los Alamitos, CA: Common Problems, Costs &amp; What to Expect</div>
           <div class="blog-excerpt">If your Whirlpool dryer runs but stays cold, thumps, or takes all afternoon to finish one load, this guide breaks down the likely failure and when fixing it still makes sense.</div>
-          <a href="../../articles/article-whirlpool-dryer-repair-los-alamitos.html" class="blog-link" aria-label="Read more: Whirlpool Dryer Repair in Los Alamitos, CA: Common Problems, Costs &amp; What to Expect">Read more &rarr;</a>
+          <a href="../../articles/article-whirlpool-dryer-repair-los-alamitos.html" class="blog-link" aria-label="Read Article: Whirlpool Dryer Repair in Los Alamitos, CA: Common Problems, Costs &amp; What to Expect">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -437,7 +447,7 @@
           <div class="blog-date">April 28, 2026</div>
           <div class="blog-title">Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda</div>
           <div class="blog-excerpt">Running two cycles to finish one load? Learn the most common causes of a slow dryer (clogged vents, failing heating elements, and overloading) and when to call a tech.</div>
-          <a href="../../articles/article-dryer-takes-too-long-yorba-linda.html" class="blog-link" aria-label="Read more: Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda">Read more &rarr;</a>
+          <a href="../../articles/article-dryer-takes-too-long-yorba-linda.html" class="blog-link" aria-label="Read Article: Why Does My Dryer Take So Long to Dry? Common Causes in Yorba Linda">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -453,7 +463,7 @@
           <div class="blog-date">April 23, 2026</div>
           <div class="blog-title">Dryer Not Heating in Santa Ana? Here's Why and What to Do</div>
           <div class="blog-excerpt">Drum spins but clothes come out cold? Learn the most common causes of a dryer not heating, for both gas and electric models, and what you can check before calling a tech.</div>
-          <a href="../../articles/article-dryer-not-heating-santa-ana.html" class="blog-link" aria-label="Read more: Dryer Not Heating in Santa Ana? Here&#x27;s Why and What to Do">Read more &rarr;</a>
+          <a href="../../articles/article-dryer-not-heating-santa-ana.html" class="blog-link" aria-label="Read Article: Dryer Not Heating in Santa Ana? Here&#x27;s Why and What to Do">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -469,7 +479,7 @@
           <div class="blog-date">April 21, 2025</div>
           <div class="blog-title">Dryer Repair in Orange County, CA: Common Problems &amp; When to Call a Pro</div>
           <div class="blog-excerpt">Dryer not heating, won't start, or making strange noises? Learn what's behind the most common dryer failures in Orange County and whether repair or replacement makes more sense.</div>
-          <a href="../../articles/article-dryer-repair-cost-orange-county.html" class="blog-link" aria-label="Read more: Dryer Repair in Orange County, CA: Common Problems &amp; When to Call a Pro">Read more &rarr;</a>
+          <a href="../../articles/article-dryer-repair-cost-orange-county.html" class="blog-link" aria-label="Read Article: Dryer Repair in Orange County, CA: Common Problems &amp; When to Call a Pro">Read Article &rarr;</a>
         </div>
       </div>
 

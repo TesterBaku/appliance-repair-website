@@ -94,6 +94,12 @@
     .blog-excerpt { font-size: 12.5px; color: #666; line-height: 1.75; flex: 1; }
     .blog-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #aa3210; text-decoration: none; margin-top: 14px; }
     .blog-link:hover { gap: 9px; }
+    /* Hero shortcuts: the article cards sit below a long guide, so offer a jump
+       link and a link to the searchable, filtered blog index. */
+    .hero-links { display: flex; gap: 8px 24px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+    .hero-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; color: #aa3210; text-decoration: none; }
+    .hero-links a:hover { text-decoration: underline; }
+    #articles { scroll-margin-top: 72px; }
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; }
     @media (max-width: 768px) {
       /* P6-62 tap targets: this callout CTA rendered 33px. */
@@ -356,6 +362,10 @@
     </div>
     <h1>Freezer Repair: Tips, Guides &amp; Common Problems</h1>
     <p>Ice cream soft, meat thawing, or frost caking up along the walls? Learn what's failing in your freezer and when it's time to call a technician in Orange County.</p>
+    <div class="hero-links">
+      <a href="#articles">Jump to the articles &darr;</a>
+      <a href="../blog.html?category=freezer">Search these articles &rarr;</a>
+    </div>
   </div>
 
   <!-- SERVICE HUB CALLOUT -->
@@ -393,7 +403,7 @@
   </div>
 
   <!-- ARTICLES -->
-  <section style="padding: 0 24px 80px; max-width: 1100px; margin: 0 auto;">
+  <section id="articles" style="padding: 0 24px 80px; max-width: 1100px; margin: 0 auto;">
     <div class="section-label">5 Freezer Articles</div>
     <div class="blog-grid">
 
@@ -406,7 +416,7 @@
           <div class="blog-date">July 16, 2026</div>
           <div class="blog-title">Freezer Not Freezing in Placentia, CA? 6 Common Causes</div>
           <div class="blog-excerpt">Soft ice cream and a puddle where the ice should be? The six reasons a freezer stops getting cold in Placentia, from dusty condenser coils to a failed defrost system or dead evaporator fan, and which you can fix yourself.</div>
-          <a href="../../articles/article-freezer-not-freezing-placentia.html" class="blog-link" aria-label="Read more: Freezer Not Freezing in Placentia, CA? 6 Common Causes">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-not-freezing-placentia.html" class="blog-link" aria-label="Read Article: Freezer Not Freezing in Placentia, CA? 6 Common Causes">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -422,7 +432,7 @@
           <div class="blog-date">April 27, 2026</div>
           <div class="blog-title">Freezer Not Freezing in Anaheim? 5 Common Causes &amp; Fixes</div>
           <div class="blog-excerpt">Freezer humming but nothing inside is frozen? Learn the five most common causes, from dirty coils to a failing start relay, and which ones you can check yourself.</div>
-          <a href="../../articles/article-freezer-not-freezing-anaheim.html" class="blog-link" aria-label="Read more: Freezer Not Freezing in Anaheim? 5 Common Causes &amp; Fixes">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-not-freezing-anaheim.html" class="blog-link" aria-label="Read Article: Freezer Not Freezing in Anaheim? 5 Common Causes &amp; Fixes">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -438,7 +448,7 @@
           <div class="blog-date">May 1, 2026</div>
           <div class="blog-title">Freezer Not Freezing in Westminster? 5 Common Causes &amp; Fix Costs</div>
           <div class="blog-excerpt">Ice cream soft and meat thawing? Learn the 5 most common reasons a freezer stops freezing and when to call a technician in Orange County.</div>
-          <a href="../../articles/article-freezer-not-freezing-westminster.html" class="blog-link" aria-label="Read more: Freezer Not Freezing in Westminster? 5 Common Causes &amp; Fix Costs">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-not-freezing-westminster.html" class="blog-link" aria-label="Read Article: Freezer Not Freezing in Westminster? 5 Common Causes &amp; Fix Costs">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -454,7 +464,7 @@
           <div class="blog-date">May 2, 2026</div>
           <div class="blog-title">Freezer Repair in Brea, CA: What to Check Before Food Thaws</div>
           <div class="blog-excerpt">Soft ice cream and warming meat point to a short list of failures. Learn what to check first and when it's time to call a technician in Brea.</div>
-          <a href="../../articles/article-freezer-repair-brea.html" class="blog-link" aria-label="Read more: Freezer Repair in Brea, CA: What to Check Before Food Thaws">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-repair-brea.html" class="blog-link" aria-label="Read Article: Freezer Repair in Brea, CA: What to Check Before Food Thaws">Read Article &rarr;</a>
         </div>
       </div>
 
@@ -470,7 +480,7 @@
           <div class="blog-date">May 3, 2026</div>
           <div class="blog-title">Freezer Repair Cost in Rancho Santa Margarita, CA: What Homeowners Usually Pay</div>
           <div class="blog-excerpt">Local cost guide covering common repair ranges in Rancho Santa Margarita and when replacement becomes the smarter call.</div>
-          <a href="../../articles/article-freezer-cost-rancho-santa-margarita.html" class="blog-link" aria-label="Read more: Freezer Repair Cost in Rancho Santa Margarita, CA: What Homeowners Usually Pay">Read more &rarr;</a>
+          <a href="../../articles/article-freezer-cost-rancho-santa-margarita.html" class="blog-link" aria-label="Read Article: Freezer Repair Cost in Rancho Santa Margarita, CA: What Homeowners Usually Pay">Read Article &rarr;</a>
         </div>
       </div>
 

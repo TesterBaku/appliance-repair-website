@@ -2673,6 +2673,71 @@ test.describe('Blog page', () => {
   });
 });
 
+// ─── Blog category pages ──────────────────────────────────────────────────────
+// Derived from the filesystem so a new category page is covered the moment its
+// file exists (same reason CITY_HUBS is not a literal list).
+const BLOG_CATEGORY_PAGES = fs
+  .readdirSync(path.join(__dirname, '..', 'pages', 'blog'))
+  .filter(name => /\.html$/.test(name))
+  .sort();
+
+test.describe('Blog category pages', () => {
+  for (const file of BLOG_CATEGORY_PAGES) {
+    test(`${file}: hero links reach the articles and the filtered search`, async ({ page }) => {
+      await page.setViewportSize(MOBILE);
+      await page.goto(`/pages/blog/${file}`);
+      await page.evaluate(() => document.fonts.ready);
+
+      const jump = page.locator('.hero-links a[href="#articles"]');
+      const search = page.locator('.hero-links a[href*="blog.html?category="]');
+      await expect(jump).toBeVisible();
+      await expect(page.locator('#articles .blog-card').first()).toBeAttached();
+      await expect(search).toHaveAttribute('href', /\.\.\/blog\.html\?category=([a-z]+)$/);
+
+      for (const link of [jump, search]) {
+        const box = await link.boundingBox();
+        expect(box.height, 'hero link tap target').toBeGreaterThanOrEqual(44);
+      }
+
+      await jump.click();
+      const firstCard = page.locator('#articles .blog-card').first();
+      await expect
+        .poll(async () => (await firstCard.boundingBox()).y, { message: 'first card scrolled into view' })
+        .toBeGreaterThanOrEqual(53);
+      await expect
+        .poll(async () => (await firstCard.boundingBox()).y)
+        .toBeLessThan(MOBILE.height);
+    });
+  }
+
+  test('every category page search link names a real filter on the blog index', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/pages/blog.html');
+    const filters = new Set(await page.locator('.cat-pill').evaluateAll(els => els.map(e => e.dataset.filter)));
+
+    for (const file of BLOG_CATEGORY_PAGES) {
+      await page.goto(`/pages/blog/${file}`);
+      const href = await page.locator('.hero-links a[href*="blog.html?category="]').getAttribute('href');
+      const category = /\.\.\/blog\.html\?category=([a-z]+)$/.exec(href)[1];
+      expect(filters.has(category), `${file} links to unknown filter "${category}"`).toBe(true);
+    }
+
+    await page.goto('/pages/blog/dryer.html');
+    await page.locator('.hero-links a[href*="blog.html?category="]').click();
+    await expect(page).toHaveURL(/\/pages\/blog\.html\?category=dryer/);
+    await expect(page.locator('#grid-heading')).toHaveText('Dryer articles');
+  });
+
+  test('no article card link says "Read more"', async ({ page }) => {
+    for (const url of ['/pages/blog.html', ...BLOG_CATEGORY_PAGES.map(f => `/pages/blog/${f}`)]) {
+      await page.goto(url);
+      const texts = await page.locator('.blog-link').allTextContents();
+      expect(texts.length, `${url} has card links`).toBeGreaterThan(0);
+      expect(texts.filter(t => /Read more/i.test(t)), url).toEqual([]);
+    }
+  });
+});
+
 // ─── Service areas page ───────────────────────────────────────────────────────
 test.describe('Service areas page', () => {
   test.beforeEach(async ({ page }) => {
