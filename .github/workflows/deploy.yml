@@ -51,9 +51,10 @@ jobs:
   # artifact up through the Actions artifact service, and that lookup can come
   # back empty for an artifact finalized a moment earlier in the SAME job
   # (actions/deploy-pages issue 451). Observed here on 2026-11-20 and 2026-11-21:
-  # five first attempts listed 0 within a second of the upload, including run
-  # 44944397652, where the REST artifact list already showed the new artifact
-  # (so polling the REST list, tried in PR #991, proves nothing about the lookup
+  # four lookups came back with 0 within a second of the upload (first attempts
+  # of runs 44801284180, 44810840166 and 44944397652, and attempt 3 of
+  # 44810840166). On 44944397652 the REST artifact list already showed the new
+  # artifact (so polling the REST list, tried in PR #991, proves nothing about the lookup
   # deploy-pages does). Uploading in an earlier job puts a job start between the
   # upload and the lookup, and makes "Re-run failed jobs" on a failed deploy
   # safe: it re-runs the deploy job only, with no second upload.
