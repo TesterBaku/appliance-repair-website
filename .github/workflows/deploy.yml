@@ -91,8 +91,22 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           : > "$RUNNER_TEMP/deleted-pages-artifacts.txt"
-          gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[] | select(.name == "github-pages") | .id' |
-          while read -r id; do
+          # A failed list must stop the step, not read as "nothing to delete":
+          # try three times, then fail before anything is uploaded or deployed.
+          listed=no
+          for attempt in 1 2 3; do
+            if ids=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[] | select(.name == "github-pages") | .id'); then
+              listed=yes
+              break
+            fi
+            echo "Listing artifacts failed (attempt $attempt), retrying"
+            sleep 5
+          done
+          if [ "$listed" != "yes" ]; then
+            echo "Could not list this run's artifacts after 3 attempts" >&2
+            exit 1
+          fi
+          printf '%s\n' "$ids" | grep . | while read -r id; do
             echo "Deleting leftover artifact $id"
             gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/$id"
             echo "$id" >> "$RUNNER_TEMP/deleted-pages-artifacts.txt"
@@ -110,7 +124,13 @@ jobs:
           # Pass only when exactly one is listed AND it is not one deleted above
           # (a deleted artifact can linger in the list for a moment too).
           for attempt in $(seq 1 60); do
-            ids=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[] | select(.name == "github-pages") | .id')
+            # One failed poll (a 5xx, a rate limit) must not end the wait.
+            if ! ids=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[] | select(.name == "github-pages") | .id'); then
+              echo "attempt $attempt: listing failed, retrying"
+              total=unknown; fresh=unknown
+              sleep 3
+              continue
+            fi
             total=$(printf '%s\n' "$ids" | grep -c . || true)
             fresh=$(printf '%s\n' "$ids" | grep . | grep -vxFf "$RUNNER_TEMP/deleted-pages-artifacts.txt" | grep -c . || true)
             echo "attempt $attempt: $total listed, $fresh new"
