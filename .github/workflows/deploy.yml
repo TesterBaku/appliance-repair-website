@@ -47,17 +47,23 @@ jobs:
       - name: Functional checks
         run: npm run test:functional
 
-  deploy:
+  # Upload and deploy are separate jobs on purpose. deploy-pages looks the
+  # artifact up through the Actions artifact service, and that lookup can come
+  # back empty for an artifact finalized a moment earlier in the SAME job
+  # (actions/deploy-pages issue 451). Observed here on 2026-11-20 and 2026-11-21:
+  # five first attempts listed 0 within a second of the upload, including run
+  # 44944397652, where the REST artifact list already showed the new artifact
+  # (so polling the REST list, tried in PR #991, proves nothing about the lookup
+  # deploy-pages does). Uploading in an earlier job puts a job start between the
+  # upload and the lookup, and makes "Re-run failed jobs" on a failed deploy
+  # safe: it re-runs the deploy job only, with no second upload.
+  package:
+    name: Package site
     needs: validate
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     permissions:
       contents: read
-      pages: write
-      id-token: write
-      actions: write   # list and delete this run's own Pages artifacts (steps below)
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      actions: write   # list and delete this run's own leftover Pages artifacts
     runs-on: ubuntu-latest
     steps:
       # A fresh runner/checkout keeps validation dependencies and test outputs
@@ -75,22 +81,14 @@ jobs:
                  tasks logs test scripts .github \
                  AGENTS.md CLAUDE.md PRODUCT.md DESIGN.md README.md
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      # deploy-pages fails unless it lists exactly one "github-pages" artifact on
-      # this run. Observed on 2026-11-20 (runs 44801284180 and 44810840166, seven
-      # deploy attempts): with no earlier artifact it listed 0 three times, one
-      # second after the upload; on re-runs, which upload a second artifact beside
-      # the one the earlier attempt left, it listed 2 three times and 1 once (the
-      # one success). Inferred, not proven: a fresh upload takes a variable moment
-      # to appear in the list. So: delete what earlier attempts left, upload, then
-      # wait until the list shows exactly one artifact and it is the new one.
+      # deploy-pages fails unless exactly one "github-pages" artifact exists on
+      # the run. A full re-run ("Re-run all jobs") uploads again beside the one
+      # the earlier attempt left, which then fails with "Artifact count is 2",
+      # so delete what earlier attempts left before uploading.
       - name: Remove Pages artifacts left by earlier attempts of this run
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          : > "$RUNNER_TEMP/deleted-pages-artifacts.txt"
           # A failed list must stop the step, not read as "nothing to delete":
           # try three times, then fail before anything is uploaded or deployed.
           listed=no
@@ -109,7 +107,6 @@ jobs:
           printf '%s\n' "$ids" | grep . | while read -r id; do
             echo "Deleting leftover artifact $id"
             gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/$id"
-            echo "$id" >> "$RUNNER_TEMP/deleted-pages-artifacts.txt"
           done
 
       - name: Upload site
@@ -117,28 +114,20 @@ jobs:
         with:
           path: .
 
-      - name: Wait until the uploaded artifact is listed
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          # Pass only when exactly one is listed AND it is not one deleted above
-          # (a deleted artifact can linger in the list for a moment too).
-          for attempt in $(seq 1 60); do
-            # One failed poll (a 5xx, a rate limit) must not end the wait.
-            if ! ids=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[] | select(.name == "github-pages") | .id'); then
-              echo "attempt $attempt: listing failed, retrying"
-              total=unknown; fresh=unknown
-              sleep 3
-              continue
-            fi
-            total=$(printf '%s\n' "$ids" | grep -c . || true)
-            fresh=$(printf '%s\n' "$ids" | grep . | grep -vxFf "$RUNNER_TEMP/deleted-pages-artifacts.txt" | grep -c . || true)
-            echo "attempt $attempt: $total listed, $fresh new"
-            if [ "$total" = "1" ] && [ "$fresh" = "1" ]; then exit 0; fi
-            sleep 3
-          done
-          echo "Expected exactly 1 new github-pages artifact within 180s; last saw $total listed, $fresh new" >&2
-          exit 1
+  deploy:
+    needs: package
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Deploy to GitHub Pages
         id: deployment
