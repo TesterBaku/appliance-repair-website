@@ -100,6 +100,7 @@
     .hero-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; color: #aa3210; text-decoration: underline; text-underline-offset: 3px; }
     .hero-links a:hover { text-decoration-thickness: 2px; }
     #articles { scroll-margin-top: 72px; }
+    #articles:focus { outline: none; }
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; }
     @media (max-width: 768px) {
       /* P6-62 tap targets: this callout CTA rendered 33px. */
@@ -364,7 +365,7 @@
     <p>Soaking wet clothes, water on the floor, or a drum that won't spin? Find out what's causing your washing machine problems and when to call a technician in Orange County.</p>
     <div class="hero-links">
       <a href="#articles">Jump to the articles &darr;</a>
-      <a href="../blog.html?category=washer">Search washer articles &rarr;</a>
+      <a href="../blog.html?category=washer#blog-search">Search washer articles &rarr;</a>
     </div>
   </div>
 
@@ -400,7 +401,7 @@
   </div>
 
   <!-- ARTICLES -->
-  <section id="articles" style="padding: 0 24px 80px; max-width: 1100px; margin: 0 auto;">
+  <section id="articles" tabindex="-1" aria-label="Washer articles" style="padding: 0 24px 80px; max-width: 1100px; margin: 0 auto;">
     <div class="section-label">12 Washer Articles</div>
     <div class="blog-grid">
 
