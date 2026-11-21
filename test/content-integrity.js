@@ -455,6 +455,16 @@
  *                    Added 2026-11-15 after the PR #975 review found Bosch, Viking and DCS
  *                    tiles linking to a service page instead. Appliance service pages are
  *                    out of scope on purpose: they link a brand's tile to that brand's hub.
+ *   picture-source-parity: inside a `<picture>`, every `<source srcset>` candidate must be
+ *                    the same image as the `<img src>` fallback (same filename stem; a
+ *                    trailing -480w/-800w/-card-NNNw and the extension are ignored). A
+ *                    browser that supports WebP shows the `<source>`, so a mismatch means
+ *                    visitors see a different picture from the one the `<img>`, its alt
+ *                    text and every other check describe. Added 2026-11-21 after four
+ *                    dishwasher cards on pages/blog.html were found carrying a real job
+ *                    photo in `<img>` and a stock photo in `<source>`: the page had served
+ *                    the stock image while every gate, and a research pass that read only
+ *                    the `<img>`, counted the card as showing the real photo.
  *   hub-redesign   — ratchet: every git-tracked .html page containing
  *                    `class="hub-hero"` must also contain `class="expect-strip"`
  *                    (the What to expect strip that marks the 2026-10 hub redesign),
@@ -701,7 +711,7 @@
  *                    so this check only surfaces the list and does NOT block.
  *
  * Usage:
- *   node test/content-integrity.js          : run all thirty enforced checks + the report
+ *   node test/content-integrity.js          : run all thirty-one enforced checks + the report
  *   node test/content-integrity.js <name>   — run one check (review-count,
  *                                             testimonial-pill-count, business-tenure,
  *                                             meta-desc-len, og-desc-sync,
@@ -717,7 +727,8 @@
  *                                             area-served-parity, hero-preload,
  *                                             img-dimensions, faq-cost-table-parity,
  *                                             mojibake, testimonial-hub-cap, title-length,
- *                                             testimonial-label-format)
+ *                                             testimonial-label-format,
+ *                                             picture-source-parity)
  *
  *   node test/content-integrity.js img-dimensions --write-img-baseline
  *                                          — regenerate test/img-dimension-baseline.json
@@ -4261,6 +4272,37 @@ if (run('brand-tile-links')) {
   }
 }
 
+// ── Check 30: picture-source-parity ─────────────────────────────────────────
+// See the docblock above.
+if (run('picture-source-parity')) {
+  checked['picture-source-parity'] = { files: 0, pictures: 0 };
+  const stemOf = u => u.split('/').pop().split('?')[0]
+    .replace(/\.(?:jpe?g|png|webp|avif)$/i, '')
+    .replace(/-(?:\d+w|card-\d+w)$/, '');
+  for (const f of allHtml) {
+    const src = fs.readFileSync(f, 'utf8');
+    let any = false;
+    for (const p of src.matchAll(/<picture[^>]*>([\s\S]*?)<\/picture>/g)) {
+      const img = p[1].match(/<img[^>]*\ssrc="([^"]+)"/);
+      if (!img) continue;
+      any = true;
+      checked['picture-source-parity'].pictures++;
+      const want = stemOf(img[1]);
+      const others = new Set();
+      for (const s of p[1].matchAll(/<source[^>]*\ssrcset="([^"]+)"/g)) {
+        for (const cand of s[1].split(',')) {
+          const url = cand.trim().split(/\s+/)[0];
+          if (url && stemOf(url) !== want) others.add(stemOf(url));
+        }
+      }
+      if (others.size) {
+        issues.push(`[PICTURE-SOURCE-PARITY] ${rel(f)}: a <picture> whose <img> is ${want} serves ${[...others].join(', ')} in its <source>; browsers show the <source>, so both must be the same image.`);
+      }
+    }
+    if (any) checked['picture-source-parity'].files++;
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────────
 // Informational title-length report — printed regardless of enforced-check
 // outcome, and never affects the exit code.
@@ -4343,5 +4385,6 @@ if (checked['testimonial-hub-cap']) {
 }
 if (checked['hub-redesign'])         parts.push(`hub redesign ratchet held: ${checked['hub-redesign'].hubs} hub pages (${checked['hub-redesign'].v2} on the v2 template), ${checked['hub-redesign'].baselined} baselined as not yet redesigned`);
 if (checked['brand-tile-links'])     parts.push(`brand-hub job tiles whose photo has a recent-repairs entry link to it: ${checked['brand-tile-links'].linked} of ${checked['brand-tile-links'].tiles} tiles on ${checked['brand-tile-links'].pages} brand hubs`);
+if (checked['picture-source-parity']) parts.push(`<picture> source and img show the same image on ${checked['picture-source-parity'].pictures} pictures across ${checked['picture-source-parity'].files} files`);
 if (checked['title-length'])         parts.push(`title-length: ${checked['title-length'].offenders.length}/${checked['title-length'].scanned} titles > ${checked['title-length'].limit} chars (informational)`);
 console.log(`content-integrity: ${parts.join('; ')}.`);
