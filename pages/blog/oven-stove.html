@@ -67,7 +67,7 @@
     .content-wrap { max-width: 780px; margin: 0 auto; padding: 0 24px 56px; }
     .content-wrap h2 { font-size: 22px; font-weight: 700; color: #111; margin: 36px 0 12px; letter-spacing: -0.3px; }
     .content-wrap p { font-size: 14px; color: #444; line-height: 1.85; margin-bottom: 16px; }
-    .section-label { font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
+    .section-label { width: fit-content; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 24px; }
     .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .blog-card { position: relative; cursor: pointer; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
     .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
@@ -97,10 +97,12 @@
     /* Hero shortcuts: the article cards sit below a long guide, so offer a jump
        link and a link to the searchable, filtered blog index. */
     .hero-links { display: flex; gap: 8px 24px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
-    .hero-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; color: #aa3210; text-decoration: underline; text-underline-offset: 3px; }
+    .hero-links a { display: inline-flex; align-items: center; gap: 0.3em; min-height: 44px; font-size: 14px; font-weight: 600; color: #aa3210; text-decoration: underline; text-underline-offset: 3px; }
     .hero-links a:hover { text-decoration-thickness: 2px; }
     #articles { scroll-margin-top: 72px; }
     #articles:focus { outline: none; }
+    /* The section itself shows no ring, so mark where the jump landed on its label. */
+    #articles:focus .section-label { outline: 2px solid #e84c1e; outline-offset: 4px; }
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; }
     @media (max-width: 768px) {
       /* P6-62 tap targets: this callout CTA rendered 33px. */
@@ -364,8 +366,8 @@
     <h1>Oven &amp; Stove Repair: Tips, Guides &amp; Common Problems</h1>
     <p>Oven cold before dinner, burner that won't ignite, or temperature way off? Learn what's usually causing it and when to call a technician in Orange County.</p>
     <div class="hero-links">
-      <a href="#articles">Jump to the articles &darr;</a>
-      <a href="../blog.html?category=oven#blog-search">Search oven and stove articles &rarr;</a>
+      <a href="#articles">Jump to the articles <span aria-hidden="true">&darr;</span></a>
+      <a href="../blog.html?category=oven#blog-search">Search oven and stove articles <span aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
 
@@ -405,7 +407,7 @@
 
   <!-- ARTICLES -->
   <section id="articles" tabindex="-1" aria-label="Oven and stove articles" style="padding: 0 24px 80px; max-width: 1100px; margin: 0 auto;">
-    <div class="section-label">13 Oven, Stove &amp; Range Articles</div>
+    <h2 class="section-label">13 Oven, Stove &amp; Range Articles</h2>
     <div class="blog-grid">
 
       <div class="blog-card">

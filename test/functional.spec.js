@@ -2709,6 +2709,8 @@ test.describe('Blog category pages', () => {
 
       await jump.click();
       await expect(page.locator('#articles')).toBeFocused();
+      // The section draws no ring of its own, so its heading carries the cue.
+      await expect(page.locator('#articles h2.section-label')).toHaveCSS('outline-style', 'solid');
       const firstCard = page.locator('#articles .blog-card').first();
       await expect
         .poll(async () => (await firstCard.boundingBox()).y, { message: 'first card scrolled into view' })
@@ -2741,7 +2743,17 @@ test.describe('Blog category pages', () => {
     await expect(box).toBeFocused();
     await expect(box).toHaveAttribute('placeholder', /dryer articles/);
     await expect(box).toBeInViewport({ ratio: 1 });
-    expect((await box.boundingBox()).y).toBeGreaterThanOrEqual(53);
+    // Measured against the real nav and heading, not a fixed pixel value: the
+    // landing must not scroll the page heading under the fixed nav.
+    const geo = await page.evaluate(() => {
+      const rect = sel => document.querySelector(sel).getBoundingClientRect();
+      return { navBottom: rect('.nav').bottom, h1Top: rect('h1').top, boxTop: rect('#blog-search').top, scrollY: window.scrollY };
+    });
+    // At 200px of scroll margin this landing scrolled 59px at 1440 and hid the
+    // small label above the heading; the box is near enough the top not to scroll.
+    expect(geo.scrollY, 'landing does not scroll the hero away').toBe(0);
+    expect(geo.h1Top, 'page heading stays below the fixed nav').toBeGreaterThanOrEqual(geo.navBottom);
+    expect(geo.boxTop, 'search box sits below the heading').toBeGreaterThan(geo.h1Top);
   });
 
   test('no article card link says "Read more"', async ({ page }) => {

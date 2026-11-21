@@ -85,7 +85,12 @@ for (const entry of fs.readdirSync(catDir)) {
   const p = path.join(catDir, entry);
   const orig = fs.readFileSync(p, 'utf8');
   const n = countCards(orig);
-  const next = orig.replace(/(<div class="section-label">)\d+/, (_m, pre) => pre + n);
+  // A page whose label no longer matches would otherwise pass as "in sync" forever.
+  if (!/<h2 class="section-label">\d+/.test(orig)) {
+    console.error(`sync-blog-counts: pages/blog/${entry} has no <h2 class="section-label">N … label to sync`);
+    process.exit(1);
+  }
+  const next = orig.replace(/(<h2 class="section-label">)\d+/, (_m, pre) => pre + n);
   if (next !== orig) {
     if (CHECK) drift.push('pages/blog/' + entry);
     else { fs.writeFileSync(p, next, 'utf8'); applied++; }
