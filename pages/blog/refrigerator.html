@@ -75,7 +75,7 @@
     .content-wrap ul li { font-size: 14px; color: #444; line-height: 1.85; margin-bottom: 6px; }
 
     /* ARTICLE GRID */
-    .section-label { font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 24px; }
+    .section-label { width: fit-content; font-size: 11px; font-weight: 700; color: #666666; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 24px; }
     .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 0; }
     .blog-card { position: relative; cursor: pointer; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 2px 20px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
     .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 36px rgba(0,0,0,0.12); }
@@ -109,6 +109,8 @@
     .hero-links a:hover { text-decoration-thickness: 2px; }
     #articles { scroll-margin-top: 72px; }
     #articles:focus { outline: none; }
+    /* The section itself shows no ring, so mark where the jump landed on its label. */
+    #articles:focus .section-label { outline: 2px solid #e84c1e; outline-offset: 4px; }
 
     /* DARK CTA */
     .dark-section { background: linear-gradient(145deg, #1a0a02 0%, #3d1a08 50%, #0f0503 100%); padding: 80px 24px; text-align: center; }
@@ -375,8 +377,8 @@
     <h1>Refrigerator Repair: Tips, Guides &amp; Common Problems</h1>
     <p>Everything Orange County homeowners need to know about refrigerator issues, from a fridge that's not cooling to ice maker problems and when to call a pro.</p>
     <div class="hero-links">
-      <a href="#articles">Jump to the articles &darr;</a>
-      <a href="../blog.html?category=refrigerator#blog-search">Search refrigerator articles &rarr;</a>
+      <a href="#articles">Jump to the articles<span aria-hidden="true">&nbsp;&darr;</span></a>
+      <a href="../blog.html?category=refrigerator#blog-search">Search refrigerator articles<span aria-hidden="true">&nbsp;&rarr;</span></a>
     </div>
   </div>
 
@@ -415,7 +417,7 @@
 
   <!-- ARTICLES -->
   <section id="articles" tabindex="-1" aria-label="Refrigerator articles" style="padding: 0 24px 80px; max-width: 1100px; margin: 0 auto;">
-    <div class="section-label">21 Refrigerator Articles</div>
+    <h2 class="section-label">21 Refrigerator Articles</h2>
     <div class="blog-grid">
 
       <div class="blog-card">

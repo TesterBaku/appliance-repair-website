@@ -129,9 +129,11 @@
     /* Search */
     #blog-search { display: block; width: 100%; max-width: 560px; margin: 22px auto 0; padding: 11px 18px; font-size: 14px; font-family: 'Inter', sans-serif; border: 1.5px solid #e5e7eb; border-radius: 10px; outline: none; background: #fff; color: #111; transition: border-color 0.15s; }
     #blog-search:focus { border-color: #e84c1e; box-shadow: 0 0 0 3px rgba(232,76,30,0.1); }
-    /* The category pages link straight to this box (#blog-search): keep the
-       heading above it in view and clear of the fixed nav. */
-    #blog-search { scroll-margin-top: 200px; }
+    /* The category pages link straight to this box (#blog-search). The box sits
+       167 to 259px down the page depending on width; a margin larger than that
+       means the landing never scrolls, so the label and heading above it stay
+       in view. */
+    #blog-search { scroll-margin-top: 280px; }
     /* P6-64: was #bbb (1.92:1 on white, fails 4.5:1). #666 ("Dust", DESIGN.md's
        documented secondary-text floor) measures 5.74:1 on white. */
     #blog-search::placeholder { color: #666; }
