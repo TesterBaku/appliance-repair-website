@@ -60,4 +60,10 @@ exclude = [
     '^https://(www\.)?google\.com/maps',
     '^https://(www\.)?yelp\.com',
     '^https://(www\.)?instagram\.com',
+
+    # fda.gov answers the checker with 404 for pages that exist. Both links the
+    # first runs reported (runs 45059533770 and 45063310474) opened normally in a
+    # browser and through a plain fetch on 2026-11-22. A 404 from this host is
+    # therefore not evidence, so it is excluded. Check fda.gov links by hand.
+    '^https://(www\.)?fda\.gov',
 ]
