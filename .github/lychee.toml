@@ -1,0 +1,60 @@
+# lychee configuration for .github/workflows/link-rot.yml (external link check).
+#
+# Lives under .github/ on purpose: the deploy workflow's "Prune non-public files"
+# step removes .github/ from the published artifact, so this file is never served.
+# A lychee.toml at the repo root would be.
+
+# External links only. Relative and file links are test/links.js's job and it
+# already runs on every PR; checking them twice would only add a second opinion
+# that can disagree.
+scheme = ["https", "http"]
+
+# 429 means "slow down", not "gone". Everything else outside 2xx is reported.
+accept = ["200..=299", "429"]
+
+# Outbound sites are slow and flaky more often than they are dead.
+max_retries = 3
+retry_wait_time = 5
+timeout = 30
+max_concurrency = 8
+max_redirects = 10
+
+no_progress = true
+
+# Stamped chrome sources and build output: every link in them is also present in
+# the pages they are stamped into, or is not site content at all.
+exclude_path = [
+    "(^|/)partials/",
+    "(^|/)pagefind/",
+    "(^|/)node_modules/",
+    "(^|/)test/",
+    "(^|/)test-results/",
+]
+
+exclude = [
+    # Our own domain: canonical, og:url and JSON-LD URLs on every page. Internal
+    # targets are verified from the file tree by test/links.js. Checking them here
+    # would hit production once per page, and on a pull request it would report
+    # every not-yet-deployed page as a 404.
+    '^https?://(www\.)?fixappliancesfast\.com',
+
+    # Infrastructure hosts, not content links: font CSS, the Google tag, the map
+    # library CDN and the contact-form endpoint (a POST-only URL; never request it).
+    '^https://fonts\.googleapis\.com',
+    '^https://fonts\.gstatic\.com',
+    '^https://www\.googletagmanager\.com',
+    '^https://formspree\.io',
+
+    # Vocabulary identifiers inside JSON-LD, not links a reader follows.
+    '^https?://schema\.org',
+
+    # Hosts that refuse automated requests (403 or 429 to any non-browser client),
+    # so a failure here says nothing about the link. Check these by hand.
+    '^https://(www\.)?google\.com/(maps|search)',
+    '^https://maps\.app\.goo\.gl',
+    '^https://g\.page',
+    '^https://(www\.)?yelp\.com',
+    '^https://(www\.)?instagram\.com',
+    '^https://(www\.)?facebook\.com',
+    '^https://(www\.)?tiktok\.com',
+]

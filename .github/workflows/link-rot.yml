@@ -1,0 +1,52 @@
+name: External link check
+
+# Finds outbound links that have died (manufacturer pages, cited sources, parts
+# sites). test/links.js skips every http(s) href, so nothing else looks at them.
+#
+# This is a report, never a gate for site changes: other sites fail for reasons
+# that have nothing to do with a pull request here. It runs monthly, on demand,
+# and on a pull request only when the check itself (this file or its config)
+# changes, so that a change to the check gets one real run before it merges.
+# A failed run plus the job summary is the whole output; it opens no issue and
+# needs no write permission.
+
+on:
+  schedule:
+    - cron: '0 15 1 * *'   # 1st of each month, 15:00 UTC (7 or 8 AM Pacific)
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/link-rot.yml
+      - .github/lychee.toml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: link-rot-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  external-links:
+    name: Check external links
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Tracked HTML only (no npm install, no browser). The config limits the
+      # check to http(s) links and lists what is excluded and why.
+      - name: Check external links with lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --config .github/lychee.toml
+            './*.html'
+            './pages/**/*.html'
+            './articles/**/*.html'
+          fail: true
+          failIfEmpty: true
+          jobSummary: true
