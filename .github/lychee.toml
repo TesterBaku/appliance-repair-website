@@ -41,7 +41,7 @@ exclude = [
     # targets are verified from the file tree by test/links.js. Checking them here
     # would hit production once per page, and on a pull request it would report
     # every not-yet-deployed page as a 404.
-    '^https?://(www\.)?fixappliancesfast\.com',
+    '^https?://(www\.)?fixappliancesfast\.com(/|$)',
 
     # Infrastructure hosts, not content links: font CSS, the Google tag, the map
     # library CDN and the contact-form endpoint (a POST-only URL; never request it).
@@ -53,8 +53,9 @@ exclude = [
     # Vocabulary identifiers inside JSON-LD, not links a reader follows.
     '^https?://schema\.org',
 
-    # Our own profiles, linked from the footer and JSON-LD of every page. These
-    # hosts answer automated clients with a login wall or a refusal, so a result
+    # Our own profiles, linked from the footer and JSON-LD of every page, and every
+    # other Google Maps link (a handful of city "place" links). These hosts answer
+    # automated clients with a login wall, a consent page or a refusal, so a result
     # here says nothing about the link. Check them by hand.
     '^https://(www\.)?google\.com/maps',
     '^https://(www\.)?yelp\.com',
