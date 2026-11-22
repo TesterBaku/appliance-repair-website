@@ -43,8 +43,8 @@ exclude = [
     # every not-yet-deployed page as a 404.
     '^https?://(www\.)?fixappliancesfast\.com(/|$)',
 
-    # Infrastructure hosts, not content links: font CSS, the Google tag, the map
-    # library CDN and the contact-form endpoint (a POST-only URL; never request it).
+    # Infrastructure hosts, not content links: font CSS, the Google tag and the
+    # contact-form endpoint (a POST-only URL; never request it).
     '^https://fonts\.googleapis\.com',
     '^https://fonts\.gstatic\.com',
     '^https://www\.googletagmanager\.com',
