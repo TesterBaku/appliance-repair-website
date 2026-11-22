@@ -942,6 +942,8 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2 .v2-map { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: #fff; }
 .v2 .v2-map img { display: block; width: 100%; height: auto; }
 .v2 .v2-map figcaption { display: grid; gap: 4px; padding: 16px 20px 8px; font-size: 14px; line-height: 1.6; color: var(--muted); }
+/* The maps link shares the caption with a sentence, so it is underlined like any in-text link */
+.v2 .v2-map figcaption a { text-decoration: underline; text-underline-offset: 3px; }
 
 /* Neighborhood directory: two columns of ruled rows, name left, ZIP chip right, note beneath; an odd last row spans both */
 .v2 .v2-places { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 4vw, 56px); border-top: 1px solid var(--line); }
