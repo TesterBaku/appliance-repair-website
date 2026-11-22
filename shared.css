@@ -918,3 +918,42 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 @media (prefers-reduced-motion: reduce) {
   .v2 *, .v2 *::before, .v2 *::after { transition: none !important; }
 }
+
+/* ---- City pages (Santa Ana exemplar; see DESIGN.md section 7, "City pages") ---- */
+/* Hero jump link to the neighborhood directory; the anchor target clears the fixed nav */
+.v2 .v2-hero-jump { margin-top: 4px; }
+.v2 .v2-hero-jump .v2-ico { transform: rotate(90deg); }
+.v2 .v2-sec[id] { scroll-margin-top: 64px; }
+
+/* Local jobs: a featured job carries its customer's review (a ruled block, not a nested card); a lone job after it is one wide row */
+.v2 .v2-job-review { width: 100%; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+.v2 .v2-job-review .v2-stars { display: block; font-size: 15px; }
+.v2 .v2-job-review blockquote { margin-top: 8px; color: var(--ink); font-size: 16px; line-height: 1.65; }
+.v2 .v2-job-review figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.v2 .v2-job-review figcaption strong { color: var(--ink); font-weight: 600; }
+.v2 .v2-job--row { margin-top: 24px; }
+@media (min-width: 961px) {
+  .v2 .v2-job--feature { grid-template-columns: 38% minmax(0, 1fr); }
+  .v2 .v2-job--row { grid-template-columns: 30% minmax(0, 1fr); }
+  .v2 .v2-job--row .v2-job-photo { min-height: 240px; }
+}
+
+/* Service-area map: a framed image with its caption and link underneath */
+.v2 .v2-map { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: #fff; }
+.v2 .v2-map img { display: block; width: 100%; height: auto; }
+.v2 .v2-map figcaption { display: grid; gap: 4px; padding: 16px 20px 8px; font-size: 14px; line-height: 1.6; color: var(--muted); }
+
+/* Neighborhood directory: two columns of ruled rows, name left, ZIP chip right, note beneath; an odd last row spans both */
+.v2 .v2-places { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 4vw, 56px); border-top: 1px solid var(--line); }
+.v2 .v2-places li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; column-gap: 16px; row-gap: 6px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.v2 .v2-places li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.v2 .v2-places h3 { font-size: 18px; }
+.v2 .v2-places p { grid-column: 1 / -1; font-size: 15px; line-height: 1.55; }
+.v2 .v2-zip { padding: 3px 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.5; white-space: nowrap; }
+@media (max-width: 768px) {
+  .v2 .v2-places { grid-template-columns: minmax(0, 1fr); }
+  .v2 .v2-places li { grid-template-columns: minmax(0, 1fr); padding: 16px 0; }
+  .v2 .v2-zip { grid-row: 1; justify-self: start; max-width: 100%; white-space: normal; }
+  .v2 .v2-places h3 { grid-row: 2; }
+  .v2 .v2-places p { grid-row: 3; }
+}
