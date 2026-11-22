@@ -5776,7 +5776,10 @@ test.describe('Accessibility (axe-core, sampled pages)', () => {
       const found = new Map(); // rule id -> { impact, help, nodes, where }
       for (const viewport of [DESKTOP, MOBILE]) {
         await page.setViewportSize(viewport);
-        await page.goto(url);
+        const response = await page.goto(url);
+        // A renamed or deleted sample page would otherwise be served as the 404 page,
+        // which is axe-clean: the test would pass while analysing the wrong page.
+        expect(response.status(), url + ' must load; update AXE_PAGES if it was renamed').toBe(200);
         await page.evaluate(() => document.fonts.ready);
         const results = await new AxeBuilder({ page }).exclude('iframe').analyze();
         for (const v of results.violations) {
