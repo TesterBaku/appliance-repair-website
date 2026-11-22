@@ -5729,3 +5729,88 @@ test.describe('City hubs: in-text links underlined, warranty tokens unbroken (37
     expect(problems).toEqual([]);
   });
 });
+
+// ─── Accessibility: axe-core on one page per template ─────────────────────────
+// Runs the axe rules engine (@axe-core/playwright) inside pages this suite already
+// opens, so it needs no second browser. It covers what the contrast and tap-target
+// gates cannot see: accessible names, roles, ARIA validity, labels, duplicate ids,
+// image alternatives. Eight pages, one per template, each at desktop and phone
+// width, because the nav drawer and the sticky bar only exist at phone width.
+//
+// SCOPE, stated rather than implied:
+//   - A SAMPLE, not a sweep. A defect that lives on one un-sampled page is not
+//     caught. The sample is one page per template because chrome and card
+//     components are stamped or copied, so a template-level defect shows on its
+//     sample page.
+//   - Only `serious` and `critical` impacts fail. `moderate` and `minor` findings
+//     (heading order, landmark and region rules) are not reported.
+//   - Third-party frames are skipped (`iframe`): their markup is not ours to fix.
+//   - axe checks the DOM as loaded. Open menus, the lightbox and form error
+//     states are not exercised.
+//
+// THE BASELINE IS A RATCHET, NOT AN ALLOWLIST. test/axe-baseline.json lists, per
+// page, the rule ids that already failed when this gate was added. It is keyed by
+// page and rule id and never by element count, so adding a review card or a blog
+// card does not move it. A new rule id on a sampled page fails; so does a baseline
+// entry the page no longer violates, which is how the list can only shrink.
+const AxeBuilder = require('@axe-core/playwright').default;
+const AXE_BASELINE = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'axe-baseline.json'), 'utf8')
+).debt;
+const AXE_PAGES = [
+  '/index.html',
+  '/pages/refrigerator-repair-orange-county.html',
+  '/pages/sub-zero-appliance-repair-orange-county.html',
+  '/pages/appliance-repair-irvine-ca.html',
+  '/articles/article-appliance-lifespan-data-2026.html',
+  '/pages/blog.html',
+  '/pages/testimonials.html',
+  '/pages/contact.html',
+];
+const AXE_FAIL_IMPACTS = new Set(['serious', 'critical']);
+
+test.describe('Accessibility (axe-core, sampled pages)', () => {
+  for (const url of AXE_PAGES) {
+    test(`${url}: no new serious or critical axe violation`, async ({ page }) => {
+      test.setTimeout(90000);
+      const found = new Map(); // rule id -> { impact, help, nodes, where }
+      for (const viewport of [DESKTOP, MOBILE]) {
+        await page.setViewportSize(viewport);
+        const response = await page.goto(url);
+        // A renamed or deleted sample page would otherwise be served as the 404 page,
+        // which is axe-clean: the test would pass while analysing the wrong page.
+        expect(response.status(), url + ' must load; update AXE_PAGES if it was renamed').toBe(200);
+        await page.evaluate(() => document.fonts.ready);
+        const results = await new AxeBuilder({ page }).exclude('iframe').analyze();
+        for (const v of results.violations) {
+          if (!AXE_FAIL_IMPACTS.has(v.impact)) continue;
+          const prev = found.get(v.id);
+          const where = `${viewport.width}px: ` + v.nodes.slice(0, 3).map(n => n.target.join(' ')).join(' | ');
+          found.set(v.id, {
+            impact: v.impact,
+            help: v.help,
+            helpUrl: v.helpUrl,
+            nodes: Math.max(prev ? prev.nodes : 0, v.nodes.length),
+            where: prev ? prev.where.concat(where) : [where],
+          });
+        }
+      }
+
+      const allowed = new Set(AXE_BASELINE[url] || []);
+      const fresh = [...found.keys()].filter(id => !allowed.has(id)).sort();
+      const stale = [...allowed].filter(id => !found.has(id)).sort();
+
+      expect(
+        fresh.map(id => ({ rule: id, ...found.get(id) })),
+        `${url} has serious or critical accessibility violations that are not in ` +
+        'test/axe-baseline.json. Fix the markup; do not add the rule to the baseline. ' +
+        'Each entry carries its helpUrl.'
+      ).toEqual([]);
+      expect(
+        stale,
+        `${url}: these rule ids are listed in test/axe-baseline.json but the page no longer ` +
+        'violates them. Remove them; the baseline may only shrink.'
+      ).toEqual([]);
+    });
+  }
+});

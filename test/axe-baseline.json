@@ -1,0 +1,24 @@
+{
+  "_README": [
+    "BASELINE OF SERIOUS/CRITICAL AXE-CORE VIOLATIONS THAT EXISTED WHEN THE GATE WAS ADDED (2026-11-22).",
+    "This is a RATCHET, not an allowlist. Read by the 'Accessibility (axe-core, sampled pages)' test in",
+    "test/functional.spec.js.",
+    "",
+    "Shape: debt[<page url>] = [<axe rule id>, ...]. Keyed by page and rule id, never by element count,",
+    "so adding a review card or a blog card does not move it.",
+    "",
+    "The test fails in both directions: a serious or critical rule id on a sampled page that is not",
+    "listed here fails, and an entry here that the page no longer violates fails too. So an entry can",
+    "only leave this file, in the same PR that fixes the markup. Do not add an entry to make a new",
+    "failure go away: fix the markup.",
+    "",
+    "Recorded by running the test in Chromium at 1440x900 and 375x812 on 8 sampled pages. Seven were",
+    "clean. The one entry:",
+    "  /pages/blog.html, label-content-name-mismatch: #blog-load-more carries",
+    "  aria-label=\"Load more articles\" while the page script sets its visible text to",
+    "  \"Load N more\", which the accessible name does not contain (WCAG 2.5.3, Label in Name)."
+  ],
+  "debt": {
+    "/pages/blog.html": ["label-content-name-mismatch"]
+  }
+}
