@@ -9,8 +9,13 @@
 # that can disagree.
 scheme = ["https", "http"]
 
-# 429 means "slow down", not "gone". Everything else outside 2xx is reported.
-accept = ["200..=299", "429"]
+# 403 and 429 are accepted, which means "not reported", not "verified". On the first
+# run (2026-11-22, run 45059348172) 30 of 32 failures were 403s from sites that
+# refuse any automated client (maytag.com, fsis.usda.gov, partselect.com and
+# others). A link that is really gone answers 404, 410, a 5xx or fails to resolve,
+# and those are still reported.
+# Known gap: a page that starts answering 403 to every visitor is not caught.
+accept = ["200..=299", "403", "429"]
 
 # Outbound sites are slow and flaky more often than they are dead.
 max_retries = 3
@@ -48,13 +53,10 @@ exclude = [
     # Vocabulary identifiers inside JSON-LD, not links a reader follows.
     '^https?://schema\.org',
 
-    # Hosts that refuse automated requests (403 or 429 to any non-browser client),
-    # so a failure here says nothing about the link. Check these by hand.
-    '^https://(www\.)?google\.com/(maps|search)',
-    '^https://maps\.app\.goo\.gl',
-    '^https://g\.page',
+    # Our own profiles, linked from the footer and JSON-LD of every page. These
+    # hosts answer automated clients with a login wall or a refusal, so a result
+    # here says nothing about the link. Check them by hand.
+    '^https://(www\.)?google\.com/maps',
     '^https://(www\.)?yelp\.com',
     '^https://(www\.)?instagram\.com',
-    '^https://(www\.)?facebook\.com',
-    '^https://(www\.)?tiktok\.com',
 ]
