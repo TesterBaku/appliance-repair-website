@@ -957,3 +957,27 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
   .v2 .v2-places h3 { grid-row: 2; }
   .v2 .v2-places p { grid-row: 3; }
 }
+
+/* Service Areas page: region directory. One ruled row per region, name left, its cities right as a wrapped list; a linked city ends in an arrow, an unlinked one is plain muted text */
+.v2 .v2-hero--plain { padding-top: clamp(28px, 4vw, 48px); }
+.v2 .v2-region-jump { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.v2 .v2-region-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--ghost-line); border-radius: 8px; background: #fff; color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none; }
+.v2 .v2-region-jump a:hover { background: var(--ice); border-color: var(--ghost-line-hover); }
+.v2 .v2-regions { border-top: 1px solid var(--line); }
+.v2 .v2-region { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--col-gap); align-items: start; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.v2 .v2-region h3[id] { scroll-margin-top: 64px; padding-top: 8px; }
+.v2 .v2-region-label { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.v2 .v2-region-intro { margin-bottom: 14px; font-size: 15px; line-height: 1.6; }
+.v2 .v2-cities { display: flex; flex-wrap: wrap; gap: 8px; }
+.v2 .v2-city { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; min-height: 44px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.3; text-decoration: none; }
+.v2 .v2-city .city-tag { color: var(--muted); font-size: 13px; font-weight: 400; }
+.v2 a.v2-city { transition: border-color .15s, color .15s; }
+.v2 a.v2-city::after { content: "\2192"; color: var(--muted); font-weight: 400; }
+.v2 a.v2-city:hover { border-color: var(--ember); color: var(--ember-dark); }
+.v2 a.v2-city:hover::after { color: var(--ember); }
+.v2 .v2-city--info { border-color: transparent; background: var(--ice); color: var(--muted); font-weight: 500; }
+.v2 .v2-regions + .v2-note { margin-top: 24px; }
+@media (max-width: 768px) {
+  .v2 .v2-region { grid-template-columns: minmax(0, 1fr); row-gap: 8px; padding: 18px 0; }
+  .v2 .v2-region h3[id] { padding-top: 0; }
+}
