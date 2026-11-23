@@ -13,12 +13,10 @@
     "failure go away: fix the markup.",
     "",
     "Recorded by running the test in Chromium at 1440x900 and 375x812 on 8 sampled pages. Seven were",
-    "clean. The one entry:",
-    "  /pages/blog.html, label-content-name-mismatch: #blog-load-more carries",
-    "  aria-label=\"Load more articles\" while the page script sets its visible text to",
-    "  \"Load N more\", which the accessible name does not contain (WCAG 2.5.3, Label in Name)."
+    "clean and the eighth held one entry (/pages/blog.html, label-content-name-mismatch on the",
+    "#blog-load-more button). That entry was fixed and removed on 2026-11-23 (P6-67): the button no",
+    "longer has an aria-label, so its accessible name is its visible text. The baseline has been empty",
+    "since then, and any new serious or critical violation on a sampled page fails the test."
   ],
-  "debt": {
-    "/pages/blog.html": ["label-content-name-mismatch"]
-  }
+  "debt": {}
 }

@@ -1799,7 +1799,7 @@
       </div>
 
     </div>
-    <button id="blog-load-more" class="btn-outline" style="display:none;" aria-label="Load more articles">Load more</button>
+    <button id="blog-load-more" class="btn-outline" style="display:none;">Load more articles</button>
     <div id="search-empty">
       <p>No articles match your search. Try a different keyword.</p>
       <button type="button" id="clear-search" class="btn-outline">Clear search</button>
@@ -2021,7 +2021,7 @@
         if (loadMore) {
           var remaining = Math.max(0, matched.length - showing);
           loadMore.style.display = remaining > 0 ? 'block' : 'none';
-          loadMore.textContent = 'Load ' + Math.min(BATCH, remaining) + ' more';
+          loadMore.textContent = 'Load ' + Math.min(BATCH, remaining) + ' more articles';
         }
         // The new cards sit before the button in tab order, and on the last batch the button
         // disappears, which used to drop focus to the page body. Move focus to the first new
