@@ -2021,7 +2021,7 @@
         if (loadMore) {
           var remaining = Math.max(0, matched.length - showing);
           loadMore.style.display = remaining > 0 ? 'block' : 'none';
-          loadMore.textContent = 'Load ' + Math.min(BATCH, remaining) + ' more articles';
+          loadMore.textContent = 'Load ' + Math.min(BATCH, remaining) + (Math.min(BATCH, remaining) === 1 ? ' more article' : ' more articles');
         }
         // The new cards sit before the button in tab order, and on the last batch the button
         // disappears, which used to drop focus to the page body. Move focus to the first new
