@@ -775,18 +775,14 @@
       ["Stanton", 33.8005, -117.9931, "appliance-repair-stanton-ca.html"]
     ];
 
-    var coverage = [];
     cities.forEach(function(c) {
       var name = c[0], lat = c[1], lng = c[2], hub = c[3];
       var href = hub ? hub : 'contact.html?city=' + encodeURIComponent(name);
       var label = hub ? 'View ' + name + ' page' : 'Book repair in ' + name;
       // keyboard:false keeps the 30 markers out of the tab order; the city cards below are the keyboard path to the same pages.
       var marker = L.marker([lat, lng], { icon: icon, keyboard: false }).addTo(map);
-      coverage.push([lat, lng]);
       marker.bindPopup('<strong>' + name + '</strong><br><a href="' + href + '" style="display:inline-block;padding:15px 0;color:var(--brand-text);font-size:12px;">' + label + ' →</a>');
     });
-    // On a phone the 280px map at zoom 10 cuts off South OC: fit the view to every marker there. Desktop keeps the zoom-10 view.
-    if (window.matchMedia('(max-width: 768px)').matches) map.fitBounds(coverage, { padding: [24, 24], maxZoom: 10 });
     window._mapLoaded = true;
     });
   </script>
