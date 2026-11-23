@@ -970,6 +970,8 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 
 /* Service Areas page: region directory. One ruled row per region, name left, its cities right as a wrapped list; a linked city ends in an arrow, an unlinked one is plain muted text */
 .v2 .v2-hero--plain { padding-top: clamp(28px, 4vw, 48px); }
+/* A v2 hero with no breadcrumb row above the h1 (Service Areas): the same top room the plain hero had, so the heading clears the fixed nav on phones */
+.v2 .v2-hero--solo { padding-top: clamp(28px, 4vw, 48px); }
 .v2 .v2-region-jump { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
 .v2 .v2-region-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--ghost-line); border-radius: 8px; background: #fff; color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none; }
 .v2 .v2-region-jump a:hover { background: var(--ice); border-color: var(--ghost-line-hover); }
