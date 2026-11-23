@@ -912,7 +912,7 @@ for (const name of V2_PAGES) {
 
     test('fact cards: four, with the $99 fee and 90-day / 30-day warranty, a trust line, no brand logos', async ({ page }) => {
       if (name === 'service-areas.html') {
-        // The Service Areas hero is text-only: no fact strip, but the hero still carries the fee and a trust line.
+        // The Service Areas hero has a job photo but no fact strip, so the hero itself carries the fee and a trust line.
         await expect(page.locator('section.v2-facts')).toHaveCount(0);
         await expect(page.locator('.v2-hero')).toContainText('$99');
         const trust = page.locator('.v2-hero .v2-facts-trust');
@@ -2901,6 +2901,18 @@ test.describe('Blog category pages', () => {
 test.describe('Service areas page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/pages/service-areas.html');
+  });
+
+  test('hero carries a job photo: eager, high priority, with alt text and a caption, and a matching preload', async ({ page }) => {
+    const photo = page.locator('.v2-hero .v2-hero-photo');
+    await expect(photo).toHaveCount(1);
+    const img = photo.locator('picture img');
+    await expect(img).toHaveAttribute('fetchpriority', 'high');
+    expect(await img.getAttribute('loading')).not.toBe('lazy');
+    expect((await img.getAttribute('alt')).trim().length).toBeGreaterThan(20);
+    expect((await photo.locator('figcaption').textContent()).trim()).toMatch(/^Our job: /);
+    await expect(page.locator('.v2-hero--plain')).toHaveCount(0);
+    await expect(page.locator('head link[rel="preload"][as="image"]')).toHaveCount(1);
   });
 
   test('page title is the service-areas title', async ({ page }) => {
