@@ -918,3 +918,80 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 @media (prefers-reduced-motion: reduce) {
   .v2 *, .v2 *::before, .v2 *::after { transition: none !important; }
 }
+
+/* ---- City pages (Santa Ana exemplar; see DESIGN.md section 7, "City pages") ---- */
+/* Hero jump link to the neighborhood directory; the anchor target clears the fixed nav */
+.v2 .v2-hero-jump { margin-top: 4px; }
+.v2 .v2-hero-jump .v2-ico { transform: rotate(90deg); }
+.v2 .v2-sec[id] { scroll-margin-top: 64px; }
+
+/* Local jobs: a featured job carries its customer's review (a ruled block, not a nested card); a lone job after it is one wide row */
+.v2 .v2-job-review { width: 100%; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+.v2 .v2-job-review .v2-stars { display: block; font-size: 15px; }
+.v2 .v2-job-review blockquote { margin-top: 8px; color: var(--ink); font-size: 16px; line-height: 1.65; }
+.v2 .v2-job-review figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.v2 .v2-job-review figcaption strong { color: var(--ink); font-weight: 600; }
+.v2 .v2-job--row { margin-top: 24px; }
+@media (min-width: 961px) {
+  .v2 .v2-job--feature { grid-template-columns: 38% minmax(0, 1fr); }
+  .v2 .v2-job--row { grid-template-columns: 30% minmax(0, 1fr); }
+  .v2 .v2-job--row .v2-job-photo { min-height: 240px; }
+}
+
+/* Service-area map: a framed image with its caption and link underneath */
+.v2 .v2-map { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: #fff; }
+.v2 .v2-map img { display: block; width: 100%; height: auto; }
+.v2 .v2-map figcaption { display: grid; gap: 4px; padding: 16px 20px 8px; font-size: 14px; line-height: 1.6; color: var(--muted); }
+/* The maps link shares the caption with a sentence, so it is underlined like any in-text link */
+.v2 .v2-map figcaption a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* City pages only (.v2-jobs--city, .v2-arrow-link, .v2-brands--services): job-tile links keep the arrow right after the label's last word when the label wraps, instead of pinned to the far edge, and an inline text link ends in the same SVG arrow as the other links */
+.v2 .v2-jobs--city .v2-link { display: block; padding: 10px 0; line-height: 1.5; }
+.v2 .v2-jobs--city .v2-link .v2-ico { display: inline-block; vertical-align: -4px; margin-left: 6px; }
+.v2 .v2-arrow-link .v2-ico { width: 16px; height: 16px; vertical-align: -3px; }
+@media (max-width: 768px) {
+  .v2 .v2-brands--services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Neighborhood directory: two columns of ruled rows, name left, ZIP chip right, note beneath; rows hold their content at the top so a taller neighbour never stretches the heading-to-note gap, and an odd last row keeps one column's width so its ZIP chip stays beside its name */
+.v2 .v2-places { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 4vw, 56px); border-top: 1px solid var(--line); }
+.v2 .v2-places li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; align-content: start; column-gap: 16px; row-gap: 6px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.v2 .v2-places li:last-child:nth-child(odd) { grid-column: auto; }
+.v2 .v2-places h3 { font-size: 18px; }
+.v2 .v2-places p { grid-column: 1 / -1; font-size: 15px; line-height: 1.55; }
+.v2 .v2-zip { padding: 3px 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.5; white-space: nowrap; }
+@media (max-width: 768px) {
+  .v2 .v2-places { grid-template-columns: minmax(0, 1fr); }
+  .v2 .v2-places li { grid-template-columns: minmax(0, 1fr); padding: 16px 0; }
+  .v2 .v2-zip { grid-row: 1; justify-self: start; max-width: 100%; white-space: normal; }
+  .v2 .v2-places h3 { grid-row: 2; }
+  .v2 .v2-places p { grid-row: 3; }
+}
+
+/* Service Areas page: region directory. One ruled row per region, name left, its cities right as a wrapped list; a linked city ends in an arrow, an unlinked one is plain muted text */
+.v2 .v2-hero--plain { padding-top: clamp(28px, 4vw, 48px); }
+/* A v2 hero with no breadcrumb row above the h1 (Service Areas): the same top room the plain hero had, so the heading clears the fixed nav on phones */
+.v2 .v2-hero--solo { padding-top: clamp(28px, 4vw, 48px); }
+.v2 .v2-region-jump { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.v2 .v2-region-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--ghost-line); border-radius: 8px; background: #fff; color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none; }
+.v2 .v2-region-jump a:hover { background: var(--ice); border-color: var(--ghost-line-hover); }
+/* Wide screens: tighter buttons so all eight region links sit on one row at the 1052px content width (phones keep the roomier 16px padding) */
+@media (min-width: 769px) { .v2 .v2-region-jump a { padding: 0 12px; font-size: 14px; } }
+.v2 .v2-regions { border-top: 1px solid var(--line); }
+.v2 .v2-region { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--col-gap); align-items: start; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.v2 .v2-region h3[id] { scroll-margin-top: 64px; padding-top: 8px; }
+.v2 .v2-region-label { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.v2 .v2-region-intro { margin-bottom: 14px; font-size: 15px; line-height: 1.6; }
+.v2 .v2-cities { display: flex; flex-wrap: wrap; gap: 8px; }
+.v2 .v2-city { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; min-height: 44px; padding: 6px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); font-size: 15px; font-weight: 600; line-height: 1.3; text-decoration: none; }
+.v2 .v2-city .city-tag { color: var(--muted); font-size: 13px; font-weight: 400; }
+.v2 a.v2-city { transition: border-color .15s, color .15s; }
+.v2 a.v2-city::after { content: "\2192"; color: var(--muted); font-weight: 400; }
+.v2 a.v2-city:hover { border-color: var(--ember); color: var(--ember-dark); }
+.v2 a.v2-city:hover::after { color: var(--ember); }
+.v2 .v2-city--info { border-color: transparent; background: var(--ice); color: var(--muted); font-weight: 500; }
+.v2 .v2-regions + .v2-note { margin-top: 24px; }
+@media (max-width: 768px) {
+  .v2 .v2-region { grid-template-columns: minmax(0, 1fr); row-gap: 8px; padding: 18px 0; }
+  .v2 .v2-region h3[id] { padding-top: 0; }
+}

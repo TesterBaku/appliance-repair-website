@@ -440,6 +440,12 @@
  *                    include its largest candidate, and whose imagesizes equals
  *                    the source's sizes; the hero <img> must not be
  *                    loading="lazy". v2 pages are counted in the summary.
+ *                    A hero marked `v2-hero--plain` (text-only, the Service Areas
+ *                    page) needs no preload, but only while the page has no
+ *                    `.v2-hero-photo` at all and the hero section itself holds no
+ *                    <img> or <picture> (inline <svg> icons are fine): a plain
+ *                    hero that carries a photo figure or a bare image fails, so
+ *                    the modifier cannot skip the rule.
  *                    KNOWN LIMITATION: a hero image reached only through a
  *                    CSS custom property (`background-image:
  *                    var(--hero-img)`) is invisible to this check — a text
@@ -3081,7 +3087,21 @@ if (run('hero-preload')) {
       const pic = fig && fig[1].match(/<picture\b[^>]*>([\s\S]*?)<\/picture>/);
       const srcTag = pic && (pic[1].match(/<source\b[^>]*>/g) || []).find(t => attr(t, 'type') === 'image/webp' && attr(t, 'srcset'));
       const imgTag = pic && pic[1].match(/<img\b[^>]*>/);
-      if (!srcTag) {
+      // A deliberately text-only hero (`v2-hero--plain`, the Service Areas page) has no photo to preload. The
+      // modifier is honoured only when the page has no `.v2-hero-photo` anywhere, so it cannot be used to skip
+      // the preload rule on a hero that does carry a photo.
+      const plainHero = /<section\b[^>]*\bclass="(?:[^"]*\s)?v2-hero--plain(?:\s[^"]*)?"/.test(content);
+      const hasPhoto = /\bclass="(?:[^"]*\s)?v2-hero-photo(?:\s[^"]*)?"/.test(content);
+      // The plain hero's own content (it has no nested <section>, so the first </section> closes it): a bare
+      // <img> or <picture> dropped straight into it carries no .v2-hero-photo class but is still a hero image.
+      // Inline <svg> icons are not images here and stay allowed.
+      const plainSec = plainHero ? content.match(/<section\b[^>]*\bclass="(?:[^"]*\s)?v2-hero--plain(?:\s[^"]*)?"[^>]*>([\s\S]*?)<\/section>/) : null;
+      const plainHasImage = !!(plainSec && /<(?:img|picture)\b/i.test(plainSec[1]));
+      if (plainHero && (hasPhoto || plainHasImage)) {
+        issues.push(`[HERO-PRELOAD] ${rel(filePath)}: .v2-hero--plain is text-only but the page contains a ${hasPhoto ? '.v2-hero-photo' : 'hero <img>/<picture>'}; drop the modifier so the hero photo is preload-checked, or remove the image.`);
+      } else if (plainHero) {
+        checked['hero-preload'].v2plain = (checked['hero-preload'].v2plain || 0) + 1;
+      } else if (!srcTag) {
         issues.push(`[HERO-PRELOAD] ${rel(filePath)}: .v2-hero has no <picture> with a webp <source srcset> inside .v2-hero-photo, so the hero preload cannot be verified.`);
       } else {
         if (imgTag && /\sloading="lazy"/.test(imgTag[0])) {

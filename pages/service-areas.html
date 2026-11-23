@@ -36,81 +36,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
     <link rel="preload" href="../shared.css" as="style" />
-  <link rel="preload" as="image" href="../images/hero-homepage.webp" fetchpriority="high" type="image/webp">
+  <link rel="preload" as="image" type="image/webp" imagesrcset="../images/real/business/completed-repair-range-wolf-cooktop-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-range-wolf-cooktop-newport-beach-800w.webp 800w" imagesizes="(max-width:768px) 100vw, 700px" href="../images/real/business/completed-repair-range-wolf-cooktop-newport-beach-800w.webp" fetchpriority="high">
 <link rel="stylesheet" href="../shared.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
   <style>
-    html,
-    body,
-    body *,
-    button,
-    input,
-    textarea,
-    select {
-      font-family: 'Inter', sans-serif !important;
-    }
-    /* PAGE HERO */
-    .hub-hero { position: relative; min-height: 480px; display: flex; align-items: center; text-align: center; padding-top: 70px; overflow: hidden; }
-    .hub-hero-bg { position: absolute; inset: 0; background-image: url('../images/hero-homepage.webp'); background-size: cover; background-position: center; }
-    .hub-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,18,30,0.68) 0%, rgba(10,18,30,0.78) 100%); }
-    .hub-hero-content { position: relative; z-index: 5; padding: 72px 24px 72px; width: 100%; }
-    .hub-hero h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.1; color: var(--surface); max-width: 720px; margin: 0 auto 18px; }
-    .hub-hero p { color: rgba(255,255,255,0.82); font-size: 16px; line-height: 1.65; max-width: 540px; margin: 0 auto 32px; }
-    .hero-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .hero-badge { background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.45); color: #fff; font-size: 12px; padding: 6px 14px; border-radius: 20px; }
-
-    /* AI ANSWER BLOCK */
-    .ai-block { background: #f0f4f8; border-top: 3px solid #e84c1e; padding: 28px 24px; }
-    .ai-block p { font-size: 13.5px; color: #4a5568; line-height: 1.85; max-width: 1100px; margin: 0 auto; text-align: left; }
-
-    /* MAP */
-    #service-map { height: 420px; border-radius: 14px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
-    .map-section { background: #fff; }
-
-    /* REGION GRIDS */
-    .regions-section { background: #f7fafc; }
-    .region-block { margin-bottom: 48px; }
-    .region-block:last-child { margin-bottom: 0; }
-    .region-title { font-size: 18px; font-weight: 700; color: #111; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px solid #e84c1e; display: flex; align-items: center; gap: 10px; scroll-margin-top: 88px; }
-    .region-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 0 40px; }
-    .region-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: #fff; border: 1px solid #e2e8f0; border-radius: 22px; color: #aa3210; font-size: 13px; font-weight: 600; text-decoration: none; transition: border-color 0.15s; }
-    .region-jump a:hover { border-color: #e84c1e; }
-    .cities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    /* A region with exactly four cities: one row of four on desktop, so no card sits alone on a second row. The tablet and phone rules below still apply. */
-    .cities-grid--four { grid-template-columns: repeat(4, 1fr); }
-    .city-card { background: #fff; border-radius: 10px; border: 1px solid #eee; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; transition: box-shadow 0.15s, border-color 0.15s; }
-    .city-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); border-color: #e84c1e; }
-    .city-name { font-size: 13.5px; font-weight: 600; color: #111; }
-    .city-tag { font-size: 11px; color: #666; margin-top: 3px; }
-    .city-arrow { color: #aa3210; font-size: 14px; flex-shrink: 0; }
-    .city-card.primary-city .city-name { color: #111; }
-    /* Unlinked cities: flat tinted tile, no border or shadow, no hover, so they read as plain information next to the white, bordered, arrowed cards that open a page. */
-    .city-card--info { cursor: default; background: #edf2f7; border-color: transparent; }
-    .city-card--info:hover { box-shadow: none; border-color: transparent; }
-    .city-card--info .city-tag { color: #555; }
-    .map-caption { text-align: center; color: #666; font-size: 13px; line-height: 1.6; margin: 14px 0 0; }
-
-    /* FAQ */
-    .faq-item { border-bottom: 1px solid #eee; padding: 0; }
-    .faq-q { font-size: 14px; font-weight: 600; color: #111; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; width: 100%; text-align: left; padding: 18px 22px; }
-    .faq-q .icon { color: #aa3210; font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
-    .faq-a { font-size: 13px; color: #555; line-height: 1.75; margin-top: 10px; display: none; padding: 0 22px 18px; }
-    .faq-item.open .faq-a { display: block; padding: 0 22px 18px; }
-    .faq-item.open .icon { transform: rotate(45deg); }
+    /* MAP (Leaflet container; the markup hooks and the inline script below are unchanged) */
+    #service-map { height: 420px; border: 1px solid var(--line, #dbe4e8); border-radius: var(--r, 10px); overflow: hidden; }
+    .map-caption { margin: 14px 0 0; color: var(--muted, #55676f); font-size: 14px; line-height: 1.6; }
 
     @media (max-width: 768px) {
       /* P6-62 tap targets: Leaflet ships 30px zoom buttons. Vendor class, overridden
          locally rather than forked, and only at mobile width. */
       .leaflet-bar a.leaflet-control-zoom-in, .leaflet-bar a.leaflet-control-zoom-out { min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center; }   /* `.leaflet-bar a...` beats vendor `.leaflet-bar a { display: block }` (0,2,0); a bare class selector lost to it. */
-      .hub-hero h1 { font-size: 28px; letter-spacing: -0.5px; }
-      .hub-hero p { font-size: 14px; }
-      .hub-hero-content { padding: 48px 16px 56px; }
-      .cities-grid { grid-template-columns: 1fr 1fr; }
       #service-map { height: 280px; }
-    }
-    @media (max-width: 480px) {
-      .cities-grid { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -211,7 +150,7 @@
       {
         "@type": "Question",
         "name": "How quickly can you reach South Orange County cities like Mission Viejo or San Clemente?",
-        "acceptedAnswer": { "@type": "Answer", "text": "South OC cities are typically a 30–50 minute drive from our Stanton base. Same-day appointments in Mission Viejo, Lake Forest, San Clemente, and Dana Point are available most weekdays. Call early for the best availability." }
+        "acceptedAnswer": { "@type": "Answer", "text": "We serve South Orange County from our Stanton base. Same-day appointments in Mission Viejo, Lake Forest, San Clemente, and Dana Point are available most weekdays, with a two-hour arrival window and a call before the technician arrives. Call early for the best availability." }
       },
       {
         "@type": "Question",
@@ -474,55 +413,49 @@
       <a href="contact.html" class="nav-drawer-cta">Request a Repair</a>
     </div>
   </nav>
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1" class="v2">
+  <svg class="v2-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="v2-phone" viewBox="0 0 24 24"><path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a14 14 0 0 1-7-7l2-2-2-5Z"/></symbol>
+    <symbol id="v2-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="v2-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </defs></svg>
 
-  <!-- HERO -->
-  <div class="hub-hero">
-    <div class="hub-hero-bg"></div>
-    <div class="hub-hero-overlay"></div>
-    <div class="hub-hero-content">
-      <h1>Appliance Repair Service Areas<br/>in Orange County, CA</h1>
-      <p>From Anaheim to San Clemente, our licensed technicians cover 25+ cities across Orange County. Same-day service, $99 diagnostic fee applied toward your repair, no hidden charges.</p>
-      <div class="hero-badges">
-        <span class="hero-badge">25+ Cities Covered</span>
-        <span class="hero-badge">Same-Day Available</span>
-        <span class="hero-badge">Licensed &amp; Insured</span>
-        <span class="hero-badge">All Major Brands</span>
+  <section class="v2-hero v2-hero--solo" aria-labelledby="hero-title">
+    <div class="v2-wrap">
+      <div class="v2-hero-grid">
+        <div>
+          <h1 id="hero-title">Appliance Repair Service Areas<br/>in Orange County, CA</h1>
+          <p class="v2-hero-lead">From Anaheim to San Clemente, our licensed technicians cover 25+ cities across Orange County. Same-day service, $99 diagnostic fee applied toward your repair, no hidden charges.</p>
+          <a href="testimonials.html" class="v2-rating" aria-label="5.0, 160 Google reviews, rated 5 out of 5">
+            <span class="v2-stars" aria-hidden="true">★★★★★</span>
+            <span>5.0 &middot; 160 Google reviews</span>
+          </a>
+          <div class="v2-hero-cta">
+            <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
+            <a href="contact.html" class="v2-btn v2-btn--ghost">Request a Repair</a>
+          </div>
+          <p class="v2-hero-note">Two-hour arrival window. The technician calls before arriving.</p>
+          <p class="v2-facts-trust">25+ Cities Covered &middot; Same-Day Available &middot; Licensed &amp; Insured &middot; All Major Brands</p>
+        </div>
+        <figure class="v2-hero-photo">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-range-wolf-cooktop-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-range-wolf-cooktop-newport-beach-800w.webp 800w" type="image/webp" sizes="(max-width:768px) 100vw, 700px">
+            <img src="../images/real/business/completed-repair-range-wolf-cooktop-newport-beach.jpg" alt="Wolf 6-burner professional gas range serviced in a Newport Beach kitchen with hex tile backsplash and red knobs" width="1600" height="1200" fetchpriority="high">
+          </picture>
+          <figcaption>Our job: Wolf range service, Newport Beach</figcaption>
+        </figure>
       </div>
-    </div>
-  </div>
-
-  <!-- AI ANSWER BLOCK -->
-  <div class="ai-block">
-    <p>Your refrigerator, washer, dryer, dishwasher, oven, or stove stopped working. Universal Appliances Repair Group Inc. sends a licensed technician the same day you call, usually within a few hours of your morning call, across 25+ cities in Orange County, CA: Stanton, Irvine, Anaheim, Santa Ana, Huntington Beach, Costa Mesa, Fullerton, Garden Grove, Orange, Tustin, Lake Forest, Mission Viejo, Newport Beach, Laguna Beach, Brea, Yorba Linda, Westminster, Seal Beach, Dana Point, Laguna Niguel, Buena Park, Los Alamitos, Rancho Santa Margarita, Fountain Valley, San Clemente, Aliso Viejo, San Juan Capistrano, Cypress, Placentia, and La Habra. Call (949) 629-5365 or book online at fixappliancesfast.com.</p>
-  </div>
-
-  <!-- MAP -->
-  <section class="section map-section">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;margin-bottom:24px;">Our Coverage Area</h2>
-      <div id="service-map" role="region" aria-label="Map of the Orange County cities we serve">
-        <noscript><div style="padding:40px;text-align:center;font-size:14px;color:#666;">Interactive map requires JavaScript. See city list below.</div></noscript>
-      </div>
-      <p class="map-caption">Map shows our Orange County cities. Los Angeles County, the Coachella Valley, Chino and Chino Hills are listed below.</p>
-      <script>
-        setTimeout(function() {
-          if (!window._mapLoaded) {
-            var el = document.getElementById('service-map');
-            if (el) el.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:280px;font-size:14px;color:#666;background:#f7fafc;border-radius:14px;">Map temporarily unavailable. See city list below.</div>';
-          }
-        }, 5000);
-      </script>
     </div>
   </section>
 
-  <!-- CITIES BY REGION -->
-  <section class="section regions-section">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;margin-bottom:8px;">Cities We Serve</h2>
-      <p style="text-align:center;color:#666;font-size:13px;margin-bottom:24px;">Cities with an arrow open their own page. The others are served the same way: call us or use the booking form. Same-day visits are available in every city listed here whenever the schedule is still open.</p>
+  <section class="v2-sec" id="cities" aria-labelledby="cities-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="cities-title">Cities We Serve</h2>
+        <p>Cities with an arrow open their own page. The others are served the same way: call us or use the booking form. Same-day visits are available in every city listed here whenever the schedule is still open.</p>
+      </div>
 
-      <nav class="region-jump" aria-label="Jump to a region">
+      <nav class="region-jump v2-region-jump" aria-label="Jump to a region">
         <a href="#region-coastal-oc">Coastal OC</a>
         <a href="#region-central-oc">Central OC</a>
         <a href="#region-north-oc">North OC</a>
@@ -533,298 +466,210 @@
         <a href="#region-coachella-valley">The Coachella Valley</a>
       </nav>
 
-      <!-- Coastal OC -->
-      <div class="region-block">
-        <h3 class="region-title" id="region-coastal-oc">Coastal Orange County</h3>
-        <div class="cities-grid">
-          <a href="appliance-repair-huntington-beach-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Huntington Beach</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-newport-beach-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Newport Beach</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-laguna-beach-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Laguna Beach</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-seal-beach-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Seal Beach</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-dana-point-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Dana Point</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-san-clemente-ca.html" class="city-card primary-city">
-            <div><div class="city-name">San Clemente</div></div>
-            <span class="city-arrow">→</span>
-          </a>
+      <ul class="v2-regions">
+      <li class="v2-region">
+        <div>
+          <h3 class="region-title" id="region-coastal-oc">Coastal Orange County</h3>
         </div>
-      </div>
-
-      <!-- Central OC -->
-      <div class="region-block">
-        <h3 class="region-title" id="region-central-oc">Central Orange County</h3>
-        <div class="cities-grid">
-          <a href="appliance-repair-anaheim-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Anaheim</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-santa-ana-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Santa Ana</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-irvine-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Irvine</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-garden-grove-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Garden Grove</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-orange-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Orange</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-costa-mesa-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Costa Mesa</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-tustin-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Tustin</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-westminster-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Westminster</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-fountain-valley-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Fountain Valley</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-stanton-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Stanton</div></div>
-            <span class="city-arrow">→</span>
-          </a>
+        <div>
+          <ul class="v2-cities">
+            <li><a href="appliance-repair-huntington-beach-ca.html" class="v2-city city-card primary-city"><div class="city-name">Huntington Beach</div></a></li>
+            <li><a href="appliance-repair-newport-beach-ca.html" class="v2-city city-card primary-city"><div class="city-name">Newport Beach</div></a></li>
+            <li><a href="appliance-repair-laguna-beach-ca.html" class="v2-city city-card primary-city"><div class="city-name">Laguna Beach</div></a></li>
+            <li><a href="appliance-repair-seal-beach-ca.html" class="v2-city city-card primary-city"><div class="city-name">Seal Beach</div></a></li>
+            <li><a href="appliance-repair-dana-point-ca.html" class="v2-city city-card primary-city"><div class="city-name">Dana Point</div></a></li>
+            <li><a href="appliance-repair-san-clemente-ca.html" class="v2-city city-card primary-city"><div class="city-name">San Clemente</div></a></li>
+          </ul>
         </div>
-      </div>
-
-      <!-- North OC -->
-      <div class="region-block">
-        <h3 class="region-title" id="region-north-oc">North Orange County</h3>
-        <div class="cities-grid">
-          <a href="appliance-repair-fullerton-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Fullerton</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-buena-park-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Buena Park</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-yorba-linda-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Yorba Linda</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-brea-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Brea</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-placentia-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Placentia</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-la-habra-ca.html" class="city-card primary-city">
-            <div><div class="city-name">La Habra</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-cypress-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Cypress</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-los-alamitos-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Los Alamitos</div></div>
-            <span class="city-arrow">→</span>
-          </a>
+      </li>
+      <li class="v2-region">
+        <div>
+          <h3 class="region-title" id="region-central-oc">Central Orange County</h3>
         </div>
-      </div>
-
-      <!-- South OC -->
-      <div class="region-block">
-        <h3 class="region-title" id="region-south-oc">South Orange County</h3>
-        <div class="cities-grid">
-          <a href="appliance-repair-mission-viejo-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Mission Viejo</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-lake-forest-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Lake Forest</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-laguna-niguel-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Laguna Niguel</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-aliso-viejo-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Aliso Viejo</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-rancho-santa-margarita-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Rancho Santa Margarita</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-san-juan-capistrano-ca.html" class="city-card primary-city">
-            <div><div class="city-name">San Juan Capistrano</div></div>
-            <span class="city-arrow">→</span>
-          </a>
+        <div>
+          <ul class="v2-cities">
+            <li><a href="appliance-repair-anaheim-ca.html" class="v2-city city-card primary-city"><div class="city-name">Anaheim</div></a></li>
+            <li><a href="appliance-repair-santa-ana-ca.html" class="v2-city city-card primary-city"><div class="city-name">Santa Ana</div></a></li>
+            <li><a href="appliance-repair-irvine-ca.html" class="v2-city city-card primary-city"><div class="city-name">Irvine</div></a></li>
+            <li><a href="appliance-repair-garden-grove-ca.html" class="v2-city city-card primary-city"><div class="city-name">Garden Grove</div></a></li>
+            <li><a href="appliance-repair-orange-ca.html" class="v2-city city-card primary-city"><div class="city-name">Orange</div></a></li>
+            <li><a href="appliance-repair-costa-mesa-ca.html" class="v2-city city-card primary-city"><div class="city-name">Costa Mesa</div></a></li>
+            <li><a href="appliance-repair-tustin-ca.html" class="v2-city city-card primary-city"><div class="city-name">Tustin</div></a></li>
+            <li><a href="appliance-repair-westminster-ca.html" class="v2-city city-card primary-city"><div class="city-name">Westminster</div></a></li>
+            <li><a href="appliance-repair-fountain-valley-ca.html" class="v2-city city-card primary-city"><div class="city-name">Fountain Valley</div></a></li>
+            <li><a href="appliance-repair-stanton-ca.html" class="v2-city city-card primary-city"><div class="city-name">Stanton</div></a></li>
+          </ul>
         </div>
-      </div>
-
-      <!-- Nearby LA County (subordinate; linked where a city hub exists, plain-text otherwise) -->
-      <div class="region-block" style="border-top:1px solid #eee;padding-top:40px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#666;margin-bottom:8px;">Beyond Orange County</div>
-        <h3 class="region-title" id="region-la-county">Nearby Los Angeles County</h3>
-        <p style="font-size:13px;color:#666;line-height:1.7;margin:0 0 16px;max-width:640px;">Orange County is our primary service area. We also serve these nearby LA County Gateway Cities.</p>
-        <div class="cities-grid">
-          <a href="appliance-repair-pico-rivera-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Pico Rivera</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-whittier-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Whittier</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-downey-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Downey</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-long-beach-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Long Beach</div></div>
-            <span class="city-arrow">→</span>
-          </a>
-          <a href="appliance-repair-montebello-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Montebello</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
-          <div class="city-card city-card--info"><div><div class="city-name">Santa Fe Springs</div></div></div>
-          <div class="city-card city-card--info"><div><div class="city-name">Norwalk</div></div></div>
+      </li>
+      <li class="v2-region">
+        <div>
+          <h3 class="region-title" id="region-north-oc">North Orange County</h3>
         </div>
-      </div>
-
-      <!-- LA County premium tier (subordinate; premium brands only, $99, same-day via the LA tech.
-           Beverly Hills and Pasadena have their own city hubs as of Phase 1b and link to them.
-           Santa Monica and Manhattan Beach still point at the county hub until their pages ship
-           in the second wave (see tasks/expansion-la-premium-palm-springs-plan-2026-07-30.md). -->
-      <div class="region-block" style="border-top:1px solid #eee;padding-top:40px;">
-        <h3 class="region-title" id="region-la-premium">Los Angeles County: Premium Brand Service</h3>
-        <p style="font-size:13px;color:#666;line-height:1.7;margin:0 0 16px;max-width:640px;">In these four cities we service premium brands only: Sub-Zero, Viking, Wolf, Miele, Thermador, Dacor, DCS, and the Bosch premium lines. The diagnostic fee is a flat $99 credited toward the repair. <a href="luxury-appliance-repair-los-angeles-ca.html" style="color:#c03a14;font-weight:600;">Luxury appliance repair in Los Angeles &rarr;</a></p>
-        <div class="cities-grid">
-          <a href="luxury-appliance-repair-beverly-hills-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Beverly Hills</div><div class="city-tag">Premium brands only</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
-          <a href="luxury-appliance-repair-santa-monica-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Santa Monica</div><div class="city-tag">Premium brands only</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
-          <a href="luxury-appliance-repair-pasadena-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Pasadena</div><div class="city-tag">Premium brands only</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
-          <a href="luxury-appliance-repair-manhattan-beach-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Manhattan Beach</div><div class="city-tag">Premium brands only</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
+        <div>
+          <ul class="v2-cities">
+            <li><a href="appliance-repair-fullerton-ca.html" class="v2-city city-card primary-city"><div class="city-name">Fullerton</div></a></li>
+            <li><a href="appliance-repair-buena-park-ca.html" class="v2-city city-card primary-city"><div class="city-name">Buena Park</div></a></li>
+            <li><a href="appliance-repair-yorba-linda-ca.html" class="v2-city city-card primary-city"><div class="city-name">Yorba Linda</div></a></li>
+            <li><a href="appliance-repair-brea-ca.html" class="v2-city city-card primary-city"><div class="city-name">Brea</div></a></li>
+            <li><a href="appliance-repair-placentia-ca.html" class="v2-city city-card primary-city"><div class="city-name">Placentia</div></a></li>
+            <li><a href="appliance-repair-la-habra-ca.html" class="v2-city city-card primary-city"><div class="city-name">La Habra</div></a></li>
+            <li><a href="appliance-repair-cypress-ca.html" class="v2-city city-card primary-city"><div class="city-name">Cypress</div></a></li>
+            <li><a href="appliance-repair-los-alamitos-ca.html" class="v2-city city-card primary-city"><div class="city-name">Los Alamitos</div></a></li>
+          </ul>
         </div>
-      </div>
-
-      <!-- Beyond Orange County: Chino and Chino Hills in San Bernardino County. Same-day when the schedule is open (owner, 2026-10-11); both cards link to the one combined hub, pages/appliance-repair-chino-hills-ca.html (there is no separate Chino page by owner decision). $99 flat fee everywhere. Three western Riverside County cities are parked by owner decision 2026-10-12 and are deliberately not listed on this page. -->
-      <div class="region-block" style="border-top:1px solid #eee;padding-top:40px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#666;margin-bottom:8px;">Beyond Orange County</div>
-        <h3 class="region-title" id="region-chino">Nearby San Bernardino County</h3>
-        <p style="font-size:13px;color:#666;line-height:1.7;margin:0 0 16px;max-width:640px;">Orange County is our primary service area. We also cover neighboring Chino and Chino Hills in San Bernardino County, with same-day visits whenever the schedule is still open.</p>
-        <div class="cities-grid">
-          <a href="appliance-repair-chino-hills-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Chino</div><div class="city-tag">On our Chino Hills page</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
-          <a href="appliance-repair-chino-hills-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Chino Hills</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
+      </li>
+      <li class="v2-region">
+        <div>
+          <h3 class="region-title" id="region-south-oc">South Orange County</h3>
         </div>
-      </div>
-
-      <!-- Coachella Valley (Riverside County, eastern half; our Coachella Valley technician is based
-           in Palm Springs and covers the nearby desert cities, so same-day is available when that
-           schedule is open). The city of Riverside is parked (owner, 2026-11-10): no card. -->
-      <div class="region-block" style="border-top:1px solid #eee;padding-top:40px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#666;margin-bottom:8px;">Beyond Orange County</div>
-        <h3 class="region-title" id="region-coachella-valley">The Coachella Valley</h3>
-        <p style="font-size:13px;color:#666;line-height:1.7;margin:0 0 16px;max-width:640px;">Our Coachella Valley technician is based in Palm Springs and covers the nearby desert cities. Summer heat and hard groundwater make refrigerator, freezer and ice maker work the bulk of what we do throughout this stretch.</p>
-        <div class="cities-grid cities-grid--four">
-          <a href="appliance-repair-palm-springs-ca.html" class="city-card primary-city">
-            <div><div class="city-name">Palm Springs</div></div>
-            <span class="city-arrow">&rarr;</span>
-          </a>
-          <div class="city-card city-card--info"><div><div class="city-name">Cathedral City</div></div></div>
-          <div class="city-card city-card--info"><div><div class="city-name">Rancho Mirage</div></div></div>
-          <div class="city-card city-card--info"><div><div class="city-name">Palm Desert</div></div></div>
+        <div>
+          <ul class="v2-cities">
+            <li><a href="appliance-repair-mission-viejo-ca.html" class="v2-city city-card primary-city"><div class="city-name">Mission Viejo</div></a></li>
+            <li><a href="appliance-repair-lake-forest-ca.html" class="v2-city city-card primary-city"><div class="city-name">Lake Forest</div></a></li>
+            <li><a href="appliance-repair-laguna-niguel-ca.html" class="v2-city city-card primary-city"><div class="city-name">Laguna Niguel</div></a></li>
+            <li><a href="appliance-repair-aliso-viejo-ca.html" class="v2-city city-card primary-city"><div class="city-name">Aliso Viejo</div></a></li>
+            <li><a href="appliance-repair-rancho-santa-margarita-ca.html" class="v2-city city-card primary-city"><div class="city-name">Rancho Santa Margarita</div></a></li>
+            <li><a href="appliance-repair-san-juan-capistrano-ca.html" class="v2-city city-card primary-city"><div class="city-name">San Juan Capistrano</div></a></li>
+          </ul>
         </div>
-      </div>
+      </li>
+      <li class="v2-region">
+        <div>
+          <p class="v2-region-label">Beyond Orange County</p>
+          <h3 class="region-title" id="region-la-county">Nearby Los Angeles County</h3>
+        </div>
+        <div>
+          <p class="v2-region-intro">Orange County is our primary service area. We also serve these nearby LA County Gateway Cities.</p>
+          <ul class="v2-cities">
+            <li><a href="appliance-repair-pico-rivera-ca.html" class="v2-city city-card primary-city"><div class="city-name">Pico Rivera</div></a></li>
+            <li><a href="appliance-repair-whittier-ca.html" class="v2-city city-card primary-city"><div class="city-name">Whittier</div></a></li>
+            <li><a href="appliance-repair-downey-ca.html" class="v2-city city-card primary-city"><div class="city-name">Downey</div></a></li>
+            <li><a href="appliance-repair-long-beach-ca.html" class="v2-city city-card primary-city"><div class="city-name">Long Beach</div></a></li>
+            <li><a href="appliance-repair-montebello-ca.html" class="v2-city city-card primary-city"><div class="city-name">Montebello</div></a></li>
+            <li><div class="v2-city v2-city--info city-card city-card--info"><div class="city-name">Santa Fe Springs</div></div></li>
+            <li><div class="v2-city v2-city--info city-card city-card--info"><div class="city-name">Norwalk</div></div></li>
+          </ul>
+        </div>
+      </li>
+      <li class="v2-region">
+        <div>
+          <h3 class="region-title" id="region-la-premium">Los Angeles County: Premium Brand Service</h3>
+        </div>
+        <div>
+          <p class="v2-region-intro">In these four cities we service premium brands only: Sub-Zero, Viking, Wolf, Miele, Thermador, Dacor, DCS, and the Bosch premium lines. The diagnostic fee is a flat $99 credited toward the repair. <a href="luxury-appliance-repair-los-angeles-ca.html">Luxury appliance repair in Los Angeles &rarr;</a></p>
+          <ul class="v2-cities">
+            <li><a href="luxury-appliance-repair-beverly-hills-ca.html" class="v2-city city-card primary-city"><div class="city-name">Beverly Hills</div><div class="city-tag">Premium brands only</div></a></li>
+            <li><a href="luxury-appliance-repair-santa-monica-ca.html" class="v2-city city-card primary-city"><div class="city-name">Santa Monica</div><div class="city-tag">Premium brands only</div></a></li>
+            <li><a href="luxury-appliance-repair-pasadena-ca.html" class="v2-city city-card primary-city"><div class="city-name">Pasadena</div><div class="city-tag">Premium brands only</div></a></li>
+            <li><a href="luxury-appliance-repair-manhattan-beach-ca.html" class="v2-city city-card primary-city"><div class="city-name">Manhattan Beach</div><div class="city-tag">Premium brands only</div></a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="v2-region">
+        <div>
+          <p class="v2-region-label">Beyond Orange County</p>
+          <h3 class="region-title" id="region-chino">Nearby San Bernardino County</h3>
+        </div>
+        <div>
+          <p class="v2-region-intro">Orange County is our primary service area. We also cover neighboring Chino and Chino Hills in San Bernardino County, with same-day visits whenever the schedule is still open.</p>
+          <ul class="v2-cities">
+            <li><a href="appliance-repair-chino-hills-ca.html" class="v2-city city-card primary-city"><div class="city-name">Chino</div><div class="city-tag">On our Chino Hills page</div></a></li>
+            <li><a href="appliance-repair-chino-hills-ca.html" class="v2-city city-card primary-city"><div class="city-name">Chino Hills</div></a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="v2-region">
+        <div>
+          <p class="v2-region-label">Beyond Orange County</p>
+          <h3 class="region-title" id="region-coachella-valley">The Coachella Valley</h3>
+        </div>
+        <div>
+          <p class="v2-region-intro">Our Coachella Valley technician is based in Palm Springs and covers the nearby desert cities. Summer heat and hard groundwater make refrigerator, freezer and ice maker work the bulk of what we do throughout this stretch.</p>
+          <ul class="v2-cities">
+            <li><a href="appliance-repair-palm-springs-ca.html" class="v2-city city-card primary-city"><div class="city-name">Palm Springs</div></a></li>
+            <li><div class="v2-city v2-city--info city-card city-card--info"><div class="city-name">Cathedral City</div></div></li>
+            <li><div class="v2-city v2-city--info city-card city-card--info"><div class="city-name">Rancho Mirage</div></div></li>
+            <li><div class="v2-city v2-city--info city-card city-card--info"><div class="city-name">Palm Desert</div></div></li>
+          </ul>
+        </div>
+      </li>
+      </ul>
 
+      <div class="v2-note ai-block">
+        <p>Your refrigerator, washer, dryer, dishwasher, oven, or stove stopped working. Universal Appliances Repair Group Inc. sends a licensed technician the same day you call, usually within a few hours of your morning call, across 25+ cities in Orange County, CA: Stanton, Irvine, Anaheim, Santa Ana, Huntington Beach, Costa Mesa, Fullerton, Garden Grove, Orange, Tustin, Lake Forest, Mission Viejo, Newport Beach, Laguna Beach, Brea, Yorba Linda, Westminster, Seal Beach, Dana Point, Laguna Niguel, Buena Park, Los Alamitos, Rancho Santa Margarita, Fountain Valley, San Clemente, Aliso Viejo, San Juan Capistrano, Cypress, Placentia, and La Habra. Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> or book online at fixappliancesfast.com.</p>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="section section-white">
-    <div class="container">
-      <h2 class="h2-standard" style="text-align:center;margin-bottom:32px;">Frequently Asked Questions</h2>
-      <div style="max-width:720px;margin:0 auto;">
+  <section class="v2-sec v2-sec--ice" id="map" aria-labelledby="map-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="map-title">Our Coverage Area</h2>
+      </div>
+      <div id="service-map" role="region" aria-label="Map of the Orange County cities we serve">
+        <noscript><div style="padding:40px;text-align:center;font-size:14px;color:#666;">Interactive map requires JavaScript. See city list above.</div></noscript>
+      </div>
+      <p class="map-caption">Map shows our Orange County cities. Los Angeles County, the Coachella Valley, Chino and Chino Hills are listed above.</p>
+      <script>
+        setTimeout(function() {
+          if (!window._mapLoaded) {
+            var el = document.getElementById('service-map');
+            if (el) el.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:280px;font-size:14px;color:#666;background:#f7fafc;border-radius:14px;">Map temporarily unavailable. See city list above.</div>';
+          }
+        }, 5000);
+      </script>
+    </div>
+  </section>
 
-        <div class="faq-item">
-          <button class="faq-q">What cities in Orange County do you serve?<span class="icon">+</span></button>
+  <section class="v2-sec" id="faq" aria-labelledby="faq-title">
+    <div class="v2-wrap v2-split">
+      <div class="v2-sticky">
+        <h2 id="faq-title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-list">
+
+        <div class="faq-item open">
+          <button class="faq-q" aria-expanded="true">What cities in Orange County do you serve?<span class="icon">+</span></button>
           <div class="faq-a">We serve 25+ Orange County cities including Anaheim, Santa Ana, Irvine, Huntington Beach, Garden Grove, Fullerton, Orange, Costa Mesa, Newport Beach, Laguna Beach, Mission Viejo, Lake Forest, Yorba Linda, Brea, Laguna Niguel, Tustin, Westminster, Fountain Valley, Buena Park, Cypress, Placentia, La Habra, Seal Beach, San Clemente, Dana Point, Aliso Viejo, Rancho Santa Margarita, San Juan Capistrano, Los Alamitos, and Stanton.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Do you offer same-day appliance repair throughout Orange County?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Do you offer same-day appliance repair throughout Orange County?<span class="icon">+</span></button>
           <div class="faq-a">Yes. Same-day service is available across most of Orange County when you call before noon. We dispatch from Stanton and route technicians to reach you quickly, whether you're in Fullerton, Irvine, or San Clemente.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Is there a travel fee for cities farther from Stanton?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Is there a travel fee for cities farther from Stanton?<span class="icon">+</span></button>
           <div class="faq-a">No extra travel charges. We charge a flat diagnostic fee regardless of your city within Orange County. The fee is applied toward the repair if you choose to proceed.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Do you service appliances in gated communities and HOA neighborhoods?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Do you service appliances in gated communities and HOA neighborhoods?<span class="icon">+</span></button>
           <div class="faq-a">Yes. Our technicians regularly work in gated communities throughout Orange County, including Coto de Caza, Dove Canyon, and guard-gated areas in Newport Beach and Laguna Beach. Just mention it at booking and we'll coordinate entry.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">What appliances do you repair across Orange County?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">What appliances do you repair across Orange County?<span class="icon">+</span></button>
           <div class="faq-a">We repair refrigerators, washers, dryers, dishwashers, ovens, stoves, ranges, microwaves, freezers, and garbage disposals. All major brands serviced: Whirlpool, GE, Samsung, LG, Sub-Zero, Bosch, Viking, KitchenAid, Maytag, Frigidaire, Kenmore, Thermador, Miele, and Dacor.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">How quickly can you reach South Orange County cities like Mission Viejo or San Clemente?<span class="icon">+</span></button>
-          <div class="faq-a">South OC cities are typically a 30–50 minute drive from our Stanton base. Same-day appointments in Mission Viejo, Lake Forest, San Clemente, and Dana Point are available most weekdays. Call early for the best availability.</div>
+          <button class="faq-q" aria-expanded="false">How quickly can you reach South Orange County cities like Mission Viejo or San Clemente?<span class="icon">+</span></button>
+          <div class="faq-a">We serve South Orange County from our Stanton base. Same-day appointments in Mission Viejo, Lake Forest, San Clemente, and Dana Point are available most weekdays, with a two-hour arrival window and a call before the technician arrives. Call early for the best availability.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Do you serve cities in Los Angeles County?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Do you serve cities in Los Angeles County?<span class="icon">+</span></button>
           <div class="faq-a">Yes. Orange County is our primary service area, and we also serve nearby Los Angeles County Gateway Cities: Pico Rivera, Whittier, Downey, Long Beach, Montebello, Santa Fe Springs, and Norwalk. Pico Rivera is about 16 miles from our Stanton base, closer than several Orange County cities we already cover, so same-day appointments are available most weekdays.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Do you repair Sub-Zero, Viking, and Wolf appliances in Beverly Hills or Santa Monica?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Do you repair Sub-Zero, Viking, and Wolf appliances in Beverly Hills or Santa Monica?<span class="icon">+</span></button>
           <div class="faq-a">Yes, through a separate premium service. In four Los Angeles County cities, Beverly Hills, Santa Monica, Pasadena, and Manhattan Beach, we service premium brands only: Sub-Zero, Viking, Wolf, Miele, Thermador, Dacor, DCS, and the Bosch premium lines. We have a technician based in Los Angeles, so same-day appointments are available when that schedule is open, and the diagnostic fee is a flat $99 credited toward the repair. Our general all-brand service in Los Angeles County covers the Gateway Cities listed above.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Do you serve Riverside County?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Do you serve Riverside County?<span class="icon">+</span></button>
           <div class="faq-a">In part. Orange County is our primary service area. In Riverside County we serve the Coachella Valley, including Palm Springs, Cathedral City, Rancho Mirage and Palm Desert. We also serve neighboring Chino and Chino Hills in San Bernardino County. Same-day visits are available in all of these areas whenever the schedule is still open.</div>
         </div>
 
@@ -832,19 +677,21 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="section section-gray" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-standard">Ready to schedule a repair?</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:12px;line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto;">Same-day service across Orange County. Licensed technicians, flat diagnostic fee, <span class="nb">90-day</span> parts / <span class="nb">30-day</span> labor warranty.</p>
-      <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
-        <a href="contact.html" class="btn-outline">Request a Repair</a>
+  <section class="v2-sec" aria-labelledby="cta-title">
+    <div class="v2-wrap">
+      <div class="v2-cta">
+        <div>
+          <h2 id="cta-title">Ready to schedule a repair?</h2>
+          <p>Same-day service across Orange County. Licensed technicians, flat diagnostic fee, <span class="nb">90-day</span> parts / <span class="nb">30-day</span> labor warranty.</p>
+        </div>
+        <div class="v2-cta-actions">
+          <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
+          <a href="contact.html" class="v2-btn v2-btn--onink">Request a Repair</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
 </main>
   <footer class="footer">
     <div class="footer-grid">

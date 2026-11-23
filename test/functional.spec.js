@@ -870,6 +870,8 @@ for (const { slug } of SERVICE_HUBS) {
 // markup changes. These are the v2 equivalents of the old-template hero / breadcrumb / trust
 // strip / brand / FAQ / CTA assertions above and in the brand and city blocks.
 const V2_PAGES = fs.readdirSync(PAGES_DIR).filter(n => n.endsWith('.html') && isV2File(n)).sort();
+// Anchored like CITY_HUBS below: the luxury pages contain "appliance-repair-<city>-ca.html" as a substring.
+const CITY_NAME_RE = /^appliance-repair-.*-ca\.html$/;
 
 test('v2 template: at least the freezer and refrigerator pages are discovered', () => {
   for (const n of ['freezer-repair-orange-county.html', 'refrigerator-repair-orange-county.html']) {
@@ -900,13 +902,24 @@ for (const name of V2_PAGES) {
     });
 
     test('breadcrumb has Home and Services links', async ({ page }) => {
+      // Service Areas is the top of the city tree and has no breadcrumb; a city hub's parent is Service Areas.
+      if (name === 'service-areas.html') { await expect(page.locator('nav.v2-crumbs')).toHaveCount(0); return; }
       const crumbs = page.locator('nav.v2-crumbs');
       await expect(crumbs).toHaveAttribute('aria-label', 'Breadcrumb');
       await expect(crumbs.locator('a[href="../"]')).toHaveCount(1);
-      await expect(crumbs.locator('a[href="services.html"]')).toHaveCount(1);
+      await expect(crumbs.locator(CITY_NAME_RE.test(name) ? 'a[href="service-areas.html"]' : 'a[href="services.html"]')).toHaveCount(1);
     });
 
     test('fact cards: four, with the $99 fee and 90-day / 30-day warranty, a trust line, no brand logos', async ({ page }) => {
+      if (name === 'service-areas.html') {
+        // The Service Areas hero has a job photo but no fact strip, so the hero itself carries the fee and a trust line.
+        await expect(page.locator('section.v2-facts')).toHaveCount(0);
+        await expect(page.locator('.v2-hero')).toContainText('$99');
+        const trust = page.locator('.v2-hero .v2-facts-trust');
+        await expect(trust).toHaveCount(1);
+        expect((await trust.textContent()).trim().length).toBeGreaterThan(0);
+        return;
+      }
       const facts = page.locator('section.v2-facts');
       await expect(facts).toHaveCount(1);
       await expect(facts.locator('li')).toHaveCount(4);
@@ -923,10 +936,26 @@ for (const name of V2_PAGES) {
     // Service pages carry one `ul.v2-brands` grid; brand hubs carry one `ul.v2-cross` grid of cards instead
     // (`li > a > strong + span`). Exactly one of the two, never both and never neither.
     test('every cross-link card resolves to an existing page; on service pages an unlinked brand card is plain text', async ({ page }) => {
+      const resolves = (h) => fs.existsSync(path.join(PAGES_DIR, h.split('#')[0]));
+      if (name === 'service-areas.html') {
+        // Neither grid exists here: the cross-links are the city cards, which must all resolve.
+        const cityLinks = await hrefs(page, 'ul.v2-cities a');
+        expect(cityLinks.length).toBeGreaterThan(8);
+        for (const h of cityLinks) expect(h && h !== '#' && resolves(h), `${h} exists`).toBeTruthy();
+        return;
+      }
       const brands = page.locator('ul.v2-brands');
       const cross = page.locator('ul.v2-cross');
+      if (CITY_NAME_RE.test(name)) {
+        // A city hub carries two plain ul.v2-brands lists (the 8 services, then the 15 brands), all linked.
+        await expect(brands).toHaveCount(2);
+        await expect(cross).toHaveCount(0);
+        const hrefList = await hrefs(page, 'ul.v2-brands a');
+        expect(hrefList.length).toBe(8 + 15);
+        for (const h of hrefList) expect(h && h !== '#' && resolves(h), `${h} exists`).toBeTruthy();
+        return;
+      }
       expect(await brands.count() + await cross.count(), 'exactly one of ul.v2-brands or ul.v2-cross').toBe(1);
-      const resolves = (h) => fs.existsSync(path.join(PAGES_DIR, h.split('#')[0]));
       if (await brands.count()) {
         const hrefList = await hrefs(page, 'ul.v2-brands a');
         expect(hrefList.length).toBeGreaterThan(0);
@@ -1303,7 +1332,26 @@ const CITY_HUBS = fs
   .map(name => name.replace(/\.html$/, ''))
   .sort();
 
+// City hubs exist in two templates while they migrate: the old layout (.services-links-grid, .brand-chips,
+// .city-pricing-line) and v2 (<main class="v2">: sections found by their shared aria-labelledby ids). Each
+// assertion below asserts the SAME FACT on both, chosen from the page's own source, so a city hub that
+// migrates needs no edit here. The old-layout assertions are unchanged.
+const CITY_V2 = {
+  fix: 'section[aria-labelledby="fix-title"]',
+  brands: 'section[aria-labelledby="brands-title"]',
+  pricing: 'section[aria-labelledby="pricing-title"]',
+  reviews: 'section[aria-labelledby="reviews-title"]',
+};
+const CITY_V2_SLUGS = CITY_HUBS.filter(slug => isV2File(slug + '.html'));
+
+test('city hubs: the v2 pilot cities are discovered as v2', () => {
+  for (const slug of ['appliance-repair-santa-ana-ca', 'appliance-repair-irvine-ca', 'appliance-repair-tustin-ca', 'appliance-repair-orange-ca']) {
+    expect(CITY_V2_SLUGS, slug + ' no longer carries <main class="v2">').toContain(slug);
+  }
+});
+
 for (const slug of CITY_HUBS) {
+  const v2City = CITY_V2_SLUGS.includes(slug);
   test.describe(`City hub: ${slug}`, () => {
     test.beforeEach(async ({ page }) => {
       await page.setViewportSize(DESKTOP);
@@ -1316,22 +1364,33 @@ for (const slug of CITY_HUBS) {
       await expect(page).toHaveTitle(/Appliance Repair.*CA/);
     });
 
+    // v2: the "What We Fix" section lists the 8 appliance pages as plain links (no arrow class; the
+    // card itself is the link), so the count and the hrefs are read from that section.
     test('services list has 8 links', async ({ page }) => {
-      const count = await page.locator('.services-links-grid a').count();
+      const sel = v2City ? `${CITY_V2.fix} ul.v2-brands a` : '.services-links-grid a';
+      const count = await page.locator(sel).count();
       expect(count).toBe(8);
     });
 
     test('all service links have non-empty hrefs', async ({ page }) => {
-      const links = await hrefs(page, '.services-links-grid a');
-      expect(links.every(h => h && h.length > 0)).toBe(true);
+      const links = await hrefs(page, v2City ? `${CITY_V2.fix} ul.v2-brands a` : '.services-links-grid a');
+      if (v2City) expect(links.length).toBe(8);
+      expect(links.every(h => h && h.length > 0 && (!v2City || h !== '#'))).toBe(true);
     });
 
     test('refrigerator link present', async ({ page }) => {
-      const links = await hrefs(page, '.services-links-grid a');
+      const links = await hrefs(page, v2City ? `${CITY_V2.fix} ul.v2-brands a` : '.services-links-grid a');
       expect(links.some(h => h && h.includes('refrigerator'))).toBe(true);
     });
 
     test('hub-linked services have arrow indicator (.hub-link class)', async ({ page }) => {
+      if (v2City) {
+        // v2 has no .hub-link arrow; the equivalent is that every service link is a real page of ours.
+        const links = await hrefs(page, `${CITY_V2.fix} ul.v2-brands a`);
+        expect(links.length).toBe(8);
+        for (const h of links) expect(fs.existsSync(path.join(PAGES_DIR, h.split('#')[0])), `${h} exists`).toBe(true);
+        return;
+      }
       const count = await page.locator('.services-links-grid a.hub-link').count();
       expect(count).toBeGreaterThanOrEqual(8);
     });
@@ -1340,6 +1399,17 @@ for (const slug of CITY_HUBS) {
     // strip (15 chips, all linked), not as a lower Premium / All Major Brands pill list. Corona
     // is parked and still carries the legacy pill groups, so it keeps the old assertions.
     test('brand section: logo chip strip with no duplicate pill list (Corona: legacy pill groups)', async ({ page }) => {
+      if (v2City) {
+        // v2: 15 brand links in "Brands we repair", a plain list with no logo strip and no expand control,
+        // so all 15 are visible at once.
+        const links = page.locator(`${CITY_V2.brands} ul.v2-brands a`);
+        await expect(links).toHaveCount(15);
+        const hs = await hrefs(page, `${CITY_V2.brands} ul.v2-brands a`);
+        expect(hs.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
+        expect(await links.evaluateAll(els => els.filter(e => e.getClientRects().length > 0).length)).toBe(15);
+        await expect(page.locator('.brand-chips-more, .brand-chips-list, .brand-pill, .brands-group')).toHaveCount(0);
+        return;
+      }
       if (slug === 'appliance-repair-corona-ca') {
         await expect(page.locator('.brands-group-label', { hasText: /Premium/i })).toBeAttached();
         await expect(page.locator('.brands-group-label', { hasText: /All Major Brands/i })).toBeAttached();
@@ -1360,6 +1430,14 @@ for (const slug of CITY_HUBS) {
     });
 
     test('clicking first service link navigates to a hub page', async ({ page }) => {
+      if (v2City) {
+        const first = page.locator(`${CITY_V2.fix} ul.v2-brands a`).first();
+        expect(await first.getAttribute('href')).toMatch(/^refrigerator-repair-orange-county\.html$/);
+        await first.click();
+        await page.waitForURL(/refrigerator-repair-orange-county/);
+        await expect(page.locator('h1')).toContainText(/Refrigerator/i);
+        return;
+      }
       await page.locator('.services-links-grid a').first().click();
       await page.waitForURL(/refrigerator/);
     });
@@ -1375,13 +1453,61 @@ for (const slug of CITY_HUBS) {
     });
 
     test('city pricing line present', async ({ page }) => {
+      if (v2City) {
+        // v2: the Pricing section's policy list carries the flat $99 fee.
+        await expect(page.locator(CITY_V2.pricing)).toHaveCount(1);
+        await expect(page.locator(`${CITY_V2.pricing} .v2-policy`)).toContainText('$99');
+        return;
+      }
       await expect(page.locator('.city-pricing-line')).toBeAttached();
     });
 
     test('city pricing line links to cost hub', async ({ page }) => {
-      const href = await page.locator('.city-pricing-disclaimer a').getAttribute('href');
+      const sel = v2City ? `${CITY_V2.pricing} a` : '.city-pricing-disclaimer a';
+      const href = await page.locator(sel).first().getAttribute('href');
       expect(href).toMatch(/cost/);
     });
+
+    // v2-only city facts. Each is a fact the old layout asserts elsewhere or that the redesign added.
+    if (v2City) {
+      test('v2 hero: Request a Repair and a tel: button, and the neighborhoods jump link lands on ZIP chips', async ({ page }) => {
+        const cta = page.locator('.v2-hero .v2-hero-cta');
+        await expect(cta.locator('a[href^="tel:"]')).toHaveCount(1);
+        const req = cta.locator('a[href="contact.html"]');
+        await expect(req).toHaveCount(1);
+        expect((await req.textContent()).trim()).toBe('Request a Repair');
+        const jump = page.locator('.v2-hero a.v2-hero-jump');
+        await expect(jump).toHaveCount(1);
+        expect((await jump.textContent()).trim()).toContain('See neighborhoods and ZIP codes');
+        const target = (await jump.getAttribute('href')) || '';
+        expect(target).toMatch(/^#[\w-]+$/);
+        const section = page.locator(target);
+        await expect(section, `jump target ${target} exists once`).toHaveCount(1);
+        expect(await section.locator('.v2-zip').count(), 'the neighborhoods section lists ZIP chips').toBeGreaterThan(0);
+      });
+
+      test('v2 reviews: exactly 3 cards visible at 1440px and no "Show more reviews" control', async ({ page }) => {
+        const cards = page.locator(`${CITY_V2.reviews} .v2-reviews > figure.v2-review`);
+        await expect(cards).toHaveCount(3);
+        expect(await cards.evaluateAll(els => els.filter(e => e.getClientRects().length > 0).length)).toBe(3);
+        await expect(page.locator(`${CITY_V2.reviews} .v2-reviews-more`)).toBeHidden();
+      });
+
+      test('v2 service-area block carries a tel: link', async ({ page }) => {
+        await expect(page.locator('section.service-area a[href^="tel:"]').first()).toBeAttached();
+      });
+
+      // Only the pages that carry the featured job block (Santa Ana today); detected from the markup, not the
+      // filename. The suite-level test after this loop fails if no city page carries one, so this is not vacuous.
+      test('v2 featured job block (when present) has a photo and a non-empty review quote', async ({ page }) => {
+        const feature = page.locator('article.v2-job--feature');
+        if (await feature.count() === 0) return;
+        await expect(feature.locator('img').first()).toBeAttached();
+        const quote = feature.locator('figure.v2-job-review blockquote');
+        await expect(quote).toHaveCount(1);
+        expect((await quote.textContent()).trim().length).toBeGreaterThan(20);
+      });
+    }
 
     test('FAQ accordion toggles', async ({ page }) => {
       const faqItem = page.locator('.faq-item').first();
@@ -1395,6 +1521,11 @@ for (const slug of CITY_HUBS) {
     });
   });
 }
+
+test('city hubs: at least one v2 city page carries the featured job block', () => {
+  expect(CITY_V2_SLUGS.some(slug =>
+    fs.readFileSync(path.join(PAGES_DIR, slug + '.html'), 'utf8').includes('v2-job--feature'))).toBe(true);
+});
 
 // ─── WCAG AA contrast regression guard ────────────────────────────────────────
 // P6-8 / P6-10. The CTA box shipped white 14px body text on a gradient starting at
@@ -1707,7 +1838,7 @@ const premiumChipNames = page => page.locator('.brand-chips a.brand-chip')
 // 2-column phone grid, so shared.css widens just those two there (2026-11-08). Measured on a city hub.
 test('phone: GE and KitchenAid brand logos render at their enlarged width', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  await page.goto('/pages/appliance-repair-costa-mesa-ca.html');
   await page.locator('.brand-chips-more').click();
   const width = alt => page.locator(`.brand-chip img[alt="${alt}"]`).evaluate(i => i.getBoundingClientRect().width);
   expect(await width('GE')).toBeGreaterThanOrEqual(120);
@@ -1718,7 +1849,7 @@ test('phone: GE and KitchenAid brand logos render at their enlarged width', asyn
 // open, and collapses it again (2026-11-08).
 test('phone: brand strip expands and collapses again', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('/pages/appliance-repair-irvine-ca.html');
+  await page.goto('/pages/appliance-repair-costa-mesa-ca.html');
   const list = page.locator('.brand-chips-list');
   const btn = page.locator('.brand-chips-more');
   const lastBrand = page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').last();
@@ -1738,7 +1869,7 @@ test('phone: brand strip expands and collapses again', async ({ page }) => {
 // Between the phone grid and wide desktops the strip wraps as a flex row; site.js rebalances it whenever
 // one chip would sit alone on the last row (15 city chips at 1000px were 7+7+1, 8 luxury chips 7+1).
 test('tablet/desktop: no brand chip sits alone on the last row', async ({ page }) => {
-  for (const path of ['/pages/appliance-repair-irvine-ca.html', '/pages/luxury-appliance-repair-pasadena-ca.html']) {
+  for (const path of ['/pages/appliance-repair-costa-mesa-ca.html', '/pages/luxury-appliance-repair-pasadena-ca.html']) {
     for (const width of [900, 1000, 1009]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(path);
@@ -1760,7 +1891,7 @@ test('a malformed URL hash does not break site.js init', async ({ page }) => {
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('/pages/appliance-repair-irvine-ca.html#%E0%A4%A');
+  await page.goto('/pages/appliance-repair-costa-mesa-ca.html#%E0%A4%A');
   await expect(page.locator('.brand-chips-list')).toHaveAttribute('data-cap-ready', '');
   expect(errors).toEqual([]);
 });
@@ -2770,6 +2901,18 @@ test.describe('Blog category pages', () => {
 test.describe('Service areas page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/pages/service-areas.html');
+  });
+
+  test('hero carries a job photo: eager, high priority, with alt text and a caption, and a matching preload', async ({ page }) => {
+    const photo = page.locator('.v2-hero .v2-hero-photo');
+    await expect(photo).toHaveCount(1);
+    const img = photo.locator('picture img');
+    await expect(img).toHaveAttribute('fetchpriority', 'high');
+    expect(await img.getAttribute('loading')).not.toBe('lazy');
+    expect((await img.getAttribute('alt')).trim().length).toBeGreaterThan(20);
+    expect((await photo.locator('figcaption').textContent()).trim()).toMatch(/^Our job: /);
+    await expect(page.locator('.v2-hero--plain')).toHaveCount(0);
+    await expect(page.locator('head link[rel="preload"][as="image"]')).toHaveCount(1);
   });
 
   test('page title is the service-areas title', async ({ page }) => {
