@@ -1344,8 +1344,13 @@ const CITY_V2 = {
 };
 const CITY_V2_SLUGS = CITY_HUBS.filter(slug => isV2File(slug + '.html'));
 
-test('city hubs: the v2 pilot cities are discovered as v2', () => {
-  for (const slug of ['appliance-repair-santa-ana-ca', 'appliance-repair-irvine-ca', 'appliance-repair-tustin-ca', 'appliance-repair-orange-ca']) {
+test('city hubs: the migrated cities are discovered as v2', () => {
+  for (const slug of [
+    'appliance-repair-santa-ana-ca', 'appliance-repair-irvine-ca', 'appliance-repair-tustin-ca', 'appliance-repair-orange-ca',
+    'appliance-repair-aliso-viejo-ca', 'appliance-repair-dana-point-ca', 'appliance-repair-laguna-beach-ca',
+    'appliance-repair-lake-forest-ca', 'appliance-repair-mission-viejo-ca', 'appliance-repair-newport-beach-ca',
+    'appliance-repair-rancho-santa-margarita-ca', 'appliance-repair-san-clemente-ca', 'appliance-repair-san-juan-capistrano-ca',
+  ]) {
     expect(CITY_V2_SLUGS, slug + ' no longer carries <main class="v2">').toContain(slug);
   }
 });
@@ -2411,35 +2416,50 @@ test.describe('Testimonials page', () => {
 // ─── Capped job grid + gallery city filter ───────────────────────────────────
 const visibleChildren = (loc) => loc.evaluateAll(els => els.filter(e => e.getClientRects().length > 0).length);
 
-test.describe('Newport Beach hub: capped Recent Repairs grid', () => {
-  test('phone: six cards, deep-linked card kept, Show all reveals the rest', async ({ page }) => {
-    await page.setViewportSize(MOBILE);
-    await page.goto('/pages/appliance-repair-newport-beach-ca.html');
-    const cards = page.locator('#newport-beach-job-grid > div');
-    const total = await cards.count();
-    expect(total).toBeGreaterThan(6);
-    expect(await visibleChildren(cards)).toBe(6);
-    await expect(page.locator('#job-lg-washer-drain-pump-newport-beach')).toBeVisible();
+// v2 city gallery: the first four tiles sit in #newport-beach-job-grid, the rest in a details.v2-more after it
+// ("Show all N repairs"), on phone and desktop alike. The video row (#newport-beach-real-job) is a separate
+// article, not a tile.
+test.describe('Newport Beach hub: Recent Repairs gallery (v2)', () => {
+  const NB_FRAGMENT = 'job-lg-washer-drain-pump-newport-beach';
+  for (const [label, vp] of [['phone', MOBILE], ['desktop', DESKTOP]]) {
+    test(label + ': four tiles first, Show all N reveals the rest', async ({ page }) => {
+      await page.setViewportSize(vp);
+      await page.goto('/pages/appliance-repair-newport-beach-ca.html');
+      await page.evaluate(() => document.fonts.ready);
+      const grid = page.locator('#newport-beach-job-grid');
+      await expect(grid).toHaveClass(/\bv2-jobs--city\b/);
+      await expect(grid.locator('> article.v2-job')).toHaveCount(4);
+      const more = page.locator('details.v2-more');
+      await expect(more).toHaveCount(1);
+      // :not(.v2-job--row) leaves out the video row, which is an article.v2-job but not a tile.
+      const tiles = page.locator('article.v2-job:not(.v2-job--row)');
+      const total = await tiles.count();
+      expect(total, 'job tiles in total (the video row is not a tile)').toBe(18);
+      expect(await more.locator('article.v2-job').count()).toBe(total - 4);
+      expect(await v2VisibleTiles(tiles)).toBe(4);
+      await expect(page.locator('#' + NB_FRAGMENT), 'the deep-linkable card sits behind the toggle').toBeHidden();
 
-    const btn = page.locator('.job-grid-more');
-    await expect(btn).toBeVisible();
-    await expect(btn).toHaveText('Show all ' + total + ' repairs');
-    expect((await btn.boundingBox()).height).toBeGreaterThanOrEqual(44);
+      const summary = more.locator('> summary');
+      await expect(summary).toBeVisible();
+      await expect(summary).toHaveText('Show all ' + total + ' repairs');
+      if (vp === MOBILE) expect((await summary.boundingBox()).height).toBeGreaterThanOrEqual(44);
 
-    await btn.click();
-    expect(await visibleChildren(cards)).toBe(total);
-    await expect(btn).toBeHidden();
-    const focusInGrid = await page.evaluate(() => document.getElementById('newport-beach-job-grid').contains(document.activeElement));
-    expect(focusInGrid).toBe(true);
-  });
+      await summary.click();
+      await expect(more).toHaveJSProperty('open', true);
+      expect(await v2VisibleTiles(tiles)).toBe(total);
+      await expect(page.locator('#' + NB_FRAGMENT)).toBeVisible();
+    });
 
-  test('desktop: every card visible and no Show all button', async ({ page }) => {
-    await page.setViewportSize(DESKTOP);
-    await page.goto('/pages/appliance-repair-newport-beach-ca.html');
-    const cards = page.locator('#newport-beach-job-grid > div');
-    expect(await visibleChildren(cards)).toBe(await cards.count());
-    await expect(page.locator('.job-grid-more')).toBeHidden();
-  });
+    // The browser opens a closed details that contains a fragment target, so a deep link to a card behind
+    // the toggle still lands on a visible card.
+    test(label + ': a #fragment deep link to a card behind the toggle leaves it visible', async ({ page }) => {
+      await page.setViewportSize(vp);
+      await page.goto('/pages/appliance-repair-newport-beach-ca.html#' + NB_FRAGMENT);
+      await page.evaluate(() => document.fonts.ready);
+      await expect(page.locator('details.v2-more')).toHaveJSProperty('open', true);
+      await expect(page.locator('#' + NB_FRAGMENT)).toBeVisible();
+    });
+  }
 });
 
 test.describe('Recent repairs gallery: ?city= filter', () => {
