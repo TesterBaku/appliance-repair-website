@@ -945,10 +945,18 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 /* The maps link shares the caption with a sentence, so it is underlined like any in-text link */
 .v2 .v2-map figcaption a { text-decoration: underline; text-underline-offset: 3px; }
 
-/* Neighborhood directory: two columns of ruled rows, name left, ZIP chip right, note beneath; an odd last row spans both */
+/* City pages only (.v2-jobs--city, .v2-arrow-link, .v2-brands--services): job-tile links keep the arrow right after the label's last word when the label wraps, instead of pinned to the far edge, and an inline text link ends in the same SVG arrow as the other links */
+.v2 .v2-jobs--city .v2-link { display: block; padding: 10px 0; line-height: 1.5; }
+.v2 .v2-jobs--city .v2-link .v2-ico { display: inline-block; vertical-align: -4px; margin-left: 6px; }
+.v2 .v2-arrow-link .v2-ico { width: 16px; height: 16px; vertical-align: -3px; }
+@media (max-width: 768px) {
+  .v2 .v2-brands--services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Neighborhood directory: two columns of ruled rows, name left, ZIP chip right, note beneath; rows hold their content at the top so a taller neighbour never stretches the heading-to-note gap, and an odd last row keeps one column's width so its ZIP chip stays beside its name */
 .v2 .v2-places { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 4vw, 56px); border-top: 1px solid var(--line); }
-.v2 .v2-places li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; column-gap: 16px; row-gap: 6px; padding: 20px 0; border-bottom: 1px solid var(--line); }
-.v2 .v2-places li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.v2 .v2-places li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; align-content: start; column-gap: 16px; row-gap: 6px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.v2 .v2-places li:last-child:nth-child(odd) { grid-column: auto; }
 .v2 .v2-places h3 { font-size: 18px; }
 .v2 .v2-places p { grid-column: 1 / -1; font-size: 15px; line-height: 1.55; }
 .v2 .v2-zip { padding: 3px 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.5; white-space: nowrap; }
@@ -965,6 +973,8 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 .v2 .v2-region-jump { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
 .v2 .v2-region-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--ghost-line); border-radius: 8px; background: #fff; color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none; }
 .v2 .v2-region-jump a:hover { background: var(--ice); border-color: var(--ghost-line-hover); }
+/* Wide screens: tighter buttons so all eight region links sit on one row at the 1052px content width (phones keep the roomier 16px padding) */
+@media (min-width: 769px) { .v2 .v2-region-jump a { padding: 0 12px; font-size: 14px; } }
 .v2 .v2-regions { border-top: 1px solid var(--line); }
 .v2 .v2-region { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--col-gap); align-items: start; padding: 22px 0; border-bottom: 1px solid var(--line); }
 .v2 .v2-region h3[id] { scroll-margin-top: 64px; padding-top: 8px; }
