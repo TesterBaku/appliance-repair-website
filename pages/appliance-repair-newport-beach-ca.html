@@ -41,6 +41,9 @@
 
   <style>
     @media (max-width: 480px) { .nav-cta { display: none; } }
+    /* Service-call video: the card clips an outside outline and the native control bar paints over an inside one, so the focus ring is drawn on the figure, above the video. */
+    .v2 #newport-beach-real-job .v2-job-photo:has(video:focus-visible) video { outline: none; }
+    .v2 #newport-beach-real-job .v2-job-photo:has(video:focus-visible)::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 6px var(--focus); }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Newport Beach) -->
