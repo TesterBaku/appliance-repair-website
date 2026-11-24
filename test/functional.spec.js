@@ -1350,6 +1350,9 @@ test('city hubs: the migrated cities are discovered as v2', () => {
     'appliance-repair-aliso-viejo-ca', 'appliance-repair-dana-point-ca', 'appliance-repair-laguna-beach-ca',
     'appliance-repair-lake-forest-ca', 'appliance-repair-mission-viejo-ca', 'appliance-repair-newport-beach-ca',
     'appliance-repair-rancho-santa-margarita-ca', 'appliance-repair-san-clemente-ca', 'appliance-repair-san-juan-capistrano-ca',
+    'appliance-repair-anaheim-ca', 'appliance-repair-buena-park-ca', 'appliance-repair-cypress-ca',
+    'appliance-repair-fountain-valley-ca', 'appliance-repair-fullerton-ca', 'appliance-repair-garden-grove-ca',
+    'appliance-repair-huntington-beach-ca', 'appliance-repair-stanton-ca',
   ]) {
     expect(CITY_V2_SLUGS, slug + ' no longer carries <main class="v2">').toContain(slug);
   }
@@ -1483,11 +1486,18 @@ for (const slug of CITY_HUBS) {
         expect((await req.textContent()).trim()).toBe('Request a Repair');
         const jump = page.locator('.v2-hero a.v2-hero-jump');
         await expect(jump).toHaveCount(1);
-        expect((await jump.textContent()).trim()).toContain('See neighborhoods and ZIP codes');
+        // Stanton's directory has no ZIP chips (the city has one ZIP), so its label is "streets and areas".
+        expect((await jump.textContent()).trim()).toMatch(/^See (neighborhoods and ZIP codes|streets and areas we cover)/);
         const target = (await jump.getAttribute('href')) || '';
         expect(target).toMatch(/^#[\w-]+$/);
         const section = page.locator(target);
         await expect(section, `jump target ${target} exists once`).toHaveCount(1);
+        if (slug === 'appliance-repair-anaheim-ca') {
+          // Anaheim's neighborhoods section is prose (no .v2-places directory, no chips); its ZIP list sits in the text.
+          expect(await section.locator('.v2-zip').count()).toBe(0);
+          expect(await section.textContent(), 'the neighborhoods section states its ZIP codes').toMatch(/(?<!\d)928\d\d(?!\d)/);
+          return;
+        }
         expect(await section.locator('.v2-zip').count(), 'the neighborhoods section lists ZIP chips').toBeGreaterThan(0);
       });
 
@@ -1544,7 +1554,8 @@ test('city hubs: at least one v2 city page carries the featured job block', () =
 const CONTRAST_PAGES = [
   '/index.html',
   '/pages/refrigerator-repair-orange-county.html',
-  '/pages/appliance-repair-garden-grove-ca.html',
+  '/pages/appliance-repair-garden-grove-ca.html',        // city hub, v2 template
+  '/pages/appliance-repair-costa-mesa-ca.html',          // city hub, still on the legacy .hub-hero template
   '/pages/luxury-appliance-repair-beverly-hills-ca.html',
   '/articles/article-dorm-appliances.html',
   '/pages/appliance-repair-cost-orange-county.html',   // the flat-fill .cta-box variant
