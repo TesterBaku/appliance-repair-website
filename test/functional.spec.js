@@ -872,6 +872,10 @@ for (const { slug } of SERVICE_HUBS) {
 const V2_PAGES = fs.readdirSync(PAGES_DIR).filter(n => n.endsWith('.html') && isV2File(n)).sort();
 // Anchored like CITY_HUBS below: the luxury pages contain "appliance-repair-<city>-ca.html" as a substring.
 const CITY_NAME_RE = /^appliance-repair-.*-ca\.html$/;
+// Every `-ca.html` page (city hub, luxury hub, brand x city page) sits under Service Areas. Besides the city hubs only the
+// luxury hubs carry card lists (two); the brand x city pages carry none.
+const AREA_PAGE_RE = /-ca\.html$/;
+const LUXURY_NAME_RE = /^luxury-appliance-repair-.*-ca\.html$/;
 
 test('v2 template: at least the freezer and refrigerator pages are discovered', () => {
   for (const n of ['freezer-repair-orange-county.html', 'refrigerator-repair-orange-county.html']) {
@@ -907,7 +911,7 @@ for (const name of V2_PAGES) {
       const crumbs = page.locator('nav.v2-crumbs');
       await expect(crumbs).toHaveAttribute('aria-label', 'Breadcrumb');
       await expect(crumbs.locator('a[href="../"]')).toHaveCount(1);
-      await expect(crumbs.locator(CITY_NAME_RE.test(name) ? 'a[href="service-areas.html"]' : 'a[href="services.html"]')).toHaveCount(1);
+      await expect(crumbs.locator(AREA_PAGE_RE.test(name) ? 'a[href="service-areas.html"]' : 'a[href="services.html"]')).toHaveCount(1);
     });
 
     test('fact cards: four, with the $99 fee and 90-day / 30-day warranty, a trust line, no brand logos', async ({ page }) => {
@@ -953,6 +957,24 @@ for (const name of V2_PAGES) {
         const hrefList = await hrefs(page, 'ul.v2-brands a');
         expect(hrefList.length).toBe(8 + 15);
         for (const h of hrefList) expect(h && h !== '#' && resolves(h), `${h} exists`).toBeTruthy();
+        return;
+      }
+      if (LUXURY_NAME_RE.test(name)) {
+        // A premium hub carries two plain ul.v2-brands lists (the 8 premium brands, then the 6 services), all linked.
+        await expect(brands).toHaveCount(2);
+        await expect(cross).toHaveCount(0);
+        const hrefList = await hrefs(page, 'ul.v2-brands a');
+        expect(hrefList.length).toBe(8 + 6);
+        for (const h of hrefList) expect(h && h !== '#' && resolves(h), `${h} exists`).toBeTruthy();
+        return;
+      }
+      if (AREA_PAGE_RE.test(name)) {
+        // A brand x city page has no card list at all; its cross-links are plain links in the copy, and must resolve.
+        await expect(brands).toHaveCount(0);
+        await expect(cross).toHaveCount(0);
+        const local = (await hrefs(page, 'main a[href]')).filter(h => /^[\w-]+\.html(#.*)?$/.test(h));
+        expect(local.length, 'the page links to other pages of ours').toBeGreaterThan(3);
+        for (const h of local) expect(resolves(h), `${h} exists`).toBe(true);
         return;
       }
       expect(await brands.count() + await cross.count(), 'exactly one of ul.v2-brands or ul.v2-cross').toBe(1);
@@ -1353,6 +1375,7 @@ test('city hubs: the migrated cities are discovered as v2', () => {
     'appliance-repair-anaheim-ca', 'appliance-repair-buena-park-ca', 'appliance-repair-cypress-ca',
     'appliance-repair-fountain-valley-ca', 'appliance-repair-fullerton-ca', 'appliance-repair-garden-grove-ca',
     'appliance-repair-huntington-beach-ca', 'appliance-repair-stanton-ca',
+    'appliance-repair-costa-mesa-ca',
     'appliance-repair-placentia-ca', 'appliance-repair-westminster-ca', 'appliance-repair-laguna-niguel-ca',
     'appliance-repair-los-alamitos-ca',
     'appliance-repair-palm-springs-ca', 'appliance-repair-long-beach-ca', 'appliance-repair-pico-rivera-ca',
@@ -1674,8 +1697,8 @@ const CONTRAST_PAGES = [
   '/index.html',
   '/pages/refrigerator-repair-orange-county.html',
   '/pages/appliance-repair-garden-grove-ca.html',        // city hub, v2 template
-  '/pages/appliance-repair-costa-mesa-ca.html',          // city hub, still on the legacy .hub-hero template
-  '/pages/luxury-appliance-repair-beverly-hills-ca.html',
+  '/pages/appliance-repair-riverside-ca.html',           // parked city hub, the last page on the legacy .hub-hero template
+  '/pages/luxury-appliance-repair-beverly-hills-ca.html', // luxury variant of v2
   '/articles/article-dorm-appliances.html',
   '/pages/appliance-repair-cost-orange-county.html',   // the flat-fill .cta-box variant
 ];
@@ -1958,22 +1981,57 @@ const PREMIUM_HUBS = [
   'luxury-appliance-repair-manhattan-beach-ca',
 ];
 
-// Bosch must stay qualified as premium, never bare 'Bosch': mainstream Bosch is not a
-// premium-tier brand (see .claude/skills/seo-content/SKILL.md), and only the Bosch premium
-// built-in lines are in scope in the LA premium cities. The qualifier covers the whole
-// premium tier, not just Benchmark, so a panel-ready 800-series owner does not self-select
-// out. Since PR #953 (owner decision 2026-11-07) the brands are the logo chips in the
-// .brand-chips strip, not a .brand-pill row, so the names are read from each chip's
-// aria-label (the visible content is a logo image).
-const PREMIUM_BRANDS = ['Sub-Zero', 'Viking', 'Wolf', 'Miele', 'Thermador', 'Dacor', 'DCS'];
-const premiumChipNames = page => page.locator('.brand-chips a.brand-chip')
-  .evaluateAll(els => els.map(e => (e.getAttribute('aria-label') || '').trim()));
+// The five LA pages are on the v2 template (<main class="v2">), a luxury variant of it: a job photo in the hero
+// ("Our job: ..., <real city>", always a job from ANOTHER city), fact cards, four job tiles each labelled with its
+// true city, 8 premium brand text cards then a .scope-note, services, process band, pricing, neighborhoods, essays,
+// service-area block, FAQ and a closing panel. They have no reviews. Sections are found by their aria-labelledby ids,
+// the same way the city hubs' are.
+const PREMIUM_V2 = {
+  jobs: 'section[aria-labelledby="jobs-title"]',
+  brands: 'section[aria-labelledby="brands-title"]',
+  fix: 'section[aria-labelledby="fix-title"]',
+  pricing: 'section[aria-labelledby="pricing-title"]',
+};
+
+// The 8 brand hubs the premium pages link to. Bosch must stay qualified as premium, never bare 'Bosch': mainstream
+// Bosch is not a premium-tier brand (see .claude/skills/seo-content/SKILL.md), and only the Bosch premium built-in
+// lines are in scope in the LA premium cities. The qualifier covers the whole premium tier, not just Benchmark, so a
+// panel-ready 800-series owner does not self-select out. The v2 brand cards are plain text links ("Bosch"), so the
+// qualifier is read from the section's own copy; before the v2 port it was each logo chip's aria-label.
+const PREMIUM_BRAND_HUBS = ['sub-zero', 'wolf', 'viking', 'miele', 'thermador', 'dacor', 'dcs', 'bosch']
+  .map(b => `${b}-appliance-repair-orange-county.html`);
+
+// The page's own city, from its slug ("luxury-appliance-repair-beverly-hills-ca" -> "Beverly Hills"). Neither the hero
+// caption nor a job tile may name it: every job on these pages was done in another city, and says so.
+const premiumCity = slug => slug.match(/^luxury-appliance-repair-(.+)-ca$/)[1]
+  .split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+
+// Their #neighborhoods directory has no ZIP chips (the ZIPs, where stated, sit in the prose). Every other premium page
+// lists chips. Add a page here only if its directory really has none.
+const PREMIUM_NO_ZIP_CHIPS = ['luxury-appliance-repair-los-angeles-ca', 'luxury-appliance-repair-santa-monica-ca'];
+
+test('premium hubs: every luxury page is listed and is on the v2 template', () => {
+  const onDisk = fs.readdirSync(PAGES_DIR).filter(n => /^luxury-appliance-repair-.*-ca\.html$/.test(n))
+    .map(n => n.replace(/\.html$/, '')).sort();
+  expect(onDisk, 'PREMIUM_HUBS must list every luxury-appliance-repair-*-ca.html page').toEqual([...PREMIUM_HUBS].sort());
+  for (const slug of PREMIUM_HUBS) {
+    const html = fs.readFileSync(path.join(PAGES_DIR, slug + '.html'), 'utf8');
+    expect(isV2Source(html), slug + ' no longer carries <main class="v2">').toBe(true);
+    expect(html, slug + ' still carries legacy hub-hero markup').not.toMatch(/class="hub-hero/);
+  }
+});
+
+// The brand chip strip survives only on the parked Riverside page (every other city and all five luxury pages left it
+// for plain brand links), so its phone behaviour is measured there. Riverside lists 14 brands, so the "+N more brands"
+// count is derived from the list, not hard-coded. If Riverside ports to v2 these tests fail on the missing strip: the
+// strip's CSS and its site.js code (initBrandCap) are then dead, so delete the tests with them.
+const BRAND_CHIPS_PAGE = '/pages/appliance-repair-riverside-ca.html';
 
 // GE (monogram + tiny wordmark) and KitchenAid (10px script) read small at their attribute size in the
-// 2-column phone grid, so shared.css widens just those two there (2026-11-08). Measured on a city hub.
+// 2-column phone grid, so shared.css widens just those two there (2026-11-08).
 test('phone: GE and KitchenAid brand logos render at their enlarged width', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('/pages/appliance-repair-costa-mesa-ca.html');
+  await page.goto(BRAND_CHIPS_PAGE);
   await page.locator('.brand-chips-more').click();
   const width = alt => page.locator(`.brand-chip img[alt="${alt}"]`).evaluate(i => i.getBoundingClientRect().width);
   expect(await width('GE')).toBeGreaterThanOrEqual(120);
@@ -1984,27 +2042,28 @@ test('phone: GE and KitchenAid brand logos render at their enlarged width', asyn
 // open, and collapses it again (2026-11-08).
 test('phone: brand strip expands and collapses again', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('/pages/appliance-repair-costa-mesa-ca.html');
+  await page.goto(BRAND_CHIPS_PAGE);
   const list = page.locator('.brand-chips-list');
   const btn = page.locator('.brand-chips-more');
   const lastBrand = page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').last();
-  await expect(btn).toHaveText('+10 more brands');
+  const more = `+${(await page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').count()) - 5} more brands`;
+  await expect(btn).toHaveText(more);
   await btn.click();
   await expect(btn).toHaveText('Show fewer brands');
   await expect(btn).toHaveAttribute('aria-expanded', 'true');
   await expect(lastBrand).toBeVisible();
   await btn.click();
   await expect(list).not.toHaveAttribute('data-expanded', /.*/);
-  await expect(btn).toHaveText('+10 more brands');
+  await expect(btn).toHaveText(more);
   await expect(btn).toHaveAttribute('aria-expanded', 'false');
   await expect(lastBrand).toBeHidden();
   await expect(btn).toBeFocused();
 });
 
 // Between the phone grid and wide desktops the strip wraps as a flex row; site.js rebalances it whenever
-// one chip would sit alone on the last row (15 city chips at 1000px were 7+7+1, 8 luxury chips 7+1).
+// one chip would sit alone on the last row (15 city chips at 1000px were 7+7+1).
 test('tablet/desktop: no brand chip sits alone on the last row', async ({ page }) => {
-  for (const path of ['/pages/appliance-repair-costa-mesa-ca.html', '/pages/luxury-appliance-repair-pasadena-ca.html']) {
+  for (const path of [BRAND_CHIPS_PAGE]) {
     for (const width of [900, 1000, 1009]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(path);
@@ -2026,12 +2085,32 @@ test('a malformed URL hash does not break site.js init', async ({ page }) => {
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('/pages/appliance-repair-costa-mesa-ca.html#%E0%A4%A');
+  await page.goto(BRAND_CHIPS_PAGE + '#%E0%A4%A');
   await expect(page.locator('.brand-chips-list')).toHaveAttribute('data-cap-ready', '');
   expect(errors).toEqual([]);
 });
 
+// On phones the strip shows 5 chips and "+N more brands"; a link into the strip (the luxury pages carried one,
+// "the brand row at the top of this page", targeting #brand-chips-label) must show the whole list, not the capped one
+// (2026-11-08). No page carries that link any more, so the hash is driven directly: on load, and on a hash change,
+// which is what following such a link does.
+test('phone: a link or hash into the brand row opens the capped strip', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto(BRAND_CHIPS_PAGE);
+  const list = page.locator('.brand-chips-list');
+  await expect(list).toHaveAttribute('data-cap-ready', '');
+  await expect(list).not.toHaveAttribute('data-expanded', /.*/);
+  await page.evaluate(() => { location.hash = '#brand-chips-label'; });
+  await expect(list).toHaveAttribute('data-expanded', '');
+  await expect(page.locator('.brand-chips-more')).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').last()).toBeVisible();
+  await page.goto('about:blank');
+  await page.goto(BRAND_CHIPS_PAGE + '#brand-chips-label');
+  await expect(page.locator('.brand-chips-list')).toHaveAttribute('data-expanded', '');
+});
+
 for (const slug of PREMIUM_HUBS) {
+  const city = premiumCity(slug);
   test.describe(`Premium hub: ${slug}`, () => {
     test.beforeEach(async ({ page }) => {
       await page.setViewportSize(DESKTOP);
@@ -2047,58 +2126,78 @@ for (const slug of PREMIUM_HUBS) {
       expect(href).toBe(`https://fixappliancesfast.com/pages/${slug}.html`);
     });
 
-    test('all 8 premium brands are named as links', async ({ page }) => {
-      const names = await premiumChipNames(page);
-      for (const b of PREMIUM_BRANDS) {
-        expect(names.some(n => n.startsWith(`${b} `))).toBe(true);
-      }
-      expect(names.some(n => /^Bosch premium\b/i.test(n))).toBe(true);
-      expect(names.some(n => /^Bosch appliance/i.test(n))).toBe(false);
-      expect(names.length).toBe(8);
+    // v2 hero: one tel: button, "Request a Repair" to the contact page, and a jump link to the neighborhoods
+    // directory, whose target exists once and lists ZIP chips (except on the pages named in PREMIUM_NO_ZIP_CHIPS).
+    test('hero: one tel: link, Request a Repair to contact.html, and a jump link to #neighborhoods', async ({ page }) => {
+      const cta = page.locator('.v2-hero .v2-hero-cta');
+      await expect(cta.locator('a[href^="tel:"]')).toHaveCount(1);
+      const req = cta.locator('a[href="contact.html"]');
+      await expect(req).toHaveCount(1);
+      expect((await req.textContent()).trim()).toBe('Request a Repair');
+      const jump = page.locator('.v2-hero a.v2-hero-jump');
+      await expect(jump).toHaveCount(1);
+      await expect(jump).toHaveAttribute('href', '#neighborhoods');
+      await expect(page.locator('#neighborhoods'), 'jump target exists once').toHaveCount(1);
+      expect(await page.locator('#neighborhoods ul.v2-places > li').count(), 'the directory lists places').toBeGreaterThan(0);
+      const chips = await page.locator('#neighborhoods .v2-zip').count();
+      if (PREMIUM_NO_ZIP_CHIPS.includes(slug)) expect(chips, 'no ZIP chips on this page').toBe(0);
+      else expect(chips, 'the directory lists ZIP chips').toBeGreaterThan(0);
     });
 
-    test('every brand chip points at a real brand hub', async ({ page }) => {
-      const links = await hrefs(page, '.brand-chips a.brand-chip');
-      expect(links.length).toBe(8);
-      expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
+    // The hero shows one of our real jobs, and the job is never in this page's city: the caption names the real
+    // city ("Our job: ..., Newport Beach"), and neither it nor the alt text may name the page's own city.
+    test('hero photo: a real job photo from images/real/business/, captioned "Our job: ..." with a city that is not this page\'s', async ({ page }) => {
+      const photo = page.locator('.v2-hero .v2-hero-photo');
+      await expect(photo, 'exactly one hero photo').toHaveCount(1);
+      const img = photo.locator('img');
+      expect((await img.getAttribute('src')) || '', 'hero image comes from images/real/business/').toMatch(/(^|\/)images\/real\/business\//);
+      await expect.poll(() => img.evaluate(i => i.complete && i.naturalWidth > 0), 'hero image loaded').toBe(true);
+      const alt = ((await img.getAttribute('alt')) || '').trim();
+      expect(alt.length, 'alt describes the photo').toBeGreaterThan(20);
+      expect(alt, 'alt never implies the page city').not.toContain(city);
+      const cap = ((await photo.locator('figcaption').textContent()) || '').trim();
+      expect(cap, 'caption starts "Our job: "').toMatch(/^Our job: /);
+      expect(cap, 'caption ends with a real city').toMatch(/, [A-Z][A-Za-z. ]+$/);
+      expect(cap, 'caption never implies the page city').not.toContain(city);
     });
 
-    // On phones the strip shows 5 chips and "+3 more brands"; the lower copy links up to it, and
-    // following that link must show the whole list, not the capped one (2026-11-08).
-    test('phone: link to the brand row opens the capped strip', async ({ page }) => {
-      await page.setViewportSize({ width: 375, height: 812 });
-      await page.reload();
-      const list = page.locator('.brand-chips-list');
-      await expect(list).toHaveAttribute('data-cap-ready', '');
-      await expect(list).not.toHaveAttribute('data-expanded', /.*/);
-      await page.locator('a[href="#brand-chips-label"]').first().click();
-      await expect(list).toHaveAttribute('data-expanded', '');
-      await expect(page.locator('.brand-chips-more')).toHaveAttribute('aria-expanded', 'true');
-      await expect(page.locator('.brand-chips-list > li:not(.brand-chips-more-item)').last()).toBeVisible();
+    // Exactly the 8 premium brand hubs, linked from the Premium Brands section, with the Bosch premium-only
+    // qualifier stated there and never "Bosch appliance".
+    test('all 8 premium brands are linked to their brand hubs', async ({ page }) => {
+      const links = page.locator(`${PREMIUM_V2.brands} ul.v2-brands a`);
+      await expect(links).toHaveCount(8);
+      expect([...(await hrefs(page, `${PREMIUM_V2.brands} ul.v2-brands a`))].sort()).toEqual([...PREMIUM_BRAND_HUBS].sort());
+      for (const h of PREMIUM_BRAND_HUBS) expect(fs.existsSync(path.join(PAGES_DIR, h)), `${h} exists`).toBe(true);
+      const section = await page.locator(PREMIUM_V2.brands).textContent();
+      expect(section).toMatch(/Bosch premium/i);
+      expect(section).not.toMatch(/Bosch appliance/i);
     });
 
     test('scope note states premium-brand only', async ({ page }) => {
+      await expect(page.locator('.v2-note.scope-note')).toHaveCount(1);
       await expect(page.locator('.scope-note').first()).toContainText(/premium.brand only/i);
     });
 
-    test('real-work proof band renders 3 job cards', async ({ page }) => {
-      await expect(page.locator('.job-grid .job-card')).toHaveCount(3);
+    test('real-work proof band renders 4 job tiles', async ({ page }) => {
+      await expect(page.locator(`${PREMIUM_V2.jobs} article.v2-job`)).toHaveCount(4);
     });
 
-    test('every job card carries a real city label', async ({ page }) => {
-      const locs = await page.locator('.job-card-loc').allTextContents();
-      expect(locs.length).toBe(3);
-      expect(locs.every(l => /,\s*CA$/.test(l.trim()))).toBe(true);
+    // Every tile names the city the job was done in, and none of them is this page's city.
+    test('every job tile carries a real city label, never this page\'s own', async ({ page }) => {
+      const locs = (await page.locator(`${PREMIUM_V2.jobs} .v2-job-loc`).allTextContents()).map(l => l.trim());
+      expect(locs.length).toBe(4);
+      expect(locs.every(l => /,\s*CA$/.test(l)), locs.join(' | ')).toBe(true);
+      expect(locs.filter(l => l.includes(city)), 'a job tile names the page city').toEqual([]);
     });
 
     // The count assertion is load-bearing: evaluateAll over an empty set returns []
     // and [] equals [], so without it this test passes when every <img> is deleted.
-    // scrollIntoView + poll handle the lazy-load race — these images are below the
-    // fold, so from a cold cache they are legitimately not `complete` at goto() time.
-    test('job card photos all resolve (no broken images)', async ({ page }) => {
-      await page.locator('.job-grid').scrollIntoViewIfNeeded();
-      const imgs = page.locator('.job-card img');
-      await expect(imgs).toHaveCount(3);
+    // Each image is scrolled to in turn, because they are lazy: from a cold cache the ones below the
+    // fold are legitimately not `complete` at goto() time.
+    test('job tile photos all resolve (no broken images)', async ({ page }) => {
+      const imgs = page.locator(`${PREMIUM_V2.jobs} .v2-job img`);
+      await expect(imgs).toHaveCount(4);
+      for (const img of await imgs.all()) await img.scrollIntoViewIfNeeded();
       await expect.poll(() => imgs.evaluateAll(
         a => a.filter(i => !i.complete || i.naturalWidth === 0).map(i => i.currentSrc || i.src)
       )).toEqual([]);
@@ -2107,11 +2206,12 @@ for (const slug of PREMIUM_HUBS) {
     // textContent, NOT innerText: the FAQ answers are display:none until opened, and
     // the fee is stated inside them. innerText skips collapsed content, so it was
     // blind to the single highest-risk location. The JSON-LD is checked too, since a
-    // wrong fee in schema is what Google would surface.
+    // wrong fee in schema is what Google would surface. The Pricing section states it too.
     test('diagnostic fee is the flat $99, never $150 or a range', async ({ page }) => {
       const body = await page.locator('body').evaluate(el => el.textContent);
       const ld = (await page.locator('script[type="application/ld+json"]').allTextContents()).join(' ');
       expect(body).toContain('$99');
+      await expect(page.locator(PREMIUM_V2.pricing)).toContainText('$99');
       for (const source of [body, ld]) {
         expect(source).not.toContain('$150');
         expect(source).not.toMatch(/\$99\s*(to|-|–)\s*\$\d/);
@@ -2119,7 +2219,7 @@ for (const slug of PREMIUM_HUBS) {
     });
 
     test('pricing disclaimer is present verbatim', async ({ page }) => {
-      await expect(page.locator('.city-pricing-disclaimer')).toContainText(
+      await expect(page.locator(`${PREMIUM_V2.pricing} p.city-pricing-disclaimer`)).toContainText(
         'Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair.'
       );
     });
@@ -2128,6 +2228,7 @@ for (const slug of PREMIUM_HUBS) {
     // `"@type":"Review"` (no space) evades a .toContain on the spaced form.
     test('no testimonials and no aggregateRating (pool cannot supply luxury quotes)', async ({ page }) => {
       expect(await page.locator('.testimonial-card, .t-card').count()).toBe(0);
+      expect(await page.locator('figure.v2-review, .v2-reviews, section[aria-labelledby="reviews-title"]').count()).toBe(0);
       const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
       expect(blocks.length).toBeGreaterThan(0);
       const types = [];
@@ -2158,9 +2259,13 @@ for (const slug of PREMIUM_HUBS) {
       }
     });
 
+    // The first question starts open (aria-expanded="true"), so the second is the one that proves the toggle.
     test('FAQ accordion toggles', async ({ page }) => {
-      const faqItem = page.locator('.faq-item').first();
-      await page.locator('.faq-q').first().click();
+      const faqItem = page.locator('.faq-item').nth(1);
+      const q = faqItem.locator('.faq-q');
+      await expect(q).toHaveAttribute('aria-expanded', 'false');
+      await q.click();
+      await expect(q).toHaveAttribute('aria-expanded', 'true');
       await expect(faqItem).toHaveClass(/\bopen\b/);
     });
 
@@ -2169,7 +2274,7 @@ for (const slug of PREMIUM_HUBS) {
     });
 
     test('CTA box links to tel: and contact', async ({ page }) => {
-      const links = await hrefs(page, '.cta-box a');
+      const links = await hrefs(page, '.v2-cta a');
       expect(links.some(h => h && h.startsWith('tel:'))).toBe(true);
       expect(links.some(h => h && h.includes('contact'))).toBe(true);
     });
@@ -4553,10 +4658,15 @@ for (const { file, brandSlug, citySlug } of BRAND_CITY_HUBS) {
       await page.goto(`/pages/${file}`);
     });
 
-    test('expect-strip is present and carries no brand-logo block', async ({ page }) => {
-      const strip = page.locator('section.expect-strip');
+    test('fact cards are present and carry no brand-logo block', async ({ page }) => {
+      const strip = page.locator('section.v2-facts');
       await expect(strip).toHaveCount(1);
       expect(await strip.locator('img, .brand-chips, .brand-chips-list').count()).toBe(0);
+    });
+
+    test('hero jump link lands on the neighborhoods directory', async ({ page }) => {
+      await expect(page.locator('.v2-hero a.v2-hero-jump')).toHaveAttribute('href', '#neighborhoods');
+      await expect(page.locator('#neighborhoods')).toHaveCount(1);
     });
 
     test('every tel: link is the canonical number', async ({ page }) => {
@@ -4566,7 +4676,7 @@ for (const { file, brandSlug, citySlug } of BRAND_CITY_HUBS) {
     });
 
     test('hero CTA row has the call and contact links', async ({ page }) => {
-      const row = page.locator('.hub-hero .hub-cta-row').first();
+      const row = page.locator('.v2-hero .v2-hero-cta').first();
       expect(await row.locator('a[href="tel:+19496295365"]').count()).toBeGreaterThan(0);
       expect(await row.locator('a[href="contact.html"]').count()).toBeGreaterThan(0);
     });
@@ -5874,7 +5984,12 @@ for (const [slug, total] of OLD_REVIEW_PAGES) {
 // With JavaScript off the cap is never armed, so every review stays visible and the button row stays hidden.
 // The subject is the old .reviews-cap markup, so it runs on the first capped page that still has it
 // (the refrigerator page moved to v2; its no-JS behaviour is covered by "v2 reviews ... without JavaScript").
-const OLD_NOJS = OLD_REVIEW_PAGES.find(([, total]) => total >= 4);
+// Once no old-template page has 4+ cards, the no-JS check runs on the first old page that still has the markup; the guard
+// below fails loudly (rather than letting the block skip) when the last one ports, and then the whole section is dead.
+const OLD_NOJS = OLD_REVIEW_PAGES.find(([, total]) => total >= 4) || OLD_REVIEW_PAGES[0];
+test('reviews cap: at least one old-template page still carries .reviews-cap', () => {
+  expect(OLD_REVIEW_PAGES.length, 'no page has .reviews-cap any more: delete the Reviews cap tests, the .reviews-cap CSS and initReviewsCap in site.js').toBeGreaterThan(0);
+});
 if (OLD_NOJS) {
   const [noJsSlug, noJsTotal] = OLD_NOJS;
   test.describe('Reviews cap without JavaScript: ' + noJsSlug, () => {
