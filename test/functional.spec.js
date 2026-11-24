@@ -1378,6 +1378,7 @@ test('city hubs: the migrated cities are discovered as v2', () => {
     'appliance-repair-costa-mesa-ca',
     'appliance-repair-placentia-ca', 'appliance-repair-westminster-ca', 'appliance-repair-laguna-niguel-ca',
     'appliance-repair-los-alamitos-ca',
+    'appliance-repair-brea-ca', 'appliance-repair-yorba-linda-ca', 'appliance-repair-seal-beach-ca',
   ]) {
     expect(CITY_V2_SLUGS, slug + ' no longer carries <main class="v2">').toContain(slug);
   }
