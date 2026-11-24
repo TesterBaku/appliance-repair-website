@@ -34,7 +34,7 @@ taken from the hero caption on each city page.
 
 ## Whittier: Southern Pacific Railroad Depot
 - Files: `whittier-southern-pacific-depot.*`
-- Author: "Los Angeles" (as credited in the page caption; confirm against the Commons file page)
+- Author: Wikimedia Commons user "Los Angeles" (User:Los_Angeles), as recorded on the file's Commons page (read 2026-11-24)
 - Licence: CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/
 - Commons file page: https://commons.wikimedia.org/wiki/File:Southern_Pacific_Railroad_Depot,_Whittier.JPG
 - Changes: cropped and resized
