@@ -36,111 +36,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
     <link rel="preload" href="../shared.css" as="style" />
-  <link rel="preload" as="image" href="../images/hero-homepage.webp" fetchpriority="high" type="image/webp">
+  <link rel="preload" as="image" type="image/webp" imagesrcset="../images/real/business/completed-repair-refrigerator-ge-monogram-display-board-huntington-beach-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-display-board-huntington-beach.webp 1200w" imagesizes="(max-width:768px) 100vw, 440px" href="../images/real/business/completed-repair-refrigerator-ge-monogram-display-board-huntington-beach.webp" fetchpriority="high">
 <link rel="stylesheet" href="../shared.css" />
 
   <style>
-    .nav-logo-group { display: flex; align-items: center; gap: 32px; }
-
-    .hub-hero { position: relative; min-height: 480px; display: flex; align-items: center; text-align: center; padding-top: 70px; overflow: hidden; }
-    .hub-hero-bg { position: absolute; inset: 0; background-image: url('../images/hero-homepage.webp'); background-size: cover; background-position: center; }
-    .hub-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,18,30,0.68) 0%, rgba(10,18,30,0.78) 100%); }
-    .hub-hero-content { position: relative; z-index: 5; padding: 72px 24px 72px; width: 100%; }
-    .hub-hero h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.1; color: var(--surface); max-width: 720px; margin: 0 auto 18px; }
-    .hub-hero p { color: rgba(255,255,255,0.82); font-size: 16px; line-height: 1.65; max-width: 540px; margin: 0 auto 32px; }
-    .hub-cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
-    .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
-
-
-    .hb-bc { background: #f7fafc; border-bottom: 1px solid #eee; padding: 10px 24px; }
-    .hb-bc-in { max-width: 1100px; margin: 0 auto; font-size: 12px; color: #666; }
-    .hb-bc-sep { margin: 0 6px; }
-    @media (max-width: 480px) {
-      .hb-bc { padding: 10px 12px; }
-      .hb-bc-in { font-size: 11px; }
-      .hb-bc-sep { margin: 0 4px; }
-    }
-
-    .neighborhoods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
-    .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 20px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
-    .neighborhood-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
-    .neighborhood-zip { font-size: 12px; color: var(--text-sub); }
-    .neighborhood-note { font-size: 12px; color: var(--text-sub); margin-top: 6px; line-height: 1.5; }
-
-    .coastal-callout { background: #fdf5f3; border: 1.5px solid #f0c8bc; border-radius: 14px; padding: 28px 32px; margin-top: 32px; }
-    .coastal-callout h3 { font-size: 17px; font-weight: 700; color: #c03a14; margin-bottom: 12px; }
-    .coastal-callout p { font-size: 13.5px; color: var(--text-dim); line-height: 1.8; margin-bottom: 10px; }
-    .coastal-callout p:last-child { margin-bottom: 0; }
-
-    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
-    .process-step { text-align: center; }
-    .step-number { width: 48px; height: 48px; background: var(--brand); color: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; margin: 0 auto 14px; }
-    .step-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-    .step-desc { font-size: 12.5px; color: var(--text-sub); line-height: 1.65; }
-
-    .faq-list { margin-top: 36px; max-width: 760px; margin-left: auto; margin-right: auto; }
-    .hub-page .faq-item { border-bottom: 1px solid var(--border); padding: 0; }
-    .hub-page .faq-q { font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; width: 100%; text-align: left; padding: 18px 22px; }
-    .hub-page .faq-q .icon { color: var(--brand); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
-    .hub-page .faq-a { font-size: 13px; color: var(--text-sub); line-height: 1.75; margin-top: 10px; display: none; padding: 0 22px 18px; }
-    .hub-page .faq-item.open .faq-a { display: block; padding: 0 22px 18px; }
-    .hub-page .faq-item.open .icon { transform: rotate(45deg); }
-
-    .cta-box { background: linear-gradient(135deg, #cc3d12 0%, #aa3210 100%); border-radius: 16px; padding: 48px 40px; text-align: center; }
-    .cta-box h2 { font-size: 28px; font-weight: 800; color: var(--surface); margin-bottom: 12px; letter-spacing: -0.4px; }
-    .cta-box p { font-size: 14px; color: #fff; margin-bottom: 28px; line-height: 1.65; }
-    .btn-white { display: inline-block; background: var(--surface); color:var(--brand-text); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
-    .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
-
-    /* Testimonials */
-    .hub-page .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
-    .hub-page .testimonial-card { background: var(--surface); border-radius: 14px; padding: 24px 22px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); text-align: left; }
-    .hub-page .stars { color: var(--star-on-light); font-size: 15px; letter-spacing: 1px; margin-bottom: 10px; }
-    .hub-page .testimonial-quote { font-size: 13.5px; color: var(--text-dim); line-height: 1.75; margin-bottom: 14px; font-style: italic; }
-    .t-initial { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--surface); margin-bottom: 8px; }
-    .hub-page .testimonial-name { font-size: 12px; color: var(--text-sub); font-weight: 500; }
-    /* 3 cards: stay 3-up until the phone stack, never 2+1 */
-    @media (max-width: 768px) { .hub-page .testimonials-grid { grid-template-columns: 1fr; } }
-    /* shared.css centres a lone 3rd card on a 2-up row (481-900px); this grid is 3-up from 769px, so cancel that there */
-    @media (min-width: 769px) and (max-width: 900px) { .hub-page .testimonials-grid:has(> .testimonial-card:nth-child(3):last-child) > .testimonial-card:nth-child(3) { grid-column: auto; justify-self: stretch; width: auto; } }
-
-    @media (max-width: 768px) {
-      /* P6-62 tap targets: these service links rendered 36px.
-         `a[href]` rather than `a` on purpose: 10 of these hub pages declare this
-         mobile block ABOVE the unconditional `.services-links-grid a { display: block }`
-         base rule, so at equal specificity the later base rule won and
-         `align-items: center` was dead code. Raising specificity makes the override
-         independent of source order. Caught by the impeccable critique, which measured
-         the rendered box instead of trusting the rule. */
-      .services-links-grid a[href] { min-height: 44px; display: flex; align-items: center; }
-      .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-      .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
-      .hub-hero p { font-size: 14px; }
-      .hub-hero-content { padding: 48px 16px 56px; }
-      .neighborhoods-grid { grid-template-columns: 1fr; }
-      .coastal-callout { padding: 22px 20px; }
-      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
-      .process-steps { grid-template-columns: repeat(2, 1fr); }
-      .cta-box { padding: 36px 24px; }
-      .cta-box h2 { font-size: 22px; }
-    }
-    @media (max-width: 480px) {
-      .hub-hero h1 { font-size: 28px; }
-      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
-      .process-steps { grid-template-columns: 1fr; }
-      .nav-cta { display: none; }
-      .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-    }
-    .city-pricing-line { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: var(--text-soft); line-height: 1.7; max-width: 760px; }
-    .city-pricing-line strong { color: var(--text-primary); }
-    .city-pricing-disclaimer { display: block; font-size: 13px; color: var(--text-sub); margin-top: 6px; }
-    .city-pricing-disclaimer a { color:var(--brand-text); font-weight: 600; }
-    .services-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
-    .services-links-grid a { font-size: 14px; font-weight: 600; color: var(--text-primary); text-decoration: none; padding: 9px 4px; border-bottom: 1px solid var(--border); display: block; }
-    .services-links-grid a:hover { color: var(--brand); }
-    .services-links-grid a.hub-link::after { content: ' \2192'; font-size: 11px; color: var(--brand); opacity: 0.8; font-style: normal; }
-    .services-links-grid a:not(.hub-link) { color: var(--text-sub); font-weight: 500; }
+    @media (max-width: 480px) { .nav-cta { display: none; } }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Huntington Beach) -->
@@ -544,269 +444,286 @@
       <a href="contact.html" class="nav-drawer-cta">Request a Repair</a>
     </div>
   </nav>
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1" class="v2">
+  <svg class="v2-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="v2-phone" viewBox="0 0 24 24"><path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a14 14 0 0 1-7-7l2-2-2-5Z"/></symbol>
+    <symbol id="v2-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="v2-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </defs></svg>
 
-  <!-- HERO -->
-  <div class="hub-hero">
-    <div class="hub-hero-bg"></div>
-    <div class="hub-hero-overlay"></div>
-    <div class="hub-hero-content">
-      <h1>Appliance Repair in<br/>Huntington Beach, CA</h1>
-      <p>Same-day service across the Pier area, Seacliff, Huntington Harbour, and every HB ZIP code. Coastal appliance specialists. Licensed &amp; insured.</p>
-      <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 160 Google reviews, rated 5 out of 5">
-          <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 160 Google reviews</span>
-        </a>
-      </div>
-      <div class="hub-cta-row">
-        <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
-        <a href="contact.html" class="btn-outline-white">Request a Repair</a>
+  <section class="v2-hero" aria-labelledby="hero-title">
+    <div class="v2-wrap">
+      <nav class="v2-crumbs" aria-label="Breadcrumb">
+        <a href="../">Home</a><span aria-hidden="true">/</span>
+        <a href="service-areas.html">Service Areas</a><span aria-hidden="true">/</span>
+        <span>Appliance Repair Huntington Beach, CA</span>
+      </nav>
+      <div class="v2-hero-grid">
+        <div>
+          <h1 id="hero-title">Appliance Repair in Huntington Beach, CA</h1>
+          <p class="v2-hero-lead">Same-day service across the Pier area, Seacliff, Huntington Harbour, and every HB ZIP code. Coastal appliance specialists. Licensed &amp; insured.</p>
+          <a href="testimonials.html" class="v2-rating" aria-label="5.0, 160 Google reviews, rated 5 out of 5">
+            <span class="v2-stars" aria-hidden="true">★★★★★</span>
+            <span>5.0 &middot; 160 Google reviews</span>
+          </a>
+          <div class="v2-hero-cta">
+            <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
+            <a href="contact.html" class="v2-btn v2-btn--ghost">Request a Repair</a>
+          </div>
+          <p class="v2-hero-note">Mon–Sat, 8am–7pm. Two-hour arrival window. The technician calls before arriving.</p>
+          <a class="v2-link v2-hero-jump" href="#neighborhoods">See neighborhoods and ZIP codes <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+        </div>
+        <figure class="v2-hero-photo">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-refrigerator-ge-monogram-display-board-huntington-beach-480w.webp 480w, ../images/real/business/completed-repair-refrigerator-ge-monogram-display-board-huntington-beach.webp 1200w" type="image/webp" sizes="(max-width:768px) 100vw, 440px">
+            <img src="../images/real/business/completed-repair-refrigerator-ge-monogram-display-board-huntington-beach.jpg" alt="Stainless GE Monogram refrigerator with a front dispenser in a Huntington Beach kitchen" width="1200" height="1600" fetchpriority="high" style="object-position:50% 45%;">
+          </picture>
+          <figcaption>Our job: GE Monogram refrigerator display board replacement, Huntington Beach</figcaption>
+        </figure>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- BREADCRUMB -->
-  <div class="hb-bc">
-    <div class="hb-bc-in">
-      <a href="../" style="color:#666;text-decoration:none;">Home</a>
-      <span class="hb-bc-sep">›</span>
-      <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
-      <span class="hb-bc-sep">›</span>
-      <span style="color:#333;">Appliance Repair Huntington Beach, CA</span>
-    </div>
-  </div>
-
-  <!-- WHAT TO EXPECT -->
-  <section class="expect-strip" aria-labelledby="expect-title">
-    <div class="expect-inner">
-      <h2 class="expect-title" id="expect-title">What to expect</h2>
-      <ul class="expect-list">
+  <section class="v2-facts" aria-labelledby="expect-title">
+    <div class="v2-wrap">
+      <h2 id="expect-title" class="sr-only">What to expect</h2>
+      <ul>
         <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
         <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
         <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
-        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+        <li><strong>Same-day service</strong><span>Call or request online.</span></li>
       </ul>
-      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
-      <div class="brand-chips" role="group" aria-labelledby="brand-chips-label">
-        <p class="brand-chips-label" id="brand-chips-label">Brands we repair</p>
-        <ul class="brand-chips-list" id="brand-chips-list">
-          <li><a class="brand-chip" href="sub-zero-appliance-repair-orange-county.html" aria-label="Sub-Zero appliance repair"><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="wolf-appliance-repair-orange-county.html" aria-label="Wolf appliance repair"><img src="../images/brands/wolf.svg" alt="Wolf" width="70" height="18" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="samsung-appliance-repair-orange-county.html" aria-label="Samsung appliance repair"><img src="../images/brands/samsung.svg" alt="Samsung" width="85" height="13" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="lg-appliance-repair-orange-county.html" aria-label="LG appliance repair"><img src="../images/brands/lg.svg" alt="LG" width="48" height="22" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="whirlpool-appliance-repair-orange-county.html" aria-label="Whirlpool appliance repair"><img src="../images/brands/whirlpool.svg" alt="Whirlpool" width="66" height="22" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="ge-appliance-repair-orange-county.html" aria-label="GE appliance repair"><img src="../images/brands/ge.svg" alt="GE" width="83" height="22" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip brand-chip-text" href="maytag-appliance-repair-orange-county.html" aria-label="Maytag appliance repair">Maytag</a></li>
-          <li><a class="brand-chip" href="frigidaire-appliance-repair-orange-county.html" aria-label="Frigidaire appliance repair"><img src="../images/brands/frigidaire.svg" alt="Frigidaire" width="107" height="13" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="bosch-appliance-repair-orange-county.html" aria-label="Bosch appliance repair"><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="kitchenaid-appliance-repair-orange-county.html" aria-label="KitchenAid appliance repair"><img src="../images/brands/kitchenaid.svg" alt="KitchenAid" width="114" height="10" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="kenmore-appliance-repair-orange-county.html" aria-label="Kenmore appliance repair"><img src="../images/brands/kenmore.svg" alt="Kenmore" width="87" height="18" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="miele-appliance-repair-orange-county.html" aria-label="Miele appliance repair"><img src="../images/brands/miele.svg" alt="Miele" width="65" height="16" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="thermador-appliance-repair-orange-county.html" aria-label="Thermador appliance repair"><img src="../images/brands/thermador.svg" alt="Thermador" width="90" height="18" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="viking-appliance-repair-orange-county.html" aria-label="Viking appliance repair"><img src="../images/brands/viking.svg" alt="Viking" width="80" height="19" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="electrolux-appliance-repair-orange-county.html" aria-label="Electrolux appliance repair"><img src="../images/brands/electrolux.svg" alt="Electrolux" width="83" height="19" loading="eager" decoding="async"></a></li>
-          <li class="brand-chips-more-item"><button type="button" class="brand-chip brand-chips-more" aria-controls="brand-chips-list" aria-expanded="false">More brands</button></li>
+      <p class="v2-facts-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
+    </div>
+  </section>
+
+  <section class="v2-sec" aria-labelledby="jobs-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="jobs-title">Recent Repair in Huntington Beach</h2>
+      </div>
+      <article class="v2-job v2-job--row">
+        <figure class="v2-job-photo">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-huntington-beach-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-huntington-beach.webp 768w" type="image/webp" sizes="(max-width:960px) 100vw, 320px">
+            <img src="../images/real/business/completed-repair-dryer-lg-not-heating-huntington-beach.jpg" alt="Universal Appliances Repair technician diagnosing an LG front-load dryer not heating in a Huntington Beach home, top panel removed showing internal components" width="768" height="1024" loading="lazy" style="object-position:50% 50%;">
+          </picture>
+          <figcaption>Photo from the service visit</figcaption>
+        </figure>
+        <div class="v2-job-body">
+          <p class="v2-job-loc">Huntington Beach, CA</p>
+          <h3>LG Front-Load Dryer Not Heating</h3>
+          <p>Top panel removed for component access and heating element diagnosis.</p>
+        </div>
+      </article>
+      <div class="v2-foot">
+        <a class="v2-link" href="dryer-repair-orange-county.html" aria-label="See our dryer repair service">See our dryer repair service <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="v2-sec v2-sec--ice" aria-labelledby="reviews-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="reviews-title">What Orange County Customers Say</h2>
+        <p>From our 160 verified 5-star Google reviews</p>
+      </div>
+      <div class="v2-reviews v2-reviews--3">
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Kelly Heyden</strong>&nbsp;· Washer repair&nbsp;· Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliance, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help.</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Julie L.</strong>&nbsp;· Dryer repair&nbsp;· Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+        <figure class="v2-review">
+          <span class="v2-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+          <blockquote>AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs.</blockquote>
+          <button type="button" class="v2-review-more" aria-expanded="false" hidden>Read full review</button>
+          <footer><strong>Joellyn Meadows</strong>&nbsp;· Refrigerator repair&nbsp;· Orange&nbsp;County,&nbsp;CA</footer>
+        </figure>
+      </div>
+      <div class="v2-foot">
+        <a href="https://www.google.com/maps?cid=6142328803939874574" class="v2-rating" aria-label="5.0, 160 Google reviews, rated 5 out of 5. Opens Google">
+          <span class="v2-stars" aria-hidden="true">★★★★★</span>
+          <span>5.0 &middot; 160 Google reviews</span>
+        </a>
+        <div class="v2-foot-actions">
+          <button type="button" class="v2-btn v2-btn--ghost v2-reviews-more" aria-expanded="false" hidden>Show more reviews</button>
+          <a class="v2-btn v2-btn--ghost" href="testimonials.html">Read all 160 reviews <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="v2-sec" aria-labelledby="fix-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="fix-title">What We Fix in Huntington Beach</h2>
+        <p>Whether your fridge stopped cooling after a hot summer week or your washer leaked onto the laundry room floor, we diagnose and fix it, usually in one visit.</p>
+      </div>
+      <ul class="v2-brands v2-brands--4 v2-brands--services">
+        <li><a href="refrigerator-repair-orange-county.html">Refrigerator Repair</a></li>
+        <li><a href="washer-repair-orange-county.html">Washer Repair</a></li>
+        <li><a href="dryer-repair-orange-county.html">Dryer Repair</a></li>
+        <li><a href="dishwasher-repair-orange-county.html">Dishwasher Repair</a></li>
+        <li><a href="oven-stove-repair-orange-county.html">Oven &amp; Stove Repair</a></li>
+        <li><a href="freezer-repair-orange-county.html">Freezer Repair</a></li>
+        <li><a href="wine-cooler-repair-orange-county.html">Wine Cooler Repair</a></li>
+        <li><a href="garbage-disposal-repair-orange-county.html">Garbage Disposal Repair</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="v2-sec v2-sec--ink" aria-labelledby="process-title">
+    <div class="v2-wrap v2-split">
+      <div>
+        <h2 id="process-title">How It Works</h2>
+        <p>Four steps from your call to a working appliance.</p>
+        <a href="contact.html" class="v2-btn">Request a Repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+      </div>
+      <ol class="v2-steps">
+        <li><h3>Call or Request Online</h3>Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> or submit the online form. Tell us the appliance, brand, and the symptom.</li>
+        <li><h3>Same-Day Dispatch</h3>We dispatch from Stanton, about 15–20 minutes from most HB addresses. Two-hour arrival window, call when on the way.</li>
+        <li><h3>Diagnosis &amp; Quote</h3>Your technician runs a full diagnostic including a check for coastal corrosion, then gives a firm quote before any work starts.</li>
+        <li><h3>Repair &amp; Warranty</h3>Most repairs finish in a single visit. All work carries a <span class="nb">90-day</span> parts and <span class="nb">30-day</span> labor warranty.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="v2-sec" aria-labelledby="pricing-title">
+    <div class="v2-wrap v2-split">
+      <h2 id="pricing-title">Pricing &amp; Discounts</h2>
+      <div>
+        <ul class="v2-policy">
+          <li><strong>$99 diagnostic fee</strong>, applied toward your repair</li>
+          <li><strong>20% off labor</strong> for seniors 60+ &amp; repeat customers</li>
         </ul>
-        <p class="brand-chips-intro">From everyday Whirlpool and Samsung to the Sub-Zero and Wolf appliances in Seacliff and Huntington Harbour homes, we service all of them. We also repair <a href="dacor-appliance-repair-orange-county.html">Dacor</a> and <a href="dcs-appliance-repair-orange-county.html">DCS</a>.</p>
-        <p class="brand-chips-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
+        <p class="v2-fine v2-prose">Estimates vary by brand, part availability, and diagnosis. <a class="v2-arrow-link" href="appliance-repair-cost-orange-county.html">Full pricing guide <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></p>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section section-white" style="text-align:center;">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">What Orange County Customers Say</h2>
-      <p style="font-size:13.5px;color:#666;margin-top:8px;">From our 160 verified 5-star Google reviews</p>
-      <div class="testimonials-grid testimonials-grid--stack-768 reviews-cap">
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"We had an issue where our washing machine would not drain. AG came and was communicative about his timing. He diagnosed the problem, found the part and said he'd return the following day once he had the part. Again, he was communicating the second day and completed the job in one hour. He was prompt, efficient and helped get our washing machine up and running as quickly as possible for our busy family of 4. Thank you!!"</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">KH</div>
-          <div class="testimonial-name">Kelly Heyden · Washer repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"Great experience! Our dryer was making a horrible squeaking noise. I contacted Universal Appliance, Gason called me back and was here within 30 minutes. He repaired our dryer in a timely manner and was kind and respectful. Thank you for your help."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JL</div>
-          <div class="testimonial-name">Julie L. · Dryer repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testimonial-quote">"AG was prompt, attentive and very knowledgeable about refrigeration and repairs. We have called him in the past and will continue to call for our other appliance needs."</p>
-          <div class="t-initial" aria-hidden="true" style="background:#444444;">JM</div>
-          <div class="testimonial-name">Joellyn Meadows · Refrigerator repair · Orange&nbsp;County,&nbsp;CA</div>
-        </div>
-
+  <section class="v2-sec v2-sec--ice" id="neighborhoods" aria-labelledby="neighborhoods-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="neighborhoods-title">Huntington Beach Areas We Serve</h2>
+        <p>From the surf shops near the Pier to the waterfront homes of Huntington Harbour, we send technicians to every part of HB. Same rates, no travel surcharges.</p>
       </div>
-      <div class="reviews-cap-more-row">
-        <button type="button" class="reviews-cap-more btn-outline">Show more reviews</button>
-      </div>
-      <div style="margin-top:10px;">
-        <a class="reviews-all-link" href="testimonials.html">Read all 160 reviews &rarr;</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- NEIGHBORHOODS -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-page">Huntington Beach Areas We Serve</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:700px;">From the surf shops near the Pier to the waterfront homes of Huntington Harbour, we send technicians to every part of HB. Same rates, no travel surcharges.</p>
-      <div class="neighborhoods-grid">
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Downtown &amp; Pier Area</div>
-          <div class="neighborhood-zip">ZIP 92648</div>
-          <div class="neighborhood-note">Huntington Beach Pier, Main Street, Pacific City. Dense mix of condos and older residences close to the ocean.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Seacliff</div>
-          <div class="neighborhood-zip">ZIP 92648</div>
-          <div class="neighborhood-note">Gated community adjacent to Bolsa Chica. Many homes have Sub-Zero and Wolf appliances.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Central Huntington Beach</div>
-          <div class="neighborhood-zip">ZIP 92646</div>
-          <div class="neighborhood-note">The city's largest residential zone. Single-family homes, condos, and townhomes across a wide swath of HB.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Huntington Harbour</div>
-          <div class="neighborhood-zip">ZIP 92649</div>
-          <div class="neighborhood-note">Waterfront community with canals and private docks. Year-round ocean humidity accelerates appliance wear.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Bolsa Chica Area</div>
-          <div class="neighborhood-zip">ZIP 92647</div>
-          <div class="neighborhood-note">Residential neighborhoods near the Bolsa Chica Ecological Reserve, bordering Westminster and Garden Grove.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Oak View &amp; Midtown</div>
-          <div class="neighborhood-zip">ZIP 92647, 92649</div>
-          <div class="neighborhood-note">Inland residential areas near Huntington Central Park, away from the immediate coast.</div>
-        </div>
-      </div>
-
-      <!-- COASTAL CALLOUT -->
-      <div class="coastal-callout">
+      <ul class="v2-places">
+        <li>
+          <h3>Downtown &amp; Pier Area</h3>
+          <span class="v2-zip">ZIP 92648</span>
+          <p>Huntington Beach Pier, Main Street, Pacific City. Dense mix of condos and older residences close to the ocean.</p>
+        </li>
+        <li>
+          <h3>Seacliff</h3>
+          <span class="v2-zip">ZIP 92648</span>
+          <p>Gated community adjacent to Bolsa Chica. Many homes have Sub-Zero and Wolf appliances.</p>
+        </li>
+        <li>
+          <h3>Central Huntington Beach</h3>
+          <span class="v2-zip">ZIP 92646</span>
+          <p>The city's largest residential zone. Single-family homes, condos, and townhomes across a wide swath of HB.</p>
+        </li>
+        <li>
+          <h3>Huntington Harbour</h3>
+          <span class="v2-zip">ZIP 92649</span>
+          <p>Waterfront community with canals and private docks. Year-round ocean humidity accelerates appliance wear.</p>
+        </li>
+        <li>
+          <h3>Bolsa Chica Area</h3>
+          <span class="v2-zip">ZIP 92647</span>
+          <p>Residential neighborhoods near the Bolsa Chica Ecological Reserve, bordering Westminster and Garden Grove.</p>
+        </li>
+        <li>
+          <h3>Oak View &amp; Midtown</h3>
+          <span class="v2-zip">ZIP 92647, 92649</span>
+          <p>Inland residential areas near Huntington Central Park, away from the immediate coast.</p>
+        </li>
+      </ul>
+      <div class="v2-note v2-split">
         <h3>Living near the coast? Here's what salt air does to your appliances.</h3>
-        <p>Huntington Beach's ocean air carries salt and moisture that corrodes metal components faster than in inland cities. Refrigerator condenser coils collect salt deposits that reduce cooling efficiency. Dryer heating elements and drum supports oxidize. Dishwasher spray arms and door hinges corrode. Stainless steel exteriors pit near the water.</p>
-        <p>The fix isn't complicated: regular condenser coil cleaning, checking door gaskets, and addressing small symptoms early. But when a repair is needed, knowing the coastal context helps diagnose the root cause. Our technicians work in HB regularly and look for salt-related damage as part of every inspection.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">What We Fix in Huntington Beach</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:560px;text-align:center;margin-left:auto;margin-right:auto;">Whether your fridge stopped cooling after a hot summer week or your washer leaked onto the laundry room floor, we diagnose and fix it, usually in one visit.</p>
-      <div class="services-links-grid">
-        <a href="refrigerator-repair-orange-county.html" class="hub-link">Refrigerator Repair</a>
-        <a href="washer-repair-orange-county.html" class="hub-link">Washer Repair</a>
-        <a href="dryer-repair-orange-county.html" class="hub-link">Dryer Repair</a>
-        <a href="dishwasher-repair-orange-county.html" class="hub-link">Dishwasher Repair</a>
-        <a href="oven-stove-repair-orange-county.html" class="hub-link">Oven &amp; Stove Repair</a>
-        <a href="freezer-repair-orange-county.html" class="hub-link">Freezer Repair</a>
-        <a href="wine-cooler-repair-orange-county.html" class="hub-link">Wine Cooler Repair</a>
-        <a href="garbage-disposal-repair-orange-county.html" class="hub-link">Garbage Disposal Repair</a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- PROCESS -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">How It Works</h2>
-      <p style="font-size:14px;color:#666;text-align:center;max-width:560px;margin:0 auto 8px;">Four steps from your call to a working appliance.</p>
-      <div class="process-steps">
-        <div class="process-step">
-          <div class="step-number">1</div>
-          <div class="step-title">Call or Request Online</div>
-          <div class="step-desc">Call (949) 629-5365 or submit the online form. Tell us the appliance, brand, and the symptom.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">2</div>
-          <div class="step-title">Same-Day Dispatch</div>
-          <div class="step-desc">We dispatch from Stanton, about 15–20 minutes from most HB addresses. Two-hour arrival window, call when on the way.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">3</div>
-          <div class="step-title">Diagnosis &amp; Quote</div>
-          <div class="step-desc">Your technician runs a full diagnostic including a check for coastal corrosion, then gives a firm quote before any work starts.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">4</div>
-          <div class="step-title">Repair &amp; Warranty</div>
-          <div class="step-desc">Most repairs finish in a single visit. All work carries a <span class="nb">90-day</span> parts and <span class="nb">30-day</span> labor warranty.</div>
+        <div class="v2-prose">
+          <p>Huntington Beach's ocean air carries salt and moisture that corrodes metal components faster than in inland cities. Refrigerator condenser coils collect salt deposits that reduce cooling efficiency. Dryer heating elements and drum supports oxidize. Dishwasher spray arms and door hinges corrode. Stainless steel exteriors pit near the water.</p>
+          <p>The fix isn't complicated: regular condenser coil cleaning, checking door gaskets, and addressing small symptoms early. But when a repair is needed, knowing the coastal context helps diagnose the root cause. Our technicians work in HB regularly and look for salt-related damage as part of every inspection.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- JOB PHOTO: Huntington Beach LG dryer -->
-  <section class="section section-gray" style="padding-top:0;padding-bottom:40px;">
-    <div class="container">
-      <figure class="job-photo" style="margin:0;">
-        <picture>
-          <source srcset="../images/real/business/completed-repair-dryer-lg-not-heating-huntington-beach-480w.webp 480w, ../images/real/business/completed-repair-dryer-lg-not-heating-huntington-beach.webp 768w" type="image/webp" sizes="(max-width:600px) 100vw, 360px">
-          <img src="../images/real/business/completed-repair-dryer-lg-not-heating-huntington-beach.jpg" alt="Universal Appliances Repair technician diagnosing an LG front-load dryer not heating in a Huntington Beach home, top panel removed showing internal components" width="768" height="1024" loading="lazy" style="width:100%;max-width:360px;height:auto;border-radius:12px;display:block;margin:0 auto;">
-        </picture>
-        <figcaption style="font-size:12px;color:#666;margin-top:6px;text-align:center;">Recent Huntington Beach job: LG front-load dryer not heating. Top panel removed for component access and heating element diagnosis.</figcaption>
-      </figure>
-    </div>
-  </section>
-  <!-- PRICING LINE -->
-  <section class="section section-gray" style="padding-top:0;padding-bottom:40px;">
-    <div class="container">
-      <div class="city-pricing-line">
-        <strong>$99 diagnostic fee</strong>, applied toward your repair · <strong>20% off labor</strong> for seniors 60+ &amp; repeat customers.
-        <span class="city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. <a href="appliance-repair-cost-orange-county.html">Full pricing guide →</a></span>
+  <section class="v2-sec" aria-labelledby="brands-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="brands-title">Brands we repair</h2>
+        <p>From everyday Whirlpool and Samsung to the Sub-Zero and Wolf appliances in Seacliff and Huntington Harbour homes, we service all of them. We also repair <a href="dacor-appliance-repair-orange-county.html">Dacor</a> and <a href="dcs-appliance-repair-orange-county.html">DCS</a>.</p>
       </div>
+      <ul class="v2-brands">
+        <li><a href="sub-zero-appliance-repair-orange-county.html">Sub-Zero</a></li>
+        <li><a href="wolf-appliance-repair-orange-county.html">Wolf</a></li>
+        <li><a href="samsung-appliance-repair-orange-county.html">Samsung</a></li>
+        <li><a href="lg-appliance-repair-orange-county.html">LG</a></li>
+        <li><a href="whirlpool-appliance-repair-orange-county.html">Whirlpool</a></li>
+        <li><a href="ge-appliance-repair-orange-county.html">GE</a></li>
+        <li><a href="maytag-appliance-repair-orange-county.html">Maytag</a></li>
+        <li><a href="frigidaire-appliance-repair-orange-county.html">Frigidaire</a></li>
+        <li><a href="bosch-appliance-repair-orange-county.html">Bosch</a></li>
+        <li><a href="kitchenaid-appliance-repair-orange-county.html">KitchenAid</a></li>
+        <li><a href="kenmore-appliance-repair-orange-county.html">Kenmore</a></li>
+        <li><a href="miele-appliance-repair-orange-county.html">Miele</a></li>
+        <li><a href="thermador-appliance-repair-orange-county.html">Thermador</a></li>
+        <li><a href="viking-appliance-repair-orange-county.html">Viking</a></li>
+        <li><a href="electrolux-appliance-repair-orange-county.html">Electrolux</a></li>
+      </ul>
+      <p class="v2-fine">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners. If your appliance is still under manufacturer warranty, check with the manufacturer before booking.</p>
     </div>
   </section>
 
-  <!-- SERVICE AREA -->
-  <section class="section section-white service-area" aria-labelledby="service-area-title">
-    <div class="container">
+  <section class="v2-sec v2-sec--ice service-area" aria-labelledby="service-area-title">
+    <div class="v2-wrap v2-split">
       <h2 id="service-area-title">Appliance repair across Huntington Beach</h2>
-      <p>Universal Appliances Repair Group Inc. provides same-day service in Huntington Beach for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover every neighborhood, including Downtown and the Pier area, Seacliff, Central HB, Huntington Harbour, and Bolsa Chica, across ZIP codes 92646, 92647, 92648, and 92649.</p>
-      <p>Coastal salt air and humidity are hard on appliances, and we know what to look for. We also serve nearby <a href="appliance-repair-fountain-valley-ca.html">Fountain Valley</a>, <a href="appliance-repair-westminster-ca.html">Westminster</a>, <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>, <a href="appliance-repair-newport-beach-ca.html">Newport Beach</a>, and <a href="appliance-repair-seal-beach-ca.html">Seal Beach</a>. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
+      <div class="v2-prose">
+        <p>Universal Appliances Repair Group Inc. provides same-day service in Huntington Beach for refrigerators, washers, dryers, dishwashers, ovens, stoves, freezers, and garbage disposals. We cover every neighborhood, including Downtown and the Pier area, Seacliff, Central HB, Huntington Harbour, and Bolsa Chica, across ZIP codes 92646, 92647, 92648, and 92649.</p>
+        <p>Coastal salt air and humidity are hard on appliances, and we know what to look for. We also serve nearby <a href="appliance-repair-fountain-valley-ca.html">Fountain Valley</a>, <a href="appliance-repair-westminster-ca.html">Westminster</a>, <a href="appliance-repair-costa-mesa-ca.html">Costa Mesa</a>, <a href="appliance-repair-newport-beach-ca.html">Newport Beach</a>, and <a href="appliance-repair-seal-beach-ca.html">Seal Beach</a>. Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">FAQ: Huntington Beach Appliance Repair</h2>
+  <section class="v2-sec" id="faq" aria-labelledby="faq-title">
+    <div class="v2-wrap v2-split">
+      <div class="v2-sticky">
+        <h2 id="faq-title">FAQ: Huntington Beach Appliance Repair</h2>
+        <p>Still have a question? Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a>.</p>
+      </div>
       <div class="faq-list">
 
-        <div class="faq-item">
-          <button class="faq-q">Do you offer same-day appliance repair in Huntington Beach, CA?<span class="icon">+</span></button>
-          <div class="faq-a">Yes. Same-day appliance repair is available throughout Huntington Beach when you call before noon. We dispatch from Stanton and can reach most Huntington Beach neighborhoods, including Downtown near the Pier, Seacliff, and Central HB, within a few hours. Call (949) 629-5365 to check same-day availability.</div>
+        <div class="faq-item open">
+          <button class="faq-q" aria-expanded="true">Do you offer same-day appliance repair in Huntington Beach, CA?<span class="icon">+</span></button>
+          <div class="faq-a">Yes. Same-day appliance repair is available throughout Huntington Beach when you call before noon. We dispatch from Stanton and can reach most Huntington Beach neighborhoods, including Downtown near the Pier, Seacliff, and Central HB, within a few hours. Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> to check same-day availability.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Which Huntington Beach neighborhoods and ZIP codes do you serve?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Which Huntington Beach neighborhoods and ZIP codes do you serve?<span class="icon">+</span></button>
           <div class="faq-a">We serve all of Huntington Beach: Downtown and the Pier area (92648), Seacliff (92648), Central HB (92646), Huntington Harbour (92649), the Bolsa Chica area (92647), and Oak View and Midtown (92647, 92649). Every part of Huntington Beach is in our service area.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Does the coastal salt air in Huntington Beach affect appliances?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Does the coastal salt air in Huntington Beach affect appliances?<span class="icon">+</span></button>
           <div class="faq-a">Yes. Salt air and coastal humidity accelerate corrosion on metal components, particularly refrigerator condenser coils, dryer heating elements, and dishwasher spray arms. Homes within a mile of the beach see this most acutely. Regular cleaning of condenser coils and inspecting door gaskets can extend appliance life. When symptoms appear, such as a fridge running hot or a dryer taking two cycles, coastal corrosion is often a contributing factor our technicians check for first.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Do you service appliances in Huntington Harbour?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Do you service appliances in Huntington Harbour?<span class="icon">+</span></button>
           <div class="faq-a">Yes. Huntington Harbour (ZIP 92649) is part of our regular service area. Waterfront homes in Huntington Harbour see elevated humidity year-round, which can shorten appliance lifespans. We're familiar with the types of failures common in coastal properties and carry parts for the premium brands found in many Harbour homes.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q">Is your appliance repair work covered by a warranty?<span class="icon">+</span></button>
+          <button class="faq-q" aria-expanded="false">Is your appliance repair work covered by a warranty?<span class="icon">+</span></button>
           <div class="faq-a">Yes. Every repair includes a <span class="nb">90-day</span> warranty on parts and a <span class="nb">30-day</span> warranty on labor. If the same issue recurs within 30 days, we return and fix it at no additional charge; replaced parts stay covered for 90 days. Ask your technician for the full warranty terms when they provide the quote before any work begins.</div>
         </div>
 
@@ -814,21 +731,22 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="section section-white">
-    <div class="container">
-      <div class="cta-box">
-        <h2>Need Appliance Repair in Huntington Beach?</h2>
-        <p>Same-day service available. All appliances, all brands. Coastal conditions checked on every visit. <span class="nb">90-day</span> parts / <span class="nb">30-day</span> labor warranty on every repair.</p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-          <a href="tel:+19496295365" class="btn-white">Call (949) 629-5365</a>
-          <a href="contact.html" class="btn-white-outline">Request a Repair</a>
+  <section class="v2-sec v2-sec--ice" aria-labelledby="cta-title">
+    <div class="v2-wrap">
+      <div class="v2-cta">
+        <div>
+          <h2 id="cta-title">Need Appliance Repair in Huntington Beach?</h2>
+          <p>Same-day service available. All appliances, all brands. Coastal conditions checked on every visit. <span class="nb">90-day</span> parts&nbsp;/ <span class="nb">30-day</span> labor warranty on every repair.</p>
+        </div>
+        <div class="v2-cta-actions">
+          <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
+          <a href="contact.html" class="v2-btn v2-btn--onink">Request a Repair</a>
+          <small>Mon–Sat, 8am–7pm</small>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
 </main>
   <footer class="footer">
     <div class="footer-grid">
