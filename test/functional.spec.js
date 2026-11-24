@@ -1358,6 +1358,7 @@ test('city hubs: the migrated cities are discovered as v2', () => {
     'appliance-repair-palm-springs-ca', 'appliance-repair-long-beach-ca', 'appliance-repair-pico-rivera-ca',
     'appliance-repair-chino-hills-ca', 'appliance-repair-whittier-ca', 'appliance-repair-downey-ca',
     'appliance-repair-montebello-ca', 'appliance-repair-la-habra-ca',
+    'appliance-repair-brea-ca', 'appliance-repair-yorba-linda-ca', 'appliance-repair-seal-beach-ca',
   ]) {
     expect(CITY_V2_SLUGS, slug + ' no longer carries <main class="v2">').toContain(slug);
   }
