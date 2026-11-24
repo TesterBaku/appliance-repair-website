@@ -1524,7 +1524,8 @@ for (const slug of CITY_HUBS) {
         const jump = page.locator('.v2-hero a.v2-hero-jump');
         await expect(jump).toHaveCount(1);
         // Stanton's directory has no ZIP chips (the city has one ZIP), so its label is "streets and areas".
-        expect((await jump.textContent()).trim()).toMatch(/^See (neighborhoods and ZIP codes|streets and areas we cover)/);
+        // Downey's target is prose about its ZIP codes and bordering cities, with no neighborhood list: "areas and ZIP codes".
+        expect((await jump.textContent()).trim()).toMatch(/^See (neighborhoods and ZIP codes|streets and areas we cover|areas and ZIP codes)/);
         const target = (await jump.getAttribute('href')) || '';
         expect(target).toMatch(/^#[\w-]+$/);
         const section = page.locator(target);
