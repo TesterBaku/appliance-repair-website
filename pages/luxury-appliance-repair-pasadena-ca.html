@@ -36,130 +36,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="preload" href="../shared.css" as="style" />
-  <link rel="preload" as="image" href="../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana.webp" fetchpriority="high" type="image/webp">
+  <link rel="preload" as="image" type="image/webp" imagesrcset="../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana-800w.webp 800w, ../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana.webp 1600w" imagesizes="(max-width:768px) 100vw, 620px" href="../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana-800w.webp" fetchpriority="high">
   <link rel="stylesheet" href="../shared.css" />
 
   <style>
-    .hub-hero { position: relative; min-height: 480px; display: flex; align-items: center; text-align: center; padding-top: 70px; overflow: hidden; }
-    .hub-hero-bg { position: absolute; inset: 0; background-image: url('../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana.webp'); background-size: cover; background-position: center; }
-    .hub-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,18,30,0.70) 0%, rgba(10,18,30,0.80) 100%); }
-    .hub-hero-content { position: relative; z-index: 5; padding: 72px 24px 72px; width: 100%; }
-    .hub-hero h1 { font-size: 46px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.1; color: var(--surface); max-width: 720px; margin: 0 auto 18px; text-wrap: balance; }
-    .hub-hero p { color: rgba(255,255,255,0.82); font-size: 16px; line-height: 1.65; max-width: 580px; margin: 0 auto 32px; }
-    .hub-cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn-outline-white { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 500; padding: 11px 24px; border-radius: 8px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.5); }
-    .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
-
-    .hb-bc { background: #f7fafc; border-bottom: 1px solid #eee; padding: 10px 24px; }
-    .hb-bc-in { max-width: 1100px; margin: 0 auto; font-size: 12px; color: #666; }
-    .hb-bc-sep { margin: 0 6px; }
-    @media (max-width: 480px) {
-      .hb-bc { padding: 10px 12px; }
-      .hb-bc-in { font-size: 11px; }
-      .hb-bc-sep { margin: 0 4px; }
-    }
-
-    .neighborhoods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
-    .neighborhood-card { background: var(--surface); border-radius: 12px; padding: 22px 24px; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
-    .neighborhood-name { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
-    .neighborhood-zip { font-size: 12px; color: var(--text-sub); }
-    .neighborhood-note { font-size: 13px; color: var(--text-sub); margin-top: 8px; line-height: 1.65; }
-
-
-    .symptoms-list { margin-top: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-width: 800px; margin-left: auto; margin-right: auto; }
-    .symptom-item { background: var(--surface); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--text-soft); border: 1px solid var(--border); display: flex; align-items: flex-start; gap: 10px; }
-    .symptom-item::before { content: ''; width: 8px; height: 8px; min-width: 8px; border-radius: 50%; background: var(--brand); margin-top: 4px; }
-
-    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px; }
-    .process-step { text-align: center; }
-    .step-number { width: 48px; height: 48px; background: var(--brand); color: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; margin: 0 auto 14px; }
-    .step-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
-    .step-desc { font-size: 12.5px; color: var(--text-sub); line-height: 1.65; }
-
-    .faq-list { margin-top: 36px; max-width: 760px; margin-left: auto; margin-right: auto; }
-    .hub-page .faq-item { border-bottom: 1px solid var(--border); padding: 0; }
-    .hub-page .faq-q { font-size: 14px; font-weight: 600; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; width: 100%; text-align: left; padding: 18px 22px; min-height: 44px; }
-    .hub-page .faq-q .icon { color: var(--brand); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
-    .hub-page .faq-a { font-size: 13px; color: var(--text-sub); line-height: 1.75; margin-top: 10px; display: none; padding: 0 22px 18px; }
-    .hub-page .faq-item.open .faq-a { display: block; padding: 0 22px 18px; }
-    .hub-page .faq-item.open .icon { transform: rotate(45deg); }
-
-    .cta-box { background: linear-gradient(135deg, #cc3d12 0%, #aa3210 100%); border-radius: 16px; padding: 48px 40px; text-align: center; }
-    .cta-box h2 { font-size: 28px; font-weight: 800; color: var(--surface); margin-bottom: 12px; letter-spacing: -0.4px; }
-    .cta-box p { font-size: 14px; color: #fff; margin-bottom: 28px; line-height: 1.65; }
-    .btn-white { display: inline-block; background: var(--surface); color: var(--brand-text); font-size: 13px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
-    .btn-white-outline { display: inline-block; background: transparent; color: var(--surface); font-size: 13px; font-weight: 600; padding: 11px 26px; border-radius: 8px; text-decoration: none; border: 2px solid rgba(255,255,255,0.85); }
-
-    .city-pricing-line { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 24px auto; font-size: 13px; color: var(--text-soft); line-height: 1.7; max-width: 760px; }
-    .city-pricing-line strong { color: var(--text-primary); }
-    .city-pricing-disclaimer { display: block; font-size: 13px; color: var(--text-sub); margin-top: 6px; }
-    .city-pricing-disclaimer a { color: var(--brand-text); font-weight: 600; }
-    .services-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 24px; max-width: 560px; margin-left: auto; margin-right: auto; }
-    .services-links-grid a { font-size: 14px; font-weight: 600; color: var(--text-primary); text-decoration: none; padding: 9px 4px; border-bottom: 1px solid var(--border); display: block; min-height: 44px; display: flex; align-items: center; }
-    .services-links-grid a:hover { color: var(--brand-text); }
-    .services-links-grid a.hub-link::after { content: '\00a0\2192'; font-size: 11px; color: var(--brand); opacity: 0.8; font-style: normal; }
-
-    .landmarks-block { background: var(--surface); border-radius: 12px; padding: 24px 28px; border: 1px solid var(--border); margin-top: 24px; }
-    .landmarks-block p { font-size: 13.5px; color: var(--text-sub); line-height: 1.8; max-width: 68ch; }
-    .landmarks-block p + p { margin-top: 14px; }
-    .landmarks-block a { color: var(--brand-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-
-    .scope-note { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin: 24px auto 0; font-size: 12.5px; color: var(--text-sub); line-height: 1.7; max-width: 680px; text-align: center; }
-    .scope-note strong { color: var(--text-primary); }
-
-    /* RECENT JOB PHOTOS
-       Copied from pages/luxury-appliance-repair-los-angeles-ca.html (itself the defect-fixed
-       dryer-hub version): fixed 3-up collapsing straight to 1-up, kicker in --text-sub not
-       brand orange, stretched card link for a full-card tap target, sizes capped at the real
-       360px mobile column. These base rules must stay ABOVE the @media block: media queries
-       add no specificity. */
-    .job-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
-    .job-card { position: relative; background: var(--surface); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s ease; }
-    .job-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.11); }
-    .job-card:focus-within { outline: 2px solid var(--brand); outline-offset: 3px; }
-    .job-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
-    .job-card-body { padding: 16px 18px 20px; }
-    .job-card-kicker { font-size: 10px; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-    .job-card-title { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.35; }
-    .job-card-loc { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
-    .job-card-link { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
-    .job-card-link:hover { text-decoration: underline; }
-    .job-card-link::after { content: ''; position: absolute; inset: 0; }
-    .job-see-all { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; font-size: 13px; font-weight: 600; color: var(--brand-text); text-decoration: none; }
-    .job-see-all:hover { text-decoration: underline; }
-
-    @media (max-width: 900px) {
-      .neighborhoods-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      /* P6-62 tap targets: these service links rendered 36px.
-         `a[href]` rather than `a` on purpose: 10 of these hub pages declare this
-         mobile block ABOVE the unconditional `.services-links-grid a { display: block }`
-         base rule, so at equal specificity the later base rule won and
-         `align-items: center` was dead code. Raising specificity makes the override
-         independent of source order. Caught by the impeccable critique, which measured
-         the rendered box instead of trusting the rule. */
-      .services-links-grid a[href] { min-height: 44px; display: flex; align-items: center; }
-      .btn-white, .btn-white-outline, .btn-outline-white { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-      .hub-hero h1 { font-size: 30px; letter-spacing: -0.5px; }
-      .hub-hero p { font-size: 14px; }
-      .hub-hero-content { padding: 48px 16px 56px; }
-      .neighborhoods-grid { grid-template-columns: 1fr; }
-      .symptoms-list { grid-template-columns: 1fr; }
-      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
-      .process-steps { grid-template-columns: repeat(2, 1fr); }
-      .job-grid { grid-template-columns: 1fr; max-width: 360px; }
-      .nav-cta { display: none; }
-      .hero-rating { min-height: 44px; }
-      .cta-box { padding: 36px 24px; }
-      .cta-box h2 { font-size: 22px; }
-    }
-    @media (max-width: 480px) {
-      .hub-hero h1 { font-size: 28px; }
-      div.services-links-grid { grid-template-columns: 1fr; }   /* P6-62: `div.` for the same source-order reason as above; this page's own mobile override was dead, so the grid never collapsed and labels wrapped with the arrow orphaned. */
-      .process-steps { grid-template-columns: 1fr; }
-      .btn-primary { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-    }
+    @media (max-width: 480px) { .nav-cta { display: none; } }
   </style>
 
   <!-- SCHEMA: Article -->
@@ -564,250 +445,267 @@
       <a href="contact.html" class="nav-drawer-cta">Request a Repair</a>
     </div>
   </nav>
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1" class="v2">
+  <svg class="v2-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="v2-phone" viewBox="0 0 24 24"><path d="M7 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-3l-5-2-2 2a14 14 0 0 1-7-7l2-2-2-5Z"/></symbol>
+    <symbol id="v2-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="v2-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </defs></svg>
 
-  <!-- HERO -->
-  <div class="hub-hero">
-    <div class="hub-hero-bg"></div>
-    <div class="hub-hero-overlay"></div>
-    <div class="hub-hero-content">
-      <h1>Luxury Appliance Repair in Pasadena</h1>
-      <p>Viking, Wolf, Thermador, Sub-Zero, Miele, Dacor, DCS, and Bosch premium lines, in Craftsman kitchens and estate remodels across the city. We take premium brands only here. Our Los Angeles technician can often be out the same day.</p>
-      <div style="margin-bottom:22px;">
-        <a href="testimonials.html" class="hero-rating" aria-label="5.0, 160 Google reviews, rated 5 out of 5">
-          <span class="hero-stars" aria-hidden="true">★★★★★</span>
-          <span>5.0 &middot; 160 Google reviews</span>
-        </a>
-      </div>
-      <div class="hub-cta-row">
-        <a href="tel:+19496295365" class="btn-primary">Call (949) 629-5365</a>
-        <a href="contact.html" class="btn-outline-white">Request a Repair</a>
+  <section class="v2-hero" aria-labelledby="hero-title">
+    <div class="v2-wrap">
+      <nav class="v2-crumbs" aria-label="Breadcrumb">
+        <a href="../">Home</a><span aria-hidden="true">/</span>
+        <a href="service-areas.html">Service Areas</a><span aria-hidden="true">/</span>
+        <a href="luxury-appliance-repair-los-angeles-ca.html">Luxury Appliance Repair, Los Angeles</a><span aria-hidden="true">/</span>
+        <span>Pasadena</span>
+      </nav>
+      <div class="v2-hero-grid">
+        <div>
+          <h1 id="hero-title">Luxury Appliance Repair in Pasadena</h1>
+          <p class="v2-hero-lead">Viking, Wolf, Thermador, Sub-Zero, Miele, Dacor, DCS, and Bosch premium lines, in Craftsman kitchens and estate remodels across the city. We take premium brands only here. Our Los Angeles technician can often be out the same day.</p>
+          <a href="testimonials.html" class="v2-rating" aria-label="5.0, 160 Google reviews, rated 5 out of 5">
+            <span class="v2-stars" aria-hidden="true">★★★★★</span>
+            <span>5.0 &middot; 160 Google reviews</span>
+          </a>
+          <div class="v2-hero-cta">
+            <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
+            <a href="contact.html" class="v2-btn v2-btn--ghost">Request a Repair</a>
+          </div>
+          <p class="v2-hero-note">Mon–Sat, 8am–7pm. Two-hour arrival window. The technician calls before arriving.</p>
+          <a class="v2-link v2-hero-jump" href="#neighborhoods">See neighborhoods and ZIP codes <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+        </div>
+        <figure class="v2-hero-photo">
+          <picture>
+            <source srcset="../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana-800w.webp 800w, ../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana.webp 1600w" type="image/webp" sizes="(max-width:768px) 100vw, 620px">
+            <img src="../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana.jpg" alt="Stainless Thermador five-burner gas cooktop on a granite counter in a Santa Ana kitchen, serviced for nonstop igniter clicking" width="1600" height="1200" fetchpriority="high" style="object-position:50% 50%;">
+          </picture>
+          <figcaption>Our job: Thermador cooktop nonstop igniter clicking fix, Santa Ana</figcaption>
+        </figure>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- BREADCRUMB -->
-  <nav aria-label="Breadcrumb" class="hb-bc">
-    <div class="hb-bc-in">
-      <a href="../" style="color:#666;text-decoration:none;">Home</a>
-      <span class="hb-bc-sep">&#8250;</span>
-      <a href="service-areas.html" style="color:#666;text-decoration:none;">Service Areas</a>
-      <span class="hb-bc-sep">&#8250;</span>
-      <a href="luxury-appliance-repair-los-angeles-ca.html" style="color:#666;text-decoration:none;">Luxury Appliance Repair, Los Angeles</a>
-      <span class="hb-bc-sep">&#8250;</span>
-      <span style="color:#333;">Pasadena</span>
-    </div>
-  </nav>
-
-  <!-- WHAT TO EXPECT -->
-  <section class="expect-strip" aria-labelledby="expect-title">
-    <div class="expect-inner">
-      <h2 class="expect-title" id="expect-title">What to expect</h2>
-      <ul class="expect-list">
+  <section class="v2-facts" aria-labelledby="expect-title">
+    <div class="v2-wrap">
+      <h2 id="expect-title" class="sr-only">What to expect</h2>
+      <ul>
         <li><strong>Flat $99 diagnostic fee</strong><span>Applied toward the repair if you approve the work.</span></li>
         <li><strong>Written quote first</strong><span>Itemized, before any work starts.</span></li>
         <li><strong><span class="nb">90-day</span> parts, <span class="nb">30-day</span> labor</strong><span>Warranty on every repair.</span></li>
-        <li><strong>Same-day service</strong><span>Call or book online.</span></li>
+        <li><strong>Same-day service</strong><span>Call or request online.</span></li>
       </ul>
-      <p class="expect-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
-      <div class="brand-chips" role="group" aria-labelledby="brand-chips-label">
-        <p class="brand-chips-label" id="brand-chips-label">Premium brands we repair</p>
-        <ul class="brand-chips-list" id="brand-chips-list">
-          <li><a class="brand-chip" href="sub-zero-appliance-repair-orange-county.html" aria-label="Sub-Zero appliance repair"><img src="../images/brands/sub-zero.svg" alt="Sub-Zero" width="94" height="20" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="wolf-appliance-repair-orange-county.html" aria-label="Wolf appliance repair"><img src="../images/brands/wolf.svg" alt="Wolf" width="70" height="18" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="viking-appliance-repair-orange-county.html" aria-label="Viking appliance repair"><img src="../images/brands/viking.svg" alt="Viking" width="80" height="19" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="miele-appliance-repair-orange-county.html" aria-label="Miele appliance repair"><img src="../images/brands/miele.svg" alt="Miele" width="65" height="16" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="thermador-appliance-repair-orange-county.html" aria-label="Thermador appliance repair"><img src="../images/brands/thermador.svg" alt="Thermador" width="90" height="18" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="dacor-appliance-repair-orange-county.html" aria-label="Dacor appliance repair"><img src="../images/brands/dacor.svg" alt="Dacor" width="70" height="17" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="dcs-appliance-repair-orange-county.html" aria-label="DCS appliance repair"><img src="../images/brands/dcs.svg" alt="DCS" width="44" height="22" loading="eager" decoding="async"></a></li>
-          <li><a class="brand-chip" href="bosch-appliance-repair-orange-county.html" aria-label="Bosch premium lines appliance repair"><img src="../images/brands/bosch.svg" alt="Bosch" width="80" height="18" loading="eager" decoding="async"></a></li>
-          <li class="brand-chips-more-item"><button type="button" class="brand-chip brand-chips-more" aria-controls="brand-chips-list" aria-expanded="false">More brands</button></li>
-        </ul>
-        <p class="brand-chips-note">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
-      </div>
+      <p class="v2-facts-trust">Family-owned since 2017 &middot; Licensed, bonded &amp; insured</p>
     </div>
   </section>
 
-
-  <!-- REAL-WORK PROOF BAND -->
-  <section class="section section-white">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">Built-In and Professional Work We Have Completed</h2>
-      <p style="text-align:center;color:var(--text-sub);font-size:13px;margin-top:8px;margin-bottom:32px;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.7;">Thermador, Viking, and DCS jobs where the appliance had to come out of a cabinet opening before anything could be diagnosed, which is the situation most Pasadena kitchens present. Every photo is our own work, labeled with the city it was actually taken in. Pasadena is a newer market for us, and local jobs will appear here as we complete them.</p>
-      <div class="job-grid">
-        <div class="job-card">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin-480w.webp 480w, ../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin.webp 576w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
-            <img src="../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin.jpg" alt="Thermador stainless double wall oven in its cabinet opening before removal in a Tustin kitchen" width="576" height="1024" loading="lazy">
-          </picture>
-          <div class="job-card-body">
-            <div class="job-card-kicker">Thermador &middot; Double Wall Oven</div>
-            <div class="job-card-title">Getting a Double Oven Out of a Tight Opening</div>
-            <div class="job-card-loc">Tustin, CA</div>
-            <a href="thermador-appliance-repair-orange-county.html" class="job-card-link">Thermador repair in Orange County <span aria-hidden="true">&rarr;</span></a>
+  <section class="v2-sec" aria-labelledby="jobs-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="jobs-title">Built-In and Professional Work We Have Completed</h2>
+        <p>Thermador, Viking, and DCS jobs, three of them where the appliance had to come out of a cabinet opening before anything could be diagnosed, which is the situation most Pasadena kitchens present. Every photo is our own work, labeled with the city it was actually taken in. Pasadena is a newer market for us, and local jobs will appear here as we complete them.</p>
+      </div>
+      <div class="v2-jobs v2-jobs--text v2-jobs--city">
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+              <source srcset="../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin-480w.webp 480w, ../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin.webp 576w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:960px) 50vw, 250px">
+              <img src="../images/real/business/completed-repair-oven-thermador-double-wall-removed-tustin.jpg" alt="Thermador stainless double wall oven in its cabinet opening before removal in a Tustin kitchen" width="576" height="1024" loading="lazy" style="object-position:50% 40%;">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Thermador &middot; Double Wall Oven &middot; Tustin, CA</p>
+            <h3>Getting a Double Oven Out of a Tight Opening</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="thermador-appliance-repair-orange-county.html" aria-label="Thermador repair in Orange County: Getting a Double Oven Out of a Tight Opening, Tustin, CA">Thermador repair in Orange County <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
           </div>
-        </div>
-        <div class="job-card">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-range-viking-mission-viejo-600w.webp 600w, ../images/real/business/completed-repair-range-viking-mission-viejo.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
-            <img src="../images/real/business/completed-repair-range-viking-mission-viejo.jpg" alt="Viking professional gas range with red knobs and double oven being serviced in a Mission Viejo kitchen" width="768" height="1024" loading="lazy">
-          </picture>
-          <div class="job-card-body">
-            <div class="job-card-kicker">Viking &middot; Range</div>
-            <div class="job-card-title">Gas Oven Thermostat Service</div>
-            <div class="job-card-loc">Mission Viejo, CA</div>
-            <a href="viking-appliance-repair-orange-county.html" class="job-card-link">Viking repair in Orange County <span aria-hidden="true">&rarr;</span></a>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+              <source srcset="../images/real/business/completed-repair-range-viking-mission-viejo-600w.webp 600w, ../images/real/business/completed-repair-range-viking-mission-viejo.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:960px) 50vw, 250px">
+              <img src="../images/real/business/completed-repair-range-viking-mission-viejo.jpg" alt="Viking professional gas range with red knobs and double oven being serviced in a Mission Viejo kitchen" width="768" height="1024" loading="lazy" style="object-position:50% 40%;">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Viking &middot; Range &middot; Mission Viejo, CA</p>
+            <h3>Gas Oven Thermostat Service</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="viking-appliance-repair-orange-county.html" aria-label="Viking repair in Orange County: Gas Oven Thermostat Service, Mission Viejo, CA">Viking repair in Orange County <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
           </div>
-        </div>
-        <div class="job-card">
-          <picture>
-            <source srcset="../images/real/business/completed-repair-range-dcs-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-range-dcs-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) min(100vw, 296px), 280px">
-            <img src="../images/real/business/completed-repair-range-dcs-newport-beach.jpg" alt="DCS professional gas range serviced in a Newport Beach kitchen" width="768" height="1024" loading="lazy">
-          </picture>
-          <div class="job-card-body">
-            <div class="job-card-kicker">DCS &middot; Range</div>
-            <div class="job-card-title">Professional Range Service</div>
-            <div class="job-card-loc">Newport Beach, CA</div>
-            <a href="dcs-appliance-repair-orange-county.html" class="job-card-link">DCS repair in Orange County <span aria-hidden="true">&rarr;</span></a>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+              <source srcset="../images/real/business/completed-repair-range-dcs-newport-beach-480w.webp 480w, ../images/real/business/completed-repair-range-dcs-newport-beach.webp 768w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:960px) 50vw, 250px">
+              <img src="../images/real/business/completed-repair-range-dcs-newport-beach.jpg" alt="DCS professional gas range serviced in a Newport Beach kitchen" width="768" height="1024" loading="lazy" style="object-position:50% 40%;">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">DCS &middot; Range &middot; Newport Beach, CA</p>
+            <h3>Professional Range Service</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="dcs-appliance-repair-orange-county.html" aria-label="DCS repair in Orange County: Professional Range Service, Newport Beach, CA">DCS repair in Orange County <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
           </div>
-        </div>
+        </article>
+        <article class="v2-job">
+          <figure class="v2-job-photo">
+            <picture>
+              <source srcset="../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana-800w.webp 800w, ../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana.webp 1600w" type="image/webp" sizes="(max-width:768px) 100vw, (max-width:960px) 50vw, 250px">
+              <img src="../images/real/business/completed-repair-cooktop-thermador-clicking-santa-ana.jpg" alt="Stainless Thermador five-burner gas cooktop on a granite counter in a Santa Ana kitchen, serviced for nonstop igniter clicking" width="1600" height="1200" loading="lazy">
+            </picture>
+            <figcaption>Photo from the service visit</figcaption>
+          </figure>
+          <div class="v2-job-body">
+            <p class="v2-job-loc">Thermador &middot; Cooktop &middot; Santa Ana, CA</p>
+            <h3>Nonstop Igniter Clicking Fix</h3>
+            <div class="v2-job-links">
+              <a class="v2-link" href="oven-stove-repair-orange-county.html" aria-label="Range, cooktop and oven repair in Orange County: Nonstop Igniter Clicking Fix, Santa Ana, CA">Range, cooktop and oven repair in Orange County <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+            </div>
+          </div>
+        </article>
       </div>
-      <p style="text-align:center;margin-top:24px;"><a href="recent-repairs.html" class="job-see-all">See all recent repairs <span aria-hidden="true">&rarr;</span></a></p>
-    </div>
-  </section>
-
-  <!-- BRANDS -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">Premium Brands We Service in Pasadena</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:680px;text-align:center;margin:12px auto 0;">These are the eight brands we take in Pasadena: Viking, Wolf, Thermador, Sub-Zero, Miele, Dacor, DCS, and Bosch premium built-in lines. Choose a logo in the <a href="#brand-chips-label" style="color:var(--brand-text);font-weight:600;text-decoration:underline;text-underline-offset:2px;">brand row at the top of this page</a> to see the failures we see most often on that brand, the parts involved, and how the repair usually goes.</p>
-      <p class="scope-note">Pasadena is <strong>premium-brand only</strong>. If your appliance is one of these eight, the diagnostic is a flat <strong>$99</strong> credited toward the repair, and same-day is often open. With Bosch we take the premium built-in lines, Benchmark included, so if you're not sure which Bosch you have, read us the model number and we'll check it with you. If it's a Whirlpool, LG, or Samsung, we'll tell you on the phone rather than after a visit.</p>
-      <p style="font-size:13px;color:#666;margin-top:24px;line-height:1.7;text-align:center;max-width:680px;margin-left:auto;margin-right:auto;">We service these brands and make no claim of factory authorization. If your appliance is still under manufacturer warranty, call the brand first, because authorized warranty work should cost you nothing.</p>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">What We Repair</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:620px;text-align:center;margin:12px auto 24px;">What we work on in Pasadena kitchens. Open any one for the brands covered, the faults we see most often, and what the repair typically costs.</p>
-      <div class="services-links-grid">
-        <a href="oven-stove-repair-orange-county.html" class="hub-link">Range, Cooktop &amp; Oven Repair</a>
-        <a href="refrigerator-repair-orange-county.html" class="hub-link">Built-In Refrigerator Repair</a>
-        <a href="dishwasher-repair-orange-county.html" class="hub-link">Panel-Ready Dishwasher Repair</a>
-        <a href="wine-cooler-repair-orange-county.html" class="hub-link">Wine Cooler Repair</a>
-        <a href="freezer-repair-orange-county.html" class="hub-link">Freezer Repair</a>
-        <a href="appliance-repair-cost-orange-county.html" class="hub-link">Repair Pricing Guide</a>
+      <div class="v2-foot">
+        <a class="v2-link" href="recent-repairs.html">See all recent repairs <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
       </div>
     </div>
   </section>
 
-  <!-- PRICING -->
-  <section class="section section-gray" style="display:flow-root;padding-bottom:40px;">
-    <div class="container">
-      <h2 class="h2-page" style="text-align:center;">Pasadena Repair Pricing</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:660px;text-align:center;margin:12px auto 0;">The diagnostic fee in Pasadena is a flat $99, the same rate we charge across Orange County and the rest of Los Angeles County, credited toward your repair if you proceed. It does not change with the brand or the age of the house. Most premium-brand repairs land between $250 and $900. Viking igniter and burner work usually runs $200 to $600, while sealed-system refrigeration work on a Sub-Zero built-in runs $1,200 to $2,500. Seniors 60+ and repeat customers get 20% off labor.</p>
-      <div class="city-pricing-line">
-        <span class="city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair. <a href="appliance-repair-cost-orange-county.html">Full pricing guide &rarr;</a></span>
+  <section class="v2-sec v2-sec--ice" aria-labelledby="brands-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="brands-title">Premium Brands We Service in Pasadena</h2>
+        <p>These are the eight brands we take in Pasadena: Viking, Wolf, Thermador, Sub-Zero, Miele, Dacor, DCS, and Bosch premium built-in lines. Choose a brand below to see the failures we see most often on that brand, the parts involved, and how the repair usually goes.</p>
+      </div>
+      <ul class="v2-brands v2-brands--4">
+        <li><a href="sub-zero-appliance-repair-orange-county.html">Sub-Zero</a></li>
+        <li><a href="wolf-appliance-repair-orange-county.html">Wolf</a></li>
+        <li><a href="viking-appliance-repair-orange-county.html">Viking</a></li>
+        <li><a href="miele-appliance-repair-orange-county.html">Miele</a></li>
+        <li><a href="thermador-appliance-repair-orange-county.html">Thermador</a></li>
+        <li><a href="dacor-appliance-repair-orange-county.html">Dacor</a></li>
+        <li><a href="dcs-appliance-repair-orange-county.html">DCS</a></li>
+        <li><a href="bosch-appliance-repair-orange-county.html">Bosch</a></li>
+      </ul>
+      <div class="v2-note scope-note">
+        <p>Pasadena is <strong>premium-brand only</strong>. If your appliance is one of these eight, the diagnostic is a flat <strong>$99</strong> credited toward the repair, and same-day is often open. With Bosch we take the premium built-in lines, Benchmark included, so if you're not sure which Bosch you have, read us the model number and we'll check it with you. If it's a Whirlpool, LG, or Samsung, we'll tell you on the phone rather than after a visit.</p>
+      </div>
+      <p class="v2-fine">Independent repair service. Not affiliated with or endorsed by these manufacturers; brand names and logos are trademarks of their owners.</p>
+      <p class="v2-fine">We service these brands and make no claim of factory authorization. If your appliance is still under manufacturer warranty, call the brand first, because authorized warranty work should cost you nothing.</p>
+    </div>
+  </section>
+
+  <section class="v2-sec" aria-labelledby="fix-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="fix-title">What We Repair</h2>
+        <p>What we work on in Pasadena kitchens. Open any one for the brands covered, the faults we see most often, and what the repair typically costs.</p>
+      </div>
+      <ul class="v2-brands v2-brands--services">
+        <li><a href="oven-stove-repair-orange-county.html">Range, Cooktop &amp; Oven Repair</a></li>
+        <li><a href="refrigerator-repair-orange-county.html">Built-In Refrigerator Repair</a></li>
+        <li><a href="dishwasher-repair-orange-county.html">Panel-Ready Dishwasher Repair</a></li>
+        <li><a href="wine-cooler-repair-orange-county.html">Wine Cooler Repair</a></li>
+        <li><a href="freezer-repair-orange-county.html">Freezer Repair</a></li>
+        <li><a href="appliance-repair-cost-orange-county.html">Repair Pricing Guide</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="v2-sec v2-sec--ink" aria-labelledby="process-title">
+    <div class="v2-wrap v2-split">
+      <div>
+        <h2 id="process-title">How It Works</h2>
+        <p>Four steps, from the first call to a working appliance.</p>
+        <a href="contact.html" class="v2-btn">Request a Repair <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a>
+      </div>
+      <ol class="v2-steps">
+        <li><h3>Request</h3>Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> or use the online form. Mention if the appliance sits in a tight opening, because that changes how much time we put on the visit.</li>
+        <li><h3>Diagnose</h3>Our Los Angeles technician takes the call, same day when the schedule is open. Floor protection goes down first, then we measure, then we pull.</li>
+        <li><h3>Quote</h3>An itemized quote before any work starts, with the $99 diagnostic credited toward it. If the real fault is a house supply problem, we tell you that instead.</li>
+        <li><h3>Repair + Warranty</h3>Most repairs finish in one visit. The unit goes back into its opening level and square, and every job carries a <span class="nb">90-day</span> parts and <span class="nb">30-day</span> labor warranty.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="v2-sec" aria-labelledby="pricing-title">
+    <div class="v2-wrap v2-split">
+      <h2 id="pricing-title">Pasadena Repair Pricing</h2>
+      <div>
+        <p class="v2-prose">The diagnostic fee in Pasadena is a flat $99, the same rate we charge across Orange County and the rest of Los Angeles County, credited toward your repair if you proceed. It does not change with the brand or the age of the house. Most premium-brand repairs land between $250 and $900. Viking igniter and burner work usually runs $200 to $600, while sealed-system refrigeration work on a Sub-Zero built-in runs $1,200 to $2,500. Seniors 60+ and repeat customers get 20% off labor.</p>
+        <p class="v2-fine v2-prose city-pricing-disclaimer">Estimates vary by brand, part availability, and diagnosis. Final quote is provided before repair. <a class="v2-arrow-link" href="appliance-repair-cost-orange-county.html">Full pricing guide <svg class="v2-ico" aria-hidden="true"><use href="#v2-arrow"/></svg></a></p>
       </div>
     </div>
   </section>
 
-  <!-- REPAIR PROCESS -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">How It Works</h2>
-      <p style="font-size:14px;color:#666;text-align:center;max-width:560px;margin:0 auto 8px;">Four steps, from the first call to a working appliance.</p>
-      <div class="process-steps">
-        <div class="process-step">
-          <div class="step-number">1</div>
-          <div class="step-title">Request</div>
-          <div class="step-desc">Call (949) 629-5365 or use the online form. Mention if the appliance sits in a tight opening, because that changes how much time we put on the visit.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">2</div>
-          <div class="step-title">Diagnose</div>
-          <div class="step-desc">Our Los Angeles technician takes the call, same day when the schedule is open. Floor protection goes down first, then we measure, then we pull.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">3</div>
-          <div class="step-title">Quote</div>
-          <div class="step-desc">An itemized quote before any work starts, with the $99 diagnostic credited toward it. If the real fault is a house supply problem, we tell you that instead.</div>
-        </div>
-        <div class="process-step">
-          <div class="step-number">4</div>
-          <div class="step-title">Repair + Warranty</div>
-          <div class="step-desc">Most repairs finish in one visit. The unit goes back into its opening level and square, and every job carries a <span class="nb">90-day</span> parts and <span class="nb">30-day</span> labor warranty.</div>
-        </div>
+  <section class="v2-sec v2-sec--ice" id="neighborhoods" aria-labelledby="neighborhoods-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="neighborhoods-title">Pasadena Neighborhoods We Serve</h2>
+        <p>We cover the residential Pasadena ZIP codes: 91101, 91103, 91104, 91105, 91106, and 91107. One thing worth clearing up before you book: address lookups often file 91108 under Pasadena, but that is San Marino, a separate city. What actually varies across Pasadena is the age of the kitchen and how much of the house was built around the appliance.</p>
       </div>
+      <ul class="v2-places">
+        <li>
+          <h3>Bungalow Heaven</h3>
+          <p><strong>Pasadena's first designated landmark district.</strong> A landmark district of hundreds of Craftsman houses, with 522 buildings counted as contributing to its National Register listing. Kitchens here have almost always been remodeled at least once, which means a modern professional range or a built-in refrigerator sitting inside an envelope that was never designed for it. Clearance is the first thing we check, not the last.</p>
+        </li>
+        <li>
+          <h3>Madison Heights</h3>
+          <p><strong>California Blvd to Allendale, Marengo to El Molino.</strong> The blocks running south from California Boulevard toward the South Pasadena line, between Marengo Avenue and the Lake and El Molino side. Larger period homes with deep kitchen remodels, and a high share of full built-in refrigeration and pro ranges among the calls we get from this part of town.</p>
+        </li>
+        <li>
+          <h3>Oak Knoll</h3>
+          <p><strong>Pasadena's southernmost neighborhood, San Marino border.</strong> The southernmost stretch of the city, running down to Old Mill Road and the San Marino boundary, with some of the most substantial historic houses and hotel properties in Pasadena. Estate kitchens here often run a full matched suite, and secondary kitchens or butler pantries with their own refrigeration are common.</p>
+        </li>
+        <li>
+          <h3>Linda Vista and the Arroyo</h3>
+          <p><strong>West of Brookside Park.</strong> The hillside area west of Brookside Park and along Linda Vista Avenue, across the Arroyo Seco from the rest of the city. Winding approach roads and long driveways, so we build a little more travel time into these appointments than for a flat street downtown.</p>
+        </li>
+        <li>
+          <h3>Old Pasadena and Playhouse District</h3>
+          <span class="v2-zip">ZIP 91101</span>
+          <p><strong>Central Pasadena.</strong> The original commercial core and the residential blocks around it, including lofts and condominium conversions in older buildings. Compact kitchens where an integrated dishwasher or an undercounter wine unit is the usual call, and where building access and a service elevator need arranging before the visit.</p>
+        </li>
+        <li>
+          <h3>East Pasadena and the Sierra Madre Side</h3>
+          <span class="v2-zip">ZIP 91107</span>
+          <p><strong>East of Allen Avenue.</strong> Postwar and later housing running east toward the Sierra Madre boundary, with more standard cabinet dimensions and newer kitchens than the west of the city. This is also the hottest part of town in late summer, which shows up in the refrigeration calls we take from here.</p>
+        </li>
+      </ul>
     </div>
   </section>
 
-  <!-- NEIGHBORHOODS -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-page">Pasadena Neighborhoods We Serve</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:740px;">We cover the residential Pasadena ZIP codes: 91101, 91103, 91104, 91105, 91106, and 91107. One thing worth clearing up before you book: address lookups often file 91108 under Pasadena, but that is San Marino, a separate city. What actually varies across Pasadena is the age of the kitchen and how much of the house was built around the appliance.</p>
-      <div class="neighborhoods-grid">
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Bungalow Heaven</div>
-          <div class="neighborhood-zip">Pasadena's first designated landmark district</div>
-          <div class="neighborhood-note">A landmark district of hundreds of Craftsman houses, with 522 buildings counted as contributing to its National Register listing. Kitchens here have almost always been remodeled at least once, which means a modern professional range or a built-in refrigerator sitting inside an envelope that was never designed for it. Clearance is the first thing we check, not the last.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Madison Heights</div>
-          <div class="neighborhood-zip">California Blvd to Allendale &middot; Marengo to El Molino</div>
-          <div class="neighborhood-note">The blocks running south from California Boulevard toward the South Pasadena line, between Marengo Avenue and the Lake and El Molino side. Larger period homes with deep kitchen remodels, and a high share of full built-in refrigeration and pro ranges among the calls we get from this part of town.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Oak Knoll</div>
-          <div class="neighborhood-zip">Pasadena's southernmost neighborhood &middot; San Marino border</div>
-          <div class="neighborhood-note">The southernmost stretch of the city, running down to Old Mill Road and the San Marino boundary, with some of the most substantial historic houses and hotel properties in Pasadena. Estate kitchens here often run a full matched suite, and secondary kitchens or butler pantries with their own refrigeration are common.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Linda Vista and the Arroyo</div>
-          <div class="neighborhood-zip">West of Brookside Park</div>
-          <div class="neighborhood-note">The hillside area west of Brookside Park and along Linda Vista Avenue, across the Arroyo Seco from the rest of the city. Winding approach roads and long driveways, so we build a little more travel time into these appointments than for a flat street downtown.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">Old Pasadena and Playhouse District</div>
-          <div class="neighborhood-zip">ZIP 91101 &middot; central Pasadena</div>
-          <div class="neighborhood-note">The original commercial core and the residential blocks around it, including lofts and condominium conversions in older buildings. Compact kitchens where an integrated dishwasher or an undercounter wine unit is the usual call, and where building access and a service elevator need arranging before the visit.</div>
-        </div>
-        <div class="neighborhood-card">
-          <div class="neighborhood-name">East Pasadena and the Sierra Madre Side</div>
-          <div class="neighborhood-zip">ZIP 91107 &middot; east of Allen Avenue</div>
-          <div class="neighborhood-note">Postwar and later housing running east toward the Sierra Madre boundary, with more standard cabinet dimensions and newer kitchens than the west of the city. This is also the hottest part of town in late summer, which shows up in the refrigeration calls we take from here.</div>
-        </div>
+  <section class="v2-sec" aria-labelledby="issues-title">
+    <div class="v2-wrap">
+      <div class="v2-head">
+        <h2 id="issues-title">What Goes Wrong in an Older Pasadena Kitchen</h2>
+        <p>A professional appliance retrofitted into a house built decades before it was designed brings its own set of faults, on top of everything that can go wrong with the appliance itself.</p>
       </div>
+      <ul class="v2-checks">
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Professional range wedged into an alcove with no side clearance to pull it forward</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Wall oven in a cabinet cut for a size the manufacturer no longer makes</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Built-in refrigerator running constantly through a late-summer heat stretch</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Burners simmering unevenly on an older gas line that cannot hold pressure</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Igniter clicking without stopping after the flame has already lit</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Range venting through an original chimney chase rather than a modern duct run</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Oven door hinge springs collapsed under a heavy professional door</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Dishwasher panel out of square in a cabinet run that has settled over decades</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Wine storage in an uninsulated butler pantry losing its target temperature in summer</li>
+        <li><svg class="v2-ico" aria-hidden="true"><use href="#v2-check"/></svg>Refrigeration, range, and oven sharing a circuit that trips when two start together</li>
+      </ul>
     </div>
   </section>
 
-  <!-- COMMON SYMPTOMS -->
-  <section class="section section-white">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">What Goes Wrong in an Older Pasadena Kitchen</h2>
-      <p style="font-size:14px;color:#666;line-height:1.7;max-width:660px;text-align:center;margin:12px auto 0;">A professional appliance retrofitted into a house built decades before it was designed brings its own set of faults, on top of everything that can go wrong with the appliance itself.</p>
-      <div class="symptoms-list">
-        <div class="symptom-item">Professional range wedged into an alcove with no side clearance to pull it forward</div>
-        <div class="symptom-item">Wall oven in a cabinet cut for a size the manufacturer no longer makes</div>
-        <div class="symptom-item">Built-in refrigerator running constantly through a late-summer heat stretch</div>
-        <div class="symptom-item">Burners simmering unevenly on an older gas line that cannot hold pressure</div>
-        <div class="symptom-item">Igniter clicking without stopping after the flame has already lit</div>
-        <div class="symptom-item">Range venting through an original chimney chase rather than a modern duct run</div>
-        <div class="symptom-item">Oven door hinge springs collapsed under a heavy professional door</div>
-        <div class="symptom-item">Dishwasher panel out of square in a cabinet run that has settled over decades</div>
-        <div class="symptom-item">Wine storage in an uninsulated butler pantry losing its target temperature in summer</div>
-        <div class="symptom-item">Refrigeration, range, and oven sharing a circuit that trips when two start together</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT THE CITY -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-page">Modern Appliances in Houses That Predate Them</h2>
-      <div class="landmarks-block">
+  <section class="v2-sec v2-sec--ice" aria-labelledby="essay-title">
+    <div class="v2-wrap v2-split">
+      <h2 id="essay-title">Modern Appliances in Houses That Predate Them</h2>
+      <div class="v2-prose">
         <p>Most of what makes a Pasadena service call different happens before anyone touches the appliance. A professional range in Bungalow Heaven is very often sitting in an opening that was a plaster alcove for something much smaller, with a quarter inch of clearance on either side and an original hardwood or tile floor that will show every scrape. A built-in refrigerator in a Madison Heights remodel may be flush against a cabinet run that has settled a fraction of an inch out of square since it was installed. None of that is a fault, but all of it decides how the visit goes, and it is why we ask about the opening when you book rather than discovering it on arrival.</p>
         <p>The second thing is the house behind the appliance. Older Pasadena homes sometimes deliver gas at a pressure that a modern high-output burner was not designed around, so a range that will not hold a low simmer can be perfectly healthy while the supply is the problem. Circuits laid out for a 1940s kitchen occasionally have a built-in refrigerator and a wall oven sharing a run that trips when both call for power. We diagnose the appliance properly, and when the cause is upstream we say so, because replacing a good spark module will not fix a supply issue and you should not pay for the part twice.</p>
         <p>The third is simply the weather. Pasadena sits inland in the San Gabriel Valley and gets genuinely hot from July into October, and built-in refrigeration rejects heat into the room it stands in. A condenser that is half-blocked will hold temperature comfortably in spring and lose the fight in September, which is why refrigeration calls here cluster at the end of summer rather than the beginning. Our county-level page covers the premium service across all four cities: <a href="luxury-appliance-repair-los-angeles-ca.html">luxury appliance repair in Los Angeles</a>.</p>
@@ -826,23 +724,26 @@
        collected (owner action; tasks/expansion-la-premium-palm-springs-plan-2026-07-30.md).
   -->
 
-  <!-- SERVICE AREA -->
-  <section class="section section-white service-area" aria-labelledby="service-area-title">
-    <div class="container">
+  <section class="v2-sec service-area" aria-labelledby="service-area-title">
+    <div class="v2-wrap v2-split">
       <h2 id="service-area-title">Luxury appliance repair across Pasadena</h2>
-      <p>Universal Appliances Repair Group Inc. provides luxury appliance repair in Pasadena, California, for premium brands only, covering built-in and professional appliances: gas and dual-fuel ranges, rangetops and cooktops, wall ovens, built-in refrigeration, panel-ready dishwashers, wine storage, and freezers. We cover ZIP codes 91101, 91103, 91104, 91105, 91106, and 91107, including Bungalow Heaven, Madison Heights, Oak Knoll, Linda Vista, and the streets around Old Pasadena.</p>
-      <p>Our Los Angeles technician offers same-day service when that schedule is open. We also serve nearby <a href="luxury-appliance-repair-los-angeles-ca.html">Los Angeles</a>, <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>, and <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>. Call <a href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
+      <div class="v2-prose">
+        <p>Universal Appliances Repair Group Inc. provides luxury appliance repair in Pasadena, California, for premium brands only, covering built-in and professional appliances: gas and dual-fuel ranges, rangetops and cooktops, wall ovens, built-in refrigeration, panel-ready dishwashers, wine storage, and freezers. We cover ZIP codes 91101, 91103, 91104, 91105, 91106, and 91107, including Bungalow Heaven, Madison Heights, Oak Knoll, Linda Vista, and the streets around Old Pasadena.</p>
+        <p>Our Los Angeles technician offers same-day service when that schedule is open. We also serve nearby <a href="luxury-appliance-repair-los-angeles-ca.html">Los Angeles</a>, <a href="luxury-appliance-repair-santa-monica-ca.html">Santa Monica</a>, and <a href="luxury-appliance-repair-beverly-hills-ca.html">Beverly Hills</a>. Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> or <a href="contact.html">book online</a>.</p>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="section section-gray">
-    <div class="container-lg">
-      <h2 class="h2-page" style="text-align:center;">FAQ: Appliance Repair in Pasadena</h2>
+  <section class="v2-sec v2-sec--ice" id="faq" aria-labelledby="faq-title">
+    <div class="v2-wrap v2-split">
+      <div class="v2-sticky">
+        <h2 id="faq-title">FAQ: Appliance Repair in Pasadena</h2>
+        <p>Still have a question? Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a>.</p>
+      </div>
       <div class="faq-list">
 
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq-a-pas-1">Which Pasadena ZIP codes do you cover, and is 91108 Pasadena?<span class="icon">+</span></button>
+        <div class="faq-item open">
+          <button class="faq-q" aria-expanded="true" aria-controls="faq-a-pas-1">Which Pasadena ZIP codes do you cover, and is 91108 Pasadena?<span class="icon">+</span></button>
           <div class="faq-a" id="faq-a-pas-1">We cover the residential Pasadena ZIP codes: 91101, 91103, 91104, 91105, 91106, and 91107. That takes in the whole city from Linda Vista and the Arroyo on the west across to the Sierra Madre side on the east. 91108 is worth calling out because address lookups often file it under Pasadena, but it is San Marino, a separate city. We are happy to look at a San Marino address, we just want to be straight that it is not inside the Pasadena boundary. Several other numbers you may see, including 91109, 91110, and the 91120s, are post-office box and institutional designations rather than residential delivery areas.</div>
         </div>
 
@@ -868,22 +769,24 @@
 
         <div class="faq-item">
           <button class="faq-q" aria-expanded="false" aria-controls="faq-a-pas-6">What if my appliance is a brand you do not cover in Pasadena?<span class="icon">+</span></button>
-          <div class="faq-a" id="faq-a-pas-6">We will tell you on the phone rather than after a visit. In Pasadena we run a premium-brand service only: Sub-Zero, Viking, Wolf, Miele, Thermador, Dacor, DCS, and the Bosch premium lines. If you have a Whirlpool washer or an LG refrigerator in Pasadena, we are not the right shop and booking us would waste your afternoon and our drive. Our general all-brand service covers <a href="service-areas.html">Orange County and the Los Angeles County Gateway Cities</a>, so depending on where you are we may still be able to help. Call (949) 629-5365 and we will give you a straight answer either way.</div>
+          <div class="faq-a" id="faq-a-pas-6">We will tell you on the phone rather than after a visit. In Pasadena we run a premium-brand service only: Sub-Zero, Viking, Wolf, Miele, Thermador, Dacor, DCS, and the Bosch premium lines. If you have a Whirlpool washer or an LG refrigerator in Pasadena, we are not the right shop and booking us would waste your afternoon and our drive. Our general all-brand service covers <a href="service-areas.html">Orange County and the Los Angeles County Gateway Cities</a>, so depending on where you are we may still be able to help. Call <a class="v2-tel" href="tel:+19496295365">(949) 629-5365</a> and we will give you a straight answer either way.</div>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="section section-white">
-    <div class="container">
-      <div class="cta-box">
-        <h2>Premium Appliance Trouble in Pasadena?</h2>
-        <p>Viking, Wolf, Thermador, Sub-Zero, Miele, Dacor, DCS, and Bosch premium lines from Bungalow Heaven to Oak Knoll. Same-day when our Los Angeles technician has an opening. <span class="nb">90-day</span> parts / <span class="nb">30-day</span> labor warranty on every job.</p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-          <a href="tel:+19496295365" class="btn-white">Call (949) 629-5365</a>
-          <a href="contact.html" class="btn-white-outline">Request a Repair</a>
+  <section class="v2-sec" aria-labelledby="cta-title">
+    <div class="v2-wrap">
+      <div class="v2-cta">
+        <div>
+          <h2 id="cta-title">Premium Appliance Trouble in Pasadena?</h2>
+          <p>Viking, Wolf, Thermador, Sub-Zero, Miele, Dacor, DCS, and Bosch premium lines from Bungalow Heaven to Oak Knoll. Same-day when our Los Angeles technician has an opening. <span class="nb">90-day</span> parts / <span class="nb">30-day</span> labor warranty on every job.</p>
+        </div>
+        <div class="v2-cta-actions">
+          <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
+          <a href="contact.html" class="v2-btn v2-btn--onink">Request a Repair</a>
+          <small>Mon–Sat, 8am–7pm</small>
         </div>
       </div>
     </div>
