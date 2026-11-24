@@ -41,9 +41,6 @@
 
   <style>
     @media (max-width: 480px) { .nav-cta { display: none; } }
-    /* Service-call video: the card clips an outside outline and the native control bar paints over an inside one, so the focus ring is drawn on the figure, above the video. */
-    .v2 #newport-beach-real-job .v2-job-photo:has(video:focus-visible) video { outline: none; }
-    .v2 #newport-beach-real-job .v2-job-photo:has(video:focus-visible)::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 6px var(--focus); }
   </style>
 
   <!-- SCHEMA: LocalBusiness (Newport Beach) -->
@@ -547,7 +544,7 @@
       <article class="v2-job v2-job--row" id="newport-beach-real-job">
         <figure class="v2-job-photo" style="min-height:460px;aspect-ratio:auto;">
           <video
-            style="object-fit:contain;background:#14303b;outline-offset:-4px;"
+            style="object-fit:contain;background:#14303b;"
             playsinline
             controls
             preload="metadata"
@@ -1128,7 +1125,7 @@
       <div class="v2-cta">
         <div>
           <h2 id="cta-title">Need Appliance Repair in Newport Beach?</h2>
-          <p>Same-day service available. Sub-Zero, Wolf, Thermador, and all major brands. Licensed technicians, <span class="nb">90-day</span> parts / <span class="nb">30-day</span> labor warranty on every repair.</p>
+          <p>Same-day service available. Sub-Zero, Wolf, Thermador, and all major brands. Licensed technicians, <span class="nb">90-day</span> parts&nbsp;/ <span class="nb">30-day</span> labor warranty on every repair.</p>
         </div>
         <div class="v2-cta-actions">
           <a href="tel:+19496295365" class="v2-btn"><svg class="v2-ico" aria-hidden="true"><use href="#v2-phone"/></svg>Call (949) 629-5365</a>
