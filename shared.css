@@ -670,8 +670,8 @@ a.brand-chip:focus-visible, .brand-chips-more:focus-visible { outline: 2px solid
 /* Gallery tiles that carry a body paragraph: wider tiles, three across */
 .v2-jobs--brand .v2-job-links { padding-top: 12px; }
 .v2-jobs--text { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-/* The first four text tiles fill one row on desktop, never three plus one; the tiles behind "Show all" use the same four-column grid so both groups are one width */
-@media (min-width: 961px) { .v2-wrap > .v2-jobs--text, .v2-more > .v2-jobs--text { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* The first four text tiles (outside the disclosure) fill one row on desktop, never three plus one */
+@media (min-width: 961px) { .v2-wrap > .v2-jobs--text { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 /* Between phone and desktop the gallery is three across, which would strand the fourth of the first four: two across
    instead, and the tiles behind "Show all" follow so both groups are the same size */
 @media (min-width: 769px) and (max-width: 960px) { .v2-wrap > .v2-jobs:has(+ .v2-more), .v2-more > .v2-jobs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
