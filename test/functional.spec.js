@@ -1355,6 +1355,9 @@ test('city hubs: the migrated cities are discovered as v2', () => {
     'appliance-repair-huntington-beach-ca', 'appliance-repair-stanton-ca',
     'appliance-repair-placentia-ca', 'appliance-repair-westminster-ca', 'appliance-repair-laguna-niguel-ca',
     'appliance-repair-los-alamitos-ca',
+    'appliance-repair-palm-springs-ca', 'appliance-repair-long-beach-ca', 'appliance-repair-pico-rivera-ca',
+    'appliance-repair-chino-hills-ca', 'appliance-repair-whittier-ca', 'appliance-repair-downey-ca',
+    'appliance-repair-montebello-ca', 'appliance-repair-la-habra-ca',
     'appliance-repair-brea-ca', 'appliance-repair-yorba-linda-ca', 'appliance-repair-seal-beach-ca',
   ]) {
     expect(CITY_V2_SLUGS, slug + ' no longer carries <main class="v2">').toContain(slug);
@@ -1367,6 +1370,8 @@ test('city hubs: the migrated cities are discovered as v2', () => {
 const CITY_PROSE_NEIGHBORHOODS = {
   'appliance-repair-anaheim-ca': /(?<!\d)928\d\d(?!\d)/,
   'appliance-repair-laguna-niguel-ca': /(?<!\d)926\d\d(?!\d)/,
+  // Downey's ZIPs are 90240, 90241 and 90242 (90239 is a PO-box ZIP and is named only to say so).
+  'appliance-repair-downey-ca': /(?<!\d)9024[012](?!\d)/,
 };
 
 // City pages with no real job photo yet. By owner decision (2026-11-23) the hero shows a freely licensed
@@ -1375,8 +1380,21 @@ const CITY_PROSE_NEIGHBORHOODS = {
 // photo (hero under images/real/business/, caption "Our job: ..."): the inverse guard below then covers it.
 const CITY_PHOTO_HEROES = [
   'appliance-repair-placentia-ca', 'appliance-repair-westminster-ca',
-  'appliance-repair-laguna-niguel-ca', 'appliance-repair-los-alamitos-ca',
+  'appliance-repair-laguna-niguel-ca', 'appliance-repair-los-alamitos-ca', 'appliance-repair-whittier-ca',
 ];
+
+// Owner decision 2026-11-24: a city with no job photo and no usable landmark photo shows a real photo of our
+// technician as the hero, captioned as what it shows. It is not a job in that city, so it is never "Our job".
+const TECHNICIAN_PHOTO_HEROES = {
+  'appliance-repair-la-habra-ca': 'technician-working-builtin-refrigerator',
+};
+
+// Owner decision 2026-11-24: Downey and Montebello borrow a luxury-brand job photo from neighbouring Pico Rivera,
+// truthfully captioned "Our job: ..., Pico Rivera". The caption must name the real city and never the page's own.
+const BORROWED_JOB_PHOTO_HEROES = {
+  'appliance-repair-downey-ca': { photoCity: 'Pico Rivera', ownCity: 'Downey' },
+  'appliance-repair-montebello-ca': { photoCity: 'Pico Rivera', ownCity: 'Montebello' },
+};
 
 for (const slug of CITY_HUBS) {
   const v2City = CITY_V2_SLUGS.includes(slug);
@@ -1450,11 +1468,9 @@ for (const slug of CITY_HUBS) {
       expect(links.every(h => h && /-appliance-repair-orange-county\.html$/.test(h))).toBe(true);
       await expect(page.locator('.brand-pill, .brands-group')).toHaveCount(0);
       // Owner decision 2026-11-08: the lower "Brands We Service in <City>" section is gone; its local
-      // line now sits in the strip itself (Downey never had one).
+      // line now sits in the strip itself.
       await expect(page.locator('h2', { hasText: /^Brands We Service/ })).toHaveCount(0);
-      if (slug !== 'appliance-repair-downey-ca') {
-        await expect(page.locator('.brand-chips .brand-chips-intro')).toHaveCount(1);
-      }
+      await expect(page.locator('.brand-chips .brand-chips-intro')).toHaveCount(1);
     });
 
     test('clicking first service link navigates to a hub page', async ({ page }) => {
@@ -1482,9 +1498,10 @@ for (const slug of CITY_HUBS) {
 
     test('city pricing line present', async ({ page }) => {
       if (v2City) {
-        // v2: the Pricing section's policy list carries the flat $99 fee.
+        // v2: the Pricing section states the flat $99 fee: in the policy list where the page had a
+        // pricing line, or in its own pricing paragraph (pages whose pricing copy was prose, kept word for word).
         await expect(page.locator(CITY_V2.pricing)).toHaveCount(1);
-        await expect(page.locator(`${CITY_V2.pricing} .v2-policy`)).toContainText('$99');
+        await expect(page.locator(`${CITY_V2.pricing} :is(.v2-policy, .v2-prose)`).first()).toContainText('$99');
         return;
       }
       await expect(page.locator('.city-pricing-line')).toBeAttached();
@@ -1507,7 +1524,8 @@ for (const slug of CITY_HUBS) {
         const jump = page.locator('.v2-hero a.v2-hero-jump');
         await expect(jump).toHaveCount(1);
         // Stanton's directory has no ZIP chips (the city has one ZIP), so its label is "streets and areas".
-        expect((await jump.textContent()).trim()).toMatch(/^See (neighborhoods and ZIP codes|streets and areas we cover)/);
+        // Downey's target is prose about its ZIP codes and bordering cities, with no neighborhood list: "areas and ZIP codes".
+        expect((await jump.textContent()).trim()).toMatch(/^See (neighborhoods and ZIP codes|streets and areas we cover|areas and ZIP codes)/);
         const target = (await jump.getAttribute('href')) || '';
         expect(target).toMatch(/^#[\w-]+$/);
         const section = page.locator(target);
@@ -1593,8 +1611,40 @@ test.describe('city hubs: hero photo source', () => {
     });
   }
 
+  for (const [slug, base] of Object.entries(TECHNICIAN_PHOTO_HEROES)) {
+    test(`${slug}: technician photo, captioned as what it shows, never "Our job"`, () => {
+      expect(CITY_V2_SLUGS, slug + ' is listed in TECHNICIAN_PHOTO_HEROES but is not a v2 page').toContain(slug);
+      const html = fs.readFileSync(path.join(PAGES_DIR, slug + '.html'), 'utf8');
+      const fig = html.match(/<figure class="v2-hero-photo"[^>]*>([\s\S]*?)<\/figure>/);
+      expect(fig, slug + ' has a .v2-hero-photo figure').not.toBeNull();
+      const src = fig[1].match(/<img[^>]*\ssrc="([^"]+)"/)[1];
+      expect(baseOf(src), 'hero is the technician photo').toBe(base);
+      expect(src, 'hero comes from images/real/business/').toMatch(/(^|\/)images\/real\/business\//);
+      const caption = fig[1].match(/<figcaption>([\s\S]*?)<\/figcaption>/)[1].replace(/<[^>]+>/g, '').trim();
+      expect(caption.length, 'caption says what the photo shows').toBeGreaterThan(20);
+      expect(caption, 'a technician photo is not a job').not.toMatch(/^Our job/i);
+      const named = slug.match(/^appliance-repair-(.+)-ca$/)[1].split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+      expect(caption, 'the caption does not present it as a job in ' + named).not.toContain(named);
+    });
+  }
+
+  for (const [slug, { photoCity, ownCity }] of Object.entries(BORROWED_JOB_PHOTO_HEROES)) {
+    test(`${slug}: borrowed job photo is captioned with its real city (${photoCity}), not ${ownCity}`, () => {
+      expect(CITY_V2_SLUGS, slug + ' is listed in BORROWED_JOB_PHOTO_HEROES but is not a v2 page').toContain(slug);
+      const html = fs.readFileSync(path.join(PAGES_DIR, slug + '.html'), 'utf8');
+      const fig = html.match(/<figure class="v2-hero-photo"[^>]*>([\s\S]*?)<\/figure>/);
+      expect(fig, slug + ' has a .v2-hero-photo figure').not.toBeNull();
+      const caption = fig[1].match(/<figcaption>([\s\S]*?)<\/figcaption>/)[1].replace(/<[^>]+>/g, '').trim();
+      expect(caption, 'caption names the city the job was in').toContain(photoCity);
+      expect(caption, 'caption never implies the page city').not.toContain(ownCity);
+      const alt = fig[1].match(/<img[^>]*\salt="([^"]*)"/)[1];
+      expect(alt, 'alt names the city the photo was taken in').toContain(photoCity);
+      expect(alt, 'alt never implies the page city').not.toContain(ownCity);
+    });
+  }
+
   test('every other v2 city page keeps a real job photo captioned "Our job: "', () => {
-    const others = CITY_V2_SLUGS.filter(slug => !CITY_PHOTO_HEROES.includes(slug));
+    const others = CITY_V2_SLUGS.filter(slug => !CITY_PHOTO_HEROES.includes(slug) && !(slug in TECHNICIAN_PHOTO_HEROES));
     expect(others.length, 'no other v2 city pages found').toBeGreaterThan(10);
     for (const slug of others) {
       const html = fs.readFileSync(path.join(PAGES_DIR, slug + '.html'), 'utf8');
