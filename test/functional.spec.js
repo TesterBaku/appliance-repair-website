@@ -1353,10 +1353,29 @@ test('city hubs: the migrated cities are discovered as v2', () => {
     'appliance-repair-anaheim-ca', 'appliance-repair-buena-park-ca', 'appliance-repair-cypress-ca',
     'appliance-repair-fountain-valley-ca', 'appliance-repair-fullerton-ca', 'appliance-repair-garden-grove-ca',
     'appliance-repair-huntington-beach-ca', 'appliance-repair-stanton-ca',
+    'appliance-repair-placentia-ca', 'appliance-repair-westminster-ca', 'appliance-repair-laguna-niguel-ca',
+    'appliance-repair-los-alamitos-ca',
   ]) {
     expect(CITY_V2_SLUGS, slug + ' no longer carries <main class="v2">').toContain(slug);
   }
 });
+
+// v2 city pages whose #neighborhoods section is prose with no ZIP chips, mapped to the ZIP pattern the
+// text must state. Every other v2 city page keeps the chip assertion. Add a page here only if its section
+// really has no chips; do not loosen the pattern.
+const CITY_PROSE_NEIGHBORHOODS = {
+  'appliance-repair-anaheim-ca': /(?<!\d)928\d\d(?!\d)/,
+  'appliance-repair-laguna-niguel-ca': /(?<!\d)926\d\d(?!\d)/,
+};
+
+// City pages with no real job photo yet. By owner decision (2026-11-23) the hero shows a freely licensed
+// photo of a recognizable place in the city (images/cities/) as a placeholder, captioned with the place and
+// a credit link to the photo's file page and its licence. A page leaves this list when it gets a real job
+// photo (hero under images/real/business/, caption "Our job: ..."): the inverse guard below then covers it.
+const CITY_PHOTO_HEROES = [
+  'appliance-repair-placentia-ca', 'appliance-repair-westminster-ca',
+  'appliance-repair-laguna-niguel-ca', 'appliance-repair-los-alamitos-ca',
+];
 
 for (const slug of CITY_HUBS) {
   const v2City = CITY_V2_SLUGS.includes(slug);
@@ -1492,10 +1511,10 @@ for (const slug of CITY_HUBS) {
         expect(target).toMatch(/^#[\w-]+$/);
         const section = page.locator(target);
         await expect(section, `jump target ${target} exists once`).toHaveCount(1);
-        if (slug === 'appliance-repair-anaheim-ca') {
-          // Anaheim's neighborhoods section is prose (no .v2-places directory, no chips); its ZIP list sits in the text.
+        if (CITY_PROSE_NEIGHBORHOODS[slug]) {
+          // These neighborhoods sections are prose (no .v2-places directory, no chips); the ZIP codes sit in the text.
           expect(await section.locator('.v2-zip').count()).toBe(0);
-          expect(await section.textContent(), 'the neighborhoods section states its ZIP codes').toMatch(/(?<!\d)928\d\d(?!\d)/);
+          expect(await section.textContent(), 'the neighborhoods section states its ZIP codes').toMatch(CITY_PROSE_NEIGHBORHOODS[slug]);
           return;
         }
         expect(await section.locator('.v2-zip').count(), 'the neighborhoods section lists ZIP chips').toBeGreaterThan(0);
@@ -1536,6 +1555,55 @@ for (const slug of CITY_HUBS) {
     });
   });
 }
+
+// Hero photo provenance, both directions. The placeholder heroes must credit their source and never claim to be
+// our job; every other v2 city hero must still be a real job photo captioned "Our job: ". Hrefs are asserted as
+// strings only: no network call to Wikimedia or Creative Commons.
+test.describe('city hubs: hero photo source', () => {
+  const baseOf = u => path.basename(u).replace(/-(480|768)w(?=\.)/, '').replace(/\.(webp|jpg)$/, '');
+  for (const slug of CITY_PHOTO_HEROES) {
+    test(`${slug}: licensed place photo, credited, never "Our job"`, async ({ page }) => {
+      expect(CITY_V2_SLUGS, slug + ' is listed in CITY_PHOTO_HEROES but is not a v2 page').toContain(slug);
+      await page.setViewportSize(DESKTOP);
+      await page.goto(`/pages/${slug}.html`);
+      const photo = page.locator('.v2-hero .v2-hero-photo');
+      await expect(photo, 'exactly one hero photo').toHaveCount(1);
+      const img = photo.locator('img');
+      const src = (await img.getAttribute('src')) || '';
+      expect(src, 'hero image comes from images/cities/').toMatch(/(^|\/)images\/cities\/[^/]+\.jpg$/);
+      expect(await img.getAttribute('loading'), 'the LCP image is not lazy').not.toBe('lazy');
+      expect(await img.getAttribute('fetchpriority')).toBe('high');
+      expect(((await img.getAttribute('alt')) || '').trim().length, 'alt describes the place').toBeGreaterThan(20);
+      await expect.poll(() => img.evaluate(i => i.complete && i.naturalWidth > 0), 'hero image loaded').toBe(true);
+
+      const cap = photo.locator('figcaption');
+      await expect(cap).toHaveCount(1);
+      const text = ((await cap.textContent()) || '').trim();
+      expect(text, 'a placeholder photo is never called our job').not.toMatch(/^Our job/i);
+      expect(text, 'caption says the photo was cropped').toMatch(/\bcropped\b/);
+      expect(await cap.locator('a[href*="commons.wikimedia.org/wiki/File:"]').count(), 'link to the photo file page').toBeGreaterThanOrEqual(1);
+      expect(await cap.locator('a[href*="creativecommons.org/licenses/"]').count(), 'link to the licence').toBeGreaterThanOrEqual(1);
+
+      const preloads = page.locator('head link[rel="preload"][as="image"]');
+      await expect(preloads, 'exactly one hero image preload').toHaveCount(1);
+      const set = (await preloads.getAttribute('imagesrcset')) || '';
+      const bases = new Set(set.split(',').map(c => baseOf(c.trim().split(/\s+/)[0])));
+      expect([...bases], 'preload srcset names the same base file as the img').toEqual([baseOf(src)]);
+    });
+  }
+
+  test('every other v2 city page keeps a real job photo captioned "Our job: "', () => {
+    const others = CITY_V2_SLUGS.filter(slug => !CITY_PHOTO_HEROES.includes(slug));
+    expect(others.length, 'no other v2 city pages found').toBeGreaterThan(10);
+    for (const slug of others) {
+      const html = fs.readFileSync(path.join(PAGES_DIR, slug + '.html'), 'utf8');
+      const fig = html.match(/<figure class="v2-hero-photo"[^>]*>([\s\S]*?)<\/figure>/);
+      expect(fig, slug + ' has a .v2-hero-photo figure').not.toBeNull();
+      expect(fig[1].match(/<img[^>]*\ssrc="([^"]+)"/)[1], slug + ' hero image').toMatch(/(^|\/)images\/real\/business\//);
+      expect(fig[1].match(/<figcaption>([\s\S]*?)<\/figcaption>/)[1].trim(), slug + ' hero caption').toMatch(/^Our job: /);
+    }
+  });
+});
 
 test('city hubs: at least one v2 city page carries the featured job block', () => {
   expect(CITY_V2_SLUGS.some(slug =>
