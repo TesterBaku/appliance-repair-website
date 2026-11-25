@@ -1408,15 +1408,17 @@ const CITY_PHOTO_HEROES = [
 
 // Owner decision 2026-11-24: a city with no job photo and no usable landmark photo shows a real photo of our
 // technician as the hero, captioned as what it shows. It is not a job in that city, so it is never "Our job".
-const TECHNICIAN_PHOTO_HEROES = {
-  'appliance-repair-la-habra-ca': 'technician-working-builtin-refrigerator',
-};
+// La Habra left this list on 2026-11-24: the owner found the technician still too soft for a hero and chose a
+// borrowed Fullerton job photo instead (see BORROWED_JOB_PHOTO_HEROES). The list is empty but kept for the next such page.
+const TECHNICIAN_PHOTO_HEROES = {};
 
 // Owner decision 2026-11-24: Downey and Montebello borrow a luxury-brand job photo from neighbouring Pico Rivera,
-// truthfully captioned "Our job: ..., Pico Rivera". The caption must name the real city and never the page's own.
+// truthfully captioned "Our job: ..., Pico Rivera"; La Habra borrows the JennAir job from neighbouring Fullerton.
+// The caption must name the real city and never the page's own.
 const BORROWED_JOB_PHOTO_HEROES = {
   'appliance-repair-downey-ca': { photoCity: 'Pico Rivera', ownCity: 'Downey' },
   'appliance-repair-montebello-ca': { photoCity: 'Pico Rivera', ownCity: 'Montebello' },
+  'appliance-repair-la-habra-ca': { photoCity: 'Fullerton', ownCity: 'La Habra' },
 };
 
 for (const slug of CITY_HUBS) {
