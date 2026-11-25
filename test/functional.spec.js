@@ -1414,16 +1414,18 @@ const TECHNICIAN_PHOTO_HEROES = {};
 
 // Owner decision 2026-11-24: Downey and Montebello borrow a luxury-brand job photo from neighbouring Pico Rivera,
 // truthfully captioned "Our job: ..., Pico Rivera". The caption must name the real city and never the page's own.
-const BORROWED_JOB_PHOTO_HEROES = {
-  'appliance-repair-downey-ca': { photoCity: 'Pico Rivera', ownCity: 'Downey' },
-  'appliance-repair-montebello-ca': { photoCity: 'Pico Rivera', ownCity: 'Montebello' },
-};
+// Since the owner's later decision the same day (see UNCAPTIONED_JOB_PHOTO_HEROES) no page captions a borrowed photo;
+// the list is empty but kept so a future captioned one is still held to this rule.
+const BORROWED_JOB_PHOTO_HEROES = {};
 
-// Owner decision 2026-11-24: La Habra's hero is a real job photo from neighbouring Fullerton shown with NO caption
-// (the owner did not want the other city named on the page). With no caption nothing claims the job was in
-// La Habra; the alt text describes the photo and must never name the page's own city.
+// Owner decision 2026-11-24: a hero that borrows a real job photo from another city (La Habra from Fullerton,
+// Downey and Montebello from Pico Rivera) is shown with NO caption: the owner did not want the other city named
+// on the page. With no caption nothing claims the job was in the page's city; the alt text describes the photo
+// and must never name the page's own city. The five luxury pages follow the same rule in their own test below.
 const UNCAPTIONED_JOB_PHOTO_HEROES = {
   'appliance-repair-la-habra-ca': 'La Habra',
+  'appliance-repair-downey-ca': 'Downey',
+  'appliance-repair-montebello-ca': 'Montebello',
 };
 
 for (const slug of CITY_HUBS) {
@@ -2003,7 +2005,7 @@ const PREMIUM_HUBS = [
 ];
 
 // The five LA pages are on the v2 template (<main class="v2">), a luxury variant of it: a job photo in the hero
-// ("Our job: ..., <real city>", always a job from ANOTHER city), fact cards, four job tiles each labelled with its
+// (always a job from ANOTHER city, shown with no caption since 2026-11-24), fact cards, four job tiles each labelled with its
 // true city, 8 premium brand text cards then a .scope-note, services, process band, pricing, neighborhoods, essays,
 // service-area block, FAQ and a closing panel. They have no reviews. Sections are found by their aria-labelledby ids,
 // the same way the city hubs' are.
@@ -2165,9 +2167,10 @@ for (const slug of PREMIUM_HUBS) {
       else expect(chips, 'the directory lists ZIP chips').toBeGreaterThan(0);
     });
 
-    // The hero shows one of our real jobs, and the job is never in this page's city: the caption names the real
-    // city ("Our job: ..., Newport Beach"), and neither it nor the alt text may name the page's own city.
-    test('hero photo: a real job photo from images/real/business/, captioned "Our job: ..." with a city that is not this page\'s', async ({ page }) => {
+    // The hero shows one of our real jobs, and the job is never in this page's city. Owner decision 2026-11-24:
+    // the photo carries no caption (the other city is not named on the page), and the alt text never names the
+    // page's own city.
+    test('hero photo: a real job photo from images/real/business/, with no caption and an alt that never names this page\'s city', async ({ page }) => {
       const photo = page.locator('.v2-hero .v2-hero-photo');
       await expect(photo, 'exactly one hero photo').toHaveCount(1);
       const img = photo.locator('img');
@@ -2176,10 +2179,7 @@ for (const slug of PREMIUM_HUBS) {
       const alt = ((await img.getAttribute('alt')) || '').trim();
       expect(alt.length, 'alt describes the photo').toBeGreaterThan(20);
       expect(alt, 'alt never implies the page city').not.toContain(city);
-      const cap = ((await photo.locator('figcaption').textContent()) || '').trim();
-      expect(cap, 'caption starts "Our job: "').toMatch(/^Our job: /);
-      expect(cap, 'caption ends with a real city').toMatch(/, [A-Z][A-Za-z. ]+$/);
-      expect(cap, 'caption never implies the page city').not.toContain(city);
+      await expect(photo.locator('figcaption'), 'no caption on a borrowed job photo').toHaveCount(0);
     });
 
     // Exactly the 8 premium brand hubs, linked from the Premium Brands section, with the Bosch premium-only
