@@ -1409,16 +1409,21 @@ const CITY_PHOTO_HEROES = [
 // Owner decision 2026-11-24: a city with no job photo and no usable landmark photo shows a real photo of our
 // technician as the hero, captioned as what it shows. It is not a job in that city, so it is never "Our job".
 // La Habra left this list on 2026-11-24: the owner found the technician still too soft for a hero and chose a
-// borrowed Fullerton job photo instead (see BORROWED_JOB_PHOTO_HEROES). The list is empty but kept for the next such page.
+// Fullerton job photo instead (see UNCAPTIONED_JOB_PHOTO_HEROES). The list is empty but kept for the next such page.
 const TECHNICIAN_PHOTO_HEROES = {};
 
 // Owner decision 2026-11-24: Downey and Montebello borrow a luxury-brand job photo from neighbouring Pico Rivera,
-// truthfully captioned "Our job: ..., Pico Rivera"; La Habra borrows the JennAir job from neighbouring Fullerton.
-// The caption must name the real city and never the page's own.
+// truthfully captioned "Our job: ..., Pico Rivera". The caption must name the real city and never the page's own.
 const BORROWED_JOB_PHOTO_HEROES = {
   'appliance-repair-downey-ca': { photoCity: 'Pico Rivera', ownCity: 'Downey' },
   'appliance-repair-montebello-ca': { photoCity: 'Pico Rivera', ownCity: 'Montebello' },
-  'appliance-repair-la-habra-ca': { photoCity: 'Fullerton', ownCity: 'La Habra' },
+};
+
+// Owner decision 2026-11-24: La Habra's hero is a real job photo from neighbouring Fullerton shown with NO caption
+// (the owner did not want the other city named on the page). With no caption nothing claims the job was in
+// La Habra; the alt text describes the photo and must never name the page's own city.
+const UNCAPTIONED_JOB_PHOTO_HEROES = {
+  'appliance-repair-la-habra-ca': 'La Habra',
 };
 
 for (const slug of CITY_HUBS) {
@@ -1668,8 +1673,22 @@ test.describe('city hubs: hero photo source', () => {
     });
   }
 
+  for (const [slug, ownCity] of Object.entries(UNCAPTIONED_JOB_PHOTO_HEROES)) {
+    test(`${slug}: job photo from another city carries no caption and never names ${ownCity}`, () => {
+      expect(CITY_V2_SLUGS, slug + ' is listed in UNCAPTIONED_JOB_PHOTO_HEROES but is not a v2 page').toContain(slug);
+      const html = fs.readFileSync(path.join(PAGES_DIR, slug + '.html'), 'utf8');
+      const fig = html.match(/<figure class="v2-hero-photo"[^>]*>([\s\S]*?)<\/figure>/);
+      expect(fig, slug + ' has a .v2-hero-photo figure').not.toBeNull();
+      expect(fig[1], 'no caption on the hero photo').not.toContain('<figcaption');
+      expect(fig[1].match(/<img[^>]*\ssrc="([^"]+)"/)[1], slug + ' hero image').toMatch(/(^|\/)images\/real\/business\//);
+      const alt = fig[1].match(/<img[^>]*\salt="([^"]*)"/)[1];
+      expect(alt.length, 'alt describes the photo').toBeGreaterThan(20);
+      expect(alt, 'alt never implies the page city').not.toContain(ownCity);
+    });
+  }
+
   test('every other v2 city page keeps a real job photo captioned "Our job: "', () => {
-    const others = CITY_V2_SLUGS.filter(slug => !CITY_PHOTO_HEROES.includes(slug) && !(slug in TECHNICIAN_PHOTO_HEROES));
+    const others = CITY_V2_SLUGS.filter(slug => !CITY_PHOTO_HEROES.includes(slug) && !(slug in TECHNICIAN_PHOTO_HEROES) && !(slug in UNCAPTIONED_JOB_PHOTO_HEROES));
     expect(others.length, 'no other v2 city pages found').toBeGreaterThan(10);
     for (const slug of others) {
       const html = fs.readFileSync(path.join(PAGES_DIR, slug + '.html'), 'utf8');
