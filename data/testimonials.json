@@ -1,16 +1,20 @@
 {
   "_meta": {
-    "lastUpdated": "2026-11-22",
+    "lastUpdated": "2026-11-27",
     "sources": {
       "google": {
         "name": "Google Business Profile",
         "listingId": "0x8b077922f41c72e9:0x553def80f47c770e",
         "businessName": "Universal Appliances Repair Group INC",
-        "totalReviewsOnListing": 160,
-        "publishedCount": 160,
-        "capturedCount": 160,
+        "totalReviewsOnListing": 162,
+        "publishedCount": 162,
+        "capturedCount": 162,
         "ratingAverage": 5,
         "captureHistory": [
+          {
+            "date": "2026-11-27",
+            "note": "TRACK A CAPTURE (branch content/long-beach-frigidaire-freezer-and-review-batch-2026-11-27): two 5-star Google reviews read on 2026-11-27 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in an automated browser session that was not signed in, header 5.0 / 162 reviews. There is NO screenshot file and no SHA-256 (Business Profile Manager was not checked in this session). Peter “P-LO” Lopez ('6 hours ago', 6 words, no appliance or brand, no photo) and Allie ('4 days ago', 51 words, no appliance or brand, no photo). These two records account exactly for the 160 to 162 move in the listing header. GBP listing total 160 to 162. capturedCount 160 to 162. publishedCount is NOT moved by this capture; the orchestrator promotes it with 'npm run build:review-counts -- --publish'. Peter fails the quality floor (no photo, under 8 words, no listed appliance or brand) and is captured for the count only. Allie clears clause (b) and is carded on pages/testimonials.html (General category; All 152 to 153; no uncarded record clears the floor to top the row up, so the short trailing row is accepted per the multiples-of-3 rule). No hub placement."
+          },
           {
             "date": "2026-11-22",
             "note": "TRACK A CAPTURE and PUBLISH (branch content/review-batch-2026-11-22, owner request 2026-11-22): two 5-star Google reviews read on 2026-11-22 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session, header 5.0 / 160 reviews. No owner-supplied screenshot; the orchestrator's own browser screenshot is kept at .audits/work/review-batch-2026-11-22/listing-newest-160.jpg (SHA-256 DF3640451996F1E0386DFF6E453DFED50DE1D7F10E1A9917ED4285188FE93DB7). Peyman Khalilov ('12 hours ago', NEW, 18 words, Gaggenau oven per the reviewer's text, 1 photo, $450-500, wait 1-2 hr) and Vasi V ('2 days ago', NEW, 2 words, no appliance or brand, no photo). The third review in the Newest list (Karina Cardenas) was already captured, so these two records account exactly for the 158 to 160 move in the listing header. GBP listing total 158 to 160. capturedCount 158 to 160. publishedCount promoted 158 to 160 by 'npm run build:review-counts -- --publish'. Vasi V is below the quality floor and is captured for the count only. Peyman Khalilov clears clauses (a) and (b) and is carded on pages/testimonials.html with his photo (All 151 to 152; no uncarded record clears the floor to top the row up, so the short trailing row is accepted per the multiples-of-3 rule). Review photo downloaded from the listing with the owner's permission (2026-11-22) and resized 2048x1536 to 768x576 webp at images/real/reviews/oven-gaggenau-peyman-khalilov.webp. No hub placement (owner decision 2026-11-22)."
@@ -3015,6 +3019,42 @@
       "profilePhoto": null,
       "reviewPhoto": "images/real/reviews/oven-gaggenau-peyman-khalilov.webp",
       "_note": "Source: read on 2026-11-22 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in the owner's own Chrome session; header 5.0 / 160 reviews. No owner-supplied screenshot; the orchestrator saved its own browser screenshot of the header and the top of the Newest list at .audits/work/review-batch-2026-11-22/listing-newest-160.jpg (SHA-256 DF3640451996F1E0386DFF6E453DFED50DE1D7F10E1A9917ED4285188FE93DB7), and the body text was taken from the page text. NEW badge, 5-star, shown '12 hours ago' (read 2026-11-22); the reviewer's profile line reads '2 reviews · 2 photos'; one photo is attached to this review. Body copied verbatim from the page text (18 words; 17 when split on whitespace, because 'oven.Thanksgiving' has no space), including the reviewer's doubled spaces, the missing space after 'oven.', and the spellings 'gaggenuau' and 'servise'; bodyHasTypos is true, and the displayed card and Review JSON-LD use the lightly corrected form 'AG fixed our old Gaggenau oven. Thanksgiving was saved. I recommend and will use service in the future.' (spacing, the brand spelling and 'service' only; no word added, removed or reordered). Appliance recorded as oven ('gaggenuau oven'). Brand recorded as Gaggenau from the reviewer's own text; the attached photo shows a built-in stainless wall oven with twin control knobs under a small display and a wordmark on the lower door edge that is consistent with Gaggenau but not sharply legible at this size. Review photo downloaded on 2026-11-22 with the owner's permission from the listing's own image URL (lh3.googleusercontent.com, 2048x1536 JPEG, SHA-256 A02B108FCB2AF1976D0CFE1CAF5E0787DA4C8A4EA13076A97071EE8B60E5C197, kept at .audits/work/review-batch-2026-11-22/peyman-review-photo-original.jpg), resized proportionally (no crop) to 768x576 webp at images/real/reviews/oven-gaggenau-peyman-khalilov.webp. The oven door glass reflects the lower body of a person in jeans; no face is visible. Quotable under quality-floor clauses (a) and (b). Metadata shown on the listing but not rendered per site convention: Price $450-500, Repair wait time 1-2 hr. The owner's reply is not rendered anywhere. Location uses the Orange County default: no business job photo matches this unit (the Laguna Beach job photo whose original filename said Gaggenau is a Bertazzoni freestanding range, a different appliance), so testimonial-selection Exception 2 does not apply. Carded on pages/testimonials.html only (Oven and Stove category), by owner decision 2026-11-22; on no hub, so both hub slots are free."
+    },
+    {
+      "id": "google-peter-p-lo-lopez-2026-11",
+      "source": "google",
+      "name": "Peter “P-LO” Lopez",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-11",
+      "dateText": "6 hours ago",
+      "isNew": true,
+      "body": "Exceptional service, and reasonable.  Highly recommended",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: read on 2026-11-27 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in an automated browser session that was not signed in; header 5.0 / 162 reviews. No screenshot was taken and there is no SHA-256 (read live, not from an owner-supplied image; Business Profile Manager was not checked in this session). Whether the listing showed a NEW badge was not recorded. 5-star, shown '6 hours ago' (read 2026-11-27); the reviewer's profile line reads 'Local Guide · 13 reviews'; no review photo. Body copied verbatim (6 words). Names no appliance, brand or city, so appliance and brand are null and the location uses the Orange County default. The body keeps the reviewer's double space after 'reasonable.'. BELOW the quality floor: no photo (clause a does not apply), 6 words so under 8 (clause b fails), and it names no listed appliance or brand (clause c fails). Captured and counted but not quotable and not carded anywhere. The owner's reply is not rendered anywhere."
+    },
+    {
+      "id": "google-allie-2026-11",
+      "source": "google",
+      "name": "Allie",
+      "location": "Orange County, CA",
+      "appliance": null,
+      "brand": null,
+      "rating": 5,
+      "approxDate": "2026-11",
+      "dateText": "4 days ago",
+      "isNew": true,
+      "body": "Service was amazing! He came in and was willing to talk to us about each step and the cause of the problems! He was so kind and funny and got the work done in a blink of an eye. Will definitely be calling back if there’s another problem with our machines 😊",
+      "bodyStatus": "complete",
+      "bodyHasTypos": false,
+      "profilePhoto": null,
+      "reviewPhoto": null,
+      "_note": "Source: read on 2026-11-27 by the orchestrator from the live public Google Maps listing 'Universal Appliances Repair Group INC', Reviews tab sorted Newest, in an automated browser session that was not signed in; header 5.0 / 162 reviews. No screenshot was taken and there is no SHA-256 (read live, not from an owner-supplied image; Business Profile Manager was not checked in this session). Whether the listing showed a NEW badge was not recorded. 5-star, shown '4 days ago' (read 2026-11-27); the reviewer's profile line reads '2 reviews'; no review photo. Body copied verbatim (51 words). Names no appliance, brand or city, so appliance and brand are null and the location uses the Orange County default. The body ends in a smiling-face emoji (U+1F60A) and 'our machines' is not a listed appliance. Quotable under quality-floor clause (b) (no photo, 51 words). Carded on pages/testimonials.html only (General category); on no hub, so both hub slots are free. The owner's reply is not rendered anywhere."
     }
   ]
 }
